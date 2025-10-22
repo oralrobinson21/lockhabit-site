@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1f40"/>
+      <stop offset="100%" stop-color="#0b0e1a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="30%" cy="10%" r="80%">
+      <stop offset="0%" stop-color="#6f7cff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#6f7cff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g transform="translate(80 210)">
+    <rect x="0" y="0" width="160" height="120" rx="24" fill="url(#grad)"/>
+    <path d="M30 40c0-24 18-40 42-40s42 16 42 40" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
+    <path d="M30 100V56" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+    <path d="M30 100h40" stroke="#e7ecf8" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <text x="270" y="280" fill="#ffffff" font-size="72" font-family="Inter, system-ui" font-weight="800">LockHabit</text>
+  <text x="270" y="330" fill="#b9c3ff" font-size="30" font-family="Inter, system-ui">Hard-lock savings • 3% APR • FDIC-backed custody</text>
+</svg>
