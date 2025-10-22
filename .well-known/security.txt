@@ -1,4 +1,5 @@
 Contact: mailto:security@lockhabit.com
-Expires: 2099-12-31T23:59:59.000Z
+Encryption: https://lockhabit.com/.well-known/pgp.txt
+Acknowledgments: https://lockhabit.com/security
 Policy: https://lockhabit.com/security
 Preferred-Languages: en
