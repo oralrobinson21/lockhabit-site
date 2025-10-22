@@ -1,0 +1,1 @@
+<script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
