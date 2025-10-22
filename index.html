@@ -542,6 +542,22 @@
         msg.textContent = 'Network error. Please try again.'; msg.style.color='#b42318';
       }
     });
-  </script>
+      if(fs.ok){ showOK(); return; }
+  msg.textContent = 'Network error. Please try again.';
+} catch(e2){
+  msg.textContent = 'Network error. Please try again.';
+}
+});
+
+// ✅ Service Worker registration (PWA)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(
+      () => console.log('✅ Service Worker registered'),
+      err => console.error('❌ SW registration failed:', err)
+    );
+  });
+}
+</script>
 </body>
 </html>
