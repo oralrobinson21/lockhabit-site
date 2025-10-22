@@ -1,3 +1,3 @@
 User-agent: *
-Disallow:
-Sitemap: https://lockhabit.com/sitemap.xml
+Allow: /
+Sitemap: https://lockhabit-site.vercel.app/sitemap.xml
