@@ -1,10 +1,15 @@
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open('lh-v1').then(c =>
-      c.addAll(['/', '/index.html', '/assets/favicon.svg', '/assets/logo.svg'])
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open('lockhabit-cache-v1').then(cache => 
+      cache.addAll(['/', '/index.html', '/privacy.html', '/terms.html'])
     )
   );
 });
-self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(resp => 
+      resp || fetch(event.request)
+    )
+  );
 });
