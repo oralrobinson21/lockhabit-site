@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LockHabit — Save on purpose</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0f172a;--panel:#0b1220;--line:#334155;--text:#e2e8f0;--muted:#cbd5e1;--acc:#22c55e}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px 20px}
+  header{display:flex;justify-content:space-between;align-items:center}
+  .brand{display:flex;gap:8px;align-items:center;font-weight:800}
+  .nav a{color:#cbd5e1;text-decoration:none;margin-left:16px}
+  .card{background:linear-gradient(180deg,#0b1220,#0b1220cc);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .badge{display:inline-block;background:#1e293b;padding:6px 10px;border-radius:999px;font-size:12px;opacity:.9}
+  h1{margin:6px 0 0;font-size:42px;line-height:1.1}
+  .tiers{display:grid;gap:12;grid-template-columns:repeat(3, minmax(0,1fr));margin-top:10px}
+  .tier{background:#0f172a;border:1px solid var(--line);border-radius:12px;padding:16px}
+  .form{display:grid;gap:10;margin-top:10px}
+  input, select{padding:14px;border-radius:10px;border:1px solid var(--line);background:#0f172a;color:var(--text)}
+  button{padding:14px;border-radius:10px;border:0;background:var(--acc);color:#05210f;font-weight:800;cursor:pointer;transition:transform .15s ease}
+  button:hover{transform:translateY(-1px)}
+  section.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;margin-top:24px}
+  .steps{display:grid;gap:12;grid-template-columns:repeat(2, minmax(0,1fr))}
+  .step{display:flex;gap:12;background:#0f172a;border:1px solid var(--line);border-radius:12px;padding:12px;align-items:flex-start}
+  .badge-num{width:28px;height:28px;border-radius:999px;background:var(--acc);color:#05210f;font-weight:900;display:grid;place-items:center}
+  footer{opacity:.7;font-size:12px;text-align:center;margin:18px 0 40px}
+  @media (max-width:820px){.tiers{grid-template-columns:1fr}.steps{grid-template-columns:1fr} h1{font-size:34px}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">🔒 <span>LockHabit</span></div>
+      <nav class="nav">
+        <a href="#how">How it works</a>
+        <a href="#trust">Trust</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <div class="badge">Money, out of sight—by design</div>
+      <h1>Save on purpose.<br/>Unlock when you’re ready.</h1>
+      <p>Lock money for <b>1–3</b>, <b>4–6</b>, or <b>6–12+ months</b> so you don’t spend it.
+        Your funds stay yours, growing, and invisible from your daily balance. Only you can borrow against it in an emergency.</p>
+
+      <div class="tiers">
+        <div class="tier"><b>1–3 months</b><div style="font-size:28px;margin:4px 0 6px">5% one-time</div><div style="opacity:.8">Quick discipline for short goals.</div></div>
+        <div class="tier"><b>4–6 months</b><div style="font-size:28px;margin:4px 0 6px">4% one-time</div><div style="opacity:.8">Balanced lock for bigger targets.</div></div>
+        <div class="tier"><b>6–12+ months</b><div style="font-size:28px;margin:4px 0 6px">3% one-time</div><div style="opacity:.8">Lowest fee for long-term wins.</div></div>
+      </div>
+
+      <!-- WAITLIST FORM -->
+      <form class="form" action="https://formspree.io/f/mrbywgpw" method="POST">
+        <input type="email" name="email" placeholder="Enter your email" required />
+        <input type="text" name="name" placeholder="Name (optional)" />
+        <select name="term">
+          <option value="">Choose lock term (optional)</option>
+          <option>1–3 months</option>
+          <option>4–6 months</option>
+          <option>6–12+ months</option>
+        </select>
+        <button type="submit">Join the Waitlist</button>
+        <small style="opacity:.7">We never sell your data.</small>
+      </form>
+    </section>
+
+    <section id="how" class="panel">
+      <h2>How LockHabit works</h2>
+      <div class="steps">
+        <div class="step"><div class="badge-num">1</div><div><b>Choose your lock</b><div>Pick 1–3, 4–6, or 6–12+ months and your deposit schedule.</div></div></div>
+        <div class="step"><div class="badge-num">2</div><div><b>Hide & hold</b><div>Money moves to your locked vault—disappears from your visible balance.</div></div></div>
+        <div class="step"><div class="badge-num">3</div><div><b>Grow automatically</b><div>Funds sit safely, earning yield via partner banks (no third-party lending).</div></div></div>
+        <div class="step"><div class="badge-num">4</div><div><b>Unlock day</b><div>Get your money back automatically—minus the one-time tier fee.</div></div></div>
+      </div>
+      <div style="background:#0f172a;border:1px dashed var(--line);border-radius:12px;padding:12px;margin-top:12px">
+        <b>Emergency 0% Access</b>
+        <div>Borrow against your own locked balance (limits apply) without breaking your savings habit.</div>
+      </div>
+    </section>
+
+    <section id="trust" class="panel">
+      <h2>Trust & Transparency</h2>
+      <ul>
+        <li><b>Your money is never loaned out to others.</b> It’s always yours, earning yield.</li>
+        <li><b>Hidden by default.</b> Your main bank balance stays clean; view locked savings only when you choose.</li>
+        <li><b>Clear pricing.</b> 5% (1–3 mo), 4% (4–6 mo), 3% (6–12+ mo)—one time at release.</li>
+      </ul>
+      <small style="opacity:.7">Banking/custody via regulated partners; disclosures shared before launch.</small>
+    </section>
+
+    <section id="faq" class="panel">
+      <h2>FAQ</h2>
+      <details><summary><b>Do you invest my money?</b></summary><p>Funds are placed with partner banks and low-risk yield vehicles; we do not lend your money to others.</p></details>
+      <details><summary><b>Can I withdraw early?</b></summary><p>Lock periods are firm; for emergencies you can take a 0% self-loan against your balance (limits apply).</p></details>
+      <details><summary><b>Is this FDIC insured?</b></summary><p>Deposits are held at partner banks with pass-through insurance when structured properly; final details at launch.</p></details>
+    </section>
+
+    <footer>© 2025 LockHabit — Discipline made simple.</footer>
+  </div>
+</body>
+</html>
