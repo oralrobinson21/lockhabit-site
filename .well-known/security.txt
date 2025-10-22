@@ -1,4 +1,4 @@
 Contact: mailto:security@lockhabit.com
 Expires: 2099-12-31T23:59:59.000Z
-Policy: https://YOUR-DOMAIN/security
+Policy: https://lockhabit.com/security
 Preferred-Languages: en
