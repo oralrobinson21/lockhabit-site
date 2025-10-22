@@ -1,299 +1,311 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>LockHabit — Save on purpose</title>
-  <meta name="description" content="LockHabit is a behavioral savings vault. Hide money from your spending balance, earn 3% APR (prorated), and unlock on schedule with tiny flat fees. Partner-bank custody and FDIC-backed when structured properly.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LockHabit — Save on Purpose, Grow with Discipline</title>
+  <meta name="description" content="LockHabit is a behavioral savings platform that helps you save with purpose. Hard-lock your funds, earn 3% APR, build credit, and stay FDIC-backed." />
+  <link rel="icon" href="/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
   <style>
-    :root{
-      --bg:#0b1220; --panel:#0e1528; --card:#0f192f; --line:#1f2b45;
-      --text:#e6edf5; --muted:#b6c2d6; --acc:#22c55e; --acc-ink:#062612;
-      --blue:#38bdf8; --error:#fca5a5; --ok:#22c55e;
+    :root {
+      --primary: #0066ff;
+      --accent: #00c58e;
+      --bg-light: #f9fbfd;
+      --bg-white: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #475569;
+      --radius: 14px;
     }
-    *{box-sizing:border-box}
-    body{margin:0;font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);
-         background:
-          radial-gradient(1000px 500px at 0% -10%, rgba(56,189,248,.12), transparent 60%),
-          radial-gradient(900px 600px at 110% 0%, rgba(34,197,94,.10), transparent 60%),
-          linear-gradient(180deg,#0a1120 0%,#0b1220 60%,#0b1220 100%);}
-    a{color:inherit}
-    .wrap{max-width:1120px;margin:0 auto;padding:20px}
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
 
-    /* header */
-    .header{position:sticky;top:0;z-index:30;background:rgba(11,18,32,.7);backdrop-filter:blur(10px);
-            border-bottom:1px solid var(--line)}
-    .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
-    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
-    .brand .logo{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
-                 background:linear-gradient(135deg,#1a2b4a,#11203b);border:1px solid var(--line)}
-    .navlinks a{color:var(--muted);text-decoration:none;margin-left:18px}
-    .navcta{display:flex;gap:10px;align-items:center}
-    .btn{appearance:none;border:1px solid var(--line);background:transparent;color:var(--text);
-         padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-    .btn.acc{background:var(--acc);color:var(--acc-ink);border-color:transparent;box-shadow:0 10px 24px rgba(34,197,94,.25)}
-    .btn.acc:hover{transform:translateY(-1px)}
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: var(--bg-white);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
 
-    /* hero */
-    .hero{margin:18px 0;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.0));
-          border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 24px 70px rgba(0,0,0,.45)}
-    .badge{display:inline-flex;gap:8px;align-items:center;background:#0f1b33;border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
-    h1{margin:10px 0 6px;font-size:44px;line-height:1.08}
-    .sub{color:var(--muted);max-width:70ch}
-    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    /* progress loop strip */
-    .progress{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
-    .progress .row{display:flex;justify-content:space-between;align-items:center}
-    .bar{height:10px;border-radius:999px;background:#0b1429;overflow:hidden;border:1px solid var(--line);margin-top:8px}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--acc));transition:width .6s ease}
+    nav a {
+      text-decoration: none;
+      color: var(--text-dark);
+      margin-left: 22px;
+      font-weight: 500;
+    }
 
-    /* grid panels */
-    .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:18px}
-    .cols3{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr))}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
-    .card:hover{border-color:#27406b}
-    .muted{color:var(--muted)}
-    .k{font-size:13px;color:var(--muted)} .v{font-size:26px;margin:6px 0 4px}
-    .steps{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr))}
-    .step{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
-    .num{width:30px;height:30px;border-radius:999px;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;font-weight:900}
+    .hero {
+      text-align: center;
+      padding: 120px 20px 100px;
+      background: linear-gradient(145deg, #e8f0ff, #f8fffc);
+    }
 
-    /* footer */
-    footer{margin:28px 0 40px;color:var(--muted);font-size:12px}
-    .legal{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#0b152b}
-    .legal p{margin:6px 0}
+    .hero h1 {
+      font-size: 3rem;
+      margin: 0 auto 10px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
 
-    /* modal */
-    .overlay{position:fixed;inset:0;background:rgba(6,10,18,.65);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50}
-    .modal{width:min(520px,92vw);background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
-    .modal h3{margin:0 0 6px}
-    .x{background:transparent;border:0;color:var(--muted);font-size:20px;cursor:pointer}
-    .row-between{display:flex;justify-content:space-between;align-items:center}
-    .form{display:grid;gap:10px;margin-top:10px}
-    input,select{width:100%;padding:14px;border-radius:10px;border:1px solid var(--line);background:#0b1429;color:var(--text)}
-    .note{font-size:12px;color:var(--muted)}
-    .center{text-align:center}
-    .success{display:none}
-    .success .check{font-size:42px;line-height:1}
-    .hidden{display:none}
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
 
-    @media (max-width:980px){h1{font-size:36px}.cols3,.steps{grid-template-columns:1fr}}
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px 28px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    section {
+      padding: 80px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 24px;
+    }
+
+    .tiers {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin-top: 40px;
+    }
+
+    .tier {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      border: 1px solid #e2e8f0;
+      padding: 28px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+    }
+
+    .tier h3 { margin: 0; color: var(--primary); font-size: 1.3rem; }
+    .tier p { color: var(--text-muted); margin-top: 8px; }
+
+    .panel {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-top: 40px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding: 40px 20px;
+    }
+
+    /* Waitlist modal */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15,23,42,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      padding: 40px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+
+    .modal input, .modal select {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: var(--radius);
+      font-size: 1rem;
+    }
+
+    .modal button {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .close {
+      background: none;
+      border: none;
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .progress {
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      border-radius: 999px;
+      animation: grow 5s infinite alternate ease-in-out;
+    }
+    @keyframes grow {
+      0% { width: 20%; }
+      100% { width: 95%; }
+    }
+
+    @media (max-width: 720px) {
+      .hero h1 { font-size: 2.2rem; }
+      header { padding: 14px 20px; }
+    }
   </style>
 </head>
+
 <body>
-  <!-- HEADER -->
-  <div class="header">
-    <div class="wrap nav">
-      <div class="brand"><div class="logo">🔒</div><div>LockHabit</div></div>
-      <div class="navlinks">
-        <a href="#how">How it works</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#trust">Trust</a>
-        <a href="#faq">FAQ</a>
+  <header>
+    <div class="logo">🔒 LockHabit</div>
+    <nav>
+      <a href="#how">How It Works</a>
+      <a href="#plans">Plans</a>
+      <a href="#trust">Trust</a>
+      <button class="btn-primary" onclick="openModal()">Get Started</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Save with purpose. Grow with discipline.</h1>
+    <p>LockHabit is a behavioral savings vault — your money stays safe, earns 3% APR, and helps you build credit while you rest easy.</p>
+    <button class="btn-primary" onclick="openModal()">Join the Waitlist</button>
+    <div class="progress"><span></span></div>
+  </section>
+
+  <section id="how">
+    <h2>How LockHabit Works</h2>
+    <div class="panel">
+      <ol style="line-height:1.8;">
+        <li><b>Choose a lock period</b> — 1–3, 4–6, or 6–12+ months.</li>
+        <li><b>Deposit funds</b> — your money moves into a hidden vault, out of sight and safe.</li>
+        <li><b>Earn 3% APR</b> — interest compounds while your funds stay locked.</li>
+        <li><b>Unlock automatically</b> — when your time is up, receive your balance + interest minus a small flat fee.</li>
+        <li><b>Emergency?</b> Borrow against your balance (5% interest credited back). Payments are reported to credit bureaus.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="plans">
+    <h2>Choose Your Lock</h2>
+    <div class="tiers">
+      <div class="tier">
+        <h3>1–3 Months</h3>
+        <p>$3 flat fee at unlock</p>
+        <p>Quick discipline for short goals. 3% APR prorated.</p>
       </div>
-      <div class="navcta">
-        <button class="btn" aria-label="Sign in (placeholder)">Sign in</button>
-        <button id="open-modal" class="btn acc">Get started</button>
+      <div class="tier">
+        <h3>4–6 Months</h3>
+        <p>$2 flat fee at unlock</p>
+        <p>Balanced savings window. 3% APR prorated.</p>
+      </div>
+      <div class="tier">
+        <h3>6–12+ Months</h3>
+        <p>$1 flat fee at unlock</p>
+        <p>Best return for long-term saving. 3% APR prorated.</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="wrap">
-    <!-- HERO -->
-    <section class="hero">
-      <span class="badge">Money, out of sight — by design</span>
-      <h1>Save on purpose. Unlock when you’re ready.</h1>
-      <p class="sub">
-        A behavioral savings vault that hides money from your spending balance, earns a transparent APR while you wait,
-        and unlocks on schedule. Emergency self-loan can build credit. Partner-bank custody, FDIC-backed when structured properly.
-      </p>
-      <div class="hero-cta">
-        <button id="open-modal-hero" class="btn acc">Join the waitlist</button>
-        <a href="#trust" class="btn">How your money stays safe</a>
-      </div>
+  <section id="trust">
+    <h2>Trust & Transparency</h2>
+    <div class="panel">
+      <ul style="line-height:1.9;">
+        <li>💰 <b>FDIC-backed security:</b> Partner banks hold all deposits with pass-through insurance up to federal limits.</li>
+        <li>🔐 <b>No third-party lending:</b> Your money is never lent out — it’s always yours.</li>
+        <li>📈 <b>Credit-building loans:</b> Emergency loans report to credit bureaus and help strengthen your score.</li>
+        <li>🚫 <b>Hard lock:</b> Early withdrawals outside emergencies carry a 5% fee.</li>
+      </ul>
+    </div>
+  </section>
 
-      <!-- Progress loop preview -->
-      <div class="progress" aria-label="Example goal progress">
-        <div class="row">
-          <div><b>Goal progress</b> <span class="muted">— see your effort compound</span></div>
-          <div class="muted" id="pval">0%</div>
-        </div>
-        <div class="bar"><div class="fill" id="pbar"></div></div>
-      </div>
-    </section>
+  <footer>
+    © 2025 LockHabit Inc. — All rights reserved. <br />
+    Banking services provided by regulated partner banks; FDIC insured up to legal limits. <br />
+    APR, fees, and loan features subject to change with notice.
+  </footer>
 
-    <!-- PRICING / TERMS -->
-    <section id="pricing" class="panel">
-      <h2>Simple, transparent terms</h2>
-      <div class="cols3">
-        <div class="card">
-          <div class="k">Lock length</div><div class="v">1–3 months</div>
-          <ul class="muted">
-            <li><b>$3 flat</b> at unlock</li>
-            <li><b>3% APR</b> (prorated)</li>
-            <li>Interest typically exceeds fee</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="k">Lock length</div><div class="v">4–6 months</div>
-          <ul class="muted">
-            <li><b>$2 flat</b> at unlock</li>
-            <li><b>3% APR</b> (prorated)</li>
-            <li>Great for medium goals</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="k">Lock length</div><div class="v">6–12+ months</div>
-          <ul class="muted">
-            <li><b>$1 flat</b> at unlock</li>
-            <li><b>3% APR</b> (prorated)</li>
-            <li>Maximum discipline, lowest fee</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section id="how" class="panel">
-      <h2>How LockHabit works</h2>
-      <div class="steps">
-        <div class="step"><div class="num">1</div><div><b>Choose your lock</b><div class="muted">Pick a term (1–3, 4–6, 6–12+ months) and amount to keep out of sight.</div></div></div>
-        <div class="step"><div class="num">2</div><div><b>Hidden & earning</b><div class="muted">Funds move to your locked vault, invisible from daily balance, earning APR as you wait.</div></div></div>
-        <div class="step"><div class="num">3</div><div><b>Unlock day</b><div class="muted">Withdraw principal + interest − small flat fee. Emergency self-loan available; on-time payback can build credit.</div></div></div>
-      </div>
-    </section>
-
-    <!-- TRUST -->
-    <section id="trust" class="panel">
-      <h2>Trust & Safety</h2>
-      <div class="cols3">
-        <div class="card"><b>We never lend out your money</b><div class="muted">Your deposits remain reserved for you only.</div></div>
-        <div class="card"><b>Partner-bank custody</b><div class="muted">Held with regulated partners; when structured properly, pass-through FDIC insurance applies up to legal limits per depositor, per bank.</div></div>
-        <div class="card"><b>Transparent by design</b><div class="muted">Clear APR, clear flat fees, no hidden gotchas.</div></div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="panel">
-      <h2>FAQ</h2>
-      <details class="card"><summary><b>Do you lend or invest my deposits?</b></summary><div class="muted" style="margin-top:8px">No. We do not lend your deposits to others. Funds may be placed in low-risk, interest-bearing accounts via partner banks to support your APR.</div></details>
-      <details class="card"><summary><b>Is this FDIC insured?</b></summary><div class="muted" style="margin-top:8px">When deposits are held at partner banks and structured for pass-through coverage, FDIC insurance applies up to applicable limits per depositor, per bank (currently $250,000). We’ll share full program disclosures pre-launch.</div></details>
-      <details class="card"><summary><b>Can I access funds early?</b></summary><div class="muted" style="margin-top:8px">Locks protect your habit. For emergencies, a self-loan against your balance may be available; on-time payback can build credit.</div></details>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-      <div>© <span id="yr"></span> LockHabit — Discipline made simple.</div>
-      <div class="legal">
-        <p><b>Important Information</b></p>
-        <p>LockHabit is a pre-launch financial technology product. Banking services and deposit custodianship are provided by regulated partner banks. When deposits are held at partner banks and structured for pass-through coverage, funds are eligible for FDIC insurance up to applicable limits per depositor, per bank. Coverage does not apply to non-deposit investment products. Final program terms and disclosures provided prior to launch.</p>
-        <p>Locks restrict access until your chosen unlock date. At unlock, a small flat fee applies by term ($3 for 1–3 months, $2 for 4–6 months, $1 for 6–12+ months). During the lock period, balances earn a transparent APR (e.g., 3% APR) prorated for time in lock. Features and rates subject to change.</p>
-        <p>We do not lend customer deposits to other customers. Emergency self-loan features are optional and may include eligibility checks and reporting that can help build credit with on-time payments.</p>
-      </div>
-    </footer>
-  </div>
-
-  <!-- MODAL: WAITLIST -->
-  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="waitlist-title">
+  <!-- Waitlist Modal -->
+  <div class="modal-bg" id="waitlist-modal">
     <div class="modal">
-      <div class="row-between">
-        <h3 id="waitlist-title">Join the LockHabit waitlist</h3>
-        <button id="close-modal" class="x" aria-label="Close">✕</button>
-      </div>
-      <p class="muted" style="margin:6px 0 10px">Be first in line when invites open. We’ll only email you about LockHabit.</p>
-
-      <!-- form -->
-      <form id="waitlist-form" class="form" novalidate>
-        <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
-        <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
-        <select name="term" aria-label="Preferred lock term">
-          <option value="">Preferred lock term (optional)</option>
-          <option value="1-3">1–3 months</option>
-          <option value="4-6">4–6 months</option>
-          <option value="6-12+">6–12+ months</option>
+      <button class="close" onclick="closeModal()">×</button>
+      <h2>Join the Waitlist</h2>
+      <p>Be among the first to take control of your savings journey.</p>
+      <form action="https://formspree.io/f/mrbywgpw" method="POST">
+        <input type="email" name="email" placeholder="Your email" required />
+        <input type="text" name="name" placeholder="Name (optional)" />
+        <select name="term">
+          <option value="">Select lock term</option>
+          <option>1–3 months</option>
+          <option>4–6 months</option>
+          <option>6–12+ months</option>
         </select>
-        <button class="btn acc" type="submit">Join the waitlist</button>
-        <div id="wl-msg" class="note" role="status" aria-live="polite"></div>
+        <button class="btn-primary" type="submit">Join Waitlist</button>
+        <small style="display:block;margin-top:10px;color:var(--text-muted);">
+          By joining, you agree to receive limited early access updates. We never sell your data.
+        </small>
       </form>
-
-      <!-- success state -->
-      <div id="success" class="success center">
-        <div class="check">✅</div>
-        <h3>Thanks — you’re on the list!</h3>
-        <p class="muted">Check your email for a confirmation. You can close this window.</p>
-        <button id="close-success" class="btn acc" style="margin-top:8px">Back to home</button>
-      </div>
     </div>
   </div>
 
   <script>
-    // year
-    document.getElementById('yr').textContent = new Date().getFullYear();
-
-    // SoFi-style modal open/close
-    const overlay = document.getElementById('overlay');
-    const openBtns = [document.getElementById('open-modal'), document.getElementById('open-modal-hero')];
-    const closeBtn = document.getElementById('close-modal');
-    const closeSuccess = document.getElementById('close-success');
-    const form = document.getElementById('waitlist-form');
-    const wlMsg = document.getElementById('wl-msg');
-    const success = document.getElementById('success');
-
-    openBtns.forEach(b => b && b.addEventListener('click', () => {
-      overlay.style.display = 'flex';
-      success.style.display = 'none';
-      form.classList.remove('hidden');
-      wlMsg.textContent = '';
-      document.body.style.overflow = 'hidden';
-    }));
-    function closeModal(){
-      overlay.style.display = 'none';
-      document.body.style.overflow = '';
+    function openModal() {
+      document.getElementById('waitlist-modal').style.display = 'flex';
     }
-    [closeBtn, closeSuccess].forEach(b => b && b.addEventListener('click', closeModal));
-    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
-
-    // Progress loop micro-animation (behavioral dopamine)
-    const pbar = document.getElementById('pbar');
-    const pval = document.getElementById('pval');
-    let prog = 0;
-    function tick(){
-      prog = (prog + Math.random()*6) % 100;
-      pbar.style.width = prog.toFixed(0) + '%';
-      pval.textContent = prog.toFixed(0) + '%';
+    function closeModal() {
+      document.getElementById('waitlist-modal').style.display = 'none';
     }
-    setInterval(tick, 900);
-
-    // Waitlist submit -> your Vercel serverless function
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      wlMsg.style.color = 'var(--muted)';
-      wlMsg.textContent = 'Submitting…';
-      const data = Object.fromEntries(new FormData(form).entries());
-      try{
-        const res = await fetch('/api/waitlist', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(data)
-        });
-        const out = await res.json();
-        if(out.ok){
-          form.reset();
-          form.classList.add('hidden');
-          success.style.display = 'block';
-        }else{
-          wlMsg.style.color = 'var(--error)';
-          wlMsg.textContent = out.error || 'Please try again.';
-        }
-      }catch(err){
-        wlMsg.style.color = 'var(--error)';
-        wlMsg.textContent = 'Network error. Please try again.';
-      }
-    });
   </script>
 </body>
 </html>
