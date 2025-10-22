@@ -55,18 +55,43 @@
       </div>
 
       <!-- WAITLIST FORM -->
-      <form class="form" action="https://formspree.io/f/mrbywgpw" method="POST">
-        <input type="email" name="email" placeholder="Enter your email" required />
-        <input type="text" name="name" placeholder="Name (optional)" />
-        <select name="term">
-          <option value="">Choose lock term (optional)</option>
-          <option>1–3 months</option>
-          <option>4–6 months</option>
-          <option>6–12+ months</option>
-        </select>
-        <button type="submit">Join the Waitlist</button>
-        <small style="opacity:.7">We never sell your data.</small>
-      </form>
+<form id="waitlist-form" class="form">
+  <input type="email" name="email" placeholder="Enter your email" required />
+  <input type="text" name="name" placeholder="Name (optional)" />
+  <select name="term">
+    <option value="">Choose lock term (optional)</option>
+    <option value="1-3">1–3 months</option>
+    <option value="4-6">4–6 months</option>
+    <option value="6-12+">6–12+ months</option>
+  </select>
+  <button type="submit">Join the Waitlist</button>
+  <p id="wl-msg" style="opacity:.9;margin:6px 0 0;"></p>
+</form>
+
+<script>
+  const form = document.getElementById('waitlist-form');
+  const msg  = document.getElementById('wl-msg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.textContent = '';
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify(data)
+      });
+      const out = await res.json();
+      if (out.ok) { form.reset(); msg.textContent = "You're on the waitlist! 🎉"; }
+      else { msg.textContent = out.error || 'Please try again.'; }
+    } catch (err) {
+      msg.textContent = 'Network error. Please try again.';
+    }
+  });
+</script>
+
     </section>
 
     <section id="how" class="panel">
