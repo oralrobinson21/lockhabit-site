@@ -1,0 +1,2 @@
+This is a placeholder. If you use PGP for vulnerability reports, publish your public key here.
+Fingerprint: (add-if-available)
