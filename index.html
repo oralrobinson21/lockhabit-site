@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,21 +10,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 
   <title>LockHabit — Discipline Pays. Lock Your Money. Own Your Future.</title>
-  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, earn 3% APR (prorated), access emergency credit-builder self-loans at 6% APR (credited back to you), and keep deposits safe with FDIC-backed partner banks."/>
+  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, earn 3% APR (prorated), access credit-builder self-loans at 6% APR (interest credited back to you), and keep deposits safe with FDIC-backed partner banks."/>
 
-  <!-- Canonical (update to your custom domain when live) -->
+  <!-- Canonical + Social -->
   <link rel="canonical" href="https://lockhabit.com/"/>
-
-  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="LockHabit — Discipline Pays. Lock Your Money. Own Your Future."/>
-  <meta property="og:description" content="Your money stays yours — hard-locked, FDIC-backed, growing at 3% APR. Emergency self-loans at 6% APR build credit and are credited back to your balance."/>
+  <meta property="og:description" content="Your money stays yours — hard-locked, FDIC-backed, growing at 3% APR. Emergency self-loans at 6% APR build credit and interest is credited back to you."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
-  <meta property="og:image" content="https://lockhabit.com/assets/og-image.svg"/>
+  <meta property="og:image" content="https://lockhabit.com/assets/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="LockHabit — Save on purpose"/>
   <meta name="twitter:description" content="Your money, locked safely and growing. Credit-builder access when life happens."/>
-  <meta name="twitter:image" content="https://lockhabit.com/assets/og-image.svg"/>
+  <meta name="twitter:image" content="https://lockhabit.com/assets/og-image.png"/>
   <meta name="theme-color" content="#6f7cff"/>
 
   <!-- Fonts -->
@@ -37,17 +36,20 @@
   <link rel="apple-touch-icon" href="/assets/icon-192.png">
   <link rel="manifest" href="/manifest.webmanifest">
 
-  <!-- Plausible (privacy-first analytics) — set to your custom domain once live -->
+  <!-- Analytics (Plausible) -->
   <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
 
   <!-- ========================= Styles ========================= -->
   <style>
     :root{
-      /* Affirm-like palette + money-green */
-      --brand:#6f7cff; --brand-2:#9c78ff; --brand-deep:#0b0e1a; --brand-soft:#f4f6ff;
-      --green:#22c55e; --ink:#0f172a; --muted:#536179; --line:#e5e7f1; --panel:#ffffff;
-      --radius-sm:12px; --radius:16px; --radius-lg:20px;
-      --shadow-elev:0 18px 50px rgba(17,24,39,.10); --shadow-deep:0 40px 120px rgba(7,10,18,.45);
+      /* Ramp/SoFi-inspired palette with money green */
+      --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
+      --green:#22c55e; --ink:#0f172a; --muted:#536179;
+      --line:#e5e7f1; --panel:#ffffff; --surface:#fbfcff;
+      --bg:#0b0e1a; --bg-2:#0e1330;
+      --radius-sm:12px; --radius:16px; --radius-lg:22px;
+      --shadow-elev:0 18px 50px rgba(17,24,39,.10);
+      --shadow-deep:0 40px 120px rgba(7,10,18,.45);
       --grad-hero:
         radial-gradient(1400px 750px at 50% -200px, rgba(111,124,255,.30) 0%, rgba(156,120,255,.20) 35%, transparent 60%),
         radial-gradient(1100px 700px at -10% 10%, rgba(156,120,255,.22) 0%, transparent 55%),
@@ -60,15 +62,21 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; background:var(--brand-deep); color:var(--ink);
+      margin:0; background:var(--bg); color:var(--ink);
       font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
       padding-bottom: calc(var(--safe-bottom));
       overflow-x:hidden;
     }
 
-    /* Header */
-    .header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    /* Smart header (hide on scroll down, show on up) */
+    .header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.85); backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+      transform:translateY(0); transition:transform .2s ease;
+    }
+    .header.hide{ transform:translateY(-100%); }
     .wrap{max-width:1200px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
     .brand{display:flex;align-items:center;gap:12px}
     .logo{width:36px;height:36px;flex:none}
@@ -90,7 +98,7 @@
     .footnote{font-size:12px;color:#60708c;margin-top:8px}
 
     /* Mock card */
-    .mock{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow-elev);min-height:340px;position:relative;overflow:hidden}
+    .mock{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow-elev);min-height:360px;position:relative;overflow:hidden}
     .mock .row{display:flex;align-items:center;justify-content:space-between}
     .badge-green{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800}
     .mini{font-size:12px;color:var(--muted)}
@@ -98,7 +106,7 @@
     .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
     .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .7s ease}
     .statgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
-    .stat{background:#fbfcff;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
     .k{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
     .v{font-weight:800;font-size:22px;color:#0b1230}
 
@@ -115,17 +123,11 @@
     .trust{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
     .trust b{color:#101828}
 
-    /* Security ribbon */
+    /* Ribbon */
     .ribbon{background:linear-gradient(135deg, rgba(111,124,255,.22), rgba(156,120,255,.22));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .ribwrap{max-width:1200px;margin:0 auto;padding:12px 22px;display:flex;gap:14px;align-items:center;justify-content:center;color:#e7ebff}
+    .ribwrap{max-width:1200px;margin:0 auto;padding:12px 22px;display:flex;gap:14px;align-items:center;justify-content:center;color:#e7ebff;flex-wrap:wrap}
     .ribwrap .item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:10px 12px;border-radius:999px}
     .ribwrap .item b{color:#fff}
-
-    /* FAQ */
-    details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
-    details+details{margin-top:10px}
-    details summary{cursor:pointer;font-weight:700}
-    details[open]{box-shadow:0 10px 24px rgba(16,24,40,.08)}
 
     /* Footer */
     footer{background:#fff;border-top:1px solid var(--line);color:#3a4a66}
@@ -151,8 +153,6 @@
     #gamePanel.open{display:block}
     #runnerCanvas{display:block;width:100%;max-width:1200px;height:120px;margin:0 auto;background:#0f172a}
     #gameInfo{max-width:1200px;margin:0 auto;color:#9fb2ff;font-size:12px;padding:6px 10px;display:flex;justify-content:space-between}
-
-    /* Leaderboard + sharing UI */
     #gameUI{max-width:1200px;margin:0 auto;padding:6px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;color:#cbd5ff;font-size:12px;flex-wrap:wrap}
     #top10 li{background:#0e1330;border:1px solid #2b3150;border-radius:999px;padding:4px 8px;color:#e5e7f1}
     #playerName{padding:6px 8px;border-radius:10px;border:1px solid #2b3150;background:#0e1330;color:#e5e7f1}
@@ -172,17 +172,14 @@
   </style>
 </head>
 <body>
+
 <!-- ========================= HEADER ========================= -->
-<header class="header" role="banner">
+<header class="header" role="banner" id="hdr">
   <div class="wrap">
     <div class="brand" aria-label="LockHabit">
+      <!-- Simple elegant SVG logo -->
       <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-        <defs>
-          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#6f7cff"/>
-            <stop offset="100%" stop-color="#9c78ff"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
         <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
         <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
         <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
@@ -194,6 +191,7 @@
       <a href="#how">How it works</a>
       <a href="#plans">Plans</a>
       <a href="#security">Security</a>
+      <a href="/demo.html">Demo</a>
       <button class="btn ghost" onclick="openModal()">Sign in</button>
       <button class="btn acc" onclick="openModal()">Get started</button>
     </nav>
@@ -201,23 +199,25 @@
 </header>
 
 <!-- ========================= HERO ========================= -->
-<section class="hero">
-  <div class="hero-grid">
+<section class="hero" id="top">
+  <div class="hero-grid" aria-describedby="hero-copy">
     <div>
       <div class="chip">Discipline Pays • <b>3% APR</b> • FDIC-Backed Custody</div>
       <h1>Discipline pays. Lock your money and own your future.</h1>
-      <p class="sub">
-        LockHabit transforms saving into progress. Hard-lock your funds, earn 3% APR (prorated), 
-        and access 6% credit-builder emergency loans that pay you back.  
-        Your deposits remain safe and FDIC-backed through regulated partner banks.
+      <p id="hero-copy" class="sub">
+        LockHabit turns saving into momentum. Hard-lock funds, earn a transparent <b>3% APR (prorated)</b>,
+        and access <b>6% credit-builder self-loans</b> when life happens — interest is <b>credited back to you</b>.
+        Your deposits remain safe via regulated partner banks with pass-through FDIC coverage (up to legal limits).
       </p>
       <div class="cta">
         <button class="btn acc" onclick="openModal()">Join the Waitlist</button>
+        <a class="btn" href="/demo.html">Try the Demo</a>
         <button class="btn" onclick="document.getElementById('security').scrollIntoView({behavior:'smooth'})">See How It’s Protected</button>
       </div>
-      <div class="footnote">Your money is never lent out. Your patience earns dividends.</div>
+      <div class="footnote">Your money is never lent out to others. Your patience earns dividends.</div>
     </div>
 
+    <!-- Right: interactive mock -->
     <aside class="mock" aria-live="polite">
       <div class="row">
         <div>
@@ -238,7 +238,7 @@
       <div class="statgrid">
         <div class="stat">
           <div class="k">Locked today</div>
-          <div class="v">$1 250</div>
+          <div class="v">$1,250</div>
           <div class="k">Term 1–3 mo</div>
         </div>
         <div class="stat">
@@ -248,7 +248,7 @@
         </div>
         <div class="stat">
           <div class="k">Emergency limit</div>
-          <div class="v">$1 250</div>
+          <div class="v">$1,250</div>
           <div class="k">6% credit-builder loan</div>
         </div>
       </div>
@@ -263,31 +263,31 @@
   </div>
 </section>
 
-<!-- ========================= SECURITY RIBBON ========================= -->
-<div class="ribbon">
+<!-- ========================= RIBBON ========================= -->
+<div class="ribbon" role="region" aria-label="Security summary">
   <div class="ribwrap">
     <div class="item">🔒 <b>Hard-lock</b> (no early withdrawals except emergencies)</div>
     <div class="item">🏦 <b>FDIC-backed custody</b> via partner banks</div>
-    <div class="item">📈 <b>Credit-builder</b> loans at 6% APR credited back</div>
+    <div class="item">📈 <b>Credit-builder</b> self-loans at 6% APR</div>
     <div class="item">🧮 <b>Transparent</b> 3% APR • $3 / $2 / $1 unlock fees</div>
   </div>
 </div>
 
 <!-- ========================= HOW IT WORKS ========================= -->
-<section id="how" class="s">
-  <h2 class="section-title">How LockHabit Works</h2>
+<section id="how" class="s" aria-labelledby="how-title">
+  <h2 id="how-title" class="section-title">How LockHabit Works</h2>
   <div class="panel">
     <div class="cols3">
       <div class="plan">
-        <h3>1️⃣ Choose Your Lock</h3>
+        <h3>1) Choose your lock</h3>
         <ul>
-          <li>Select 1–3, 4–6, or 6–12 + months</li>
+          <li>Pick <b>1–3</b>, <b>4–6</b>, or <b>6–12+ months</b></li>
           <li>Optional auto-deposits</li>
-          <li>Funds move into a secure vault</li>
+          <li>Funds move into your hidden vault</li>
         </ul>
       </div>
       <div class="plan">
-        <h3>2️⃣ Grow Automatically</h3>
+        <h3>2) Grow automatically</h3>
         <ul>
           <li>Earn <b>3% APR</b> (prorated)</li>
           <li>Your money is <b>never lent out</b></li>
@@ -295,7 +295,7 @@
         </ul>
       </div>
       <div class="plan">
-        <h3>3️⃣ Unlock or Borrow</h3>
+        <h3>3) Unlock or borrow</h3>
         <ul>
           <li>Unlock day: principal + interest − small flat fee</li>
           <li>Emergency? Borrow at <b>6% APR</b></li>
@@ -307,8 +307,8 @@
 </section>
 
 <!-- ========================= PLANS ========================= -->
-<section id="plans" class="s">
-  <h2 class="section-title">Simple Transparent Plans</h2>
+<section id="plans" class="s" aria-labelledby="plans-title">
+  <h2 id="plans-title" class="section-title">Simple, transparent plans</h2>
   <div class="cols3">
     <div class="plan">
       <h3>1–3 months</h3>
@@ -329,7 +329,7 @@
       <div class="footnote">Hard-lock: non-emergency early break attempts incur a <b>5% fee</b>.</div>
     </div>
     <div class="plan">
-      <h3>6–12 + months</h3>
+      <h3>6–12+ months</h3>
       <ul>
         <li><b>$1 flat</b> at unlock</li>
         <li><b>3% APR</b> (prorated)</li>
@@ -340,75 +340,95 @@
   </div>
 </section>
 
-<!-- ========================= SECURITY ========================= -->
-<section id="security" class="s">
-  <h2 class="section-title">Your Money Stays Safe</h2>
+<!-- ========================= SECURITY / TRUST ========================= -->
+<section id="security" class="s" aria-labelledby="sec-title">
+  <h2 id="sec-title" class="section-title">Your money stays safe</h2>
   <div class="panel">
     <div class="trustgrid">
       <div class="trust">
-        <b>FDIC-Backed Partner Banks</b>
-        <p class="mini">Deposits are eligible for FDIC insurance up to legal limits per depositor when structured for pass-through coverage.</p>
+        <b>FDIC-backed via partner banks</b>
+        <p class="mini">When deposits are held at partner banks and structured for pass-through coverage, FDIC insurance applies up to legal limits per depositor, per bank.</p>
       </div>
       <div class="trust">
-        <b>Segregated and Never Lent</b>
-        <p class="mini">Funds stay reserved for you — we do <b>not</b> lend out customer balances.</p>
+        <b>Segregated & never lent</b>
+        <p class="mini">Your funds remain reserved for you — <b>we do not lend out customer deposits</b>. Emergency access is a secured, self-backed loan to <i>you</i>, not others.</p>
       </div>
       <div class="trust">
-        <b>Emergency Override</b>
-        <p class="mini">Withdraw only for approved emergencies. Non-emergency breaks incur a <b>5% fee</b>.</p>
+        <b>Hard-lock with emergency override</b>
+        <p class="mini">Withdrawals aren’t allowed before the unlock date except for approved emergencies. Non-emergency early break attempts incur a <b>5% fee</b>.</p>
       </div>
       <div class="trust">
-        <b>Credit-Builder Self-Loans</b>
-        <p class="mini">Borrow against your own balance at <b>6% APR</b>; on-time payments are reported to credit bureaus to build credit.</p>
+        <b>Credit-builder emergency loans</b>
+        <p class="mini">Borrow against your own balance at <b>6% APR</b>; loans are <b>reported to major bureaus</b>. On-time payments may help build credit; late payments may harm credit.</p>
       </div>
       <div class="trust">
-        <b>Interest That Pays You Back</b>
-        <p class="mini">All loan interest is <b>credited back to your balance</b> when the loan is repaid.</p>
+        <b>Interest that benefits you</b>
+        <p class="mini">Emergency loan interest is <b>credited back to your locked balance</b>, helping you reach your goal faster.</p>
       </div>
       <div class="trust">
-        <b>Transparent and Private</b>
-        <p class="mini">No hidden fees or dark patterns — just secure, transparent finance that works for you.</p>
+        <b>Privacy & transparency</b>
+        <p class="mini">We keep your data private and use it only to operate LockHabit. No junk fees, no dark patterns — just clear terms.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ========================= FAQ ========================= -->
-<section id="faq" class="s">
-  <h2 class="section-title">FAQ</h2>
-  <div class="panel">
-    <details><summary>Is this a hard lock?</summary><p>Yes. Funds remain locked until the chosen unlock date. Early withdrawal is only permitted for approved emergencies; otherwise a 5% fee applies.</p></details>
-    <details><summary>Do I earn interest while locked?</summary><p>Yes — balances earn 3% APR, prorated by time in lock. Rates subject to change with notice.</p></details>
-    <details><summary>Are emergency loans credit-builder loans?</summary><p>Yes. Emergency self-loans are reported to major credit bureaus; on-time payments may help credit.</p></details>
-    <details><summary>Is my money FDIC insured?</summary><p>Deposits are held at regulated partner banks eligible for FDIC coverage within legal limits.</p></details>
-    <details><summary>Where does loan interest go?</summary><p>100% of the 6% APR interest is credited back to your balance once your loan is repaid in full.</p></details>
+<section id="faq" class="s" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="section-title">FAQ</h2>
+  <div class="panel" aria-live="polite">
+    <details>
+      <summary>Is this a hard lock?</summary>
+      <p>Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. <b>Non-emergency early break attempts incur a 5% fee.</b></p>
+    </details>
+    <details>
+      <summary>Do I earn interest while locked?</summary>
+      <p>Yes. Balances earn a transparent <b>3% APR</b>, prorated by time in lock. Rates may change with notice.</p>
+    </details>
+    <details>
+      <summary>Are emergency loans credit-builder loans?</summary>
+      <p>Yes. Emergency self-loans are <b>reported to credit bureaus</b>. On-time payments may help build credit; missed or late payments may harm credit.</p>
+    </details>
+    <details>
+      <summary>Is my money FDIC insured?</summary>
+      <p>Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for <b>FDIC insurance</b> up to applicable limits per depositor, per bank.</p>
+    </details>
+    <details>
+      <summary>Where does loan interest go?</summary>
+      <p>Emergency loan interest (6% APR) is <b>credited back to your locked balance</b>, minimizing your net cost and accelerating your savings goal.</p>
+    </details>
   </div>
 </section>
 
-<!-- ========================= FOOTER ========================= -->
-<footer>
+<!-- ========================= FOOTER / LEGAL ========================= -->
+<footer role="contentinfo">
   <div class="foot">
-    <div>© <span id="yr"></span> LockHabit — Discipline Made Simple.</div>
+    <div>© <span id="yr"></span> LockHabit — Discipline made simple.</div>
     <div class="fine">
-      LockHabit is a financial technology company, not a bank. Banking services and deposit custody are provided by regulated partner banks. Funds are eligible for FDIC insurance up to applicable limits per depositor, per bank. 
-      Early withdrawal is not permitted except for approved emergencies; non-emergency breaks incur a 5% fee. Emergency loans at 6% APR are reported to credit bureaus and interest is credited back to your locked balance. 
-      APRs and fees subject to change with notice. Joining the waitlist does not guarantee account approval.
+      LockHabit is a financial technology company, not a bank. Banking services and deposit custody are provided by regulated partner banks.
+      When deposits are held at partner banks and structured for pass-through coverage, funds are eligible for FDIC insurance up to the applicable limits per depositor, per bank.
+      This is a <b>hard lock</b>: early withdrawal is not permitted except for approved emergencies; <b>non-emergency</b> early break attempts incur a <b>5% fee</b>.
+      Emergency access is provided via secured, self-backed loans at <b>6% APR</b>; loans are <b>reported to credit bureaus</b>. <b>100% of loan interest is credited back to your locked balance.</b>
+      APRs, terms, and fees are subject to change with notice. Program and partner-bank disclosures will be presented prior to account opening. Participation in the waitlist does not guarantee account approval.
+      Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
     </div>
     <div class="footnote" style="margin-top:8px">
-      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a>
+      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/demo.html">Demo</a>
     </div>
   </div>
 </footer>
 
 <!-- ========================= MINI GAME FOOTER ========================= -->
-<div class="miniwrap">
+<div class="miniwrap" aria-hidden="false">
   <div class="minibar">
-    <button id="toggleGame" class="pill" aria-expanded="false" aria-controls="gamePanel">🎮 Mini Game (off)</button>
+    <button id="toggleGame" class="pill" aria-expanded="false" aria-controls="gamePanel">
+      🎮 Mini game (off)
+    </button>
   </div>
-  <div id="gamePanel">
+  <div id="gamePanel" role="region" aria-label="Endless runner mini game">
     <canvas id="runnerCanvas" width="1200" height="120"></canvas>
     <div id="gameInfo">
-      <span>Until launch: have fun — Space/↑ to jump • P pause • R reset</span>
+      <span>Until launch: have fun! • Space/↑ to jump • P pause • R reset</span>
       <span id="gameScore">Score: 0</span>
     </div>
     <div id="gameUI">
@@ -420,40 +440,68 @@
 </div>
 
 <!-- ========================= WAITLIST MODAL ========================= -->
-<div id="overlay" class="overlay">
+<div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title">
   <div class="modal">
     <div class="row">
-      <h3 id="wl-title">Join the LockHabit Waitlist</h3>
-      <button class="x" onclick="closeModal()">✕</button>
+      <h3 id="wl-title" style="margin:0">Join the LockHabit waitlist</h3>
+      <button class="x" aria-label="Close" onclick="closeModal()">✕</button>
     </div>
     <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
-    <form id="wl-form" class="form">
-      <input type="email" name="email" placeholder="Email address" required/>
-      <input type="text" name="name" placeholder="Name (optional)"/>
-      <select name="term">
+
+    <form id="wl-form" class="form" novalidate>
+      <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
+      <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
+      <select name="term" aria-label="Preferred lock term">
         <option value="">Preferred lock term (optional)</option>
         <option value="1-3">1–3 months</option>
         <option value="4-6">4–6 months</option>
-        <option value="6-12+">6–12 + months</option>
+        <option value="6-12+">6–12+ months</option>
       </select>
-      <button class="btn acc" type="submit">Join Waitlist</button>
-      <div id="msg" class="note"></div>
+      <button class="btn acc" type="submit">Join the waitlist</button>
+      <div id="msg" class="note" role="status" aria-live="polite"></div>
+      <div class="footnote">By joining, you consent to receive early-access communications. We never sell your data.</div>
     </form>
-    <div id="ok" class="success">
+
+    <div id="ok" class="success" aria-live="polite">
       <div class="check">✅</div>
       <h3>Thanks — you’re on the list!</h3>
-      <p class="note">Keep an eye on your inbox for updates.</p>
-      <button class="btn acc" onclick="closeModal()">Back to Home</button>
+      <p class="note">We’ve recorded your interest. Keep an eye on your inbox for updates.</p>
+      <button class="btn acc" onclick="closeModal()">Back to home</button>
     </div>
   </div>
 </div>
+
+<!-- ========================= STRUCTURED DATA ========================= -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"https://lockhabit.com/assets/logo.svg"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is this a hard lock?","acceptedAnswer":{"@type":"Answer","text":"Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. Non-emergency early break attempts incur a 5% fee."}},
+{"@type":"Question","name":"Do I earn interest while locked?","acceptedAnswer":{"@type":"Answer","text":"Yes. Balances earn a transparent 3% APR, prorated by time in lock. Rates may change with notice."}},
+{"@type":"Question","name":"Are emergency loans credit-builder loans?","acceptedAnswer":{"@type":"Answer","text":"Yes. Emergency self-loans are reported to credit bureaus. On-time payments may help credit; missed or late payments may harm credit."}},
+{"@type":"Question","name":"Is my money FDIC insured?","acceptedAnswer":{"@type":"Answer","text":"Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for FDIC insurance up to applicable limits per depositor, per bank."}},
+{"@type":"Question","name":"Where does loan interest go?","acceptedAnswer":{"@type":"Answer","text":"Emergency loan interest (6% APR) is credited back to your locked balance, minimizing net cost and accelerating your savings goal."}}
+]}
+</script>
 
 <!-- ========================= SCRIPTS ========================= -->
 <script>
   /* ===== Live year ===== */
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  /* ===== Modal open/close (header CTAs hook into these) ===== */
+  /* ===== Smart header (hide on scroll down, show on up) ===== */
+  (function(){
+    const hdr = document.getElementById('hdr');
+    let lastY = window.scrollY;
+    window.addEventListener('scroll', ()=>{
+      const y = window.scrollY;
+      if(y > lastY && y > 80) hdr.classList.add('hide'); else hdr.classList.remove('hide');
+      lastY = y;
+    }, {passive:true});
+  })();
+
+  /* ===== Modal open/close ===== */
   const overlay = document.getElementById('overlay');
   function openModal(){ overlay.style.display='flex'; document.body.style.overflow='hidden'; }
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
@@ -476,7 +524,7 @@
     }, 900);
   })();
 
-  /* ===== Waitlist submit — Vercel API first, Formspree fallback ===== */
+  /* ===== Waitlist submit — API first, Formspree fallback ===== */
   (function(){
     const form = document.getElementById('wl-form');
     const msg  = document.getElementById('msg');
@@ -491,7 +539,7 @@
       const data = Object.fromEntries(new FormData(form).entries());
       const showOK = ()=>{ form.style.display='none'; ok.style.display='block'; };
 
-      // 1) Try Vercel serverless API
+      // 1) Vercel serverless API
       try{
         const res = await fetch('/api/waitlist', {
           method:'POST',
@@ -502,7 +550,7 @@
         if(res.ok && out && (out.ok || out.id || out.inserted)){ showOK(); return; }
       }catch(_){}
 
-      // 2) Fallback to Formspree
+      // 2) Fallback: Formspree
       try{
         const fs = await fetch('https://formspree.io/f/mrbywgpw', {
           method:'POST',
@@ -575,15 +623,13 @@
       // Collisions
       for(const o of obs){
         if(collide({x:player.x,y:player.y,w:player.w,h:player.h},{x:o.x,y:o.y,w:o.w,h:o.h})){
-          // snapshot score and show quick flash
           window.__setGameScore?.(score);
           ctx.save(); ctx.fillStyle = 'rgba(255,0,70,.18)'; ctx.fillRect(0,0,W,H); ctx.restore();
-          reset();
-          break;
+          reset(); break;
         }
       }
 
-      // Score update (also feed to share/leaderboard)
+      // Score update
       score += Math.floor(dt/10);
       window.__setGameScore?.(score);
       scoreEl.textContent = 'Score: ' + score;
@@ -604,20 +650,14 @@
         if(e.code === 'KeyP'){ paused = !paused; }
       }
     });
+    // Touch (mobile)
+    cvs.addEventListener('touchstart', (e)=>{ if(panel.classList.contains('open')){ e.preventDefault(); jump(); } }, {passive:false});
 
-    // Touch to jump (mobile)
-    cvs.addEventListener('touchstart', (e)=>{
-      if(panel.classList.contains('open')){
-        e.preventDefault();
-        jump();
-      }
-    }, {passive:false});
-
-    // Open/Close panel
+    // Toggle panel
     toggleBtn.addEventListener('click', ()=>{
       const open = panel.classList.toggle('open');
       toggleBtn.setAttribute('aria-expanded', String(open));
-      toggleBtn.textContent = open ? '🎮 Mini Game (on)' : '🎮 Mini Game (off)';
+      toggleBtn.textContent = open ? '🎮 Mini game (on)' : '🎮 Mini game (off)';
       if(open){ start(); fetchTop10(); } else { stop(); }
     });
 
@@ -626,12 +666,11 @@
     if(overlay) mo.observe(overlay, {attributes:true, attributeFilter:['style']});
 
     /* ===== Leaderboard + Sharing ===== */
-    const api     = '/api/highscores';          // requires your api/highscores.js (Supabase)
+    const api     = '/api/highscores';   // expects /api/highscores GET + POST
     const nameInp = document.getElementById('playerName');
     const topEl   = document.getElementById('top10');
     const shareBox= document.getElementById('shareButtons');
 
-    // Build share + submit UI
     function buildShareUI(){
       if(!shareBox) return;
       shareBox.innerHTML = '';
@@ -644,8 +683,7 @@
         b.addEventListener('click', ()=>shareTo(net));
         return b;
       };
-      const submit = makeBtn('⬆️ Submit score', 'submit');
-      shareBox.appendChild(submit);
+      shareBox.appendChild(makeBtn('⬆️ Submit score', 'submit'));
       shareBox.appendChild(makeBtn('X', 'twitter'));
       shareBox.appendChild(makeBtn('Facebook', 'facebook'));
       shareBox.appendChild(makeBtn('LinkedIn', 'linkedin'));
@@ -687,11 +725,7 @@
       const name = (nameInp?.value || localStorage.getItem('lh_name') || 'anon').toString().trim().slice(0,20) || 'anon';
       localStorage.setItem('lh_name', name);
       try{
-        const r = await fetch(api, {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({ name, score })
-        });
+        const r = await fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ name, score }) });
         const j = await r.json();
         if(j.ok){ await fetchTop10(); alert('Submitted! Check the Top-10.'); }
         else { alert('Could not submit: ' + (j.error||'unknown error')); }
@@ -705,45 +739,22 @@
       url.searchParams.set('score', String(score));
       url.searchParams.set('utm_source','game');
       const text = `I scored ${score} in the LockHabit mini-runner while I wait for launch. Join the waitlist!`;
-      // Native share first
+
       if(navigator.share && (net === 'native')){
         navigator.share({ title:'LockHabit', text, url:url.toString() }).catch(()=>{});
         return;
       }
       let shareURL = '';
       switch(net){
-        case 'twitter': {
-          const u = new URL('https://twitter.com/intent/tweet');
-          u.searchParams.set('text', text);
-          u.searchParams.set('url', url.toString());
-          shareURL = u.toString(); break;
-        }
-        case 'facebook': {
-          const u = new URL('https://www.facebook.com/sharer/sharer.php');
-          u.searchParams.set('u', url.toString());
-          shareURL = u.toString(); break;
-        }
-        case 'linkedin': {
-          const u = new URL('https://www.linkedin.com/sharing/share-offsite/');
-          u.searchParams.set('url', url.toString());
-          shareURL = u.toString(); break;
-        }
-        case 'whatsapp': {
-          const u = new URL('https://api.whatsapp.com/send');
-          u.searchParams.set('text', `${text} ${url.toString()}`);
-          shareURL = u.toString(); break;
-        }
-        case 'reddit': {
-          const u = new URL('https://www.reddit.com/submit');
-          u.searchParams.set('title', text);
-          u.searchParams.set('url', url.toString());
-          shareURL = u.toString(); break;
-        }
+        case 'twitter': { const u = new URL('https://twitter.com/intent/tweet'); u.searchParams.set('text', text); u.searchParams.set('url', url.toString()); shareURL = u.toString(); break; }
+        case 'facebook': { const u = new URL('https://www.facebook.com/sharer/sharer.php'); u.searchParams.set('u', url.toString()); shareURL = u.toString(); break; }
+        case 'linkedin': { const u = new URL('https://www.linkedin.com/sharing/share-offsite/'); u.searchParams.set('url', url.toString()); shareURL = u.toString(); break; }
+        case 'whatsapp': { const u = new URL('https://api.whatsapp.com/send'); u.searchParams.set('text', `${text} ${url.toString()}`); shareURL = u.toString(); break; }
+        case 'reddit': { const u = new URL('https://www.reddit.com/submit'); u.searchParams.set('title', text); u.searchParams.set('url', url.toString()); shareURL = u.toString(); break; }
         default: return;
       }
       window.open(shareURL, '_blank', 'noopener,noreferrer');
     }
-
   })();
 
   /* ===== PWA Service Worker registration ===== */
@@ -755,54 +766,6 @@
       );
     });
   }
-  /* === 🏆 Highscore integration (Supabase API via Vercel) === */
-
-// Helper: submit player score
-async function submitScore(name, score) {
-  try {
-    const res = await fetch('/api/highscores/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, score })
-    });
-    const data = await res.json();
-    if (data.ok) console.log('✅ Score saved');
-    else console.error('❌ Score error:', data.error);
-  } catch (err) {
-    console.error('❌ Network error saving score', err);
-  }
-}
-
-// Helper: fetch top 10
-async function fetchTopScores() {
-  try {
-    const res = await fetch('/api/highscores/top');
-    const data = await res.json();
-    if (!data.ok) return [];
-    return data.top || [];
-  } catch (err) {
-    console.error('❌ Network error fetching highscores', err);
-    return [];
-  }
-}
-
-// After game ends, prompt for name and save score
-function handleGameOver(finalScore) {
-  const name = prompt('Game over! Enter your name to save your score:');
-  if (!name) return;
-  submitScore(name, finalScore);
-  updateLeaderboard();
-}
-
-// Display leaderboard
-async function updateLeaderboard() {
-  const top = await fetchTopScores();
-  if (!top.length) return;
-  const list = top
-    .map((r, i) => `${i + 1}. ${r.name} — ${r.score}`)
-    .join('\n');
-  alert('🏆 Global Top 10 🏆\n\n' + list + '\n\nThank you for playing and being patient.\nOnce LockHabit launches, your true patience will be rewarded!');
-}
 </script>
 </body>
 </html>
