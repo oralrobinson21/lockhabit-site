@@ -1,174 +1,403 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LockHabit — Demo Simulator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-<style>
-  :root{
-    --brand:#6f7cff; --brand2:#9c78ff; --ink:#0f172a; --line:#e5e7f1; --muted:#667085; --green:#22c55e;
-    --warn:#b42318; --radius:16px; --shadow:0 24px 60px rgba(17,24,39,.12);
-  }
-  *{box-sizing:border-box} body{margin:0;background:#0b0e1a;color:#0f172a;font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-  header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:10}
-  .wrap{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-  .brand{display:flex;gap:10px;align-items:center;font-weight:800}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer}
-  main{max-width:1100px;margin:28px auto;padding:0 18px}
-  .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-  h1{margin:0 0 4px;font-size:34px}
-  h2{margin:0 0 12px}
-  label{font-weight:700;display:block;margin:12px 0 6px}
-  input,select{width:100%;padding:14px;border:1px solid var(--line);border-radius:12px}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .stat{border:1px dashed var(--line);border-radius:12px;padding:12px;background:#fafbff}
-  .stat b{font-size:18px}
-  .fine{font-size:12px;color:var(--muted)}
-  .warning{color:#fff;background:#2f1e1e;border:1px solid #472222;padding:12px;border-radius:12px}
-  .muted{color:#344054}
-  .btns{display:flex;gap:10px;flex-wrap:wrap}
-  .btn{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fff;font-weight:800;cursor:pointer}
-  .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-color:transparent}
-  .sep{height:1px;background:var(--line);margin:16px 0}
-  @media(max-width:1000px){.grid{grid-template-columns:1fr}}
-</style>
+  <!-- LockHabit — Demo (self-contained) -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>LockHabit Demo — Simulated Account</title>
+  <meta name="description" content="Interactive demo of LockHabit: lock savings, earn 3% APR, request a self-backed loan at 6% APR (interest credited back to you), and see fees at unlock."/>
+  <link rel="canonical" href="https://lockhabit.com/demo.html"/>
+  <meta name="theme-color" content="#6f7cff"/>
+
+  <!-- Fonts (same as site) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --brand:#6f7cff; --brand2:#9c78ff; --bg:#0b0e1a; --panel:#ffffff;
+      --ink:#0f172a; --muted:#5b6a86; --line:#e5e7f1; --green:#22c55e;
+      --danger:#b42318; --radius:18px; --shadow:0 24px 60px rgba(10,15,35,.18);
+      --grad: radial-gradient(1400px 700px at 50% -200px, rgba(111,124,255,.20), transparent 60%),
+              radial-gradient(1000px 600px at -10% 10%, rgba(156,120,255,.15), transparent 55%),
+              #f8f9ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);
+         font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    .header{position:sticky;top:0;z-index:30;backdrop-filter:blur(8px);
+            background:rgba(255,255,255,.85);border-bottom:1px solid var(--line)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:30px;height:30px}
+    .word{font-weight:800}
+    a,button{font-weight:700}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0}
+    .btn.ghost{background:transparent}
+    .hero{background:var(--grad);padding:26px 0;border-bottom:1px solid var(--line)}
+    h1{margin:0 0 6px;font-size:32px}
+    .sub{color:#3a4a66;margin:0}
+
+    /* Demo card */
+    .card{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+    .big{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .balance{font-size:36px;font-weight:800;color:#0e1a34}
+    .muted{color:#5b6a86}
+    .pill{display:inline-flex;gap:8px;align-items:center;border:1px solid #dfe3ff;background:#f3f6ff;border-radius:999px;padding:6px 10px;font-weight:700}
+    .kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:10px}
+    .kpi .box{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fbfcff}
+    .k{font-size:12px;color:#5b6a86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:20px;color:#0f1a34}
+
+    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
+
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .actions .btn{padding:12px 16px}
+
+    /* Panel sections */
+    .panel{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
+    .panel h3{margin:0 0 8px}
+
+    /* Modal */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,30,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:60}
+    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+    .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
+
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    input[type="range"]{width:100%}
+    input,select{padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
+    .note{font-size:12px;color:#5b6a86}
+    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
+    .warn{color:#5a1111;background:#ffeceb;border:1px solid #ffd4cf;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
+    .footnote{font-size:12px;color:#60708c;margin-top:10px}
+
+    footer{margin:20px 0;color:#cbd5e1;font-size:12px;text-align:center}
+    @media (max-width:900px){ .kpi{grid-template-columns:1fr 1fr} }
+    @media (max-width:560px){ .kpi{grid-template-columns:1fr} }
+  </style>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <div class="brand">🔒 LockHabit • Demo</div>
-    <a class="pill" href="/">← Back to site</a>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="wrap row">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+          <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+          <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+          <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+          <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <div class="word">LockHabit</div>
+      </div>
+      <div class="row" style="gap:8px">
+        <a class="btn ghost" href="/">← Back Home</a>
+        <a class="btn acc" href="#simulate">Try the demo</a>
+      </div>
+    </div>
   </div>
-</header>
 
-<main>
-  <div class="grid">
-    <section class="card">
-      <h1>Simulate a Lock</h1>
-      <p class="muted">Try different deposits and terms. See projected interest and the flat unlock fee.</p>
-
-      <div class="row">
-        <div>
-          <label>Deposit amount ($)</label>
-          <input id="amt" type="number" min="1" step="1" value="1250">
+  <!-- HERO / INTRO -->
+  <div class="hero">
+    <div class="wrap">
+      <h1>Simulated Account</h1>
+      <p class="sub">$1,500 locked for 12 months · $200 bi-weekly auto-deposits · Earn 3% APR · Borrow against yourself at 6% APR (interest credited back to you).</p>
+      <div class="card" id="simulate">
+        <div class="big">
+          <div>
+            <div class="muted">Total Locked Balance</div>
+            <div class="balance" id="balance">$1,500.00</div>
+            <div class="muted">Lock: <b id="termLabel">12 months</b> • Next deposit: <b>$200</b> in <b id="nextDep">14 days</b></div>
+          </div>
+          <span class="pill">3% APR • FDIC-backed custody*</span>
         </div>
-        <div>
-          <label>Term</label>
-          <select id="term">
-            <option value="1-3">1–3 months ($3 fee)</option>
-            <option value="4-6">4–6 months ($2 fee)</option>
-            <option value="6-12+">6–12+ months ($1 fee)</option>
-          </select>
+
+        <div class="panel">
+          <div class="row" style="gap:12px;align-items:center">
+            <div style="flex:1">
+              <div class="muted">Progress</div>
+              <div class="bar"><div class="fill" id="pbar" style="width:0%"></div></div>
+            </div>
+            <div class="v" id="pval">0%</div>
+          </div>
+          <div class="kpi">
+            <div class="box">
+              <div class="k">Interest Earned So Far</div>
+              <div class="v" id="intSoFar">$0.00</div>
+            </div>
+            <div class="box">
+              <div class="k">Projected Interest @ Maturity</div>
+              <div class="v" id="intProj">$0.00</div>
+            </div>
+            <div class="box">
+              <div class="k">Eligible Loan (up to 80%)</div>
+              <div class="v" id="loanElig">$1,200.00</div>
+            </div>
+            <div class="box">
+              <div class="k">Unlock Fee</div>
+              <div class="v" id="unlockFee">$1.00</div>
+              <div class="muted" style="font-size:12px">($3 / $2 / $1 based on term)</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn acc" id="btnLoan">Request a Loan</button>
+            <button class="btn" id="btnExtend">Extend Term</button>
+            <button class="btn" id="btnCashout">Cash Out (simulate)</button>
+            <button class="btn ghost" id="btnExplain">How this works</button>
+          </div>
+          <div class="footnote">* Demo only. For illustration. Rates/fees are examples.</div>
         </div>
       </div>
 
-      <div class="row">
-        <div>
-          <label>APR</label>
-          <select id="apr">
-            <option value="0.03" selected>3% (standard)</option>
-            <option value="0.06">6% (credit-builder loan APR — credited back)</option>
-          </select>
-        </div>
-        <div>
-          <label>Months</label>
-          <input id="months" type="number" min="1" max="24" value="3">
-        </div>
+      <!-- What you’ll see section -->
+      <div class="panel">
+        <h3>What you’ll see in this demo</h3>
+        <ul>
+          <li>Progress bar animates through your 12-month lock.</li>
+          <li>Interest at <b>3% APR</b> accrues (prorated). Extending term increases projected interest.</li>
+          <li>Loan request at <b>6% APR</b> lets you borrow against yourself; the interest you pay is <b>credited back to your lock</b>.</li>
+          <li>Cash out at maturity shows the flat unlock fee and net payout.</li>
+        </ul>
       </div>
-
-      <div class="sep"></div>
-
-      <div class="row">
-        <div class="stat">
-          <div class="muted">Projected Interest</div>
-          <b id="proj">$0.00</b>
-          <div class="fine">Prorated simple interest at selected APR</div>
-        </div>
-        <div class="stat">
-          <div class="muted">Flat Unlock Fee</div>
-          <b id="fee">$3</b>
-          <div class="fine">Based on term choice</div>
-        </div>
-      </div>
-
-      <div class="sep"></div>
-
-      <div class="btns">
-        <button class="btn acc" id="extend">Extend term (no new fee)</button>
-        <button class="btn" id="cashout">Cash out (pay fee)</button>
-      </div>
-      <p id="result" class="muted" style="margin-top:10px"></p>
-    </section>
-
-    <aside class="card">
-      <h2>High-Yield+ (Risk)</h2>
-      <p class="muted">Illustrative “12+ months” option that invests in diversified ETFs. <b>Returns are not guaranteed and principal can lose value.</b></p>
-
-      <label>Illustrative target APR</label>
-      <select id="hyApr">
-        <option value="0.10">10%</option>
-        <option value="0.14">14%</option>
-        <option value="0.20">20%</option>
-      </select>
-
-      <label class="muted" style="margin-top:10px">Projected interest (illustrative)</label>
-      <div class="stat">
-        <b id="hyOut">$0.00</b>
-        <div class="fine">Assumes 12 months; market returns vary; not guaranteed</div>
-      </div>
-
-      <div class="warning" style="margin-top:12px">
-        ⚠️ Investments involve risk, including loss of principal. This is an illustration only, not an offer, recommendation, or guarantee of returns.
-      </div>
-    </aside>
+    </div>
   </div>
-</main>
 
-<script>
-  const $ = (id)=>document.getElementById(id);
-  const amt=$('amt'), term=$('term'), apr=$('apr'), months=$('months'), proj=$('proj'), fee=$('fee'), res=$('result');
-  const hyApr=$('hyApr'), hyOut=$('hyOut');
+  <!-- MODALS -->
+  <div id="overlay" class="overlay" aria-modal="true" role="dialog">
+    <div class="modal" id="modalBox" role="document">
+      <div class="row">
+        <h3 id="modalTitle" style="margin:0">Modal</h3>
+        <button class="x" id="modalClose">✕</button>
+      </div>
+      <div id="modalBody" style="margin-top:8px"></div>
+    </div>
+  </div>
 
-  function feeForTerm(t){ return t==='1-3'?3: t==='4-6'?2: 1; }
+  <footer>© <span id="yr"></span> LockHabit — Demo simulation.</footer>
 
-  function update(){
-    const A = Math.max(0, Number(amt.value||0));
-    const m = Math.max(1, Number(months.value||1));
-    const r = Number(apr.value||0.03);
-    const f = feeForTerm(term.value);
-    const interest = (A * r) * (m/12);
-    proj.textContent = '$' + interest.toFixed(2);
-    fee.textContent  = '$' + f;
+  <script>
+    // ======= Demo data (you can adjust these numbers later) =======
+    let principal = 1500;             // starting locked balance
+    let months   = 12;                // initial lock term
+    const aprSave = 0.03;             // 3% APR
+    const aprLoan = 0.06;             // 6% APR
+    const deposit = 200;              // bi-weekly
+    const biWeeks = 26;               // per year
+    let progress = 0;                 // 0..100
+    const pbar = document.getElementById('pbar');
+    const pval = document.getElementById('pval');
+    const balEl = document.getElementById('balance');
+    const termLabel = document.getElementById('termLabel');
+    const nextDep = document.getElementById('nextDep');
+    const intSoFar = document.getElementById('intSoFar');
+    const intProj = document.getElementById('intProj');
+    const loanElig = document.getElementById('loanElig');
+    const unlockFee = document.getElementById('unlockFee');
+    const yrEl = document.getElementById('yr'); yrEl.textContent = new Date().getFullYear();
 
-    // High-Yield+ illustrative (12 months)
-    const hyR = Number(hyApr.value||0.14);
-    const hyI = A * hyR; // 12 months illustration
-    hyOut.textContent = '$' + hyI.toFixed(2);
-  }
-  ['input','change'].forEach(ev=>{
-    [amt,term,apr,months,hyApr].forEach(el=>el.addEventListener(ev, update));
-  });
-  update();
+    function feeForTerm(m){
+      if(m <= 3) return 3;
+      if(m <= 6) return 2;
+      return 1;
+    }
+    function fmt(n){ return n.toLocaleString(undefined,{style:'currency',currency:'USD'}); }
 
-  $('extend').addEventListener('click', ()=>{
-    months.value = Math.min(24, Number(months.value||1) + 3);
-    res.textContent = 'Extended term without new fee. Projection updated.';
-    update();
-  });
+    function updateKpis(){
+      // Projected extra deposits over the full term (approx bi-weekly)
+      const weeks = months * 4.345;                   // avg weeks/month
+      const cycles = Math.floor(weeks/2);             // bi-weekly count in term
+      const futureDeposits = cycles * deposit;
 
-  $('cashout').addEventListener('click', ()=>{
-    const A = Math.max(0, Number(amt.value||0));
-    const m = Math.max(1, Number(months.value||1));
-    const r = Number(apr.value||0.03);
-    const f = feeForTerm(term.value);
-    const interest = (A * r) * (m/12);
-    const payout = A + interest - f;
-    res.textContent = `If you cashed out today: $${payout.toFixed(2)} (principal + interest − $${f} fee)`;
-  });
-</script>
+      const balanceNow = principal;                   // base demo balance (kept simple)
+      const interestYear = balanceNow * aprSave;
+      const projInterest = interestYear * (months/12);
+
+      const elig = Math.max(0, Math.min(balanceNow * 0.8, 50000));
+
+      balEl.textContent = fmt(balanceNow);
+      termLabel.textContent = months + ' months';
+      nextDep.textContent = '14 days';
+      intProj.textContent = fmt(projInterest);
+      // interest so far based on progress %
+      intSoFar.textContent = fmt(projInterest * (progress/100));
+      loanElig.textContent = fmt(elig);
+      unlockFee.textContent = fmt(feeForTerm(months));
+    }
+
+    // animate progress bar (simulated)
+    setInterval(()=>{
+      progress = (progress + Math.random()*4) % 100;
+      pbar.style.width = progress.toFixed(0) + '%';
+      pval.textContent = progress.toFixed(0) + '%';
+      updateKpis();
+    }, 900);
+
+    updateKpis();
+
+    // ======= Simple modal system =======
+    const overlay = document.getElementById('overlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.getElementById('modalClose');
+    function openModal(title, html){
+      modalTitle.textContent = title;
+      modalBody.innerHTML = html;
+      overlay.style.display = 'flex';
+      document.body.style.overflow='hidden';
+    }
+    function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
+    modalClose.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+
+    // ======= Explain modal =======
+    document.getElementById('btnExplain').addEventListener('click', ()=>{
+      openModal('How LockHabit Works', `
+        <p>Lock your savings so they stay out of sight and grow at <b>3% APR</b> (prorated).</p>
+        <p>Need funds? Borrow against your own balance at <b>6% APR</b>. The interest you pay is
+        <b>credited back to your lock</b>, so your money keeps working for you. Loans are intended to be
+        <b>bureau-reported</b> to help build credit (on-time payments help; late payments may hurt).</p>
+        <p>At unlock, you’ll receive principal + earned interest minus a small flat fee
+        (<b>$3/$2/$1</b> based on term). You can also extend your term to keep earning without fee.</p>
+        <div class="note">This is a demo simulation for illustration only.</div>
+      `);
+    });
+
+    // ======= Extend term =======
+    document.getElementById('btnExtend').addEventListener('click', ()=>{
+      openModal('Extend Term', `
+        <p>Extend your lock to keep earning 3% APR.</p>
+        <div class="grid2">
+          <div>
+            <label class="k">Add Months</label>
+            <select id="extendSel">
+              <option value="3">+3 months</option>
+              <option value="6" selected>+6 months</option>
+              <option value="12">+12 months</option>
+            </select>
+          </div>
+          <div>
+            <label class="k">New Unlock Fee</label>
+            <div class="v" id="newFee">${fmt(feeForTerm(months+6))}</div>
+          </div>
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn acc" id="doExtend">Confirm Extend</button>
+          <button class="btn" onclick="(${closeModal.toString()})()">Cancel</button>
+        </div>
+        <div class="footnote">Extending avoids any fee right now; fee applies at the new maturity.</div>
+      `);
+      const sel = document.getElementById('extendSel');
+      const feeEl = document.getElementById('newFee');
+      sel.addEventListener('change', ()=> feeEl.textContent = fmt(feeForTerm(months+Number(sel.value))));
+      document.getElementById('doExtend').addEventListener('click', ()=>{
+        months += Number(sel.value);
+        updateKpis();
+        closeModal();
+        setTimeout(()=>openModal('Extended', `<div class="ok">✅ Term extended. New term: <b>${months} months</b>.</div>`), 60);
+      });
+    });
+
+    // ======= Loan request =======
+    document.getElementById('btnLoan').addEventListener('click', ()=>{
+      const bal = principal;
+      const max = Math.floor(bal * 0.8);
+      const def = Math.min(500, max);
+      openModal('Request a Self-Backed Loan', `
+        <p>Borrow against your lock at <b>6% APR</b>. The interest you pay is credited back to your locked balance.</p>
+        <label class="k">Loan Amount: <span id="loanAmtVal">${fmt(def)}</span></label>
+        <input id="loanAmt" type="range" min="100" max="${max}" step="50" value="${def}"/>
+        <div class="grid2" style="margin-top:8px">
+          <div>
+            <label class="k">Repayment Term</label>
+            <select id="loanTerm">
+              <option value="3" selected>3 months</option>
+              <option value="6">6 months</option>
+              <option value="12">12 months</option>
+            </select>
+          </div>
+          <div>
+            <label class="k">Monthly Payment</label>
+            <div class="v" id="loanPmt">$0.00</div>
+          </div>
+        </div>
+        <div class="kpi" style="margin-top:10px">
+          <div class="box"><div class="k">Total Repay</div><div class="v" id="loanTotal">$0.00</div></div>
+          <div class="box"><div class="k">Interest (back to you)</div><div class="v" id="loanIntBack">$0.00</div></div>
+          <div class="box"><div class="k">Credit Reporting</div><div class="v">On-time → help; late → harm</div></div>
+          <div class="box"><div class="k">Disbursed (simulated)</div><div class="v" id="loanDisb">${fmt(def)}</div></div>
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn acc" id="doLoan">Request Loan</button>
+          <button class="btn" onclick="(${closeModal.toString()})()">Cancel</button>
+        </div>
+        <div class="footnote">Demo only. Example APRs/terms.</div>
+      `);
+
+      const amt = document.getElementById('loanAmt');
+      const amtVal = document.getElementById('loanAmtVal');
+      const termSel = document.getElementById('loanTerm');
+      const pmtEl = document.getElementById('loanPmt');
+      const totalEl = document.getElementById('loanTotal');
+      const intBackEl = document.getElementById('loanIntBack');
+      const disbEl = document.getElementById('loanDisb');
+
+      function recalc(){
+        const A = Number(amt.value);
+        const m = Number(termSel.value);
+        amtVal.textContent = fmt(A); disbEl.textContent = fmt(A);
+        // simple interest for demo (APR * principal * months/12)
+        const interest = A * aprLoan * (m/12);
+        const total = A + interest;
+        const monthly = total / m;
+        pmtEl.textContent = fmt(monthly);
+        totalEl.textContent = fmt(total);
+        intBackEl.textContent = fmt(interest);
+      }
+      amt.addEventListener('input', recalc);
+      termSel.addEventListener('change', recalc);
+      recalc();
+
+      document.getElementById('doLoan').addEventListener('click', ()=>{
+        closeModal();
+        // pretend it posts and updates KPIs
+        setTimeout(()=>{
+          openModal('Loan Simulated', `
+            <div class="ok">✅ Funds released to you.</div>
+            <p>Your monthly payment is shown in the card. All loan interest is credited back to your locked balance.</p>
+          `);
+        }, 120);
+      });
+    });
+
+    // ======= Cash out =======
+    document.getElementById('btnCashout').addEventListener('click', ()=>{
+      const fee = feeForTerm(months);
+      const interestYear = principal * aprSave;
+      const projInterest = interestYear * (months/12);
+      const gross = principal + projInterest;
+      const net = gross - fee;
+      openModal('Cash Out (Simulation)', `
+        <div class="kpi">
+          <div class="box"><div class="k">Principal</div><div class="v">${fmt(principal)}</div></div>
+          <div class="box"><div class="k">Interest Earned</div><div class="v">${fmt(projInterest)}</div></div>
+          <div class="box"><div class="k">Unlock Fee</div><div class="v">-${fmt(fee)}</div></div>
+          <div class="box"><div class="k">Net to You</div><div class="v">${fmt(net)}</div></div>
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn acc" id="doRelock">Relock & keep earning</button>
+          <button class="btn" onclick="(${closeModal.toString()})()">Close</button>
+        </div>
+        <div class="note">In production you’d choose a destination account. Demo only.</div>
+      `);
+      document.getElementById('doRelock').addEventListener('click', ()=>{
+        months = 12; progress = 0; updateKpis(); closeModal();
+        setTimeout(()=>openModal('Relocked', `<div class="ok">✅ Balance relocked for another 12 months.</div>`), 80);
+      });
+    });
+  </script>
 </body>
 </html>
