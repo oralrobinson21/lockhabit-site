@@ -1,25 +1,59 @@
-<!doctype html><html lang="en"><head>
+<!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>LockHabit — Security</title>
+<title>Security — LockHabit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-body{font-family:Inter,system-ui,sans-serif;margin:0;padding:40px;max-width:900px}
-h1{margin:0 0 10px} .muted{color:#475569}
-.card{border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:16px 0;background:#fff}
-</style></head><body>
-<h1>Security at LockHabit</h1>
-<p class="muted">We take a defense-in-depth approach to protecting your savings and data.</p>
-<div class="card">
-  <h3>Practices</h3>
+  :root{--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--brand:#6f7cff}
+  *{box-sizing:border-box} body{margin:0;font:16px/1.65 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink)}
+  .wrap{max-width:880px;margin:0 auto;padding:28px 18px}
+  h1{font-size:34px;margin:6px 0 2px}.sub{color:var(--muted)}
+  h2{margin:26px 0 8px;font-size:20px} p,li{color:#1f2937}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .card{border:1px solid var(--line);border-radius:14px;padding:18px;background:#fff}
+  a{color:var(--brand)} footer{margin:26px 0 40px;color:var(--muted);font-size:14px}
+  @media (max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Security at LockHabit</h1>
+  <p class="sub">Our approach to keeping your information and funds safe.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Bank-grade custody</h2>
+      <p>LockHabit is not a bank. Deposit custody is provided by regulated partner banks. When deposits are held at partner banks and structured for pass-through coverage, funds are eligible for FDIC insurance up to legal limits per depositor, per bank.</p>
+    </div>
+    <div class="card">
+      <h2>Never lent out</h2>
+      <p>Your funds are reserved for you and are <strong>not lent to third parties</strong>. Emergency access is a secured self-loan to you, backed by your locked balance.</p>
+    </div>
+    <div class="card">
+      <h2>Data protection</h2>
+      <ul>
+        <li>Encryption in transit (HTTPS/TLS)</li>
+        <li>Access controls and least-privilege</li>
+        <li>Audit logging and monitoring</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Responsible disclosure</h2>
+      <p>Report security issues to <a href="mailto:security@lockhabit.com">security@lockhabit.com</a>. If you use PGP, our key and policy live at <code>/.well-known/security.txt</code>.</p>
+    </div>
+  </div>
+
+  <h2>Hard-lock rules (pre-launch summary)</h2>
   <ul>
-    <li>All traffic over HTTPS (HSTS, TLS 1.2+)</li>
-    <li>Least-privilege access; encrypted secrets</li>
-    <li>Regular dependency patching & monitoring</li>
-    <li>Bank custody with FDIC pass-through (when structured and available)</li>
+    <li>Funds remain locked until the unlock date.</li>
+    <li>Emergency withdrawals require approval.</li>
+    <li>Non-emergency early break attempts may incur a 5% fee.</li>
   </ul>
+
+  <footer>© <span id="y"></span> LockHabit • <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a></footer>
 </div>
-<div class="card">
-  <h3>Report a vulnerability</h3>
-  <p>Email <a href="mailto:security@lockhabit.com">security@lockhabit.com</a>. We’ll acknowledge within 72 hours.</p>
-</div>
-</body></html>
+<script>document.getElementById('y').textContent=(new Date()).getFullYear();</script>
+</body>
+</html>
