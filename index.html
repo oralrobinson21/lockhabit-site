@@ -755,6 +755,54 @@
       );
     });
   }
+  /* === 🏆 Highscore integration (Supabase API via Vercel) === */
+
+// Helper: submit player score
+async function submitScore(name, score) {
+  try {
+    const res = await fetch('/api/highscores/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, score })
+    });
+    const data = await res.json();
+    if (data.ok) console.log('✅ Score saved');
+    else console.error('❌ Score error:', data.error);
+  } catch (err) {
+    console.error('❌ Network error saving score', err);
+  }
+}
+
+// Helper: fetch top 10
+async function fetchTopScores() {
+  try {
+    const res = await fetch('/api/highscores/top');
+    const data = await res.json();
+    if (!data.ok) return [];
+    return data.top || [];
+  } catch (err) {
+    console.error('❌ Network error fetching highscores', err);
+    return [];
+  }
+}
+
+// After game ends, prompt for name and save score
+function handleGameOver(finalScore) {
+  const name = prompt('Game over! Enter your name to save your score:');
+  if (!name) return;
+  submitScore(name, finalScore);
+  updateLeaderboard();
+}
+
+// Display leaderboard
+async function updateLeaderboard() {
+  const top = await fetchTopScores();
+  if (!top.length) return;
+  const list = top
+    .map((r, i) => `${i + 1}. ${r.name} — ${r.score}`)
+    .join('\n');
+  alert('🏆 Global Top 10 🏆\n\n' + list + '\n\nThank you for playing and being patient.\nOnce LockHabit launches, your true patience will be rewarded!');
+}
 </script>
 </body>
 </html>
