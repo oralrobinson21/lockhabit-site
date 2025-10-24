@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>LockHabit — Income & Expenses Calculator</title>
+  <meta name="description" content="Estimate your take-home pay, monthly expenses, and a safe amount to lock toward your goals."/>
+  <meta name="theme-color" content="#6f7cff"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--brand:#6f7cff;--brand2:#9c78ff;--ink:#0f172a;--line:#e5e7f1;--muted:#5b6a86}
+    *{box-sizing:border-box}
+    body{margin:0;background:#0e1330;color:var(--ink);font:16px/1.65 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .nav{max-width:1100px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center}.logo{width:28px;height:28px}
+    a{color:#2b50ff;text-decoration:none}
+    .wrap{max-width:1100px;margin:0 auto;padding:22px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 60px rgba(10,15,35,.12);padding:18px}
+    h1{margin:0 0 6px} .sub{color:#667085;margin:0 0 18px}
+    .k{font-size:12px;color:#5b6a86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:22px;color:#0f1a34}
+    input,select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
+    .row{display:flex;gap:10px;align-items:center}
+    .note{font-size:12px;color:#5b6a86}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0}
+    .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:700;background:#f3f6ff}
+    footer{margin:22px 0;color:#cbd5e1;text-align:center;font-size:12px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <strong>LockHabit</strong>
+    </div>
+    <div class="row">
+      <a href="/">Home</a>
+      <a href="/demo.html" style="margin-left:12px">Demo</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="card" style="margin-bottom:12px">
+    <h1>Calculate your expenses & see how much you can lock</h1>
+    <p class="sub">Estimate take-home pay, subtract expenses, and get a safe monthly lock target. This is a general guide—not tax advice.</p>
+    <span class="pill">Illustrative only</span>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Income (Annual)</h2>
+      <label class="k">Gross income</label>
+      <input id="inc" type="number" min="0" value="60000" />
+      <div style="height:10px"></div>
+
+      <div class="row">
+        <div style="flex:1">
+          <label class="k">Filing status</label>
+          <select id="status">
+            <option value="single" selected>Single</option>
+            <option value="married">Married filing jointly</option>
+          </select>
+        </div>
+        <div style="flex:1">
+          <label class="k">Est. state/local tax %</label>
+          <input id="stateRate" type="number" min="0" max="20" step="0.1" value="0"/>
+        </div>
+      </div>
+      <div style="height:10px"></div>
+      <div class="note">We apply standard deduction, estimated federal tax brackets, and FICA (approximate). Adjust “state/local” for your location.</div>
+
+      <h2 style="margin-top:18px">Expenses (Monthly)</h2>
+      <div class="row"><div style="flex:1"><label class="k">Housing</label><input id="e_housing" type="number" min="0" value="1500"/></div><div style="flex:1"><label class="k">Utilities</label><input id="e_utils" type="number" min="0" value="250"/></div></div>
+      <div class="row" style="margin-top:8px"><div style="flex:1"><label class="k">Food</label><input id="e_food" type="number" min="0" value="500"/></div><div style="flex:1"><label class="k">Transport</label><input id="e_transport" type="number" min="0" value="300"/></div></div>
+      <div class="row" style="margin-top:8px"><div style="flex:1"><label class="k">Debt</label><input id="e_debt" type="number" min="0" value="200"/></div><div style="flex:1"><label class="k">Insurance</label><input id="e_ins" type="number" min="0" value="200"/></div></div>
+      <div class="row" style="margin-top:8px"><div style="flex:1"><label class="k">Subscriptions</label><input id="e_subs" type="number" min="0" value="60"/></div><div style="flex:1"><label class="k">Other</label><input id="e_other" type="number" min="0" value="140"/></div></div>
+
+      <div style="margin-top:14px" class="row">
+        <button class="btn acc" id="calcBtn">Recalculate</button>
+        <button class="btn" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Your snapshot</h2>
+      <div class="row" style="gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">Estimated monthly take-home</div>
+          <div class="v" id="netMonthly">$0.00</div>
+        </div>
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">Monthly expenses</div>
+          <div class="v" id="expMonthly">$0.00</div>
+        </div>
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">Monthly surplus</div>
+          <div class="v" id="surplus">$0.00</div>
+        </div>
+      </div>
+
+      <h2 style="margin-top:12px">Suggested monthly lock</h2>
+      <p class="note">We suggest a range: 50/30/20 guidance and an “aggressive but safe” option (≈ 80% of surplus if emergency fund is healthy).</p>
+      <div class="row" style="gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">20% of net</div>
+          <div class="v" id="twentyPct">$0.00</div>
+        </div>
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">Aggressive (≈ 80% of surplus)</div>
+          <div class="v" id="aggr">$0.00</div>
+        </div>
+      </div>
+
+      <h2 style="margin-top:12px">What it could become (12 months)</h2>
+      <p class="note">If you lock the “Aggressive” amount at 3% APR (prorated). Illustrative only.</p>
+      <div class="row" style="gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">Total contributions</div>
+          <div class="v" id="projContrib">$0.00</div>
+        </div>
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">Interest (3% APR)</div>
+          <div class="v" id="projInt">$0.00</div>
+        </div>
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">Unlock fee (est.)</div>
+          <div class="v" id="projFee">$0.00</div>
+        </div>
+        <div style="flex:1;min-width:220px" class="card">
+          <div class="k">Net to you</div>
+          <div class="v" id="projNet">$0.00</div>
+        </div>
+      </div>
+
+      <p class="note" style="margin-top:10px">Need emergency cash along the way? Our secured self-loan lets you borrow against your own balance at 6% APR; interest you pay is credited back to your lock after payoff (intended to be bureau-reported).</p>
+    </div>
+  </div>
+</main>
+
+<footer>© <span id="y"></span> LockHabit — Calculator</footer>
+
+<script>
+ function fmt(n){ return (isNaN(n)?0:n).toLocaleString(undefined,{style:'currency',currency:'USD'}) }
+
+ // Approximate 2024-ish standard deductions
+ const STD = { single: 14600, married: 29200 };
+
+ // Simplified federal tax brackets (illustrative, not exact)
+ const BRACKETS_SINGLE = [
+  {upto:11000, rate:.10},
+  {upto:44725, rate:.12},
+  {upto:95375, rate:.22},
+  {upto:182100, rate:.24},
+  {upto:231250, rate:.32},
+  {upto:578125, rate:.35},
+  {upto:Infinity, rate:.37},
+ ];
+ const BRACKETS_MJ = [
+  {upto:22000, rate:.10},
+  {upto:89450, rate:.12},
+  {upto:190750, rate:.22},
+  {upto:364200, rate:.24},
+  {upto:462500, rate:.32},
+  {upto:693750, rate:.35},
+  {upto:Infinity, rate:.37},
+ ];
+
+ function federalTax(taxable, status){
+   const b = status==='married'?BRACKETS_MJ:BRACKETS_SINGLE;
+   let prev=0, tax=0;
+   for(const br of b){
+     const cap = Math.min(taxable, br.upto);
+     if(cap>prev){ tax += (cap - prev)*br.rate; prev = cap; }
+     if(prev>=taxable) break;
+   }
+   return Math.max(0, tax);
+ }
+
+ function estimateMonthlyNet(){
+   const inc = Math.max(0, Number(document.getElementById('inc').value||0));
+   const status = document.getElementById('status').value;
+   const stateRate = Math.max(0, Number(document.getElementById('stateRate').value||0))/100;
+
+   const stdDed = STD[status] || STD.single;
+   const taxable = Math.max(0, inc - stdDed);
+
+   // Simplified FICA: 7.65% up to approx SS wage base; ignore addl Medicare for simplicity
+   const ssBase = 168600; // rough 2024
+   const fica = (Math.min(inc, ssBase)*0.0765);
+
+   const fed = federalTax(taxable, status);
+   const state = inc * stateRate;
+
+   const totalTax = fed + state + fica;
+   const netAnnual = Math.max(0, inc - totalTax);
+   const netMonthly = netAnnual / 12;
+   return {netMonthly, breakdown:{fed, state, fica, netAnnual}};
+ }
+
+ function expensesMonthly(){
+   const ids = ['e_housing','e_utils','e_food','e_transport','e_debt','e_ins','e_subs','e_other'];
+   return ids.reduce((s,id)=> s + Math.max(0, Number(document.getElementById(id).value||0)), 0);
+ }
+
+ function feeForTerm(m){ if(m<=3) return 3; if(m<=6) return 2; return 1; }
+
+ function recalc(){
+   const {netMonthly} = estimateMonthlyNet();
+   const exp = expensesMonthly();
+   const surplus = Math.max(0, netMonthly - exp);
+
+   // Suggestions
+   const twenty = netMonthly * 0.20;
+   const aggr = Math.max(0, surplus * 0.80);
+
+   // Projection for 12 months at 3% APR (simple)
+   const months = 12, apr = 0.03;
+   const contrib = aggr * months;
+   const interest = contrib * apr * (months/12); // illustrative
+   const fee = feeForTerm(months);
+   const net = contrib + interest - fee;
+
+   // UI
+   document.getElementById('netMonthly').textContent = fmt(netMonthly);
+   document.getElementById('expMonthly').textContent = fmt(exp);
+   document.getElementById('surplus').textContent = fmt(surplus);
+   document.getElementById('twentyPct').textContent = fmt(twenty);
+   document.getElementById('aggr').textContent = fmt(aggr);
+
+   document.getElementById('projContrib').textContent = fmt(contrib);
+   document.getElementById('projInt').textContent = fmt((interest));
+   document.getElementById('projFee').textContent = fmt(fee);
+   document.getElementById('projNet').textContent = fmt(net);
+ }
+
+ function resetAll(){
+   document.getElementById('inc').value = 60000;
+   document.getElementById('status').value = 'single';
+   document.getElementById('stateRate').value = 0;
+   ['e_housing','e_utils','e_food','e_transport','e_debt','e_ins','e_subs','e_other']
+     .forEach((id,i)=> document.getElementById(id).value = [1500,250,500,300,200,200,60,140][i]);
+   recalc();
+ }
+
+ document.getElementById('calcBtn').addEventListener('click', recalc);
+ document.getElementById('resetBtn').addEventListener('click', resetAll);
+ ['inc','status','stateRate','e_housing','e_utils','e_food','e_transport','e_debt','e_ins','e_subs','e_other']
+   .forEach(id=> document.getElementById(id).addEventListener('input', recalc));
+
+ document.getElementById('y').textContent = new Date().getFullYear();
+ recalc();
+</script>
+</body>
+</html>
