@@ -1,28 +1,30 @@
-// sw.js – super light cache-first for shell assets
-const NAME = 'lh-v1';
+// Minimal offline cache for LockHabit
+const CACHE = "lh-v1";
 const ASSETS = [
-  '/', '/index.html',
-  '/demo.html', '/calculator.html',
-  '/manifest.webmanifest',
-  '/assets/favicon.svg', '/assets/og-image.svg', '/assets/icon-192.png'
+  "/", "/index.html", "/demo.html",
+  "/assets/og-image.svg",
+  "/manifest.webmanifest"
 ];
 
-self.addEventListener('install', e=>{
-  e.waitUntil(caches.open(NAME).then(c=>c.addAll(ASSETS)));
+self.addEventListener("install", e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
-self.addEventListener('activate', e=>{
+self.addEventListener("activate", e => {
   e.waitUntil(
-    caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==NAME).map(k=>caches.delete(k))))
+    caches.keys().then(keys => Promise.all(keys.map(k => (k !== CACHE ? caches.delete(k) : null))))
+      .then(() => self.clients.claim())
   );
 });
-self.addEventListener('fetch', e=>{
-  const {request} = e;
-  if(request.method !== 'GET') return;
-  e.respondWith(
-    caches.match(request).then(cached => cached || fetch(request).then(resp=>{
-      const copy = resp.clone();
-      caches.open(NAME).then(c=>c.put(request, copy)).catch(()=>{});
-      return resp;
-    }).catch(()=> cached))
-  );
+self.addEventListener("fetch", e => {
+  const { request } = e;
+  // network-first for pages, cache-first for assets
+  if (request.mode === "navigate") {
+    e.respondWith(
+      fetch(request).catch(() => caches.match("/index.html"))
+    );
+  } else {
+    e.respondWith(
+      caches.match(request).then(res => res || fetch(request))
+    );
+  }
 });
