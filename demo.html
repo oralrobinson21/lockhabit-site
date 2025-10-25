@@ -2,447 +2,772 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Demo (everything in one file, investor-ready)
+       LockHabit — Live Demo (calculator → simulator flow)
+       - SEO optimized
+       - Calculator: weekly/bi-weekly/monthly + state taxes + tax-exempt
+       - Simulator: progress, vested interest, 75% loan eligibility
        ========================================================= -->
+
+  <!-- Core -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit Demo — Simulated Account + Income Calculator</title>
-  <meta name="description" content="Try LockHabit’s live simulator. Lock savings, earn APR, request a self-backed loan, and see real-time projections. Start with the income calculator, send values into the demo, and watch your plan grow."/>
-  <link rel="canonical" href="https://lockhabit.com/demo.html"/>
+
+  <title>LockHabit Demo — Income Calculator & Savings Simulator</title>
+  <meta name="description" content="Try LockHabit's free income calculator and savings simulator. Estimate your take-home pay weekly, bi-weekly, or monthly (with federal & state taxes), then see how much you can safely 'lock' and grow with interest. Request self-backed loans (75% of vested balance) in the demo."/>
   <meta name="theme-color" content="#6f7cff"/>
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://lockhabit.com/demo.html"/>
 
   <!-- Social -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit Demo — Simulated Account"/>
-  <meta property="og:description" content="Build your plan, simulate interest, borrow against yourself, and see fees and net payout."/>
+  <meta property="og:title" content="LockHabit Demo — Income Calculator & Savings Simulator"/>
+  <meta property="og:description" content="Estimate take-home pay and simulate disciplined saving with interest. Borrow against your own balance when needed."/>
+  <meta property="og:url" content="https://lockhabit.com/demo.html"/>
   <meta property="og:image" content="https://lockhabit.com/assets/og-image.svg"/>
   <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="LockHabit Demo — Income Calculator & Savings Simulator"/>
+  <meta name="twitter:description" content="Estimate take-home pay and simulate disciplined saving."/>
+  <meta name="twitter:image" content="https://lockhabit.com/assets/og-image.svg"/>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
+  <!-- Icons / PWA (optional) -->
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+
+  <!-- Styles -->
   <style>
     :root{
       --brand:#6f7cff; --brand2:#9c78ff; --bg:#0b0e1a; --panel:#ffffff;
-      --ink:#0f172a; --ink2:#15213d; --muted:#58627a; --line:#e7e7f2;
+      --ink:#0f172a; --muted:#5b6a86; --muted2:#3a4a66; --line:#e5e7f1; --line2:#dfe3ff;
       --green:#22c55e; --danger:#b42318; --amber:#f59e0b;
-      --shadow:0 24px 60px rgba(10,15,35,.16);
-      --radius:18px; --radius-lg:24px;
+      --shadow:0 24px 60px rgba(10,15,35,.18);
+      --shadow2:0 40px 120px rgba(7,10,18,.28);
+      --radius:18px; --radius-lg:24px; --radius-xl:28px;
       --grad-hero:
-        radial-gradient(1400px 700px at 50% -220px, rgba(111,124,255,.28), transparent 60%),
-        radial-gradient(1000px 600px at -10% 10%, rgba(156,120,255,.18), transparent 55%),
-        #f7f8ff;
+        radial-gradient(1400px 800px at 50% -240px, rgba(111,124,255,.35), transparent 60%),
+        radial-gradient(1000px 600px at -12% 0%, rgba(156,120,255,.18), transparent 55%),
+        radial-gradient(1200px 700px at 110% -20%, rgba(183,168,255,.12), transparent 60%),
+        #f7f9ff;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;background:var(--bg);color:var(--ink);
       font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
       overflow-x:hidden;
     }
 
     /* Header */
-    .header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.85);
-      backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .wrap{max-width:1200px;margin:0 auto;padding:14px 22px}
+    .header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transition:transform .25s ease}
+    .header.hide{transform:translateY(-100%)}
+    .wrap{max-width:1200px;margin:0 auto;padding:12px 22px}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px}
     .logo{width:34px;height:34px}
-    .word{font-weight:800}
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:800}
+    .word{font-weight:800;letter-spacing:.2px}
+    .nav{display:flex;align-items:center;gap:10px}
+    .nav a{color:#19253f;text-decoration:none;font-weight:600}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:42px;transition:.15s}
     .btn:hover{transform:translateY(-1px)}
     .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0}
     .btn.ghost{background:transparent}
-    nav a{color:#14213d;text-decoration:none;margin:0 10px;font-weight:600}
 
     /* Hero */
-    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:44px 22px}
-    .hero .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
-    h1{margin:0 0 6px;font-size:40px}
-    .sub{margin:0;color:#3a4a66}
+    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:60px 22px 30px}
+    .hero h1{margin:0 0 6px;font-size:40px}
+    .sub{color:var(--muted2);margin:0}
 
-    /* Bubble card (demo) */
-    .bubble{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow)}
-    .balance{font-size:36px;font-weight:800;color:#0e1a34}
-    .muted{color:#5b6a86}
-    .pill{display:inline-flex;gap:8px;align-items:center;border:1px solid #dfe3ff;background:#f3f6ff;border-radius:999px;padding:6px 10px;font-weight:700}
-
-    /* Bars + KPIs */
-    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
-    .kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:10px}
-    .box{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fbfcff}
+    /* Sandwich: Calculator (center) with Snapshot on side (mobile stacks) */
+    .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
+    .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+    .card h3{margin:0 0 10px}
     .k{font-size:12px;color:#5b6a86;text-transform:uppercase;letter-spacing:.04em}
-    .v{font-weight:800;font-size:20px;color:#0f1a34}
-
-    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-    .tag{display:inline-block;font-size:12px;border:1px solid #e7ecff;padding:4px 8px;border-radius:999px;color:#3a4a66;background:#f7f9ff}
-
-    /* Panels */
-    .section{max-width:1200px;margin:0 auto;padding:26px 22px}
-    .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
-    .panel h3{margin:0 0 8px}
-    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-
-    input,select{padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px;width:100%}
-    input[type="range"]{width:100%}
-    label{font-weight:700}
-
-    .note{font-size:12px;color:#5b6a86}
+    .v{font-weight:800;font-size:20px;color:#0e1a34}
+    .rowx{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .muted{color:var(--muted)}
+    input, select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
+    input[type="range"]{padding:0}
+    .pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line2);background:#f3f6ff;border-radius:999px;padding:6px 10px;font-weight:700}
+    .note{font-size:12px;color:#60708c}
     .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
     .warn{color:#5a1111;background:#ffeceb;border:1px solid #ffd4cf;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
 
+    /* Snapshot column */
+    .snapshot .balance{font-size:36px;font-weight:800;color:#0f1a34}
+    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
+
+    /* Simulator bubble */
+    .bubble{border-radius:26px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow2);padding:22px;margin-top:18px}
+    .balance-lg{font-size:40px;font-weight:800;color:#0e1a34}
+    .kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .kpi .box{background:#fbfcff;border:1px solid var(--line);border-radius:14px;padding:12px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+
     /* Modal */
     .overlay{position:fixed;inset:0;background:rgba(10,14,30,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
-    .modal{width:min(640px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+    .modal{width:min(620px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow2)}
     .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
 
-    /* Game footer (simple) */
-    .miniwrap{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:6px 0}
-    .minibar{margin:0 auto;max-width:1200px;padding:0 10px;display:flex;gap:8px;align-items:center;justify-content:flex-end}
-    .minibar .pill{display:inline-flex;align-items:center;gap:8px;background:#0e1330;color:#e5e7f1;border:1px solid #2b3150;border-radius:999px;padding:6px 10px;font-weight:700;cursor:pointer}
-    #gamePanel{display:none;background:#0b0e1a;border-top:1px solid #2b3150}
-    #gamePanel.open{display:block}
-    #runnerCanvas{display:block;width:100%;max-width:1200px;height:120px;margin:0 auto;background:#0f172a}
-    #gameInfo{max-width:1200px;margin:0 auto;color:#9fb2ff;font-size:12px;padding:6px 10px;display:flex;justify-content:space-between}
+    /* Footer */
+    footer{margin:24px 0;color:#cbd5e1;font-size:12px;text-align:center}
 
-    footer{margin:22px 0;color:#cbd5e1;font-size:12px;text-align:center}
-
-    @media (max-width:980px){ .kpi{grid-template-columns:1fr 1fr} .grid3{grid-template-columns:1fr} .grid2{grid-template-columns:1fr} .hero .grid{grid-template-columns:1fr} h1{font-size:32px} }
+    /* Responsive */
+    @media (max-width:1000px){
+      .grid{grid-template-columns:1fr}
+      .kpi{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:560px){
+      .kpi{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
-  <div class="header" role="banner">
-    <div class="wrap row">
-      <div class="brand">
-        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-          <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-          <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-          <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-          <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
-        </svg>
-        <div class="word">LockHabit</div>
-      </div>
-      <nav>
-        <a href="#income">Income calculator</a>
-        <a href="#demo">Live demo</a>
-        <a href="/" class="btn ghost">← Home</a>
-      </nav>
-      <div class="row" style="gap:8px">
-        <button class="btn" id="btnOpenGame">Mini game</button>
-        <a class="btn acc" href="#demo">Try the demo</a>
+  <!-- Header -->
+  <header id="hdr" class="header">
+    <div class="wrap">
+      <div class="row">
+        <div class="brand">
+          <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+            <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+            <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+            <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+            <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+            <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+          </svg>
+          <div class="word">LockHabit</div>
+        </div>
+        <nav class="nav">
+          <a href="/">Home</a>
+          <a href="#calculator">Calculator</a>
+          <a href="#simulator">Simulator</a>
+          <button class="btn acc" onclick="openWaitlist()">Join waitlist</button>
+        </nav>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- HERO -->
-  <div class="hero">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Calculate your take-home & simulate disciplined saving</h1>
+      <p class="sub">Pick weekly, bi-weekly, or monthly income. Estimate taxes, choose how much to “lock,” then see your projected growth and loan access (75% of vested balance).</p>
+    </div>
+  </section>
+
+  <!-- Sandwich: Calculator (center) + Snapshot (side) -->
+  <section id="calculator" class="wrap" aria-labelledby="calc-title" style="padding:18px 22px">
     <div class="grid">
-      <div>
-        <h1>Simulated account + calculator</h1>
-        <p class="sub">Start with your income and expenses → we’ll estimate a safe amount to “lock.” Send it into the demo and watch it grow with interest. Borrow against yourself when life happens, and see fees and net payout transparently.</p>
-        <div style="margin-top:10px" class="tag">Loan eligibility uses <b>75%</b> of vested balance in this demo.</div>
-      </div>
-      <div class="bubble">
-        <div class="row" style="align-items:flex-start">
+      <!-- Calculator -->
+      <div class="card" id="calcCard" role="region" aria-label="Income calculator">
+        <h3 id="calc-title">Income Calculator</h3>
+        <div class="rowx">
           <div>
-            <div class="muted">Total Locked Balance</div>
-            <div class="balance" id="balance">$1,500.00</div>
-            <div class="muted">Lock: <b id="termLabel">12 months</b> • Next deposit: <b id="nextDep">$200</b> in <b id="nextDepWhen">14 days</b></div>
-            <div style="margin-top:8px" class="pill">3% APR • FDIC-backed custody*</div>
+            <label class="k">Income frequency</label>
+            <select id="inc_freq">
+              <option value="weekly">Weekly</option>
+              <option value="biweekly" selected>Bi-weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="annual">Annual</option>
+            </select>
           </div>
-          <div style="min-width:260px;max-width:320px;width:32%">
-            <div class="muted">Progress</div>
-            <div class="bar"><div class="fill" id="pbar" style="width:0%"></div></div>
-            <div class="row" style="margin-top:6px"><div class="note">Year target</div><div class="note" id="pval">0%</div></div>
-            <div class="grid2" style="margin-top:8px">
-              <div class="box">
-                <div class="k">Interest so far</div><div class="v" id="intSoFar">$0.00</div>
-              </div>
-              <div class="box">
-                <div class="k">Projected @ maturity</div><div class="v" id="intProj">$0.00</div>
-              </div>
+          <div>
+            <label class="k">Amount (gross)</label>
+            <input id="inc_amt" type="number" min="0" step="0.01" value="2000" placeholder="e.g., 2000"/>
+          </div>
+        </div>
+
+        <div class="rowx" style="margin-top:10px">
+          <div>
+            <label class="k">Filing status</label>
+            <select id="filing">
+              <option value="single" selected>Single (est.)</option>
+              <option value="married">Married (est.)</option>
+            </select>
+          </div>
+          <div>
+            <label class="k">State (estimate)</label>
+            <select id="state">
+              <option value="none" selected>— Select —</option>
+              <option value="CA">California</option>
+              <option value="NY">New York</option>
+              <option value="TX">Texas</option>
+              <option value="FL">Florida</option>
+              <option value="IL">Illinois</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="OH">Ohio</option>
+              <option value="MI">Michigan</option>
+              <option value="GA">Georgia</option>
+              <option value="NC">North Carolina</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="rowx" style="margin-top:10px">
+          <div>
+            <label class="k">Tax status</label>
+            <select id="taxopt">
+              <option value="normal" selected>Normal withholding</option>
+              <option value="exempt">Temporarily tax-exempt</option>
+            </select>
+          </div>
+          <div>
+            <label class="k">Monthly expenses (estimate)</label>
+            <input id="expenses" type="number" min="0" step="0.01" value="1500" placeholder="e.g., 1500"/>
+          </div>
+        </div>
+
+        <div style="margin-top:10px">
+          <label class="k">Suggested “lock” % of take-home</label>
+          <input id="save_pct" type="range" min="5" max="25" value="15" step="1"/>
+          <div class="row" style="justify-content:space-between">
+            <span class="muted">Conservative</span>
+            <span class="pill"><b id="save_pct_lbl">15%</b></span>
+            <span class="muted">Ambitious</span>
+          </div>
+        </div>
+
+        <div class="rowx" style="margin-top:12px">
+          <div class="card" style="padding:12px">
+            <div class="k">Estimated take-home / period</div>
+            <div class="v" id="takehome">$0.00</div>
+            <div class="note">Rough estimate: federal + FICA + simple state rate.</div>
+          </div>
+          <div class="card" style="padding:12px">
+            <div class="k">Suggested contribution / period</div>
+            <div class="v" id="suggested">$0.00</div>
+            <div class="note">You can change this in the simulator at any time.</div>
+          </div>
+        </div>
+
+        <div class="rowx" style="margin-top:12px">
+          <div class="card" style="padding:12px">
+            <div class="k">After expenses (monthly)</div>
+            <div class="v" id="after_exp">$0.00</div>
+            <div class="note">Take-home (monthly) − expenses (monthly).</div>
+          </div>
+          <div class="card" style="padding:12px">
+            <div class="k">Recommended initial lock</div>
+            <div class="v" id="init_lock">$1,500.00</div>
+            <div class="note">We’ll start your demo at this balance (editable later).</div>
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:10px">
+          <button class="btn acc" id="sendToSim">Use in simulator</button>
+          <button class="btn" id="resetCalc">Reset</button>
+          <button class="btn ghost" onclick="document.getElementById('simulator').scrollIntoView({behavior:'smooth'})">Scroll to simulator</button>
+        </div>
+
+        <p class="note" style="margin-top:10px">
+          This calculator is an estimate and may not be 100% accurate. Actual withholding depends on your W-4, deductions, credits, and state rules.
+        </p>
+      </div>
+
+      <!-- Snapshot (side) -->
+      <aside class="card snapshot" role="complementary" aria-label="Snapshot preview">
+        <h3>Your Snapshot</h3>
+        <div class="balance">Projected take-home (monthly)</div>
+        <div class="balance" id="monthly_takehome">$0.00</div>
+        <div class="muted" style="margin:4px 0 10px">Based on your income frequency and selections.</div>
+
+        <div class="k">Lock target progress</div>
+        <div class="bar"><div id="snap_fill" class="fill" style="width:0%"></div></div>
+        <div class="row" style="margin-top:6px;justify-content:space-between">
+          <span class="muted">0%</span>
+          <span class="muted" id="snap_pct">0%</span>
+        </div>
+
+        <div class="card" style="padding:12px;margin-top:12px">
+          <div class="k">Initial lock (starting balance)</div>
+          <div class="v" id="snap_init">$1,500.00</div>
+        </div>
+        <div class="card" style="padding:12px;margin-top:8px">
+          <div class="k">Recurring contribution</div>
+          <div class="v" id="snap_rec">$200.00 bi-weekly</div>
+        </div>
+        <p class="note" style="margin-top:10px">Click “Use in simulator” to apply these numbers below.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Simulator -->
+  <section id="simulator" class="wrap" aria-labelledby="sim-title" style="padding:16px 22px 0">
+    <h2 id="sim-title" style="color:#f2f4ff;margin:6px 0 10px">Savings Simulator</h2>
+    <div class="bubble" aria-live="polite">
+      <div class="row" style="align-items:flex-start">
+        <div>
+          <div class="muted">Total Locked Balance</div>
+          <div class="balance-lg" id="sim_balance">$1,500.00</div>
+          <div class="muted">Lock: <b id="sim_term_lbl">12 months</b> • Next deposit: <b id="sim_rec_lbl">$200</b> in <b id="sim_next">14 days</b></div>
+          <div style="margin-top:8px" class="pill">3% APR • FDIC-backed custody*</div>
+        </div>
+        <div style="min-width:260px;max-width:340px;width:32%">
+          <div class="muted">Progress</div>
+          <div class="bar"><div class="fill" id="sim_fill" style="width:0%"></div></div>
+          <div class="row" style="margin-top:6px;justify-content:space-between">
+            <div class="muted">Year target</div>
+            <div class="muted" id="sim_pct">0%</div>
+          </div>
+          <div class="kpi" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px">
+            <div class="card" style="padding:10px">
+              <div class="k">Interest so far</div><div class="v" id="sim_int_sofar">$0.00</div>
+            </div>
+            <div class="card" style="padding:10px">
+              <div class="k">Projected @ maturity</div><div class="v" id="sim_int_proj">$0.00</div>
             </div>
           </div>
         </div>
-        <div class="kpi">
-          <div class="box"><div class="k">Contrib so far</div><div class="v" id="contribSoFar">$0.00</div></div>
-          <div class="box"><div class="k">Vested balance</div><div class="v" id="vested">$1,500.00</div></div>
-          <div class="box"><div class="k">Loan eligible (75%)</div><div class="v" id="loanElig">$1,125.00</div></div>
-          <div class="box"><div class="k">Unlock fee</div><div class="v" id="unlockFee">$1.00</div></div>
-        </div>
-        <div class="actions">
-          <button class="btn acc" id="btnLoan">Request a loan</button>
-          <button class="btn" id="btnEmergency">Emergency loan (0% • 1–6 mo)</button>
-          <button class="btn" id="btnExtend">Extend term</button>
-          <button class="btn" id="btnCashout">Cash out (simulate)</button>
-          <button class="btn ghost" id="btnExplain">How this works</button>
-        </div>
-        <div class="note" style="margin-top:8px">* Demo only. Illustrative rates/fees. Interest for standard self-loan is credited back to your lock after payoff. Emergency loan is 0% in this demo and allows up to two skip payments per year (each skip adds 1 month).</div>
       </div>
-    </div>
-  </div>
 
-  <!-- INCOME → BUDGET → LOCK (Calculator) -->
-  <div id="income" class="section">
-    <div class="panel">
-      <h3>Calculate what you can safely lock</h3>
-      <div class="grid3">
-        <div>
-          <label>Annual gross income</label>
-          <input id="inc_annual" type="number" min="0" value="60000" inputmode="decimal"/>
-          <div style="height:8px"></div>
-          <label>Pay frequency</label>
-          <select id="inc_freq">
-            <option value="weekly">Weekly (52)</option>
-            <option value="biweekly" selected>Bi-weekly (26)</option>
-            <option value="semimonthly">Semi-monthly (24)</option>
-            <option value="monthly">Monthly (12)</option>
-          </select>
-          <div style="height:8px"></div>
-          <label>State (for tax estimate)</label>
-          <select id="inc_state">
-            <!-- Simple illustrative list with rough effective adders -->
-            <option value="0">No state tax (e.g., FL, TX)</option>
-            <option value="3">~3% effective</option>
-            <option value="5">~5% effective</option>
-            <option value="7">~7% effective</option>
-            <option value="9">~9% effective</option>
-          </select>
-          <div style="height:8px"></div>
-          <label class="row" style="gap:8px;align-items:center">
-            <input id="tax_exempt" type="checkbox" style="width:auto"/> Assume tax-exempt (demo)
-          </label>
-          <div class="note">This calculator is an <b>estimate</b>, not tax advice. For simplicity, we apply rough effective federal + FICA + selected state %.</div>
+      <div class="kpi" style="margin-top:10px">
+        <div class="box">
+          <div class="k">Loan eligibility</div>
+          <div class="v" id="sim_loan_elig">$1,125.00</div>
+          <div class="note">Up to <b>75%</b> of vested balance</div>
         </div>
-        <div>
-          <label>Estimated monthly expenses (rent, utilities, etc.)</label>
-          <input id="exp_monthly" type="number" min="0" value="2500"/>
-          <div style="height:8px"></div>
-          <label>Safety buffer (%)</label>
-          <input id="buffer_pct" type="range" min="0" max="30" value="10"/>
-          <div class="row"><div class="note">0%</div><div class="note" id="buffer_lbl">10%</div></div>
-          <div style="height:8px"></div>
-          <div class="box">
-            <div class="k">Estimated take-home / month</div>
-            <div class="v" id="takehome">$0.00</div>
-          </div>
-          <div class="box" style="margin-top:8px">
-            <div class="k">Safe to lock / month</div>
-            <div class="v" id="safe_month">$0.00</div>
-          </div>
+        <div class="box">
+          <div class="k">Unlock fee</div>
+          <div class="v" id="sim_fee">$1.00</div>
+          <div class="note">$3 / $2 / $1 based on term</div>
         </div>
-        <div>
-          <label>Lock frequency you prefer</label>
-          <select id="lock_freq">
-            <option value="weekly">Weekly</option>
-            <option value="biweekly" selected>Bi-weekly</option>
-            <option value="monthly">Monthly</option>
-          </select>
-          <div style="height:8px"></div>
-          <div class="box">
-            <div class="k">Converted per-deposit amount</div>
-            <div class="v" id="per_deposit">$0.00</div>
-          </div>
-          <div class="box" style="margin-top:8px">
-            <div class="k">Starter deposit (optional)</div>
-            <input id="starter" type="number" min="0" value="1500"/>
-          </div>
-          <div class="actions" style="margin-top:10px">
-            <button class="btn acc" id="sendToDemo">Send to demo</button>
-            <button class="btn" id="recalcBtn">Update snapshot</button>
-          </div>
-          <div class="note">Sending to demo stores values in your browser (localStorage) and updates the simulator instantly.</div>
+        <div class="box">
+          <div class="k">Mode</div>
+          <div class="v"><select id="sim_mode"><option value="safe" selected>Safe (3% APR)</option><option value="risk">High-risk ETF (15% simulated)</option></select></div>
+          <div class="note" id="risk_warn" style="display:none">High-risk is illustrative only. You can lose money.</div>
+        </div>
+        <div class="box">
+          <div class="k">Change term</div>
+          <div class="v"><select id="sim_term"><option value="3">3 mo</option><option value="6">6 mo</option><option value="12" selected>12 mo</option><option value="18">18 mo</option><option value="24">24 mo</option></select></div>
+          <div class="note">Extending increases projected interest</div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- LEGAL NOTE -->
-  <div class="section">
-    <div class="panel">
-      <h3>Transparency & fine print (demo)</h3>
-      <ul>
-        <li>Standard self-loan: <b>6% APR</b>, interest is <b>credited back</b> to your lock after payoff (credit-builder intent).</li>
-        <li>Emergency loan: up to <b>90%</b> of vested, <b>0% APR</b>, term <b>1–6 months</b>, up to <b>two skip payments per calendar year</b> (each skip extends term by 1 month).</li>
-        <li>Unlock fee at maturity: <b>$3 / $2 / $1</b> for 1–3 / 4–6 / 6–12+ month locks.</li>
-        <li><b>Early break</b> (non-emergency) incurs a demo fee of <b>7%</b> of vested balance.</li>
-        <li>All figures shown here are <b>estimates</b> for education; final terms may change at launch.</li>
-      </ul>
+      <div class="actions">
+        <button class="btn acc" id="btnLoan">Request self-loan</button>
+        <button class="btn" id="btnExtend">Extend term</button>
+        <button class="btn" id="btnCashout">Cash out (simulate)</button>
+        <button class="btn ghost" id="btnHow">How this works</button>
+      </div>
+      <div class="note" style="margin-top:6px">* Demo only. Illustrative rates & terms.</div>
     </div>
-  </div>
+  </section>
 
-  <!-- FOOTER -->
-  <footer>© <span id="yr"></span> LockHabit — Demo simulation.</footer>
-
-  <!-- GAME (simple) -->
-  <div class="miniwrap">
-    <div class="minibar">
-      <button id="toggleGame" class="pill" aria-expanded="false" aria-controls="gamePanel">🎮 Mini game (off)</button>
-    </div>
-    <div id="gamePanel" role="region" aria-label="Endless runner mini game">
-      <canvas id="runnerCanvas" width="1200" height="120"></canvas>
-      <div id="gameInfo"><span>Space/↑ jump • R reset • P pause</span><span id="gameScore">Score: 0</span></div>
-    </div>
-  </div>
-
-  <!-- MODAL -->
+  <!-- Modal (reusable) -->
   <div id="overlay" class="overlay" aria-modal="true" role="dialog">
     <div class="modal" id="modalBox" role="document">
       <div class="row">
         <h3 id="modalTitle" style="margin:0">Modal</h3>
-        <button class="x" id="modalClose">✕</button>
+        <button class="x" id="modalClose" aria-label="Close">✕</button>
       </div>
       <div id="modalBody" style="margin-top:8px"></div>
     </div>
   </div>
 
+  <!-- Footer -->
+  <footer>© <span id="yr"></span> LockHabit — Demo simulation.</footer>
+
+  <!-- Structured data (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"LockHabit Demo",
+    "url":"https://lockhabit.com/demo.html",
+    "applicationCategory":"FinanceApplication",
+    "description":"Estimate take-home pay and simulate disciplined saving with interest and self-backed loans."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"How is take-home estimated?","acceptedAnswer":{"@type":"Answer","text":"We apply rough federal + FICA and a simple state rate for common states. Actual withholding varies by W-4, deductions, and credits."}},
+      {"@type":"Question","name":"What is loan eligibility?","acceptedAnswer":{"@type":"Answer","text":"In the demo, you can borrow up to 75% of your vested balance at 6% APR, with interest credited back after payoff."}},
+      {"@type":"Question","name":"Can I extend my lock?","acceptedAnswer":{"@type":"Answer","text":"Yes. Extending increases projected interest. Unlock fee is a flat $3 / $2 / $1 depending on term length."}}
+    ]
+  }
+  </script>
+
+  <!-- Scripts -->
   <script>
-    // ========= Helpers =========
-    const $ = (id)=> document.getElementById(id);
-    const fmt = (n)=> Number(n||0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-    const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
-    const monthsToFee = (m)=> m<=3?3 : m<=6?2 : 1;
+    /* Live year + sticky header behavior */
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    (function(){
+      const hdr = document.getElementById('hdr');
+      let last = window.scrollY;
+      window.addEventListener('scroll', ()=>{
+        const y = window.scrollY;
+        if(y > last && y > 60) hdr.classList.add('hide'); else hdr.classList.remove('hide');
+        last = y;
+      }, {passive:true});
+    })();
 
-    // ========= Demo State (defaults; can be overridden by calculator) =========
-    let principal = 1500;           // starter deposit
-    let termMonths = 12;            // default term
-    let aprSave = 0.03;             // safe APR
-    let recAmount = 200;            // recurring deposit
-    let recFreq = 'biweekly';       // weekly | biweekly | monthly
-    let progress = 0;               // 0..100 simulated progress
-    let skipCredits = 2;            // emergency loan skip payments per calendar year (demo)
+    /* Modal helpers */
+    const overlay = document.getElementById('overlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody  = document.getElementById('modalBody');
+    const modalClose = document.getElementById('modalClose');
+    modalClose.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+    function openModal(title, html){ modalTitle.textContent = title; modalBody.innerHTML = html; overlay.style.display='flex'; document.body.style.overflow='hidden'; }
+    function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
 
-    // ========= DOM refs for demo header bubble =========
-    const balEl = $('balance');
-    const termLabel = $('termLabel');
-    const nextDep = $('nextDep');          // amount
-    const nextDepWhen = $('nextDepWhen');  // when text
-    const pbar = $('pbar'), pval = $('pval');
-    const intSoFar = $('intSoFar'), intProj = $('intProj');
-    const contribSoFar = $('contribSoFar');
-    const vestedEl = $('vested'), loanElig = $('loanElig');
-    const unlockFee = $('unlockFee');
-
-    $('yr').textContent = new Date().getFullYear();
-
-    // ========= Recurrence helpers =========
-    function cyclesFor(freq, months){
-      const weeks = months * 4.345;
-      if(freq==='weekly') return Math.floor(weeks);
-      if(freq==='biweekly') return Math.floor(weeks/2);
-      return months; // monthly
+    /* Waitlist (reuses modal) */
+    function openWaitlist(){
+      openModal('Join the LockHabit waitlist', `
+        <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
+        <form id="wl-form" class="form" novalidate>
+          <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
+          <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
+          <select name="term" aria-label="Preferred lock term">
+            <option value="">Preferred lock term (optional)</option>
+            <option value="1-3">1–3 months</option>
+            <option value="4-6">4–6 months</option>
+            <option value="6-12+">6–12+ months</option>
+          </select>
+          <button class="btn acc" type="submit">Join the waitlist</button>
+          <div id="msg" class="note" role="status" aria-live="polite"></div>
+        </form>
+        <div id="ok" class="ok" style="display:none;margin-top:8px">✅ Thanks — you’re on the list!</div>
+      `);
+      const form = document.getElementById('wl-form');
+      const msg  = document.getElementById('msg');
+      const ok   = document.getElementById('ok');
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        msg.textContent='Submitting…'; msg.style.color='#60708c';
+        const data = Object.fromEntries(new FormData(form).entries());
+        try{
+          const r = await fetch('/api/waitlist', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+          const j = await r.json().catch(()=>({}));
+          if(r.ok && (j.ok || j.id || j.inserted)){ form.style.display='none'; ok.style.display='inline-block'; return; }
+        }catch(_){}
+        // Formspree fallback (update endpoint if different)
+        try{
+          const fs = await fetch('https://formspree.io/f/manpgypy', {
+            method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form)
+          });
+          if(fs.ok){ form.style.display='none'; ok.style.display='inline-block'; return; }
+          msg.textContent='Network error. Please try again.'; msg.style.color='#b42318';
+        }catch(_){ msg.textContent='Network error. Please try again.'; msg.style.color='#b42318'; }
+      });
     }
-    function nextDepositWhen(freq){
-      if(freq==='weekly') return '7 days';
-      if(freq==='biweekly') return '14 days';
-      return '30 days';
+    window.openWaitlist = openWaitlist;
+
+    /* ===== CALCULATOR LOGIC ===== */
+    const inc_freq = document.getElementById('inc_freq');
+    const inc_amt  = document.getElementById('inc_amt');
+    const filing   = document.getElementById('filing');
+    const stateSel = document.getElementById('state');
+    const taxopt   = document.getElementById('taxopt');
+    const expenses = document.getElementById('expenses');
+    const save_pct = document.getElementById('save_pct');
+    const save_pct_lbl = document.getElementById('save_pct_lbl');
+
+    const takehomeEl = document.getElementById('takehome');
+    const suggestedEl= document.getElementById('suggested');
+    const afterExpEl = document.getElementById('after_exp');
+    const initLockEl = document.getElementById('init_lock');
+
+    const monthlyTakehomeEl = document.getElementById('monthly_takehome');
+    const snapFill = document.getElementById('snap_fill');
+    const snapPct  = document.getElementById('snap_pct');
+    const snapInit = document.getElementById('snap_init');
+    const snapRec  = document.getElementById('snap_rec');
+
+    const sendToSim = document.getElementById('sendToSim');
+    const resetCalc = document.getElementById('resetCalc');
+
+    const PERIODS = { weekly:52, biweekly:26, monthly:12, annual:1 };
+
+    // super-simplified state rates (illustrative only)
+    const STATE_RATE = {
+      CA: 0.07, NY: 0.06, IL: 0.0495, PA: 0.0307, OH: 0.035, MI: 0.043,
+      GA: 0.054, NC: 0.045, TX: 0, FL: 0, none: 0
+    };
+
+    function toAnnual(freq, amt){
+      const p = PERIODS[freq] || 1;
+      return Math.max(0, Number(amt||0)) * p;
+    }
+    function fromAnnual(freq, annual){
+      const p = PERIODS[freq] || 1;
+      return (annual / p);
     }
 
-    // ========= Vesting math (demo simple) =========
-    function calcProjections(){
-      // contributions to date scale with progress %
-      const totalCycles = cyclesFor(recFreq, termMonths);
-      const contributedFullTerm = recAmount * totalCycles;
-      const contributedSoFarVal = contributedFullTerm * (progress/100);
-
-      const vested = principal + contributedSoFarVal;
-
-      const interestFullTerm = (principal + contributedFullTerm) * aprSave * (termMonths/12);
-      const interestSoFarVal = interestFullTerm * (progress/100);
-
-      const elig = vested * 0.75; // 75% of vested
-
-      // write
-      balEl.textContent = fmt(principal);
-      termLabel.textContent = termMonths + ' months';
-      nextDep.textContent = fmt(recAmount);
-      nextDepWhen.textContent = nextDepositWhen(recFreq);
-      contribSoFar.textContent = fmt(contributedSoFarVal);
-      vestedEl.textContent = fmt(vested);
-      intProj.textContent = fmt(interestFullTerm);
-      intSoFar.textContent = fmt(interestSoFarVal);
-      loanElig.textContent = fmt(elig);
-      unlockFee.textContent = fmt(monthsToFee(termMonths));
+    function roughFederal(annual, status){
+      // very rough stepped estimate (not official brackets)
+      const bracket = status === 'married'
+        ? [{up:22000, r:.10},{up:94000, r:.12},{up:201000, r:.22},{up:383000, r:.24},{up:1000000, r:.32},{up:Infinity, r:.35}]
+        : [{up:11000, r:.10},{up:44725, r:.12},{up:95375, r:.22},{up:182100, r:.24},{up:231250, r:.32},{up:578125, r:.35},{up:Infinity, r:.37}];
+      let prev = 0, tax = 0;
+      for(const b of bracket){
+        const cap = Math.min(annual, b.up);
+        if(cap > prev){ tax += (cap - prev) * b.r; prev = cap; }
+        if(annual <= b.up) break;
+      }
+      return tax;
+    }
+    function fica(annual){
+      // 7.65% employee portion up to OASDI cap (ignore cap for demo)
+      return annual * 0.0765;
     }
 
-    // simulate progress animation
+    function recalcCalc(){
+      const freq = inc_freq.value;
+      const amt  = Number(inc_amt.value||0);
+      const status = filing.value;
+      const state  = stateSel.value;
+      const exempt = taxopt.value === 'exempt';
+      const exp    = Math.max(0, Number(expenses.value||0));
+      const pct    = Math.max(5, Math.min(25, Number(save_pct.value||15)));
+      save_pct_lbl.textContent = pct + '%';
+
+      // annualize
+      const annual = toAnnual(freq, amt);
+
+      // taxes
+      let fed = 0, ssmed = 0, stax = 0;
+      if(!exempt){
+        fed   = roughFederal(annual, status);
+        ssmed = fica(annual);
+        stax  = annual * (STATE_RATE[state] || 0);
+      }
+      const totalTax = fed + ssmed + stax;
+      const annualTake = Math.max(0, annual - totalTax);
+
+      // per-period take-home
+      const perTake = fromAnnual(freq, annualTake);
+      takehomeEl.textContent = perTake.toLocaleString(undefined,{style:'currency',currency:'USD'});
+
+      // suggested contribution per period
+      const suggested = perTake * (pct/100);
+      suggestedEl.textContent = suggested.toLocaleString(undefined,{style:'currency',currency:'USD'});
+
+      // monthly take-home (normalize)
+      const monthlyTake = annualTake / 12;
+      monthlyTakehomeEl.textContent = monthlyTake.toLocaleString(undefined,{style:'currency',currency:'USD'});
+
+      // after expenses (monthly)
+      const after = Math.max(0, monthlyTake - exp);
+      afterExpEl.textContent = after.toLocaleString(undefined,{style:'currency',currency:'USD'});
+
+      // initial lock guess: 1 month of suggested + $500 floor
+      const initial = Math.max(500, suggested * (PERIODS[freq]/12));
+      initLockEl.textContent = initial.toLocaleString(undefined,{style:'currency',currency:'USD'});
+      snapInit.textContent   = initLockEl.textContent;
+
+      // snapshot progress bar: suggested% of take-home
+      const pctFill = Math.min(100, Math.max(0, pct));
+      snapFill.style.width = pctFill+'%';
+      snapPct.textContent = pctFill.toFixed(0)+'%';
+
+      // snapshot recurring text
+      snapRec.textContent = suggested.toLocaleString(undefined,{style:'currency',currency:'USD'}) + ' ' + labelForFreq(freq);
+    }
+    function labelForFreq(f){ return f==='weekly'?'weekly':(f==='biweekly'?'bi-weekly':(f==='monthly'?'monthly':'annually')); }
+
+    [inc_freq,inc_amt,filing,stateSel,taxopt,expenses,save_pct].forEach(el => el.addEventListener('input', recalcCalc));
+    recalcCalc();
+
+    // Apply to simulator
+    sendToSim.addEventListener('click', ()=>{
+      const freq = inc_freq.value;
+      const status = filing.value;
+      const suggested = parseCurrency(suggestedEl.textContent);
+      const initial   = parseCurrency(initLockEl.textContent);
+      // Save in localStorage and querystring (both)
+      const payload = { rec: suggested, freq, init: initial, months: 12, mode: 'safe' };
+      localStorage.setItem('lh_demo', JSON.stringify(payload));
+      const url = new URL(location.href);
+      url.searchParams.set('rec', String(suggested.toFixed(2)));
+      url.searchParams.set('freq', freq);
+      url.searchParams.set('init', String(initial.toFixed(2)));
+      url.searchParams.set('months','12');
+      history.replaceState(null,'',url.toString());
+      // scroll to simulator
+      document.getElementById('simulator').scrollIntoView({behavior:'smooth'});
+      // hydrate simulator
+      hydrateFromPayload(payload, true);
+    });
+
+    resetCalc.addEventListener('click', ()=>{
+      inc_freq.value='biweekly'; inc_amt.value='2000'; filing.value='single'; stateSel.value='none';
+      taxopt.value='normal'; expenses.value='1500'; save_pct.value='15'; recalcCalc();
+    });
+
+    function parseCurrency(s){ return Number((s||'').replace(/[^0-9.\-]/g,''))||0; }
+
+    /* ===== SIMULATOR LOGIC ===== */
+    const sim_balance = document.getElementById('sim_balance');
+    const sim_term_lbl= document.getElementById('sim_term_lbl');
+    const sim_rec_lbl = document.getElementById('sim_rec_lbl');
+    const sim_next    = document.getElementById('sim_next');
+    const sim_fill    = document.getElementById('sim_fill');
+    const sim_pct     = document.getElementById('sim_pct');
+    const sim_int_sofar = document.getElementById('sim_int_sofar');
+    const sim_int_proj  = document.getElementById('sim_int_proj');
+    const sim_loan_elig = document.getElementById('sim_loan_elig');
+    const sim_fee     = document.getElementById('sim_fee');
+    const sim_mode    = document.getElementById('sim_mode');
+    const sim_term    = document.getElementById('sim_term');
+
+    let S = {
+      principal: 1500,
+      months: 12,
+      mode: 'safe', // safe=3% APR, risk=15% simulated
+      rec: 200,     // recurring deposit per cycle
+      freq: 'biweekly',
+      progress: 0   // %
+    };
+
+    function feeForTerm(m){ if(m<=3) return 3; if(m<=6) return 2; return 1; }
+    function aprFor(mode){ return mode==='risk' ? 0.15 : 0.03; }
+    function cyclesFor(freq, months){ const weeks = months*4.345; if(freq==='weekly') return Math.floor(weeks); if(freq==='biweekly') return Math.floor(weeks/2); return months; }
+
+    function updateSimKPIs(){
+      const apr = aprFor(S.mode);
+      const projInterest = S.principal * apr * (S.months/12);
+      const sofar = projInterest * (S.progress/100);
+      const fee = feeForTerm(S.months);
+      const vested = S.principal + sofar; // demo notion of "vested"
+      const loanElig = Math.max(0, vested * 0.75);
+
+      sim_balance.textContent = fmt(S.principal);
+      sim_term_lbl.textContent = S.months + ' months';
+      sim_rec_lbl.textContent = fmt(S.rec);
+      sim_next.textContent = S.freq==='weekly'?'7 days':'14 days';
+      sim_fill.style.width = S.progress.toFixed(0) + '%';
+      sim_pct.textContent = S.progress.toFixed(0) + '%';
+      sim_int_sofar.textContent = fmt(sofar);
+      sim_int_proj.textContent  = fmt(projInterest);
+      sim_loan_elig.textContent = fmt(loanElig);
+      sim_fee.textContent = fmt(fee);
+      document.getElementById('risk_warn').style.display = (S.mode==='risk') ? 'block' : 'none';
+      sim_mode.value = S.mode;
+      sim_term.value = String(S.months);
+    }
+    function fmt(n){ return n.toLocaleString(undefined,{style:'currency',currency:'USD'}); }
+
+    // Progress animation loop
     setInterval(()=>{
-      progress = (progress + Math.random()*4) % 100;
-      pbar.style.width = progress.toFixed(0)+'%';
-      pval.textContent = progress.toFixed(0)+'%';
-      calcProjections();
+      S.progress = (S.progress + Math.random()*4) % 100;
+      updateSimKPIs();
     }, 900);
 
-    // ========= Explain modal =========
-    $('btnExplain').addEventListener('click', ()=>{
-      openModal('How the demo works', `
-        <p>• Your plan starts with a starter deposit and recurring contributions (weekly/bi-weekly/monthly).<br/>
-        • Interest accrues at a transparent <b>${(aprSave*100).toFixed(1)}% APR</b> (prorated).<br/>
-        • <b>Loan eligibility</b> uses <b>75%</b> of your vested balance (starter + contributions so far).<br/>
-        • <b>Standard self-loan:</b> 6% APR, interest is credited back to your lock after payoff (credit-builder intent).<br/>
-        • <b>Emergency loan:</b> up to 90% of vested, 0% APR for 1–6 months, up to two skip payments per year (each skip extends term 1 month).<br/>
-        • <b>Unlock fee:</b> $3 / $2 / $1 for 1–3 / 4–6 / 6–12+ month locks.<br/>
-        • <b>Early break (non-emergency):</b> demo fee 7% of vested.</p>
-        <div class="note">All values are estimates for illustration only.</div>
+    // Apply query/localStorage on load
+    (function initFromURL(){
+      const url = new URL(location.href);
+      const qs = {
+        init: Number(url.searchParams.get('init')||0),
+        rec: Number(url.searchParams.get('rec')||0),
+        freq: url.searchParams.get('freq')||'',
+        months: Number(url.searchParams.get('months')||0),
+        mode: url.searchParams.get('mode')||''
+      };
+      if(qs.init||qs.rec||qs.freq||qs.months||qs.mode){
+        hydrateFromPayload({
+          init: qs.init||S.principal,
+          rec: qs.rec||S.rec,
+          freq: qs.freq||S.freq,
+          months: qs.months||S.months,
+          mode: qs.mode||S.mode
+        }, false);
+      }else{
+        const mem = localStorage.getItem('lh_demo');
+        if(mem){
+          try{ const obj = JSON.parse(mem); hydrateFromPayload(obj, false); }catch(_){}
+        }else{
+          updateSimKPIs();
+        }
+      }
+    })();
+
+    function hydrateFromPayload(p, flash){
+      S.principal = Math.max(0, Number(p.init||S.principal));
+      S.rec = Math.max(0, Number(p.rec||S.rec));
+      S.freq = p.freq || S.freq;
+      S.months = Math.max(1, Number(p.months||S.months));
+      S.mode = p.mode || S.mode;
+      S.progress = 0;
+      updateSimKPIs();
+      if(flash){ openModal('Applied to Simulator', `<div class="ok">✅ Numbers sent from calculator.</div>`); }
+    }
+
+    // Change handlers
+    sim_mode.addEventListener('change', ()=>{ S.mode = sim_mode.value; updateSimKPIs(); });
+    sim_term.addEventListener('change', ()=>{ S.months = Number(sim_term.value); updateSimKPIs(); });
+
+    // Explain
+    document.getElementById('btnHow').addEventListener('click', ()=>{
+      openModal('How LockHabit Works', `
+        <p>Lock your savings so they stay out of sight and grow at <b>${(aprFor('safe')*100).toFixed(0)}% APR</b> (prorated).</p>
+        <p>Need funds? Borrow up to <b>75%</b> of your vested balance at <b>6% APR</b>. The interest you pay is <b>credited back to your lock</b> after payoff. Payments are intended to be <b>bureau-reported</b> (on-time helps; late can harm).</p>
+        <p>At unlock, you’ll receive principal + earned interest minus a small flat fee (<b>$3 / $2 / $1</b> by term). You can extend to keep earning without paying a fee now.</p>
+        <div class="note">This is a demo simulation for illustration only.</div>
       `);
     });
 
-    // ========= Extend term =========
-    $('btnExtend').addEventListener('click', ()=>{
-      openModal('Extend term', `
-        <p>Extend your lock to keep earning ${(aprSave*100).toFixed(1)}% APR. New unlock fee applies at the new maturity.</p>
-        <div class="grid2">
+    // Extend term
+    document.getElementById('btnExtend').addEventListener('click', ()=>{
+      const preview = feeForTerm(S.months+6);
+      openModal('Extend Term', `
+        <p>Extend your lock to keep earning.</p>
+        <div class="rowx">
           <div>
-            <label>Add months</label>
+            <label class="k">Add months</label>
             <select id="extendSel">
-              <option value="3">+3 months</option>
-              <option value="6" selected>+6 months</option>
-              <option value="12">+12 months</option>
+              <option value="3">+3</option>
+              <option value="6" selected>+6</option>
+              <option value="12">+12</option>
             </select>
           </div>
           <div>
-            <label>New unlock fee</label>
-            <div class="v" id="newFee">${fmt(monthsToFee(termMonths+6))}</div>
+            <label class="k">New unlock fee</label>
+            <div class="v" id="newFee">${fmt(preview)}</div>
           </div>
         </div>
         <div class="actions" style="margin-top:12px">
           <button class="btn acc" id="doExtend">Confirm extend</button>
-          <button class="btn" onclick="closeModal()">Cancel</button>
+          <button class="btn" onclick="(${closeModal.toString()})()">Cancel</button>
         </div>
-        <div class="note">In production, higher tiers could offer higher APR after upgrade effective next cycle.</div>
+        <div class="note">Extending avoids any fee now; fee applies at the new maturity.</div>
       `);
-      const sel = $('extendSel'), feeEl = $('newFee');
-      sel.addEventListener('change', ()=> feeEl.textContent = fmt(monthsToFee(termMonths+Number(sel.value))));
-      $('doExtend').addEventListener('click', ()=>{
-        termMonths += Number(sel.value);
-        calcProjections();
+      const sel = document.getElementById('extendSel');
+      const feeEl = document.getElementById('newFee');
+      sel.addEventListener('change', ()=> feeEl.textContent = fmt(feeForTerm(S.months+Number(sel.value))));
+      document.getElementById('doExtend').addEventListener('click', ()=>{
+        S.months += Number(sel.value);
+        updateSimKPIs();
         closeModal();
-        setTimeout(()=>openModal('Extended', `<div class="ok">✅ Term extended to <b>${termMonths} months</b>.</div>`), 60);
+        setTimeout(()=>openModal('Extended', `<div class="ok">✅ New term: <b>${S.months} months</b>.</div>`), 80);
       });
     });
 
-    // ========= Standard loan (6% credited back) =========
-    $('btnLoan').addEventListener('click', ()=>{
-      // compute current vested and eligible
-      const totalCycles = cyclesFor(recFreq, termMonths);
-      const vested = principal + (recAmount * totalCycles * (progress/100));
-      const maxElig = Math.floor(vested * 0.75);
-      const def = clamp( Math.min(500, maxElig), 100, maxElig);
-
-      openModal('Request a self-backed loan', `
-        <p>Borrow against yourself at <b>6% APR</b>. Interest you pay is <b>credited back</b> to your locked balance after payoff.</p>
-        <label>Loan amount: <span id="loanAmtVal">${fmt(def)}</span></label>
-        <input id="loanAmt" type="range" min="100" max="${Math.max(100,maxElig)}" step="50" value="${def}"/>
-        <div class="grid2" style="margin-top:8px">
+    // Loan request (eligibility 75% of vested)
+    document.getElementById('btnLoan').addEventListener('click', ()=>{
+      const aprLoan = 0.06;
+      const apr = aprFor(S.mode);
+      const vested = S.principal + (S.principal*apr*(S.months/12))*(S.progress/100);
+      const max = Math.floor(vested * 0.75);
+      const def = Math.min(500, max);
+      openModal('Request a Self-Backed Loan', `
+        <p>Borrow up to <b>75%</b> of vested balance at <b>6% APR</b>. Interest you pay is <b>credited back</b> to your locked balance after payoff.</p>
+        <label class="k">Loan amount: <span id="loanAmtVal">${fmt(def)}</span></label>
+        <input id="loanAmt" type="range" min="100" max="${Math.max(100,max)}" step="50" value="${def}"/>
+        <div class="rowx" style="margin-top:8px">
           <div>
-            <label>Repayment term</label>
+            <label class="k">Repayment term</label>
             <select id="loanTerm">
               <option value="3" selected>3 months</option>
               <option value="6">6 months</option>
@@ -450,31 +775,39 @@
             </select>
           </div>
           <div>
-            <label>Monthly payment</label>
+            <label class="k">Monthly payment</label>
             <div class="v" id="loanPmt">$0.00</div>
           </div>
         </div>
-        <div class="grid2" style="margin-top:8px">
-          <div class="box"><div class="k">Total repay</div><div class="v" id="loanTotal">$0.00</div></div>
-          <div class="box"><div class="k">Interest (back to you)</div><div class="v" id="loanIntBack">$0.00</div></div>
+        <div class="rowx" style="margin-top:10px">
+          <div class="card" style="padding:10px">
+            <div class="k">Total repay</div><div class="v" id="loanTotal">$0.00</div>
+          </div>
+          <div class="card" style="padding:10px">
+            <div class="k">Interest (back to you)</div><div class="v" id="loanIntBack">$0.00</div>
+          </div>
         </div>
-        <div class="note" style="margin-top:8px">On-time payments may help credit; late payments may harm it (credit-builder intent).</div>
+        <div class="note" style="margin-top:8px">On-time payments may help your credit; late payments may harm it. Demo only.</div>
         <div class="actions" style="margin-top:12px">
           <button class="btn acc" id="doLoan">Request loan</button>
-          <button class="btn" onclick="closeModal()">Cancel</button>
+          <button class="btn" onclick="(${closeModal.toString()})()">Cancel</button>
         </div>
       `);
-
-      const aprLoan = 0.06;
-      const amt = $('loanAmt'), amtVal = $('loanAmtVal');
-      const termSel = $('loanTerm'), pmtEl = $('loanPmt'), totalEl = $('loanTotal'), intBackEl = $('loanIntBack');
+      const amt = document.getElementById('loanAmt');
+      const amtVal = document.getElementById('loanAmtVal');
+      const termSel = document.getElementById('loanTerm');
+      const pmtEl = document.getElementById('loanPmt');
+      const totalEl = document.getElementById('loanTotal');
+      const intBackEl = document.getElementById('loanIntBack');
 
       function recalc(){
-        const A = Number(amt.value), m = Number(termSel.value);
-        amtVal.textContent = fmt(A);
-        const interest = A * aprLoan * (m/12); // simple interest for demo
+        const A = Number(amt.value);
+        const m = Number(termSel.value);
+        const interest = A * aprLoan * (m/12); // simple demo
         const total = A + interest;
-        pmtEl.textContent = fmt(total/m);
+        const monthly = total / m;
+        amtVal.textContent = fmt(A);
+        pmtEl.textContent = fmt(monthly);
         totalEl.textContent = fmt(total);
         intBackEl.textContent = fmt(interest);
       }
@@ -482,253 +815,42 @@
       termSel.addEventListener('change', recalc);
       recalc();
 
-      $('doLoan').addEventListener('click', ()=>{
+      document.getElementById('doLoan').addEventListener('click', ()=>{
         closeModal();
-        setTimeout(()=>openModal('Loan simulated', `
+        setTimeout(()=>openModal('Loan Simulated', `
           <div class="ok">✅ Funds released to you (demo).</div>
-          <p>Your monthly payment is shown above. All interest is credited back to your lock after payoff.</p>
-        `), 120);
-      });
-    });
-
-    // ========= Emergency loan (0% APR, 1–6 months, up to 90%, 2 skip credits) =========
-    $('btnEmergency').addEventListener('click', ()=>{
-      const totalCycles = cyclesFor(recFreq, termMonths);
-      const vested = principal + (recAmount * totalCycles * (progress/100));
-      const maxElig = Math.floor(vested * 0.90);
-      const def = clamp(Math.min(600, maxElig), 100, maxElig);
-
-      openModal('Emergency loan (0% APR)', `
-        <p>Access up to <b>90%</b> of your vested balance at <b>0% APR</b> for <b>1–6 months</b>. Up to <b>two</b> skip payments per calendar year (each skip adds 1 month).</p>
-        <label>Loan amount: <span id="eAmtVal">${fmt(def)}</span></label>
-        <input id="eAmt" type="range" min="100" max="${Math.max(100,maxElig)}" step="50" value="${def}"/>
-        <div class="grid2" style="margin-top:8px">
-          <div>
-            <label>Term (months)</label>
-            <select id="eTerm">
-              <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
-              <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-            </select>
-          </div>
-          <div>
-            <label>Monthly payment</label>
-            <div class="v" id="ePmt">$0.00</div>
-          </div>
-        </div>
-        <div class="box" style="margin-top:8px">
-          <div class="k">Skip-payment credits available</div>
-          <div class="v" id="skipLeft">${skipCredits}</div>
-        </div>
-        <div class="actions" style="margin-top:12px">
-          <button class="btn acc" id="doEmerg">Request emergency loan</button>
-          <button class="btn" id="useSkip">Use 1 skip now</button>
-          <button class="btn" onclick="closeModal()">Cancel</button>
-        </div>
-        <div class="note">Each skip extends your term by 1 month. Demo only.</div>
-      `);
-
-      const eAmt=$('eAmt'), eAmtVal=$('eAmtVal'), eTerm=$('eTerm'), ePmt=$('ePmt'), skipLeft=$('skipLeft');
-
-      function recalcE(){
-        const A=Number(eAmt.value), m=Number(eTerm.value);
-        eAmtVal.textContent = fmt(A);
-        ePmt.textContent = fmt(A/m); // 0% simple divide
-      }
-      eAmt.addEventListener('input', recalcE);
-      eTerm.addEventListener('change', recalcE);
-      recalcE();
-
-      $('useSkip').addEventListener('click', ()=>{
-        if(skipCredits<=0){ alert('No skip credits left this year.'); return; }
-        skipCredits -= 1;
-        eTerm.value = String(Number(eTerm.value)+1);
-        recalcE();
-        skipLeft.textContent = skipCredits;
-      });
-      $('doEmerg').addEventListener('click', ()=>{
-        closeModal();
-        setTimeout(()=>openModal('Emergency loan simulated', `
-          <div class="ok">✅ 0% emergency funds released (demo).</div>
-          <p>Repay over the selected term. Skips used: <b>${2-skipCredits}</b>. Remaining this year: <b>${skipCredits}</b>.</p>
-        `), 120);
-      });
-    });
-
-    // ========= Cash out (with early break option) =========
-    $('btnCashout').addEventListener('click', ()=>{
-      const totalCycles = cyclesFor(recFreq, termMonths);
-      const contribFull = recAmount * totalCycles;
-      const interestFull = (principal + contribFull) * aprSave * (termMonths/12);
-      const fee = monthsToFee(termMonths);
-      const gross = principal + interestFull;
-      const net = gross - fee;
-
-      openModal('Cash out (simulation)', `
-        <div class="grid2">
-          <div class="box"><div class="k">Principal</div><div class="v">${fmt(principal)}</div></div>
-          <div class="box"><div class="k">Interest (projected @ maturity)</div><div class="v">${fmt(interestFull)}</div></div>
-          <div class="box"><div class="k">Unlock fee</div><div class="v">-${fmt(fee)}</div></div>
-          <div class="box"><div class="k">Net to you (at maturity)</div><div class="v">${fmt(net)}</div></div>
-        </div>
-        <div class="actions" style="margin-top:12px">
-          <button class="btn acc" id="doRelock">Relock for +12 months</button>
-          <button class="btn" id="breakEarly">Break early (7% fee)</button>
-          <button class="btn" onclick="closeModal()">Close</button>
-        </div>
-        <div class="note">Breaking early is discouraged; consider a self-loan or emergency loan first.</div>
-      `);
-      $('doRelock').addEventListener('click', ()=>{
-        termMonths = 12; progress = 0; calcProjections(); closeModal();
-        setTimeout(()=>openModal('Relocked', `<div class="ok">✅ Balance relocked for another 12 months.</div>`), 80);
-      });
-      $('breakEarly').addEventListener('click', ()=>{
-        const totalCyclesNow = cyclesFor(recFreq, termMonths);
-        const contributedSoFar = recAmount * totalCyclesNow * (progress/100);
-        const vested = principal + contributedSoFar;
-        const penalty = vested * 0.07;
-        closeModal();
-        setTimeout(()=>openModal('Early break (simulation)', `
-          <div class="warn">⚠️ Early break incurs a 7% fee on vested.</div>
-          <div class="grid2" style="margin-top:8px">
-            <div class="box"><div class="k">Vested right now</div><div class="v">${fmt(vested)}</div></div>
-            <div class="box"><div class="k">Penalty (7%)</div><div class="v">-${fmt(penalty)}</div></div>
-          </div>
-          <p>In production, we’d confirm your destination account and show final net payout.</p>
+          <p>Loan interest will be credited back to your locked balance after payoff.</p>
+          <div style="text-align:right"><button class="btn acc" onclick="(${closeModal.toString()})()">Close</button></div>
         `), 100);
       });
     });
 
-    // ========= Modal plumbing =========
-    const overlay = $('overlay'), modalBox = $('modalBox'), modalTitle = $('modalTitle'), modalBody = $('modalBody');
-    function openModal(title, html){
-      modalTitle.textContent = title;
-      modalBody.innerHTML = html;
-      overlay.style.display = 'flex';
-      document.body.style.overflow='hidden';
-    }
-    function closeModal(){
-      overlay.style.display='none';
-      document.body.style.overflow='';
-    }
-    $('modalClose').addEventListener('click', closeModal);
-    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
-
-    // ========= Income → Budget → Lock calculator =========
-    const inc_annual=$('inc_annual'), inc_freq=$('inc_freq'), inc_state=$('inc_state'), tax_exempt=$('tax_exempt');
-    const exp_monthly=$('exp_monthly'), buffer_pct=$('buffer_pct'), buffer_lbl=$('buffer_lbl');
-    const takehome=$('takehome'), safe_month=$('safe_month'), lock_freq=$('lock_freq'), per_deposit=$('per_deposit'), starter=$('starter');
-    buffer_lbl.textContent = buffer_pct.value + '%';
-
-    function estimateTakeHome(annual, stateEffPct, exempt){
-      if(exempt) return annual; // demo mode
-      // Rough effective rates: federal ~12% effective at 60k + FICA ~7.65% + state
-      const fedEff = clamp(annual<=40000?0.08 : annual<=85000?0.12 : annual<=160000?0.16 : 0.20, 0, 0.4);
-      const fica = 0.0765;
-      const state = (stateEffPct||0)/100;
-      const eff = fedEff + fica + state;
-      return annual * (1 - eff);
-    }
-    function recalcIncome(){
-      buffer_lbl.textContent = buffer_pct.value + '%';
-      const annual = Number(inc_annual.value||0);
-      const statePct = Number(inc_state.value||0);
-      const th = estimateTakeHome(annual, statePct, tax_exempt.checked);
-      takehome.textContent = fmt(th/12);
-      const safe = Math.max(0, (th/12) - Number(exp_monthly.value||0));
-      const safeBuf = Math.max(0, safe * (1 - Number(buffer_pct.value)/100));
-      safe_month.textContent = fmt(safeBuf);
-
-      // convert to chosen lock frequency
-      let per=0;
-      if(lock_freq.value==='weekly') per = safeBuf/4.345;
-      else if(lock_freq.value==='biweekly') per = safeBuf/2.1725;
-      else per = safeBuf; // monthly
-      per_deposit.textContent = fmt(per);
-      return { perDeposit: per, starter: Number(starter.value||0) };
-    }
-    [inc_annual,inc_freq,inc_state,tax_exempt,exp_monthly,buffer_pct,lock_freq,starter].forEach(el=> el.addEventListener('input', recalcIncome));
-    $('recalcBtn').addEventListener('click', recalcIncome);
-    recalcIncome();
-
-    // handoff to demo
-    $('sendToDemo').addEventListener('click', ()=>{
-      const { perDeposit, starter: st } = recalcIncome();
-      // Save to localStorage + apply immediately
-      try{
-        localStorage.setItem('lh_rec_amount', String(Math.max(0, Math.round(perDeposit))));
-        localStorage.setItem('lh_rec_freq', lock_freq.value);
-        localStorage.setItem('lh_starter', String(Math.max(0, Math.round(st))));
-      }catch(_){}
-      // apply to current session
-      recAmount = Math.max(0, Math.round(perDeposit));
-      recFreq = lock_freq.value;
-      principal = Math.max(0, Math.round(st));
-      progress = 0; // restart the “year”
-      calcProjections();
-      // scroll to demo
-      location.hash = '#demo';
-      openModal('Snapshot sent', `<div class="ok">✅ Your amounts were applied to the demo.</div>`);
+    // Cash out
+    document.getElementById('btnCashout').addEventListener('click', ()=>{
+      const apr = aprFor(S.mode);
+      const fee = feeForTerm(S.months);
+      const projInterest = S.principal * apr * (S.months/12);
+      const gross = S.principal + projInterest;
+      const net = gross - fee;
+      openModal('Cash out (simulation)', `
+        <div class="rowx">
+          <div class="card" style="padding:10px"><div class="k">Principal</div><div class="v">${fmt(S.principal)}</div></div>
+          <div class="card" style="padding:10px"><div class="k">Interest earned</div><div class="v">${fmt(projInterest)}</div></div>
+          <div class="card" style="padding:10px"><div class="k">Unlock fee</div><div class="v">-${fmt(fee)}</div></div>
+          <div class="card" style="padding:10px"><div class="k">Net to you</div><div class="v">${fmt(net)}</div></div>
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn acc" id="doRelock">Relock & keep earning</button>
+          <button class="btn" onclick="(${closeModal.toString()})()">Close</button>
+        </div>
+        <div class="note">In production you would choose a destination account. Demo only.</div>
+      `);
+      document.getElementById('doRelock').addEventListener('click', ()=>{
+        S.months = 12; S.progress = 0; updateSimKPIs(); closeModal();
+        setTimeout(()=>openModal('Relocked', `<div class="ok">✅ Balance relocked for another 12 months.</div>`), 80);
+      });
     });
 
-    // ========= Load values from query params or localStorage =========
-    (function bootFromStorage(){
-      const p = new URLSearchParams(location.search);
-      const qs = (k)=> p.get(k);
-      const ls = (k)=> { try{ return localStorage.getItem(k) }catch(_){ return null } };
-
-      const ra = Number(qs('rec') || ls('lh_rec_amount') || recAmount);
-      const rf = qs('freq') || ls('lh_rec_freq') || recFreq;
-      const st = Number(qs('init') || ls('lh_starter') || principal);
-
-      if(!isNaN(ra)) recAmount = ra;
-      if(rf) recFreq = rf;
-      if(!isNaN(st)) principal = st;
-
-      $('nextDep').textContent = fmt(recAmount);
-      $('nextDepWhen').textContent = nextDepositWhen(recFreq);
-      $('balance').textContent = fmt(principal);
-      calcProjections();
-    })();
-
-    // ========= Mini runner (lightweight) =========
-    (function(){
-      const toggleBtn = $('toggleGame'), panel=$('gamePanel'), cvs=$('runnerCanvas'), scoreEl=$('gameScore');
-      const ctx = cvs.getContext('2d'); let W=cvs.width, H=cvs.height;
-      let running=false, paused=false, t0=0, score=0, raf;
-      const G=0.9, ground=H-18; const player={x:40,y:ground,vy:0,w:14,h:14,onGround:true};
-      let obs=[], spawn=0;
-      function reset(){ score=0; obs=[]; spawn=0; player.y=ground; player.vy=0; player.onGround=true; paused=false; }
-      function jump(){ if(!running||paused) return; if(player.onGround){ player.vy=-12; player.onGround=false; } }
-      function drawBg(){ ctx.fillStyle='#0f172a'; ctx.fillRect(0,0,W,H); ctx.strokeStyle='#26304a'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(0,ground+8); ctx.lineTo(W,ground+8); ctx.stroke(); }
-      function drawPlayer(){ ctx.fillStyle='#e6eaff'; ctx.fillRect(player.x, player.y-player.h, player.w, player.h); }
-      function addObstacle(){ const h=10+Math.floor(Math.random()*18); const w=8+Math.floor(Math.random()*10); const v=4+Math.random()*2; obs.push({x:W+10,y:ground,w,h,v}); }
-      function drawObs(){ ctx.fillStyle='#91a1ff'; for(const o of obs){ ctx.fillRect(o.x, o.y-o.h, o.w, o.h); } }
-      function collide(a,b){ return !(a.x+a.w<b.x || a.x>b.x+b.w || a.y<b.y-b.h || a.y-a.h>b.y); }
-      function resize(){ const dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1)); const cssW=Math.min(1200,document.documentElement.clientWidth); cvs.style.width=cssW+'px'; cvs.width=cssW*dpr; cvs.height=120*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); W=cssW; }
-      window.addEventListener('resize', resize,{passive:true}); resize();
-      function step(ts){
-        if(!running) return;
-        if(paused){ raf=requestAnimationFrame(step); return; }
-        if(!t0) t0=ts; const dt=Math.min(32, ts-t0); t0=ts;
-        player.vy+=G; player.y+=player.vy; if(player.y>=ground){ player.y=ground; player.vy=0; player.onGround=true; }
-        spawn-=dt; if(spawn<=0){ addObstacle(); spawn=800+Math.random()*900; }
-        for(const o of obs) o.x-=o.v; obs=obs.filter(o=>o.x+o.w>-10);
-        for(const o of obs){ if(collide({x:player.x,y:player.y,w:player.w,h:player.h},{x:o.x,y:o.y,w:o.w,h:o.h})){ ctx.save(); ctx.fillStyle='rgba(255,0,70,.18)'; ctx.fillRect(0,0,W,H); ctx.restore(); reset(); break; } }
-        score+=Math.floor(dt/10); scoreEl.textContent='Score: '+score;
-        drawBg(); drawObs(); drawPlayer();
-        raf=requestAnimationFrame(step);
-      }
-      function start(){ if(running) return; running=true; paused=false; t0=0; raf=requestAnimationFrame(step); }
-      function stop(){ running=false; paused=false; cancelAnimationFrame(raf); }
-      toggleBtn.addEventListener('click', ()=>{
-        const open=panel.classList.toggle('open');
-        toggleBtn.textContent=open?'🎮 Mini game (on)':'🎮 Mini game (off)';
-        if(open) start(); else stop();
-      });
-      $('btnOpenGame').addEventListener('click', ()=> toggleBtn.click());
-      window.addEventListener('keydown', (e)=>{ if(panel.classList.contains('open')){ if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault(); jump();} if(e.code==='KeyR') reset(); if(e.code==='KeyP') paused=!paused; }});
-      cvs.addEventListener('touchstart', (e)=>{ if(panel.classList.contains('open')){ e.preventDefault(); jump(); } }, {passive:false});
-    })();
   </script>
 </body>
 </html>
