@@ -2,34 +2,32 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Income & Budget Calculator (SEO + Accessible)
+       LockHabit — Salary & Take-Home Pay Calculator (2024)
+       SEO / Accessible / Mobile-first / Pipes plan → Demo
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Income Calculator • See Your Take-Home & Safe Lock Amount | LockHabit</title>
-  <meta name="description" content="Free income calculator: choose weekly, bi-weekly, or monthly pay, estimate taxes, add your expenses, and see how much you can safely lock with LockHabit. Send the result to the demo and visualize growth."/>
-  <meta name="theme-color" content="#6f7cff"/>
-
-  <!-- Canonical -->
+  <title>Salary & Take-Home Pay Calculator (2024) — Weekly, Bi-weekly, Monthly | LockHabit</title>
+  <meta name="description" content="Quickly estimate your 2024 take-home pay by week, bi-week, or month. Includes federal + payroll taxes, estimated state tax, pre-tax contributions, and monthly expenses. Send your plan to the LockHabit demo in one click."/>
   <link rel="canonical" href="https://lockhabit.com/calculator.html"/>
 
   <!-- Social -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Income Calculator — Estimate Take-Home & Safe Lock Amount"/>
-  <meta property="og:description" content="Pick pay frequency, estimate taxes, add expenses, and see how much you can safely lock. Send to the live demo."/>
+  <meta property="og:title" content="Salary & Take-Home Pay Calculator (2024) — Weekly, Bi-weekly, Monthly | LockHabit"/>
+  <meta property="og:description" content="Estimate take-home pay with 2024 taxes, pick pay frequency, add expenses, and send your plan to the LockHabit savings demo."/>
   <meta property="og:url" content="https://lockhabit.com/calculator.html"/>
-  <meta property="og:image" content="https://lockhabit.com/assets/og-image.svg"/>
+  <meta property="og:image" content="https://lockhabit.com/assets/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Income Calculator — Estimate Take-Home & Safe Lock Amount"/>
-  <meta name="twitter:description" content="Weekly, bi-weekly, or monthly. See take-home, expenses, and suggested lock amount — then try it in the demo."/>
-  <meta name="twitter:image" content="https://lockhabit.com/assets/og-image.svg"/>
+  <meta name="twitter:title" content="Take-Home Pay Calculator (2024) — LockHabit"/>
+  <meta name="twitter:description" content="Weekly, bi-weekly, monthly calculator with taxes & expenses. Send to demo and see your savings grow."/>
+  <meta name="theme-color" content="#6f7cff"/>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
-  <!-- Favicons & PWA (optional) -->
+  <!-- Icons & PWA (optional, matches index.html setup) -->
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/assets/icon-192.png">
@@ -37,66 +35,63 @@
 
   <style>
     :root{
-      --brand:#6f7cff; --brand2:#9c78ff; --bg:#0b0e1a;
-      --panel:#ffffff; --panel2:#fbfcff;
-      --ink:#0f172a; --ink2:#15213d; --muted:#5b6a86; --line:#e5e7f1;
+      --brand:#6f7cff; --brand2:#9c78ff; --accent:#9fb2ff;
+      --ink:#0f172a; --ink2:#15213d; --muted:#536179; --muted2:#3a4a66;
+      --line:#e5e7f1; --panel:#ffffff; --surface:#fbfcff;
       --green:#22c55e; --danger:#b42318; --amber:#f59e0b;
-      --radius:18px; --radius-lg:24px;
-      --shadow:0 24px 60px rgba(10,15,35,.18);
-      --grad: radial-gradient(1400px 700px at 50% -200px, rgba(111,124,255,.20), transparent 60%),
-              radial-gradient(1000px 600px at -10% 10%, rgba(156,120,255,.12), transparent 55%),
-              #f6f8ff;
+      --bg:#0e1330; --radius:16px; --radius-lg:22px;
+      --grad-hero:
+        radial-gradient(1400px 700px at 50% -200px, rgba(111,124,255,.25), transparent 60%),
+        radial-gradient(900px 600px at -10% 10%, rgba(156,120,255,.18), transparent 55%),
+        #f6f8ff;
     }
     *{box-sizing:border-box}
-    body{
-      margin:0; background:var(--bg); color:var(--ink);
-      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    a,button{font-weight:700}
-    .wrap{max-width:1100px;margin:0 auto;padding:20px}
-    .header{position:sticky;top:0;z-index:40;backdrop-filter:blur(8px);background:rgba(255,255,255,.85);border-bottom:1px solid var(--line)}
+    body{margin:0;background:var(--bg);color:var(--ink);
+         font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 22px}
+    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
     .brand{display:flex;align-items:center;gap:10px}
     .logo{width:32px;height:32px}
-    .word{font-weight:800}
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;cursor:pointer}
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0}
+    .word{font-weight:800;color:#0e1a34}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 10px 24px rgba(111,124,255,.35)}
     .btn.ghost{background:transparent}
-    .hero{background:var(--grad);border-bottom:1px solid var(--line);padding:28px 0}
-    h1{margin:0 0 6px;font-size:32px}
-    .sub{color:#3a4a66;margin:0}
+    a{text-decoration:none;color:#19253f;font-weight:600}
 
-    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:16px}
-    .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
-    .card h3{margin:0 0 8px}
-    .muted{color:#5b6a86}
-    label.k{display:block;font-size:12px;color:#5b6a86;text-transform:uppercase;letter-spacing:.04em;margin-top:8px}
+    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:44px 0}
+    h1{margin:0 0 8px;font-size:36px}
+    .sub{margin:0;color:#3a4a66;max-width:70ch}
+
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-top:16px}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+    .k{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#5b6a86;font-weight:700}
+    .v{font-weight:800;color:#0f1a34}
+    label.k{display:block;margin:8px 0 6px}
     input,select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
-    .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .5s ease}
-
-    .kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .box{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px}
-    .k{font-size:12px;color:#5b6a86;text-transform:uppercase;letter-spacing:.04em}
-    .v{font-weight:800;font-size:20px;color:#0f1a34}
-    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
+    input[type="checkbox"]{width:auto}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .note{font-size:12px;color:#60708c}
     .warn{color:#5a1111;background:#ffeceb;border:1px solid #ffd4cf;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
-    .foot{color:#66758f;font-size:12px}
+    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
 
-    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .pill{display:inline-flex;gap:8px;align-items:center;border:1px solid #dfe3ff;background:#f3f6ff;border-radius:999px;padding:6px 10px;font-weight:700}
+    .table{width:100%;border-collapse:collapse;margin-top:8px}
+    .table th,.table td{padding:10px 8px;border-bottom:1px solid #eef1f7;text-align:right}
+    .table th:first-child,.table td:first-child{text-align:left}
+    .chip{display:inline-flex;gap:8px;align-items:center;border:1px solid #dfe3ff;background:#f3f6ff;border-radius:999px;padding:6px 10px;font-weight:700;color:#3a4a66}
+    .center{display:flex;justify-content:center;align-items:center}
 
-    footer{margin:20px 0;color:#cbd5e1;font-size:12px;text-align:center}
-
+    footer{margin:22px 0;color:#cbd5e1;font-size:12px;text-align:center}
     @media (max-width:980px){ .grid{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
-  <div class="header">
+  <!-- Header -->
+  <header>
     <div class="wrap row">
       <div class="brand">
         <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
@@ -108,302 +103,443 @@
         </svg>
         <div class="word">LockHabit</div>
       </div>
-      <div class="row" style="gap:8px">
-        <a class="btn ghost" href="/">← Home</a>
-        <a class="btn acc" href="/demo.html">Open Demo</a>
-      </div>
+      <nav class="row" style="gap:8px">
+        <a href="/index.html">Home</a>
+        <a href="/demo.html">Demo</a>
+        <a aria-current="page" class="chip">Calculator</a>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <!-- HERO -->
-  <div class="hero">
+  <!-- Hero -->
+  <section class="hero">
     <div class="wrap">
-      <h1>Income & Budget Calculator</h1>
-      <p class="sub">Pick your pay frequency, estimate taxes, add expenses, and see how much you can safely lock. Then push the result into the live demo to visualize growth.</p>
-
-      <div class="grid">
-        <!-- LEFT: INPUTS -->
-        <div class="card" id="inputs">
-          <h3>1) Income</h3>
-          <div class="two">
-            <div>
-              <label class="k">Input mode</label>
-              <select id="incomeMode" aria-label="Income input mode">
-                <option value="annual" selected>Annual salary (gross)</option>
-                <option value="perPeriod">Per paycheck (gross)</option>
-              </select>
-            </div>
-            <div>
-              <label class="k">Pay frequency</label>
-              <select id="payFreq" aria-label="Pay frequency">
-                <option value="monthly">Monthly (12)</option>
-                <option value="biweekly" selected>Bi-weekly (26)</option>
-                <option value="weekly">Weekly (52)</option>
-              </select>
-            </div>
-          </div>
-          <label class="k" id="amtLabel">Annual gross income</label>
-          <input id="grossIncome" type="number" min="0" step="100" value="60000" aria-describedby="amtHint"/>
-          <div id="amtHint" class="foot" aria-live="polite">Tip: switch to “Per paycheck” if you know your check amount.</div>
-
-          <div class="two" style="margin-top:8px">
-            <div>
-              <label class="k">State tax</label>
-              <select id="statePct" aria-label="State tax">
-                <option value="0" selected>No state / 0%</option>
-                <option value="3">3%</option>
-                <option value="5">5%</option>
-                <option value="7">7%</option>
-                <option value="9">9%</option>
-              </select>
-            </div>
-            <div>
-              <label class="k">Withholding options</label>
-              <div class="two">
-                <label style="display:flex;align-items:center;gap:8px">
-                  <input id="fedExempt" type="checkbox"/> Fed exempt
-                </label>
-                <label style="display:flex;align-items:center;gap:8px">
-                  <input id="ficaExempt" type="checkbox"/> FICA exempt
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <h3 style="margin-top:16px">2) Monthly expenses</h3>
-          <div class="three">
-            <div>
-              <label class="k">Housing</label>
-              <input id="expHousing" type="number" min="0" value="1400"/>
-            </div>
-            <div>
-              <label class="k">Utilities & transport</label>
-              <input id="expUtil" type="number" min="0" value="350"/>
-            </div>
-            <div>
-              <label class="k">Other / cards / subs</label>
-              <input id="expOther" type="number" min="0" value="300"/>
-            </div>
-          </div>
-
-          <div class="cta">
-            <button id="recalc" class="btn acc" type="button">Calculate</button>
-            <span class="pill">Estimates only — actual taxes vary.</span>
-          </div>
-        </div>
-
-        <!-- RIGHT: SNAPSHOT / OUTPUTS -->
-        <div class="card" id="snapshot">
-          <h3>Snapshot</h3>
-          <div class="kpi">
-            <div class="box">
-              <div class="k">Per-paycheck take-home</div>
-              <div class="v" id="outPerCheck">$0.00</div>
-            </div>
-            <div class="box">
-              <div class="k">Monthly take-home</div>
-              <div class="v" id="outTakeHome">$0.00</div>
-            </div>
-            <div class="box">
-              <div class="k">Monthly expenses</div>
-              <div class="v" id="outExpenses">$0.00</div>
-            </div>
-            <div class="box">
-              <div class="k">Monthly surplus</div>
-              <div class="v" id="outSurplus">$0.00</div>
-            </div>
-          </div>
-
-          <div style="height:10px"></div>
-          <div class="kpi">
-            <div class="box">
-              <div class="k">Suggested lock (safe)</div>
-              <div class="v" id="outLockSafe">$0.00</div>
-              <div class="foot">~20% of monthly take-home</div>
-            </div>
-            <div class="box">
-              <div class="k">Suggested lock (aggressive)</div>
-              <div class="v" id="outLockAgg">$0.00</div>
-              <div class="foot">~80% of monthly surplus</div>
-            </div>
-          </div>
-
-          <div style="height:10px"></div>
-          <div class="k">Progress to monthly plan</div>
-          <div class="bar"><div class="fill" id="barFill" style="width:0%"></div></div>
-          <div class="row" style="margin-top:6px"><div class="foot">0%</div><div class="foot" id="barPct">0%</div></div>
-
-          <div class="cta">
-            <a id="sendToDemo" class="btn acc" href="/demo.html">Try this plan in the Demo</a>
-            <button id="copyPlan" class="btn" type="button">Copy plan link</button>
-          </div>
-
-          <div class="foot" style="margin-top:10px">
-            Disclaimer: This calculator provides estimates for illustration purposes only and is not tax or financial advice.
-            Tax results depend on your location, filing status, allowances, deductions, and many other factors.
-          </div>
-        </div>
-      </div>
+      <h1>Salary & Take-Home Pay Calculator (2024)</h1>
+      <p class="sub">Estimate your **net** pay weekly, bi-weekly, or monthly. Add expenses, pick a safe amount to lock, then send it to the demo to see your projected growth.</p>
     </div>
-  </div>
+  </section>
 
-  <footer>© <span id="yr"></span> LockHabit — Discipline Pays.</footer>
+  <!-- Main -->
+  <main class="wrap">
+    <div class="grid">
+      <!-- Left: Inputs -->
+      <section class="panel" aria-labelledby="inputs-title">
+        <h2 id="inputs-title" style="margin:0 0 8px">Your details</h2>
+
+        <div class="two">
+          <div>
+            <label class="k">Pay frequency</label>
+            <select id="freq">
+              <option value="weekly">Weekly</option>
+              <option value="biweekly" selected>Bi-weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="annual">Annual</option>
+            </select>
+          </div>
+          <div>
+            <label class="k">Income (gross)</label>
+            <input id="income" type="number" min="0" value="2000" inputmode="decimal"/>
+          </div>
+        </div>
+
+        <div class="two" style="margin-top:8px">
+          <div>
+            <label class="k">Filing status</label>
+            <select id="status">
+              <option value="single" selected>Single</option>
+              <option value="married">Married filing jointly</option>
+            </select>
+          </div>
+          <div>
+            <label class="k">State (tax estimate)</label>
+            <select id="state">
+              <!-- No-tax states first -->
+              <option value="AUTO:0">AK / FL / NV / SD / TN / TX / WA / WY — ~0%</option>
+              <option value="AUTO:6">CA — ~6% est.</option>
+              <option value="AUTO:6">NY — ~6% est.</option>
+              <option value="AUTO:5">NJ — ~5% est.</option>
+              <option value="AUTO:5">MA — ~5% est.</option>
+              <option value="AUTO:4" selected>Most states — ~4% est.</option>
+              <option value="CUSTOM">Custom % (set below)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="two" id="customStateRow" style="margin-top:8px; display:none">
+          <div>
+            <label class="k">Custom state tax %</label>
+            <input id="stateRate" type="number" min="0" max="20" step="0.1" value="4"/>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <span class="note">Rough effective rate. Not official withholding.</span>
+          </div>
+        </div>
+
+        <div class="two" style="margin-top:8px">
+          <div>
+            <label class="k">Pre-tax contribution (401k/HSA) %</label>
+            <input id="pretaxPct" type="number" min="0" max="50" step="0.5" value="0"/>
+          </div>
+          <div class="center" style="justify-content:flex-start;gap:8px">
+            <input id="exempt" type="checkbox"/>
+            <label for="exempt" class="k" style="text-transform:none;letter-spacing:0">Tax-exempt (federal & state)</label>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eef1f7;margin:12px 0"/>
+
+        <h3 style="margin:4px 0 8px">Monthly expenses (optional)</h3>
+        <div class="two">
+          <div>
+            <label class="k">Housing (rent/mortgage)</label>
+            <input id="expHousing" type="number" min="0" value="1200"/>
+          </div>
+          <div>
+            <label class="k">Utilities & phone</label>
+            <input id="expUtils" type="number" min="0" value="250"/>
+          </div>
+        </div>
+        <div class="two" style="margin-top:8px">
+          <div>
+            <label class="k">Debt payments</label>
+            <input id="expDebt" type="number" min="0" value="300"/>
+          </div>
+          <div>
+            <label class="k">Other essentials</label>
+            <input id="expOther" type="number" min="0" value="350"/>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eef1f7;margin:12px 0"/>
+
+        <h3 style="margin:4px 0 8px">Your LockHabit plan</h3>
+        <div class="two">
+          <div>
+            <label class="k">Contribution frequency</label>
+            <select id="lockFreq">
+              <option value="weekly">Weekly</option>
+              <option value="biweekly" selected>Bi-weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
+          <div>
+            <label class="k">Initial deposit</label>
+            <input id="initDeposit" type="number" min="0" value="0"/>
+          </div>
+        </div>
+        <div class="two" style="margin-top:8px">
+          <div>
+            <label class="k">Recurring deposit (suggested)</label>
+            <input id="recDeposit" type="number" min="0" value="200"/>
+          </div>
+          <div>
+            <label class="k">Lock term (months)</label>
+            <select id="lockTerm">
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="12" selected>12</option>
+              <option value="18">18</option>
+              <option value="24">24</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="recalc" class="btn">Recalculate</button>
+          <button id="sendDemo" class="btn acc">Send to Demo</button>
+          <a href="/demo.html" class="btn ghost">Open Demo</a>
+        </div>
+
+        <p class="note" style="margin-top:8px">
+          This tool provides **estimates** based on 2024 federal tax brackets, standard deduction, payroll taxes, and a rough state tax assumption.
+          Your actual withholding can differ due to many factors (W-4 choices, credits, local taxes, benefits). For planning only.
+        </p>
+      </section>
+
+      <!-- Right: Output -->
+      <aside class="panel" aria-labelledby="out-title">
+        <h2 id="out-title" style="margin:0 0 8px">Your snapshot</h2>
+
+        <div class="two">
+          <div>
+            <div class="k">Annual gross</div>
+            <div class="v" id="outGross">$0</div>
+          </div>
+          <div>
+            <div class="k">Pre-tax contrib.</div>
+            <div class="v" id="outPretax">$0</div>
+          </div>
+        </div>
+
+        <div class="two" style="margin-top:8px">
+          <div>
+            <div class="k">Est. federal income tax</div>
+            <div class="v" id="outFed">$0</div>
+          </div>
+          <div>
+            <div class="k">Est. state income tax</div>
+            <div class="v" id="outState">$0</div>
+          </div>
+        </div>
+
+        <div class="two" style="margin-top:8px">
+          <div>
+            <div class="k">Payroll taxes (SS + Medicare)</div>
+            <div class="v" id="outFica">$0</div>
+          </div>
+          <div>
+            <div class="k">Annual net (est.)</div>
+            <div class="v" id="outNet">$0</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:10px">
+          <div class="k">Net by pay period</div>
+          <table class="table" aria-describedby="perpay-note">
+            <thead>
+              <tr><th>Frequency</th><th>Net</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Weekly</td><td id="netWeekly">$0</td></tr>
+              <tr><td>Bi-weekly</td><td id="netBiweekly">$0</td></tr>
+              <tr><td>Monthly</td><td id="netMonthly">$0</td></tr>
+            </tbody>
+          </table>
+          <div id="perpay-note" class="note">Net per period = annual net ÷ periods (52 / 26 / 12).</div>
+        </div>
+
+        <div class="panel" style="margin-top:10px">
+          <div class="k">Expenses & safe amount</div>
+          <table class="table">
+            <tbody>
+              <tr><td>Monthly expenses</td><td id="outExp">$0</td></tr>
+              <tr><td>Net monthly</td><td id="outNetMonthly">$0</td></tr>
+              <tr><td><b>Safe to lock (suggested)</b></td><td id="outSafe" style="font-weight:800">$0</td></tr>
+            </tbody>
+          </table>
+          <div class="bar" style="margin-top:8px"><div id="safeFill" class="fill"></div></div>
+          <div class="note" style="margin-top:6px">We suggest ~20–30% of your **leftover** after essentials as a starting point. Adjust to your comfort.</div>
+        </div>
+
+        <div class="panel" style="margin-top:10px">
+          <div class="k">What we’ll send to the Demo</div>
+          <table class="table">
+            <tbody>
+              <tr><td>Initial deposit</td><td id="p_init">$0</td></tr>
+              <tr><td>Recurring deposit</td><td id="p_rec">$0</td></tr>
+              <tr><td>Contribution frequency</td><td id="p_freq">Bi-weekly</td></tr>
+              <tr><td>Lock term</td><td id="p_term">12 months</td></tr>
+              <tr><td>Mode</td><td id="p_mode">Safe (3% APR)</td></tr>
+              <tr><td>Loan LTV (demo)</td><td id="p_ltv">75% of vested</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>© <span id="yr"></span> LockHabit — Calculator is for estimates only.</footer>
+
+  <!-- Schema (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"LockHabit Take-Home Pay Calculator",
+    "url":"https://lockhabit.com/calculator.html",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Any",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+  }
+  </script>
 
   <script>
-    // ====== constants
-    const PERIODS = { weekly: 52, biweekly: 26, monthly: 12 };
-
-    // ====== small helpers
+    // ===== Utilities =====
     const $ = (id)=>document.getElementById(id);
-    const fmt = (n)=>Number(n||0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+    const fmt = (n)=> (isFinite(n)? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
 
-    // ====== bind DOM
-    const incomeMode = $('incomeMode');
-    const payFreq    = $('payFreq');
-    const grossInput = $('grossIncome');
-    const amtLabel   = $('amtLabel');
-    const amtHint    = $('amtHint');
-
-    const statePct   = $('statePct');
-    const fedExempt  = $('fedExempt');
-    const ficaExempt = $('ficaExempt');
-
-    const expHousing = $('expHousing');
-    const expUtil    = $('expUtil');
-    const expOther   = $('expOther');
-
-    const outPerCheck  = $('outPerCheck');
-    const outTakeHome  = $('outTakeHome');
-    const outExpenses  = $('outExpenses');
-    const outSurplus   = $('outSurplus');
-    const outLockSafe  = $('outLockSafe');
-    const outLockAgg   = $('outLockAgg');
-    const barFill      = $('barFill');
-    const barPct       = $('barPct');
-
-    const sendToDemo = $('sendToDemo');
-    const copyPlan   = $('copyPlan');
-
+    // Live year
     $('yr').textContent = new Date().getFullYear();
 
-    // ====== toggle label based on input mode
-    function refreshIncomeModeUI(){
-      if(incomeMode.value === 'perPeriod'){
-        amtLabel.textContent = 'Gross per paycheck';
-        amtHint.textContent  = 'We’ll multiply by the selected pay frequency to annualize.';
+    // Inputs
+    const freq = $('freq'), income = $('income'), status = $('status');
+    const stateSel = $('state'), stateRate = $('stateRate'), customRow = $('customStateRow');
+    const pretaxPct = $('pretaxPct'), exempt = $('exempt');
+    const eH = $('expHousing'), eU = $('expUtils'), eD = $('expDebt'), eO = $('expOther');
+
+    const lockFreq = $('lockFreq'), initDeposit = $('initDeposit'), recDeposit = $('recDeposit'), lockTerm = $('lockTerm');
+
+    // Outputs
+    const outGross = $('outGross'), outPretax = $('outPretax'), outFed = $('outFed'), outState = $('outState'),
+          outFica = $('outFica'), outNet = $('outNet'),
+          netWeekly = $('netWeekly'), netBiweekly = $('netBiweekly'), netMonthly = $('netMonthly'),
+          outExp = $('outExp'), outNetMonthly = $('outNetMonthly'), outSafe = $('outSafe'), safeFill = $('safeFill');
+
+    const p_init = $('p_init'), p_rec = $('p_rec'), p_freq = $('p_freq'), p_term = $('p_term'), p_mode = $('p_mode'), p_ltv = $('p_ltv');
+
+    // ===== State tax preset handling =====
+    function applyStatePreset(){
+      const v = stateSel.value;
+      if(v.startsWith('AUTO:')){
+        const pct = parseFloat(v.split(':')[1] || '4');
+        customRow.style.display = 'none';
+        stateRate.value = String(pct);
+        stateRate.disabled = true;
       }else{
-        amtLabel.textContent = 'Annual gross income';
-        amtHint.textContent  = 'Switch to “Per paycheck” if you know your check amount.';
+        customRow.style.display = 'grid';
+        stateRate.disabled = false;
       }
     }
-    incomeMode.addEventListener('change', refreshIncomeModeUI);
-    refreshIncomeModeUI();
+    stateSel.addEventListener('change', applyStatePreset);
+    applyStatePreset();
 
-    // ====== tax model (simple illustration)
-    function estimateTaxes(annualGross, stateRate, isFICAExempt, isFedExempt){
-      // FICA: Social Security + Medicare ≈ 7.65% employee share (illustrative)
-      const fica = isFICAExempt ? 0 : annualGross * 0.0765;
-
-      // Federal (toy progressive just for demo UX):
-      // ~10% on first 22k, 12% on next 67k, 22% beyond (very simplified)
-      let fed = 0;
-      if(!isFedExempt){
-        let g = Math.max(0, annualGross);
-        const b1 = Math.min(g, 22000);        fed += b1 * 0.10; g -= b1;
-        const b2 = Math.min(Math.max(g,0), 67000); fed += b2 * 0.12; g -= b2;
-        if(g>0) fed += g * 0.22;
-        // rough standard deduction effect (single) as a flat credit (illustrative)
-        fed = Math.max(0, fed - 1800);
+    // ===== Conversions =====
+    function toAnnualGross(amount, f){
+      const a = Number(amount)||0;
+      switch(f){
+        case 'weekly': return a * 52;
+        case 'biweekly': return a * 26;
+        case 'monthly': return a * 12;
+        default: return a; // annual
       }
-
-      const state = annualGross * stateRate;
-
-      return { fica, fed, state, total: fica + fed + state };
     }
 
-    // ====== income normalization
-    function annualGrossFromInputs(){
-      const amt = Number(grossInput.value || 0);
-      const freq = payFreq.value; // weekly|biweekly|monthly
-      if(incomeMode.value === 'perPeriod'){
-        return amt * PERIODS[freq];
+    // ===== 2024 Federal tax bracket estimator (Single / Married) =====
+    function federalTax2024(taxable, filing){
+      const d = filing === 'married' ? 29200 : 14600; // standard deduction (2024)
+      const x = Math.max(0, taxable - d);
+      const S = [
+        [11600, .10], [47150, .12], [100525, .22], [191950, .24], [243725, .32], [609350, .35], [Infinity, .37]
+      ];
+      const M = [
+        [23200, .10], [94300, .12], [201050, .22], [383900, .24], [487450, .32], [731200, .35], [Infinity, .37]
+      ];
+      const B = filing === 'married' ? M : S;
+      let prev = 0, tax = 0;
+      for(const [cap, rate] of B){
+        const slice = Math.min(x, cap) - prev;
+        if(slice > 0){ tax += slice * rate; prev += slice; }
+        if(prev >= x) break;
       }
-      return amt; // already annual
+      return Math.max(0, tax);
     }
 
-    // ====== main recalc
+    // ===== Payroll taxes (employee) 2024 =====
+    function payrollTax(gross){
+      const wageBase = 168600; // Social Security cap (6.2%)
+      const ss = Math.min(gross, wageBase) * 0.062;
+      const medicare = gross * 0.0145;
+      // Additional Medicare surtax ignored for simplicity (< high earners); feel free to add later.
+      return ss + medicare;
+    }
+
+    // ===== Recalc =====
     function recalc(){
-      const freq = payFreq.value;
-      const annualGross = annualGrossFromInputs();
+      // 1) Annualize gross
+      const gross = toAnnualGross(income.value, freq.value);
 
-      // taxes
-      const stateRate = Number(statePct.value || 0) / 100;
-      const taxes = estimateTaxes(annualGross, stateRate, ficaExempt.checked, fedExempt.checked);
+      // 2) Pre-tax contributions
+      const prePct = Math.max(0, Math.min(50, Number(pretaxPct.value)||0))/100;
+      const preTax = gross * prePct;
+      const taxableWages = Math.max(0, gross - preTax);
 
-      const monthlyGross = annualGross / 12;
-      const monthlyTaxes = taxes.total / 12;
-      const monthlyTakeHome = Math.max(0, monthlyGross - monthlyTaxes);
+      // 3) Taxes
+      const isExempt = exempt.checked;
+      const fed = isExempt ? 0 : federalTax2024(taxableWages, status.value);
+      const statePct = isExempt ? 0 : Math.max(0, Math.min(20, Number(stateRate.value)||0))/100;
+      const stateTax = taxableWages * statePct;
+      const fica = isExempt ? 0 : payrollTax(taxableWages);
 
-      const expenses = Number(expHousing.value||0) + Number(expUtil.value||0) + Number(expOther.value||0);
-      const surplus  = Math.max(0, monthlyTakeHome - expenses);
+      // 4) Net annual
+      const netAnnual = Math.max(0, gross - preTax - fed - stateTax - fica);
 
-      // suggestions
-      const lockSafe = monthlyTakeHome * 0.20; // 20% of net
-      const lockAgg  = surplus * 0.80;         // 80% of surplus
+      // 5) Per-period
+      const netW = netAnnual / 52;
+      const netB = netAnnual / 26;
+      const netM = netAnnual / 12;
 
-      // per-paycheck take-home
-      const perCheckTakeHome = (monthlyTakeHome * 12) / PERIODS[freq];
+      // 6) Expenses & safe amount
+      const expMonthly = (Number(eH.value)||0) + (Number(eU.value)||0) + (Number(eD.value)||0) + (Number(eO.value)||0);
+      const leftoverMonthly = Math.max(0, netM - expMonthly);
+      const suggested = Math.round(leftoverMonthly * 0.25); // 25% of leftover as default
+      if(!(document.activeElement === recDeposit)) recDeposit.value = String(suggested);
 
-      // UI
-      outPerCheck.textContent = fmt(perCheckTakeHome);
-      outTakeHome.textContent = fmt(monthlyTakeHome);
-      outExpenses.textContent = fmt(expenses);
-      outSurplus.textContent  = fmt(surplus);
-      outLockSafe.textContent = fmt(lockSafe);
-      outLockAgg.textContent  = fmt(lockAgg);
+      // 7) Progress bar for “safe”
+      const pct = Math.max(0, Math.min(100, (suggested/(leftoverMonthly||1))*100));
+      safeFill.style.width = pct.toFixed(0) + '%';
 
-      // progress bar = percent of take-home we’re planning to “lock” (aggressive plan vs net)
-      const pct = Math.max(0, Math.min(100, (lockAgg/(monthlyTakeHome||1))*100));
-      barFill.style.width = pct.toFixed(0) + '%';
-      barPct.textContent = pct.toFixed(0) + '%';
+      // 8) Reflect on page
+      outGross.textContent = fmt(gross);
+      outPretax.textContent = fmt(preTax);
+      outFed.textContent = fmt(fed);
+      outState.textContent = fmt(stateTax);
+      outFica.textContent = fmt(fica);
+      outNet.textContent = fmt(netAnnual);
+      netWeekly.textContent = fmt(netW);
+      netBiweekly.textContent = fmt(netB);
+      netMonthly.textContent = fmt(netM);
 
-      // Build link to demo (we pass a monthly plan + frequency; demo can map to its sliders)
-      // - init: a suggested first deposit = one pay period’s recommended saving (aggressive / periods)
-      // - recurring: suggested per-period contribution
-      const perPeriodRecurring = (lockAgg * 12) / PERIODS[freq]; // monthly->per-period
-      const firstDeposit = Math.max(0, Math.round(perPeriodRecurring)); // simple seed
+      outExp.textContent = fmt(expMonthly);
+      outNetMonthly.textContent = fmt(netM);
+      outSafe.textContent = fmt(suggested);
 
-      const qs = new URLSearchParams({
-        init: firstDeposit.toFixed(0),             // seed the first deposit
-        recurring: perPeriodRecurring.toFixed(0),  // per-period plan
-        freq: freq,                                // weekly|biweekly|monthly
-        term: 12,                                  // default a year
-        track: 'calculator'                        // for analytics
-      }).toString();
-      sendToDemo.href = `/demo.html?${qs}`;
+      p_init.textContent = fmt(Number(initDeposit.value||0));
+      p_rec.textContent = fmt(Number(recDeposit.value||0));
+      p_freq.textContent = {weekly:'Weekly',biweekly:'Bi-weekly',monthly:'Monthly'}[lockFreq.value] || 'Bi-weekly';
+      p_term.textContent = `${lockTerm.value} months`;
+      p_mode.textContent = 'Safe (3% APR)';
+      p_ltv.textContent = '75% of vested';
 
-      // copy link
-      copyPlan.onclick = async ()=>{
-        try{
-          const url = location.origin + '/demo.html?' + qs;
-          await navigator.clipboard.writeText(url);
-          copyPlan.textContent = 'Copied!';
-          setTimeout(()=>copyPlan.textContent='Copy plan link', 1200);
-        }catch(_){
-          alert('Copy failed. Long-press to copy the link after opening the Demo.');
-        }
-      };
+      return { gross, preTax, fed, stateTax, fica, netAnnual, netW, netB, netM, expMonthly, suggested };
     }
 
-    // wire events
-    ['input','change'].forEach(ev=>{
-      [incomeMode,payFreq,grossInput,statePct,fedExempt,ficaExempt,expHousing,expUtil,expOther]
-        .forEach(el=>el.addEventListener(ev, recalc));
-    });
+    // Wire up changes
+    [freq,income,status,stateSel,stateRate,pretaxPct,exempt,eH,eU,eD,eO,lockFreq,initDeposit,recDeposit,lockTerm]
+      .forEach(el => el.addEventListener('input', recalc));
     $('recalc').addEventListener('click', recalc);
 
-    // first run
+    // Send to Demo (via query params)
+    $('sendDemo').addEventListener('click', ()=>{
+      const init = Math.max(0, Number(initDeposit.value||0));
+      const rec = Math.max(0, Number(recDeposit.value||0));
+      const lf = lockFreq.value;
+      const term = Number(lockTerm.value||12);
+      const params = new URLSearchParams({
+        init: String(init),
+        rec: String(rec),
+        freq: lf,
+        term: String(term),
+        mode: 'safe',     // demo displays "Safe (3% APR)"
+        apr: '0.03',      // for demo clarity
+        ltv: '0.75'       // loan up to 75% vested
+      });
+      // Also stash to localStorage for the demo to read if it prefers
+      localStorage.setItem('lh_plan', JSON.stringify({ init, rec, freq: lf, term, mode:'safe', apr:0.03, ltv:0.75 }));
+      window.location.href = '/demo.html?' + params.toString();
+    });
+
+    // Initialize
     recalc();
+
+    // Deep-link support (optional): ?freq=biweekly&income=1800&state=CA&pretax=5
+    (function readParams(){
+      const q = new URLSearchParams(location.search);
+      if(q.has('freq')) freq.value = q.get('freq');
+      if(q.has('income')) income.value = q.get('income');
+      if(q.has('status')) status.value = q.get('status');
+      if(q.has('state')){
+        const s = q.get('state');
+        if(s === 'CUSTOM'){ stateSel.value = 'CUSTOM'; customRow.style.display='grid'; }
+        else if(s === 'NOTAX'){ stateSel.value = 'AUTO:0'; }
+        else if(s === 'CA'){ stateSel.value = 'AUTO:6'; }
+        else if(s === 'NY'){ stateSel.value = 'AUTO:6'; }
+        else stateSel.value = 'AUTO:4';
+        applyStatePreset();
+      }
+      if(q.has('pretax')) pretaxPct.value = q.get('pretax');
+      if(q.has('exempt')) exempt.checked = q.get('exempt') === '1';
+      recalc();
+    })();
   </script>
 </body>
 </html>
