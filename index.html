@@ -88,7 +88,7 @@
     .chip{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:var(--grad-chip);border:1px solid #dfe3ff;font-weight:700;color:#3a4a66}
     .chip b{color:var(--green)}
     .cta{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-    .footnote{font-size:12px;color:#60708c;margin-top:8px}
+    .footnote{font-size:12px;color:#60708c}
 
     /* Mock card (right side hero) */
     .mock{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow-elev);min-height:360px;position:relative;overflow:hidden}
@@ -231,8 +231,8 @@
       <div class="statgrid">
         <div class="stat">
           <div class="k">Locked today</div>
-          <div class="v">$1,250</div>
-          <div class="k">Term 1–3 mo</div>
+          <div class="v">$1,000</div>
+          <div class="k">Auto-deposit $100 bi-weekly</div>
         </div>
         <div class="stat">
           <div class="k">Projected interest</div>
@@ -241,16 +241,13 @@
         </div>
         <div class="stat">
           <div class="k">Emergency limit</div>
-          <div class="v">$1,250</div>
+          <div class="v" id="emergVal">$1,000</div>
           <div class="k">6% credit-builder loan</div>
         </div>
       </div>
 
-      <div class="card" style="margin-top:12px">
-        <div class="row">
-          <div><b>Credit-builder loan</b><div class="mini">Bureau-reported payments</div></div>
-          <div class="badge-green">Interest → back to your lock</div>
-        </div>
+      <div class="card" style="margin-top:12px;text-align:right">
+        <button class="btn acc pill" id="heroJoin">Join the waitlist</button>
       </div>
     </aside>
   </div>
@@ -295,6 +292,25 @@
           <li>Intended to be <b>credit bureau-reported</b></li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= GROUPS ========================= -->
+<section id="groups" class="s" aria-labelledby="groups-title">
+  <h2 id="groups-title" class="section-title">Friends & family group locks</h2>
+  <div class="panel">
+    <p style="margin:0 0 8px;color:#3b4a67">
+      Create a shared lock with people you trust. Everyone contributes on a schedule, the pot grows at
+      <b>3% APR (prorated)</b>, and members can opt into <b>credit-builder self-loans</b> when needed.
+    </p>
+    <ul style="margin:0;padding-left:18px;color:#3b4a67">
+      <li>Set goals and term lengths together (or multiple parallel locks)</li>
+      <li>Transparent activity and optional contribution reminders</li>
+      <li>Emergency access stays self-backed — interest credited back after payoff</li>
+    </ul>
+    <div style="margin-top:12px;text-align:right">
+      <button class="btn acc" onclick="openModal()">Start a group — Join waitlist</button>
     </div>
   </div>
 </section>
@@ -495,21 +511,50 @@
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
   window.openModal = openModal; window.closeModal = closeModal;
 
-  /* Hero dopamine loop */
+  /* Hero dopamine loop — $1,000 start + $100 bi-weekly; APR 3% */
   (function(){
     const pbar = document.getElementById('pbar');
     const pval = document.getElementById('pval');
     const intv = document.getElementById('intv');
+    const emerg = document.getElementById('emergVal');
     if(!pbar || !pval || !intv) return;
-    let prog = 0, bal = 1250;
+
+    const APR = 0.03;
+    const INIT = 1000;
+    const DEP  = 100;
+    const PERY = 26; // bi-weekly deposits per year
+
+    let prog = 0; // 0..100
+
+    function depositsSoFar(pct){
+      return Math.floor(PERY * (pct/100)) * DEP;
+    }
+    function totalDeposits(){
+      return PERY * DEP;
+    }
+
     setInterval(()=>{
-      prog = (prog + Math.random()*7) % 100;
+      prog = (prog + 0.9 + Math.random()*1.8) % 100;
+
+      const contributed = depositsSoFar(prog);
+      const balNow = INIT + contributed;
+
+      const endBalance = INIT + totalDeposits();
+      const annualInterest = endBalance * APR;
+      const projectedSoFar = annualInterest * (prog/100);
+
       pbar.style.width = prog.toFixed(0) + '%';
       pval.textContent = prog.toFixed(0) + '%';
-      const annual = 0.03 * bal;
-      const proj = (annual * (prog/100)).toFixed(2);
-      intv.textContent = `$${proj}`;
+      intv.textContent = `$${projectedSoFar.toFixed(2)}`;
+      if (emerg) emerg.textContent = `$${balNow.toLocaleString()}`;
     }, 900);
+  })();
+
+  /* Wire the hero “Join the waitlist” button to your modal */
+  (function(){
+    const btn = document.getElementById('heroJoin');
+    if(!btn) return;
+    btn.addEventListener('click', openModal);
   })();
 
   /* Waitlist submit — /api/waitlist then Formspree fallback */
@@ -672,7 +717,6 @@
     function seedPlaceholders(){
       if(localStorage.getItem('lh_seeded')) return;
       localStorage.setItem('lh_seeded','1');
-      // API should already serve 5 seed rows; this is a no-op placeholder in case API is disabled.
       if(topEl && !topEl.children.length){
         ['Ava','Noah','Mia','Liam','Zoe'].forEach((n,i)=>{ const li=document.createElement('li'); li.textContent = `${i+1}. ${n} — ${1200 - i*75}`; topEl.appendChild(li); });
       }
