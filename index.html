@@ -1,29 +1,28 @@
-
 <!doctype html>
 <html lang="en">
 <head>
   <!-- =========================================================
        LockHabit — Discipline Pays. Lock Your Money. Own Your Future.
-       Fintech-grade landing (modern, secure, SEO, PWA, accessible)
+       Landing (SEO + PWA + Accessibility) — v2025-10-25
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 
   <title>LockHabit — Discipline Pays. Lock Your Money. Own Your Future.</title>
-  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, earn 3% APR (prorated), access credit-builder self-loans at 6% APR (interest credited back to you), and keep deposits safe with FDIC-backed partner banks."/>
+  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, earn 3% APR (prorated), access credit-builder self-loans at 6% APR (interest credited back to you). Try the calculator and live demo."/>
+  <meta name="theme-color" content="#6f7cff"/>
 
   <!-- Canonical + Social -->
   <link rel="canonical" href="https://lockhabit.com/"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="LockHabit — Discipline Pays. Lock Your Money. Own Your Future."/>
-  <meta property="og:description" content="Your money stays yours — hard-locked, FDIC-backed, growing at 3% APR. Emergency self-loans at 6% APR build credit and interest is credited back to you."/>
+  <meta property="og:description" content="Your money stays yours — hard-locked, growing at 3% APR, with 6% credit-builder access. Try the calculator and live demo."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
-  <meta property="og:image" content="https://lockhabit.com/assets/og-image.png"/>
+  <meta property="og:image" content="/public/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="LockHabit — Save on purpose"/>
-  <meta name="twitter:description" content="Your money, locked safely and growing. Credit-builder access when life happens."/>
-  <meta name="twitter:image" content="https://lockhabit.com/assets/og-image.png"/>
-  <meta name="theme-color" content="#6f7cff"/>
+  <meta name="twitter:description" content="Check your take-home, build a plan, and see your savings grow in the live demo."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -31,18 +30,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
   <!-- Icons & PWA -->
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" href="/assets/icon-192.png">
-  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/public/favicon.ico">
+  <link rel="apple-touch-icon" href="/public/icon-192.png">
+  <link rel="manifest" href="/public/manifest.webmanifest">
 
-  <!-- Analytics (Plausible) -->
+  <!-- Analytics (Plausible) — set your domain in data-domain -->
   <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
 
   <!-- ========================= Styles ========================= -->
   <style>
     :root{
-      /* Ramp/SoFi-inspired palette with money green */
       --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
       --green:#22c55e; --ink:#0f172a; --muted:#536179;
       --line:#e5e7f1; --panel:#ffffff; --surface:#fbfcff;
@@ -65,17 +63,11 @@
       margin:0; background:var(--bg); color:var(--ink);
       font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      padding-bottom: calc(var(--safe-bottom));
-      overflow-x:hidden;
+      padding-bottom: calc(var(--safe-bottom)); overflow-x:hidden;
     }
 
-    /* Smart header (hide on scroll down, show on up) */
-    .header{
-      position:sticky; top:0; z-index:50;
-      background:rgba(255,255,255,.85); backdrop-filter:blur(10px);
-      border-bottom:1px solid var(--line);
-      transform:translateY(0); transition:transform .2s ease;
-    }
+    /* Header */
+    .header{position:sticky; top:0; z-index:60; background:rgba(255,255,255,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transform:translateY(0); transition:transform .2s ease;}
     .header.hide{ transform:translateY(-100%); }
     .wrap{max-width:1200px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
     .brand{display:flex;align-items:center;gap:12px}
@@ -86,6 +78,7 @@
     .btn:hover{transform:translateY(-1px)}
     .btn.acc{background:var(--grad-cta);color:#fff;border-color:transparent;box-shadow:0 12px 30px rgba(111,124,255,.35)}
     .btn.ghost{background:transparent}
+    .btn.pill{border-radius:999px}
 
     /* Hero */
     .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:86px 22px 56px}
@@ -97,7 +90,7 @@
     .cta{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
     .footnote{font-size:12px;color:#60708c;margin-top:8px}
 
-    /* Mock card */
+    /* Mock card (right side hero) */
     .mock{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow-elev);min-height:360px;position:relative;overflow:hidden}
     .mock .row{display:flex;align-items:center;justify-content:space-between}
     .badge-green{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800}
@@ -115,7 +108,6 @@
     .section-title{font-size:30px;text-align:center;margin:0 0 18px;color:#f8f9ff}
     .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow-elev)}
     .cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-    .cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
     .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
     .plan h3{margin:0 0 6px;color:#15213d}
     .plan ul{margin:8px 0 0;padding-left:18px;color:#3b4a67}
@@ -134,10 +126,10 @@
     .foot{max-width:1200px;margin:0 auto;padding:24px 22px}
     .fine{background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#41506a}
 
-    /* Modal */
-    .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:60}
+    /* Modal (waitlist) */
+    .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
     .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-deep)}
-    .row{display:flex;align-items:center;justify-content:space-between}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
     .form{display:grid;gap:10px;margin-top:10px}
     input,select{padding:14px;border-radius:12px;border:1px solid #dbe0ea;font-size:16px}
@@ -145,7 +137,7 @@
     .success{display:none;text-align:center;padding:18px}
     .check{font-size:42px}
 
-    /* --- Mini Game (footer runner) --- */
+    /* Mini Game */
     .miniwrap{position:fixed;left:0;right:0;bottom:0;z-index:40;pointer-events:none;padding-bottom:var(--safe-bottom)}
     .minibar{margin:0 auto;max-width:1200px;padding:6px 10px;display:flex;gap:8px;align-items:center;justify-content:flex-end}
     .minibar .pill{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;background:#0e1330;color:#e5e7f1;border:1px solid #2b3150;border-radius:999px;padding:6px 10px;font-weight:700;cursor:pointer;min-height:36px}
@@ -154,6 +146,7 @@
     #runnerCanvas{display:block;width:100%;max-width:1200px;height:120px;margin:0 auto;background:#0f172a}
     #gameInfo{max-width:1200px;margin:0 auto;color:#9fb2ff;font-size:12px;padding:6px 10px;display:flex;justify-content:space-between}
     #gameUI{max-width:1200px;margin:0 auto;padding:6px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;color:#cbd5ff;font-size:12px;flex-wrap:wrap}
+    #top10{display:flex;gap:6px;flex-wrap:wrap;padding:0;margin:0;list-style:none}
     #top10 li{background:#0e1330;border:1px solid #2b3150;border-radius:999px;padding:4px 8px;color:#e5e7f1}
     #playerName{padding:6px 8px;border-radius:10px;border:1px solid #2b3150;background:#0e1330;color:#e5e7f1}
 
@@ -161,7 +154,7 @@
     @media (max-width:1000px){
       .hero-grid{grid-template-columns:1fr}
       h1{font-size:38px}
-      .cols3,.cols2,.trustgrid{grid-template-columns:1fr}
+      .cols3,.trustgrid{grid-template-columns:1fr}
     }
     @media (max-width:420px){
       h1{font-size:30px}
@@ -177,7 +170,6 @@
 <header class="header" role="banner" id="hdr">
   <div class="wrap">
     <div class="brand" aria-label="LockHabit">
-      <!-- Simple elegant SVG logo -->
       <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
         <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
         <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
@@ -191,6 +183,7 @@
       <a href="#how">How it works</a>
       <a href="#plans">Plans</a>
       <a href="#security">Security</a>
+      <a href="/calculator.html">Calculator</a>
       <a href="/demo.html">Demo</a>
       <button class="btn ghost" onclick="openModal()">Sign in</button>
       <button class="btn acc" onclick="openModal()">Get started</button>
@@ -207,14 +200,14 @@
       <p id="hero-copy" class="sub">
         LockHabit turns saving into momentum. Hard-lock funds, earn a transparent <b>3% APR (prorated)</b>,
         and access <b>6% credit-builder self-loans</b> when life happens — interest is <b>credited back to you</b>.
-        Your deposits remain safe via regulated partner banks with pass-through FDIC coverage (up to legal limits).
+        Try the <a href="/calculator.html">income & budget calculator</a>, then see results in the <a href="/demo.html">live demo</a>.
       </p>
       <div class="cta">
         <button class="btn acc" onclick="openModal()">Join the Waitlist</button>
+        <a class="btn" href="/calculator.html">Check your take-home</a>
         <a class="btn" href="/demo.html">Try the Demo</a>
-        <button class="btn" onclick="document.getElementById('security').scrollIntoView({behavior:'smooth'})">See How It’s Protected</button>
       </div>
-      <div class="footnote">Your money is never lent out to others. Your patience earns dividends.</div>
+      <div class="footnote">Your deposits are never lent to others. Your patience earns dividends.</div>
     </div>
 
     <!-- Right: interactive mock -->
@@ -282,7 +275,7 @@
         <h3>1) Choose your lock</h3>
         <ul>
           <li>Pick <b>1–3</b>, <b>4–6</b>, or <b>6–12+ months</b></li>
-          <li>Optional auto-deposits</li>
+          <li>Optional auto-deposits weekly/bi-weekly/monthly</li>
           <li>Funds move into your hidden vault</li>
         </ul>
       </div>
@@ -298,8 +291,8 @@
         <h3>3) Unlock or borrow</h3>
         <ul>
           <li>Unlock day: principal + interest − small flat fee</li>
-          <li>Emergency? Borrow at <b>6% APR</b></li>
-          <li>Loan interest is <b>credited back to you</b></li>
+          <li>Emergency? Borrow at <b>6% APR</b> (credited back to you)</li>
+          <li>Intended to be <b>credit bureau-reported</b></li>
         </ul>
       </div>
     </div>
@@ -317,7 +310,7 @@
         <li><b>3% APR</b> (prorated)</li>
         <li>Fast goals</li>
       </ul>
-      <div class="footnote">Emergency loan 6% APR credited back to your balance; reported to credit bureaus.</div>
+      <div class="footnote">Self-loan 6% APR; interest credited back; bureau-reported.</div>
     </div>
     <div class="plan">
       <h3>4–6 months</h3>
@@ -335,7 +328,7 @@
         <li><b>3% APR</b> (prorated)</li>
         <li>Maximum growth</li>
       </ul>
-      <div class="footnote">Deposits held with partner banks receive pass-through FDIC coverage up to legal limits.</div>
+      <div class="footnote">Deposits held with partner banks may receive pass-through FDIC coverage up to legal limits.</div>
     </div>
   </div>
 </section>
@@ -359,15 +352,15 @@
       </div>
       <div class="trust">
         <b>Credit-builder emergency loans</b>
-        <p class="mini">Borrow against your own balance at <b>6% APR</b>; loans are <b>reported to major bureaus</b>. On-time payments may help build credit; late payments may harm credit.</p>
+        <p class="mini">Borrow against your own balance at <b>6% APR</b>; loans are intended to be <b>reported to major bureaus</b>. On-time payments may help build credit; late payments may harm credit.</p>
       </div>
       <div class="trust">
         <b>Interest that benefits you</b>
-        <p class="mini">Emergency loan interest is <b>credited back to your locked balance</b>, helping you reach your goal faster.</p>
+        <p class="mini">Self-loan interest is <b>credited back to your locked balance</b>, helping you reach your goal faster after payoff.</p>
       </div>
       <div class="trust">
         <b>Privacy & transparency</b>
-        <p class="mini">We keep your data private and use it only to operate LockHabit. No junk fees, no dark patterns — just clear terms.</p>
+        <p class="mini">We keep your data private and use it only to operate LockHabit. No dark patterns — just clear terms.</p>
       </div>
     </div>
   </div>
@@ -387,7 +380,7 @@
     </details>
     <details>
       <summary>Are emergency loans credit-builder loans?</summary>
-      <p>Yes. Emergency self-loans are <b>reported to credit bureaus</b>. On-time payments may help build credit; missed or late payments may harm credit.</p>
+      <p>Yes. Emergency self-loans are intended to be <b>reported to credit bureaus</b>. On-time payments may help build credit; missed or late payments may harm credit.</p>
     </details>
     <details>
       <summary>Is my money FDIC insured?</summary>
@@ -395,40 +388,37 @@
     </details>
     <details>
       <summary>Where does loan interest go?</summary>
-      <p>Emergency loan interest (6% APR) is <b>credited back to your locked balance</b>, minimizing your net cost and accelerating your savings goal.</p>
+      <p>Self-loan interest (6% APR) is <b>credited back to your locked balance after payoff</b>, minimizing net cost and supporting your goal.</p>
     </details>
   </div>
 </section>
 
-<!-- ========================= FOOTER / LEGAL ========================= -->
+<!-- ========================= FOOTER ========================= -->
 <footer role="contentinfo">
   <div class="foot">
-    <div>© <span id="yr"></span> LockHabit — Discipline made simple.</div>
+    <div>© <span id="yr"></span> LockHabit — Discipline made simple. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
     <div class="fine">
       LockHabit is a financial technology company, not a bank. Banking services and deposit custody are provided by regulated partner banks.
-      When deposits are held at partner banks and structured for pass-through coverage, funds are eligible for FDIC insurance up to the applicable limits per depositor, per bank.
+      When deposits are held at partner banks and structured for pass-through coverage, funds may be eligible for FDIC insurance up to the applicable limits per depositor, per bank.
       This is a <b>hard lock</b>: early withdrawal is not permitted except for approved emergencies; <b>non-emergency</b> early break attempts incur a <b>5% fee</b>.
-      Emergency access is provided via secured, self-backed loans at <b>6% APR</b>; loans are <b>reported to credit bureaus</b>. <b>100% of loan interest is credited back to your locked balance.</b>
+      Emergency access is provided via secured, self-backed loans at <b>6% APR</b>; loans are intended to be <b>reported to credit bureaus</b>. <b>100% of loan interest is credited back to your locked balance after payoff.</b>
       APRs, terms, and fees are subject to change with notice. Program and partner-bank disclosures will be presented prior to account opening. Participation in the waitlist does not guarantee account approval.
-      Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
     </div>
     <div class="footnote" style="margin-top:8px">
-      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/demo.html">Demo</a>
+      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a> • <a href="/demo.html">Demo</a>
     </div>
   </div>
 </footer>
 
-<!-- ========================= MINI GAME FOOTER ========================= -->
+<!-- ========================= MINI GAME (Footer) ========================= -->
 <div class="miniwrap" aria-hidden="false">
   <div class="minibar">
-    <button id="toggleGame" class="pill" aria-expanded="false" aria-controls="gamePanel">
-      🎮 Mini game (off)
-    </button>
+    <button id="toggleGame" class="pill" aria-expanded="false" aria-controls="gamePanel">🎮 Mini game (off)</button>
   </div>
   <div id="gamePanel" role="region" aria-label="Endless runner mini game">
     <canvas id="runnerCanvas" width="1200" height="120"></canvas>
     <div id="gameInfo">
-      <span>Until launch: have fun! • Space/↑ to jump • P pause • R reset</span>
+      <span>Until launch: have fun — Space/↑ to jump • P pause • R reset</span>
       <span id="gameScore">Score: 0</span>
     </div>
     <div id="gameUI">
@@ -441,13 +431,12 @@
 
 <!-- ========================= WAITLIST MODAL ========================= -->
 <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title">
-  <div class="modal">
+  <div class="modal" id="modalBox">
     <div class="row">
       <h3 id="wl-title" style="margin:0">Join the LockHabit waitlist</h3>
       <button class="x" aria-label="Close" onclick="closeModal()">✕</button>
     </div>
     <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
-
     <form id="wl-form" class="form" novalidate>
       <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
       <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
@@ -461,7 +450,6 @@
       <div id="msg" class="note" role="status" aria-live="polite"></div>
       <div class="footnote">By joining, you consent to receive early-access communications. We never sell your data.</div>
     </form>
-
     <div id="ok" class="success" aria-live="polite">
       <div class="check">✅</div>
       <h3>Thanks — you’re on the list!</h3>
@@ -471,26 +459,26 @@
   </div>
 </div>
 
-<!-- ========================= STRUCTURED DATA ========================= -->
+<!-- ========================= STRUCTURED DATA (SEO) ========================= -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"https://lockhabit.com/assets/logo.svg"}
+{"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"/public/logo.svg","sameAs":["https://twitter.com/lockhabit","https://www.linkedin.com/company/lockhabit"]}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Is this a hard lock?","acceptedAnswer":{"@type":"Answer","text":"Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. Non-emergency early break attempts incur a 5% fee."}},
 {"@type":"Question","name":"Do I earn interest while locked?","acceptedAnswer":{"@type":"Answer","text":"Yes. Balances earn a transparent 3% APR, prorated by time in lock. Rates may change with notice."}},
-{"@type":"Question","name":"Are emergency loans credit-builder loans?","acceptedAnswer":{"@type":"Answer","text":"Yes. Emergency self-loans are reported to credit bureaus. On-time payments may help credit; missed or late payments may harm credit."}},
+{"@type":"Question","name":"Are emergency loans credit-builder loans?","acceptedAnswer":{"@type":"Answer","text":"Yes. Emergency self-loans are intended to be reported to credit bureaus. On-time payments may help build credit; missed or late payments may harm credit."}},
 {"@type":"Question","name":"Is my money FDIC insured?","acceptedAnswer":{"@type":"Answer","text":"Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for FDIC insurance up to applicable limits per depositor, per bank."}},
-{"@type":"Question","name":"Where does loan interest go?","acceptedAnswer":{"@type":"Answer","text":"Emergency loan interest (6% APR) is credited back to your locked balance, minimizing net cost and accelerating your savings goal."}}
+{"@type":"Question","name":"Where does loan interest go?","acceptedAnswer":{"@type":"Answer","text":"Self-loan interest (6% APR) is credited back to your locked balance after payoff, minimizing net cost and supporting your goal."}}
 ]}
 </script>
 
 <!-- ========================= SCRIPTS ========================= -->
 <script>
-  /* ===== Live year ===== */
+  /* Live year */
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  /* ===== Smart header (hide on scroll down, show on up) ===== */
+  /* Smart header hide/show */
   (function(){
     const hdr = document.getElementById('hdr');
     let lastY = window.scrollY;
@@ -501,13 +489,13 @@
     }, {passive:true});
   })();
 
-  /* ===== Modal open/close ===== */
+  /* Modal open/close */
   const overlay = document.getElementById('overlay');
   function openModal(){ overlay.style.display='flex'; document.body.style.overflow='hidden'; }
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
   window.openModal = openModal; window.closeModal = closeModal;
 
-  /* ===== Progress dopamine loop (hero mock) ===== */
+  /* Hero dopamine loop */
   (function(){
     const pbar = document.getElementById('pbar');
     const pval = document.getElementById('pval');
@@ -518,13 +506,13 @@
       prog = (prog + Math.random()*7) % 100;
       pbar.style.width = prog.toFixed(0) + '%';
       pval.textContent = prog.toFixed(0) + '%';
-      const annual = 0.03 * bal; // 3% APR
+      const annual = 0.03 * bal;
       const proj = (annual * (prog/100)).toFixed(2);
       intv.textContent = `$${proj}`;
     }, 900);
   })();
 
-  /* ===== Waitlist submit — API first, Formspree fallback ===== */
+  /* Waitlist submit — /api/waitlist then Formspree fallback */
   (function(){
     const form = document.getElementById('wl-form');
     const msg  = document.getElementById('msg');
@@ -539,23 +527,18 @@
       const data = Object.fromEntries(new FormData(form).entries());
       const showOK = ()=>{ form.style.display='none'; ok.style.display='block'; };
 
-      // 1) Vercel serverless API
       try{
         const res = await fetch('/api/waitlist', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
+          method:'POST', headers:{'Content-Type':'application/json'},
           body:JSON.stringify(data)
         });
         const out = await res.json().catch(()=>({}));
-        if(res.ok && out && (out.ok || out.id || out.inserted)){ showOK(); return; }
+        if(res.ok && (out.ok || out.id || out.inserted)){ showOK(); return; }
       }catch(_){}
 
-      // 2) Fallback: Formspree
       try{
         const fs = await fetch('https://formspree.io/f/mrbywgpw', {
-          method:'POST',
-          headers:{'Accept':'application/json'},
-          body:new FormData(form)
+          method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form)
         });
         if(fs.ok){ showOK(); return; }
         msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
@@ -565,9 +548,7 @@
     });
   })();
 
-  /* ============================================================
-     MINI RUNNER (footer) + Global Top-10 + Sharing
-     ============================================================ */
+  /* ================== Mini Runner + Leaderboard (5 placeholders) ================== */
   (function(){
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const toggleBtn = document.getElementById('toggleGame');
@@ -579,13 +560,11 @@
     const ctx = cvs.getContext('2d');
     let W = cvs.width, H = cvs.height;
 
-    // Runner state
     let running = false, paused = false, t0 = 0, score = 0, raf;
     const G = 0.9, ground = H - 18;
     const player = { x: 40, y: ground, vy: 0, w: 14, h: 14, onGround: true };
     let obs = []; let spawn = 0;
 
-    // Helpers
     function reset(){ score = 0; obs = []; spawn = 0; player.y = ground; player.vy = 0; player.onGround = true; paused = false; }
     function jump(){ if(!running || paused) return; if(player.onGround){ player.vy = -12; player.onGround = false; } }
     function drawBg(){ ctx.fillStyle = '#0f172a'; ctx.fillRect(0,0,W,H); ctx.strokeStyle = '#26304a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, ground+8); ctx.lineTo(W, ground+8); ctx.stroke(); }
@@ -594,7 +573,6 @@
     function drawObstacles(){ ctx.fillStyle = '#91a1ff'; for(const o of obs){ ctx.fillRect(o.x, o.y - o.h, o.w, o.h); } }
     function collide(a,b){ return !(a.x + a.w < b.x || a.x > b.x + b.w || a.y < b.y - b.h || a.y - a.h > b.y); }
 
-    // Resize for DPR + responsiveness
     function resize(){
       const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
       const cssW = Math.min(1200, document.documentElement.clientWidth);
@@ -602,25 +580,20 @@
       cvs.width = cssW * dpr; cvs.height = 120 * dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
       W = cssW;
     }
-    window.addEventListener('resize', resize, {passive:true});
-    resize();
+    window.addEventListener('resize', resize, {passive:true}); resize();
 
-    // Main loop
     function step(ts){
       if(!running){ return; }
       if(prefersReduced){ paused = true; }
       if(paused){ raf = requestAnimationFrame(step); return; }
       if(!t0) t0 = ts; const dt = Math.min(32, ts - t0); t0 = ts;
 
-      // Physics
       player.vy += G; player.y += player.vy;
       if(player.y >= ground){ player.y = ground; player.vy = 0; player.onGround = true; }
 
-      // Obstacles
       spawn -= dt; if(spawn <= 0){ addObstacle(); spawn = 800 + Math.random()*900; }
       for(const o of obs){ o.x -= o.v; } obs = obs.filter(o => o.x + o.w > -10);
 
-      // Collisions
       for(const o of obs){
         if(collide({x:player.x,y:player.y,w:player.w,h:player.h},{x:o.x,y:o.y,w:o.w,h:o.h})){
           window.__setGameScore?.(score);
@@ -629,12 +602,10 @@
         }
       }
 
-      // Score update
       score += Math.floor(dt/10);
       window.__setGameScore?.(score);
       scoreEl.textContent = 'Score: ' + score;
 
-      // Draw
       drawBg(); drawObstacles(); drawPlayer();
       raf = requestAnimationFrame(step);
     }
@@ -642,7 +613,6 @@
     function start(){ if(running) return; running = true; paused = false; t0 = 0; raf = requestAnimationFrame(step); }
     function stop(){ running = false; paused = false; cancelAnimationFrame(raf); }
 
-    // Keyboard controls
     window.addEventListener('keydown', (e)=>{
       if(panel.classList.contains('open')){
         if(e.code === 'Space' || e.code === 'ArrowUp'){ e.preventDefault(); jump(); }
@@ -650,100 +620,79 @@
         if(e.code === 'KeyP'){ paused = !paused; }
       }
     });
-    // Touch (mobile)
     cvs.addEventListener('touchstart', (e)=>{ if(panel.classList.contains('open')){ e.preventDefault(); jump(); } }, {passive:false});
 
-    // Toggle panel
     toggleBtn.addEventListener('click', ()=>{
       const open = panel.classList.toggle('open');
       toggleBtn.setAttribute('aria-expanded', String(open));
       toggleBtn.textContent = open ? '🎮 Mini game (on)' : '🎮 Mini game (off)';
-      if(open){ start(); fetchTop10(); } else { stop(); }
+      if(open){ start(); fetchTop10(); seedPlaceholders(); } else { stop(); }
     });
 
     document.addEventListener('visibilitychange', ()=>{ if(document.hidden) paused = true; });
     const mo = new MutationObserver(()=>{ if(overlay && overlay.style.display === 'flex'){ paused = true; } });
     if(overlay) mo.observe(overlay, {attributes:true, attributeFilter:['style']});
 
-    /* ===== Leaderboard + Sharing ===== */
-    const api     = '/api/highscores';   // expects /api/highscores GET + POST
+    /* Leaderboard (+5 placeholder rows on first load only, then real) */
+    const api     = '/api/highscores';
     const nameInp = document.getElementById('playerName');
     const topEl   = document.getElementById('top10');
     const shareBox= document.getElementById('shareButtons');
 
-    function buildShareUI(){
-      if(!shareBox) return;
-      shareBox.innerHTML = '';
-      const makeBtn = (label, net)=> {
-        const b = document.createElement('button');
-        b.className = 'pill';
-        b.style.background = '#162048';
-        b.style.borderColor = '#2b3150';
-        b.textContent = label;
-        b.addEventListener('click', ()=>shareTo(net));
-        return b;
-      };
-      shareBox.appendChild(makeBtn('⬆️ Submit score', 'submit'));
-      shareBox.appendChild(makeBtn('X', 'twitter'));
-      shareBox.appendChild(makeBtn('Facebook', 'facebook'));
-      shareBox.appendChild(makeBtn('LinkedIn', 'linkedin'));
-      shareBox.appendChild(makeBtn('WhatsApp', 'whatsapp'));
-      shareBox.appendChild(makeBtn('Reddit', 'reddit'));
-      const tip = document.createElement('span');
-      tip.style.marginLeft = '8px';
-      tip.style.color = '#9fb2ff';
-      tip.textContent = 'Thanks for playing — once we launch, your true patience will be rewarded.';
-      shareBox.appendChild(tip);
-    }
-    buildShareUI();
-
-    // Persisted name
     const savedName = (localStorage.getItem('lh_name') || '').slice(0,20);
     if(nameInp){ nameInp.value = savedName; nameInp.addEventListener('change', ()=>localStorage.setItem('lh_name', nameInp.value.trim().slice(0,20))); }
 
     let lastScore = 0;
     window.__setGameScore = (n)=>{ lastScore = n|0; scoreEl.textContent = 'Score: ' + lastScore; };
 
+    function buildShareUI(){
+      if(!shareBox) return;
+      shareBox.innerHTML = '';
+      const mk = (label, net)=>{ const b=document.createElement('button'); b.className='pill'; b.style.background='#162048'; b.style.borderColor='#2b3150'; b.textContent=label; b.addEventListener('click', ()=>shareTo(net)); return b; };
+      shareBox.appendChild(mk('⬆️ Submit score','submit'));
+      shareBox.appendChild(mk('X','twitter'));
+      shareBox.appendChild(mk('Facebook','facebook'));
+      shareBox.appendChild(mk('LinkedIn','linkedin'));
+      shareBox.appendChild(mk('WhatsApp','whatsapp'));
+      shareBox.appendChild(mk('Reddit','reddit'));
+      const tip=document.createElement('span'); tip.style.marginLeft='8px'; tip.style.color='#9fb2ff'; tip.textContent='Thanks for playing — launch soon.'; shareBox.appendChild(tip);
+    }
+    buildShareUI();
+
     async function fetchTop10(){
       try{
-        const r = await fetch(api);
-        const j = await r.json();
+        const r = await fetch(api); const j = await r.json();
         if(j.ok && Array.isArray(j.top10)){
           topEl.innerHTML = '';
-          j.top10.forEach((row, i)=>{
-            const li = document.createElement('li');
-            li.textContent = `${i+1}. ${(row.name||'anon')} — ${row.score}`;
-            topEl.appendChild(li);
-          });
+          j.top10.forEach((row,i)=>{ const li=document.createElement('li'); li.textContent = `${i+1}. ${(row.name||'anon')} — ${row.score}`; topEl.appendChild(li); });
         }
       }catch(_){}
     }
 
+    function seedPlaceholders(){
+      if(localStorage.getItem('lh_seeded')) return;
+      localStorage.setItem('lh_seeded','1');
+      // API should already serve 5 seed rows; this is a no-op placeholder in case API is disabled.
+      if(topEl && !topEl.children.length){
+        ['Ava','Noah','Mia','Liam','Zoe'].forEach((n,i)=>{ const li=document.createElement('li'); li.textContent = `${i+1}. ${n} — ${1200 - i*75}`; topEl.appendChild(li); });
+      }
+    }
+
     async function submitScore(){
-      const score = lastScore|0;
-      if(score <= 0){ alert('Play a bit first!'); return; }
+      const score = lastScore|0; if(score <= 0){ alert('Play a bit first!'); return; }
       const name = (nameInp?.value || localStorage.getItem('lh_name') || 'anon').toString().trim().slice(0,20) || 'anon';
       localStorage.setItem('lh_name', name);
       try{
         const r = await fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ name, score }) });
-        const j = await r.json();
-        if(j.ok){ await fetchTop10(); alert('Submitted! Check the Top-10.'); }
-        else { alert('Could not submit: ' + (j.error||'unknown error')); }
+        const j = await r.json(); if(j.ok){ await fetchTop10(); alert('Submitted! Check Top-10.'); } else { alert('Could not submit: ' + (j.error||'unknown error')); }
       }catch(e){ alert('Network error while submitting.'); }
     }
 
     function shareTo(net){
       if(net === 'submit'){ submitScore(); return; }
       const score = lastScore|0;
-      const url = new URL(location.href);
-      url.searchParams.set('score', String(score));
-      url.searchParams.set('utm_source','game');
+      const url = new URL(location.href); url.searchParams.set('score', String(score)); url.searchParams.set('utm_source','game');
       const text = `I scored ${score} in the LockHabit mini-runner while I wait for launch. Join the waitlist!`;
-
-      if(navigator.share && (net === 'native')){
-        navigator.share({ title:'LockHabit', text, url:url.toString() }).catch(()=>{});
-        return;
-      }
       let shareURL = '';
       switch(net){
         case 'twitter': { const u = new URL('https://twitter.com/intent/tweet'); u.searchParams.set('text', text); u.searchParams.set('url', url.toString()); shareURL = u.toString(); break; }
@@ -757,10 +706,10 @@
     }
   })();
 
-  /* ===== PWA Service Worker registration ===== */
+  /* PWA SW registration */
   if('serviceWorker' in navigator){
     window.addEventListener('load', ()=> {
-      navigator.serviceWorker.register('/sw.js').then(
+      navigator.serviceWorker.register('/public/sw.js').then(
         ()=>console.log('✅ Service Worker registered'),
         err=>console.error('❌ SW registration failed:', err)
       );
