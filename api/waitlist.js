@@ -1,8 +1,49 @@
 // /api/waitlist.js
 const { createClient } = require('@supabase/supabase-js');
 
-let Resend; // lazy load so build doesn’t fail w/o package
-try { Resend = require('resend').Resend; } catch {}
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+
+// change to your verified sender (Resend → Domains or From addresses)
+const FROM = 'LockHabit <noreply@your-verified-domain.com>';
+
+function supa() {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) return null;
+  return createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+}
+
+async function sendEmail(to, name) {
+  if (!RESEND_API_KEY) return;
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [to],
+        subject: 'You’re on the LockHabit waitlist 🎉',
+        text: `Hi ${name || ''},
+
+Thanks for joining the LockHabit waitlist. We’ll email you when invites open.
+
+— Team LockHabit`,
+        html: `
+          <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.5">
+            <h2>You're on the LockHabit waitlist 🎉</h2>
+            <p>Hi ${name ? `<b>${name}</b>` : 'there'},</p>
+            <p>Thanks for signing up. We'll email you when invites open.</p>
+            <p style="color:#64748b">— Team LockHabit</p>
+          </div>`
+      })
+    });
+    // best-effort; ignore failures so signup still succeeds
+    await res.text().catch(()=>{});
+  } catch {}
+}
 
 module.exports = async (req, res) => {
   // CORS
@@ -13,51 +54,35 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ ok:false, error:'Method not allowed' });
 
   try {
-    // ---- parse body ----
     let body = req.body;
     if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
-    let { email, name, term } = body || {};
-    email = (email || '').trim().toLowerCase();
-    name  = (name  || '').trim();
-    term  = (term  || '').trim();
 
-    // ---- validate ----
-    const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!okEmail) return res.status(400).json({ ok:false, error:'Valid email required' });
+    const email = String(body?.email || '').trim().toLowerCase();
+    const name  = String(body?.name || '').trim().slice(0, 80) || null;
+    const term  = String(body?.term || '').trim().slice(0, 24) || null;
 
-    // ---- save to Supabase (upsert by email) ----
-    const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
-    const { error: dbError } = await supabase
-      .from('waitlist')
-      .upsert([{ email, name, term, updated_at: new Date().toISOString() }], { onConflict: 'email' });
-    if (dbError) return res.status(400).json({ ok:false, error: dbError.message });
-
-    // ---- send welcome email (best-effort) ----
-    try {
-      if (Resend && process.env.RESEND_API_KEY) {
-        const resend = new Resend(process.env.RESEND_API_KEY);
-        const first = (name.split(' ')[0] || 'there');
-        const html = `
-          <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16px;line-height:1.6">
-            <h2>You're on the LockHabit waitlist 🎉</h2>
-            <p>Hey ${first}, thanks for joining! We’ll email you when early access opens.</p>
-            <p style="color:#64748b;font-size:13px;margin-top:20px">— The LockHabit team</p>
-          </div>`;
-        await resend.emails.send({
-          from: 'LockHabit <onboarding@resend.dev>',
-          to: email,
-          subject: "You're on the LockHabit waitlist 🎉",
-          html
-        });
-      }
-    } catch (mailErr) {
-      console.error('Email send error (ignored):', mailErr);
-      // do not fail the request on email issues
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      return res.status(400).json({ ok:false, error:'Invalid email' });
     }
+
+    const db = supa();
+    if (!db) return res.status(500).json({ ok:false, error:'DB not configured' });
+
+    // upsert by email (requires UNIQUE(email) which you added)
+    const { error } = await db
+      .from('waitlist')
+      .upsert({ email, name, term })
+      .select('email')
+      .single();
+
+    if (error) throw error;
+
+    // fire-and-forget email
+    sendEmail(email, name).catch(()=>{});
 
     return res.status(200).json({ ok:true });
   } catch (e) {
-    console.error('Handler error:', e);
-    return res.status(500).json({ ok:false, error: 'Server error' });
+    console.error(e);
+    return res.status(500).json({ ok:false, error:'Server error' });
   }
 };
