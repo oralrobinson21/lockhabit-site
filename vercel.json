@@ -1,5 +1,6 @@
 {
-  "functions": {
-    "api/**/*.js": { "runtime": "nodejs18.x" }
-  }
+  "functions": { "api/**/*.js": { "runtime": "nodejs18.x" } },
+  "redirects": [
+    { "source": "https://lockhabit.com/:path*", "destination": "https://www.lockhabit.com/:path*", "permanent": false }
+  ]
 }
