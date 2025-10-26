@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Home (simple demo preset: $200 bi-weekly, 24m, 3.5% APR)
-       Clean UX • A11y • SEO
+       LockHabit — Home (simple, informative, Apple/Tesla clean)
+       Hero: message + small demo card (not a full calculator)
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit — Discipline Pays. Lock Your Money. Own Your Future.</title>
-  <meta name="description" content="LockHabit is disciplined, hard-lock saving with optional self-backed emergency access. See a simple demo preset to $200 bi-weekly, 24 months, 3.5% APR and watch Deposited, Interest, and Total Vested update in real time."/>
+  <title>LockHabit — Discipline pays. Lock your money and own your future.</title>
+  <meta name="description" content="LockHabit hard-locks your savings so you don’t spend impulsively. Earn a transparent fixed APR and access self-backed emergency credit up to 80% of vested. See a simple $200 bi-weekly demo, then open the full calculator or live demo."/>
   <meta name="theme-color" content="#6f7cff"/>
 
   <!-- Canonical + Social -->
   <link rel="canonical" href="https://lockhabit.com/"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit — Discipline Pays. Lock Your Money. Own Your Future."/>
-  <meta property="og:description" content="Hard-lock saving with fixed APR tiers and optional self-backed emergency access. Simple demo: $200 bi-weekly • 24 months • 3.5% APR."/>
+  <meta property="og:title" content="LockHabit — Discipline pays. Lock your money and own your future."/>
+  <meta property="og:description" content="Save on purpose. Fixed APR tiers, self-backed emergency credit, FDIC-backed custody via partner banks. Try the small demo on the home page."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
   <meta property="og:image" content="/public/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="LockHabit — Save on purpose"/>
-  <meta name="twitter:description" content="See your goal progress live. Simple demo: $200 bi-weekly, 24m, 3.5% APR."/>
+  <meta name="twitter:description" content="Hard-lock savings, transparent APRs, optional credit-builder. See the mini demo, then open the full calculator."/>
   <meta name="twitter:image" content="/public/og-image.png"/>
 
   <!-- Fonts -->
@@ -34,22 +34,21 @@
   <link rel="apple-touch-icon" href="/public/icon-192.png">
   <link rel="manifest" href="/public/manifest.webmanifest">
 
-  <!-- Analytics (optional) -->
+  <!-- Privacy analytics -->
   <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
 
-  <!-- ========================= Styles ========================= -->
   <style>
     :root{
-      --brand:#6f7cff; --brand2:#9c78ff; --accent:#9fb2ff;
-      --green:#22c55e; --ink:#0f172a; --muted:#536179;
-      --line:#e6e7f1; --bg:#0b0e1a;
-      --radius:16px;
-      --grad-hero:
-        radial-gradient(1300px 720px at 50% -220px, rgba(111,124,255,.28) 0%, rgba(156,120,255,.20) 35%, transparent 62%),
-        radial-gradient(1000px 680px at -8% 8%, rgba(156,120,255,.20) 0%, transparent 55%),
-        radial-gradient(1000px 680px at 108% -12%, rgba(111,124,255,.16) 0%, transparent 60%),
-        #f7f8ff;
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --brand:#6f7cff; --brand2:#9c78ff;
+      --ink:#0e132a; --muted:#52607a;
+      --line:#e7e9f2; --panel:#ffffff; --surface:#f7f8ff;
+      --green:#22c55e; --bg:#0c0f1b;
+      --radius:16px; --radius-lg:22px;
+      --shadow:0 18px 50px rgba(17,24,39,.10);
+      --grad:
+        radial-gradient(1200px 680px at 50% -220px, rgba(111,124,255,.26), transparent 60%),
+        radial-gradient(900px 600px at -10% 10%, rgba(156,120,255,.18), transparent 55%),
+        #f6f8ff;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -57,108 +56,64 @@
       margin:0; background:var(--bg); color:var(--ink);
       font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      padding-bottom:var(--safe-bottom); overflow-x:hidden;
+      overflow-x:hidden;
     }
-    a{color:#19253f; text-decoration:none; font-weight:600}
+    a{color:#162441;text-decoration:none;font-weight:600}
 
     /* Header */
-    .header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transition:transform .18s ease, box-shadow .18s ease}
-    .header.hide{transform:translateY(-100%)}
-    .header.stuck{box-shadow:0 6px 22px rgba(15,23,42,.08)}
-    .wrap{max-width:1200px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:32px;height:32px}
-    .word{font-weight:800;color:#0e1a34;font-size:20px}
-    .nav{display:flex;align-items:center;gap:14px}
+    .hdr{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transition:transform .16s ease, box-shadow .16s ease}
+    .hdr.stuck{box-shadow:0 6px 20px rgba(15,23,42,.08)}
+    .wrap{max-width:1200px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800}
+    .nav{display:flex;gap:14px;align-items:center}
     .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:44px}
     .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 10px 26px rgba(111,124,255,.32)}
-    .btn.ghost{background:transparent}
-    @media (max-width:760px){ .nav a:nth-child(-n+4){display:none} }
+    @media (max-width:760px){ .nav a:not(.primary){display:none} }
 
     /* Hero */
-    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:60px 18px 44px}
-    .hero-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:24px;align-items:center}
-    @media (min-width:1020px){ .hero-grid{grid-template-columns:1.05fr .95fr;gap:28px} }
-    h1{font-size:34px;line-height:1.12;margin:0 0 10px}
-    @media (min-width:540px){ h1{font-size:42px} }
-    @media (min-width:1020px){ h1{font-size:50px} }
-    .sub{color:#3a4a66;max-width:68ch}
-    .chip{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:linear-gradient(135deg,#e7ebff,#f4f1ff);border:1px solid #dfe3ff;border-radius:999px;padding:8px 12px;font-weight:700;color:#3a4a66}
-    .cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-    .footnote{font-size:12px;color:#60708c}
+    .hero{background:var(--grad);border-bottom:1px solid var(--line);padding:56px 18px 42px}
+    .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:24px;align-items:center}
+    @media (min-width:1000px){ .grid{grid-template-columns:1.08fr .92fr} }
+    h1{margin:0 0 10px;font-size:42px;line-height:1.08}
+    @media (min-width:520px){ h1{font-size:50px} }
+    .lead{color:#3a4a66;max-width:70ch}
+    .chip{display:inline-flex;gap:10px;align-items:center;background:linear-gradient(135deg,#e9ecff,#f3f1ff);border:1px solid #dee3ff;border-radius:999px;padding:8px 12px;font-weight:700;color:#3c4a6a}
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .fine{font-size:12px;color:#6b7a94;margin-top:6px}
 
-    /* Hero mock */
-    .mock{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 18px 50px rgba(17,24,39,.10)}
-    .mock .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .badge{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800;white-space:nowrap}
-    .mini{font-size:12px;color:var(--muted)}
-    .card{margin-top:12px;background:linear-gradient(180deg,#fff,#f9f9ff);border:1px solid var(--line);border-radius:14px;padding:12px}
-    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,var(--brand));transition:width .6s ease}
-    .statgrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
-    @media (min-width:560px){ .statgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
-    .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+    /* Small demo card */
+    .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
+    .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .badge{background:#eafff2;color:#063a22;border:1px solid #c8f5d9;border-radius:999px;padding:6px 10px;font-weight:800;white-space:nowrap}
+    .mini{font-size:12px;color:#6b7a94}
+    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1;margin-top:8px}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,var(--brand));transition:width .45s ease}
+    .controls{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px}
+    .controls input,.controls select{width:100%;padding:10px 12px;border:1px solid #dbe0ea;border-radius:12px;font-weight:700}
+    .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+    .stat{background:#fff;border:1px solid #edf0f6;border-radius:12px;padding:12px}
     .k{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
-    .v{font-weight:800;font-size:22px;color:#0b1230;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-    .aprRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #e1e6ff;background:#f3f6ff;border-radius:999px;padding:8px 12px;font-weight:700;color:#203060;cursor:pointer}
-    .pill.is-active{border-color:#b8c2ff;box-shadow:0 0 0 2px #e7ebff inset}
-    .pill input{width:92px;padding:6px 8px;border:1px solid #dbe0ea;border-radius:10px;font-weight:700}
-
-    .emerg{display:flex;align-items:center;gap:8px;background:#f3f5ff;border:1px solid #e1e6ff;border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:700;color:#203060;flex-wrap:wrap}
+    .v{font-weight:800;font-size:22px;color:#0b1230;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .note{font-size:12px;color:#2a3b64;background:#f3f6ff;border:1px solid #e2e7ff;border-radius:10px;padding:8px 10px;margin-top:10px}
 
     /* Sections */
-    section.s{max-width:1200px;margin:0 auto;padding:40px 18px}
+    section.s{max-width:1200px;margin:0 auto;padding:42px 18px}
     .section-title{font-size:28px;text-align:center;margin:0 0 16px;color:#f8f9ff}
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 18px 50px rgba(17,24,39,.10)}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
     .cols3{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width:900px){ .cols3{grid-template-columns:repeat(3,minmax(0,1fr))} }
-    .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
-    .plan h3{margin:0 0 6px;color:#15213d}
-
-    /* Ribbon */
-    .ribbon{background:linear-gradient(135deg, rgba(111,124,255,.22), rgba(156,120,255,.22));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .ribwrap{max-width:1200px;margin:0 auto;padding:12px 18px;display:flex;gap:10px;align-items:center;justify-content:center;color:#e7ebff;flex-wrap:wrap}
-    .ribwrap .item{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:10px 12px;border-radius:999px}
-    .ribwrap .item b{color:#fff}
 
     /* Footer */
-    footer{background:#fff;border-top:1px solid var(--line);color:#3a4a66}
-    .foot{max-width:1200px;margin:0 auto;padding:22px 18px}
-    .fine{background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#41506a}
-    .footnote{font-size:12px;color:#60708c}
+    footer{background:#fff;border-top:1px solid var(--line)}
+    .foot{max-width:1200px;margin:0 auto;padding:22px 18px;color:#3a4a66}
+    .foot small{display:block;color:#5f6f8e}
 
-    /* Modal */
-    .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
-    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 40px 120px rgba(7,10,18,.45)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
-    .form{display:grid;gap:10px;margin-top:10px}
-    input,select{padding:14px;border-radius:12px;border:1px solid #dbe0ea;font-size:16px}
-    .note{font-size:12px;color:#60708c}
-    .success{display:none;text-align:center;padding:18px}
-    .check{font-size:42px}
-
-    /* Mini Game */
-    .miniwrap{position:fixed;left:0;right:0;bottom:0;z-index:40;pointer-events:none;padding-bottom:var(--safe-bottom)}
-    .minibar{margin:0 auto;max-width:1200px;padding:6px 10px;display:flex;gap:8px;align-items:center;justify-content:flex-end}
-    .minibar .pill{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;background:#0e1330;color:#e5e7f1;border:1px solid #2b3150;border-radius:999px;padding:6px 10px;font-weight:700;cursor:pointer;min-height:36px}
-    #gamePanel{pointer-events:auto;display:none;background:#0b0e1a;border-top:1px solid #2b3150}
-    #gamePanel.open{display:block}
-    #runnerCanvas{display:block;width:100%;max-width:1200px;height:140px;margin:0 auto;background:#0f172a}
-    #gameInfo,#gameUI{max-width:1200px;margin:0 auto;color:#9fb2ff;font-size:12px;padding:6px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    #top10{display:flex;gap:6px;flex-wrap:wrap;padding:0;margin:0;list-style:none}
-    #playerName{padding:6px 8px;border-radius:10px;border:1px solid #2b3150;background:#0e1330;color:#e5e7f1}
-    .gameOver{max-width:1200px;margin:6px auto 10px;display:none;gap:10px;align-items:center;justify-content:space-between;color:#e6ebff}
-    .gameOver .card{background:#0e1330;border:1px solid #2b3150;border-radius:12px;padding:10px;display:flex;gap:10px;align-items:center;justify-content:space-between}
-    .gameOver .btn{background:#162048;color:#e6ebff;border-color:#2b3150}
   </style>
 </head>
 <body>
-
-<!-- ========================= HEADER ========================= -->
-<header class="header" role="banner" id="hdr">
+<header class="hdr" id="hdr">
   <div class="wrap">
     <div class="brand" aria-label="LockHabit">
       <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
@@ -170,10 +125,10 @@
       </svg>
       <div class="word">LockHabit</div>
     </div>
-    <nav class="nav" role="navigation" aria-label="Main">
-      <a href="#how">How it works</a>
-      <a href="#plans">Plans</a>
-      <a href="#security">Security</a>
+    <nav class="nav">
+      <a class="primary" href="#how">How it works</a>
+      <a class="primary" href="#safety">Safety</a>
+      <a class="primary" href="#faq">FAQ</a>
       <a href="/calculator.html">Calculator</a>
       <a href="/demo.html">Demo</a>
       <button class="btn acc" onclick="openModal()">Get started</button>
@@ -181,487 +136,275 @@
   </div>
 </header>
 
-<!-- ========================= HERO ========================= -->
-<section class="hero" id="top">
-  <div class="hero-grid" aria-describedby="hero-copy">
+<section class="hero">
+  <div class="grid">
+    <!-- Left: explain the product -->
     <div>
-      <div class="chip">Discipline Pays • <b style="color:#22c55e">Fixed APR</b> tiers • FDIC-Backed Custody</div>
+      <div class="chip">Discipline Pays • Fixed APR tiers • FDIC-backed custody</div>
       <h1>Discipline pays. Lock your money and own your future.</h1>
-      <p id="hero-copy" class="sub">
-        LockHabit is a behavioral savings and credit-builder system. We hard-lock your savings so you can’t spend impulsively, grow it at a fixed APR, and
-        give you self-backed emergency access up to <b>80% of vested</b> if life happens.  
-        Simple demo below is preset to <b>$200 bi-weekly</b>, <b>24 months</b>, <b>3.5% APR</b>.
+      <p class="lead">
+        LockHabit helps you save on purpose and avoid impulse spending. We hard-lock your funds,
+        grow them at a transparent <b>fixed APR</b> (prorated), and provide <b>self-backed emergency credit</b>
+        up to <b>80% of vested</b> when life happens. Perfect for big goals — and for people who need a firm
+        boundary against gambling, shopping, or overspending. Your deposits are never lent to others.
       </p>
       <div class="cta">
-        <button class="btn acc" onclick="openModal()">Join the Waitlist</button>
+        <button class="btn acc" onclick="openModal()">Join the waitlist</button>
         <a class="btn" href="/calculator.html">Open Calculator</a>
         <a class="btn" href="/demo.html">Try the Demo</a>
       </div>
-      <div class="footnote">Your deposits are never lent out. We avoid the word “guarantee” outside posted fixed APRs.</div>
+      <div class="fine">We never use the word “guarantee” outside posted fixed APRs. Returns on any optional variable sleeve are not guaranteed.</div>
     </div>
 
-    <!-- Right: interactive mock (simple demo) -->
-    <aside class="mock" aria-live="polite">
+    <!-- Right: small demo card (simple) -->
+    <aside class="card" aria-live="polite">
       <div class="row">
         <div>
           <div class="mini">Savings Vault</div>
-          <div style="font-weight:800;font-size:18px;color:#0f1a34">Goal Progress</div>
-          <div class="mini" id="planLine">
-            <span id="mDep">$200</span> / <span id="mFreq">bi-weekly</span> •
-            <span id="mTerm">24 months</span> • <span id="mAPR">3.5% APR</span>
-          </div>
+          <div style="font-weight:800">Goal Progress</div>
+          <div class="mini"><span id="m_line">$200 • bi-weekly • 24 mo • 3.5% APR</span></div>
         </div>
         <span class="badge">On-time ↑ credit</span>
       </div>
 
-      <div class="card" style="margin-top:10px">
-        <div class="row" style="margin-bottom:8px">
-          <div class="mini">Progress</div>
-          <div class="mini" id="pval">0%</div>
-        </div>
-        <div class="bar" aria-hidden="true"><div class="fill" id="pbar"></div></div>
+      <div class="mini" style="margin-top:8px">Progress <span style="float:right" id="p_txt">0%</span></div>
+      <div class="bar"><div class="fill" id="p_bar"></div></div>
 
-        <!-- Minimal controls (pre-set) -->
-        <div class="aprRow" aria-label="Demo settings">
-          <span class="pill">Amount <input type="number" id="depInput" min="0" value="200"/></span>
-          <span class="pill">Frequency <input id="freqLabel" value="bi-weekly" disabled/></span>
-          <span class="pill">Term (mo) <input type="number" id="termInput" min="1" value="24"/></span>
-          <button class="pill is-active" id="aprFixed" data-apr="0.035">3.5% APR</button>
-        </div>
+      <div class="controls" style="margin-top:10px">
+        <input id="amount" type="number" min="0" value="200" aria-label="Amount per deposit"/>
+        <select id="freq" aria-label="Contribution frequency">
+          <option value="weekly">weekly</option>
+          <option value="biweekly" selected>bi-weekly</option>
+          <option value="monthly">monthly</option>
+        </select>
+        <input id="months" type="number" min="1" value="24" aria-label="Term in months"/>
+        <select id="apr" aria-label="APR">
+          <option value="0.02">2.0% APR</option>
+          <option value="0.025">2.5% APR</option>
+          <option value="0.03">3.0% APR</option>
+          <option value="0.035" selected>3.5% APR</option>
+        </select>
       </div>
 
-      <div class="statgrid">
+      <div class="stats">
         <div class="stat">
           <div class="k">Deposited so far</div>
-          <div class="v" id="vDeposited">$0.00</div>
-          <div class="k">Bi-weekly deposits</div>
+          <div class="v" id="out_dep">$0.00</div>
+          <div class="mini">Automatic contributions</div>
         </div>
         <div class="stat">
           <div class="k">Interest so far</div>
-          <div class="v" id="vInterest">$0.00</div>
-          <div class="k">Compounded monthly</div>
+          <div class="v" id="out_int">$0.00</div>
+          <div class="mini">Compounded monthly</div>
         </div>
         <div class="stat">
           <div class="k">Total vested</div>
-          <div class="v" id="vTotal">$0.00</div>
-          <div class="k">Principal + interest</div>
+          <div class="v" id="out_total">$0.00</div>
+          <div class="mini">Principal + interest</div>
         </div>
       </div>
 
-      <div class="emerg">
-        💡 Emergency access (self-backed): up to <b>80% of vested</b>. Terms: <b>0%</b> for first 4 months, then <b>6% APR</b>. Credit-builder loans at <b>6% APR</b> (intended to be bureau-reported).
+      <div class="note">
+        💡 Emergency access (self-backed): up to <b>80% of vested</b>. Terms: <b>0%</b> interest for first 4 months, then <b>6% APR</b>.
+        Credit-builder loans at <b>6% APR</b> are intended to be bureau-reported. Non-emergency early breaks incur posted fees.
       </div>
     </aside>
   </div>
 </section>
 
-<!-- ========================= RIBBON ========================= -->
-<div class="ribbon" role="region" aria-label="Security summary">
-  <div class="ribwrap">
-    <div class="item">🔒 <b>Hard-lock</b> (no early withdrawals except emergencies)</div>
-    <div class="item">🏦 <b>FDIC-backed custody</b> via partner banks</div>
-    <div class="item">🧮 <b>Fixed APR tiers</b>: 2.0% • 2.5% • 3.0% • 3.5%</div>
-    <div class="item">🧠 For savers & for those curbing impulses (gambling/shopping). Save on purpose so you don’t waste it.</div>
-  </div>
-</div>
-
-<!-- ========================= HOW IT WORKS ========================= -->
-<section id="how" class="s" aria-labelledby="how-title">
-  <h2 id="how-title" class="section-title">How LockHabit Works</h2>
+<!-- How it works -->
+<section id="how" class="s">
+  <h2 class="section-title">How LockHabit works</h2>
   <div class="panel">
     <div class="cols3">
-      <div class="plan">
+      <div>
         <h3>1) Choose your lock</h3>
         <ul>
-          <li>Pick a term (3–6–12–24+ months)</li>
-          <li>Start with $200 bi-weekly (or set your own)</li>
-          <li>Funds move into your hidden vault</li>
+          <li>Pick a term (3, 6, 12, 24+ months)</li>
+          <li>Set an auto-deposit (e.g., $200 bi-weekly)</li>
+          <li>Your funds move into a hidden vault</li>
         </ul>
       </div>
-      <div class="plan">
+      <div>
         <h3>2) Grow automatically</h3>
         <ul>
-          <li>Fixed APR tiers: 2.0% / 2.5% / 3.0% / 3.5%</li>
+          <li>Fixed APR tiers: 2.0% • 2.5% • 3.0% • 3.5%</li>
           <li>Your deposits are <b>never lent out</b></li>
-          <li>Extend your lock at maturity to keep compounding</li>
+          <li>Extend at maturity to keep compounding</li>
         </ul>
       </div>
-      <div class="plan">
+      <div>
         <h3>3) Unlock or borrow</h3>
         <ul>
-          <li>On unlock: principal + interest − posted fees</li>
-          <li>Emergency? Self-backed loan up to 80% of vested</li>
-          <li>Intended to be credit-bureau reported</li>
+          <li>Unlock day: principal + interest − posted fees</li>
+          <li>Self-backed loans up to 80% of vested</li>
+          <li>On-time payments may build credit</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========================= PLANS ========================= -->
-<section id="plans" class="s" aria-labelledby="plans-title">
-  <h2 id="plans-title" class="section-title">Simple, transparent plans</h2>
-  <div class="cols3">
-    <div class="plan">
-      <h3>3–5 months</h3>
-      <ul>
-        <li><b>2.0% APR</b> (prorated)</li>
-        <li>Great for quick goals</li>
-      </ul>
-    </div>
-    <div class="plan">
-      <h3>6–11 months</h3>
-      <ul>
-        <li><b>2.5% APR</b> (prorated)</li>
-        <li>Balanced discipline</li>
-      </ul>
-    </div>
-    <div class="plan">
-      <h3>12–24+ months</h3>
-      <ul>
-        <li><b>3.0%–3.5% APR</b> (prorated)</li>
-        <li>Maximum fixed-rate growth</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ========================= SECURITY ========================= -->
-<section id="security" class="s" aria-labelledby="sec-title">
-  <h2 id="sec-title" class="section-title">Your money stays safe</h2>
+<!-- Safety -->
+<section id="safety" class="s">
+  <h2 class="section-title">Safety & transparency</h2>
   <div class="panel">
     <div class="cols3">
-      <div class="plan">
-        <h3>FDIC-backed via partner banks</h3>
-        <p class="mini">When structured for pass-through coverage, FDIC insurance applies up to legal limits per depositor, per bank.</p>
+      <div>
+        <h3>FDIC-backed custody</h3>
+        <p class="mini">Deposits are held via regulated partner banks. When structured for pass-through, FDIC insurance applies up to legal limits per depositor, per bank.</p>
       </div>
-      <div class="plan">
-        <h3>Segregated & never lent</h3>
-        <p class="mini">Your funds remain reserved for you — we do not lend out customer deposits. Emergency access is a secured, self-backed loan to you, not others.</p>
+      <div>
+        <h3>Segregated funds</h3>
+        <p class="mini">Funds remain reserved for you — we do not lend out customer deposits. Emergency access is a secured, self-backed loan to <i>you</i>, not to others.</p>
       </div>
-      <div class="plan">
-        <h3>Hard-lock with emergency override</h3>
-        <p class="mini">Withdrawals aren’t allowed before the unlock date except for approved emergencies. Non-emergency early break attempts incur posted fees.</p>
+      <div>
+        <h3>Clear terms</h3>
+        <p class="mini">Emergency loans: 0% for first 4 months, then 6% APR. Credit-builder loans at 6% APR. Non-emergency early breaks incur posted fees.</p>
       </div>
     </div>
+    <p class="mini" style="margin-top:10px">
+      <b>Optional high-risk sleeve (info only):</b> variable APR with historical ranges between –10% and +20%. Includes a $2/month account fee when enabled and a 2% close-out fee at withdrawal/transfer. Availability subject to partner and regulatory approval. Returns are not guaranteed. This is not investment advice.
+    </p>
   </div>
 </section>
 
-<!-- ========================= FAQ ========================= -->
-<section id="faq" class="s" aria-labelledby="faq-title">
-  <h2 id="faq-title" class="section-title">FAQ</h2>
+<!-- FAQ -->
+<section id="faq" class="s">
+  <h2 class="section-title">FAQ</h2>
   <div class="panel">
     <details>
       <summary>Is this a hard lock?</summary>
-      <p>Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. Non-emergency early break attempts incur posted fees.</p>
+      <p>Yes. Funds remain locked until your chosen unlock date. Early withdrawal isn’t allowed except for approved emergencies. Non-emergency early breaks incur posted fees.</p>
+    </details>
+    <details>
+      <summary>Who is LockHabit for?</summary>
+      <p>Anyone saving for a big purchase or target amount — and people who want a firm boundary against impulse spending (gambling, shopping, etc.). We take it, save it, so you don’t waste it.</p>
     </details>
     <details>
       <summary>Do I earn interest while locked?</summary>
-      <p>Yes. Fixed plans accrue based on the posted APR tier (e.g., 2.0%–3.5%), prorated by time in lock. Rates may change with notice for new locks.</p>
+      <p>Yes. Fixed plans accrue using the posted APR tiers (prorated). You can extend at maturity to keep compounding.</p>
     </details>
     <details>
-      <summary>Who is this good for?</summary>
-      <p>People saving toward a goal (car, home, tuition) and people curbing impulsive spending (e.g., gambling or shopping). We help you save on purpose so you don’t waste it.</p>
+      <summary>Are loans reported to credit bureaus?</summary>
+      <p>Our intent is to report credit-builder loans to major bureaus. On-time payments may help your credit; missed payments may hurt your credit.</p>
     </details>
   </div>
 </section>
 
-<!-- ========================= FOOTER ========================= -->
-<footer role="contentinfo">
+<footer>
   <div class="foot">
-    <div>© <span id="yr"></span> LockHabit — Discipline made simple. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
-    <div class="fine">
+    <div>© <span id="yr"></span> LockHabit — Discipline made simple. <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
+    <small>
       LockHabit is a financial technology company, not a bank. Banking services and deposit custody are provided by regulated partner banks.
-      When deposits are held at partner banks and structured for pass-through coverage, funds may be eligible for FDIC insurance up to the applicable limits per depositor, per bank.
-      This is a <b>hard lock</b>: early withdrawal is not permitted except for approved emergencies. Emergency access is provided via secured, self-backed loans (0% for the first 4 months, then 6% APR).
-      Credit-builder loans at 6% APR are intended to be bureau-reported. APRs, terms, and fees are subject to change with notice. Nothing here is investment advice.
-    </div>
-    <div class="footnote" style="margin-top:8px;text-align:center">
+      When deposits are held at partner banks and structured for pass-through coverage, funds may be eligible for FDIC insurance up to applicable limits.
+      We avoid the word “guarantee” outside posted fixed APRs. Optional variable sleeves are not guaranteed and can lose value.
+    </small>
+    <div style="margin-top:8px">
       <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a> • <a href="/demo.html">Demo</a>
     </div>
   </div>
 </footer>
 
-<!-- ========================= MINI GAME (Footer) ========================= -->
-<div class="miniwrap" aria-hidden="false">
-  <div class="minibar">
-    <button id="toggleGame" class="pill" aria-expanded="false" aria-controls="gamePanel">🎮 Mini game (off)</button>
-  </div>
-  <div id="gamePanel" role="region" aria-label="Endless runner mini game">
-    <canvas id="runnerCanvas" width="1200" height="140"></canvas>
-    <div id="gameInfo">
-      <span>Until launch: Space/↑ to jump • P pause • R reset</span>
-      <span id="gameScore">Score: 0</span>
-    </div>
-    <div class="gameOver" id="gameOverBox">
-      <div class="card" style="width:100%">
-        <div><b>Game over.</b> Your score: <span id="finalScore">0</span></div>
-        <div style="display:flex;gap:8px">
-          <button class="btn" id="tryAgainBtn">Try again</button>
-          <button class="btn" id="closeGameBtn">Close</button>
-        </div>
-      </div>
-    </div>
-    <div id="gameUI">
-      <input id="playerName" placeholder="Enter name (optional)" maxlength="12"/>
-      <ul id="top10"></ul>
-      <div id="shareButtons"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ========================= WAITLIST MODAL ========================= -->
-<div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title">
-  <div class="modal" id="modalBox">
-    <div class="row">
-      <h3 id="wl-title" style="margin:0">Join the LockHabit waitlist</h3>
-      <button class="x" aria-label="Close" onclick="closeModal()">✕</button>
-    </div>
-    <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
-    <form id="wl-form" class="form" novalidate>
-      <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
-      <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
-      <select name="term" aria-label="Preferred lock term">
-        <option value="">Preferred lock term (optional)</option>
-        <option value="3">3 months</option>
-        <option value="6">6 months</option>
-        <option value="12">12 months</option>
-        <option value="24+" selected>24+ months</option>
-      </select>
+<!-- Waitlist modal -->
+<div id="overlay" style="position:fixed;inset:0;background:rgba(10,13,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:80">
+  <div style="width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 40px 120px rgba(7,10,18,.45)">
+    <div class="row"><h3 style="margin:0">Join the LockHabit waitlist</h3><button onclick="closeModal()" class="btn">✕</button></div>
+    <p class="mini">We’ll only email you about LockHabit.</p>
+    <form id="wl" class="row" style="gap:8px;flex-wrap:wrap">
+      <input name="email" type="email" placeholder="Email address" required style="flex:1 1 240px;padding:12px;border:1px solid #dbe0ea;border-radius:12px"/>
+      <input name="name" type="text" placeholder="Name (optional)" style="flex:1 1 180px;padding:12px;border:1px solid #dbe0ea;border-radius:12px"/>
       <button class="btn acc" type="submit">Join the waitlist</button>
-      <div id="msg" class="note" role="status" aria-live="polite"></div>
-      <div class="footnote">By joining, you consent to receive early-access communications. We never sell your data.</div>
     </form>
-    <div id="ok" class="success" aria-live="polite">
-      <div class="check">✅</div>
-      <h3>Thanks — you’re on the list!</h3>
-      <p class="note">We’ve recorded your interest. Keep an eye on your inbox for updates.</p>
-      <button class="btn acc" onclick="closeModal()">Back to home</button>
-    </div>
+    <div id="wlmsg" class="mini" style="margin-top:8px"></div>
   </div>
 </div>
 
-<!-- ========================= Structured data (SEO) ========================= -->
+<!-- SEO structured data -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"/public/logo.svg","sameAs":["https://twitter.com/lockhabit","https://www.linkedin.com/company/lockhabit"]}
 </script>
 
-<!-- ========================= SCRIPTS ========================= -->
 <script>
-  /* Live year */
-  document.getElementById('yr').textContent = new Date().getFullYear();
-
-  /* Sticky header hide/show */
+  // Sticky header
   (function(){
-    const hdr = document.getElementById('hdr');
-    let lastY = window.scrollY, ticking = false;
-    const onScroll = ()=>{
-      const y = window.scrollY;
-      hdr.classList.toggle('stuck', y > 2);
-      if (y > lastY && y > 80) hdr.classList.add('hide'); else hdr.classList.remove('hide');
-      lastY = y; ticking = false;
-    };
-    window.addEventListener('scroll', ()=>{
-      if(!ticking){ window.requestAnimationFrame(onScroll); ticking = true; }
-    }, {passive:true});
+    const h=document.getElementById('hdr');
+    window.addEventListener('scroll',()=>h.classList.toggle('stuck',window.scrollY>2),{passive:true});
   })();
 
-  /* Modal open/close */
-  const overlay = document.getElementById('overlay');
+  // Modal
+  const overlay=document.getElementById('overlay');
   function openModal(){ overlay.style.display='flex'; document.body.style.overflow='hidden'; }
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
-  window.openModal = openModal; window.closeModal = closeModal;
+  window.openModal=openModal; window.closeModal=closeModal;
 
-  /* ================== HERO DEMO (bi-weekly handling) ================== */
+  // Year
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  // Small demo logic (monthly compounding; simple + fast)
   (function(){
-    const depInput = document.getElementById('depInput'); // bi-weekly amount
-    const termInput= document.getElementById('termInput'); // months
-    const aprFixed = document.getElementById('aprFixed');  // 3.5% APR fixed button
-    const pbar = document.getElementById('pbar'), pval = document.getElementById('pval');
-    const vD = document.getElementById('vDeposited'), vI = document.getElementById('vInterest'), vT = document.getElementById('vTotal');
-    const mDep = document.getElementById('mDep'), mTerm = document.getElementById('mTerm'), mAPR = document.getElementById('mAPR');
+    const $=id=>document.getElementById(id);
+    const amount=$('amount'), freq=$('freq'), months=$('months'), apr=$('apr');
+    const outDep=$('out_dep'), outInt=$('out_int'), outTot=$('out_total');
+    const pbar=$('p_bar'), ptxt=$('p_txt'), mline=$('m_line');
 
-    let APR = 0.035; // preset 3.5%
+    function fmt(n){return n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:2});}
 
-    function currency(n){ return n.toLocaleString(undefined,{style:'currency',currency:'USD'}); }
+    function periodsPerMonth(f){
+      if(f==='weekly') return 52/12;
+      if(f==='biweekly') return 26/12;
+      return 1; // monthly
+    }
 
-    // Convert bi-weekly deposit to monthly equivalent (~26 / 12)
-    function monthlyFromBiweekly(d){ return d * (26/12); }
+    function project(){
+      const dep=Math.max(0,Number(amount.value)||0);
+      const m=Math.max(1,Math.floor(Number(months.value)||1));
+      const a=Math.max(0,Number(apr.value)||0);
+      const r=a/12;
 
-    // Simple monthly compounding with monthly-equivalent PMT
-    function project(biweeklyAmount, months, apr){
-      const pmt = monthlyFromBiweekly(biweeklyAmount);
-      const r   = apr / 12;
-      let bal = 0, contrib = 0;
-      for(let m=0;m<months;m++){
-        contrib += pmt;
-        bal = (bal + pmt) * (1 + r);
+      const ppm=periodsPerMonth(freq.value);
+      const monthlyContribution=dep*ppm;
+
+      let balance=0, totalContrib=0;
+      for(let i=0;i<m;i++){
+        totalContrib+=monthlyContribution;
+        balance=(balance+monthlyContribution)*(1+r);
       }
-      return {contrib, interest: Math.max(0, bal - contrib), total: bal};
+
+      outDep.textContent=fmt(totalContrib);
+      outInt.textContent=fmt(Math.max(0,balance-totalContrib));
+      outTot.textContent=fmt(balance);
+
+      mline.textContent=`${fmt(dep)} • ${freq.options[freq.selectedIndex].text} • ${m} mo • ${(a*100).toFixed(1)}% APR`;
+
+      // visual meter loop
+      let p=0; clearInterval(window.__loop);
+      window.__loop=setInterval(()=>{ p=(p+1.2+Math.random())%100; pbar.style.width=p.toFixed(0)+'%'; ptxt.textContent=p.toFixed(0)+'%'; },650);
     }
 
-    function render(){
-      const bi = Math.max(0, Number(depInput.value||0));
-      const mon = Math.max(1, Math.floor(Number(termInput.value||24)));
-
-      const out = project(bi, mon, APR);
-
-      vD.textContent = currency(out.contrib);
-      vI.textContent = currency(out.interest);
-      vT.textContent = currency(out.total);
-
-      mDep.textContent = currency(bi);
-      mTerm.textContent = mon + ' months';
-      mAPR.textContent = (APR*100).toFixed(1) + '% APR';
-
-      // soft animated progress
-      let prog = 0;
-      if(window.__heroTimer) clearInterval(window.__heroTimer);
-      window.__heroTimer = setInterval(()=>{
-        prog = (prog + 1.4 + Math.random()*1.1) % 100;
-        pbar.style.width = prog.toFixed(0)+'%';
-        pval.textContent = prog.toFixed(0)+'%';
-      }, 700);
-    }
-
-    depInput.addEventListener('input', render);
-    termInput.addEventListener('input', render);
-    aprFixed.addEventListener('click', render);
-
-    // init defaults: $200 bi-weekly, 24 months, 3.5% APR
-    depInput.value = 200;
-    termInput.value = 24;
-    render();
+    [amount,freq,months,apr].forEach(el=>el.addEventListener('input',project));
+    project();
   })();
 
-  /* ================== Waitlist submit ================== */
+  // Waitlist submit (API + Formspree fallback)
   (function(){
-    const form = document.getElementById('wl-form');
-    const msg  = document.getElementById('msg');
-    const ok   = document.getElementById('ok');
+    const form=document.getElementById('wl');
+    const msg=document.getElementById('wlmsg');
     if(!form) return;
-
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
-      msg.textContent = 'Submitting…';
-      msg.style.color = '#60708c';
-
-      const data = Object.fromEntries(new FormData(form).entries());
-      const showOK = ()=>{ form.style.display='none'; ok.style.display='block'; };
-
+      msg.textContent='Submitting…';
       try{
-        const res = await fetch('/api/waitlist', {
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body:JSON.stringify(data)
-        });
-        const out = await res.json().catch(()=>({}));
-        if(res.ok && (out.ok || out.id || out.inserted)){ showOK(); return; }
+        const res=await fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(form).entries()))});
+        if(res.ok){ msg.textContent='Thanks — you’re on the list!'; form.reset(); return; }
       }catch(_){}
-
       try{
-        const fs = await fetch('https://formspree.io/f/mrbywgpw', {
-          method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form)
-        });
-        if(fs.ok){ showOK(); return; }
-        msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
-      }catch(e){
-        msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
-      }
+        const fs=await fetch('https://formspree.io/f/mrbywgpw',{method:'POST',body:new FormData(form)});
+        if(fs.ok){ msg.textContent='Thanks — you’re on the list!'; form.reset(); return; }
+        msg.textContent='Network error. Please try again.';
+      }catch(_){ msg.textContent='Network error. Please try again.'; }
     });
   })();
-
-  /* ================== Mini Runner — pauses on death ================== */
-  (function(){
-    const toggleBtn = document.getElementById('toggleGame');
-    const panel     = document.getElementById('gamePanel');
-    const cvs       = document.getElementById('runnerCanvas');
-    const scoreEl   = document.getElementById('gameScore');
-    const overBox   = document.getElementById('gameOverBox');
-    const finalScore= document.getElementById('finalScore');
-    const tryAgain  = document.getElementById('tryAgainBtn');
-    const closeGame = document.getElementById('closeGameBtn');
-
-    if(!toggleBtn || !panel || !cvs || !scoreEl) return;
-    const ctx = cvs.getContext('2d');
-    let W = cvs.width, H = cvs.height;
-
-    let running=false, paused=false, gameOver=false, t0=0, score=0, raf;
-    const G=0.9, ground=H-18;
-    const player={x:40,y:ground,vy:0,w:14,h:14,onGround:true};
-    let obs=[], spawn=0;
-
-    function reset(){ score=0; obs=[]; spawn=0; player.y=ground; player.vy=0; player.onGround=true; paused=false; gameOver=false; overBox.style.display='none'; }
-    function jump(){ if(!running || paused || gameOver) return; if(player.onGround){ player.vy=-12; player.onGround=false; } }
-    function drawBg(){ ctx.fillStyle='#0f172a'; ctx.fillRect(0,0,W,H); ctx.strokeStyle='#26304a'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(0,ground+8); ctx.lineTo(W,ground+8); ctx.stroke(); }
-    function addObstacle(){ const h=10+Math.floor(Math.random()*18); const w=8+Math.floor(Math.random()*10); const speed=4+Math.random()*2; obs.push({x:W+10,y:ground,w,h,v:speed}); }
-    function drawObstacles(){ ctx.fillStyle='#91a1ff'; for(const o of obs){ ctx.fillRect(o.x,o.y-o.h,o.w,o.h); } }
-
-    function resize(){
-      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio||1));
-      const cssW = Math.min(1200, document.documentElement.clientWidth);
-      cvs.style.width = cssW + 'px';
-      cvs.width = cssW * dpr; cvs.height = 140 * dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-      W = cssW;
-    }
-    window.addEventListener('resize', resize, {passive:true}); resize();
-
-    function step(ts){
-      if(!running){ return; }
-      if(paused || gameOver){ raf = requestAnimationFrame(step); return; }
-      if(!t0) t0 = ts; const dt = Math.min(32, ts - t0); t0 = ts;
-
-      player.vy += G; player.y += player.vy;
-      if(player.y >= ground){ player.y = ground; player.vy = 0; player.onGround = true; }
-
-      spawn -= dt; if(spawn <= 0){ addObstacle(); spawn = 800 + Math.random()*900; }
-      for(const o of obs){ o.x -= o.v; } obs = obs.filter(o => o.x + o.w > -10);
-
-      for(const o of obs){
-        if(!(player.x + player.w < o.x || player.x > o.x + o.w || player.y < o.y - o.h || player.y - player.h > o.y)){
-          gameOver = true; paused = true; finalScore.textContent = score.toString(); overBox.style.display='flex';
-          break;
-        }
-      }
-
-      score += Math.floor(dt/10);
-      scoreEl.textContent = 'Score: ' + score;
-
-      drawBg(); drawObstacles();
-      ctx.fillStyle='#e6eaff'; ctx.fillRect(player.x, player.y-player.h, player.w, player.h);
-      raf = requestAnimationFrame(step);
-    }
-
-    function start(){ if(running) return; reset(); running = true; paused = false; t0 = 0; raf = requestAnimationFrame(step); }
-    function stop(){ running = false; paused = false; cancelAnimationFrame(raf); overBox.style.display='none'; }
-
-    window.addEventListener('keydown', (e)=>{
-      if(panel.classList.contains('open')){
-        if(e.code === 'Space' || e.code === 'ArrowUp'){ e.preventDefault(); jump(); }
-        if(e.code === 'KeyR'){ reset(); }
-        if(e.code === 'KeyP'){ paused = !paused; }
-      }
-    });
-    cvs.addEventListener('touchstart', (e)=>{ if(panel.classList.contains('open')){ e.preventDefault(); jump(); } }, {passive:false});
-
-    toggleBtn.addEventListener('click', ()=>{
-      const open = panel.classList.toggle('open');
-      toggleBtn.setAttribute('aria-expanded', String(open));
-      toggleBtn.textContent = open ? '🎮 Mini game (on)' : '🎮 Mini game (off)';
-      if(open){ start(); } else { stop(); }
-    });
-
-    tryAgain.addEventListener('click', ()=>{ reset(); paused=false; gameOver=false; });
-    closeGame.addEventListener('click', ()=>{ panel.classList.remove('open'); stop(); });
-
-    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) paused = true; });
-  })();
-
-  /* PWA SW registration (optional) */
-  if('serviceWorker' in navigator){
-    window.addEventListener('load', ()=> {
-      navigator.serviceWorker.register('/public/sw.js').catch(()=>{});
-    });
-  }
 </script>
 </body>
 </html>
