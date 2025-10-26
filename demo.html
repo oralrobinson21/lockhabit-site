@@ -106,27 +106,27 @@
 </head>
 <body>
   <!-- HEADER -->
- <!-- HEADER -->
-<div class="header">
-  <div class="wrap row">
-    <div class="brand">
-      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
-      </svg>
-      <div class="word">LockHabit — Demo</div>
-    </div>
-    <div class="row" style="gap:8px">
-      <a class="btn ghost" href="/">← Home</a>
-      <a class="btn" href="/calculator.html">Open calculator</a>
-      <a class="btn" href="#simulate">Jump to demo</a>
-      <button class="btn acc" id="btnWaitlist" type="button">Join waitlist</button>
+  <div class="header">
+    <div class="wrap row">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+          <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+          <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+          <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+          <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <div class="word">LockHabit — Demo</div>
+      </div>
+      <div class="row" style="gap:8px">
+        <a class="btn ghost" href="/">← Home</a>
+        <a class="btn" href="/calculator.html">Open calculator</a>
+        <a class="btn" href="#simulate">Jump to demo</a>
+        <button class="btn acc" id="btnWaitlist" type="button">Join waitlist</button>
+      </div>
     </div>
   </div>
-</div>
+
   <!-- HERO -->
   <div class="hero">
     <div class="wrap">
@@ -262,7 +262,7 @@
     const qs = new URLSearchParams(location.search);
     const getNum = (k, d) => {
       const v = qs.get(k);
-      if(v===null) return d;
+      if (v === null) return d;
       const n = Number(v);
       return Number.isFinite(n) ? n : d;
     };
@@ -270,14 +270,25 @@
 
     // Try to read a calculator plan from localStorage
     let plan = null;
-    try { plan = JSON.parse(localStorage.getItem('lh_plan') || 'null'); } catch(_){ plan=null; }
+    try { plan = JSON.parse(localStorage.getItem('lh_plan') || 'null'); } catch(_) { plan = null; }
 
-    // Defaults (can be overridden by URL or localStorage plan)
-    let principal = getNum('init', plan?.init ?? 1500);           // initial deposit
-    let recurring = getNum('save', plan?.save ?? 200);            // recurring deposit amount
-    let freq      = getStr('freq', plan?.freq ?? 'biweekly');     // weekly, biweekly, monthly
-    let months    = getNum('term', plan?.term ?? 12);             // lock length
-    let mode      = getStr('mode', plan?.mode ?? 'safe');         // safe | risk
+    // ================== Defaults (URL or localStorage plan) ==================
+    let principal = getNum('init', plan?.init ?? 1500); // initial deposit
+
+    // Recurring amount: prefer ?rec= from calculator, fallback to ?save=, then plan.rec/plan.save, else 200
+    let recurring = (() => {
+      const rec = qs.get('rec');
+      const save = qs.get('save');
+      if (rec !== null && !isNaN(rec))  return Number(rec);
+      if (save !== null && !isNaN(save)) return Number(save);
+      if (Number.isFinite(plan?.rec))    return Number(plan.rec);
+      if (Number.isFinite(plan?.save))   return Number(plan.save);
+      return 200;
+    })();
+
+    let freq   = getStr('freq',  plan?.freq ?? 'biweekly'); // weekly, biweekly, monthly
+    let months = getNum('term',  plan?.term ?? 12);         // lock length
+    let mode   = getStr('mode',  plan?.mode ?? 'safe');     // safe | risk
 
     // Rates
     const aprSafe = 0.03;
@@ -322,19 +333,18 @@
     function weeksInMonths(m){ return m * 4.345; } // average
     function cyclesFor(freq, months){
       const w = weeksInMonths(months);
-      if(freq === 'weekly') return Math.floor(w);
-      if(freq === 'biweekly') return Math.floor(w/2);
+      if (freq === 'weekly') return Math.floor(w);
+      if (freq === 'biweekly') return Math.floor(w/2);
       return months; // monthly
     }
     function nextDepositCountdown(freq){
-      // purely illustrative countdown
-      if(freq === 'weekly') return '7 days';
-      if(freq === 'biweekly') return '14 days';
+      if (freq === 'weekly') return '7 days';
+      if (freq === 'biweekly') return '14 days';
       return '30 days';
     }
     function feeForTerm(m){
-      if(m <= 3) return 3;
-      if(m <= 6) return 2;
+      if (m <= 3) return 3;
+      if (m <= 6) return 2;
       return 1;
     }
     function fmt(n){ return n.toLocaleString(undefined,{style:'currency',currency:'USD'}); }
@@ -346,18 +356,17 @@
       return principal + (cyclesSoFar * recurring);
     }
 
-    // Balance now (naive, illustrative): vested + interest so far (safe or risk)
+    // Projected interest across full term (illustrative)
     function interestProjectedFullTerm(){
       const base = principal + (cyclesFor(freq, months) * recurring);
-      const apr = (mode==='risk') ? aprRisk : aprSafe;
+      const apr = (mode === 'risk') ? aprRisk : aprSafe;
       return base * apr * (months/12);
     }
 
-    // Interest so far (linearly by progress, with wobble for risk)
+    // Interest so far (linear by progress; wobble in risk)
     function interestSoFar(progressPct){
       const proj = interestProjectedFullTerm();
-      if(mode === 'safe') return proj * (progressPct/100);
-      // risk wobble around linear path
+      if (mode === 'safe') return proj * (progressPct/100);
       const wobble = Math.sin(Date.now()/600) * riskVol * proj * (progressPct/100);
       return Math.max(0, proj * (progressPct/100) + wobble);
     }
@@ -365,12 +374,10 @@
     // ================== Animation & UI ==================
     let progress = 0; // 0..100
     function updateUI(){
-      // Labels
       termLabel.textContent = months + ' months';
       nextDepAmt.textContent = fmt(recurring);
       nextDep.textContent = nextDepositCountdown(freq);
 
-      // Progress bar
       pbar.style.width = progress.toFixed(0) + '%';
       pval.textContent = progress.toFixed(0) + '%';
 
@@ -386,14 +393,12 @@
       loanElig.textContent = fmt(Math.max(0, vested * 0.75));
     }
 
-    // Animate progress up to 100 then hold (or loop mildly)
+    // Animate progress up to 100 then hold/drift
     let looping = true;
     setInterval(()=>{
-      // Increase slower as it nears 100 so users can read KPIs
       const step = progress < 85 ? (1.5 + Math.random()*2.5) : (0.5 + Math.random()*1.2);
       progress = Math.min(100, progress + step);
-      if(progress >= 100 && looping){
-        // pause at 100 for a while then drift back a bit
+      if (progress >= 100 && looping){
         looping = false;
         setTimeout(()=>{ progress = 92; looping = true; }, 4500);
       }
@@ -511,8 +516,7 @@
         const A = Number(amt.value);
         const m = Number(termSel.value);
         amtVal.textContent = fmt(A);
-        // simple demo interest calc
-        const interest = A * aprLoan * (m/12);
+        const interest = A * aprLoan * (m/12); // simple demo calc
         const total = A + interest;
         const monthly = total / m;
         pmtEl.textContent = fmt(monthly);
@@ -558,106 +562,104 @@
       });
     });
 
-  // ================== Controls wiring ==================
-function applyControls(){
-  principal = Math.max(0, Number(c_init.value || 0));
-  recurring = Math.max(0, Number(c_rec.value || 0));
-  freq      = c_freq.value;
-  months    = Math.max(1, Number(c_term.value || 1));
-  mode      = c_mode.value;
+    // ================== Controls wiring ==================
+    function applyControls(){
+      principal = Math.max(0, Number(c_init.value || 0));
+      recurring = Math.max(0, Number(c_rec.value || 0));
+      freq      = c_freq.value;
+      months    = Math.max(1, Number(c_term.value || 1));
+      mode      = c_mode.value;
 
-  c_term_lbl.textContent = months + ' months';
-  riskNote.style.display = (mode === 'risk') ? 'block' : 'none';
-  modePill.textContent   = (mode === 'risk')
-    ? 'High-risk sim • 15% APR ± volatility'
-    : 'Safe • 3% APR';
+      c_term_lbl.textContent = months + ' months';
+      riskNote.style.display = (mode === 'risk') ? 'block' : 'none';
+      modePill.textContent   = (mode === 'risk')
+        ? 'High-risk sim • 15% APR ± volatility'
+        : 'Safe • 3% APR';
 
-  updateUI();
-}
+      updateUI();
+    }
 
-[c_init, c_rec, c_freq, c_term, c_mode].forEach(el =>
-  el.addEventListener('input', applyControls)
-);
+    [c_init, c_rec, c_freq, c_term, c_mode].forEach(el =>
+      el.addEventListener('input', applyControls)
+    );
 
-btnSavePlan.addEventListener('click', ()=>{
-  const saveObj = { init: principal, save: recurring, freq, term: months, mode };
-  localStorage.setItem('lh_plan', JSON.stringify(saveObj));
-  openModal('Saved', `<div class="ok">✅ Plan saved. It will auto-load next time.</div>`);
-});
-
-// ===== Waitlist (new) =====
-(() => {
-  const btn = document.getElementById('btnWaitlist');
-  if (!btn) return;
-
-  btn.addEventListener('click', () => {
-    // Reuse existing modal system
-    openModal('Join the LockHabit waitlist', `
-      <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
-      <form id="wl-form" class="form" novalidate>
-        <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
-        <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
-        <select name="term" aria-label="Preferred lock term">
-          <option value="">Preferred lock term (optional)</option>
-          <option value="1-3">1–3 months</option>
-          <option value="4-6">4–6 months</option>
-          <option value="6-12+">6–12+ months</option>
-        </select>
-        <button class="btn acc" type="submit">Join the waitlist</button>
-        <div id="msg" class="note" role="status" aria-live="polite" style="margin-top:6px"></div>
-      </form>
-      <div id="ok" class="ok" style="display:none;margin-top:10px">✅ Thanks — you’re on the list!</div>
-    `);
-
-    const form = document.getElementById('wl-form');
-    const msg  = document.getElementById('msg');
-    const ok   = document.getElementById('ok');
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      msg.textContent = 'Submitting…';
-      msg.style.color = '#60708c';
-
-      const data = Object.fromEntries(new FormData(form).entries());
-
-      // 1) Try your Vercel serverless route first
-      try{
-        const r = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        const out = await r.json().catch(()=>({}));
-        if (r.ok && out && (out.ok || out.id || out.inserted)) {
-          form.style.display = 'none';
-          ok.style.display   = 'inline-block';
-          return;
-        }
-      }catch(_){}
-
-      // 2) Fallback to Formspree
-      try{
-        const fs = await fetch('https://formspree.io/f/manpgypy', {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form)
-        });
-        if (fs.ok) {
-          form.style.display = 'none';
-          ok.style.display   = 'inline-block';
-          return;
-        }
-        msg.textContent = 'Network error. Please try again.';
-        msg.style.color = '#b42318';
-      }catch(_){
-        msg.textContent = 'Network error. Please try again.';
-        msg.style.color = '#b42318';
-      }
+    btnSavePlan.addEventListener('click', ()=>{
+      // Save both rec and save so either page can read it
+      const saveObj = { init: principal, rec: recurring, save: recurring, freq, term: months, mode };
+      localStorage.setItem('lh_plan', JSON.stringify(saveObj));
+      openModal('Saved', `<div class="ok">✅ Plan saved. It will auto-load next time.</div>`);
     });
-  });
-})();
 
-// ================== Structured data ==================
+    // ===== Waitlist =====
+    (() => {
+      const btn = document.getElementById('btnWaitlist');
+      if (!btn) return;
+
+      btn.addEventListener('click', () => {
+        openModal('Join the LockHabit waitlist', `
+          <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
+          <form id="wl-form" class="form" novalidate>
+            <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
+            <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
+            <select name="term" aria-label="Preferred lock term">
+              <option value="">Preferred lock term (optional)</option>
+              <option value="1-3">1–3 months</option>
+              <option value="4-6">4–6 months</option>
+              <option value="6-12+">6–12+ months</option>
+            </select>
+            <button class="btn acc" type="submit">Join the waitlist</button>
+            <div id="msg" class="note" role="status" aria-live="polite" style="margin-top:6px"></div>
+          </form>
+          <div id="ok" class="ok" style="display:none;margin-top:10px">✅ Thanks — you’re on the list!</div>
+        `);
+
+        const form = document.getElementById('wl-form');
+        const msg  = document.getElementById('msg');
+        const ok   = document.getElementById('ok');
+
+        form.addEventListener('submit', async (e)=>{
+          e.preventDefault();
+          msg.textContent = 'Submitting…';
+          msg.style.color = '#60708c';
+
+          const data = Object.fromEntries(new FormData(form).entries());
+
+          // 1) Try your Vercel serverless route first
+          try{
+            const r = await fetch('/api/waitlist', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+            });
+            const out = await r.json().catch(()=>({}));
+            if (r.ok && out && (out.ok || out.id || out.inserted)) {
+              form.style.display = 'none';
+              ok.style.display   = 'inline-block';
+              return;
+            }
+          }catch(_){}
+
+          // 2) Fallback to Formspree
+          try{
+            const fs = await fetch('https://formspree.io/f/manpgypy', {
+              method: 'POST',
+              headers: { 'Accept': 'application/json' },
+              body: new FormData(form)
+            });
+            if (fs.ok) {
+              form.style.display = 'none';
+              ok.style.display   = 'inline-block';
+              return;
+            }
+            msg.textContent = 'Network error. Please try again.';
+            msg.style.color = '#b42318';
+          }catch(_){
+            msg.textContent = 'Network error. Please try again.';
+            msg.style.color = '#b42318';
+          }
+        });
+      });
+    })();
   </script>
 
   <script type="application/ld+json">
