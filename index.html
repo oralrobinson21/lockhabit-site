@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Discipline Pays. Lock Your Money. Own Your Future.
-       Landing (SEO + PWA + Accessibility) — v2025-10-25
+       LockHabit — Mobile polish + tracker cleanup (2025-10-25)
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
@@ -35,7 +34,7 @@
   <link rel="apple-touch-icon" href="/public/icon-192.png">
   <link rel="manifest" href="/public/manifest.webmanifest">
 
-  <!-- Analytics (Plausible) — set your domain in data-domain -->
+  <!-- Analytics -->
   <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
 
   <!-- ========================= Styles ========================= -->
@@ -43,8 +42,8 @@
     :root{
       --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
       --green:#22c55e; --ink:#0f172a; --muted:#536179;
-      --line:#e5e7f1; --panel:#ffffff; --surface:#fbfcff;
-      --bg:#0b0e1a; --bg-2:#0e1330;
+      --line:#e6e7f1; --panel:#ffffff; --surface:#fbfcff;
+      --bg:#0b0e1a;
       --radius-sm:12px; --radius:16px; --radius-lg:22px;
       --shadow-elev:0 18px 50px rgba(17,24,39,.10);
       --shadow-deep:0 40px 120px rgba(7,10,18,.45);
@@ -53,9 +52,6 @@
         radial-gradient(1100px 700px at -10% 10%, rgba(156,120,255,.22) 0%, transparent 55%),
         radial-gradient(1100px 700px at 110% -20%, rgba(111,124,255,.18) 0%, transparent 60%),
         #f8f9ff;
-      --grad-chip: linear-gradient(135deg, #e7ebff 0%, #f4f1ff 100%);
-      --grad-cta: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -63,68 +59,113 @@
       margin:0; background:var(--bg); color:var(--ink);
       font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      padding-bottom: calc(var(--safe-bottom)); overflow-x:hidden;
+      padding-bottom: env(safe-area-inset-bottom, 0px); overflow-x:hidden;
     }
 
-    /* Header */
-    .header{position:sticky; top:0; z-index:60; background:rgba(255,255,255,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transform:translateY(0); transition:transform .2s ease;}
+    /* Header (mobile-first) */
+    .header{
+      position:sticky; top:0; z-index:60;
+      background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+      transform:translateY(0); transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .header.stuck{ box-shadow:0 6px 20px rgba(17,24,39,.08); }
     .header.hide{ transform:translateY(-100%); }
-    .wrap{max-width:1200px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:36px;height:36px;flex:none}
-    .word{font-weight:800;font-size:20px;color:#0e1a34}
-    .nav a{color:#19253f;text-decoration:none;margin:0 12px;font-weight:600}
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-    .btn:hover{transform:translateY(-1px)}
-    .btn.acc{background:var(--grad-cta);color:#fff;border-color:transparent;box-shadow:0 12px 30px rgba(111,124,255,.35)}
+    .wrap{
+      max-width:1200px;margin:0 auto;padding:12px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:0}
+    .logo{width:28px;height:28px;flex:none}
+    .word{font-weight:800;font-size:18px;color:#0e1a34;white-space:nowrap}
+    .nav{
+      display:flex;align-items:center;gap:14px;min-width:0;
+    }
+    .nav a{color:#19253f;text-decoration:none;font-weight:600;white-space:nowrap}
+    .btn{
+      appearance:none;border:1px solid var(--line);background:#fff;
+      padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;
+      min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation
+    }
+    .btn.acc{background:linear-gradient(135deg, var(--brand), var(--brand-2));color:#fff;border-color:transparent;box-shadow:0 10px 26px rgba(111,124,255,.32)}
     .btn.ghost{background:transparent}
     .btn.pill{border-radius:999px}
 
-    /* Hero */
-    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:86px 22px 56px}
-    .hero-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
-    h1{font-size:48px;line-height:1.08;margin:0 0 8px}
-    .sub{color:#3a4a66;max-width:62ch}
-    .chip{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:var(--grad-chip);border:1px solid #dfe3ff;font-weight:700;color:#3a4a66}
-    .chip b{color:var(--green)}
-    .cta{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-    .footnote{font-size:12px;color:#60708c}
+    /* Hide most nav on narrow screens; keep primary CTA visible */
+    @media (max-width:720px){
+      .nav a{display:none}
+      .btn.ghost{display:none}
+    }
 
-    /* Mock card (right side hero) */
-    .mock{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow-elev);min-height:360px;position:relative;overflow:hidden}
-    .mock .row{display:flex;align-items:center;justify-content:space-between}
-    .badge-green{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800}
+    /* Hero */
+    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:52px 16px 40px}
+    .hero-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
+    @media (min-width:1000px){ .hero-grid{grid-template-columns:1.05fr .95fr; gap:28px} }
+    h1{font-size:32px;line-height:1.18;margin:0 0 8px}
+    @media (min-width:480px){ h1{font-size:40px} }
+    @media (min-width:1000px){ h1{font-size:48px} }
+    .sub{color:#3a4a66;max-width:65ch}
+
+    /* Chip — no stray bullets; separators via CSS */
+    .chip{
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+      padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,#e7ebff,#f4f1ff);
+      border:1px solid #dfe3ff;font-weight:700;color:#3a4a66;max-width:100%;
+    }
+    .chip span{white-space:nowrap}
+    .chip span+span{position:relative;padding-left:18px}
+    .chip span+span::before{content:"•";position:absolute;left:6px;top:0;color:#7f8bb3}
+
+    .cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .cta .btn{padding:12px 16px}
+
+    /* Mock card (tracker) */
+    .mock{
+      background:#fff;border:1px solid var(--line);border-radius:20px;
+      padding:16px;box-shadow:var(--shadow-elev);position:relative;overflow:hidden
+    }
+    .mock .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .badge-green{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800;white-space:nowrap}
     .mini{font-size:12px;color:var(--muted)}
-    .card{margin-top:12px;background:linear-gradient(180deg,#fff,#f9f9ff);border:1px solid var(--line);border-radius:14px;padding:14px}
+    .card{margin-top:12px;background:linear-gradient(180deg,#fff,#f9f9ff);border:1px solid var(--line);border-radius:14px;padding:12px}
     .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .7s ease}
-    .statgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
-    .stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,var(--brand));transition:width .6s ease}
+    .statgrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+    @media (min-width:560px){ .statgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
     .k{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
-    .v{font-weight:800;font-size:22px;color:#0b1230}
+    .v{font-weight:800;font-size:22px;color:#0b1230;line-height:1.2;white-space:nowrap}
 
     /* Sections */
-    section.s{max-width:1200px;margin:0 auto;padding:44px 22px}
-    .section-title{font-size:30px;text-align:center;margin:0 0 18px;color:#f8f9ff}
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow-elev)}
-    .cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-    .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+    section.s{max-width:1200px;margin:0 auto;padding:36px 16px}
+    @media (min-width:768px){ section.s{padding:44px 22px} }
+    .section-title{font-size:26px;text-align:center;margin:0 0 16px;color:#f8f9ff}
+    @media (min-width:768px){ .section-title{font-size:30px} }
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow-elev)}
+    @media (min-width:768px){ .panel{padding:24px} }
+
+    .cols3{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:900px){ .cols3{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
     .plan h3{margin:0 0 6px;color:#15213d}
     .plan ul{margin:8px 0 0;padding-left:18px;color:#3b4a67}
-    .trustgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+
+    .trustgrid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:900px){ .trustgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
     .trust{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
     .trust b{color:#101828}
 
     /* Ribbon */
     .ribbon{background:linear-gradient(135deg, rgba(111,124,255,.22), rgba(156,120,255,.22));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .ribwrap{max-width:1200px;margin:0 auto;padding:12px 22px;display:flex;gap:14px;align-items:center;justify-content:center;color:#e7ebff;flex-wrap:wrap}
-    .ribwrap .item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:10px 12px;border-radius:999px}
+    .ribwrap{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;gap:10px;align-items:center;justify-content:center;color:#e7ebff;flex-wrap:wrap}
+    .ribwrap .item{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:10px 12px;border-radius:999px}
     .ribwrap .item b{color:#fff}
 
     /* Footer */
     footer{background:#fff;border-top:1px solid var(--line);color:#3a4a66}
-    .foot{max-width:1200px;margin:0 auto;padding:24px 22px}
+    .foot{max-width:1200px;margin:0 auto;padding:22px 16px}
     .fine{background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#41506a}
+    .footnote{font-size:12px;color:#60708c}
 
     /* Modal (waitlist) */
     .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
@@ -138,29 +179,21 @@
     .check{font-size:42px}
 
     /* Mini Game */
-    .miniwrap{position:fixed;left:0;right:0;bottom:0;z-index:40;pointer-events:none;padding-bottom:var(--safe-bottom)}
+    .miniwrap{position:fixed;left:0;right:0;bottom:0;z-index:40;pointer-events:none}
     .minibar{margin:0 auto;max-width:1200px;padding:6px 10px;display:flex;gap:8px;align-items:center;justify-content:flex-end}
     .minibar .pill{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;background:#0e1330;color:#e5e7f1;border:1px solid #2b3150;border-radius:999px;padding:6px 10px;font-weight:700;cursor:pointer;min-height:36px}
     #gamePanel{pointer-events:auto;display:none;background:#0b0e1a;border-top:1px solid #2b3150}
     #gamePanel.open{display:block}
     #runnerCanvas{display:block;width:100%;max-width:1200px;height:120px;margin:0 auto;background:#0f172a}
-    #gameInfo{max-width:1200px;margin:0 auto;color:#9fb2ff;font-size:12px;padding:6px 10px;display:flex;justify-content:space-between}
-    #gameUI{max-width:1200px;margin:0 auto;padding:6px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;color:#cbd5ff;font-size:12px;flex-wrap:wrap}
+    #gameInfo,#gameUI{max-width:1200px;margin:0 auto;color:#9fb2ff;font-size:12px;padding:6px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
     #top10{display:flex;gap:6px;flex-wrap:wrap;padding:0;margin:0;list-style:none}
     #top10 li{background:#0e1330;border:1px solid #2b3150;border-radius:999px;padding:4px 8px;color:#e5e7f1}
     #playerName{padding:6px 8px;border-radius:10px;border:1px solid #2b3150;background:#0e1330;color:#e5e7f1}
 
-    /* Responsive */
-    @media (max-width:1000px){
-      .hero-grid{grid-template-columns:1fr}
-      h1{font-size:38px}
-      .cols3,.trustgrid{grid-template-columns:1fr}
-    }
+    /* Small-screen tweaks */
     @media (max-width:420px){
-      h1{font-size:30px}
-      .nav a{display:none}
-      .btn{padding:12px 14px}
-      .word{font-size:18px}
+      .word{font-size:17px}
+      .btn{padding:10px 12px}
     }
   </style>
 </head>
@@ -185,7 +218,6 @@
       <a href="#security">Security</a>
       <a href="/calculator.html">Calculator</a>
       <a href="/demo.html">Demo</a>
-      <button class="btn ghost" onclick="openModal()">Sign in</button>
       <button class="btn acc" onclick="openModal()">Get started</button>
     </nav>
   </div>
@@ -195,12 +227,15 @@
 <section class="hero" id="top">
   <div class="hero-grid" aria-describedby="hero-copy">
     <div>
-      <div class="chip">Discipline Pays • <b>3% APR</b> • FDIC-Backed Custody</div>
+      <div class="chip" aria-label="Highlights">
+        <span>Discipline Pays</span><span><b style="color:#22c55e">3% APR</b></span><span>FDIC-Backed Custody</span>
+      </div>
       <h1>Discipline pays. Lock your money and own your future.</h1>
       <p id="hero-copy" class="sub">
         LockHabit turns saving into momentum. Hard-lock funds, earn a transparent <b>3% APR (prorated)</b>,
         and access <b>6% credit-builder self-loans</b> when life happens — interest is <b>credited back to you</b>.
-        Try the <a href="/calculator.html">income & budget calculator</a>, then see results in the <a href="/demo.html">live demo</a>.
+        Try the <a href="/calculator.html">income & budget calculator</a>, then see results in the
+        <a href="/demo.html">live demo</a>.
       </p>
       <div class="cta">
         <button class="btn acc" onclick="openModal()">Join the Waitlist</button>
@@ -221,23 +256,23 @@
       </div>
 
       <div class="card" style="margin-top:10px">
-        <div class="row">
+        <div class="row" style="margin-bottom:8px">
           <div class="mini">Progress</div>
-          <div class="mini" id="pval">0%</div>
+          <div class="mini" id="pval" aria-live="polite">0%</div>
         </div>
-        <div class="bar"><div class="fill" id="pbar"></div></div>
+        <div class="bar" aria-hidden="true"><div class="fill" id="pbar"></div></div>
       </div>
 
       <div class="statgrid">
         <div class="stat">
           <div class="k">Locked today</div>
-          <div class="v">$1,000</div>
+          <div class="v" id="lockedNow">$1,000</div>
           <div class="k">Auto-deposit $100 bi-weekly</div>
         </div>
         <div class="stat">
           <div class="k">Projected interest</div>
           <div class="v" id="intv">$0.00</div>
-          <div class="k">at 3% APR</div>
+          <div class="k">at 3% APR (year)</div>
         </div>
         <div class="stat">
           <div class="k">Emergency limit</div>
@@ -420,7 +455,7 @@
       Emergency access is provided via secured, self-backed loans at <b>6% APR</b>; loans are intended to be <b>reported to credit bureaus</b>. <b>100% of loan interest is credited back to your locked balance after payoff.</b>
       APRs, terms, and fees are subject to change with notice. Program and partner-bank disclosures will be presented prior to account opening. Participation in the waitlist does not guarantee account approval.
     </div>
-    <div class="footnote" style="margin-top:8px">
+    <div class="footnote" style="margin-top:8px;text-align:center">
       <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a> • <a href="/demo.html">Demo</a>
     </div>
   </div>
@@ -434,7 +469,7 @@
   <div id="gamePanel" role="region" aria-label="Endless runner mini game">
     <canvas id="runnerCanvas" width="1200" height="120"></canvas>
     <div id="gameInfo">
-      <span>Until launch: have fun — Space/↑ to jump • P pause • R reset</span>
+      <span>Until launch: Space/↑ to jump • P pause • R reset</span>
       <span id="gameScore">Score: 0</span>
     </div>
     <div id="gameUI">
@@ -494,14 +529,18 @@
   /* Live year */
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  /* Smart header hide/show */
+  /* Sticky header: subtle shadow when scrolling; hide on fast down-scroll */
   (function(){
     const hdr = document.getElementById('hdr');
-    let lastY = window.scrollY;
-    window.addEventListener('scroll', ()=>{
+    let lastY = window.scrollY, ticking = false;
+    const onScroll = ()=>{
       const y = window.scrollY;
-      if(y > lastY && y > 80) hdr.classList.add('hide'); else hdr.classList.remove('hide');
-      lastY = y;
+      hdr.classList.toggle('stuck', y > 2);
+      if (y > lastY && y > 80) hdr.classList.add('hide'); else hdr.classList.remove('hide');
+      lastY = y; ticking = false;
+    };
+    window.addEventListener('scroll', ()=>{
+      if(!ticking){ window.requestAnimationFrame(onScroll); ticking = true; }
     }, {passive:true});
   })();
 
@@ -511,12 +550,13 @@
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
   window.openModal = openModal; window.closeModal = closeModal;
 
-  /* Hero dopamine loop — $1,000 start + $100 bi-weekly; APR 3% */
+  /* Tracker math — smoother, mobile-safe text (INIT $1,000 + $100 bi-weekly, APR 3%) */
   (function(){
     const pbar = document.getElementById('pbar');
     const pval = document.getElementById('pval');
     const intv = document.getElementById('intv');
     const emerg = document.getElementById('emergVal');
+    const lockedNow = document.getElementById('lockedNow');
     if(!pbar || !pval || !intv) return;
 
     const APR = 0.03;
@@ -524,29 +564,29 @@
     const DEP  = 100;
     const PERY = 26; // bi-weekly deposits per year
 
-    let prog = 0; // 0..100
+    /* Better approximation: average balance over the year
+       = initial + (total contributions)/2  */
+    const totalContrib = DEP * PERY;
+    const avgBalance = INIT + totalContrib/2;
+    const yearInterest = avgBalance * APR;
 
-    function depositsSoFar(pct){
-      return Math.floor(PERY * (pct/100)) * DEP;
-    }
-    function totalDeposits(){
-      return PERY * DEP;
+    let prog = 0; // 0..100 visual progress
+
+    function contributionsSoFar(pct){
+      return Math.round(PERY * (pct/100)) * DEP;
     }
 
     setInterval(()=>{
-      prog = (prog + 0.9 + Math.random()*1.8) % 100;
+      prog = (prog + 0.9 + Math.random()*1.6) % 100;
 
-      const contributed = depositsSoFar(prog);
-      const balNow = INIT + contributed;
-
-      const endBalance = INIT + totalDeposits();
-      const annualInterest = endBalance * APR;
-      const projectedSoFar = annualInterest * (prog/100);
+      const contrib = contributionsSoFar(prog);
+      const balNow = INIT + contrib;
 
       pbar.style.width = prog.toFixed(0) + '%';
       pval.textContent = prog.toFixed(0) + '%';
-      intv.textContent = `$${projectedSoFar.toFixed(2)}`;
+      intv.textContent = `$${(yearInterest * (prog/100)).toFixed(2)}`;
       if (emerg) emerg.textContent = `$${balNow.toLocaleString()}`;
+      if (lockedNow) lockedNow.textContent = `$${INIT.toLocaleString()}`;
     }, 900);
   })();
 
@@ -593,9 +633,8 @@
     });
   })();
 
-  /* ================== Mini Runner + Leaderboard (5 placeholders) ================== */
+  /* ================== Mini Runner + Leaderboard ================== */
   (function(){
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const toggleBtn = document.getElementById('toggleGame');
     const panel     = document.getElementById('gamePanel');
     const cvs       = document.getElementById('runnerCanvas');
@@ -629,7 +668,6 @@
 
     function step(ts){
       if(!running){ return; }
-      if(prefersReduced){ paused = true; }
       if(paused){ raf = requestAnimationFrame(step); return; }
       if(!t0) t0 = ts; const dt = Math.min(32, ts - t0); t0 = ts;
 
@@ -678,7 +716,7 @@
     const mo = new MutationObserver(()=>{ if(overlay && overlay.style.display === 'flex'){ paused = true; } });
     if(overlay) mo.observe(overlay, {attributes:true, attributeFilter:['style']});
 
-    /* Leaderboard (+5 placeholder rows on first load only, then real) */
+    /* Leaderboard */
     const api     = '/api/highscores';
     const nameInp = document.getElementById('playerName');
     const topEl   = document.getElementById('top10');
