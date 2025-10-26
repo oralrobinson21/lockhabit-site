@@ -1,45 +1,34 @@
-// /api/waitlist.js  (Vercel serverless function, CommonJS)
-const { Resend } = require('resend');
+import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM = process.env.RESEND_FROM || 'LockHabit <noreply@send.lockhabit.com>';
-
-function validEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e||''); }
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ ok:false, error:'Method Not Allowed' });
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { email, name, term } = req.body;
+
+  if (!email || !name) {
+    return res.status(400).json({ error: 'Missing fields' });
   }
 
   try {
-    const { email, name = '', term = '' } = req.body || {};
-    if (!validEmail(email)) return res.status(400).json({ ok:false, error:'Invalid email' });
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-    // 1) Send you a notification
     await resend.emails.send({
-      from: FROM,
-      to: 'waitlist@lockhabit.com',     // change to your inbox
-      subject: 'New waitlist signup',
-      text: `Email: ${email}\nName: ${name}\nTerm: ${term}\nTime: ${new Date().toISOString()}`
-    });
-
-    // 2) Confirmation to the user
-    await resend.emails.send({
-      from: FROM,
-      to: email,
-      subject: 'Welcome to the LockHabit waitlist 🎉',
-      headers: { 'List-Unsubscribe': '<mailto:unsubscribe@send.lockhabit.com>' },
+      from: process.env.RESEND_FROM,
+      to: [email, 'noreply@lockhabit.com'],
+      subject: 'LockHabit Waitlist Confirmation',
       html: `
-        <div style="font-family:Inter,system-ui,sans-serif;font-size:16px;color:#0f172a">
-          <h2>Thanks for joining!</h2>
-          <p>We’ll email you when invites open. You’ll be the first to try it.</p>
-          <p style="color:#64748b;font-size:12px">If this wasn’t you, just ignore this message.</p>
-        </div>`
+        <h2>Welcome, ${name}!</h2>
+        <p>You’re officially on the LockHabit waitlist.</p>
+        <p>Your selected term: <strong>${term}</strong></p>
+        <p>We’ll notify you when early access opens. Stay disciplined!</p>
+      `,
     });
 
-    return res.status(200).json({ ok:true });
-  } catch (err) {
-    return res.status(500).json({ ok:false, error: String(err && err.message || err) });
+    return res.status(200).json({ ok: true });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Email failed to send.' });
   }
-};
+}
