@@ -1,23 +1,23 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- LockHabit — Launch-Ready Landing (mobile-first, a11y, SEO) • 2025-10-26 -->
+  <!-- LockHabit — Launch-ready, animated demo + mini game • 2025-10-26 -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>LockHabit — Discipline Pays. Lock Your Money. Own Your Future.</title>
-  <meta name="description" content="Hard-lock savings with $200 weekly deposits. Earn 2% (3m), 2.5% (6m), 3% (12m), or 3.5% (>12m). See projected interest, total vested, and emergency self-loan up to 80% of vested."/>
+  <meta name="description" content="Save $200 bi-weekly. Watch deposits, interest, and total vested grow in real time. Emergency loan up to 80% vested (0% for 4 months, then 6% APR). Credit-builder 6% APR from month 1."/>
   <meta name="theme-color" content="#6f7cff"/>
 
   <!-- Canonical + Social -->
   <link rel="canonical" href="https://lockhabit.com/"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="LockHabit — Discipline Pays. Lock Your Money. Own Your Future."/>
-  <meta property="og:description" content="Save $200 weekly. See interest, total vested, and emergency self-loan up to 80%. Pick 2% (3m), 2.5% (6m), 3% (12m), or 3.5% (>12m)."/>
-  <meta property="og:url" content="https://lockhabit.com/"/>
+  <meta property="og:description" content="Lock $200 bi-weekly. See interest and total vested grow. Borrow up to 80% of your balance if life happens."/>
   <meta property="og:image" content="/public/og-image.png"/>
+  <meta property="og:url" content="https://lockhabit.com/"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="LockHabit — Save on purpose"/>
-  <meta name="twitter:description" content="Build discipline with weekly locks and transparent APR tiers. Join the waitlist."/>
+  <meta name="twitter:description" content="Transparent APR tiers: 2% (3m), 2.5% (6m), 3% (12m), 3.5% (24m+). Emergency loan: 0% for 4 months, then 6% APR."/>
   <meta name="twitter:image" content="/public/og-image.png"/>
 
   <!-- Fonts -->
@@ -31,91 +31,80 @@
   <link rel="apple-touch-icon" href="/public/icon-192.png">
   <link rel="manifest" href="/public/manifest.webmanifest">
 
-  <!-- Analytics (Plausible) -->
+  <!-- Analytics -->
   <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
 
   <style>
     :root{
-      --brand:#6f7cff; --brand-2:#9c78ff; --ink:#0f172a; --muted:#56607a;
-      --line:#e6e9f3; --white:#fff; --surface:#f7f8ff;
-      --bg:#0b0f1f; --bg-hero:#f7f8ff;
-      --radius:16px; --radius-lg:22px;
-      --shadow:0 18px 50px rgba(17,24,39,.10);
-      --shadow-hero:0 40px 120px rgba(7,10,18,.14);
+      --brand:#6f7cff; --brand2:#9c78ff; --ink:#0f172a; --muted:#5b6680;
+      --line:#e7ebf5; --white:#fff; --surface:#f7f8ff; --bg:#0b0f1f;
+      --ok:#22c55e; --warn:#f59e0b; --danger:#ef4444;
+      --radius:16px; --r-lg:22px; --shadow:0 18px 50px rgba(17,24,39,.10);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0; color:var(--ink); background:var(--bg);
-      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      font:16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
       overflow-x:hidden;
     }
 
     /* Header */
-    .header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
     .wrap{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
     .brand{display:flex;align-items:center;gap:10px}
     .logo{width:28px;height:28px}
-    .word{font-weight:800;font-size:18px;color:#0f1a34;white-space:nowrap}
+    .word{font-weight:800;font-size:18px;color:#0e1834;white-space:nowrap}
     .nav{display:flex;align-items:center;gap:14px}
-    .nav a{color:#1b2642;text-decoration:none;font-weight:600;white-space:nowrap}
-    .btn{appearance:none;border:1px solid var(--line);background:var(--white);padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:44px}
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent;box-shadow:0 10px 26px rgba(111,124,255,.28)}
-    @media (max-width:760px){ .nav a{display:none} }
+    .nav a{color:#172646;text-decoration:none;font-weight:600;white-space:nowrap}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:44px}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-color:transparent;box-shadow:0 10px 26px rgba(111,124,255,.28)}
+    @media (max-width:760px){ .nav a.nav-hide{display:none} }
 
     /* Hero */
-    .hero{
-      background:radial-gradient(1400px 750px at 50% -220px, rgba(111,124,255,.28) 0%, rgba(156,120,255,.18) 38%, transparent 62%), var(--bg-hero);
-      border-bottom:1px solid var(--line)
-    }
+    .hero{background:radial-gradient(1400px 750px at 50% -220px, rgba(111,124,255,.26) 0%, rgba(156,120,255,.16) 38%, transparent 62%), #f8f9ff;border-bottom:1px solid var(--line)}
     .hero-in{max-width:1180px;margin:0 auto;padding:56px 16px 40px;display:grid;grid-template-columns:1fr;gap:20px}
     @media (min-width:980px){ .hero-in{grid-template-columns:1.05fr .95fr;gap:28px} }
     h1{font-size:36px;line-height:1.12;margin:0 0 8px}
-    @media (min-width:480px){ h1{font-size:44px} }
-    .sub{color:#3a4a66;max-width:62ch;margin:0 0 14px}
-
+    @media (min-width:520px){ h1{font-size:44px} }
+    .sub{color:#374a6b;max-width:62ch;margin:0 0 14px}
     .cta{display:flex;gap:10px;flex-wrap:wrap}
     .cta .btn{padding:12px 16px}
 
-    /* Tracker Card */
-    .card{
-      background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow)
-    }
+    /* Demo Card */
+    .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .mini{font-size:12px;color:var(--muted)}
-    .title{font:800 20px/1.2 Inter,system-ui}
-    .bar{height:10px;border-radius:999px;background:#edf0f6;border:1px solid #e6e9f3;overflow:hidden}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,var(--brand));transition:width .6s ease}
+    .title{font:800 20px/1.2 Inter, system-ui}
+    .inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+    @media (max-width:460px){ .inputs{grid-template-columns:1fr} }
+    .inputs input,.inputs select{width:100%;padding:12px;border-radius:12px;border:1px solid #dbe1ee;font-size:16px}
 
-    .grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
-    @media (min-width:560px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
-    .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+    .bar{position:relative;height:14px;border-radius:999px;background:#edf1f7;border:1px solid #e6eaf4;overflow:hidden;margin:10px 0 12px}
+    .fill-time{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#e8edfb,#dfe6ff)}
+    .fill-stacked{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#9bb5ff,#6f7cff)}
+    .loan-stripe{position:absolute;left:0;top:0;width:0;height:3px;background:linear-gradient(90deg,#22c55e,#6ae3c1)}
+
+    .ticks{position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none}
+    .ticks::before{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:transparent}
     .k{font-size:12px;color:#5d6a86;letter-spacing:.04em;text-transform:uppercase}
     .v{font-weight:800;font-size:22px;color:#0b1230;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .grid{display:grid;grid-template-columns:1fr;gap:10px}
+    @media (min-width:560px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
 
-    .inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-    @media (max-width:420px){ .inputs{grid-template-columns:1fr} }
-    .inputs input,.inputs select{width:100%;padding:12px;border-radius:12px;border:1px solid #dbe0ea;font-size:16px}
-
-    .loan{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:linear-gradient(180deg,#ffffff,#f9faff);border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:12px}
+    .loan-box{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:linear-gradient(180deg,#ffffff,#f9faff);border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:12px}
     .pill{display:inline-flex;align-items:center;gap:8px;background:#f3f6ff;color:#1e305c;border:1px solid #dfe4ff;border-radius:999px;padding:8px 12px;font-weight:700}
 
     /* Sections */
     section.s{max-width:1180px;margin:0 auto;padding:44px 16px}
     .section-title{color:#f8f9ff;text-align:center;margin:0 0 16px;font-size:30px}
-
     .panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:18px}
     .cols3{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width:900px){ .cols3{grid-template-columns:repeat(3,minmax(0,1fr))} }
     .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
     .plan h3{margin:0 0 6px;color:#14213d}
     .plan ul{margin:8px 0 0;padding-left:18px;color:#3b4a67}
-
-    .trustgrid{display:grid;grid-template-columns:1fr;gap:12px}
-    @media (min-width:900px){ .trustgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
-    .trust{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
-    .trust b{color:#101828}
 
     /* Ribbon */
     .ribbon{background:linear-gradient(135deg, rgba(111,124,255,.22), rgba(156,120,255,.22));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -128,10 +117,30 @@
     .foot{max-width:1180px;margin:0 auto;padding:24px 16px}
     .fine{background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#41506a}
     .footnote{font-size:12px;color:#60708c;text-align:center}
+
+    /* Mini game */
+    .miniwrap{position:fixed;left:0;right:0;bottom:0;z-index:40;pointer-events:none}
+    .minibar{max-width:1180px;margin:0 auto;padding:6px 10px;display:flex;gap:8px;align-items:center;justify-content:space-between}
+    .minibar .note{pointer-events:none;color:#cdd6ff}
+    .minibar .pill{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;background:#0e1330;color:#e5e7f1;border:1px solid #2b3150;border-radius:999px;padding:6px 10px;font-weight:700;cursor:pointer;min-height:36px}
+    #gamePanel{pointer-events:auto;display:none;background:#0b0e1a;border-top:1px solid #2b3150}
+    #gamePanel.open{display:block}
+    #runnerCanvas{display:block;width:100%;max-width:1180px;height:120px;margin:0 auto;background:#0f172a}
+    #gameInfo,#gameUI{max-width:1180px;margin:0 auto;color:#9fb2ff;font-size:12px;padding:6px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    #top10{display:flex;gap:6px;flex-wrap:wrap;padding:0;margin:0;list-style:none;opacity:.35;pointer-events:none}
+    #playerName{padding:6px 8px;border-radius:10px;border:1px solid #2b3150;background:#0e1330;color:#e5e7f1}
+
+    /* Modal */
+    .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
+    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 40px 120px rgba(7,10,18,.45)}
+    .rowline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .note{font-size:12px;color:#60708c}
   </style>
 </head>
 <body>
-<header class="header" id="hdr" role="banner">
+
+<!-- ========================= HEADER ========================= -->
+<header class="header" role="banner" id="hdr">
   <div class="wrap">
     <div class="brand" aria-label="LockHabit">
       <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
@@ -143,86 +152,98 @@
       </svg>
       <div class="word">LockHabit</div>
     </div>
-    <nav class="nav" aria-label="Main">
-      <a href="#how">How it works</a>
-      <a href="#plans">Plans</a>
-      <a href="#security">Security</a>
+    <nav class="nav" role="navigation" aria-label="Main">
+      <a class="nav-hide" href="#how">How it works</a>
+      <a class="nav-hide" href="#plans">Plans</a>
+      <a class="nav-hide" href="#security">Security</a>
       <a href="/calculator.html">Calculator</a>
-      <a href="/demo.html">Demo</a>
+      <a href="#demo">Demo</a>
       <button class="btn acc" onclick="openModal()">Get started</button>
     </nav>
   </div>
 </header>
 
+<!-- ========================= HERO ========================= -->
 <section class="hero" id="top">
   <div class="hero-in" aria-describedby="hero-copy">
     <div>
       <h1>Discipline pays. Lock your money and own your future.</h1>
       <p id="hero-copy" class="sub">
-        Start with <b>$200 per week</b>. We calculate your <b>interest earned</b> and <b>total vested</b>
-        based on your term. If life happens, access a <b>self-backed emergency loan up to 80% of your vested</b>.
+        We start with <b>$200 bi-weekly</b> and show your <b>Deposited</b>, <b>Interest</b>, and <b>Total vested</b> in real time.
+        If life happens, you can access a <b>self-backed loan</b> up to <b>80% of vested</b>.
       </p>
       <div class="cta">
         <button class="btn acc" onclick="openModal()">Join the Waitlist</button>
-        <a class="btn" href="/demo.html">See the Demo</a>
+        <a class="btn" href="/calculator.html">Open Calculator</a>
       </div>
     </div>
 
-    <!-- Tracker card -->
-    <aside class="card" aria-live="polite">
+    <!-- ===== DEMO CARD (anchor: #demo) ===== -->
+    <aside class="card" id="demo" aria-live="polite">
       <div class="row" style="margin-bottom:4px">
         <div>
           <div class="mini">Savings Vault</div>
-          <div class="title">Projected Results</div>
-          <div class="mini" id="planLine">Weekly $200 • <span id="termTxt">12 months</span> • <span id="aprTxt">3% APR</span></div>
+          <div class="title">Live Demo</div>
+          <div class="mini" id="planLine">Depositing $200 bi-weekly • <span id="termTxt">12 months</span> • <span id="aprTxt">3% APR</span></div>
         </div>
       </div>
 
-      <div class="inputs" style="margin-top:10px">
-        <label><span class="mini">Weekly deposit</span>
-          <input id="weekly" type="number" min="5" step="5" value="200" aria-label="Weekly deposit ($)"/>
+      <div class="inputs">
+        <label><span class="mini">Bi-weekly deposit</span>
+          <input id="deposit" type="number" min="10" step="10" value="200" aria-label="Bi-weekly deposit ($)"/>
         </label>
         <label><span class="mini">Term & APR</span>
           <select id="term" aria-label="Term and APR">
             <option value="13|0.02">3 months • 2% APR</option>
             <option value="26|0.025">6 months • 2.5% APR</option>
             <option value="52|0.03" selected>12 months • 3% APR</option>
-            <option value="104|0.035">>12 months • 3.5% APR (24m)</option>
+            <option value="104|0.035">24 months • 3.5% APR</option>
           </select>
         </label>
       </div>
 
-      <div class="bar" aria-hidden="true"><div class="fill" id="pbar"></div></div>
+      <!-- Progress bar: time track + stacked growth + loan stripe -->
+      <div class="bar" aria-hidden="true">
+        <div class="fill-time" id="timeFill"></div>
+        <div class="fill-stacked" id="growthFill"></div>
+        <div class="loan-stripe" id="loanStripe"></div>
+        <div class="ticks"></div>
+      </div>
 
-      <div class="grid">
-        <div class="stat">
-          <div class="k">Deposits (principal)</div>
+      <div class="grid" aria-live="polite">
+        <div class="panel">
+          <div class="k">Deposited so far</div>
           <div class="v" id="principalVal">$0.00</div>
-          <div class="mini">Sum of all weekly deposits</div>
+          <div class="mini">Sum of bi-weekly deposits</div>
         </div>
-        <div class="stat">
-          <div class="k">Interest earned</div>
+        <div class="panel">
+          <div class="k">Interest so far</div>
           <div class="v" id="interestVal">$0.00</div>
-          <div class="mini">Compounded weekly at selected APR</div>
+          <div class="mini">Compounded weekly at term APR</div>
         </div>
-        <div class="stat">
+        <div class="panel">
           <div class="k">Total vested</div>
           <div class="v" id="vestedVal">$0.00</div>
           <div class="mini">Principal + interest</div>
         </div>
       </div>
 
-      <div class="loan">
-        <div class="pill">Emergency loan available: <span id="loanVal">$0.00</span></div>
+      <div class="loan-box">
+        <div>
+          <div class="pill">Emergency loan eligibility: <span id="loanVal">$0.00</span> (80% of vested)</div>
+          <div class="mini" style="margin-top:6px">
+            <b>Emergency:</b> 0% for first 4 months, then 6% APR •
+            <b>Credit-builder:</b> 6% APR from month 1
+          </div>
+        </div>
         <button class="btn acc" onclick="openModal()">Join the waitlist</button>
       </div>
-
-      <div class="mini" style="margin-top:6px">Emergency loan limit is <b>80%</b> of your vested amount. Loans are self-backed.</div>
     </aside>
   </div>
 </section>
 
-<div class="ribbon">
+<!-- ========================= RIBBON ========================= -->
+<div class="ribbon" role="region" aria-label="Trust">
   <div class="rib">
     <div class="item">🔒 <b>Hard-lock</b> (no early withdrawals except emergencies)</div>
     <div class="item">🏦 <b>FDIC-backed custody</b> via partner banks</div>
@@ -231,61 +252,63 @@
   </div>
 </div>
 
-<section id="how" class="s">
-  <h2 class="section-title">How LockHabit Works</h2>
+<!-- ========================= HOW IT WORKS ========================= -->
+<section id="how" class="s" aria-labelledby="how-title">
+  <h2 id="how-title" class="section-title">How LockHabit Works</h2>
   <div class="panel">
     <div class="cols3">
       <div class="plan">
         <h3>1) Set your plan</h3>
         <ul>
           <li>Pick a term: 3, 6, 12, or 24 months</li>
-          <li>Choose a weekly amount (e.g., $200)</li>
-          <li>Funds move into your hidden vault</li>
+          <li>Bi-weekly auto-deposit (e.g., $200)</li>
+          <li>Funds move into your vault</li>
         </ul>
       </div>
       <div class="plan">
         <h3>2) Grow on autopilot</h3>
         <ul>
-          <li>Compounded weekly: 2% • 2.5% • 3% • 3.5%</li>
+          <li>Compounded weekly at posted APR</li>
           <li>Your money is <b>never lent out</b></li>
           <li>Track deposits, interest, and vested</li>
         </ul>
       </div>
       <div class="plan">
-        <h3>3) Unlock or borrow</h3>
+        <h3>3) Borrow if needed</h3>
         <ul>
-          <li>Unlock on schedule (principal + interest)</li>
-          <li>Emergency? Borrow up to <b>80% of vested</b></li>
-          <li>Clear, simple fees — no surprises</li>
+          <li>Emergency loan up to <b>80% of vested</b></li>
+          <li>0% for 4 months, then 6% APR</li>
+          <li>Credit-builder: 6% APR from month 1</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section id="plans" class="s">
-  <h2 class="section-title">Simple, transparent plans</h2>
+<!-- ========================= PLANS ========================= -->
+<section id="plans" class="s" aria-labelledby="plans-title">
+  <h2 id="plans-title" class="section-title">Simple, transparent plans</h2>
   <div class="cols3">
     <div class="plan">
       <h3>3 months</h3>
       <ul>
-        <li><b>2% APR</b> (weekly compounding)</li>
-        <li>Short target, quick wins</li>
+        <li><b>2.0% APR</b> (weekly compounding)</li>
+        <li>Fast wins and momentum</li>
         <li>Emergency loan up to 80% vested</li>
       </ul>
     </div>
     <div class="plan">
       <h3>6–12 months</h3>
       <ul>
-        <li><b>2.5% – 3% APR</b> (weekly compounding)</li>
-        <li>Balanced discipline and growth</li>
+        <li><b>2.5% – 3.0% APR</b></li>
+        <li>Balanced discipline & growth</li>
         <li>Emergency loan up to 80% vested</li>
       </ul>
     </div>
     <div class="plan">
-      <h3>> 12 months</h3>
+      <h3>24 months</h3>
       <ul>
-        <li><b>3.5% APR</b> (weekly compounding)</li>
+        <li><b>3.5% APR</b></li>
         <li>Best for long-horizon savers</li>
         <li>Emergency loan up to 80% vested</li>
       </ul>
@@ -293,40 +316,42 @@
   </div>
 </section>
 
-<section id="security" class="s">
-  <h2 class="section-title">Your money stays safe</h2>
+<!-- ========================= SECURITY ========================= -->
+<section id="security" class="s" aria-labelledby="sec-title">
+  <h2 id="sec-title" class="section-title">Your money stays safe</h2>
   <div class="panel">
-    <div class="trustgrid">
-      <div class="trust">
-        <b>FDIC-backed via partner banks</b>
+    <div class="cols3">
+      <div class="plan">
+        <h3>FDIC-backed via partners</h3>
         <p class="mini">When deposits are held at partner banks and structured for pass-through coverage, FDIC insurance applies up to legal limits per depositor, per bank.</p>
       </div>
-      <div class="trust">
-        <b>Segregated & never lent</b>
-        <p class="mini">Your funds remain reserved for you — we don’t lend out customer deposits. Emergency access is a secured, self-backed loan to you, not others.</p>
+      <div class="plan">
+        <h3>Segregated & never lent</h3>
+        <p class="mini">Funds remain reserved for you — we don’t lend out customer deposits. Loans are self-backed.</p>
       </div>
-      <div class="trust">
-        <b>Hard-lock with emergency override</b>
-        <p class="mini">Withdrawals aren’t allowed before the unlock date, except for approved emergencies. Terms and fees are transparent.</p>
+      <div class="plan">
+        <h3>Clear terms</h3>
+        <p class="mini">Transparent APRs, fees, and timelines. No dark patterns — just plain language.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="faq" class="s">
-  <h2 class="section-title">FAQ</h2>
+<!-- ========================= FAQ ========================= -->
+<section id="faq" class="s" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="section-title">FAQ</h2>
   <div class="panel">
     <details>
       <summary>How is interest calculated?</summary>
-      <p>We compound weekly. Choose a term (3, 6, 12, or 24 months) and we apply the posted APR for that term to your balance as you deposit $200 weekly (or your custom amount).</p>
-    </details>
-    <details>
-      <summary>What is “vested”?</summary>
-      <p>Vested is your principal (all deposits) plus interest. It’s the amount used to calculate your emergency loan limit.</p>
+      <p>We compound weekly. You choose a term (3, 6, 12, or 24 months), and we apply the posted APR to your balance as you deposit bi-weekly.</p>
     </details>
     <details>
       <summary>What is the emergency loan limit?</summary>
-      <p>Up to <b>80%</b> of your vested amount. Loans are self-backed and designed to keep you on track.</p>
+      <p>Up to <b>80%</b> of your vested amount (principal + interest). Emergency loan is 0% for 4 months, then 6% APR.</p>
+    </details>
+    <details>
+      <summary>What is the credit-builder loan?</summary>
+      <p>A self-backed loan designed to help you build payment discipline. Rate is <b>6% APR starting month 1</b>.</p>
     </details>
     <details>
       <summary>Is my money FDIC insured?</summary>
@@ -335,6 +360,7 @@
   </div>
 </section>
 
+<!-- ========================= FOOTER ========================= -->
 <footer role="contentinfo">
   <div class="foot">
     <div>© <span id="yr"></span> LockHabit — Discipline made simple. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
@@ -344,19 +370,39 @@
       This is a hard lock: early withdrawal is not permitted except for approved emergencies. APRs, terms, and fees are subject to change with notice.
     </div>
     <div class="footnote" style="margin-top:8px">
-      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a> • <a href="/demo.html">Demo</a>
+      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a> • <a href="#demo">Demo</a>
     </div>
   </div>
 </footer>
 
-<!-- Waitlist Modal -->
-<div id="overlay" style="position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90">
-  <div class="panel" style="width:min(560px,92vw);padding:18px">
-    <div class="row">
-      <h3 style="margin:0">Join the LockHabit waitlist</h3>
-      <button aria-label="Close" class="btn" onclick="closeModal()">✕</button>
+<!-- ========================= MINI GAME (footer strip) ========================= -->
+<div class="miniwrap" aria-hidden="false">
+  <div class="minibar">
+    <div class="note">🎮 Play this till we launch</div>
+    <button id="toggleGame" class="pill" aria-expanded="false" aria-controls="gamePanel">Open mini game</button>
+  </div>
+  <div id="gamePanel" role="region" aria-label="Endless runner mini game">
+    <canvas id="runnerCanvas" width="1180" height="120"></canvas>
+    <div id="gameInfo">
+      <span>Space/↑ to jump • P pause • R reset</span>
+      <span id="gameScore">Score: 0</span>
     </div>
-    <p class="mini">Be first in line when invites open. We’ll only email you about LockHabit.</p>
+    <div id="gameUI">
+      <input id="playerName" placeholder="Enter name (disabled for now)" maxlength="12" disabled/>
+      <ul id="top10"></ul>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= WAITLIST POPUP ========================= -->
+<div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title">
+  <div class="modal">
+    <div class="rowline">
+      <h3 id="wl-title" style="margin:0">Join the LockHabit waitlist</h3>
+      <button class="btn" aria-label="Close" onclick="closeModal()">✕</button>
+    </div>
+    <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
     <form id="wl-form" style="display:grid;gap:10px" novalidate>
       <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
       <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
@@ -365,19 +411,19 @@
         <option>3 months</option><option>6 months</option><option selected>12 months</option><option>24 months</option>
       </select>
       <button class="btn acc" type="submit">Join the waitlist</button>
-      <div id="msg" class="mini" role="status" aria-live="polite"></div>
+      <div id="msg" class="note" role="status" aria-live="polite"></div>
     </form>
     <div id="ok" style="display:none;text-align:center;padding:14px">
       <div style="font-size:42px">✅</div>
       <h3>Thanks — you’re on the list!</h3>
-      <p class="mini">We’ve recorded your interest. Keep an eye on your inbox.</p>
+      <p class="note">We’ve recorded your interest. Keep an eye on your inbox.</p>
       <button class="btn acc" onclick="closeModal()">Back to home</button>
     </div>
   </div>
 </div>
 
 <script>
-  // Year
+  // Live year
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   // Modal
@@ -386,62 +432,247 @@
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
   window.openModal = openModal; window.closeModal = closeModal;
 
-  // Calculator logic — $200 weekly (editable), APR tiers, emergency loan = 80% of vested
+  // ===== Animated demo engine =====
   (function(){
-    const weeklyInp = document.getElementById('weekly');
-    const termSel   = document.getElementById('term');
-    const pbar      = document.getElementById('pbar');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const depInp = document.getElementById('deposit');
+    const termSel = document.getElementById('term');
+
+    const termTxt = document.getElementById('termTxt');
+    const aprTxt  = document.getElementById('aprTxt');
 
     const principalVal = document.getElementById('principalVal');
     const interestVal  = document.getElementById('interestVal');
     const vestedVal    = document.getElementById('vestedVal');
     const loanVal      = document.getElementById('loanVal');
 
-    const termTxt = document.getElementById('termTxt');
-    const aprTxt  = document.getElementById('aprTxt');
+    const timeFill = document.getElementById('timeFill');    // term elapsed
+    const growthFill = document.getElementById('growthFill'); // stacked growth visual
+    const loanStripe = document.getElementById('loanStripe'); // 80% vested overlay
 
-    const LTV = 0.80; // 80% emergency loan of vested
+    // Helpers
+    const toUSD = n => n.toLocaleString('en-US',{style:'currency',currency:'USD'});
+    const weeklyRate = apr => Math.pow(1+apr, 1/52) - 1;
 
-    function toUSD(x){ return x.toLocaleString('en-US',{style:'currency',currency:'USD'}); }
-    function weeklyRate(apr){ return Math.pow(1+apr, 1/52) - 1; }
+    // State
+    let WEEKS_TOTAL = 52, APR = 0.03, DEPOSIT = 200;
+    let t = 0;            // weeks elapsed (float)
+    let running = false;  // animation flag
+    let raf = 0;
+    let obs;
 
-    function project(){
-      const dep = Math.max(5, Number(weeklyInp.value||200));
-      const [weeksStr, aprStr] = (termSel.value||'52|0.03').split('|');
-      const WEEKS = Math.max(1, parseInt(weeksStr,10));
-      const APR   = Math.max(0, parseFloat(aprStr));
+    // Build IntersectionObserver to pause when offscreen
+    const card = document.getElementById('demo');
+    const io = new IntersectionObserver(entries=>{
+      const e = entries[0];
+      if(e && e.isIntersecting){ start(); } else { stop(); }
+    }, {threshold:.15});
+    io.observe(card);
 
-      // Update labels
-      termTxt.textContent = (WEEKS===13?'3 months':WEEKS===26?'6 months':WEEKS===52?'12 months':'> 12 months');
-      aprTxt.textContent  = (APR*100).toFixed(1).replace('.0','') + '% APR';
+    function setTermFromSelect(){
+      const [weeksStr, aprStr] = termSel.value.split('|');
+      WEEKS_TOTAL = parseInt(weeksStr,10);
+      APR = parseFloat(aprStr);
+      termTxt.textContent = (WEEKS_TOTAL===13?'3 months':WEEKS_TOTAL===26?'6 months':WEEKS_TOTAL===52?'12 months':'24 months');
+      aprTxt.textContent = (APR*100).toFixed(1).replace('.0','') + '% APR';
+    }
 
-      // Future value with weekly contributions, weekly compounding
+    function resetSim(){
+      t = 0;
+      cancelAnimationFrame(raf);
+      updateVisual(0,0,0,0);
+    }
+
+    function simulate(weeks){
+      // True bi-weekly deposit cadence with weekly compounding
       const r = weeklyRate(APR);
-      let bal = 0, interest = 0, principal = 0;
+      let principal=0, interest=0, balance=0;
+      const depositsMade = Math.floor(weeks/2); // every 2 weeks
 
-      for(let w=1; w<=WEEKS; w++){
-        bal += dep; principal += dep;
-        const i = bal * r; bal += i; interest += i;
+      for(let w=1; w<=Math.floor(weeks); w++){
+        if(w % 2 === 1 && (w-1)/2 < depositsMade){ balance += DEPOSIT; principal += DEPOSIT; }
+        // weekly compounding on current balance
+        const i = balance * r;
+        balance += i; interest += i;
       }
-      const vested = principal + interest;
-      const loan   = vested * LTV;
+      // Handle fractional week (smooth animation)
+      const frac = weeks - Math.floor(weeks);
+      if(frac > 0){
+        const ii = balance * r * frac;
+        balance += ii; interest += ii;
+      }
+      return {principal, interest, vested: principal + interest};
+    }
 
+    function targetProjection(){
+      // End-of-term projection (for relative loan stripe width)
+      const r = weeklyRate(APR);
+      let p=0, i=0, b=0;
+      for(let w=1; w<=WEEKS_TOTAL; w++){
+        if(w%2===1){ b+=DEPOSIT; p+=DEPOSIT; }
+        const ii = b*r; b+=ii; i+=ii;
+      }
+      return {principal:p, interest:i, vested:p+i};
+    }
+
+    function updateVisual(principal, interest, vested, weeksElapsed){
       principalVal.textContent = toUSD(principal);
       interestVal.textContent  = toUSD(interest);
       vestedVal.textContent    = toUSD(vested);
-      loanVal.textContent      = toUSD(loan);
+      loanVal.textContent      = toUSD(vested*0.80);
 
-      // Progress (visual only)
-      pbar.style.width = '100%';
-      setTimeout(()=>{ pbar.style.width = '92%'; }, 10);
+      // Bar widths
+      const pctTime = Math.max(0, Math.min(100, (weeksElapsed / WEEKS_TOTAL) * 100));
+      timeFill.style.width = pctTime + '%';
+
+      // Growth visual: relative to end-of-term vested
+      const end = targetProjection().vested || 1;
+      const pctGrowth = Math.max(0, Math.min(100, (vested / end) * 100));
+      growthFill.style.width = pctGrowth + '%';
+
+      // Loan stripe: 80% of vested vs end-of-term vested
+      const pctLoan = Math.max(0, Math.min(100, (0.8*vested / end) * 100));
+      loanStripe.style.width = pctLoan + '%';
     }
 
-    weeklyInp.addEventListener('input', project);
-    termSel.addEventListener('change', project);
-    project();
+    function step(ts){
+      if(!running) return;
+
+      // Speed: complete term in ~18s; scale with term length for perceptual consistency
+      const secondsPerTerm = 18 + (WEEKS_TOTAL/52)*4;
+      const dt = 1 / (secondsPerTerm * 60); // ~weeks per frame @60fps
+      t += dt * WEEKS_TOTAL;
+
+      if(t >= WEEKS_TOTAL){ t = WEEKS_TOTAL; }
+
+      const {principal, interest, vested} = simulate(t);
+      updateVisual(principal, interest, vested, t);
+
+      if(t >= WEEKS_TOTAL){
+        // Loop gently: pause then restart
+        setTimeout(()=>{ t = 0; }, 800);
+      }
+      raf = requestAnimationFrame(step);
+    }
+
+    function start(){
+      if(prefersReduced){ // render final instantly
+        const {principal, interest, vested} = simulate(WEEKS_TOTAL);
+        updateVisual(principal, interest, vested, WEEKS_TOTAL);
+        return;
+      }
+      if(running) return;
+      running = true;
+      raf = requestAnimationFrame(step);
+    }
+
+    function stop(){
+      running = false;
+      cancelAnimationFrame(raf);
+    }
+
+    // Wire controls
+    depInp.addEventListener('input', ()=>{
+      DEPOSIT = Math.max(10, Number(depInp.value||200));
+      resetSim(); start();
+    });
+    termSel.addEventListener('change', ()=>{
+      setTermFromSelect(); resetSim(); start();
+    });
+
+    // Init
+    setTermFromSelect();
+    DEPOSIT = Number(depInp.value||200);
+    resetSim(); start();
+
+    // Pause during modal open
+    const mo = new MutationObserver(()=>{ if(overlay && overlay.style.display === 'flex'){ stop(); } else { start(); } });
+    if(overlay) mo.observe(overlay, {attributes:true, attributeFilter:['style']});
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); else start(); });
   })();
 
-  // Waitlist submit — API then Formspree fallback
+  // ===== Mini Runner (simple, polished) =====
+  (function(){
+    const toggleBtn = document.getElementById('toggleGame');
+    const panel     = document.getElementById('gamePanel');
+    const cvs       = document.getElementById('runnerCanvas');
+    const scoreEl   = document.getElementById('gameScore');
+    if(!toggleBtn || !panel || !cvs || !scoreEl) return;
+
+    const ctx = cvs.getContext('2d');
+    let W = cvs.width, H = cvs.height;
+
+    let running = false, paused = false, t0 = 0, score = 0, raf;
+    const G = 0.9, ground = H - 18;
+    const player = { x: 40, y: ground, vy: 0, w: 14, h: 14, onGround: true };
+    let obs = []; let spawn = 0;
+
+    function reset(){ score = 0; obs = []; spawn = 0; player.y = ground; player.vy = 0; player.onGround = true; paused = false; }
+    function jump(){ if(!running || paused) return; if(player.onGround){ player.vy = -12; player.onGround = false; } }
+    function drawBg(){ ctx.fillStyle = '#0f172a'; ctx.fillRect(0,0,W,H); ctx.strokeStyle = '#26304a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, ground+8); ctx.lineTo(W, ground+8); ctx.stroke(); }
+    function drawPlayer(){ ctx.fillStyle = '#e6eaff'; ctx.fillRect(player.x, player.y - player.h, player.w, player.h); }
+    function addObstacle(){ const h = 10 + Math.floor(Math.random()*18); const w = 8 + Math.floor(Math.random()*10); const speed = 4 + Math.random()*2; obs.push({ x: W + 10, y: ground, w, h, v: speed }); }
+    function drawObstacles(){ ctx.fillStyle = '#91a1ff'; for(const o of obs){ ctx.fillRect(o.x, o.y - o.h, o.w, o.h); } }
+    function collide(a,b){ return !(a.x + a.w < b.x || a.x > b.x + b.w || a.y < b.y - b.h || a.y - a.h > b.y); }
+
+    function resize(){
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      const cssW = Math.min(1180, document.documentElement.clientWidth);
+      cvs.style.width = cssW + 'px';
+      cvs.width = cssW * dpr; cvs.height = 120 * dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      W = cssW;
+    }
+    window.addEventListener('resize', resize, {passive:true}); resize();
+
+    function step(ts){
+      if(!running){ return; }
+      if(!t0) t0 = ts; const dt = Math.min(32, ts - t0); t0 = ts;
+
+      if(!paused){
+        player.vy += G; player.y += player.vy;
+        if(player.y >= ground){ player.y = ground; player.vy = 0; player.onGround = true; }
+
+        spawn -= dt; if(spawn <= 0){ addObstacle(); spawn = 800 + Math.random()*900; }
+        for(const o of obs){ o.x -= o.v; } obs = obs.filter(o => o.x + o.w > -10);
+
+        for(const o of obs){
+          if(collide({x:player.x,y:player.y,w:player.w,h:player.h},{x:o.x,y:o.y,w:o.w,h:o.h})){
+            ctx.save(); ctx.fillStyle = 'rgba(255,0,70,.18)'; ctx.fillRect(0,0,W,H); ctx.restore();
+            reset(); break;
+          }
+        }
+        score += Math.floor(dt/10);
+        scoreEl.textContent = 'Score: ' + score;
+      }
+
+      drawBg(); drawObstacles(); drawPlayer();
+      raf = requestAnimationFrame(step);
+    }
+
+    function start(){ if(running) return; running = true; t0 = 0; raf = requestAnimationFrame(step); }
+    function stop(){ running = false; cancelAnimationFrame(raf); }
+
+    window.addEventListener('keydown', (e)=>{
+      if(panel.classList.contains('open')){
+        if(e.code === 'Space' || e.code === 'ArrowUp'){ e.preventDefault(); jump(); }
+        if(e.code === 'KeyR'){ reset(); }
+        if(e.code === 'KeyP'){ paused = !paused; }
+      }
+    });
+    cvs.addEventListener('touchstart', (e)=>{ if(panel.classList.contains('open')){ e.preventDefault(); jump(); } }, {passive:false});
+
+    toggleBtn.addEventListener('click', ()=>{
+      const open = panel.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', String(open));
+      toggleBtn.textContent = open ? 'Close mini game' : 'Open mini game';
+      if(open){ start(); } else { stop(); }
+    });
+
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); });
+  })();
+
+  // Waitlist submit — /api/waitlist with Formspree fallback
   (function(){
     const form = document.getElementById('wl-form');
     const msg  = document.getElementById('msg');
@@ -451,6 +682,7 @@
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
       msg.textContent = 'Submitting…'; msg.style.color = '#56607a';
+
       const data = Object.fromEntries(new FormData(form).entries());
       const done = ()=>{ form.style.display='none'; ok.style.display='block'; };
 
