@@ -2,53 +2,56 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Home (static hero demo, no inputs, no motion)
-       Minimal, informative, Apple/Tesla-style clarity • SEO
+       LockHabit — Mobile polish + tracker cleanup (2025-10-25)
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit — Discipline pays. Lock your money and own your future.</title>
-  <meta name="description" content="LockHabit hard-locks your savings so you don’t spend impulsively. Earn a transparent fixed APR, and access self-backed emergency credit up to 80% of vested. See the (static) demo and read how it works."/>
-  <meta name="theme-color" content="#6f7cff"/>
-  <link rel="canonical" href="https://lockhabit.com/"/>
 
-  <!-- Social -->
+  <title>LockHabit — Discipline Pays. Lock Your Money. Own Your Future.</title>
+  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, earn 3.5% APR (compounded weekly), access credit-builder self-loans at 6% APR (interest credited back to you). Try the calculator and live demo."/>
+  <meta name="theme-color" content="#6f7cff"/>
+
+  <!-- Canonical + Social -->
+  <link rel="canonical" href="https://lockhabit.com/"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit — Discipline pays. Lock your money and own your future."/>
-  <meta property="og:description" content="Hard-lock savings with fixed APR tiers and self-backed emergency access. See the static demo, then try the calculator or live demo."/>
+  <meta property="og:title" content="LockHabit — Discipline Pays. Lock Your Money. Own Your Future."/>
+  <meta property="og:description" content="Your money stays yours — hard-locked, growing at 3.5% APR with weekly compounding, with 6% credit-builder access. Try the calculator and live demo."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
   <meta property="og:image" content="/public/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="LockHabit — Save on purpose"/>
-  <meta name="twitter:description" content="Lock your money, grow with a fixed APR, and access self-backed emergency credit when life happens."/>
+  <meta name="twitter:description" content="Check your take-home, build a plan, and see your savings grow in the live demo."/>
   <meta name="twitter:image" content="/public/og-image.png"/>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
-  <!-- Icons/PWA -->
+  <!-- Icons & PWA -->
   <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/public/favicon.ico">
   <link rel="apple-touch-icon" href="/public/icon-192.png">
   <link rel="manifest" href="/public/manifest.webmanifest">
 
-  <!-- Analytics (lightweight, privacy-friendly) -->
+  <!-- Analytics -->
   <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
 
+  <!-- ========================= Styles ========================= -->
   <style>
     :root{
-      --brand:#6f7cff; --brand2:#9c78ff;
-      --ink:#0f172a; --muted:#536179;
-      --line:#e8eaf3; --bg:#0b0e1a; --surface:#f7f8ff;
-      --panel:#ffffff; --green:#22c55e;
-      --radius:16px; --radius-lg:20px;
-      --shadow:0 18px 50px rgba(17,24,39,.10);
-      --hero-grad:
-        radial-gradient(1200px 700px at 50% -220px, rgba(111,124,255,.26), transparent 60%),
-        radial-gradient(900px 600px at -6% 10%, rgba(156,120,255,.18), transparent 52%),
-        #f6f8ff;
+      --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
+      --green:#22c55e; --ink:#0f172a; --muted:#536179;
+      --line:#e6e7f1; --panel:#ffffff; --surface:#fbfcff;
+      --bg:#0b0e1a;
+      --radius-sm:12px; --radius:16px; --radius-lg:22px;
+      --shadow-elev:0 18px 50px rgba(17,24,39,.10);
+      --shadow-deep:0 40px 120px rgba(7,10,18,.45);
+      --grad-hero:
+        radial-gradient(1400px 750px at 50% -200px, rgba(111,124,255,.30) 0%, rgba(156,120,255,.20) 35%, transparent 60%),
+        radial-gradient(1100px 700px at -10% 10%, rgba(156,120,255,.22) 0%, transparent 55%),
+        radial-gradient(1100px 700px at 110% -20%, rgba(111,124,255,.18) 0%, transparent 60%),
+        #f8f9ff;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -56,68 +59,148 @@
       margin:0; background:var(--bg); color:var(--ink);
       font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding-bottom: env(safe-area-inset-bottom, 0px); overflow-x:hidden;
     }
-    a{color:#17223c;text-decoration:none;font-weight:600}
 
-    /* Header */
-    .hdr{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .wrap{max-width:1200px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:32px;height:32px}
-    .word{font-weight:800;font-size:20px;color:#0e1a34}
-    nav{display:flex;align-items:center;gap:14px}
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:44px}
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-color:transparent;box-shadow:0 10px 26px rgba(111,124,255,.30)}
-    @media (max-width:760px){ nav a:nth-child(-n+3){display:none} }
+    /* Header (mobile-first) */
+    .header{
+      position:sticky; top:0; z-index:60;
+      background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+      transform:translateY(0); transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .header.stuck{ box-shadow:0 6px 20px rgba(17,24,39,.08); }
+    .header.hide{ transform:translateY(-100%); }
+    .wrap{
+      max-width:1200px;margin:0 auto;padding:12px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:0}
+    .logo{width:28px;height:28px;flex:none}
+    .word{font-weight:800;font-size:18px;color:#0e1a34;white-space:nowrap}
+    .nav{
+      display:flex;align-items:center;gap:14px;min-width:0;
+    }
+    .nav a{color:#19253f;text-decoration:none;font-weight:600;white-space:nowrap}
+    .btn{
+      appearance:none;border:1px solid var(--line);background:#fff;
+      padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;
+      min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation
+    }
+    .btn.acc{background:linear-gradient(135deg, var(--brand), var(--brand-2));color:#fff;border-color:transparent;box-shadow:0 10px 26px rgba(111,124,255,.32)}
+    .btn.ghost{background:transparent}
+    .btn.pill{border-radius:999px}
+
+    /* Hide most nav on narrow screens; keep primary CTA visible */
+    @media (max-width:720px){
+      .nav a{display:none}
+      .btn.ghost{display:none}
+    }
 
     /* Hero */
-    .hero{background:var(--hero-grad);border-bottom:1px solid var(--line);padding:56px 18px 40px}
-    .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
-    @media (min-width:1020px){ .grid{grid-template-columns:1.05fr .95fr;gap:28px} }
-    h1{margin:0 0 10px;font-size:34px;line-height:1.12}
-    @media (min-width:560px){ h1{font-size:42px} }
-    @media (min-width:1020px){ h1{font-size:50px} }
-    .sub{color:#3a4a66;max-width:70ch}
-    .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:52px 16px 40px}
+    .hero-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
+    @media (max-width:999px){ .hero-grid{grid-template-columns:1fr; gap:22px} }
+    h1{font-size:32px;line-height:1.18;margin:0 0 8px}
+    @media (min-width:480px){ h1{font-size:40px} }
+    @media (min-width:1000px){ h1{font-size:48px} }
+    .sub{color:#3a4a66;max-width:65ch}
 
-    /* Static demo card */
-    .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .k{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#5c6b86}
-    .v{font-weight:800;font-size:22px;color:#0b1230}
-    .badge{background:#eafff2;border:1px solid #c8f5d9;color:#0b3b22;border-radius:999px;padding:6px 10px;font-weight:800}
-    .bar{height:10px;border-radius:999px;background:#edf0f6;border:1px solid #e7e9f2}
+    /* Chip */
+    .chip{
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+      padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,#e7ebff,#f4f1ff);
+      border:1px solid #dfe3ff;font-weight:700;color:#3a4a66;max-width:100%;
+    }
+    .chip span{white-space:nowrap}
+    .chip span+span{position:relative;padding-left:18px}
+    .chip span+span::before{content:"•";position:absolute;left:6px;top:0;color:#7f8bb3}
+
+    .cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .cta .btn{padding:12px 16px}
+
+    /* Mock card (tracker) */
+    .mock{
+      background:#fff;border:1px solid var(--line);border-radius:20px;
+      padding:16px;box-shadow:var(--shadow-elev);position:relative;overflow:hidden
+    }
+    .mock .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .badge-green{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800;white-space:nowrap}
+    .mini{font-size:12px;color:var(--muted)}
+    .card{margin-top:12px;background:linear-gradient(180deg,#fff,#f9f9ff);border:1px solid var(--line);border-radius:14px;padding:12px}
+    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,var(--brand));transition:width .6s ease}
     .statgrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
     @media (min-width:560px){ .statgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
     .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
-    .muted{font-size:12px;color:#60708c}
-    .pill{display:inline-flex;align-items:center;gap:8px;background:#f3f6ff;border:1px solid #e1e6ff;border-radius:999px;padding:8px 12px;font-weight:700;color:#203060}
+    .k{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
+    .v{font-weight:800;font-size:22px;color:#0b1230;line-height:1.2;white-space:nowrap}
 
     /* Sections */
-    section.s{max-width:1200px;margin:0 auto;padding:40px 18px}
-    .section-title{font-size:28px;color:#f8f9ff;text-align:center;margin:0 0 14px}
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+    section.s{max-width:1200px;margin:0 auto;padding:36px 16px}
+    @media (min-width:768px){ section.s{padding:44px 22px} }
+    .section-title{font-size:26px;text-align:center;margin:0 0 16px;color:#f8f9ff}
+    @media (min-width:768px){ .section-title{font-size:30px} }
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow-elev)}
+    @media (min-width:768px){ .panel{padding:24px} }
+
     .cols3{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width:900px){ .cols3{grid-template-columns:repeat(3,minmax(0,1fr))} }
-    .tile{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+    .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+    .plan h3{margin:0 0 6px;color:#15213d}
+    .plan ul{margin:8px 0 0;padding-left:18px;color:#3b4a67}
 
-    /* Footer + Modal */
+    .trustgrid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:900px){ .trustgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .trust{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+    .trust b{color:#101828}
+
+    /* Ribbon */
+    .ribbon{background:linear-gradient(135deg, rgba(111,124,255,.22), rgba(156,120,255,.22));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .ribwrap{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;gap:10px;align-items:center;justify-content:center;color:#e7ebff;flex-wrap:wrap}
+    .ribwrap .item{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:10px 12px;border-radius:999px}
+    .ribwrap .item b{color:#fff}
+
+    /* Footer */
     footer{background:#fff;border-top:1px solid var(--line);color:#3a4a66}
-    .foot{max-width:1200px;margin:0 auto;padding:20px 18px}
-    .fine{margin-top:10px;font-size:12px;color:#41506a;background:#f6f7fc;border:1px solid var(--line);padding:12px;border-radius:12px}
+    .foot{max-width:1200px;margin:0 auto;padding:22px 16px}
+    .fine{background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#41506a}
+    .footnote{font-size:12px;color:#60708c}
+
+    /* Modal (waitlist) */
     .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
-    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 40px 120px rgba(7,10,18,.45)}
+    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-deep)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
     .form{display:grid;gap:10px;margin-top:10px}
     input,select{padding:14px;border-radius:12px;border:1px solid #dbe0ea;font-size:16px}
-    .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
     .note{font-size:12px;color:#60708c}
     .success{display:none;text-align:center;padding:18px}
+    .check{font-size:42px}
+
+    /* Mini Game */
+    .miniwrap{position:fixed;left:0;right:0;bottom:0;z-index:40;pointer-events:none}
+    .minibar{margin:0 auto;max-width:1200px;padding:6px 10px;display:flex;gap:8px;align-items:center;justify-content:flex-end}
+    .minibar .pill{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;background:#0e1330;color:#e5e7f1;border:1px solid #2b3150;border-radius:999px;padding:6px 10px;font-weight:700;cursor:pointer;min-height:36px}
+    #gamePanel{pointer-events:auto;display:none;background:#0b0e1a;border-top:1px solid #2b3150}
+    #gamePanel.open{display:block}
+    #runnerCanvas{display:block;width:100%;max-width:1200px;height:120px;margin:0 auto;background:#0f172a}
+    #gameInfo,#gameUI{max-width:1200px;margin:0 auto;color:#9fb2ff;font-size:12px;padding:6px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    #top10{display:flex;gap:6px;flex-wrap:wrap;padding:0;margin:0;list-style:none}
+    #top10 li{background:#0e1330;border:1px solid #2b3150;border-radius:999px;padding:4px 8px;color:#e5e7f1}
+    #playerName{padding:6px 8px;border-radius:10px;border:1px solid #2b3150;background:#0e1330;color:#e5e7f1}
+
+    /* Small-screen tweaks */
+    @media (max-width:420px){
+      .word{font-size:17px}
+      .btn{padding:10px 12px}
+    }
   </style>
 </head>
 <body>
 
 <!-- ========================= HEADER ========================= -->
-<header class="hdr">
+<header class="header" role="banner" id="hdr">
   <div class="wrap">
     <div class="brand" aria-label="LockHabit">
       <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
@@ -129,10 +212,10 @@
       </svg>
       <div class="word">LockHabit</div>
     </div>
-    <nav>
+    <nav class="nav" role="navigation" aria-label="Main">
       <a href="#how">How it works</a>
       <a href="#plans">Plans</a>
-      <a href="#faq">FAQ</a>
+      <a href="#security">Security</a>
       <a href="/calculator.html">Calculator</a>
       <a href="/demo.html">Demo</a>
       <button class="btn acc" onclick="openModal()">Get started</button>
@@ -140,164 +223,270 @@
   </div>
 </header>
 
-<!-- ========================= HERO (informational + static demo) ========================= -->
+<!-- ========================= HERO ========================= -->
 <section class="hero" id="top">
-  <div class="grid">
-    <!-- Left: what we do (informative) -->
+  <div class="hero-grid" aria-describedby="hero-copy">
     <div>
+      <div class="chip" aria-label="Highlights">
+        <span>Discipline Pays</span><span><b style="color:#22c55e">3.5% APR</b></span><span>Weekly lock • 10 years</span>
+      </div>
       <h1>Discipline pays. Lock your money and own your future.</h1>
-      <p class="sub">
-        LockHabit is a behavioral savings system. We <b>hard-lock</b> your deposits so impulse spending
-        is off the table, grow them at a <b>fixed APR</b> tier, and give you <b>self-backed emergency access</b>
-        when life happens. Your funds are not lent to others and are intended to be held in partner
-        banks with pass-through FDIC coverage (up to legal limits).
+      <p id="hero-copy" class="sub">
+        LockHabit turns saving into momentum. Hard-lock funds, earn a transparent <b>3.5% APR</b> with weekly compounding,
+        and access <b>6% credit-builder self-loans</b> when life happens — interest is <b>credited back to you</b>.
+        Try the <a href="/calculator.html">income & budget calculator</a>, then see results in the
+        <a href="/demo.html">live demo</a>.
       </p>
-      <div class="ctas">
-        <button class="btn acc" onclick="openModal()">Join the waitlist</button>
-        <a class="btn" href="/calculator.html">Open Calculator</a>
+      <div class="cta">
+        <button class="btn acc" onclick="openModal()">Join the Waitlist</button>
+        <a class="btn" href="/calculator.html">Check your take-home</a>
         <a class="btn" href="/demo.html">Try the Demo</a>
       </div>
-      <p class="muted" style="margin-top:8px">We avoid the word “guarantee” outside posted fixed APR tiers.</p>
+      <div class="footnote">Your deposits are never lent to others. Your patience earns dividends.</div>
     </div>
 
-    <!-- Right: static (frozen) demo card -->
-    <aside class="card" aria-live="off">
-      <div class="row" style="margin-bottom:8px">
+    <!-- Right: interactive mock -->
+    <aside class="mock" aria-live="polite">
+      <div class="row">
         <div>
-          <div class="muted" style="font-weight:600">Savings Vault</div>
+          <div class="mini">Savings Vault</div>
           <div style="font-weight:800;font-size:18px;color:#0f1a34">Goal Progress</div>
-          <div class="muted">$200 • bi-weekly • 24 months • 3.5% APR</div>
+          <div class="mini" id="metaLine">Weekly lock • 10 years • 3.5% APR</div>
         </div>
-        <span class="badge">On-time ↑ credit</span>
+        <span class="badge-green">On-time ↑ credit</span>
       </div>
 
-      <div class="muted" style="margin:6px 0 6px">Progress</div>
-      <div class="bar" aria-hidden="true"></div>
+      <div class="card" style="margin-top:10px">
+        <div class="row" style="margin-bottom:8px">
+          <div class="mini">Progress</div>
+          <div class="mini" id="pval" aria-live="polite">0%</div>
+        </div>
+        <div class="bar" aria-hidden="true"><div class="fill" id="pbar"></div></div>
+      </div>
 
       <div class="statgrid">
         <div class="stat">
-          <div class="k">Deposit setting</div>
-          <div class="v">$200</div>
-          <div class="k">Bi-weekly</div>
+          <div class="k">Locked today</div>
+          <div class="v" id="lockedNow">$3,000</div>
+          <div class="k" id="autoLbl">Auto-deposit $200 weekly</div>
         </div>
         <div class="stat">
           <div class="k">Projected interest</div>
-          <div class="v">$387.78</div>
-          <div class="k">At 3.5% APR (24 mo)</div>
+          <div class="v" id="intv">$0.00</div>
+          <div class="k">at 3.5% APR (10 yrs)</div>
         </div>
         <div class="stat">
-          <div class="k">Projected total</div>
-          <div class="v">$10,787.78</div>
-          <div class="k">Principal + compounded interest</div>
+          <div class="k">Account balance</div>
+          <div class="v" id="balanceNow">$0.00</div>
+          <div class="k">Principal + deposits + interest</div>
         </div>
       </div>
 
-      <div class="tile" style="margin-top:10px;border-radius:12px">
-        <div class="k">Emergency access (self-backed)</div>
-        <div class="muted">Borrow up to <b>80% of vested</b>. Terms: <b>0%</b> for the first 4 months, then <b>6% APR</b>. Credit-builder loans at 6% APR (intended to be bureau-reported).</div>
+      <div class="card" style="margin-top:12px">
+        <div class="row">
+          <div class="mini"><b>Emergency withdrawal fee: 5%</b></div>
+          <button class="btn acc pill" id="heroJoin">Join the waitlist</button>
+        </div>
       </div>
     </aside>
   </div>
 </section>
 
+<!-- ========================= RIBBON ========================= -->
+<div class="ribbon" role="region" aria-label="Security summary">
+  <div class="ribwrap">
+    <div class="item">🔒 <b>Hard-lock</b> (no early withdrawals except emergencies)</div>
+    <div class="item">🏦 <b>FDIC-backed custody</b> via partner banks</div>
+    <div class="item">📈 <b>Credit-builder</b> self-loans at 6% APR</div>
+    <div class="item">🧮 <b>Transparent</b> 3.5% APR • $3 / $2 / $1 unlock fees</div>
+  </div>
+</div>
+
 <!-- ========================= HOW IT WORKS ========================= -->
-<section id="how" class="s">
-  <h2 class="section-title">How LockHabit works</h2>
+<section id="how" class="s" aria-labelledby="how-title">
+  <h2 id="how-title" class="section-title">How LockHabit Works</h2>
   <div class="panel">
     <div class="cols3">
-      <div class="tile">
+      <div class="plan">
         <h3>1) Choose your lock</h3>
-        <p class="muted">Pick 3, 6, 12, or 24+ months. Set an auto-deposit you can live with (e.g., $200 bi-weekly). Funds move into your hidden vault.</p>
+        <ul>
+          <li>Pick <b>1–3</b>, <b>4–6</b>, or <b>6–12+ months</b></li>
+          <li>Optional auto-deposits weekly/bi-weekly/monthly</li>
+          <li>Funds move into your hidden vault</li>
+        </ul>
       </div>
-      <div class="tile">
+      <div class="plan">
         <h3>2) Grow automatically</h3>
-        <p class="muted">Balances grow at a <b>fixed APR</b> tier (prorated by time in lock). Your deposits are <b>never lent out</b>.</p>
+        <ul>
+          <li>Earn <b>3.5% APR</b> (compounded weekly)</li>
+          <li>Your money is <b>never lent out</b></li>
+          <li>View balance only when you choose</li>
+        </ul>
       </div>
-      <div class="tile">
+      <div class="plan">
         <h3>3) Unlock or borrow</h3>
-        <p class="muted">At maturity, withdraw principal + interest (less posted fees), or extend your lock. Emergencies? Borrow against your own balance.</p>
+        <ul>
+          <li>Unlock day: principal + interest − small flat fee</li>
+          <li>Emergency? Borrow at <b>6% APR</b> (credited back to you)</li>
+          <li>Intended to be <b>credit bureau-reported</b></li>
+        </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= GROUPS ========================= -->
+<section id="groups" class="s" aria-labelledby="groups-title">
+  <h2 id="groups-title" class="section-title">Friends & family group locks</h2>
+  <div class="panel">
+    <p style="margin:0 0 8px;color:#3b4a67">
+      Create a shared lock with people you trust. Everyone contributes on a schedule, the pot grows at
+      <b>3.5% APR (weekly compounding)</b>, and members can opt into <b>credit-builder self-loans</b> when needed.
+    </p>
+    <ul style="margin:0;padding-left:18px;color:#3b4a67">
+      <li>Set goals and term lengths together (or multiple parallel locks)</li>
+      <li>Transparent activity and optional contribution reminders</li>
+      <li>Emergency access stays self-backed — interest credited back after payoff</li>
+    </ul>
+    <div style="margin-top:12px;text-align:right">
+      <button class="btn acc" onclick="openModal()">Start a group — Join waitlist</button>
     </div>
   </div>
 </section>
 
 <!-- ========================= PLANS ========================= -->
-<section id="plans" class="s">
-  <h2 class="section-title">Simple, transparent plans</h2>
+<section id="plans" class="s" aria-labelledby="plans-title">
+  <h2 id="plans-title" class="section-title">Simple, transparent plans</h2>
   <div class="cols3">
-    <div class="tile">
-      <h3>3–5 months</h3>
-      <p class="muted"><b>2.0% APR</b> (prorated). Small flat unlock fee.</p>
+    <div class="plan">
+      <h3>1–3 months</h3>
+      <ul>
+        <li><b>$3 flat</b> at unlock</li>
+        <li><b>3.5% APR</b> (weekly compounding)</li>
+        <li>Fast goals</li>
+      </ul>
+      <div class="footnote">Self-loan 6% APR; interest credited back; bureau-reported.</div>
     </div>
-    <div class="tile">
-      <h3>6–11 months</h3>
-      <p class="muted"><b>2.5% APR</b> (prorated). Extendable at maturity.</p>
+    <div class="plan">
+      <h3>4–6 months</h3>
+      <ul>
+        <li><b>$2 flat</b> at unlock</li>
+        <li><b>3.5% APR</b> (weekly compounding)</li>
+        <li>Balanced discipline</li>
+      </ul>
+      <div class="footnote">Hard-lock: non-emergency early break attempts incur a <b>5% fee</b>.</div>
     </div>
-    <div class="tile">
-      <h3>12–24+ months</h3>
-      <p class="muted"><b>3.0%–3.5% APR</b> (prorated). Maximum fixed-tier growth.</p>
+    <div class="plan">
+      <h3>6–12+ months</h3>
+      <ul>
+        <li><b>$1 flat</b> at unlock</li>
+        <li><b>3.5% APR</b> (weekly compounding)</li>
+        <li>Maximum growth</li>
+      </ul>
+      <div class="footnote">Deposits held with partner banks may receive pass-through FDIC coverage up to legal limits.</div>
     </div>
   </div>
-  <p class="muted" style="max-width:1200px;margin:10px auto 0;padding:0 18px">
-    Optional high-risk sleeve (availability subject to approvals) offers <b>variable APR</b> that can be negative or positive (historically between –10% and +20%).
-    This sleeve is <b>not guaranteed</b>, can lose value, and — if enabled — includes a <b>$2/month</b> fee and a <b>2% close-out fee</b>. Not investment advice.
-  </p>
+</section>
+
+<!-- ========================= SECURITY / TRUST ========================= -->
+<section id="security" class="s" aria-labelledby="sec-title">
+  <h2 id="sec-title" class="section-title">Your money stays safe</h2>
+  <div class="panel">
+    <div class="trustgrid">
+      <div class="trust">
+        <b>FDIC-backed via partner banks</b>
+        <p class="mini">When deposits are held at partner banks and structured for pass-through coverage, FDIC insurance applies up to legal limits per depositor, per bank.</p>
+      </div>
+      <div class="trust">
+        <b>Segregated & never lent</b>
+        <p class="mini">Your funds remain reserved for you — <b>we do not lend out customer deposits</b>. Emergency access is a secured, self-backed loan to <i>you</i>, not others.</p>
+      </div>
+      <div class="trust">
+        <b>Hard-lock with emergency override</b>
+        <p class="mini">Withdrawals aren’t allowed before the unlock date except for approved emergencies. Non-emergency early break attempts incur a <b>5% fee</b>.</p>
+      </div>
+      <div class="trust">
+        <b>Credit-builder emergency loans</b>
+        <p class="mini">Borrow against your own balance at <b>6% APR</b>; loans are intended to be <b>reported to major bureaus</b>. On-time payments may help build credit; late payments may harm credit.</p>
+      </div>
+      <div class="trust">
+        <b>Interest that benefits you</b>
+        <p class="mini">Self-loan interest is <b>credited back to your locked balance</b>, helping you reach your goal faster after payoff.</p>
+      </div>
+      <div class="trust">
+        <b>Privacy & transparency</b>
+        <p class="mini">We keep your data private and use it only to operate LockHabit. No dark patterns — just clear terms.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ========================= FAQ ========================= -->
-<section id="faq" class="s">
-  <h2 class="section-title">FAQ</h2>
-  <div class="panel">
-    <details open>
-      <summary>What exactly is LockHabit?</summary>
-      <p class="muted">A hard-lock savings and self-credit-builder system. We help you remove temptation, save on purpose, and build a safe emergency back-up using your own balance.</p>
-    </details>
+<section id="faq" class="s" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="section-title">FAQ</h2>
+  <div class="panel" aria-live="polite">
     <details>
-      <summary>Is my money safe?</summary>
-      <p class="muted">Your funds are not lent to other customers. We intend to custody deposits at regulated partner banks with pass-through FDIC insurance up to legal limits (per depositor, per bank).</p>
-    </details>
-    <details>
-      <summary>Can I withdraw early?</summary>
-      <p class="muted">No — it’s a hard lock. Early withdrawal isn’t allowed except for approved emergencies. Non-emergency break attempts incur posted fees.</p>
+      <summary>Is this a hard lock?</summary>
+      <p>Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. <b>Non-emergency early break attempts incur a 5% fee.</b></p>
     </details>
     <details>
       <summary>Do I earn interest while locked?</summary>
-      <p class="muted">Yes. Fixed APR tiers (e.g., 2.0%–3.5%) are prorated by time in lock. Rates for new locks may change with notice.</p>
+      <p>Yes. Balances earn a transparent <b>3.5% APR</b>, compounded weekly and prorated by time in lock. Rates may change with notice.</p>
     </details>
     <details>
-      <summary>How does the emergency loan work?</summary>
-      <p class="muted">Borrow up to <b>80% of your vested</b> balance. It’s 0% for the first 4 months, then 6% APR. Intended to be credit-bureau-reported (on-time payments can help build credit; missed payments may harm credit).</p>
+      <summary>Are emergency loans credit-builder loans?</summary>
+      <p>Yes. Emergency self-loans are intended to be <b>reported to credit bureaus</b>. On-time payments may help build credit; missed or late payments may harm credit.</p>
     </details>
     <details>
-      <summary>What about the high-risk option?</summary>
-      <p class="muted">It’s optional. Variable APR, can lose value (historically –10% to +20%). If enabled, there’s a $2/month fee and a 2% close-out fee. Not investment advice; returns not guaranteed.</p>
+      <summary>Is my money FDIC insured?</summary>
+      <p>Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for <b>FDIC insurance</b> up to applicable limits per depositor, per bank.</p>
     </details>
     <details>
-      <summary>Can I extend my term?</summary>
-      <p class="muted">Yes. At the end of your term you can extend and keep compounding, or withdraw within the normal processing window.</p>
+      <summary>Where does loan interest go?</summary>
+      <p>Self-loan interest (6% APR) is <b>credited back to your locked balance after payoff</b>, minimizing net cost and supporting your goal.</p>
     </details>
   </div>
 </section>
 
 <!-- ========================= FOOTER ========================= -->
-<footer>
+<footer role="contentinfo">
   <div class="foot">
-    <div>© <span id="yr"></span> LockHabit • <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
+    <div>© <span id="yr"></span> LockHabit — Discipline made simple. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
     <div class="fine">
       LockHabit is a financial technology company, not a bank. Banking services and deposit custody are provided by regulated partner banks.
-      When held for pass-through coverage, funds may be FDIC insured up to the applicable limits per depositor, per bank.
-      This is a <b>hard lock</b>. Emergency access is via secured, self-backed loans (0% for first 4 months, then 6% APR). Credit-builder loans at 6% APR are intended to be bureau-reported.
-      Rates, terms, and fees may change with notice for new locks. We do not use “guaranteed” language outside fixed APR tiers.
+      When deposits are held at partner banks and structured for pass-through coverage, funds may be eligible for FDIC insurance up to the applicable limits per depositor, per bank.
+      This is a <b>hard lock</b>: early withdrawal is not permitted except for approved emergencies; <b>non-emergency</b> early break attempts incur a <b>5% fee</b>.
+      Emergency access is provided via secured, self-backed loans at <b>6% APR</b>; loans are intended to be <b>reported to credit bureaus</b>. <b>100% of loan interest is credited back to your locked balance after payoff.</b>
+      APRs, terms, and fees are subject to change with notice. Program and partner-bank disclosures will be presented prior to account opening. Participation in the waitlist does not guarantee account approval.
     </div>
-    <div style="margin-top:8px">
+    <div class="footnote" style="margin-top:8px;text-align:center">
       <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a> • <a href="/demo.html">Demo</a>
     </div>
   </div>
 </footer>
 
+<!-- ========================= MINI GAME (Footer) ========================= -->
+<div class="miniwrap" aria-hidden="false">
+  <div class="minibar">
+    <button id="toggleGame" class="pill" aria-expanded="false" aria-controls="gamePanel">🎮 Mini game (off)</button>
+  </div>
+  <div id="gamePanel" role="region" aria-label="Endless runner mini game">
+    <canvas id="runnerCanvas" width="1200" height="120"></canvas>
+    <div id="gameInfo">
+      <span>Until launch: Space/↑ to jump • P pause • R reset</span>
+      <span id="gameScore">Score: 0</span>
+    </div>
+    <div id="gameUI">
+      <input id="playerName" placeholder="Enter name for leaderboard" maxlength="12"/>
+      <ul id="top10"></ul>
+      <div id="shareButtons"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ========================= WAITLIST MODAL ========================= -->
 <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title">
-  <div class="modal">
+  <div class="modal" id="modalBox">
     <div class="row">
       <h3 id="wl-title" style="margin:0">Join the LockHabit waitlist</h3>
       <button class="x" aria-label="Close" onclick="closeModal()">✕</button>
@@ -308,72 +497,290 @@
       <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
       <select name="term" aria-label="Preferred lock term">
         <option value="">Preferred lock term (optional)</option>
-        <option value="3">3 months</option>
-        <option value="6">6 months</option>
-        <option value="12">12 months</option>
-        <option value="24+">24+ months</option>
+        <option value="1-3">1–3 months</option>
+        <option value="4-6">4–6 months</option>
+        <option value="6-12+">6–12+ months</option>
       </select>
       <button class="btn acc" type="submit">Join the waitlist</button>
       <div id="msg" class="note" role="status" aria-live="polite"></div>
-      <div class="success" id="ok">
-        <div style="font-size:40px">✅</div>
-        <p>Thanks — you’re on the list.</p>
-        <button class="btn acc" type="button" onclick="closeModal()">Close</button>
-      </div>
+      <div class="footnote">By joining, you consent to receive early-access communications. We never sell your data.</div>
     </form>
+    <div id="ok" class="success" aria-live="polite">
+      <div class="check">✅</div>
+      <h3>Thanks — you’re on the list!</h3>
+      <p class="note">We’ve recorded your interest. Keep an eye on your inbox for updates.</p>
+      <button class="btn acc" onclick="closeModal()">Back to home</button>
+    </div>
   </div>
 </div>
 
-<!-- ========================= Structured data (SEO) ========================= -->
+<!-- ========================= STRUCTURED DATA (SEO) ========================= -->
 <script type="application/ld+json">
-{"@context":"https://schema.org",
- "@type":"Organization",
- "name":"LockHabit",
- "url":"https://lockhabit.com/",
- "logo":"/public/logo.svg",
- "sameAs":["https://twitter.com/lockhabit","https://www.linkedin.com/company/lockhabit"]}
+{"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"/public/logo.svg","sameAs":["https://twitter.com/lockhabit","https://www.linkedin.com/company/lockhabit"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is this a hard lock?","acceptedAnswer":{"@type":"Answer","text":"Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. Non-emergency early break attempts incur a 5% fee."}},
+{"@type":"Question","name":"Do I earn interest while locked?","acceptedAnswer":{"@type":"Answer","text":"Yes. Balances earn a transparent 3.5% APR, compounded weekly and prorated by time in lock. Rates may change with notice."}},
+{"@type":"Question","name":"Are emergency loans credit-builder loans?","acceptedAnswer":{"@type":"Answer","text":"Yes. Emergency self-loans are intended to be reported to credit bureaus. On-time payments may help build credit; missed or late payments may harm credit."}},
+{"@type":"Question","name":"Is my money FDIC insured?","acceptedAnswer":{"@type":"Answer","text":"Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for FDIC insurance up to applicable limits per depositor, per bank."}},
+{"@type":"Question","name":"Where does loan interest go?","acceptedAnswer":{"@type":"Answer","text":"Self-loan interest (6% APR) is credited back to your locked balance after payoff, minimizing net cost and supporting your goal."}}
+]}
 </script>
 
+<!-- ========================= SCRIPTS ========================= -->
 <script>
-  // Year + modal + waitlist (API first, Formspree fallback)
+  /* Live year */
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* Sticky header: subtle shadow when scrolling; hide on fast down-scroll */
+  (function(){
+    const hdr = document.getElementById('hdr');
+    let lastY = window.scrollY, ticking = false;
+    const onScroll = ()=>{
+      const y = window.scrollY;
+      hdr.classList.toggle('stuck', y > 2);
+      if (y > lastY && y > 80) hdr.classList.add('hide'); else hdr.classList.remove('hide');
+      lastY = y; ticking = false;
+    };
+    window.addEventListener('scroll', ()=>{
+      if(!ticking){ window.requestAnimationFrame(onScroll); ticking = true; }
+    }, {passive:true});
+  })();
+
+  /* Modal open/close */
   const overlay = document.getElementById('overlay');
   function openModal(){ overlay.style.display='flex'; document.body.style.overflow='hidden'; }
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
   window.openModal = openModal; window.closeModal = closeModal;
 
+  /* ========== HERO TRACKER — 10y weekly compounding @ 3.5% APR (3k init, $200/wk) ========== */
   (function(){
-    const form = document.getElementById('wl-form');
-    const msg  = document.getElementById('msg');
-    const ok   = document.getElementById('ok');
-    if(!form) return;
+    const pbar = document.getElementById('pbar');
+    const pval = document.getElementById('pval');
+    const intv = document.getElementById('intv');
+    const balanceEl = document.getElementById('balanceNow');
+    const lockedNow = document.getElementById('lockedNow');
+    const autoLbl = document.getElementById('autoLbl');
 
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      msg.textContent = 'Submitting…'; msg.style.color = '#60708c';
-      const data = Object.fromEntries(new FormData(form).entries());
-      const done = ()=>{ form.reset(); ok.style.display='block'; msg.textContent=''; };
+    if(!pbar || !pval || !intv || !balanceEl) return;
 
-      try{
-        const res = await fetch('/api/waitlist', {
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body:JSON.stringify(data)
-        });
-        const out = await res.json().catch(()=>({}));
-        if(res.ok && (out.ok || out.id || out.inserted)){ done(); return; }
-      }catch(_){}
+    // Inputs per request
+    const APR = 0.035;                // 3.5% APR
+    const COMPOUNDS_PER_YEAR = 52;    // weekly
+    const YEARS = 10;
+    const INIT = 3000;                // locked today
+    const WEEKLY_DEP = 200;           // auto deposit weekly
 
-      try{
-        const fs = await fetch('https://formspree.io/f/mrbywgpw', {
-          method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form)
-        });
-        if(fs.ok){ done(); return; }
-        msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
-      }catch(_){
-        msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
+    const WEEKS_TOTAL = COMPOUNDS_PER_YEAR * YEARS;
+    const r = APR / COMPOUNDS_PER_YEAR; // weekly rate
+
+    // Label updates
+    if (lockedNow) lockedNow.textContent = INIT.toLocaleString('en-US',{style:'currency',currency:'USD'});
+    if (autoLbl) autoLbl.textContent = `Auto-deposit ${WEEKLY_DEP.toLocaleString('en-US',{style:'currency',currency:'USD'})} weekly`;
+
+    // Compound formulas:
+    // FV of initial: INIT * (1+r)^n
+    // FV of weekly deposits at period end: WEEKLY_DEP * [((1+r)^n - 1) / r]
+    function pow1p(x, n){ return Math.pow(1 + x, n); }
+    function fv(n){
+      const g = pow1p(r, n);
+      return INIT * g + WEEKLY_DEP * ((g - 1) / r);
+    }
+    function contrib(n){ return INIT + WEEKLY_DEP * n; }
+
+    const FV_full = fv(WEEKS_TOTAL); // final 10-year FV
+    const projectedInterestFull = Math.max(0, FV_full - contrib(WEEKS_TOTAL));
+
+    let prog = 0; // 0..100
+    setInterval(()=>{
+      // smooth animation
+      prog = (prog + (prog < 85 ? 1.4 + Math.random()*1.6 : 0.5 + Math.random()*0.8));
+      if(prog > 100) prog = 100;
+
+      const n = Math.floor(WEEKS_TOTAL * (prog/100)); // weeks so far
+      const balNow = fv(n);
+      const interestSoFar = Math.max(0, balNow - contrib(n));
+
+      pbar.style.width = prog.toFixed(0) + '%';
+      pval.textContent = prog.toFixed(0) + '%';
+      intv.textContent = projectedInterestFull.toLocaleString('en-US',{style:'currency',currency:'USD'});
+      balanceEl.textContent = balNow.toLocaleString('en-US',{style:'currency',currency:'USD'});
+
+      if (prog >= 100){
+        // hold then loop back a bit
+        setTimeout(()=>{ prog = 92; }, 2500);
+      }
+    }, 900);
+
+    // Wire button
+    document.getElementById('heroJoin')?.addEventListener('click', openModal);
+  })();
+
+  /* ================== Mini Runner + Leaderboard ================== */
+  (function(){
+    const toggleBtn = document.getElementById('toggleGame');
+    const panel     = document.getElementById('gamePanel');
+    const cvs       = document.getElementById('runnerCanvas');
+    const scoreEl   = document.getElementById('gameScore');
+    if(!toggleBtn || !panel || !cvs || !scoreEl) return;
+
+    const ctx = cvs.getContext('2d');
+    let W = cvs.width, H = cvs.height;
+
+    let running = false, paused = false, t0 = 0, score = 0, raf;
+    const G = 0.9, ground = H - 18;
+    const player = { x: 40, y: ground, vy: 0, w: 14, h: 14, onGround: true };
+    let obs = []; let spawn = 0;
+
+    function reset(){ score = 0; obs = []; spawn = 0; player.y = ground; player.vy = 0; player.onGround = true; paused = false; }
+    function jump(){ if(!running || paused) return; if(player.onGround){ player.vy = -12; player.onGround = false; } }
+    function drawBg(){ ctx.fillStyle = '#0f172a'; ctx.fillRect(0,0,W,H); ctx.strokeStyle = '#26304a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, ground+8); ctx.lineTo(W, ground+8); ctx.stroke(); }
+    function drawPlayer(){ ctx.fillStyle = '#e6eaff'; ctx.fillRect(player.x, player.y - player.h, player.w, player.h); }
+    function addObstacle(){ const h = 10 + Math.floor(Math.random()*18); const w = 8 + Math.floor(Math.random()*10); const speed = 4 + Math.random()*2; obs.push({ x: W + 10, y: ground, w, h, v: speed }); }
+    function drawObstacles(){ ctx.fillStyle = '#91a1ff'; for(const o of obs){ ctx.fillRect(o.x, o.y - o.h, o.w, o.h); } }
+    function collide(a,b){ return !(a.x + a.w < b.x || a.x > b.x + b.w || a.y < b.y - b.h || a.y - a.h > b.y); }
+
+    function resize(){
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      const cssW = Math.min(1200, document.documentElement.clientWidth);
+      cvs.style.width = cssW + 'px';
+      cvs.width = cssW * dpr; cvs.height = 120 * dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      W = cssW;
+    }
+    window.addEventListener('resize', resize, {passive:true}); resize();
+
+    function step(ts){
+      if(!running){ return; }
+      if(paused){ raf = requestAnimationFrame(step); return; }
+      if(!t0) t0 = ts; const dt = Math.min(32, ts - t0); t0 = ts;
+
+      player.vy += G; player.y += player.vy;
+      if(player.y >= ground){ player.y = ground; player.vy = 0; player.onGround = true; }
+
+      spawn -= dt; if(spawn <= 0){ addObstacle(); spawn = 800 + Math.random()*900; }
+      for(const o of obs){ o.x -= o.v; } obs = obs.filter(o => o.x + o.w > -10);
+
+      for(const o of obs){
+        if(collide({x:player.x,y:player.y,w:player.w,h:player.h},{x:o.x,y:o.y,w:o.w,h:o.h})){
+          window.__setGameScore?.(score);
+          ctx.save(); ctx.fillStyle = 'rgba(255,0,70,.18)'; ctx.fillRect(0,0,W,H); ctx.restore();
+          reset(); break;
+        }
+      }
+
+      score += Math.floor(dt/10);
+      window.__setGameScore?.(score);
+      scoreEl.textContent = 'Score: ' + score;
+
+      drawBg(); drawObstacles(); drawPlayer();
+      raf = requestAnimationFrame(step);
+    }
+
+    function start(){ if(running) return; running = true; paused = false; t0 = 0; raf = requestAnimationFrame(step); }
+    function stop(){ running = false; paused = false; cancelAnimationFrame(raf); }
+
+    window.addEventListener('keydown', (e)=>{
+      if(panel.classList.contains('open')){
+        if(e.code === 'Space' || e.code === 'ArrowUp'){ e.preventDefault(); jump(); }
+        if(e.code === 'KeyR'){ reset(); }
+        if(e.code === 'KeyP'){ paused = !paused; }
       }
     });
+    cvs.addEventListener('touchstart', (e)=>{ if(panel.classList.contains('open')){ e.preventDefault(); jump(); } }, {passive:false});
+
+    toggleBtn.addEventListener('click', ()=>{
+      const open = panel.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', String(open));
+      toggleBtn.textContent = open ? '🎮 Mini game (on)' : '🎮 Mini game (off)';
+      if(open){ start(); fetchTop10(); seedPlaceholders(); } else { stop(); }
+    });
+
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) paused = true; });
+    const mo = new MutationObserver(()=>{ if(overlay && overlay.style.display === 'flex'){ paused = true; } });
+    if(overlay) mo.observe(overlay, {attributes:true, attributeFilter:['style']});
+
+    /* Leaderboard */
+    const api     = '/api/highscores';
+    const nameInp = document.getElementById('playerName');
+    const topEl   = document.getElementById('top10');
+    const shareBox= document.getElementById('shareButtons');
+
+    const savedName = (localStorage.getItem('lh_name') || '').slice(0,20);
+    if(nameInp){ nameInp.value = savedName; nameInp.addEventListener('change', ()=>localStorage.setItem('lh_name', nameInp.value.trim().slice(0,20))); }
+
+    let lastScore = 0;
+    window.__setGameScore = (n)=>{ lastScore = n|0; scoreEl.textContent = 'Score: ' + lastScore; };
+
+    function buildShareUI(){
+      if(!shareBox) return;
+      shareBox.innerHTML = '';
+      const mk = (label, net)=>{ const b=document.createElement('button'); b.className='pill'; b.style.background='#162048'; b.style.borderColor='#2b3150'; b.textContent=label; b.addEventListener('click', ()=>shareTo(net)); return b; };
+      shareBox.appendChild(mk('⬆️ Submit score','submit'));
+      shareBox.appendChild(mk('X','twitter'));
+      shareBox.appendChild(mk('Facebook','facebook'));
+      shareBox.appendChild(mk('LinkedIn','linkedin'));
+      shareBox.appendChild(mk('WhatsApp','whatsapp'));
+      shareBox.appendChild(mk('Reddit','reddit'));
+      const tip=document.createElement('span'); tip.style.marginLeft='8px'; tip.style.color='#9fb2ff'; tip.textContent='Thanks for playing — launch soon.'; shareBox.appendChild(tip);
+    }
+    buildShareUI();
+
+    async function fetchTop10(){
+      try{
+        const r = await fetch(api); const j = await r.json();
+        if(j.ok && Array.isArray(j.top10)){
+          topEl.innerHTML = '';
+          j.top10.forEach((row,i)=>{ const li=document.createElement('li'); li.textContent = `${i+1}. ${(row.name||'anon')} — ${row.score}`; topEl.appendChild(li); });
+        }
+      }catch(_){}
+    }
+
+    function seedPlaceholders(){
+      if(localStorage.getItem('lh_seeded')) return;
+      localStorage.setItem('lh_seeded','1');
+      if(topEl && !topEl.children.length){
+        ['Ava','Noah','Mia','Liam','Zoe'].forEach((n,i)=>{ const li=document.createElement('li'); li.textContent = `${i+1}. ${n} — ${1200 - i*75}`; topEl.appendChild(li); });
+      }
+    }
+
+    async function submitScore(){
+      const score = lastScore|0; if(score <= 0){ alert('Play a bit first!'); return; }
+      const name = (nameInp?.value || localStorage.getItem('lh_name') || 'anon').toString().trim().slice(0,20) || 'anon';
+      localStorage.setItem('lh_name', name);
+      try{
+        const r = await fetch(api, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ name, score }) });
+        const j = await r.json(); if(j.ok){ await fetchTop10(); alert('Submitted! Check Top-10.'); } else { alert('Could not submit: ' + (j.error||'unknown error')); }
+      }catch(e){ alert('Network error while submitting.'); }
+    }
+
+    function shareTo(net){
+      if(net === 'submit'){ submitScore(); return; }
+      const score = lastScore|0;
+      const url = new URL(location.href); url.searchParams.set('score', String(score)); url.searchParams.set('utm_source','game');
+      const text = `I scored ${score} in the LockHabit mini-runner while I wait for launch. Join the waitlist!`;
+      let shareURL = '';
+      switch(net){
+        case 'twitter': { const u = new URL('https://twitter.com/intent/tweet'); u.searchParams.set('text', text); u.searchParams.set('url', url.toString()); shareURL = u.toString(); break; }
+        case 'facebook': { const u = new URL('https://www.facebook.com/sharer/sharer.php'); u.searchParams.set('u', url.toString()); shareURL = u.toString(); break; }
+        case 'linkedin': { const u = new URL('https://www.linkedin.com/sharing/share-offsite/'); u.searchParams.set('url', url.toString()); shareURL = u.toString(); break; }
+        case 'whatsapp': { const u = new URL('https://api.whatsapp.com/send'); u.searchParams.set('text', `${text} ${url.toString()}`); shareURL = u.toString(); break; }
+        case 'reddit': { const u = new URL('https://www.reddit.com/submit'); u.searchParams.set('title', text); u.searchParams.set('url', url.toString()); shareURL = u.toString(); break; }
+        default: return;
+      }
+      window.open(shareURL, '_blank', 'noopener,noreferrer');
+    }
   })();
+
+  /* PWA SW registration */
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=> {
+      navigator.serviceWorker.register('/public/sw.js').then(
+        ()=>console.log('✅ Service Worker registered'),
+        err=>console.error('❌ SW registration failed:', err)
+      );
+    });
+  }
 </script>
 </body>
 </html>
