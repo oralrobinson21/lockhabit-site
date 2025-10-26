@@ -2,23 +2,23 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Salary & Take-Home Pay Calculator (2024)
+       LockHabit — Salary & Take-Home Pay Calculator (2025, est.)
        SEO / Accessible / Mobile-first / Pipes plan → Demo
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Salary & Take-Home Pay Calculator (2024) — Weekly, Bi-weekly, Monthly | LockHabit</title>
-  <meta name="description" content="Quickly estimate your 2024 take-home pay by week, bi-week, or month. Includes federal + payroll taxes, estimated state tax, pre-tax contributions, and monthly expenses. Send your plan to the LockHabit demo in one click."/>
+  <title>Salary & Take-Home Pay Calculator (2025 est.) — Weekly, Bi-weekly, Monthly | LockHabit</title>
+  <meta name="description" content="Estimate your 2025 take-home pay by week, bi-week, or month. Includes federal + payroll taxes, state pick by name, pre-tax contributions, and monthly expenses. Send your plan to the LockHabit demo."/>
   <link rel="canonical" href="https://lockhabit.com/calculator.html"/>
 
   <!-- Social -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Salary & Take-Home Pay Calculator (2024) — Weekly, Bi-weekly, Monthly | LockHabit"/>
-  <meta property="og:description" content="Estimate take-home pay with 2024 taxes, pick pay frequency, add expenses, and send your plan to the LockHabit savings demo."/>
+  <meta property="og:title" content="Salary & Take-Home Pay Calculator (2025 est.) — Weekly, Bi-weekly, Monthly | LockHabit"/>
+  <meta property="og:description" content="Estimate take-home pay with 2025 (est.) taxes, pick your state, add expenses, and send your plan to the LockHabit demo."/>
   <meta property="og:url" content="https://lockhabit.com/calculator.html"/>
   <meta property="og:image" content="https://lockhabit.com/assets/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Take-Home Pay Calculator (2024) — LockHabit"/>
+  <meta name="twitter:title" content="Take-Home Pay Calculator (2025 est.) — LockHabit"/>
   <meta name="twitter:description" content="Weekly, bi-weekly, monthly calculator with taxes & expenses. Send to demo and see your savings grow."/>
   <meta name="theme-color" content="#6f7cff"/>
 
@@ -114,8 +114,8 @@
   <!-- Hero -->
   <section class="hero">
     <div class="wrap">
-      <h1>Salary & Take-Home Pay Calculator (2024)</h1>
-      <p class="sub">Estimate your **net** pay weekly, bi-weekly, or monthly. Add expenses, pick a safe amount to lock, then send it to the demo to see your projected growth.</p>
+      <h1>Salary & Take-Home Pay Calculator (2025, est.)</h1>
+      <p class="sub">Estimate your <b>net</b> pay weekly, bi-weekly, or monthly. Pick your <b>specific state</b>, add expenses, pick a safe amount to lock, then send it to the demo to see your projected growth.</p>
     </div>
   </section>
 
@@ -151,27 +151,61 @@
             </select>
           </div>
           <div>
-            <label class="k">State (tax estimate)</label>
+            <label class="k">State (specific)</label>
             <select id="state">
-              <!-- No-tax states first -->
-              <option value="AUTO:0">AK / FL / NV / SD / TN / TX / WA / WY — ~0%</option>
-              <option value="AUTO:6">CA — ~6% est.</option>
-              <option value="AUTO:6">NY — ~6% est.</option>
-              <option value="AUTO:5">NJ — ~5% est.</option>
-              <option value="AUTO:5">MA — ~5% est.</option>
-              <option value="AUTO:4" selected>Most states — ~4% est.</option>
-              <option value="CUSTOM">Custom % (set below)</option>
+              <!-- All 50 + DC. Items with (no wage tax) are set to 0%. -->
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska (no wage tax)</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA" selected>California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District of Columbia</option>
+              <option value="FL">Florida (no wage tax)</option>
+              <option value="GA">Georgia</option>
+              <option value="HI">Hawaii</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada (no wage tax)</option>
+              <option value="NH">New Hampshire (no wage tax)</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklahoma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota (no wage tax)</option>
+              <option value="TN">Tennessee (no wage tax)</option>
+              <option value="TX">Texas (no wage tax)</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="WA">Washington (no wage tax)</option>
+              <option value="WV">West Virginia</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming (no wage tax)</option>
             </select>
-          </div>
-        </div>
-
-        <div class="two" id="customStateRow" style="margin-top:8px; display:none">
-          <div>
-            <label class="k">Custom state tax %</label>
-            <input id="stateRate" type="number" min="0" max="20" step="0.1" value="4"/>
-          </div>
-          <div style="display:flex;align-items:flex-end">
-            <span class="note">Rough effective rate. Not official withholding.</span>
           </div>
         </div>
 
@@ -251,8 +285,9 @@
         </div>
 
         <p class="note" style="margin-top:8px">
-          This tool provides **estimates** based on 2024 federal tax brackets, standard deduction, payroll taxes, and a rough state tax assumption.
-          Your actual withholding can differ due to many factors (W-4 choices, credits, local taxes, benefits). For planning only.
+          This tool provides <b>estimates</b> using 2025 (est.) federal brackets & standard deduction and the 2025 payroll wage base.
+          State values are simple effective-rate approximations by state. Your actual withholding can differ (W-4 choices, credits,
+          local taxes, benefits). For planning only.
         </p>
       </section>
 
@@ -318,7 +353,7 @@
             </tbody>
           </table>
           <div class="bar" style="margin-top:8px"><div id="safeFill" class="fill"></div></div>
-          <div class="note" style="margin-top:6px">We suggest ~20–30% of your **leftover** after essentials as a starting point. Adjust to your comfort.</div>
+          <div class="note" style="margin-top:6px">We suggest ~20–30% of your <b>leftover</b> after essentials as a starting point. Adjust to your comfort.</div>
         </div>
 
         <div class="panel" style="margin-top:10px">
@@ -363,7 +398,7 @@
 
     // Inputs
     const freq = $('freq'), income = $('income'), status = $('status');
-    const stateSel = $('state'), stateRate = $('stateRate'), customRow = $('customStateRow');
+    const stateSel = $('state');
     const pretaxPct = $('pretaxPct'), exempt = $('exempt');
     const eH = $('expHousing'), eU = $('expUtils'), eD = $('expDebt'), eO = $('expOther');
 
@@ -377,21 +412,47 @@
 
     const p_init = $('p_init'), p_rec = $('p_rec'), p_freq = $('p_freq'), p_term = $('p_term'), p_mode = $('p_mode'), p_ltv = $('p_ltv');
 
-    // ===== State tax preset handling =====
-    function applyStatePreset(){
-      const v = stateSel.value;
-      if(v.startsWith('AUTO:')){
-        const pct = parseFloat(v.split(':')[1] || '4');
-        customRow.style.display = 'none';
-        stateRate.value = String(pct);
-        stateRate.disabled = true;
-      }else{
-        customRow.style.display = 'grid';
-        stateRate.disabled = false;
-      }
-    }
-    stateSel.addEventListener('change', applyStatePreset);
-    applyStatePreset();
+    // ====== 2025 PARAMETERS (editable) =====================================
+    // Standard deduction (2025 est.)
+    const SD_2025 = { single: 15000, married: 30000 }; // set conservatively; adjust when you have final IRS figs
+
+    // Federal bracket edges (2025 est.) — SINGLE and MARRIED.
+    // Kept close to 2024 with small drift; update easily when you have the official schedule.
+    const BRACKETS_2025 = {
+      single: [
+        [   12000, 0.10 ],
+        [   48000, 0.12 ],
+        [  103000, 0.22 ],
+        [  197000, 0.24 ],
+        [  250000, 0.32 ],
+        [  630000, 0.35 ],
+        [  Infinity, 0.37 ],
+      ],
+      married: [
+        [   24000, 0.10 ],
+        [   96000, 0.12 ],
+        [  205000, 0.22 ],
+        [  395000, 0.24 ],
+        [  500000, 0.32 ],
+        [  760000, 0.35 ],
+        [  Infinity, 0.37 ],
+      ]
+    };
+
+    // Payroll (employee) 2025: Social Security wage base
+    const SS_WAGE_BASE_2025 = 176100; // 6.2% up to this cap; Medicare 1.45% uncapped
+
+    // State effective rate map (very rough statewide effective %-of-income for wages).
+    // 0% = no wage tax (NH/TN tax investment income only; treated as 0 here).
+    const STATE_EFFECTIVE = {
+      AL: 4,  AK: 0,  AZ: 2.5, AR: 4.7, CA: 6,  CO: 4.4, CT: 5,  DE: 4.5, DC: 6,
+      FL: 0,  GA: 4,  HI: 6,   ID: 4.7, IL: 4.95, IN: 3.15, IA: 4,  KS: 4,  KY: 4,
+      LA: 3,  ME: 5,  MD: 4.8, MA: 5,  MI: 4.25, MN: 5.5, MS: 4,  MO: 4.5, MT: 5,
+      NE: 4.7,NV: 0,  NH: 0,   NJ: 5,  NM: 4.9,  NY: 6,   NC: 4.5,ND: 2.5, OH: 2.5,
+      OK: 4,  OR: 7,  PA: 3.07,RI: 4.5, SC: 4,   SD: 0,   TN: 0,   TX: 0,   UT: 4.55,
+      VT: 5,  VA: 4.75,WA: 0,  WV: 4.5, WI: 4,   WY: 0
+    };
+    // =======================================================================
 
     // ===== Conversions =====
     function toAnnualGross(amount, f){
@@ -404,17 +465,11 @@
       }
     }
 
-    // ===== 2024 Federal tax bracket estimator (Single / Married) =====
-    function federalTax2024(taxable, filing){
-      const d = filing === 'married' ? 29200 : 14600; // standard deduction (2024)
-      const x = Math.max(0, taxable - d);
-      const S = [
-        [11600, .10], [47150, .12], [100525, .22], [191950, .24], [243725, .32], [609350, .35], [Infinity, .37]
-      ];
-      const M = [
-        [23200, .10], [94300, .12], [201050, .22], [383900, .24], [487450, .32], [731200, .35], [Infinity, .37]
-      ];
-      const B = filing === 'married' ? M : S;
+    // ===== Federal tax (2025 est.) =====
+    function federalTax2025(taxable, filing){
+      const sd = filing === 'married' ? SD_2025.married : SD_2025.single;
+      const x = Math.max(0, taxable - sd);
+      const B = filing === 'married' ? BRACKETS_2025.married : BRACKETS_2025.single;
       let prev = 0, tax = 0;
       for(const [cap, rate] of B){
         const slice = Math.min(x, cap) - prev;
@@ -424,13 +479,19 @@
       return Math.max(0, tax);
     }
 
-    // ===== Payroll taxes (employee) 2024 =====
-    function payrollTax(gross){
-      const wageBase = 168600; // Social Security cap (6.2%)
-      const ss = Math.min(gross, wageBase) * 0.062;
+    // ===== Payroll taxes (employee) 2025 =====
+    function payrollTax2025(gross){
+      const ss = Math.min(gross, SS_WAGE_BASE_2025) * 0.062;
       const medicare = gross * 0.0145;
-      // Additional Medicare surtax ignored for simplicity (< high earners); feel free to add later.
+      // Additional Medicare surtax for high earners is ignored for simplicity.
       return ss + medicare;
+    }
+
+    // ===== State tax (effective flat %) =====
+    function stateEffectiveTax(annualTaxable, stateCode, isExempt){
+      if(isExempt) return 0;
+      const pct = (STATE_EFFECTIVE[stateCode] ?? 4) / 100;
+      return Math.max(0, annualTaxable * pct);
     }
 
     // ===== Recalc =====
@@ -445,10 +506,9 @@
 
       // 3) Taxes
       const isExempt = exempt.checked;
-      const fed = isExempt ? 0 : federalTax2024(taxableWages, status.value);
-      const statePct = isExempt ? 0 : Math.max(0, Math.min(20, Number(stateRate.value)||0))/100;
-      const stateTax = taxableWages * statePct;
-      const fica = isExempt ? 0 : payrollTax(taxableWages);
+      const fed = isExempt ? 0 : federalTax2025(taxableWages, status.value);
+      const stateTax = stateEffectiveTax(taxableWages, stateSel.value, isExempt);
+      const fica = isExempt ? 0 : payrollTax2025(taxableWages);
 
       // 4) Net annual
       const netAnnual = Math.max(0, gross - preTax - fed - stateTax - fica);
@@ -494,7 +554,7 @@
     }
 
     // Wire up changes
-    [freq,income,status,stateSel,stateRate,pretaxPct,exempt,eH,eU,eD,eO,lockFreq,initDeposit,recDeposit,lockTerm]
+    [freq,income,status,stateSel,pretaxPct,exempt,eH,eU,eD,eO,lockFreq,initDeposit,recDeposit,lockTerm]
       .forEach(el => el.addEventListener('input', recalc));
     $('recalc').addEventListener('click', recalc);
 
@@ -527,14 +587,9 @@
       if(q.has('freq')) freq.value = q.get('freq');
       if(q.has('income')) income.value = q.get('income');
       if(q.has('status')) status.value = q.get('status');
-      if(q.has('state')){
-        const s = q.get('state');
-        if(s === 'CUSTOM'){ stateSel.value = 'CUSTOM'; customRow.style.display='grid'; }
-        else if(s === 'NOTAX'){ stateSel.value = 'AUTO:0'; }
-        else if(s === 'CA'){ stateSel.value = 'AUTO:6'; }
-        else if(s === 'NY'){ stateSel.value = 'AUTO:6'; }
-        else stateSel.value = 'AUTO:4';
-        applyStatePreset();
+      if(q.has('state')) {
+        const code = (q.get('state')||'').toUpperCase();
+        if(STATE_EFFECTIVE.hasOwnProperty(code)) stateSel.value = code;
       }
       if(q.has('pretax')) pretaxPct.value = q.get('pretax');
       if(q.has('exempt')) exempt.checked = q.get('exempt') === '1';
