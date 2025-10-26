@@ -1,11 +1,8 @@
-export default function handler(req, res) {
-  const hasKey = (process.env.RESEND_API_KEY || '').startsWith('re_');
-  const from = process.env.RESEND_FROM || '';
+// api/ping.js
+export default async function handler(req, res) {
   res.status(200).json({
     ok: true,
-    runtime: process.version,
-    hasResendKey: hasKey,
-    fromLooksOk: from.includes('<') && from.includes('>'),
-    from
+    HAS_RESEND_KEY: !!process.env.RESEND_API_KEY,
+    HAS_RESEND_FROM: !!process.env.RESEND_FROM
   });
 }
