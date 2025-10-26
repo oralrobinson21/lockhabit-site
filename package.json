@@ -1,8 +1,16 @@
 {
   "name": "lockhabit-site",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
+    "build": "echo 'No build needed for static site'",
     "start": "vercel dev"
+  },
+  "dependencies": {
+    "resend": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
