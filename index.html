@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Home (Hero demo + APR selector + mini-game)
-       Apple/Tesla-level cleanliness • A11y • SEO • Perf
+       LockHabit — Home (simple demo preset: $200 bi-weekly, 24m, 3.5% APR)
+       Clean UX • A11y • SEO
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>LockHabit — Discipline Pays. Lock Your Money. Own Your Future.</title>
-  <meta name="description" content="Hard-lock savings that grow at a transparent APR. Start from $200/month, watch your deposited, interest, and total vested update in real time. Optional self-backed emergency credit. Try the calculator and live demo."/>
+  <meta name="description" content="LockHabit is disciplined, hard-lock saving with optional self-backed emergency access. See a simple demo preset to $200 bi-weekly, 24 months, 3.5% APR and watch Deposited, Interest, and Total Vested update in real time."/>
   <meta name="theme-color" content="#6f7cff"/>
 
   <!-- Canonical + Social -->
   <link rel="canonical" href="https://lockhabit.com/"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="LockHabit — Discipline Pays. Lock Your Money. Own Your Future."/>
-  <meta property="og:description" content="See your goal progress live: deposited, interest, and total vested. Optional self-backed emergency loans. Join the waitlist, try the calculator, or open the live demo."/>
+  <meta property="og:description" content="Hard-lock saving with fixed APR tiers and optional self-backed emergency access. Simple demo: $200 bi-weekly • 24 months • 3.5% APR."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
   <meta property="og:image" content="/public/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="LockHabit — Save on purpose"/>
-  <meta name="twitter:description" content="Check your take-home, build a plan, and see your savings grow in the live demo."/>
+  <meta name="twitter:description" content="See your goal progress live. Simple demo: $200 bi-weekly, 24m, 3.5% APR."/>
   <meta name="twitter:image" content="/public/og-image.png"/>
 
   <!-- Fonts -->
@@ -34,19 +34,16 @@
   <link rel="apple-touch-icon" href="/public/icon-192.png">
   <link rel="manifest" href="/public/manifest.webmanifest">
 
-  <!-- Analytics -->
+  <!-- Analytics (optional) -->
   <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
 
   <!-- ========================= Styles ========================= -->
   <style>
     :root{
       --brand:#6f7cff; --brand2:#9c78ff; --accent:#9fb2ff;
-      --green:#22c55e; --ink:#0f172a; --ink2:#15213d; --muted:#536179;
-      --line:#e6e7f1; --panel:#ffffff; --surface:#fbfcff;
-      --bg:#0b0e1a; --bg2:#0e1330;
-      --radius:16px; --radius-lg:22px;
-      --shadow-elev:0 18px 50px rgba(17,24,39,.10);
-      --shadow-deep:0 40px 120px rgba(7,10,18,.45);
+      --green:#22c55e; --ink:#0f172a; --muted:#536179;
+      --line:#e6e7f1; --bg:#0b0e1a;
+      --radius:16px;
       --grad-hero:
         radial-gradient(1300px 720px at 50% -220px, rgba(111,124,255,.28) 0%, rgba(156,120,255,.20) 35%, transparent 62%),
         radial-gradient(1000px 680px at -8% 8%, rgba(156,120,255,.20) 0%, transparent 55%),
@@ -76,7 +73,6 @@
     .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:44px}
     .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 10px 26px rgba(111,124,255,.32)}
     .btn.ghost{background:transparent}
-    .btn.pill{border-radius:999px}
     @media (max-width:760px){ .nav a:nth-child(-n+4){display:none} }
 
     /* Hero */
@@ -92,7 +88,7 @@
     .footnote{font-size:12px;color:#60708c}
 
     /* Hero mock */
-    .mock{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow-elev)}
+    .mock{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 18px 50px rgba(17,24,39,.10)}
     .mock .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .badge{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800;white-space:nowrap}
     .mini{font-size:12px;color:var(--muted)}
@@ -108,14 +104,14 @@
     .aprRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #e1e6ff;background:#f3f6ff;border-radius:999px;padding:8px 12px;font-weight:700;color:#203060;cursor:pointer}
     .pill.is-active{border-color:#b8c2ff;box-shadow:0 0 0 2px #e7ebff inset}
-    .pill input{width:84px;padding:6px 8px;border:1px solid #dbe0ea;border-radius:10px;font-weight:700}
+    .pill input{width:92px;padding:6px 8px;border:1px solid #dbe0ea;border-radius:10px;font-weight:700}
 
     .emerg{display:flex;align-items:center;gap:8px;background:#f3f5ff;border:1px solid #e1e6ff;border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:700;color:#203060;flex-wrap:wrap}
 
     /* Sections */
     section.s{max-width:1200px;margin:0 auto;padding:40px 18px}
     .section-title{font-size:28px;text-align:center;margin:0 0 16px;color:#f8f9ff}
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-elev)}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 18px 50px rgba(17,24,39,.10)}
     .cols3{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width:900px){ .cols3{grid-template-columns:repeat(3,minmax(0,1fr))} }
     .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
@@ -135,7 +131,7 @@
 
     /* Modal */
     .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
-    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-deep)}
+    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 40px 120px rgba(7,10,18,.45)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
     .form{display:grid;gap:10px;margin-top:10px}
@@ -157,11 +153,6 @@
     .gameOver{max-width:1200px;margin:6px auto 10px;display:none;gap:10px;align-items:center;justify-content:space-between;color:#e6ebff}
     .gameOver .card{background:#0e1330;border:1px solid #2b3150;border-radius:12px;padding:10px;display:flex;gap:10px;align-items:center;justify-content:space-between}
     .gameOver .btn{background:#162048;color:#e6ebff;border-color:#2b3150}
-
-    @media (max-width:420px){
-      .word{font-size:18px}
-      .btn{padding:10px 12px}
-    }
   </style>
 </head>
 <body>
@@ -197,25 +188,28 @@
       <div class="chip">Discipline Pays • <b style="color:#22c55e">Fixed APR</b> tiers • FDIC-Backed Custody</div>
       <h1>Discipline pays. Lock your money and own your future.</h1>
       <p id="hero-copy" class="sub">
-        We start with <b>$200/month</b> by default and show your <b>Deposited</b>, <b>Interest</b>, and <b>Total vested</b>.
-        In a real emergency, you can access a self-backed loan up to <b>80% of vested</b> (see terms).  
-        Prefer numbers first? <a href="/calculator.html">Open Calculator</a>. Ready to feel it? <a href="/demo.html">Try the Demo</a>.
+        LockHabit is a behavioral savings and credit-builder system. We hard-lock your savings so you can’t spend impulsively, grow it at a fixed APR, and
+        give you self-backed emergency access up to <b>80% of vested</b> if life happens.  
+        Simple demo below is preset to <b>$200 bi-weekly</b>, <b>24 months</b>, <b>3.5% APR</b>.
       </p>
       <div class="cta">
         <button class="btn acc" onclick="openModal()">Join the Waitlist</button>
         <a class="btn" href="/calculator.html">Open Calculator</a>
         <a class="btn" href="/demo.html">Try the Demo</a>
       </div>
-      <div class="footnote">Your deposits are never lent out. We don’t say “guaranteed” beyond posted fixed APRs.</div>
+      <div class="footnote">Your deposits are never lent out. We avoid the word “guarantee” outside posted fixed APRs.</div>
     </div>
 
-    <!-- Right: interactive mock -->
+    <!-- Right: interactive mock (simple demo) -->
     <aside class="mock" aria-live="polite">
       <div class="row">
         <div>
           <div class="mini">Savings Vault</div>
           <div style="font-weight:800;font-size:18px;color:#0f1a34">Goal Progress</div>
-          <div class="mini" id="planLine"><span id="mDep">$200</span>/mo • <span id="mTerm">12 months</span> • <span id="mAPR">3.0% APR</span></div>
+          <div class="mini" id="planLine">
+            <span id="mDep">$200</span> / <span id="mFreq">bi-weekly</span> •
+            <span id="mTerm">24 months</span> • <span id="mAPR">3.5% APR</span>
+          </div>
         </div>
         <span class="badge">On-time ↑ credit</span>
       </div>
@@ -227,17 +221,12 @@
         </div>
         <div class="bar" aria-hidden="true"><div class="fill" id="pbar"></div></div>
 
-        <!-- APR & inputs -->
-        <div class="aprRow" aria-label="APR selector">
-          <button class="pill is-active" data-apr="0.02">2.0%</button>
-          <button class="pill" data-apr="0.025">2.5%</button>
-          <button class="pill" data-apr="0.03">3.0%</button>
-          <button class="pill" data-apr="0.035">3.5%</button>
-          <span class="pill" id="customAPRpill">Custom
-            <input type="number" id="aprCustom" step="0.01" min="0" max="0.2" placeholder="0.03"/>
-          </span>
-          <span class="pill">Deposit <input type="number" id="depInput" min="0" value="200"/></span>
-          <span class="pill">Term (mo) <input type="number" id="termInput" min="1" value="12"/></span>
+        <!-- Minimal controls (pre-set) -->
+        <div class="aprRow" aria-label="Demo settings">
+          <span class="pill">Amount <input type="number" id="depInput" min="0" value="200"/></span>
+          <span class="pill">Frequency <input id="freqLabel" value="bi-weekly" disabled/></span>
+          <span class="pill">Term (mo) <input type="number" id="termInput" min="1" value="24"/></span>
+          <button class="pill is-active" id="aprFixed" data-apr="0.035">3.5% APR</button>
         </div>
       </div>
 
@@ -245,12 +234,12 @@
         <div class="stat">
           <div class="k">Deposited so far</div>
           <div class="v" id="vDeposited">$0.00</div>
-          <div class="k">Monthly deposits</div>
+          <div class="k">Bi-weekly deposits</div>
         </div>
         <div class="stat">
           <div class="k">Interest so far</div>
           <div class="v" id="vInterest">$0.00</div>
-          <div class="k">Compounded monthly at APR</div>
+          <div class="k">Compounded monthly</div>
         </div>
         <div class="stat">
           <div class="k">Total vested</div>
@@ -260,8 +249,7 @@
       </div>
 
       <div class="emerg">
-        💡 Emergency access (self-backed): up to <b>80% of vested</b>.
-        Terms: <b>0%</b> for first 4 months, then <b>6% APR</b>. Credit-builder loans at <b>6% APR</b> (intended to be bureau-reported).
+        💡 Emergency access (self-backed): up to <b>80% of vested</b>. Terms: <b>0%</b> for first 4 months, then <b>6% APR</b>. Credit-builder loans at <b>6% APR</b> (intended to be bureau-reported).
       </div>
     </aside>
   </div>
@@ -273,7 +261,7 @@
     <div class="item">🔒 <b>Hard-lock</b> (no early withdrawals except emergencies)</div>
     <div class="item">🏦 <b>FDIC-backed custody</b> via partner banks</div>
     <div class="item">🧮 <b>Fixed APR tiers</b>: 2.0% • 2.5% • 3.0% • 3.5%</div>
-    <div class="item">⚠️ <b>Optional high-risk sleeve</b>: variable APR (historically –10% to +20%). Not guaranteed; capital at risk.</div>
+    <div class="item">🧠 For savers & for those curbing impulses (gambling/shopping). Save on purpose so you don’t waste it.</div>
   </div>
 </div>
 
@@ -286,7 +274,7 @@
         <h3>1) Choose your lock</h3>
         <ul>
           <li>Pick a term (3–6–12–24+ months)</li>
-          <li>Start with $200/mo (or set your own)</li>
+          <li>Start with $200 bi-weekly (or set your own)</li>
           <li>Funds move into your hidden vault</li>
         </ul>
       </div>
@@ -295,14 +283,14 @@
         <ul>
           <li>Fixed APR tiers: 2.0% / 2.5% / 3.0% / 3.5%</li>
           <li>Your deposits are <b>never lent out</b></li>
-          <li>Optional high-risk sleeve (variable; can lose value)</li>
+          <li>Extend your lock at maturity to keep compounding</li>
         </ul>
       </div>
       <div class="plan">
         <h3>3) Unlock or borrow</h3>
         <ul>
-          <li>Unlock day: principal + interest − posted fees</li>
-          <li>Emergency? Borrow against your own balance</li>
+          <li>On unlock: principal + interest − posted fees</li>
+          <li>Emergency? Self-backed loan up to 80% of vested</li>
           <li>Intended to be credit-bureau reported</li>
         </ul>
       </div>
@@ -318,7 +306,6 @@
       <h3>3–5 months</h3>
       <ul>
         <li><b>2.0% APR</b> (prorated)</li>
-        <li>Small flat unlock fee</li>
         <li>Great for quick goals</li>
       </ul>
     </div>
@@ -327,23 +314,16 @@
       <ul>
         <li><b>2.5% APR</b> (prorated)</li>
         <li>Balanced discipline</li>
-        <li>Extendable at maturity</li>
       </ul>
     </div>
     <div class="plan">
       <h3>12–24+ months</h3>
       <ul>
         <li><b>3.0%–3.5% APR</b> (prorated)</li>
-        <li>Maximum growth in fixed tiers</li>
-        <li>Extend to keep building</li>
+        <li>Maximum fixed-rate growth</li>
       </ul>
     </div>
   </div>
-  <p class="footnote" style="max-width:1200px;margin:10px auto 0;padding:0 18px">
-    Fixed-rate plans are separate from the optional high-risk sleeve. The high-risk sleeve has a <b>variable APR</b> (historically –10% to +20%), can lose value,
-    includes a <b>$2/month</b> account fee while enabled and a <b>2% close-out fee</b> at withdrawal/transfer. Availability subject to program and regulatory approval.
-    Returns are <b>not guaranteed</b>. This is <b>not investment advice</b>.
-  </p>
 </section>
 
 <!-- ========================= SECURITY ========================= -->
@@ -380,17 +360,8 @@
       <p>Yes. Fixed plans accrue based on the posted APR tier (e.g., 2.0%–3.5%), prorated by time in lock. Rates may change with notice for new locks.</p>
     </details>
     <details>
-      <summary>What about the high-risk option?</summary>
-      <p>
-        It’s an <b>optional</b> sleeve available after 5 months of active deposits or when balance ≥ $5,000. It targets diversified ETF exposure with
-        <b>variable returns</b> — historically between <b>–10% and +20%</b> — and can <b>lose value</b>. Fees: <b>$2/month</b> when enabled and a <b>2% close-out fee</b>
-        at withdrawal/transfer. Availability subject to partner, regulatory, and program approval. Returns are <b>not guaranteed</b>. This is <b>not investment advice</b>.
-      </p>
-    </details>
-    <details>
       <summary>Who is this good for?</summary>
-      <p>People who want disciplined savings toward a goal (car, home, tuition) and people who struggle with impulse spending (e.g., gambling or shopping) and
-      want a hard boundary. We help you save on purpose so you don’t waste it.</p>
+      <p>People saving toward a goal (car, home, tuition) and people curbing impulsive spending (e.g., gambling or shopping). We help you save on purpose so you don’t waste it.</p>
     </details>
   </div>
 </section>
@@ -402,8 +373,8 @@
     <div class="fine">
       LockHabit is a financial technology company, not a bank. Banking services and deposit custody are provided by regulated partner banks.
       When deposits are held at partner banks and structured for pass-through coverage, funds may be eligible for FDIC insurance up to the applicable limits per depositor, per bank.
-      This is a <b>hard lock</b>: early withdrawal is not permitted except for approved emergencies. Emergency access is provided via secured, self-backed loans (0% for the first 4 months, then 6% APR). 
-      Credit-builder loans at 6% APR are intended to be bureau-reported. APRs, terms, and fees are subject to change with notice.
+      This is a <b>hard lock</b>: early withdrawal is not permitted except for approved emergencies. Emergency access is provided via secured, self-backed loans (0% for the first 4 months, then 6% APR).
+      Credit-builder loans at 6% APR are intended to be bureau-reported. APRs, terms, and fees are subject to change with notice. Nothing here is investment advice.
     </div>
     <div class="footnote" style="margin-top:8px;text-align:center">
       <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a> • <a href="/demo.html">Demo</a>
@@ -454,8 +425,8 @@
         <option value="">Preferred lock term (optional)</option>
         <option value="3">3 months</option>
         <option value="6">6 months</option>
-        <option value="12" selected>12 months</option>
-        <option value="24+">24+ months</option>
+        <option value="12">12 months</option>
+        <option value="24+" selected>24+ months</option>
       </select>
       <button class="btn acc" type="submit">Join the waitlist</button>
       <div id="msg" class="note" role="status" aria-live="polite"></div>
@@ -501,69 +472,69 @@
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
   window.openModal = openModal; window.closeModal = closeModal;
 
-  /* ================== HERO CALC (simple monthly comp) ================== */
+  /* ================== HERO DEMO (bi-weekly handling) ================== */
   (function(){
-    const depInput = document.getElementById('depInput');
-    const termInput= document.getElementById('termInput');
-    const aprPills = Array.from(document.querySelectorAll('.aprRow .pill[data-apr]'));
-    const aprCustom= document.getElementById('aprCustom');
+    const depInput = document.getElementById('depInput'); // bi-weekly amount
+    const termInput= document.getElementById('termInput'); // months
+    const aprFixed = document.getElementById('aprFixed');  // 3.5% APR fixed button
     const pbar = document.getElementById('pbar'), pval = document.getElementById('pval');
     const vD = document.getElementById('vDeposited'), vI = document.getElementById('vInterest'), vT = document.getElementById('vTotal');
     const mDep = document.getElementById('mDep'), mTerm = document.getElementById('mTerm'), mAPR = document.getElementById('mAPR');
 
-    let APR = 0.02; // default pill 2.0%
+    let APR = 0.035; // preset 3.5%
 
     function currency(n){ return n.toLocaleString(undefined,{style:'currency',currency:'USD'}); }
 
-    function project(dep, months, apr){
-      const r = apr / 12;
+    // Convert bi-weekly deposit to monthly equivalent (~26 / 12)
+    function monthlyFromBiweekly(d){ return d * (26/12); }
+
+    // Simple monthly compounding with monthly-equivalent PMT
+    function project(biweeklyAmount, months, apr){
+      const pmt = monthlyFromBiweekly(biweeklyAmount);
+      const r   = apr / 12;
       let bal = 0, contrib = 0;
       for(let m=0;m<months;m++){
-        contrib += dep;
-        bal = (bal + dep) * (1 + r);
+        contrib += pmt;
+        bal = (bal + pmt) * (1 + r);
       }
       return {contrib, interest: Math.max(0, bal - contrib), total: bal};
     }
 
-    function setAPR(val){
-      APR = Math.max(0, Math.min(0.2, Number(val)||0));
-      aprPills.forEach(b=>b.classList.toggle('is-active', Number(b.dataset.apr)===APR));
-      mAPR.textContent = (APR*100).toFixed(1) + '% APR';
-    }
-
-    aprPills.forEach(b=>{
-      b.addEventListener('click', ()=>{ setAPR(b.dataset.apr); render(); });
-    });
-    aprCustom.addEventListener('input', ()=>{ setAPR(aprCustom.value); render(); });
-
     function render(){
-      const dep = Math.max(0, Number(depInput.value||0));
-      const mon = Math.max(1, Math.floor(Number(termInput.value||12)));
+      const bi = Math.max(0, Number(depInput.value||0));
+      const mon = Math.max(1, Math.floor(Number(termInput.value||24)));
 
-      const out = project(dep, mon, APR);
+      const out = project(bi, mon, APR);
 
       vD.textContent = currency(out.contrib);
       vI.textContent = currency(out.interest);
       vT.textContent = currency(out.total);
 
-      mDep.textContent = currency(dep);
+      mDep.textContent = currency(bi);
       mTerm.textContent = mon + ' months';
+      mAPR.textContent = (APR*100).toFixed(1) + '% APR';
 
-      // Friendly progress loop (visual)
+      // soft animated progress
       let prog = 0;
       if(window.__heroTimer) clearInterval(window.__heroTimer);
       window.__heroTimer = setInterval(()=>{
-        prog = (prog + 1.3 + Math.random()*1.0) % 100;
+        prog = (prog + 1.4 + Math.random()*1.1) % 100;
         pbar.style.width = prog.toFixed(0)+'%';
         pval.textContent = prog.toFixed(0)+'%';
       }, 700);
     }
 
-    // init
+    depInput.addEventListener('input', render);
+    termInput.addEventListener('input', render);
+    aprFixed.addEventListener('click', render);
+
+    // init defaults: $200 bi-weekly, 24 months, 3.5% APR
+    depInput.value = 200;
+    termInput.value = 24;
     render();
   })();
 
-  /* ================== Waitlist submit (API + Formspree fallback) ================== */
+  /* ================== Waitlist submit ================== */
   (function(){
     const form = document.getElementById('wl-form');
     const msg  = document.getElementById('msg');
@@ -599,9 +570,8 @@
     });
   })();
 
-  /* ================== Mini Runner — now pauses on death ================== */
+  /* ================== Mini Runner — pauses on death ================== */
   (function(){
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const toggleBtn = document.getElementById('toggleGame');
     const panel     = document.getElementById('gamePanel');
     const cvs       = document.getElementById('runnerCanvas');
@@ -623,10 +593,8 @@
     function reset(){ score=0; obs=[]; spawn=0; player.y=ground; player.vy=0; player.onGround=true; paused=false; gameOver=false; overBox.style.display='none'; }
     function jump(){ if(!running || paused || gameOver) return; if(player.onGround){ player.vy=-12; player.onGround=false; } }
     function drawBg(){ ctx.fillStyle='#0f172a'; ctx.fillRect(0,0,W,H); ctx.strokeStyle='#26304a'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(0,ground+8); ctx.lineTo(W,ground+8); ctx.stroke(); }
-    function drawPlayer(){ ctx.fillStyle='#e6eaff'; ctx.fillRect(player.x, player.y-player.h, player.w, player.h); }
     function addObstacle(){ const h=10+Math.floor(Math.random()*18); const w=8+Math.floor(Math.random()*10); const speed=4+Math.random()*2; obs.push({x:W+10,y:ground,w,h,v:speed}); }
     function drawObstacles(){ ctx.fillStyle='#91a1ff'; for(const o of obs){ ctx.fillRect(o.x,o.y-o.h,o.w,o.h); } }
-    function collide(a,b){ return !(a.x+a.w<b.x || a.x>b.x+b.w || a.y<a.y /* dummy */ || a.y-a.h>b.y) && !(a.x+a.w<b.x || a.x>b.x+b.w || a.y<b.y-b.h || a.y-a.h>b.y); }
 
     function resize(){
       const dpr = Math.max(1, Math.min(2, window.devicePixelRatio||1));
@@ -639,7 +607,6 @@
 
     function step(ts){
       if(!running){ return; }
-      if(prefersReduced){ paused=true; }
       if(paused || gameOver){ raf = requestAnimationFrame(step); return; }
       if(!t0) t0 = ts; const dt = Math.min(32, ts - t0); t0 = ts;
 
@@ -651,7 +618,6 @@
 
       for(const o of obs){
         if(!(player.x + player.w < o.x || player.x > o.x + o.w || player.y < o.y - o.h || player.y - player.h > o.y)){
-          // hit
           gameOver = true; paused = true; finalScore.textContent = score.toString(); overBox.style.display='flex';
           break;
         }
@@ -660,7 +626,8 @@
       score += Math.floor(dt/10);
       scoreEl.textContent = 'Score: ' + score;
 
-      drawBg(); drawObstacles(); drawPlayer();
+      drawBg(); drawObstacles();
+      ctx.fillStyle='#e6eaff'; ctx.fillRect(player.x, player.y-player.h, player.w, player.h);
       raf = requestAnimationFrame(step);
     }
 
@@ -687,18 +654,12 @@
     closeGame.addEventListener('click', ()=>{ panel.classList.remove('open'); stop(); });
 
     document.addEventListener('visibilitychange', ()=>{ if(document.hidden) paused = true; });
-
-    const mo = new MutationObserver(()=>{ if(overlay && overlay.style.display === 'flex'){ paused = true; } });
-    if(overlay) mo.observe(overlay, {attributes:true, attributeFilter:['style']});
   })();
 
-  /* PWA SW registration */
+  /* PWA SW registration (optional) */
   if('serviceWorker' in navigator){
     window.addEventListener('load', ()=> {
-      navigator.serviceWorker.register('/public/sw.js').then(
-        ()=>console.log('✅ Service Worker registered'),
-        err=>console.error('❌ SW registration failed:', err)
-      );
+      navigator.serviceWorker.register('/public/sw.js').catch(()=>{});
     });
   }
 </script>
