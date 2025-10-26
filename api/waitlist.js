@@ -9,25 +9,16 @@ export default async function handler(req, res) {
 
   try {
     let body = req.body;
-    if (typeof body === 'string') {
-      body = JSON.parse(body);
-    }
+    if (typeof body === 'string') body = JSON.parse(body);
 
-    const { email, name = '', term = '' } = body;
-    if (!email) {
-      return res.status(400).json({ error: 'Missing email' });
-    }
+    const { email, name = '', term = '' } = body || {};
+    if (!email) return res.status(400).json({ error: 'Missing email' });
 
-    const FROM = process.env.RESEND_FROM;
-    const API = process.env.RESEND_API_KEY;
-
-    if (!FROM || !API) {
-      console.error('Missing env vars:', { FROM, API });
-      return res.status(500).json({ error: 'Missing RESEND_FROM or RESEND_API_KEY' });
-    }
+    const FROM = process.env.RESEND_FROM;               // e.g. LockHabit <noreply@send.lockhabit.com>
+    const API  = process.env.RESEND_API_KEY;            // re_********
+    if (!FROM || !API) return res.status(500).json({ error: 'Missing envs' });
 
     const resend = new Resend(API);
-
     const result = await resend.emails.send({
       from: FROM,
       to: [email],
@@ -40,15 +31,10 @@ export default async function handler(req, res) {
       `
     });
 
-    if (result?.error) {
-      console.error('❌ Resend error:', result.error);
-      return res.status(502).json({ error: result.error.message || 'Email failed' });
-    }
-
-    console.log('✅ Email sent:', result.id || result);
+    if (result?.error) return res.status(502).json({ error: result.error.message || 'Email failed' });
     return res.status(200).json({ ok: true });
   } catch (err) {
-    console.error('❌ Handler crash:', err);
-    return res.status(500).json({ error: err.message || 'Unknown server error' });
+    console.error('waitlist error:', err);
+    return res.status(500).json({ error: err.message || 'Server error' });
   }
 }
