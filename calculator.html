@@ -2,95 +2,121 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Salary & Take-Home Pay Calculator (2025, est.)
-       Exact-state selector • Custom term (months) • Compounding
+       LockHabit — Salary & Take-Home Pay Calculator (2025 est.)
+       Quick Net Pay • Plan & Lock • Variable Sleeve (7–15%)
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Salary & Take-Home Pay Calculator (2025 est.) — Weekly, Bi-weekly, Monthly | LockHabit</title>
-  <meta name="description" content="Estimate 2025 take-home pay by week, bi-week, or month. Includes federal + payroll taxes, per-state estimate, pre-tax contributions, and expenses. See projected lock balance with compounding and send to the demo."/>
+  <title>Salary & Take-Home Pay Calculator (2025 est.) — LockHabit</title>
+  <meta name="description" content="Type your pay and see net instantly. Then plan deposits, term and APR (or optional 7–15% variable sleeve). Send the plan to the live demo in one tap."/>
   <link rel="canonical" href="https://lockhabit.com/calculator.html"/>
 
   <!-- Social -->
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Salary & Take-Home Pay Calculator (2025 est.) — LockHabit"/>
-  <meta property="og:description" content="Exact-state pick, 2025 (est.) taxes, custom lock term with compound interest. Send your plan to the LockHabit demo."/>
+  <meta property="og:description" content="Quick Net Pay and advanced planning in one screen. 2025 (est.) taxes, clean UI, instant results."/>
   <meta property="og:url" content="https://lockhabit.com/calculator.html"/>
-  <meta property="og:image" content="https://lockhabit.com/assets/og-image.png"/>
+  <meta property="og:image" content="/public/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="theme-color" content="#6f7cff"/>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 
-  <!-- Icons/PWA -->
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" href="/assets/icon-192.png">
-  <link rel="manifest" href="/manifest.webmanifest">
+  <!-- Favicon / PWA (optional) -->
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/public/favicon.ico">
+  <link rel="apple-touch-icon" href="/public/icon-192.png">
+  <link rel="manifest" href="/public/manifest.webmanifest">
 
   <style>
     :root{
-      --brand:#6f7cff; --brand2:#9c78ff; --accent:#9fb2ff;
-      --ink:#0f172a; --ink2:#15213d; --muted:#536179; --muted2:#3a4a66;
-      --line:#e5e7f1; --panel:#ffffff; --surface:#fbfcff;
-      --green:#22c55e; --danger:#b42318; --amber:#f59e0b;
-      --bg:#0e1330; --radius:16px; --radius-lg:22px;
-      --grad-hero:
-        radial-gradient(1400px 700px at 50% -200px, rgba(111,124,255,.25), transparent 60%),
-        radial-gradient(900px 600px at -10% 10%, rgba(156,120,255,.18), transparent 55%),
-        #f6f8ff;
+      --brand:#6f7cff; --brand2:#9c78ff; --ink:#0f172a; --muted:#5b6680;
+      --line:#e7ebf5; --white:#fff; --surface:#f7f8ff; --bg:#0b0f1f;
+      --ok:#22c55e; --amber:#f59e0b; --danger:#ef4444;
+      --r:16px; --r-lg:22px; --shadow:0 18px 50px rgba(17,24,39,.10);
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);
-         font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-    .wrap{max-width:1100px;margin:0 auto;padding:16px 22px}
-    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink); background:var(--bg);
+      font:16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Header */
+    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
     .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:32px;height:32px}
-    .word{font-weight:800;color:#0e1a34}
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 10px 24px rgba(111,124,255,.35)}
-    .btn.ghost{background:transparent}
-    a{text-decoration:none;color:#19253f;font-weight:600}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800;font-size:18px;color:#0e1834;white-space:nowrap}
+    nav a{color:#172646;text-decoration:none;font-weight:600;margin-left:10px;white-space:nowrap}
+    .chip{display:inline-flex;gap:8px;align-items:center;border:1px solid #dfe3ff;background:#f3f6ff;border-radius:999px;padding:6px 10px;font-weight:700;color:#1e305c}
 
-    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:44px 0}
-    h1{margin:0 0 8px;font-size:36px}
-    .sub{margin:0;color:#3a4a66;max-width:70ch}
+    /* Hero */
+    .hero{background:radial-gradient(1400px 700px at 50% -220px, rgba(111,124,255,.22), transparent 62%), #f8f9ff;border-bottom:1px solid var(--line)}
+    .hero-in{max-width:1180px;margin:0 auto;padding:44px 16px}
+    h1{margin:0 0 8px;font-size:34px;line-height:1.15}
+    .sub{margin:0;color:#374a6b;max-width:68ch}
 
-    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-top:16px}
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+    /* Main grid */
+    main{max-width:1180px;margin:0 auto;padding:16px}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    @media (min-width:980px){ .grid{grid-template-columns:1.05fr .95fr} }
+
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+    .title{font:800 18px/1.2 Inter, system-ui;margin:0 0 6px}
     .k{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#5b6a86;font-weight:700}
     .v{font-weight:800;color:#0f1a34}
-    label.k{display:block;margin:8px 0 6px}
-    input,select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
-    input[type="checkbox"]{width:auto}
+    .note{font-size:12px;color:#60708c}
+
+    /* Inputs */
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    .note{font-size:12px;color:#60708c}
-    .warn{color:#5a1111;background:#ffeceb;border:1px solid #ffd4cf;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
-    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
+    input,select{width:100%;padding:12px;border:1px solid #dbe1ee;border-radius:12px;font-size:16px}
+    input[type="checkbox"]{width:auto}
 
-    .table{width:100%;border-collapse:collapse;margin-top:8px}
-    .table th,.table td{padding:10px 8px;border-bottom:1px solid #eef1f7;text-align:right}
-    .table th:first-child,.table td:first-child{text-align:left}
-    .chip{display:inline-flex;gap:8px;align-items:center;border:1px solid #dfe3ff;background:#f3f6ff;border-radius:999px;padding:6px 10px;font-weight:700;color:#3a4a66}
-    .center{display:flex;justify-content:center;align-items:center}
+    /* Mode toggle */
+    .modes{display:flex;gap:10px;margin-top:10px}
+    .mode{flex:1;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:800;background:#fff}
+    .mode.active{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-color:transparent;box-shadow:0 10px 24px rgba(111,124,255,.28)}
 
-    footer{margin:22px 0;color:#cbd5e1;font-size:12px;text-align:center}
-    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+    /* Result headline */
+    .headline{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
+    .big{font:800 36px/1.1 Inter, system-ui;letter-spacing:-.01em}
+    .unit{font-weight:700;color:#33415f}
+
+    /* Bars */
+    .bar{height:10px;border-radius:999px;background:#edf1f7;overflow:hidden;border:1px solid #e6eaf4}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--ok),var(--brand));transition:width .5s ease}
+
+    /* Buttons */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:44px}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-color:transparent;box-shadow:0 10px 24px rgba(111,124,255,.28)}
+    .btn.ghost{background:transparent}
+
+    /* Sections within right column */
+    .card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px}
+
+    /* Disclosure pill */
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#f3f6ff;color:#1e305c;border:1px solid #dfe4ff;border-radius:999px;padding:8px 12px;font-weight:700}
+
+    /* Modal */
+    .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
+    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 40px 120px rgba(7,10,18,.45)}
+    .modal .title{margin:0 0 10px}
+
+    footer{color:#cbd5e1;font-size:12px;text-align:center;padding:22px 10px}
+    details summary{cursor:pointer}
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <div class="wrap row">
+    <div class="wrap">
       <div class="brand">
         <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
           <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
@@ -101,276 +127,272 @@
         </svg>
         <div class="word">LockHabit</div>
       </div>
-      <nav class="row" style="gap:8px">
+      <nav>
         <a href="/index.html">Home</a>
         <a href="/demo.html">Demo</a>
-        <a aria-current="page" class="chip">Calculator</a>
+        <span class="chip">Calculator</span>
       </nav>
     </div>
   </header>
 
   <!-- Hero -->
   <section class="hero">
-    <div class="wrap">
-      <h1>Salary & Take-Home Pay Calculator (2025 est.)</h1>
-      <p class="sub">Estimate your <b>net</b> pay weekly, bi-weekly, or monthly. Pick your exact state, add expenses, choose a lock term (or enter your own), and see the <b>projected balance at maturity with compounding</b>. Send it to the demo in one click.</p>
+    <div class="hero-in">
+      <h1>Know your take-home. Plan in one tap.</h1>
+      <p class="sub">Type your pay and see your net instantly. Add contributions and term when you’re ready. One click sends your plan to the live demo.</p>
     </div>
   </section>
 
   <!-- Main -->
-  <main class="wrap">
+  <main>
     <div class="grid">
-      <!-- Left: Inputs -->
+      <!-- LEFT: Inputs -->
       <section class="panel" aria-labelledby="inputs-title">
-        <h2 id="inputs-title" style="margin:0 0 8px">Your details</h2>
+        <h2 id="inputs-title" class="title">Your details</h2>
 
-        <div class="two">
-          <div>
-            <label class="k">Pay frequency</label>
-            <select id="freq">
-              <option value="weekly">Weekly</option>
-              <option value="biweekly" selected>Bi-weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="annual">Annual</option>
-            </select>
+        <!-- Mode toggle -->
+        <div class="modes" role="tablist" aria-label="Calculator modes">
+          <button class="mode active" id="modeQuick" role="tab" aria-selected="true" aria-controls="quickPane">Quick Net Pay</button>
+          <button class="mode" id="modePlan" role="tab" aria-selected="false" aria-controls="planPane">Plan & Lock</button>
+        </div>
+
+        <!-- Quick Net Pay -->
+        <div id="quickPane" role="tabpanel" aria-labelledby="modeQuick" style="margin-top:12px">
+          <div class="three">
+            <label>
+              <span class="k">Pay frequency</span>
+              <select id="freq">
+                <option value="weekly">Weekly</option>
+                <option value="biweekly" selected>Bi-weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="annual">Annual</option>
+              </select>
+            </label>
+            <label>
+              <span class="k">Gross amount</span>
+              <input id="income" type="number" min="0" step="1" value="2000" inputmode="decimal"/>
+            </label>
+            <label>
+              <span class="k">State (effective rate)</span>
+              <select id="state"></select>
+            </label>
           </div>
-          <div>
-            <label class="k">Income (gross)</label>
-            <input id="income" type="number" min="0" value="2000" inputmode="decimal"/>
+
+          <div class="row" style="margin-top:8px">
+            <label class="row" style="gap:8px">
+              <input id="useCustomState" type="checkbox"/>
+              <span class="k" style="text-transform:none;letter-spacing:0">Override with custom state %</span>
+            </label>
+            <input id="stateRate" type="number" min="0" max="20" step="0.1" value="4" disabled style="max-width:120px"/>
+            <label class="row" style="gap:8px;margin-left:auto">
+              <input id="exempt" type="checkbox"/>
+              <span class="k" style="text-transform:none;letter-spacing:0">Tax-exempt</span>
+            </label>
           </div>
         </div>
 
-        <div class="two" style="margin-top:8px">
-          <div>
-            <label class="k">Filing status</label>
-            <select id="status">
-              <option value="single" selected>Single</option>
-              <option value="married">Married filing jointly</option>
-            </select>
+        <!-- Plan & Lock -->
+        <div id="planPane" role="tabpanel" aria-labelledby="modePlan" style="display:none;margin-top:12px">
+          <div class="title" style="margin:0 0 6px">Your LockHabit plan</div>
+          <div class="two">
+            <label>
+              <span class="k">Contribution frequency</span>
+              <select id="lockFreq">
+                <option value="weekly">Weekly</option>
+                <option value="biweekly" selected>Bi-weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </label>
+            <label>
+              <span class="k">Initial deposit</span>
+              <input id="initDeposit" type="number" min="0" step="10" value="0"/>
+            </label>
           </div>
-          <div>
-            <label class="k">State (effective estimate)</label>
-            <select id="state"></select>
+          <div class="two" style="margin-top:8px">
+            <label>
+              <span class="k">Recurring deposit</span>
+              <input id="recDeposit" type="number" min="0" step="10" value="200"/>
+            </label>
+            <label>
+              <span class="k">Lock term</span>
+              <select id="lockTerm">
+                <option value="3">3 months (2.0%)</option>
+                <option value="6">6 months (2.5%)</option>
+                <option value="12" selected>12 months (3.0%)</option>
+                <option value="24">24 months (3.5%)</option>
+                <option value="custom">Custom…</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="two" id="customTermRow" style="margin-top:8px; display:none">
+            <label>
+              <span class="k">Custom months (1–120)</span>
+              <input id="customMonths" type="number" min="1" max="120" step="1" value="18"/>
+            </label>
+            <label>
+              <span class="k">APR mode</span>
+              <select id="aprMode">
+                <option value="auto" selected>Auto by term tiers</option>
+                <option value="fixed">Fixed 3.0% APR</option>
+                <option value="variable">Variable sleeve (7–15%)…</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="panel" style="margin-top:10px;background:#fff">
+            <div class="k">Monthly expenses (optional)</div>
+            <div class="three" style="margin-top:6px">
+              <label><span class="k">Housing</span><input id="expHousing" type="number" min="0" value="1200"/></label>
+              <label><span class="k">Utilities & phone</span><input id="expUtils" type="number" min="0" value="250"/></label>
+              <label><span class="k">Debt payments</span><input id="expDebt" type="number" min="0" value="300"/></label>
+            </div>
+            <div class="two" style="margin-top:8px">
+              <label><span class="k">Other essentials</span><input id="expOther" type="number" min="0" value="350"/></label>
+              <div class="note" style="align-self:end">Tip: Start with 20–30% of leftover as your recurring deposit.</div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:12px">
+            <button id="recalc" class="btn">Recalculate</button>
+            <button id="sendDemo" class="btn acc">Open Live Demo with this plan</button>
+            <a href="/demo.html" class="btn ghost">Open Demo</a>
           </div>
         </div>
 
-        <div class="two" style="margin-top:8px">
-          <div class="center" style="justify-content:flex-start;gap:8px">
-            <input id="useCustomState" type="checkbox"/>
-            <label for="useCustomState" class="k" style="text-transform:none;letter-spacing:0">Override with custom state rate</label>
-          </div>
-          <div>
-            <label class="k">Custom state tax %</label>
-            <input id="stateRate" type="number" min="0" max="20" step="0.1" value="4" disabled/>
-          </div>
-        </div>
-
-        <div class="two" style="margin-top:8px">
-          <div>
-            <label class="k">Pre-tax contribution (401k/HSA) %</label>
-            <input id="pretaxPct" type="number" min="0" max="50" step="0.5" value="0"/>
-          </div>
-          <div class="center" style="justify-content:flex-start;gap:8px">
-            <input id="exempt" type="checkbox"/>
-            <label for="exempt" class="k" style="text-transform:none;letter-spacing:0">Tax-exempt (federal & state)</label>
-          </div>
-        </div>
-
-        <hr style="border:none;border-top:1px solid #eef1f7;margin:12px 0"/>
-
-        <h3 style="margin:4px 0 8px">Monthly expenses (optional)</h3>
-        <div class="two">
-          <div>
-            <label class="k">Housing (rent/mortgage)</label>
-            <input id="expHousing" type="number" min="0" value="1200"/>
-          </div>
-          <div>
-            <label class="k">Utilities & phone</label>
-            <input id="expUtils" type="number" min="0" value="250"/>
-          </div>
-        </div>
-        <div class="two" style="margin-top:8px">
-          <div>
-            <label class="k">Debt payments</label>
-            <input id="expDebt" type="number" min="0" value="300"/>
-          </div>
-          <div>
-            <label class="k">Other essentials</label>
-            <input id="expOther" type="number" min="0" value="350"/>
-          </div>
-        </div>
-
-        <hr style="border:none;border-top:1px solid #eef1f7;margin:12px 0"/>
-
-        <h3 style="margin:4px 0 8px">Your LockHabit plan</h3>
-        <div class="two">
-          <div>
-            <label class="k">Contribution frequency</label>
-            <select id="lockFreq">
-              <option value="weekly">Weekly</option>
-              <option value="biweekly" selected>Bi-weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
-          </div>
-          <div>
-            <label class="k">Initial deposit</label>
-            <input id="initDeposit" type="number" min="0" value="0"/>
-          </div>
-        </div>
-        <div class="two" style="margin-top:8px">
-          <div>
-            <label class="k">Recurring deposit (suggested)</label>
-            <input id="recDeposit" type="number" min="0" value="200"/>
-          </div>
-          <div>
-            <label class="k">Lock term</label>
-            <select id="lockTerm">
-              <option value="3">3 months</option>
-              <option value="6">6 months</option>
-              <option value="12" selected>12 months</option>
-              <option value="custom">Custom…</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="two" id="customTermRow" style="margin-top:8px; display:none">
-          <div>
-            <label class="k">Custom months (1–60+)</label>
-            <input id="customMonths" type="number" min="1" max="120" step="1" value="18"/>
-          </div>
-          <div>
-            <label class="k">APR setting</label>
-            <select id="aprMode">
-              <option value="auto" selected>Auto (by term tiers)</option>
-              <option value="fixed">Fixed 3% APR</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button id="recalc" class="btn">Recalculate</button>
-          <button id="sendDemo" class="btn acc">Send to Demo</button>
-          <a href="/demo.html" class="btn ghost">Open Demo</a>
-        </div>
-
-        <p class="note" style="margin-top:8px">
-          This tool provides <b>estimates</b> using 2025 (est.) federal brackets & standard deduction and an estimated 2025 payroll wage base.
-          State values are simple effective-rate approximations by state. Your actual withholding can differ (W-4 choices, credits, local taxes, benefits).
-          For planning only.
+        <p class="note" style="margin-top:10px">
+          2025 taxes are estimates. State rates are simplified effective rates by state; your actual withholding may differ (W-4, credits, local taxes, benefits).
         </p>
       </section>
 
-      <!-- Right: Output -->
+      <!-- RIGHT: Output -->
       <aside class="panel" aria-labelledby="out-title">
-        <h2 id="out-title" style="margin:0 0 8px">Your snapshot</h2>
+        <h2 id="out-title" class="title">Your snapshot</h2>
 
-        <div class="two">
-          <div>
+        <!-- Net headline -->
+        <div class="card" aria-live="polite">
+          <div class="headline">
+            <div class="big" id="netHeadline">$0</div>
+            <div class="unit" id="netUnit">/ bi-weekly</div>
+          </div>
+          <div class="note" id="taxLine" style="margin-top:6px">Fed — • State — • FICA —</div>
+        </div>
+
+        <!-- Breakdowns -->
+        <div class="two" style="margin-top:10px">
+          <div class="card">
             <div class="k">Annual gross</div>
             <div class="v" id="outGross">$0</div>
-          </div>
-          <div>
-            <div class="k">Pre-tax contrib.</div>
-            <div class="v" id="outPretax">$0</div>
-          </div>
-        </div>
-
-        <div class="two" style="margin-top:8px">
-          <div>
-            <div class="k">Est. federal income tax</div>
-            <div class="v" id="outFed">$0</div>
-          </div>
-          <div>
-            <div class="k">Est. state income tax</div>
-            <div class="v" id="outState">$0</div>
-          </div>
-        </div>
-
-        <div class="two" style="margin-top:8px">
-          <div>
-            <div class="k">Payroll taxes (SS + Medicare)</div>
-            <div class="v" id="outFica">$0</div>
-          </div>
-          <div>
-            <div class="k">Annual net (est.)</div>
+            <div class="k" style="margin-top:6px">Annual net (est.)</div>
             <div class="v" id="outNet">$0</div>
+            <div class="k" style="margin-top:6px">Net per period</div>
+            <div class="note" style="margin-top:2px">
+              Weekly: <b id="netWeekly">$0</b> • Bi-weekly: <b id="netBiweekly">$0</b> • Monthly: <b id="netMonthly">$0</b>
+            </div>
+          </div>
+          <div class="card">
+            <div class="k">Taxes (est.)</div>
+            <div class="two" style="margin-top:6px">
+              <div><div class="k">Federal</div><div class="v" id="outFed">$0</div></div>
+              <div><div class="k">State</div><div class="v" id="outState">$0</div></div>
+            </div>
+            <div class="two" style="margin-top:6px">
+              <div><div class="k">Payroll (FICA)</div><div class="v" id="outFica">$0</div></div>
+              <div><div class="k">Pre-tax contrib.</div><div class="v" id="outPretax">$0</div></div>
+            </div>
           </div>
         </div>
 
-        <div class="panel" style="margin-top:10px">
-          <div class="k">Net by pay period</div>
-          <table class="table" aria-describedby="perpay-note">
-            <thead>
-              <tr><th>Frequency</th><th>Net</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Weekly</td><td id="netWeekly">$0</td></tr>
-              <tr><td>Bi-weekly</td><td id="netBiweekly">$0</td></tr>
-              <tr><td>Monthly</td><td id="netMonthly">$0</td></tr>
-            </tbody>
-          </table>
-          <div id="perpay-note" class="note">Net per period = annual net ÷ periods (52 / 26 / 12).</div>
-        </div>
-
-        <div class="panel" style="margin-top:10px">
-          <div class="k">Expenses & safe amount</div>
-          <table class="table">
-            <tbody>
-              <tr><td>Monthly expenses</td><td id="outExp">$0</td></tr>
-              <tr><td>Net monthly</td><td id="outNetMonthly">$0</td></tr>
-              <tr><td><b>Safe to lock (suggested)</b></td><td id="outSafe" style="font-weight:800">$0</td></tr>
-            </tbody>
-          </table>
+        <!-- Safe-to-lock -->
+        <div class="card" style="margin-top:10px">
+          <div class="k">Safe to lock (suggested)</div>
+          <div class="two" style="align-items:end;margin-top:6px">
+            <div>
+              <div class="k">Monthly expenses</div>
+              <div class="v" id="outExp">$0</div>
+            </div>
+            <div>
+              <div class="k">Net monthly</div>
+              <div class="v" id="outNetMonthly">$0</div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:6px;align-items:center">
+            <div class="v" id="outSafe">$0</div>
+            <div class="pill" id="safeHint" style="margin-left:auto">~25% of leftover</div>
+          </div>
           <div class="bar" style="margin-top:8px"><div id="safeFill" class="fill"></div></div>
-          <div class="note" style="margin-top:6px">We suggest ~20–30% of your <b>leftover</b> after essentials as a starting point. Adjust to your comfort.</div>
+          <div class="note" id="safeNote" style="margin-top:6px"></div>
         </div>
 
-        <div class="panel" style="margin-top:10px">
+        <!-- Projection -->
+        <div class="card" style="margin-top:10px">
           <div class="k">End-of-lock projection (compounding)</div>
-          <table class="table">
-            <tbody>
-              <tr><td>APR used</td><td id="aprUsed">3.00%</td></tr>
-              <tr><td>Projected interest</td><td id="projInterest">$0</td></tr>
-              <tr><td><b>Projected balance @ maturity</b></td><td id="projBalance" style="font-weight:800">$0</td></tr>
-            </tbody>
-          </table>
+          <div class="two" style="margin-top:6px">
+            <div><div class="k">APR used</div><div class="v" id="aprUsed">3.00%</div></div>
+            <div><div class="k">Term</div><div class="v" id="termUsed">12 months</div></div>
+          </div>
+          <div class="two" style="margin-top:6px">
+            <div><div class="k">Projected interest</div><div class="v" id="projInterest">$0</div></div>
+            <div><div class="k"><b>Projected balance @ maturity</b></div><div class="v" id="projBalance">$0</div></div>
+          </div>
+          <div class="note" id="projNote" style="margin-top:6px">Monthly compounding. Estimates only.</div>
         </div>
 
-        <div class="panel" style="margin-top:10px">
+        <!-- What we'll send -->
+        <div class="card" style="margin-top:10px">
           <div class="k">What we’ll send to the Demo</div>
-          <table class="table">
-            <tbody>
-              <tr><td>Initial deposit</td><td id="p_init">$0</td></tr>
-              <tr><td>Recurring deposit</td><td id="p_rec">$0</td></tr>
-              <tr><td>Contribution frequency</td><td id="p_freq">Bi-weekly</td></tr>
-              <tr><td>Lock term</td><td id="p_term">12 months</td></tr>
-              <tr><td>Mode</td><td id="p_mode">Safe (3% APR)</td></tr>
-              <tr><td>Loan LTV (demo)</td><td id="p_ltv">75% of vested</td></tr>
-            </tbody>
-          </table>
+          <div class="two" style="margin-top:6px">
+            <div><div class="k">Initial</div><div class="v" id="p_init">$0</div></div>
+            <div><div class="k">Recurring</div><div class="v" id="p_rec">$0</div></div>
+          </div>
+          <div class="two" style="margin-top:6px">
+            <div><div class="k">Frequency</div><div class="v" id="p_freq">Bi-weekly</div></div>
+            <div><div class="k">Lock term</div><div class="v" id="p_term">12 months</div></div>
+          </div>
+          <div class="two" style="margin-top:6px">
+            <div><div class="k">Mode</div><div class="v" id="p_mode">Safe (auto tiers)</div></div>
+            <div><div class="k">Loan LTV (demo)</div><div class="v" id="p_ltv">80% of vested</div></div>
+          </div>
         </div>
+
+        <!-- Mini FAQ -->
+        <details style="margin-top:10px">
+          <summary class="k" style="text-transform:none;letter-spacing:0">How we estimate taxes & returns</summary>
+          <div class="note" style="margin-top:6px">
+            Federal brackets & standard deduction are 2025 estimates. State is a simplified effective rate per state (override available).
+            Net pay = annualized gross − pre-tax − federal − state − payroll (SS/Medicare). Projection uses monthly compounding.
+            Variable sleeve is educational modeling only (not FDIC-insured; market risk).
+          </div>
+        </details>
       </aside>
     </div>
   </main>
 
   <footer>© <span id="yr"></span> LockHabit — Calculator is for estimates only.</footer>
 
-  <!-- Schema (SEO) -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebApplication",
-    "name":"LockHabit Take-Home Pay Calculator",
-    "url":"https://lockhabit.com/calculator.html",
-    "applicationCategory":"FinanceApplication",
-    "operatingSystem":"Any",
-    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
-  }
-  </script>
+  <!-- Investment Sleeve Modal -->
+  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="inv-title">
+    <div class="modal">
+      <div class="title" id="inv-title">High-Risk Investment Sleeve (7–15% Variable)</div>
+      <p class="note" style="margin-top:0">
+        For planning only. Market returns vary; <b>not FDIC-insured</b>. You could gain ~20% or lose ~10% (or more).
+        Eligibility when live: ≥$5,000 vested and ≥5 months active deposits. Offered via licensed partners.
+      </p>
+      <label class="k" style="display:block;margin-top:8px">Target annual return</label>
+      <input id="invRange" type="range" min="7" max="15" step="0.5" value="9" style="width:100%"/>
+      <div class="row" style="margin-top:6px">
+        <div class="v"><span id="invVal">9.0</span>%</div>
+        <div class="note" style="margin-left:auto">This will be used for projection only.</div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" onclick="closeModal()">Cancel</button>
+        <button id="useInv" class="btn acc">Use this for projection</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // ===== Constants (2025 ESTIMATES) =====
-    // Rough state effective rates (income tax only) — planning grade.
     const STATE_EFFECTIVE_RATES = {
       "AL":3.5,"AK":0,"AZ":2.5,"AR":4.0,"CA":6.0,"CO":4.5,"CT":5.0,"DC":6.0,"DE":4.5,
       "FL":0,"GA":4.0,"HI":6.0,"ID":4.7,"IL":4.7,"IN":3.0,"IA":4.2,"KS":4.2,"KY":4.0,
@@ -380,10 +402,8 @@
       "VT":4.8,"VA":4.5,"WA":0,"WV":4.0,"WI":4.0,"WY":0
     };
 
-    // 2025 federal (est.): standard deduction + bracket caps (Single/Married)
     const FED_2025 = {
       std: { single: 15300, married: 30600 }, // est.
-      // caps are top of each bracket (taxed at rate); Infinity = top
       single: [
         [12000, .10], [48700, .12], [104050, .22], [198700, .24],
         [252250, .32], [630650, .35], [Infinity, .37]
@@ -393,109 +413,89 @@
         [504000, .32], [756600, .35], [Infinity, .37]
       ]
     };
-
-    // Payroll taxes (employee) — 2025 est.
-    const SS_WAGEBASE_2025 = 174200; // Social Security cap
+    const SS_WAGEBASE_2025 = 174200; // est.
     const SS_RATE = 0.062;
-    const MEDICARE_RATE = 0.0145; // ignoring additional surtax for simplicity
+    const MEDICARE_RATE = 0.0145;
+    const ADDL_MEDICARE_SURTAX = 0.009; // single >200k; married >250k thresholds (est.)
+    const SURTAX_THRESH = { single: 200000, married: 250000 };
 
-    // APR tiers (Auto mode): feel free to tune
-    // key = min months in tier, value = APR
+    // APR tiers (auto): 3m→2.0% • 6m→2.5% • 12m→3.0% • 24m+→3.5%
     const APR_TIERS = [
-      { min: 1,  apr: 0.020 },   // 1–5m → 2.0%
-      { min: 6,  apr: 0.025 },   // 6–11m → 2.5%
-      { min: 12, apr: 0.030 },   // 12–17m → 3.0%
-      { min: 18, apr: 0.0325 },  // 18–23m → 3.25%
-      { min: 24, apr: 0.035 }    // 24m+ → 3.5%
+      { min: 1,  apr: 0.020 },
+      { min: 6,  apr: 0.025 },
+      { min: 12, apr: 0.030 },
+      { min: 24, apr: 0.035 }
     ];
 
     // ===== Utilities =====
-    const $ = (id)=>document.getElementById(id);
-    const fmt = (n)=> (isFinite(n)? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-    const pctFmt = (p)=> (p*100).toFixed(2)+'%';
+    const $ = id => document.getElementById(id);
+    const fmt = n => (isFinite(n)? n:0).toLocaleString('en-US', { style:'currency', currency:'USD' });
+    const pct = p => (p*100).toFixed(2) + '%';
 
-    // Live year
     $('yr').textContent = new Date().getFullYear();
 
-    // Inputs
-    const freq = $('freq'), income = $('income'), status = $('status');
-    const stateSel = $('state'), stateRate = $('stateRate'), useCustomState = $('useCustomState');
-    const pretaxPct = $('pretaxPct'), exempt = $('exempt');
-    const eH = $('expHousing'), eU = $('expUtils'), eD = $('expDebt'), eO = $('expOther');
+    // Build state dropdown (with common states on top)
+    (function buildState(){
+      const names = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",
+        DC:"District of Columbia",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",
+        IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",
+        MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",
+        NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",
+        OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",
+        UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming" };
+      const sel = $('state'); const frag = document.createDocumentFragment();
+      ["CA","NY","TX","FL","IL","PA"].forEach(ab=>{
+        const opt = document.createElement('option');
+        opt.value = ab; const r = STATE_EFFECTIVE_RATES[ab] ?? 4;
+        opt.textContent = `${ab} — ${names[ab]} — ~${r}%`;
+        frag.appendChild(opt);
+      });
+      const hr = document.createElement('option'); hr.disabled = true; hr.textContent = '──────────'; frag.appendChild(hr);
+      Object.keys(STATE_EFFECTIVE_RATES).sort().forEach(ab=>{
+        if(["CA","NY","TX","FL","IL","PA"].includes(ab)) return;
+        const opt = document.createElement('option');
+        opt.value = ab; const r = STATE_EFFECTIVE_RATES[ab] ?? 4;
+        opt.textContent = `${ab} — ${names[ab]} — ~${r}%`;
+        frag.appendChild(opt);
+      });
+      sel.appendChild(frag);
+      sel.value = localStorage.getItem('lh_state') || 'CA';
+    })();
+
+    // Elements
+    const freq = $('freq'), income = $('income'), stateSel = $('state'), stateRate = $('stateRate'), useCustomState = $('useCustomState'), exempt = $('exempt');
 
     const lockFreq = $('lockFreq'), initDeposit = $('initDeposit'), recDeposit = $('recDeposit'), lockTerm = $('lockTerm');
     const customTermRow = $('customTermRow'), customMonths = $('customMonths'), aprMode = $('aprMode');
 
-    // Outputs
     const outGross = $('outGross'), outPretax = $('outPretax'), outFed = $('outFed'), outState = $('outState'),
           outFica = $('outFica'), outNet = $('outNet'),
-          netWeekly = $('netWeekly'), netBiweekly = $('netBiweekly'), netMonthly = $('netMonthly'),
-          outExp = $('outExp'), outNetMonthly = $('outNetMonthly'), outSafe = $('outSafe'), safeFill = $('safeFill');
+          netWeekly = $('netWeekly'), netBiweekly = $('netBiweekly'), netMonthly = $('netMonthly');
 
-    const aprUsed = $('aprUsed'), projInterest = $('projInterest'), projBalance = $('projBalance');
+    const outExp = $('outExp'), outNetMonthly = $('outNetMonthly'), outSafe = $('outSafe'), safeFill = $('safeFill'), safeNote = $('safeNote');
+
+    const netHeadline = $('netHeadline'), netUnit = $('netUnit'), taxLine = $('taxLine');
+    const aprUsed = $('aprUsed'), termUsed = $('termUsed'), projInterest = $('projInterest'), projBalance = $('projBalance'), projNote = $('projNote');
 
     const p_init = $('p_init'), p_rec = $('p_rec'), p_freq = $('p_freq'), p_term = $('p_term'), p_mode = $('p_mode'), p_ltv = $('p_ltv');
 
-    // ===== Populate state dropdown =====
-    (function buildStateSelect(){
-      const names = {
-        AL:"Alabama", AK:"Alaska", AZ:"Arizona", AR:"Arkansas", CA:"California", CO:"Colorado", CT:"Connecticut",
-        DC:"District of Columbia", DE:"Delaware", FL:"Florida", GA:"Georgia", HI:"Hawaii", ID:"Idaho", IL:"Illinois",
-        IN:"Indiana", IA:"Iowa", KS:"Kansas", KY:"Kentucky", LA:"Louisiana", ME:"Maine", MD:"Maryland", MA:"Massachusetts",
-        MI:"Michigan", MN:"Minnesota", MS:"Mississippi", MO:"Missouri", MT:"Montana", NE:"Nebraska", NV:"Nevada",
-        NH:"New Hampshire", NJ:"New Jersey", NM:"New Mexico", NY:"New York", NC:"North Carolina", ND:"North Dakota",
-        OH:"Ohio", OK:"Oklahoma", OR:"Oregon", PA:"Pennsylvania", RI:"Rhode Island", SC:"South Carolina", SD:"South Dakota",
-        TN:"Tennessee", TX:"Texas", UT:"Utah", VT:"Vermont", VA:"Virginia", WA:"Washington", WV:"West Virginia",
-        WI:"Wisconsin", WY:"Wyoming"
-      };
-      const frags = document.createDocumentFragment();
-      // default common states at top
-      const top = ["CA","NY","TX","FL","IL","PA"];
-      top.forEach(ab=>{
-        const opt = document.createElement('option');
-        opt.value = ab;
-        const r = STATE_EFFECTIVE_RATES[ab] ?? 4;
-        opt.textContent = `${ab} — ${names[ab]} — ~${r}%`;
-        frags.appendChild(opt);
-      });
-      const hr = document.createElement('option');
-      hr.disabled = true; hr.textContent = '──────────';
-      frags.appendChild(hr);
-      // rest alphabetically
-      Object.keys(STATE_EFFECTIVE_RATES).sort().forEach(ab=>{
-        if(top.includes(ab)) return;
-        const opt = document.createElement('option');
-        const r = STATE_EFFECTIVE_RATES[ab] ?? 4;
-        opt.value = ab;
-        opt.textContent = `${ab} — ${names[ab]} — ~${r}%`;
-        if(ab==="CA") opt.selected = true;
-        frags.appendChild(opt);
-      });
-      stateSel.appendChild(frags);
-    })();
+    const eH = $('expHousing'), eU = $('expUtils'), eD = $('expDebt'), eO = $('expOther');
 
-    // Custom state toggle
-    useCustomState.addEventListener('change', ()=>{
-      stateRate.disabled = !useCustomState.checked;
-      recalc();
-    });
+    // Mode switching
+    const quickPane = $('quickPane'), planPane = $('planPane');
+    const modeQuick = $('modeQuick'), modePlan = $('modePlan');
+    modeQuick.addEventListener('click', ()=>{ modeQuick.classList.add('active'); modePlan.classList.remove('active'); quickPane.style.display='block'; planPane.style.display='none'; recalc(); });
+    modePlan.addEventListener('click', ()=>{ modePlan.classList.add('active'); modeQuick.classList.remove('active'); quickPane.style.display='none'; planPane.style.display='block'; recalc(); });
 
-    // ===== Conversions =====
-    function toAnnualGross(amount, f){
+    // Helpers
+    const toAnnualGross = (amount, f) => {
       const a = Number(amount)||0;
-      switch(f){
-        case 'weekly': return a * 52;
-        case 'biweekly': return a * 26;
-        case 'monthly': return a * 12;
-        default: return a; // annual
-      }
-    }
-
-    // ===== Federal tax (2025 est.) =====
+      return f==='weekly'? a*52 : f==='biweekly'? a*26 : f==='monthly'? a*12 : a;
+    };
     function federalTax2025(taxable, filing){
-      const d = filing === 'married' ? FED_2025.std.married : FED_2025.std.single;
+      const d = filing==='married'? FED_2025.std.married : FED_2025.std.single;
       const x = Math.max(0, taxable - d);
-      const B = filing === 'married' ? FED_2025.married : FED_2025.single;
+      const B = filing==='married'? FED_2025.married : FED_2025.single;
       let prev = 0, tax = 0;
       for(const [cap, rate] of B){
         const slice = Math.min(x, cap) - prev;
@@ -504,165 +504,177 @@
       }
       return Math.max(0, tax);
     }
-
-    // ===== Payroll taxes (employee) 2025 est. =====
-    function payrollTax(gross){
+    function payrollTax(gross, filing='single'){
       const ss = Math.min(gross, SS_WAGEBASE_2025) * SS_RATE;
       const medicare = gross * MEDICARE_RATE;
-      return ss + medicare;
+      const extra = Math.max(0, gross - (filing==='married'?SURTAX_THRESH.married:SURTAX_THRESH.single)) * ADDL_MEDICARE_SURTAX;
+      return ss + medicare + extra;
     }
-
-    // ===== APR helpers (auto tiers) =====
-    function aprForMonths(m){
+    const aprForMonths = m => {
       let a = APR_TIERS[0].apr;
       for(const t of APR_TIERS){ if(m >= t.min) a = t.apr; }
       return a;
-    }
-
-    // ===== FV with monthly compounding =====
-    // FV = P0*(1+r)^n + PMT * [((1+r)^n - 1)/r]
-    function projectedBalance(init, recurring, freq, months, apr, now=0){
-      const r = apr/12;
-      const n = Math.max(0, Math.floor(months));
-      // Convert recurring frequency into an approximate monthly PMT
-      const pmtPerMonth = (freq==='weekly') ? recurring*(52/12)
-                         : (freq==='biweekly') ? recurring*(26/12)
-                         : recurring; // monthly
+    };
+    function projectedBalance(init, recurring, freq, months, apr){
+      const r = apr/12; const n = Math.max(0, Math.floor(months));
+      const PMT = (freq==='weekly')? recurring*(52/12) : (freq==='biweekly')? recurring*(26/12) : recurring;
       const fvLump = init * Math.pow(1+r, n);
-      const fvSeries = pmtPerMonth * ((Math.pow(1+r, n) - 1) / (r || 1)); // handle r=0
+      const fvSeries = PMT * ((Math.pow(1+r, n) - 1) / (r || 1)); // handle r=0
       const balance = fvLump + fvSeries;
-      const totalContrib = init + pmtPerMonth * n;
-      return { balance, interest: Math.max(0, balance - totalContrib), apr };
+      const totalContrib = init + PMT * n;
+      return { balance, interest: Math.max(0, balance - totalContrib) };
     }
 
-    // ===== Recalc =====
+    // State override toggle
+    useCustomState.addEventListener('change', ()=>{ stateRate.disabled = !useCustomState.checked; recalc(); });
+    stateSel.addEventListener('change', ()=>{ localStorage.setItem('lh_state', stateSel.value); if(!useCustomState.checked) stateRate.value = String(STATE_EFFECTIVE_RATES[stateSel.value] ?? 4); recalc(); });
+
+    // Term UI
+    function handleTermUI(){ customTermRow.style.display = (lockTerm.value === 'custom') ? 'grid' : 'none'; }
+    lockTerm.addEventListener('change', ()=>{ handleTermUI(); recalc(); });
+    customMonths.addEventListener('input', recalc);
+
+    // APR mode (variable opens modal)
+    aprMode.addEventListener('change', ()=>{
+      if(aprMode.value === 'variable'){ openModal(); }
+      recalc();
+    });
+
+    // Investment sleeve modal
+    const overlay = $('overlay'); const invRange = $('invRange'); const invVal = $('invVal'); const useInv = $('useInv');
+    invRange.addEventListener('input', ()=>{ invVal.textContent = Number(invRange.value).toFixed(1); });
+    function openModal(){ overlay.style.display='flex'; document.body.style.overflow='hidden'; invVal.textContent = Number(invRange.value).toFixed(1); }
+    function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; if(aprMode.value==='variable' && !overlay.dataset.confirmed){ aprMode.value='auto'; } delete overlay.dataset.confirmed; }
+    window.closeModal = closeModal;
+    useInv.addEventListener('click', ()=>{ overlay.dataset.confirmed = '1'; overlay.style.display='none'; document.body.style.overflow=''; recalc(); });
+
+    // Inputs wiring
+    [freq,income,stateRate,exempt,lockFreq,initDeposit,recDeposit,aprMode].forEach(el=>el.addEventListener('input', recalc));
+    [eH,eU,eD,eO].forEach(el=>el.addEventListener('input', recalc));
+    $('recalc')?.addEventListener('click', recalc);
+
+    // Send to Demo
+    $('sendDemo')?.addEventListener('click', ()=>{
+      const init = Math.max(0, Number(initDeposit.value||0));
+      const save = Math.max(0, Number(recDeposit.value||0));
+      const lf = lockFreq.value;
+      const months = (lockTerm.value==='custom') ? Math.max(1, Number(customMonths.value||12)) : Number(lockTerm.value||12);
+      const mode = (aprMode.value==='variable') ? 'variable' : 'safe';
+      const params = new URLSearchParams({ init:String(init), save:String(save), freq:lf, term:String(months), mode });
+      localStorage.setItem('lh_plan', JSON.stringify({ init, save, freq: lf, term: months, mode }));
+      window.location.href = '/demo.html?' + params.toString();
+    });
+
+    // Defaults
+    stateRate.value = String(STATE_EFFECTIVE_RATES[stateSel.value] ?? 4);
+    handleTermUI();
+
+    // Quick vs Plan default: Quick first
+    function setUnitsLabel(){
+      netUnit.textContent = freq.value==='weekly'? '/ week' : freq.value==='biweekly'? '/ bi-weekly' : freq.value==='monthly'? '/ month' : '/ year';
+    }
+
+    // Recalc core
     function recalc(){
-      // 1) Annualize gross
+      // Annualize gross
       const gross = toAnnualGross(income.value, freq.value);
 
-      // 2) Pre-tax contributions
-      const prePct = Math.max(0, Math.min(50, Number(pretaxPct.value)||0))/100;
-      const preTax = gross * prePct;
+      // Taxes (Quick Net uses Single filing for simplicity)
+      const filing = 'single';
+      const isExempt = exempt.checked;
+      const effState = useCustomState.checked ? Math.max(0, Math.min(20, Number(stateRate.value)||0)) : (STATE_EFFECTIVE_RATES[stateSel.value] ?? 4);
+      stateRate.value = String(effState);
+
+      const preTax = 0; // Quick mode = no pre-tax; Plan mode could add later if desired
       const taxableWages = Math.max(0, gross - preTax);
 
-      // 3) Taxes
-      const isExempt = exempt.checked;
-      const fed = isExempt ? 0 : federalTax2025(taxableWages, status.value);
-      const chosenState = stateSel.value;
-      const eff = useCustomState.checked ? (Math.max(0, Math.min(20, Number(stateRate.value)||0)))
-                                         : (STATE_EFFECTIVE_RATES[chosenState] ?? 4);
-      stateRate.value = String(eff);
-      const stateTax = isExempt ? 0 : taxableWages * (eff/100);
-      const fica = isExempt ? 0 : payrollTax(taxableWages);
-
-      // 4) Net annual
+      const fed = isExempt ? 0 : federalTax2025(taxableWages, filing);
+      const stateTax = isExempt ? 0 : taxableWages * (effState/100);
+      const fica = isExempt ? 0 : payrollTax(taxableWages, filing);
       const netAnnual = Math.max(0, gross - preTax - fed - stateTax - fica);
 
-      // 5) Per-period
-      const netW = netAnnual / 52;
-      const netB = netAnnual / 26;
-      const netM = netAnnual / 12;
+      const netW = netAnnual/52, netB = netAnnual/26, netM = netAnnual/12;
 
-      // 6) Expenses & safe amount
-      const expMonthly = (Number(eH.value)||0) + (Number(eU.value)||0) + (Number(eD.value)||0) + (Number(eO.value)||0);
-      const leftoverMonthly = Math.max(0, netM - expMonthly);
-      const suggested = Math.round(leftoverMonthly * 0.25); // 25% of leftover as default
-      if(!(document.activeElement === recDeposit)) recDeposit.value = String(suggested);
+      // Headline
+      setUnitsLabel();
+      const headline = freq.value==='weekly'? netW : freq.value==='biweekly'? netB : freq.value==='monthly'? netM : netAnnual;
+      netHeadline.textContent = fmt(headline);
+      taxLine.textContent = `Fed ${fmt(fed)} • State ${fmt(stateTax)} • FICA ${fmt(fica)}`;
 
-      // 7) Progress bar for “safe”
-      const pct = Math.max(0, Math.min(100, (suggested/(leftoverMonthly||1))*100));
-      safeFill.style.width = pct.toFixed(0) + '%';
-
-      // 8) End-of-lock projection (compound)
-      const baseMonths = (lockTerm.value === 'custom') ? Math.max(1, Number(customMonths.value||12))
-                                                       : Number(lockTerm.value||12);
-      const mode = (lockTerm.value === 'custom') ? aprMode.value : 'auto';
-      const apr = (mode === 'fixed') ? 0.03 : aprForMonths(baseMonths);
-      const pv = Number(initDeposit.value||0);
-      const pmt = Math.max(0, Number(recDeposit.value||0));
-      const proj = projectedBalance(pv, pmt, lockFreq.value, baseMonths, apr);
-
-      // 9) Reflect on page
+      // Outputs
       outGross.textContent = fmt(gross);
       outPretax.textContent = fmt(preTax);
-      outFed.textContent = fmt(fed);
-      outState.textContent = fmt(stateTax);
-      outFica.textContent = fmt(fica);
+      outFed.textContent = isExempt ? '—' : fmt(fed);
+      outState.textContent = isExempt ? '—' : fmt(stateTax);
+      outFica.textContent = isExempt ? '—' : fmt(fica);
       outNet.textContent = fmt(netAnnual);
       netWeekly.textContent = fmt(netW);
       netBiweekly.textContent = fmt(netB);
       netMonthly.textContent = fmt(netM);
 
+      // Expenses & safe suggestion (available when Plan tab used; we still compute so right column is up-to-date)
+      const expMonthly = (Number(eH.value)||0)+(Number(eU.value)||0)+(Number(eD.value)||0)+(Number(eO.value)||0);
+      const leftoverMonthly = Math.max(0, netM - expMonthly);
+      const suggested = Math.round(leftoverMonthly * 0.25);
       outExp.textContent = fmt(expMonthly);
       outNetMonthly.textContent = fmt(netM);
       outSafe.textContent = fmt(suggested);
 
+      // Safe bar
+      const currentRec = Math.max(0, Number(recDeposit.value||0));
+      const pctSafe = leftoverMonthly ? Math.max(0, Math.min(100, (currentRec / (leftoverMonthly*0.25 || 1))*100)) : 0;
+      safeFill.style.width = pctSafe.toFixed(0) + '%';
+      safeNote.textContent = currentRec > suggested ? 'You’re above the suggested starting point — make sure it still feels comfortable.' : '';
+
+      // Projection (Plan settings)
+      const months = (lockTerm.value==='custom') ? Math.max(1, Number(customMonths.value||12)) : Number(lockTerm.value||12);
+      const mode = aprMode.value;
+      let apr = 0.03; // default
+      if(mode==='fixed'){ apr = 0.03; }
+      else if(mode==='variable' && overlay.style.display!=='flex'){ apr = (Number(invRange.value)||9)/100; } // if confirmed
+      else { apr = aprForMonths(months); }
+
+      const pv = Math.max(0, Number(initDeposit.value||0));
+      const pmt = Math.max(0, Number(recDeposit.value||0));
+      const proj = projectedBalance(pv, pmt, lockFreq.value, months, apr);
+
       aprUsed.textContent = (apr*100).toFixed(2) + '%';
+      termUsed.textContent = `${months} months`;
       projInterest.textContent = fmt(proj.interest);
       projBalance.textContent = fmt(proj.balance);
+      projNote.textContent = mode==='variable'
+        ? 'Variable sleeve selected for projection. Monthly compounding. Estimates only; not FDIC-insured.'
+        : 'Monthly compounding. Estimates only.';
 
-      p_init.textContent = fmt(Number(initDeposit.value||0));
-      p_rec.textContent = fmt(Number(recDeposit.value||0));
+      // Plan echo (to Demo)
+      p_init.textContent = fmt(pv);
+      p_rec.textContent  = fmt(pmt);
       p_freq.textContent = {weekly:'Weekly',biweekly:'Bi-weekly',monthly:'Monthly'}[lockFreq.value] || 'Bi-weekly';
-      p_term.textContent = `${baseMonths} months`;
-      p_mode.textContent = (mode==='fixed') ? 'Safe (fixed 3% APR)' : 'Safe (auto tiers)';
-      p_ltv.textContent = '75% of vested';
-
-      return { gross, preTax, fed, stateTax, fica, netAnnual, netW, netB, netM, expMonthly, suggested, proj, months: baseMonths, aprMode: mode };
+      p_term.textContent = `${months} months`;
+      p_mode.textContent = mode==='variable' ? 'Variable (projection only)' : (mode==='fixed' ? 'Safe (fixed 3%)' : 'Safe (auto tiers)');
+      p_ltv.textContent = '80% of vested';
     }
 
-    // Show/hide custom months row
-    function handleTermUI(){
-      customTermRow.style.display = (lockTerm.value === 'custom') ? 'grid' : 'none';
-    }
-    lockTerm.addEventListener('change', ()=>{ handleTermUI(); recalc(); });
-    customMonths.addEventListener('input', recalc);
-    aprMode.addEventListener('change', recalc);
-    handleTermUI();
-
-    // Wire up changes
-    [freq,income,status,stateSel,stateRate,useCustomState,pretaxPct,exempt,eH,eU,eD,eO,lockFreq,initDeposit,recDeposit,lockTerm,customMonths,aprMode]
-      .forEach(el => el.addEventListener('input', recalc));
-    $('recalc').addEventListener('click', recalc);
-
-    // Send to Demo (via query params) — match demo’s expected keys
-    $('sendDemo').addEventListener('click', ()=>{
-      const init = Math.max(0, Number(initDeposit.value||0));
-      const save = Math.max(0, Number(recDeposit.value||0)); // NOTE: 'save' (not 'rec') for demo
-      const lf = lockFreq.value;
-      const term = (lockTerm.value === 'custom') ? Math.max(1, Number(customMonths.value||12))
-                                                 : Number(lockTerm.value||12);
-      const mode = 'safe';
-      const params = new URLSearchParams({ init:String(init), save:String(save), freq:lf, term:String(term), mode });
-
-      // Also stash to localStorage for the demo to read
-      localStorage.setItem('lh_plan', JSON.stringify({ init, save, freq: lf, term, mode }));
-
-      window.location.href = '/demo.html?' + params.toString();
-    });
-
-    // Initialize
-    const initStateRate = ()=>{ stateRate.value = String(STATE_EFFECTIVE_RATES[stateSel.value] ?? 4); };
-    stateSel.addEventListener('change', ()=>{ if(!useCustomState.checked) initStateRate(); recalc(); });
-    initStateRate();
+    // Init + first paint
     recalc();
 
-    // Deep-link support (optional): ?freq=biweekly&income=1800&state=CA&pretax=5&months=18
+    // Deep-link support (optional): ?freq=biweekly&income=1800&state=CA&months=18&mode=variable&apr=9.5
     (function readParams(){
       const q = new URLSearchParams(location.search);
       if(q.has('freq')) freq.value = q.get('freq');
       if(q.has('income')) income.value = q.get('income');
-      if(q.has('status')) status.value = q.get('status');
-      if(q.has('state') && STATE_EFFECTIVE_RATES[q.get('state')]){ stateSel.value = q.get('state'); initStateRate(); }
-      if(q.has('pretax')) pretaxPct.value = q.get('pretax');
-      if(q.has('exempt')) exempt.checked = q.get('exempt') === '1';
-      if(q.has('months')){
-        lockTerm.value = 'custom';
-        handleTermUI();
-        customMonths.value = q.get('months');
-      }
+      if(q.has('state') && STATE_EFFECTIVE_RATES[q.get('state')]){ stateSel.value = q.get('state'); stateRate.value = String(STATE_EFFECTIVE_RATES[stateSel.value] ?? 4); }
+      if(q.has('mode') && q.get('mode')==='plan'){ modePlan.click(); }
+      if(q.has('months')){ lockTerm.value='custom'; customTermRow.style.display='grid'; customMonths.value = q.get('months'); }
+      if(q.has('aprMode')){ aprMode.value = q.get('aprMode'); }
+      if(q.has('apr')){ invRange.value = q.get('apr'); invVal.textContent = Number(invRange.value).toFixed(1); }
       recalc();
     })();
+
+    // Respect reduced motion (no animated width if user prefers)
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('.fill').forEach(el=>{ el.style.transition='none'; });
+    }
   </script>
 </body>
 </html>
