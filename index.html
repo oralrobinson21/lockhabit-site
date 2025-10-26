@@ -610,15 +610,23 @@
     });
   })();
 
-  /* PWA SW registration */
-  if('serviceWorker' in navigator){
-    window.addEventListener('load', ()=> {
-      navigator.serviceWorker.register('/public/sw.js').then(
-        ()=>console.log('✅ Service Worker registered'),
-        err=>console.error('❌ SW registration failed:', err)
-      );
-    });
+  <!-- PWA SW registration — temporarily disabled to prevent redirect/cache loops -->
+<script>
+  // One-time cleanup: unregister any previously installed service workers.
+  if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(r => r.unregister());
+      // Optional: clear caches created by old SWs
+      if (window.caches && caches.keys) {
+        caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+      }
+    }).catch(() => {});
   }
+
+  // To re-enable later, restore the original register() block here.
+  // navigator.serviceWorker.register('/public/sw.js')
+  //   .then(() => console.log('✅ Service Worker registered'))
+  //   .catch(err => console.error('❌ SW registration failed:', err));
 </script>
 </body>
 </html>
