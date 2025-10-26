@@ -1,7 +1,8 @@
 {
   "name": "lockhabit-site",
-  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "build": "echo \"No build needed for static site\""
+    "start": "vercel dev"
   }
 }
