@@ -75,7 +75,7 @@
       max-width:1200px;margin:0 auto;padding:12px 16px;
       display:flex;align-items:center;justify-content:space-between;gap:12px;
     }
-    .brand{display:flex;align-items:center;gap:10px;min-width:0}
+    .brand{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer}
     .logo{width:28px;height:28px;flex:none}
     .word{font-weight:800;font-size:18px;color:#0e1a34;white-space:nowrap;letter-spacing:.2px}
     .nav{display:flex;align-items:center;gap:14px;min-width:0}
@@ -193,7 +193,7 @@
 <!-- ========================= HEADER ========================= -->
 <header class="header" role="banner" id="hdr">
   <div class="wrap">
-    <div class="brand" aria-label="LockHabit">
+    <div class="brand" aria-label="LockHabit" id="brand">
       <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
         <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
         <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
@@ -204,12 +204,13 @@
       <div class="word">LockHabit</div>
     </div>
     <nav class="nav" role="navigation" aria-label="Main">
+      <a href="/calculator.html" aria-label="Open calculator">Calculator</a>
       <a href="#how">How it works</a>
       <a href="#plans">Plans</a>
       <a href="#security">Security</a>
       <a href="#growth">Growth options</a>
       <a href="#faq">FAQ</a>
-      <button class="btn acc" onclick="openModal()">Join waitlist</button>
+      <button class="btn acc" type="button" id="btnWaitlistHdr">Join waitlist</button>
     </nav>
   </div>
 </header>
@@ -219,7 +220,7 @@
   <div class="hero-grid" aria-describedby="hero-copy">
     <div>
       <div class="chips" aria-label="Highlights">
-        <span class="chip">Discipline Pays</span>
+        <!-- Removed “Discipline Pays” per request -->
         <span class="chip"><b style="color:#22c55e">Up to 3.5% APR</b> • weekly compounding</span>
         <span class="chip">Emergency line: <b>80%</b> of vested</span>
       </div>
@@ -232,7 +233,7 @@
       </p>
 
       <div class="cta">
-        <button class="btn acc" onclick="openModal()">Join the waitlist</button>
+        <button class="btn acc" type="button" id="btnWaitlistHero">Join the waitlist</button>
         <a class="btn" href="/calculator.html">Open calculator</a>
         <a class="btn ghost" href="/security.html">Read security</a>
       </div>
@@ -284,7 +285,7 @@
             <div class="v" style="font-size:20px" data-fit>$102,983.99</div>
             <div class="help">0% for 4 months, then 6% APR • interest credited back after payoff</div>
           </div>
-          <button class="btn acc pill" onclick="openModal()">Join the waitlist</button>
+          <button class="btn acc pill" type="button" id="btnWaitlistCard">Join the waitlist</button>
         </div>
       </div>
     </aside>
@@ -413,7 +414,7 @@
   <h2 id="sec-title" class="section-title">Your money stays safe</h2>
   <div class="panel">
     <div class="trustgrid">
-      <div class="trust">
+      <div class="trust>
         <b>FDIC-backed via partner banks</b>
         <p class="mini">When deposits are held at partner banks and structured for pass-through coverage, FDIC insurance applies up to legal limits per depositor, per bank.</p>
       </div>
@@ -531,10 +532,12 @@
 ]}
 </script>
 
-<!-- ========================= SCRIPTS (static demo + fitText) ========================= -->
+<!-- ========================= SCRIPTS (static demo + fitText + modal + header) ========================= -->
 <script>
-  /* Live year + header behavior */
+  /* Live year */
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* Header behavior (sticky + hide on scroll down) */
   (function(){
     const hdr = document.getElementById('hdr');
     let lastY = window.scrollY, ticking = false;
@@ -549,12 +552,24 @@
     }, {passive:true});
   })();
 
-  /* Modal open/close + waitlist submission */
+  /* Brand click scrolls to top */
+  document.getElementById('brand')?.addEventListener('click', ()=>{
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+
+  /* Modal open/close */
   const overlay = document.getElementById('overlay');
   function openModal(){ overlay.style.display='flex'; document.body.style.overflow='hidden'; }
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
   window.openModal = openModal; window.closeModal = closeModal;
 
+  /* Wire all waitlist buttons */
+  ['btnWaitlistHdr','btnWaitlistHero','btnWaitlistCard'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', openModal);
+  });
+
+  /* Waitlist submit -> your working backend, fallback to Formspree */
   (function(){
     const form = document.getElementById('wl-form');
     const msg  = document.getElementById('msg');
@@ -571,7 +586,8 @@
 
       try{
         const res = await fetch('/api/waitlist', {
-          method:'POST', headers:{'Content-Type':'application/json'},
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
           body:JSON.stringify(data)
         });
         const out = await res.json().catch(()=>({}));
@@ -580,7 +596,9 @@
 
       try{
         const fs = await fetch('https://formspree.io/f/mrbywgpw', {
-          method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form)
+          method:'POST',
+          headers:{'Accept':'application/json'},
+          body:new FormData(form)
         });
         if(fs.ok){ showOK(); return; }
         msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
@@ -590,12 +608,11 @@
     });
   })();
 
-  /* ===== Fit numbers into boxes (prevents overflow/clipping) ===== */
+  /* Fit numbers into cards (prevents overflow/clipping) */
   (function(){
     function fitText(el, {min=16, max=26, step=0.5}={}){
       if(!el) return;
       el.style.fontSize = max + 'px';
-      // shrink until it fits
       while (el.scrollWidth > el.clientWidth && max > min){
         max -= step;
         el.style.fontSize = max + 'px';
@@ -604,26 +621,22 @@
     const run = ()=> document.querySelectorAll('[data-fit]').forEach(el=>fitText(el));
     window.addEventListener('load', run, {once:true});
     window.addEventListener('resize', ()=>{
-      // reset then refit on resize
       document.querySelectorAll('[data-fit]').forEach(el=>{ el.style.fontSize=''; });
       run();
     });
   })();
 
-  <!-- PWA SW registration — temporarily disabled to prevent redirect/cache loops -->
-<script>
+  /* PWA SW registration — temporarily disabled to prevent redirect/cache loops */
   // One-time cleanup: unregister any previously installed service workers.
   if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
     navigator.serviceWorker.getRegistrations().then(regs => {
       regs.forEach(r => r.unregister());
-      // Optional: clear caches created by old SWs
       if (window.caches && caches.keys) {
         caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
       }
     }).catch(() => {});
   }
-
-  // To re-enable later, restore the original register() block here.
+  // To re-enable later, restore your original register() block:
   // navigator.serviceWorker.register('/public/sw.js')
   //   .then(() => console.log('✅ Service Worker registered'))
   //   .catch(err => console.error('❌ SW registration failed:', err));
