@@ -1,6 +1,7 @@
 {
-  "functions": { "api/**/*.js": { "runtime": "nodejs18.x" } },
+  "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
-    { "source": "https://lockhabit.com/:path*", "destination": "https://www.lockhabit.com/:path*", "permanent": false }
+    { "source": "/demo", "destination": "/demo.html", "permanent": false }
   ]
 }
