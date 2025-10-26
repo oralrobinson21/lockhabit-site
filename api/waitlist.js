@@ -1,31 +1,34 @@
-// /api/waitlist.js  (ESM)
+// api/waitlist.js
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
-  try {
-    if (req.method !== 'POST') {
-      return res.status(405).json({ error: 'Method not allowed' });
-    }
+  // CORS for local tests (optional)
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(204).end();
+  }
 
-    // Vercel parses JSON automatically when header is set
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    // Vercel parses JSON automatically if header is application/json
     const { email, name = '', term = '' } = req.body || {};
-    if (!email) {
-      return res.status(400).json({ error: 'Missing email' });
-    }
+    if (!email) return res.status(400).json({ error: 'Missing email' });
 
     const from = process.env.RESEND_FROM; // e.g. 'LockHabit <noreply@send.lockhabit.com>'
-    if (!from) {
-      console.error('Missing RESEND_FROM env var');
-      return res.status(500).json({ error: 'Server misconfiguration' });
-    }
+    if (!from) return res.status(500).json({ error: 'Server misconfiguration (RESEND_FROM missing)' });
 
     const html = `
       <h2>Welcome${name ? `, ${name}` : ''}!</h2>
       <p>You’re officially on the LockHabit waitlist.</p>
       ${term ? `<p>Your selected term: <strong>${term}</strong></p>` : ''}
-      <p>We’ll notify you when early access opens. Stay disciplined.</p>
+      <p>We’ll notify you when early access opens.</p>
     `;
 
     const result = await resend.emails.send({
@@ -35,7 +38,6 @@ export default async function handler(req, res) {
       html
     });
 
-    // surface provider errors if any
     if (result?.error) {
       console.error('Resend error:', result.error);
       return res.status(502).json({ error: 'Email provider rejected the request' });
