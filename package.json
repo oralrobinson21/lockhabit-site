@@ -1,9 +1,13 @@
 {
   "name": "lockhabit-site",
   "version": "1.0.0",
-  "private": true,
   "type": "module",
+  "private": true,
   "scripts": {
+    "dev": "vercel dev",
     "start": "vercel dev"
+  },
+  "dependencies": {
+    "resend": "^3.3.0"
   }
 }
