@@ -4,17 +4,18 @@
   <!-- =========================================================
        LockHabit — Salary & Take-Home Pay Calculator (2025 est.)
        Clean layout (Tesla/Apple vibe) • Accordions • Tier APRs
+       HYSA comparison (user APR variable)
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>Salary & Take-Home Pay Calculator (2025 est.) | LockHabit</title>
-  <meta name="description" content="Estimate 2025 take-home pay, add monthly expenses, and build a LockHabit plan. Tiered APRs by term with compounding. Send your plan to the live demo."/>
+  <meta name="description" content="Estimate 2025 take-home pay, add monthly expenses, and build a LockHabit plan with tiered APRs and compounding. Compare vs a high-interest savings account you choose."/>
   <link rel="canonical" href="https://lockhabit.com/calculator.html"/>
 
   <!-- Social -->
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Salary & Take-Home Pay Calculator (2025 est.) — LockHabit"/>
-  <meta property="og:description" content="Clean, fast, and accurate estimates with tiered APRs and compounding. Send your plan to the LockHabit demo."/>
+  <meta property="og:description" content="Clean, fast, accurate estimates with tiered APRs and compounding. Includes a high-interest savings comparison."/>
   <meta property="og:url" content="https://lockhabit.com/calculator.html"/>
   <meta property="og:image" content="https://lockhabit.com/assets/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
@@ -119,7 +120,7 @@
       <nav class="row" style="gap:8px">
         <a href="/index.html">Home</a>
         <a aria-current="page" class="word" style="font-weight:700;font-size:16px;color:#1f2b45">Calculator</a>
-        <a href="/demo.html">Demo</a>
+        <!-- Demo link removed -->
       </nav>
     </div>
   </header>
@@ -128,7 +129,7 @@
   <section class="hero">
     <div class="wrap">
       <h1>Salary & Take-Home Pay Calculator (2025 est.)</h1>
-      <p class="sub">Start with your income and state, add expenses if you want, then build a LockHabit plan with tiered APRs and compounding. Send it to the live demo in one click.</p>
+      <p class="sub">Start with your income and state, add expenses if you want, then build a LockHabit plan with tiered APRs and compounding. Compare it to a high-interest savings account you choose.</p>
     </div>
   </section>
 
@@ -274,10 +275,25 @@
           </div>
         </div>
 
+        <!-- HYSA input -->
+        <h2 style="margin:14px 0 8px">Compare to High-Interest Account</h2>
+        <div class="two">
+          <div>
+            <label class="k">High-interest account APR (%)</label>
+            <input id="hysaApr" type="number" min="0" max="15" step="0.1" value="4.5"/>
+          </div>
+          <div>
+            <label class="k">Compounding</label>
+            <select id="hysaComp">
+              <option value="monthly" selected>Monthly</option>
+              <option value="daily">Daily (approx.)</option>
+            </select>
+          </div>
+        </div>
+
         <div class="actions">
           <button id="recalc" class="btn">Recalculate</button>
-          <button id="sendDemo" class="btn acc">Open Live Demo with this plan</button>
-          <a href="/demo.html" class="btn ghost">Open Demo</a>
+          <a href="/index.html#waitlist" class="btn acc">Join waitlist</a>
         </div>
 
         <p class="note" style="margin-top:10px">
@@ -346,8 +362,9 @@
           <div class="note" style="margin-top:6px">We suggest ~20–30% of your leftover each month to start. Adjust to your comfort.</div>
         </div>
 
+        <!-- LockHabit projection -->
         <div class="panel" style="margin-top:10px">
-          <div class="k">End-of-lock projection (compounding)</div>
+          <div class="k">LockHabit projection (compounding)</div>
           <table class="table">
             <tbody>
               <tr><td>APR used</td><td id="aprUsed">3.00%</td></tr>
@@ -357,16 +374,26 @@
           </table>
         </div>
 
+        <!-- HYSA comparison -->
         <div class="panel" style="margin-top:10px">
-          <div class="k">What we’ll send to the Demo</div>
+          <div class="k">High-Interest Account projection</div>
           <table class="table">
             <tbody>
-              <tr><td>Initial deposit</td><td id="p_init">$0</td></tr>
-              <tr><td>Recurring deposit</td><td id="p_rec">$0</td></tr>
-              <tr><td>Contribution frequency</td><td id="p_freq">Bi-weekly</td></tr>
-              <tr><td>Lock term</td><td id="p_term">12 months</td></tr>
-              <tr><td>Mode</td><td id="p_mode">Safe (3% APR)</td></tr>
-              <tr><td>Loan LTV (demo)</td><td id="p_ltv">75% of vested</td></tr>
+              <tr><td>APR used</td><td id="hysaAprUsed">4.50%</td></tr>
+              <tr><td>Projected interest</td><td id="hysaInterest">$0</td></tr>
+              <tr><td><b>Projected balance @ same months</b></td><td id="hysaBalance" style="font-weight:800">$0</td></tr>
+            </tbody>
+          </table>
+          <div class="note" style="margin-top:6px">Assumes same initial + recurring contributions and compounding chosen above.</div>
+        </div>
+
+        <!-- Delta -->
+        <div class="panel" style="margin-top:10px">
+          <div class="k">Difference (LockHabit − High-Interest)</div>
+          <table class="table">
+            <tbody>
+              <tr><td>Interest delta</td><td id="deltaInt">$0</td></tr>
+              <tr><td><b>Balance delta</b></td><td id="deltaBal" style="font-weight:800">$0</td></tr>
             </tbody>
           </table>
         </div>
@@ -383,7 +410,6 @@
 
   <script>
     // ===== Constants (2025 ESTIMATES) =====
-    // State effective rates (planning grade). Dropdown shows NAME ONLY.
     const STATE_EFFECTIVE_RATES = {
       "AL":3.5,"AK":0,"AZ":2.5,"AR":4.0,"CA":6.0,"CO":4.5,"CT":5.0,"DC":6.0,"DE":4.5,
       "FL":0,"GA":4.0,"HI":6.0,"ID":4.7,"IL":4.7,"IN":3.0,"IA":4.2,"KS":4.2,"KY":4.0,
@@ -393,7 +419,6 @@
       "VT":4.8,"VA":4.5,"WA":0,"WV":4.0,"WI":4.0,"WY":0
     };
 
-    // 2025 federal (est.): standard deduction + bracket caps (Single/Married)
     const FED_2025 = {
       std: { single: 15300, married: 30600 }, // est.
       single: [
@@ -406,12 +431,11 @@
       ]
     };
 
-    // Payroll taxes (employee) — 2025 est.
     const SS_WAGEBASE_2025 = 174200;
     const SS_RATE = 0.062;
     const MEDICARE_RATE = 0.0145;
 
-    // APR tiers
+    // APR tiers (LockHabit)
     const APR_TIERS = [
       { min: 1,  apr: 0.020 },   // 1–5m → 2.0%
       { min: 6,  apr: 0.025 },   // 6–11m → 2.5%
@@ -422,7 +446,6 @@
     // ===== Utilities =====
     const $ = (id)=>document.getElementById(id);
     const fmt = (n)=> (isFinite(n)? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-    const pctFmt = (p)=> (p*100).toFixed(2)+'%';
 
     // Live year
     $('yr').textContent = new Date().getFullYear();
@@ -436,6 +459,9 @@
     const lockFreq = $('lockFreq'), initDeposit = $('initDeposit'), recDeposit = $('recDeposit'), lockTerm = $('lockTerm');
     const customTermRow = $('customTermRow'), customMonths = $('customMonths'), aprMode = $('aprMode');
 
+    // HYSA inputs
+    const hysaApr = $('hysaApr'), hysaComp = $('hysaComp');
+
     // Outputs
     const outGross = $('outGross'), outPretax = $('outPretax'), outFed = $('outFed'), outState = $('outState'),
           outFica = $('outFica'), outNet = $('outNet'),
@@ -444,7 +470,8 @@
 
     const aprUsed = $('aprUsed'), projInterest = $('projInterest'), projBalance = $('projBalance');
 
-    const p_init = $('p_init'), p_rec = $('p_rec'), p_freq = $('p_freq'), p_term = $('p_term'), p_mode = $('p_mode'), p_ltv = $('p_ltv');
+    const hAprUsed = $('hysaAprUsed'), hInt = $('hysaInterest'), hBal = $('hysaBalance');
+    const dInt = $('deltaInt'), dBal = $('deltaBal');
 
     // ===== Build State dropdown (names only) =====
     (function buildStateSelect(){
@@ -514,7 +541,7 @@
       return a;
     }
 
-    // FV (monthly compounding)
+    // FV (monthly compounding baseline)
     function projectedBalance(init, recurring, freq, months, apr){
       const r = apr/12;
       const n = Math.max(0, Math.floor(months));
@@ -526,6 +553,30 @@
       const balance = fvLump + fvSeries;
       const totalContrib = init + pmtPerMonth * n;
       return { balance, interest: Math.max(0, balance - totalContrib), apr };
+    }
+
+    // FV for HYSA (monthly or daily approx comp)
+    function projectedHYSA(init, recurring, freq, months, apr, comp){
+      const n = Math.max(0, Math.floor(months));
+      const pmtPerMonth = (freq==='weekly') ? recurring*(52/12)
+                         : (freq==='biweekly') ? recurring*(26/12)
+                         : recurring;
+      if(comp === 'daily'){
+        const r = apr/365;
+        const days = Math.round(n * 30.4375);
+        // Approx: treat contributions as monthly still, but grow each month chunk by daily rate for remaining days.
+        // Start with lump:
+        let balance = init * Math.pow(1+r, days);
+        for(let m=1; m<=n; m++){
+          // contribution at end of month m: grows for (days - m*~30.44)
+          const remDays = Math.max(0, Math.round(days - m*30.4375));
+          balance += pmtPerMonth * Math.pow(1+r, remDays);
+        }
+        const totalContrib = init + pmtPerMonth * n;
+        return { balance, interest: Math.max(0, balance - totalContrib), apr };
+      }
+      // monthly comp (default)
+      return projectedBalance(init, recurring, 'monthly', months, apr);
     }
 
     // ===== Recalc =====
@@ -560,7 +611,7 @@
       const pct = Math.max(0, Math.min(100, (suggested/(leftoverMonthly||1))*100));
       safeFill.style.width = pct.toFixed(0) + '%';
 
-      // 6) Projection
+      // 6) Projection — LockHabit
       const baseMonths = (lockTerm.value === 'custom') ? Math.max(1, Number(customMonths.value||12))
                                                        : Number(lockTerm.value||12);
       const mode = (lockTerm.value === 'custom') ? aprMode.value : 'auto';
@@ -569,7 +620,12 @@
       const pmt = Math.max(0, Number(recDeposit.value||0));
       const proj = projectedBalance(pv, pmt, lockFreq.value, baseMonths, apr);
 
-      // 7) Reflect
+      // 7) Projection — HYSA
+      const hApr = Math.max(0, Number(hysaApr.value||0))/100;
+      const hComp = hysaComp.value; // 'monthly'|'daily'
+      const h = projectedHYSA(pv, pmt, lockFreq.value, baseMonths, hApr, hComp);
+
+      // 8) Reflect
       outGross.textContent = fmt(gross);
       outPretax.textContent = fmt(preTax);
       outFed.textContent = fmt(fed);
@@ -588,14 +644,12 @@
       projInterest.textContent = fmt(proj.interest);
       projBalance.textContent = fmt(proj.balance);
 
-      p_init.textContent = fmt(pv);
-      p_rec.textContent = fmt(pmt);
-      p_freq.textContent = {weekly:'Weekly',biweekly:'Bi-weekly',monthly:'Monthly'}[lockFreq.value] || 'Bi-weekly';
-      p_term.textContent = `${baseMonths} months`;
-      p_mode.textContent = (mode==='fixed') ? 'Safe (fixed 3% APR)' : 'Safe (auto tiers)';
-      p_ltv.textContent = '75% of vested';
+      hAprUsed.textContent = (hApr*100).toFixed(2) + '%';
+      hInt.textContent = fmt(h.interest);
+      hBal.textContent = fmt(h.balance);
 
-      return { gross, netAnnual, proj };
+      dInt.textContent = fmt(proj.interest - h.interest);
+      dBal.textContent = fmt(proj.balance - h.balance);
     }
 
     // Show/hide custom months
@@ -605,33 +659,25 @@
     lockTerm.addEventListener('change', ()=>{ handleTermUI(); recalc(); });
     customMonths.addEventListener('input', recalc);
     aprMode.addEventListener('change', recalc);
-    handleTermUI();
 
-    // Wire up changes
-    [freq,income,status,stateSel,stateRate,useCustomState,pretaxPct,exempt,eH,eU,eD,eO,lockFreq,initDeposit,recDeposit,lockTerm,customMonths,aprMode]
-      .forEach(el => el.addEventListener('input', recalc));
+    // Wire up changes (including HYSA)
+    const inputs = [
+      freq,income,status,stateSel,stateRate,useCustomState,pretaxPct,exempt,
+      eH,eU,eD,eO,
+      lockFreq,initDeposit,recDeposit,lockTerm,customMonths,aprMode,
+      hysaApr,hysaComp
+    ];
+    inputs.forEach(el => el.addEventListener('input', recalc));
     $('recalc').addEventListener('click', recalc);
-
-    // Send to Demo
-    $('sendDemo').addEventListener('click', ()=>{
-      const init = Math.max(0, Number(initDeposit.value||0));
-      const save = Math.max(0, Number(recDeposit.value||0));
-      const lf = lockFreq.value;
-      const term = (lockTerm.value === 'custom') ? Math.max(1, Number(customMonths.value||12))
-                                                 : Number(lockTerm.value||12);
-      const mode = 'safe';
-      const params = new URLSearchParams({ init:String(init), save:String(save), freq:lf, term:String(term), mode });
-      localStorage.setItem('lh_plan', JSON.stringify({ init, save, freq: lf, term, mode }));
-      window.location.href = '/demo.html?' + params.toString();
-    });
 
     // Initialize state rate and calc
     function initStateRate(){ stateRate.value = String(STATE_EFFECTIVE_RATES[stateSel.value] ?? 4); }
     stateSel.addEventListener('change', ()=>{ if(!useCustomState.checked) initStateRate(); recalc(); });
     initStateRate();
+    handleTermUI();
     recalc();
 
-    // Deep-link: ?freq=biweekly&income=1800&state=CA&pretax=5&months=18
+    // Deep-link params (no demo references)
     (function readParams(){
       const q = new URLSearchParams(location.search);
       if(q.has('freq')) freq.value = q.get('freq');
@@ -645,6 +691,8 @@
         handleTermUI();
         customMonths.value = q.get('months');
       }
+      if(q.has('hysa')) hysaApr.value = q.get('hysa');
+      if(q.has('hcomp')) hysaComp.value = q.get('hcomp');
       recalc();
     })();
   </script>
