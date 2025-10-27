@@ -3,8 +3,7 @@
 <head>
   <!-- =========================================================
        LockHabit — Salary & Take-Home Pay Calculator (2025 est.)
-       Clean layout (Tesla/Apple vibe) • Accordions • Tier APRs
-       HYSA comparison (user APR variable)
+       Clean layout • Tesla-like minimal • Accordions • Fixed inputs
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
@@ -26,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
-  <!-- Icons/PWA -->
+  <!-- Icons/PWA (paths may differ in your repo; safe to leave as-is) -->
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/assets/icon-192.png">
@@ -50,11 +49,12 @@
          font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
 
     /* Header */
-    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);
-           backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    header.hdr{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
+           backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transition:box-shadow .2s ease}
+    header.hdr.small{box-shadow:0 6px 18px rgba(17,24,39,.08)}
     .wrap{max-width:1100px;margin:0 auto;padding:14px 22px}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;cursor:pointer}
     .logo{width:32px;height:32px}
     .word{font-weight:800;color:#0e1a34}
     nav a{color:#19253f;text-decoration:none;font-weight:600;margin-left:14px}
@@ -70,8 +70,14 @@
     .k{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#5b6a86;font-weight:700}
     .v{font-weight:800;color:#0f1a34}
     label.k{display:block;margin:8px 0 6px}
-    input,select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px;background:#fff}
-    input[type="checkbox"]{width:auto}
+
+    /* Unified controls (fixes height alignment) */
+    .ctrl{width:100%;height:44px;padding:10px 12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px;background:#fff;line-height:22px;appearance:none;-webkit-appearance:none;-moz-appearance:none}
+    .ctrl[type="number"]{-moz-appearance:textfield}
+    .ctrl::-webkit-outer-spin-button,.ctrl::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+    .select-wrap{position:relative}
+    .select-wrap:after{content:"";position:absolute;right:12px;top:50%;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #7a869e;transform:translateY(-50%)}
+
     .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
     .note{font-size:12px;color:#60708c}
@@ -84,12 +90,11 @@
     .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
 
     /* Accordions */
-    details.acc{border:1px solid var(--line);border-radius:14px;background:#fff;padding:0}
-    details.acc+details.acc{margin-top:10px}
-    details.acc>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;color:#0f1a34}
+    details.acc{border:1px solid var(--line);border-radius:14px;background:#fff;margin-top:10px;overflow:hidden}
+    details.acc>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;color:#101828;display:flex;align-items:center;justify-content:space-between;gap:10px}
     details.acc>summary::-webkit-details-marker{display:none}
-    details.acc[open] .acc-body{padding-top:0}
     .acc-body{padding:0 16px 16px}
+    .hint{color:#5d6a86;font-weight:600;font-size:13px}
 
     /* Grid layout */
     .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px}
@@ -105,9 +110,9 @@
 </head>
 <body>
   <!-- Header -->
-  <header>
+  <header class="hdr" id="hdr">
     <div class="wrap row">
-      <div class="brand">
+      <div class="brand" id="brandTop" title="Back to top">
         <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
           <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
           <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
@@ -120,7 +125,6 @@
       <nav class="row" style="gap:8px">
         <a href="/index.html">Home</a>
         <a aria-current="page" class="word" style="font-weight:700;font-size:16px;color:#1f2b45">Calculator</a>
-        <!-- Demo link removed -->
       </nav>
     </div>
   </header>
@@ -144,30 +148,34 @@
         <div class="two">
           <div>
             <label class="k">Pay frequency</label>
-            <select id="freq">
-              <option value="weekly">Weekly</option>
-              <option value="biweekly" selected>Bi-weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="annual">Annual</option>
-            </select>
+            <div class="select-wrap">
+              <select id="freq" class="ctrl">
+                <option value="weekly">Weekly</option>
+                <option value="biweekly" selected>Bi-weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="annual">Annual</option>
+              </select>
+            </div>
           </div>
           <div>
             <label class="k">Income (gross)</label>
-            <input id="income" type="number" min="0" value="2000" inputmode="decimal"/>
+            <input id="income" class="ctrl" type="number" min="0" value="2000" inputmode="decimal"/>
           </div>
         </div>
 
         <div class="two" style="margin-top:8px">
           <div>
             <label class="k">Filing status</label>
-            <select id="status">
-              <option value="single" selected>Single</option>
-              <option value="married">Married filing jointly</option>
-            </select>
+            <div class="select-wrap">
+              <select id="status" class="ctrl">
+                <option value="single" selected>Single</option>
+                <option value="married">Married filing jointly</option>
+              </select>
+            </div>
           </div>
           <div>
             <label class="k">State</label>
-            <select id="state"></select>
+            <div class="select-wrap"><select id="state" class="ctrl"></select></div>
           </div>
         </div>
 
@@ -178,7 +186,7 @@
             <div class="two" style="margin-top:6px">
               <div>
                 <label class="k">Pre-tax contribution % (401k/HSA)</label>
-                <input id="pretaxPct" type="number" min="0" max="50" step="0.5" value="0"/>
+                <input id="pretaxPct" class="ctrl" type="number" min="0" max="50" step="0.5" value="0"/>
               </div>
               <div class="two" style="gap:8px;align-items:center">
                 <div style="display:flex;align-items:center;gap:8px;margin-top:22px">
@@ -187,7 +195,7 @@
                 </div>
                 <div>
                   <label class="k">Custom state tax %</label>
-                  <input id="stateRate" type="number" min="0" max="20" step="0.1" value="4" disabled/>
+                  <input id="stateRate" class="ctrl" type="number" min="0" max="20" step="0.1" value="4" disabled/>
                 </div>
               </div>
             </div>
@@ -204,21 +212,21 @@
             <div class="three" style="margin-top:6px">
               <div>
                 <label class="k">Housing (rent/mortgage)</label>
-                <input id="expHousing" type="number" min="0" value="1200"/>
+                <input id="expHousing" class="ctrl" type="number" min="0" value="1200"/>
               </div>
               <div>
                 <label class="k">Utilities & phone</label>
-                <input id="expUtils" type="number" min="0" value="250"/>
+                <input id="expUtils" class="ctrl" type="number" min="0" value="250"/>
               </div>
               <div>
                 <label class="k">Debt payments</label>
-                <input id="expDebt" type="number" min="0" value="300"/>
+                <input id="expDebt" class="ctrl" type="number" min="0" value="300"/>
               </div>
             </div>
             <div class="two" style="margin-top:8px">
               <div>
                 <label class="k">Other essentials</label>
-                <input id="expOther" type="number" min="0" value="350"/>
+                <input id="expOther" class="ctrl" type="number" min="0" value="350"/>
               </div>
               <div style="display:flex;align-items:flex-end">
                 <span class="note">Tip: Start with 20–30% of your leftover each month as your recurring deposit.</span>
@@ -227,78 +235,92 @@
           </div>
         </details>
 
-        <!-- LockHabit Plan -->
-        <h2 style="margin:14px 0 8px">Your LockHabit plan</h2>
-        <div class="two">
-          <div>
-            <label class="k">Contribution frequency</label>
-            <select id="lockFreq">
-              <option value="weekly">Weekly</option>
-              <option value="biweekly" selected>Bi-weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
-          </div>
-          <div>
-            <label class="k">Initial deposit</label>
-            <input id="initDeposit" type="number" min="0" value="0"/>
-          </div>
-        </div>
+        <!-- Your LockHabit plan (accordion) -->
+        <details class="acc" id="lhPlanAcc" open>
+          <summary>Your LockHabit plan <span class="hint" id="planHint"></span></summary>
+          <div class="acc-body">
+            <div class="two">
+              <div>
+                <label class="k">Contribution frequency</label>
+                <div class="select-wrap">
+                  <select id="lockFreq" class="ctrl">
+                    <option value="weekly">Weekly</option>
+                    <option value="biweekly" selected>Bi-weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="k">Initial deposit</label>
+                <input id="initDeposit" class="ctrl" type="number" min="0" value="0"/>
+              </div>
+            </div>
 
-        <div class="two" style="margin-top:8px">
-          <div>
-            <label class="k">Recurring deposit</label>
-            <input id="recDeposit" type="number" min="0" value="200"/>
-          </div>
-          <div>
-            <label class="k">Lock term (APR)</label>
-            <select id="lockTerm">
-              <option value="3">3 months (2.0%)</option>
-              <option value="6">6 months (2.5%)</option>
-              <option value="12" selected>12 months (3.0%)</option>
-              <option value="24">24+ months (3.5%)</option>
-              <option value="custom">Custom…</option>
-            </select>
-          </div>
-        </div>
+            <div class="two" style="margin-top:8px">
+              <div>
+                <label class="k">Recurring deposit</label>
+                <input id="recDeposit" class="ctrl" type="number" min="0" value="200"/>
+              </div>
+              <div>
+                <label class="k">Lock term (APR)</label>
+                <div class="select-wrap">
+                  <select id="lockTerm" class="ctrl">
+                    <option value="3">3 months (2.0%)</option>
+                    <option value="6">6 months (2.5%)</option>
+                    <option value="12" selected>12 months (3.0%)</option>
+                    <option value="24">24+ months (3.5%)</option>
+                    <option value="custom">Custom…</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
-        <div class="two" id="customTermRow" style="margin-top:8px; display:none">
-          <div>
-            <label class="k">Custom months (1–120)</label>
-            <input id="customMonths" type="number" min="1" max="120" step="1" value="18"/>
+            <div class="two" id="customTermRow" style="margin-top:8px; display:none">
+              <div>
+                <label class="k">Custom months (1–120)</label>
+                <input id="customMonths" class="ctrl" type="number" min="1" max="120" step="1" value="18"/>
+              </div>
+              <div>
+                <label class="k">APR mode</label>
+                <div class="select-wrap">
+                  <select id="aprMode" class="ctrl">
+                    <option value="auto" selected>Auto (term tiers)</option>
+                    <option value="fixed">Fixed 3% APR</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <label class="k">APR mode</label>
-            <select id="aprMode">
-              <option value="auto" selected>Auto (term tiers)</option>
-              <option value="fixed">Fixed 3% APR</option>
-            </select>
-          </div>
-        </div>
+        </details>
 
-        <!-- HYSA input -->
-        <h2 style="margin:14px 0 8px">Compare to High-Interest Account</h2>
-        <div class="two">
-          <div>
-            <label class="k">High-interest account APR (%)</label>
-            <input id="hysaApr" type="number" min="0" max="15" step="0.1" value="4.5"/>
+        <!-- HYSA input (accordion) -->
+        <details class="acc" id="hysaAcc">
+          <summary>Compare to high-interest account <span class="hint" id="hysaHint"></span></summary>
+          <div class="acc-body">
+            <div class="two">
+              <div>
+                <label class="k">High-interest account APR (%)</label>
+                <input id="hysaApr" class="ctrl" type="number" min="0" max="15" step="0.1" value="4.5"/>
+              </div>
+              <div>
+                <label class="k">Compounding</label>
+                <div class="select-wrap">
+                  <select id="hysaComp" class="ctrl">
+                    <option value="monthly" selected>Monthly</option>
+                    <option value="daily">Daily (approx.)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="actions">
+              <button id="recalc" class="btn">Recalculate</button>
+              <button id="ctaWaitlist" class="btn acc" type="button">Join waitlist</button>
+            </div>
+            <p class="note" style="margin-top:10px">
+              2025 taxes are estimates. State rates are simplified effective rates by state; your actual withholding may differ (W-4, credits, local taxes, benefits).
+            </p>
           </div>
-          <div>
-            <label class="k">Compounding</label>
-            <select id="hysaComp">
-              <option value="monthly" selected>Monthly</option>
-              <option value="daily">Daily (approx.)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button id="recalc" class="btn">Recalculate</button>
-          <a href="/index.html#waitlist" class="btn acc">Join waitlist</a>
-        </div>
-
-        <p class="note" style="margin-top:10px">
-          2025 taxes are estimates. State rates are simplified effective rates by state; your actual withholding may differ (W-4, credits, local taxes, benefits).
-        </p>
+        </details>
       </section>
 
       <!-- RIGHT: Output -->
@@ -362,17 +384,19 @@
           <div class="note" style="margin-top:6px">We suggest ~20–30% of your leftover each month to start. Adjust to your comfort.</div>
         </div>
 
-        <!-- LockHabit projection -->
-        <div class="panel" style="margin-top:10px">
-          <div class="k">LockHabit projection (compounding)</div>
-          <table class="table">
-            <tbody>
-              <tr><td>APR used</td><td id="aprUsed">3.00%</td></tr>
-              <tr><td>Projected interest</td><td id="projInterest">$0</td></tr>
-              <tr><td><b>Projected balance @ maturity</b></td><td id="projBalance" style="font-weight:800">$0</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <!-- LockHabit projection (accordion) -->
+        <details class="acc" id="projAcc" style="margin-top:10px" open>
+          <summary>LockHabit projection (compounding) <span class="hint" id="projHint"></span></summary>
+          <div class="acc-body">
+            <table class="table">
+              <tbody>
+                <tr><td>APR used</td><td id="aprUsed">3.00%</td></tr>
+                <tr><td>Projected interest</td><td id="projInterest">$0</td></tr>
+                <tr><td><b>Projected balance @ maturity</b></td><td id="projBalance" style="font-weight:800">$0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
 
         <!-- HYSA comparison -->
         <div class="panel" style="margin-top:10px">
@@ -447,8 +471,13 @@
     const $ = (id)=>document.getElementById(id);
     const fmt = (n)=> (isFinite(n)? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
 
-    // Live year
+    // Live year + header compact + tap-to-top
     $('yr').textContent = new Date().getFullYear();
+    (function(){
+      const hdr=$('hdr'), brand=$('brandTop');
+      window.addEventListener('scroll', ()=> hdr.classList.toggle('small', window.scrollY>2), {passive:true});
+      brand?.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+    })();
 
     // Inputs
     const freq = $('freq'), income = $('income'), status = $('status');
@@ -472,6 +501,9 @@
 
     const hAprUsed = $('hysaAprUsed'), hInt = $('hysaInterest'), hBal = $('hysaBalance');
     const dInt = $('deltaInt'), dBal = $('deltaBal');
+
+    // Hints on accordion headers
+    const planHint=$('planHint'), hysaHint=$('hysaHint'), projHint=$('projHint');
 
     // ===== Build State dropdown (names only) =====
     (function buildStateSelect(){
@@ -564,18 +596,14 @@
       if(comp === 'daily'){
         const r = apr/365;
         const days = Math.round(n * 30.4375);
-        // Approx: treat contributions as monthly still, but grow each month chunk by daily rate for remaining days.
-        // Start with lump:
         let balance = init * Math.pow(1+r, days);
         for(let m=1; m<=n; m++){
-          // contribution at end of month m: grows for (days - m*~30.44)
           const remDays = Math.max(0, Math.round(days - m*30.4375));
           balance += pmtPerMonth * Math.pow(1+r, remDays);
         }
         const totalContrib = init + pmtPerMonth * n;
         return { balance, interest: Math.max(0, balance - totalContrib), apr };
       }
-      // monthly comp (default)
       return projectedBalance(init, recurring, 'monthly', months, apr);
     }
 
@@ -650,6 +678,11 @@
 
       dInt.textContent = fmt(proj.interest - h.interest);
       dBal.textContent = fmt(proj.balance - h.balance);
+
+      // Hints in accordion headers
+      planHint.textContent = `${baseMonths} mo • ${(apr*100).toFixed(2)}% • ${lockFreq.value.replace('biweekly','bi-weekly')}`;
+      hysaHint.textContent = `${(hApr*100).toFixed(2)}% • ${hComp}`;
+      projHint.textContent = `${(apr*100).toFixed(2)}% • ${fmt(proj.balance)}`;
     }
 
     // Show/hide custom months
@@ -668,7 +701,7 @@
       hysaApr,hysaComp
     ];
     inputs.forEach(el => el.addEventListener('input', recalc));
-    $('recalc').addEventListener('click', recalc);
+    $('recalc').addEventListener('click', (e)=>{ e.preventDefault(); recalc(); });
 
     // Initialize state rate and calc
     function initStateRate(){ stateRate.value = String(STATE_EFFECTIVE_RATES[stateSel.value] ?? 4); }
@@ -677,7 +710,7 @@
     handleTermUI();
     recalc();
 
-    // Deep-link params (no demo references)
+    // Deep-link params
     (function readParams(){
       const q = new URLSearchParams(location.search);
       if(q.has('freq')) freq.value = q.get('freq');
@@ -694,6 +727,16 @@
       if(q.has('hysa')) hysaApr.value = q.get('hysa');
       if(q.has('hcomp')) hysaComp.value = q.get('hcomp');
       recalc();
+    })();
+
+    // Waitlist CTA: open modal if site has it; otherwise go home anchor
+    (function(){
+      const btn = document.getElementById('ctaWaitlist');
+      if(!btn) return;
+      btn.addEventListener('click', ()=>{
+        if(typeof window.openModal === 'function'){ window.openModal(); }
+        else { window.location.href = '/index.html#waitlist'; }
+      });
     })();
   </script>
 </body>
