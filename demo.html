@@ -2,676 +2,436 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Demo (Simulated Account)
-       Reads plan from URL or localStorage('lh_plan')
+       LockHabit — Dashboard (static demo, calculator-integrated)
+       Clean Tesla vibe • Mobile-first • SoFi/Chase style cards
+       Reads plan from localStorage('lh_plan') and/or URL params
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit Demo — Simulated Account</title>
-  <meta name="description" content="Try LockHabit’s simulated account. See your progress build, interest accrue, and what you could borrow (75% of vested). Pre-filled from the calculator or customize here."/>
-  <meta name="theme-color" content="#6f7cff"/>
+  <title>LockHabit — Dashboard (Preview)</title>
+  <meta name="description" content="LockHabit dashboard preview: balances, vaults, emergency line, activity, and insights. Auto-loads from calculator plan."/>
+  <meta name="theme-color" content="#0b0e1a"/>
 
-  <!-- Canonical + Social -->
-  <link rel="canonical" href="https://lockhabit.com/demo.html"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit — Live Demo"/>
-  <meta property="og:description" content="Interactive demo: savings lock with 3% APR (or high-risk sim), progress over time, and 75% vested borrowing."/>
-  <meta property="og:image" content="https://lockhabit.com/assets/og-image.png"/>
-  <meta property="og:url" content="https://lockhabit.com/demo.html"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/public/favicon.ico">
+  <link rel="apple-touch-icon" href="/public/icon-192.png">
+  <link rel="manifest" href="/public/manifest.webmanifest">
 
   <style>
     :root{
-      --brand:#6f7cff; --brand2:#9c78ff; --ink:#0e1630; --muted:#56617a; --line:#e6e9f2;
-      --green:#16a34a; --danger:#b42318; --panel:#ffffff; --bg:#0b0e1a;
-      --grad: radial-gradient(1400px 700px at 50% -200px, rgba(111,124,255,.20), transparent 60%),
-              radial-gradient(1000px 600px at -10% 10%, rgba(156,120,255,.15), transparent 55%),
-              #f8f9ff;
-      --shadow:0 24px 60px rgba(10,15,35,.14);
-      --r:18px;
+      --brand:#6f7cff; --brand2:#9c78ff; --ink:#0b1230; --muted:#5c6b86;
+      --line:#e8ebf4; --panel:#ffffff; --surface:#f7f8ff; --bg:#0b0e1a;
+      --ok:#22c55e; --warn:#f59e0b; --bad:#b42318;
+      --shadow:0 18px 50px rgba(17,24,39,.10); --shadow-deep:0 40px 120px rgba(7,10,18,.45);
+      --radius:16px; --radius-lg:22px;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);
-         font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-    a{color:#1f2c56}
-    .wrap{max-width:1100px;margin:0 auto;padding:16px 20px}
+    html,body{height:100%}
+    body{
+      margin:0; background:#f6f7fb; color:var(--ink);
+      font:15.5px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
 
     /* Header */
-    .header{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);
-      background:rgba(255,255,255,.9);border-bottom:1px solid var(--line)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:30px;height:30px}
-    .word{font-weight:800}
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:40px}
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 12px 30px rgba(111,124,255,.3)}
-    .btn.ghost{background:transparent}
-    .pill{display:inline-flex;gap:8px;align-items:center;border:1px solid #dfe3ff;background:#f3f6ff;border-radius:999px;padding:6px 10px;font-weight:700}
-
-    /* Hero */
-    .hero{background:var(--grad);padding:26px 0;border-bottom:1px solid var(--line)}
-    h1{margin:0 0 6px;font-size:32px}
-    .sub{color:#3a4a66;margin:0}
-
-    /* Cards & layout */
-    .card{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
-    .big{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .balance{font-size:36px;font-weight:800;color:#0e1a34}
-    .muted{color:#5b6a86}
-    .kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:10px}
-    .kpi .box{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fbfcff}
-    .k{font-size:12px;color:#5b6a86;text-transform:uppercase;letter-spacing:.04em}
-    .v{font-weight:800;font-size:20px;color:#0f1a34}
-    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
-    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-    .panel{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
-    .panel h3{margin:0 0 8px}
-
-    /* Controls row */
-    .controls{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
-    .controls .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px}
-    label{font-size:12px;color:#5b6a86;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
-    input,select{width:100%;padding:10px;border:1px solid #dbe0ea;border-radius:10px;font-size:16px}
-    input[type="range"]{padding:0}
-
-    .note{font-size:12px;color:#5b6a86}
-    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
-    .warn{color:#5a1111;background:#ffeceb;border:1px solid #ffd4cf;border-radius:10px;padding:8px 10px;font-weight:700;display:inline-block}
-    .footnote{font-size:12px;color:#60708c;margin-top:10px}
-
-    /* Modal */
-    .overlay{position:fixed;inset:0;background:rgba(10,14,30,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:60}
-    .modal{width:min(620px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-    .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
-    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-
-    footer{margin:20px 0;color:#cbd5e1;font-size:12px;text-align:center}
-
-    /* Responsive */
-    @media (max-width:1000px){
-      .kpi{grid-template-columns:1fr 1fr}
-      .controls{grid-template-columns:1fr 1fr 1fr}
+    .hdr{
+      position:sticky; top:0; z-index:60; background:rgba(255,255,255,.92);
+      backdrop-filter:saturate(1.2) blur(10px); border-bottom:1px solid var(--line);
     }
-    @media (max-width:640px){
-      .kpi{grid-template-columns:1fr}
-      .controls{grid-template-columns:1fr}
+    .wrap{max-width:1180px; margin:0 auto; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none}
+    .logo{width:28px; height:28px; flex:none}
+    .word{font-weight:800; font-size:18px; color:#0e1a34}
+    .nav{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .nav a{color:#19253f; text-decoration:none; font-weight:600}
+    .btn{
+      appearance:none; border:1px solid var(--line); background:#fff; color:#0f1a34;
+      padding:10px 14px; border-radius:12px; font-weight:800; cursor:pointer;
+      min-height:40px; -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+    }
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff; border-color:transparent; box-shadow:0 10px 26px rgba(111,124,255,.25)}
+    .btn.ghost{background:transparent}
+
+    /* Preview banner */
+    .banner{
+      background:#0e1330; color:#e7ebff; border-bottom:1px solid #1a2140;
+      font-size:13px;
+    }
+    .banner .wrap{justify-content:center}
+    .badge{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); font-weight:700}
+
+    /* Page layout */
+    .page{max-width:1180px; margin:0 auto; padding:16px}
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width:960px){
+      .grid{
+        grid-template-columns: 1.25fr .75fr;
+      }
+    }
+
+    /* Cards */
+    .card{
+      background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px; box-shadow:var(--shadow);
+    }
+    .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .k{font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); font-weight:800}
+    .v{font-weight:800; font-size:26px; color:#0b1230}
+    .mini{font-size:12.5px; color:#60708c}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#f1f4ff; border:1px solid #e3e7ff; color:#3a4a66; font-weight:700}
+    .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+
+    /* Summary grid */
+    .summary{display:grid; grid-template-columns:1fr; gap:12px}
+    @media (min-width:680px){ .summary{grid-template-columns:repeat(3,minmax(0,1fr))} }
+
+    .progress{height:10px; background:#eef1f8; border:1px solid #e5e8f1; border-radius:999px; overflow:hidden}
+    .fill{height:100%; width:0; background:linear-gradient(90deg,var(--ok),var(--brand)); transition:width .5s ease}
+
+    /* Sub grids */
+    .cols2{display:grid; grid-template-columns:1fr; gap:12px}
+    @media (min-width:900px){ .cols2{grid-template-columns:1fr 1fr} }
+
+    table{width:100%; border-collapse:collapse}
+    th, td{padding:10px 8px; border-bottom:1px solid #eef1f7; text-align:right; font-size:14px}
+    th:first-child, td:first-child{text-align:left}
+    th{font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:#64718a}
+    .muted{color:#66728c}
+
+    /* Vault list */
+    .vault{display:flex; align-items:center; gap:12px}
+    .pill{border-radius:999px; padding:4px 8px; border:1px solid #e6e9f6; background:#fafbff; font-size:12px; color:#3a4a66; font-weight:700}
+
+    /* Footer */
+    footer{color:#3a4a66; font-size:12px; text-align:center; padding:22px 0}
+    a.clean{color:#19253f; text-decoration:none; font-weight:700}
+
+    /* Toast */
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:18px; background:#0e1330; color:#e7ebff; border:1px solid #1a2140; border-radius:12px;
+      padding:10px 14px; box-shadow:var(--shadow-deep); display:none; z-index:70; font-weight:700
     }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
-  <div class="header">
-    <div class="wrap row">
-      <div class="brand">
+
+  <!-- Sticky header -->
+  <header class="hdr" role="banner">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="Back to home">
         <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
           <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-          <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-          <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-          <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-          <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
         </svg>
-        <div class="word">LockHabit — Demo</div>
-      </div>
-      <div class="row" style="gap:8px">
-        <a class="btn ghost" href="/">← Home</a>
-        <a class="btn" href="/calculator.html">Open calculator</a>
-        <a class="btn" href="#simulate">Jump to demo</a>
-        <button class="btn acc" id="btnWaitlist" type="button">Join waitlist</button>
-      </div>
+        <div class="word">LockHabit</div>
+      </a>
+      <nav class="nav" role="navigation">
+        <a href="/index.html">Home</a>
+        <a href="/calculator.html">Calculator</a>
+        <a class="clean" aria-current="page">Dashboard</a>
+        <button id="importBtn" class="btn">Import from Calculator</button>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <!-- HERO -->
-  <div class="hero">
+  <!-- Preview banner -->
+  <div class="banner" role="note" aria-live="polite">
     <div class="wrap">
-      <h1>Simulated Account</h1>
-      <p class="sub">Pre-filled from your calculator inputs. Adjust anything and watch the progress and interest update in real time. Borrowing power is <b>75% of vested</b> funds.</p>
+      <span class="badge">Preview mode — figures below are simulated from your plan</span>
+    </div>
+  </div>
 
-      <!-- Live balances -->
-      <div class="card" id="simulate">
-        <div class="big">
-          <div>
-            <div class="muted">Total Locked Balance</div>
-            <div class="balance" id="balance">$1,500.00</div>
-            <div class="muted">
-              Lock: <b id="termLabel">12 months</b> • Next deposit: <b id="nextDepAmt">$200</b> in <b id="nextDep">14 days</b>
-            </div>
+  <!-- Main page -->
+  <main class="page">
+    <div class="grid">
+      <!-- LEFT COLUMN -->
+      <section aria-label="Main">
+        <!-- Summary cards -->
+        <div class="summary">
+          <div class="card">
+            <div class="row"><div class="k">Projected balance @ maturity</div><span class="chip" id="aprChip">APR 3.0%</span></div>
+            <div class="v" id="sumBalance">$0</div>
+            <div class="mini" id="sumTerm">12 months • weekly compounding</div>
           </div>
-          <span class="pill" id="modePill">Safe • 3% APR</span>
+          <div class="card">
+            <div class="k">Projected interest</div>
+            <div class="v" id="sumInterest">$0</div>
+            <div class="mini">Based on your plan inputs below</div>
+          </div>
+          <div class="card">
+            <div class="k">Emergency line (available)</div>
+            <div class="v" id="sumLine">$0</div>
+            <div class="mini">Up to <b>80%</b> of vested amount • 0% for 4 months, then 6% APR</div>
+          </div>
         </div>
 
-        <!-- Progress + KPIs -->
-        <div class="panel">
-          <div class="row" style="gap:12px;align-items:center">
+        <!-- Vaults / Goals -->
+        <div class="card" style="margin-top:12px">
+          <div class="row">
+            <div class="k">Vaults</div>
+            <span class="pill" id="vaultCount">1 Active</span>
+          </div>
+          <div class="vault" style="margin-top:10px">
             <div style="flex:1">
-              <div class="muted">Progress toward maturity</div>
-              <div class="bar"><div class="fill" id="pbar" style="width:0%"></div></div>
+              <div class="row" style="align-items:flex-end">
+                <div>
+                  <div style="font-weight:800">Core Lock</div>
+                  <div class="mini" id="vaultLabel">Init $0 • +$0 / bi-weekly • 12 mo</div>
+                </div>
+                <div class="mini" id="vaultPct">Vested 0%</div>
+              </div>
+              <div class="progress" style="margin-top:8px"><div class="fill" id="vaultFill" style="width:0%"></div></div>
             </div>
-            <div class="v" id="pval">0%</div>
-          </div>
-
-          <div class="kpi">
-            <div class="box">
-              <div class="k">Interest Earned So Far</div>
-              <div class="v" id="intSoFar">$0.00</div>
-            </div>
-            <div class="box">
-              <div class="k">Projected Interest @ Maturity</div>
-              <div class="v" id="intProj">$0.00</div>
-            </div>
-            <div class="box">
-              <div class="k">Vested Funds (so far)</div>
-              <div class="v" id="vested">$0.00</div>
-            </div>
-            <div class="box">
-              <div class="k">Loan Eligible (75% of vested)</div>
-              <div class="v" id="loanElig">$0.00</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn acc" id="btnLoan">Request a self-loan</button>
-            <button class="btn" id="btnExtend">Extend term</button>
-            <button class="btn" id="btnCashout">Cash out (simulate)</button>
-            <button class="btn ghost" id="btnExplain">How this works</button>
-          </div>
-          <div class="footnote">
-            Demo only. Illustrative rates & fees. High-risk mode can lose money. This is not financial advice.
           </div>
         </div>
-      </div>
 
-      <!-- Inline controls (quick edits) -->
-      <div class="panel">
-        <h3>Adjust your plan</h3>
-        <div class="controls">
-          <div class="box">
-            <label>Initial deposit</label>
-            <input id="c_init" type="number" min="0" step="1" value="1500"/>
-          </div>
-          <div class="box">
-            <label>Recurring deposit</label>
-            <input id="c_rec" type="number" min="0" step="1" value="200"/>
-          </div>
-          <div class="box">
-            <label>Frequency</label>
-            <select id="c_freq">
-              <option value="weekly">Weekly</option>
-              <option value="biweekly" selected>Bi-weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
-          </div>
-          <div class="box">
-            <label>Term (months)</label>
-            <input id="c_term" type="range" min="1" max="36" step="1" value="12"/>
-            <div class="muted" id="c_term_lbl">12 months</div>
-          </div>
-          <div class="box">
-            <label>Mode</label>
-            <select id="c_mode">
-              <option value="safe" selected>Safe (3% APR)</option>
-              <option value="risk">High-risk sim (15%/yr ± volatility)</option>
-            </select>
-          </div>
-          <div class="box">
-            <label>Save as default</label>
-            <button class="btn" id="btnSavePlan" type="button">Save plan</button>
-          </div>
+        <!-- Activity -->
+        <div class="card" style="margin-top:12px">
+          <div class="row"><div class="k">Recent activity</div><span class="pill" id="activityCount">Scheduled 4</span></div>
+          <table style="margin-top:8px" aria-label="Recent activity">
+            <thead><tr><th>Date</th><th>Type</th><th>Amount</th></tr></thead>
+            <tbody id="activityBody">
+              <!-- inserted by JS -->
+            </tbody>
+          </table>
+          <div class="mini" style="margin-top:8px">Activity is simulated from your contribution schedule.</div>
         </div>
-        <div class="note" id="riskNote" style="display:none;margin-top:6px">
-          High-risk mode is an illustration akin to aggressive ETFs. Values may go down. For demo only.
-        </div>
-      </div>
 
-      <!-- What you’ll see -->
-      <div class="panel">
-        <h3>What this demo shows</h3>
-        <ul>
-          <li>A progress bar moving across your full lock term (default: 12 months).</li>
-          <li>Interest accrues over time. In risk mode, returns wobble (can be negative).</li>
-          <li>Borrowing power equals <b>75% of vested funds</b> (initial + deposits that would have happened so far).</li>
-          <li>“Extend term” increases projected interest and adjusts the unlock fee tier.</li>
-          <li>“Cash out” shows principal + interest − flat unlock fee ($3 / $2 / $1 by term).</li>
-        </ul>
-      </div>
+        <!-- Insights -->
+        <div class="card" style="margin-top:12px">
+          <div class="row"><div class="k">Insights</div></div>
+          <ul style="margin:8px 0 0; padding-left:18px; color:#33415f">
+            <li id="insight1">Locking 25% of your estimated monthly leftover is a good starting discipline.</li>
+            <li id="insight2">At maturity, consider stepping up your term to 12+ months for the 3.5% tier.</li>
+            <li id="insight3">Emergency line interest (after promo) is credited back to your balance after payoff.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <aside aria-label="Plan details & actions">
+        <!-- Plan preview (collapsible) -->
+        <details class="card" open>
+          <summary class="row" style="cursor:pointer"><div class="k">Your LockHabit plan</div><span class="pill">Edit in Calculator</span></summary>
+          <div style="margin-top:10px">
+            <table>
+              <tbody>
+                <tr><td>Initial deposit</td><td id="planInit" style="text-align:right">$0</td></tr>
+                <tr><td>Recurring deposit</td><td id="planRec" style="text-align:right">$0</td></tr>
+                <tr><td>Contribution frequency</td><td id="planFreq" style="text-align:right">—</td></tr>
+                <tr><td>Term (months)</td><td id="planTerm" style="text-align:right">—</td></tr>
+                <tr><td>APR</td><td id="planApr" style="text-align:right">—</td></tr>
+              </tbody>
+            </table>
+            <div class="row" style="margin-top:12px; gap:8px">
+              <a class="btn ghost" href="/calculator.html">Open Calculator</a>
+              <button class="btn acc" id="recalcBtn">Recalculate</button>
+            </div>
+          </div>
+        </details>
+
+        <!-- Emergency Line (collapsible) -->
+        <details class="card" style="margin-top:12px" open>
+          <summary class="row" style="cursor:pointer"><div class="k">Emergency Line</div><span class="pill">80% LTV</span></summary>
+          <div style="margin-top:10px">
+            <table>
+              <tbody>
+                <tr><td>Available (preview)</td><td id="lineAvail" style="text-align:right">$0</td></tr>
+                <tr><td>Promo</td><td style="text-align:right">0% for 4 months</td></tr>
+                <tr><td>After promo</td><td style="text-align:right">6% APR</td></tr>
+              </tbody>
+            </table>
+            <div class="mini" style="margin-top:8px">Interest after promo is credited back to your locked balance after payoff.</div>
+          </div>
+        </details>
+
+        <!-- LockHabit Projection (collapsible) -->
+        <details class="card" style="margin-top:12px" open>
+          <summary class="row" style="cursor:pointer"><div class="k">LockHabit projection (compounding)</div></summary>
+          <div style="margin-top:10px">
+            <table>
+              <tbody>
+                <tr><td>APR used</td><td id="aprUsed" style="text-align:right">—</td></tr>
+                <tr><td>Projected interest</td><td id="projInterest" style="text-align:right">$0</td></tr>
+                <tr><td><b>Projected balance @ maturity</b></td><td id="projBalance" style="text-align:right; font-weight:800">$0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- Account actions -->
+        <div class="card" style="margin-top:12px">
+          <div class="k">Account</div>
+          <div class="row" style="margin-top:10px; gap:8px; flex-wrap:wrap">
+            <a class="btn" href="/#top">Join Waitlist</a>
+            <a class="btn ghost" href="/security.html">Security</a>
+          </div>
+          <div class="mini" style="margin-top:8px">This is a static preview. No money moves here.</div>
+        </div>
+      </aside>
     </div>
-  </div>
+  </main>
 
-  <!-- MODAL -->
-  <div id="overlay" class="overlay" aria-modal="true" role="dialog">
-    <div class="modal" id="modalBox" role="document">
-      <div class="row">
-        <h3 id="modalTitle" style="margin:0">Modal</h3>
-        <button class="x" id="modalClose">✕</button>
-      </div>
-      <div id="modalBody" style="margin-top:8px"></div>
-    </div>
-  </div>
+  <footer>© <span id="yr"></span> LockHabit — Preview dashboard. <a class="clean" href="/index.html">Home</a> • <a class="clean" href="/calculator.html">Calculator</a></footer>
 
-  <footer>© <span id="yr"></span> LockHabit — Demo simulation.</footer>
+  <div id="toast" class="toast" role="status" aria-live="polite">Imported from Calculator</div>
 
   <script>
-    // ================== Helpers & Inputs ==================
-    const yrEl = document.getElementById('yr'); yrEl.textContent = new Date().getFullYear();
-    const qs = new URLSearchParams(location.search);
-    const getNum = (k, d) => {
-      const v = qs.get(k);
-      if (v === null) return d;
-      const n = Number(v);
-      return Number.isFinite(n) ? n : d;
-    };
-    const getStr = (k, d) => qs.get(k) || d;
+    // Live year
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // Try to read a calculator plan from localStorage
-    let plan = null;
-    try { plan = JSON.parse(localStorage.getItem('lh_plan') || 'null'); } catch(_) { plan = null; }
+    // ===== Utilities =====
+    const $ = (id)=>document.getElementById(id);
+    const fmt = (n)=> (isFinite(n)? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+    const clamp = (x,min,max)=>Math.max(min,Math.min(max,x));
 
-    // ================== Defaults (URL or localStorage plan) ==================
-    let principal = getNum('init', plan?.init ?? 1500); // initial deposit
-
-    // Recurring amount: prefer ?rec= from calculator, fallback to ?save=, then plan.rec/plan.save, else 200
-    let recurring = (() => {
-      const rec = qs.get('rec');
-      const save = qs.get('save');
-      if (rec !== null && !isNaN(rec))  return Number(rec);
-      if (save !== null && !isNaN(save)) return Number(save);
-      if (Number.isFinite(plan?.rec))    return Number(plan.rec);
-      if (Number.isFinite(plan?.save))   return Number(plan.save);
-      return 200;
-    })();
-
-    let freq   = getStr('freq',  plan?.freq ?? 'biweekly'); // weekly, biweekly, monthly
-    let months = getNum('term',  plan?.term ?? 12);         // lock length
-    let mode   = getStr('mode',  plan?.mode ?? 'safe');     // safe | risk
-
-    // Rates
-    const aprSafe = 0.03;
-    const aprRisk = 0.15;  // demo only; not advice
-    const aprLoan = 0.06;  // loan APR for payment calc
-    const riskVol = 0.08;  // wobble factor (demo)
-
-    // DOM refs
-    const balEl = document.getElementById('balance');
-    const termLabel = document.getElementById('termLabel');
-    const nextDep = document.getElementById('nextDep');
-    const nextDepAmt = document.getElementById('nextDepAmt');
-    const intSoFar = document.getElementById('intSoFar');
-    const intProj = document.getElementById('intProj');
-    const vestedEl = document.getElementById('vested');
-    const loanElig = document.getElementById('loanElig');
-    const pbar = document.getElementById('pbar');
-    const pval = document.getElementById('pval');
-    const modePill = document.getElementById('modePill');
-
-    // Controls
-    const c_init = document.getElementById('c_init');
-    const c_rec = document.getElementById('c_rec');
-    const c_freq = document.getElementById('c_freq');
-    const c_term = document.getElementById('c_term');
-    const c_term_lbl = document.getElementById('c_term_lbl');
-    const c_mode = document.getElementById('c_mode');
-    const riskNote = document.getElementById('riskNote');
-    const btnSavePlan = document.getElementById('btnSavePlan');
-
-    // Apply initial values to controls
-    c_init.value = principal;
-    c_rec.value = recurring;
-    c_freq.value = freq;
-    c_term.value = months;
-    c_term_lbl.textContent = months + ' months';
-    c_mode.value = mode;
-    riskNote.style.display = (mode === 'risk') ? 'block' : 'none';
-    modePill.textContent = (mode === 'risk') ? 'High-risk sim • 15% APR ± volatility' : 'Safe • 3% APR';
-
-    // ================== Core math helpers ==================
-    function weeksInMonths(m){ return m * 4.345; } // average
-    function cyclesFor(freq, months){
-      const w = weeksInMonths(months);
-      if (freq === 'weekly') return Math.floor(w);
-      if (freq === 'biweekly') return Math.floor(w/2);
-      return months; // monthly
-    }
-    function nextDepositCountdown(freq){
-      if (freq === 'weekly') return '7 days';
-      if (freq === 'biweekly') return '14 days';
-      return '30 days';
-    }
-    function feeForTerm(m){
-      if (m <= 3) return 3;
-      if (m <= 6) return 2;
-      return 1;
-    }
-    function fmt(n){ return n.toLocaleString(undefined,{style:'currency',currency:'USD'}); }
-
-    // Vested amount = initial + #deposits that would have happened so far * recurring
-    function vestedAmount(progressPct){
-      const totalCycles = cyclesFor(freq, months);
-      const cyclesSoFar = Math.floor(totalCycles * (progressPct/100));
-      return principal + (cyclesSoFar * recurring);
+    // Simple APR tier helper (mirror of calculator)
+    function aprForMonths(m){
+      if(m>=24) return 0.035;
+      if(m>=12) return 0.030;
+      if(m>=6)  return 0.025;
+      return 0.020;
     }
 
-    // Projected interest across full term (illustrative)
-    function interestProjectedFullTerm(){
-      const base = principal + (cyclesFor(freq, months) * recurring);
-      const apr = (mode === 'risk') ? aprRisk : aprSafe;
-      return base * apr * (months/12);
+    // FV (monthly-compounding baseline) matching calculator’s projection function
+    function projectedBalance(init, recurring, freq, months, apr){
+      const r = apr/12;
+      const n = Math.max(0, Math.floor(months));
+      const pmtPerMonth = (freq==='weekly') ? recurring*(52/12)
+                         : (freq==='biweekly') ? recurring*(26/12)
+                         : recurring;
+      const fvLump = init * Math.pow(1+r, n);
+      const fvSeries = r ? pmtPerMonth * ((Math.pow(1+r, n) - 1) / r) : pmtPerMonth * n;
+      const balance = fvLump + fvSeries;
+      const totalContrib = init + pmtPerMonth * n;
+      return { balance, interest: Math.max(0, balance - totalContrib) };
     }
 
-    // Interest so far (linear by progress; wobble in risk)
-    function interestSoFar(progressPct){
-      const proj = interestProjectedFullTerm();
-      if (mode === 'safe') return proj * (progressPct/100);
-      const wobble = Math.sin(Date.now()/600) * riskVol * proj * (progressPct/100);
-      return Math.max(0, proj * (progressPct/100) + wobble);
-    }
-
-    // ================== Animation & UI ==================
-    let progress = 0; // 0..100
-    function updateUI(){
-      termLabel.textContent = months + ' months';
-      nextDepAmt.textContent = fmt(recurring);
-      nextDep.textContent = nextDepositCountdown(freq);
-
-      pbar.style.width = progress.toFixed(0) + '%';
-      pval.textContent = progress.toFixed(0) + '%';
-
-      const vested = vestedAmount(progress);
-      const interestNow = interestSoFar(progress);
-      const interestFull = interestProjectedFullTerm();
-      const balNow = vested + interestNow;
-
-      balEl.textContent = fmt(balNow);
-      intSoFar.textContent = fmt(interestNow);
-      intProj.textContent = fmt(interestFull);
-      vestedEl.textContent = fmt(vested);
-      loanElig.textContent = fmt(Math.max(0, vested * 0.75));
-    }
-
-    // Animate progress up to 100 then hold/drift
-    let looping = true;
-    setInterval(()=>{
-      const step = progress < 85 ? (1.5 + Math.random()*2.5) : (0.5 + Math.random()*1.2);
-      progress = Math.min(100, progress + step);
-      if (progress >= 100 && looping){
-        looping = false;
-        setTimeout(()=>{ progress = 92; looping = true; }, 4500);
+    // Build 4 upcoming contribution dates (or recent)
+    function buildSchedule(freq, count=4){
+      const now = new Date();
+      const out = [];
+      const stepDays = (freq==='weekly') ? 7 : (freq==='biweekly' ? 14 : 30);
+      for(let i=0;i<count;i++){
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + (i*stepDays));
+        out.push(d);
       }
-      updateUI();
-    }, 900);
-
-    updateUI();
-
-    // ================== Modal System ==================
-    const overlay = document.getElementById('overlay');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    const modalClose = document.getElementById('modalClose');
-    function openModal(title, html){
-      modalTitle.textContent = title;
-      modalBody.innerHTML = html;
-      overlay.style.display = 'flex';
-      document.body.style.overflow='hidden';
+      return out;
     }
-    function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
-    modalClose.addEventListener('click', closeModal);
-    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
-
-    // ================== Actions ==================
-    document.getElementById('btnExplain').addEventListener('click', ()=>{
-      openModal('How this demo works', `
-        <p>This is an interactive simulation. It assumes a lock with deposits over your chosen term.</p>
-        <ul>
-          <li><b>Progress</b> shows time passing in your selected term.</li>
-          <li><b>Vested</b> = initial + deposits that would have occurred so far.</li>
-          <li><b>Borrowing power</b> = 75% of vested.</li>
-          <li><b>Interest</b> accrues over time. In high-risk mode, values may go down.</li>
-          <li>At cash out: principal + interest − a small flat fee ($3 / $2 / $1 by term).</li>
-        </ul>
-        <div class="note">Estimates only; not financial advice. Rates/fees subject to change.</div>
-      `);
-    });
-
-    document.getElementById('btnExtend').addEventListener('click', ()=>{
-      openModal('Extend Term', `
-        <p>Extend your lock to keep earning.</p>
-        <div class="grid2">
-          <div>
-            <label>Add Months</label>
-            <select id="extendSel">
-              <option value="3">+3 months</option>
-              <option value="6" selected>+6 months</option>
-              <option value="12">+12 months</option>
-            </select>
-          </div>
-          <div>
-            <label>New Unlock Fee</label>
-            <div class="v" id="newFee">${fmt(feeForTerm(months+6))}</div>
-          </div>
-        </div>
-        <div class="actions" style="margin-top:12px">
-          <button class="btn acc" id="doExtend">Confirm extend</button>
-          <button class="btn" onclick="(${closeModal.toString()})()">Cancel</button>
-        </div>
-        <div class="note">Extending avoids a fee right now; fee applies when the new term ends.</div>
-      `);
-      const sel = document.getElementById('extendSel');
-      const feeEl = document.getElementById('newFee');
-      sel.addEventListener('change', ()=> feeEl.textContent = fmt(feeForTerm(months+Number(sel.value))));
-      document.getElementById('doExtend').addEventListener('click', ()=>{
-        months += Number(sel.value);
-        c_term.value = months; c_term_lbl.textContent = months + ' months';
-        updateUI();
-        closeModal();
-        setTimeout(()=>openModal('Extended', `<div class="ok">✅ New term: <b>${months} months</b>.</div>`), 60);
-      });
-    });
-
-    document.getElementById('btnLoan').addEventListener('click', ()=>{
-      const vested = vestedAmount(progress);
-      const max = Math.floor(vested * 0.75);
-      const def = Math.min(500, Math.max(100, max));
-      openModal('Request a Self-Backed Loan', `
-        <p>Borrow against your vested funds (75%). Loan interest is credited back to your locked balance after payoff.</p>
-        <label class="k">Loan Amount: <span id="loanAmtVal">${fmt(def)}</span></label>
-        <input id="loanAmt" type="range" min="100" max="${max}" step="50" value="${def}"/>
-        <div class="grid2" style="margin-top:8px">
-          <div>
-            <label>Repayment Term</label>
-            <select id="loanTerm">
-              <option value="3" selected>3 months</option>
-              <option value="6">6 months</option>
-              <option value="12">12 months</option>
-            </select>
-          </div>
-          <div>
-            <label>Monthly Payment</label>
-            <div class="v" id="loanPmt">$0.00</div>
-          </div>
-        </div>
-        <div class="kpi" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px">
-          <div class="box"><div class="k">Total Repay</div><div class="v" id="loanTotal">$0.00</div></div>
-          <div class="box"><div class="k">Interest (back to you)</div><div class="v" id="loanIntBack">$0.00</div></div>
-        </div>
-        <div class="note" style="margin-top:8px">On-time payments may help your credit; late payments may harm it. Demo only.</div>
-        <div class="actions" style="margin-top:12px">
-          <button class="btn acc" id="doLoan">Request loan</button>
-          <button class="btn" onclick="(${closeModal.toString()})()">Cancel</button>
-        </div>
-      `);
-
-      const amt = document.getElementById('loanAmt');
-      const amtVal = document.getElementById('loanAmtVal');
-      const termSel = document.getElementById('loanTerm');
-      const pmtEl = document.getElementById('loanPmt');
-      const totalEl = document.getElementById('loanTotal');
-      const intBackEl = document.getElementById('loanIntBack');
-
-      function recalc(){
-        const A = Number(amt.value);
-        const m = Number(termSel.value);
-        amtVal.textContent = fmt(A);
-        const interest = A * aprLoan * (m/12); // simple demo calc
-        const total = A + interest;
-        const monthly = total / m;
-        pmtEl.textContent = fmt(monthly);
-        totalEl.textContent = fmt(total);
-        intBackEl.textContent = fmt(interest);
-      }
-      amt.addEventListener('input', recalc);
-      termSel.addEventListener('change', recalc);
-      recalc();
-
-      document.getElementById('doLoan').addEventListener('click', ()=>{
-        closeModal();
-        setTimeout(()=>openModal('Loan Simulated', `
-          <div class="ok">✅ Funds released (demo).</div>
-          <p>Your monthly payment is shown above. All loan interest is credited back to your locked balance after payoff.</p>
-          <div style="text-align:right"><button class="btn acc" onclick="(${closeModal.toString()})()">Close</button></div>
-        `), 120);
-      });
-    });
-
-    document.getElementById('btnCashout').addEventListener('click', ()=>{
-      const fee = feeForTerm(months);
-      const vested = vestedAmount(progress);
-      const interestNow = interestSoFar(progress);
-      const gross = vested + interestNow;
-      const net = gross - fee;
-      openModal('Cash Out (Simulation)', `
-        <div class="kpi" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
-          <div class="box"><div class="k">Vested Funds</div><div class="v">${fmt(vested)}</div></div>
-          <div class="box"><div class="k">Interest Earned</div><div class="v">${fmt(interestNow)}</div></div>
-          <div class="box"><div class="k">Unlock Fee</div><div class="v">-${fmt(fee)}</div></div>
-          <div class="box"><div class="k">Net to You</div><div class="v">${fmt(net)}</div></div>
-        </div>
-        <div class="actions" style="margin-top:12px">
-          <button class="btn acc" id="doRelock">Relock & keep earning</button>
-          <button class="btn" onclick="(${closeModal.toString()})()">Close</button>
-        </div>
-        <div class="note">In production you’d choose a destination account. Demo only.</div>
-      `);
-      document.getElementById('doRelock').addEventListener('click', ()=>{
-        progress = 0; updateUI(); closeModal();
-        setTimeout(()=>openModal('Relocked', `<div class="ok">✅ Balance relocked for another ${months} months.</div>`), 80);
-      });
-    });
-
-    // ================== Controls wiring ==================
-    function applyControls(){
-      principal = Math.max(0, Number(c_init.value || 0));
-      recurring = Math.max(0, Number(c_rec.value || 0));
-      freq      = c_freq.value;
-      months    = Math.max(1, Number(c_term.value || 1));
-      mode      = c_mode.value;
-
-      c_term_lbl.textContent = months + ' months';
-      riskNote.style.display = (mode === 'risk') ? 'block' : 'none';
-      modePill.textContent   = (mode === 'risk')
-        ? 'High-risk sim • 15% APR ± volatility'
-        : 'Safe • 3% APR';
-
-      updateUI();
+    function fmtDate(d){
+      return d.toLocaleDateString(undefined,{month:'short', day:'numeric'});
     }
 
-    [c_init, c_rec, c_freq, c_term, c_mode].forEach(el =>
-      el.addEventListener('input', applyControls)
-    );
+    // Read plan from localStorage and/or URL
+    function readPlan(){
+      let plan = {};
+      try{
+        const s = localStorage.getItem('lh_plan');
+        if(s){ plan = JSON.parse(s) || {}; }
+      }catch(_){}
 
-    btnSavePlan.addEventListener('click', ()=>{
-      // Save both rec and save so either page can read it
-      const saveObj = { init: principal, rec: recurring, save: recurring, freq, term: months, mode };
-      localStorage.setItem('lh_plan', JSON.stringify(saveObj));
-      openModal('Saved', `<div class="ok">✅ Plan saved. It will auto-load next time.</div>`);
+      const q = new URLSearchParams(location.search);
+      // URL values override localStorage if present
+      if(q.has('init')) plan.init = Number(q.get('init'))||0;
+      if(q.has('save')) plan.save = Number(q.get('save'))||0;
+      if(q.has('freq')) plan.freq = q.get('freq');
+      if(q.has('term')) plan.term = Number(q.get('term'))||12;
+      if(q.has('apr'))  plan.apr  = Number(q.get('apr'))/100;
+
+      // sensible defaults
+      if(!plan.freq) plan.freq = 'biweekly';
+      if(!plan.term) plan.term = 12;
+
+      // derive apr if not supplied
+      if(typeof plan.apr !== 'number' || !(plan.apr>0)) plan.apr = aprForMonths(plan.term);
+
+      // normalize types
+      plan.init = Number(plan.init)||0;
+      plan.save = Number(plan.save)||0;
+
+      return plan;
+    }
+
+    function hydrateUI(){
+      const plan = readPlan();
+      // projection
+      const proj = projectedBalance(plan.init, plan.save, plan.freq, plan.term, plan.apr);
+
+      // Summary
+      $('sumBalance').textContent = fmt(proj.balance);
+      $('sumInterest').textContent = fmt(proj.interest);
+      $('aprChip').textContent = 'APR ' + (plan.apr*100).toFixed(1) + '%';
+      $('sumTerm').textContent = plan.term + ' months • monthly projection';
+
+      // Vault card
+      $('vaultLabel').textContent = `Init ${fmt(plan.init)} • +${fmt(plan.save)} / ${plan.freq.replace('bi','bi-')} • ${plan.term} mo`;
+
+      // Vesting preview — sliderless estimate: assume 10% vested if term > 0 (purely visual)
+      const vestedPct = clamp(Math.round((plan.term>0? 10:0)), 0, 100);
+      $('vaultPct').textContent = `Vested ${vestedPct}%`;
+      $('vaultFill').style.width = vestedPct + '%';
+
+      // Emergency line preview: 80% of vested * projected balance
+      const lineAvail = 0.80 * (vestedPct/100) * proj.balance;
+      $('sumLine').textContent = fmt(lineAvail);
+      $('lineAvail').textContent = fmt(lineAvail);
+
+      // Plan panel
+      $('planInit').textContent = fmt(plan.init);
+      $('planRec').textContent = fmt(plan.save);
+      $('planFreq').textContent = ({weekly:'Weekly',biweekly:'Bi-weekly',monthly:'Monthly'})[plan.freq] || '—';
+      $('planTerm').textContent = String(plan.term);
+      $('planApr').textContent  = (plan.apr*100).toFixed(2) + '%';
+
+      // Projection panel
+      $('aprUsed').textContent = (plan.apr*100).toFixed(2) + '%';
+      $('projInterest').textContent = fmt(proj.interest);
+      $('projBalance').textContent  = fmt(proj.balance);
+
+      // Activity (next 4 scheduled deposits)
+      const tbody = $('activityBody');
+      tbody.innerHTML = '';
+      const schedule = buildSchedule(plan.freq, 4);
+      schedule.forEach(d=>{
+        const tr = document.createElement('tr');
+        const dt = document.createElement('td'); dt.textContent = fmtDate(d);
+        const tp = document.createElement('td'); tp.textContent = 'Scheduled deposit';
+        const am = document.createElement('td'); am.textContent = fmt(plan.save);
+        tr.append(dt, tp, am); tbody.appendChild(tr);
+      });
+      $('activityCount').textContent = `Scheduled ${schedule.length}`;
+    }
+
+    function toast(msg='Imported from Calculator'){
+      const el = $('toast');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(()=> el.style.display='none', 2200);
+    }
+
+    $('importBtn').addEventListener('click', ()=>{
+      // Force re-read/local import
+      hydrateUI();
+      toast();
     });
 
-    // ===== Waitlist =====
-    (() => {
-      const btn = document.getElementById('btnWaitlist');
-      if (!btn) return;
+    $('recalcBtn').addEventListener('click', ()=>{
+      hydrateUI();
+      toast('Recalculated from current plan');
+    });
 
-      btn.addEventListener('click', () => {
-        openModal('Join the LockHabit waitlist', `
-          <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
-          <form id="wl-form" class="form" novalidate>
-            <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
-            <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
-            <select name="term" aria-label="Preferred lock term">
-              <option value="">Preferred lock term (optional)</option>
-              <option value="1-3">1–3 months</option>
-              <option value="4-6">4–6 months</option>
-              <option value="6-12+">6–12+ months</option>
-            </select>
-            <button class="btn acc" type="submit">Join the waitlist</button>
-            <div id="msg" class="note" role="status" aria-live="polite" style="margin-top:6px"></div>
-          </form>
-          <div id="ok" class="ok" style="display:none;margin-top:10px">✅ Thanks — you’re on the list!</div>
-        `);
-
-        const form = document.getElementById('wl-form');
-        const msg  = document.getElementById('msg');
-        const ok   = document.getElementById('ok');
-
-        form.addEventListener('submit', async (e)=>{
-          e.preventDefault();
-          msg.textContent = 'Submitting…';
-          msg.style.color = '#60708c';
-
-          const data = Object.fromEntries(new FormData(form).entries());
-
-          // 1) Try your Vercel serverless route first
-          try{
-            const r = await fetch('/api/waitlist', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data)
-            });
-            const out = await r.json().catch(()=>({}));
-            if (r.ok && out && (out.ok || out.id || out.inserted)) {
-              form.style.display = 'none';
-              ok.style.display   = 'inline-block';
-              return;
-            }
-          }catch(_){}
-
-          // 2) Fallback to Formspree
-          try{
-            const fs = await fetch('https://formspree.io/f/manpgypy', {
-              method: 'POST',
-              headers: { 'Accept': 'application/json' },
-              body: new FormData(form)
-            });
-            if (fs.ok) {
-              form.style.display = 'none';
-              ok.style.display   = 'inline-block';
-              return;
-            }
-            msg.textContent = 'Network error. Please try again.';
-            msg.style.color = '#b42318';
-          }catch(_){
-            msg.textContent = 'Network error. Please try again.';
-            msg.style.color = '#b42318';
-          }
-        });
-      });
-    })();
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebApplication",
-    "name":"LockHabit Demo",
-    "url":"https://lockhabit.com/demo.html",
-    "applicationCategory":"FinanceApplication",
-    "operatingSystem":"Any",
-    "description":"Interactive savings lock simulator with progress, interest accrual, and 75% vested borrowing power."
-  }
+    // Auto-import on load
+    hydrateUI();
   </script>
 </body>
 </html>
