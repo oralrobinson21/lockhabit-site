@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>LockHabit — Investor Summary</title>
+  <meta name="description" content="LockHabit investor summary: purpose, problem, solution, model (high-level), GTM, compliance, roadmap, and fundraising ask."/>
+  <meta name="theme-color" content="#0b0e1a"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/public/favicon.ico">
+  <link rel="apple-touch-icon" href="/public/icon-192.png">
+  <link rel="manifest" href="/public/manifest.webmanifest">
+
+  <style>
+    :root{
+      --brand:#6f7cff; --brand2:#9c78ff; --ink:#0b1230; --muted:#55617a;
+      --line:#e6e7f1; --panel:#ffffff; --surface:#f7f8ff; --bg:#0b0e1a;
+      --radius:16px; --shadow:0 18px 50px rgba(17,24,39,.10);
+      --grad:
+        radial-gradient(1400px 750px at 50% -200px, rgba(111,124,255,.24), transparent 60%),
+        radial-gradient(1100px 700px at -10% 10%, rgba(156,120,255,.16), transparent 55%),
+        #f8f9ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:#1f2b45;text-decoration:none}
+
+    /* Header */
+    .header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800;font-size:18px;color:#0e1a34}
+    .nav{display:flex;align-items:center;gap:14px}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 10px 26px rgba(111,124,255,.28)}
+    .btn.ghost{background:transparent}
+
+    /* Sticky CTA microbar (investor contact) */
+    .ibar{position:sticky; top:64px; z-index:50; background:#fff; border-bottom:1px solid var(--line)}
+    .ibar .wrap{padding:8px 16px; display:flex; gap:10px; align-items:center; justify-content:space-between}
+    .ibar small{color:#55617a}
+
+    /* Hero */
+    .hero{background:var(--grad);border-bottom:1px solid var(--line);padding:56px 16px 36px}
+    .hero .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
+    @media (max-width:980px){ .hero .grid{grid-template-columns:1fr} }
+    h1{font-size:44px;line-height:1.08;margin:0 0 10px;letter-spacing:-.4px}
+    .sub{color:#33415f;max-width:65ch}
+
+    /* Sections */
+    section.s{max-width:1200px;margin:0 auto;padding:40px 16px}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+    .cols2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:900px){ .cols2{grid-template-columns:1fr} }
+    h2{font-size:26px;margin:0 0 8px}
+    h3{font-size:18px;margin:0 0 6px;color:#15213d}
+    ul{margin:8px 0 0;padding-left:18px;color:#3b4a67}
+
+    /* Key Value grid */
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width:700px){ .kv{grid-template-columns:1fr} }
+    .kv .box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+    .muted{color:#60708c;font-size:14px}
+
+    footer{background:#fff;border-top:1px solid var(--line);color:#3a4a66}
+    .foot{max-width:1200px;margin:0 auto;padding:22px 16px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="LockHabit — back to home">
+        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 12" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <div class="word">LockHabit</div>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="/#how">How it works</a>
+        <a href="/calculator.html">Calculator</a>
+        <a href="/#plans">Plans</a>
+        <a href="/#security">Security</a>
+        <a href="/#faq">FAQ</a>
+        <a class="btn acc" href="/#top">Join waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Slim investor CTA bar -->
+  <div class="ibar" role="region" aria-label="Investor Contact">
+    <div class="wrap">
+      <small>Investor materials (2-min summary below). Ready to talk?</small>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn acc" href="mailto:lockhabit@outlook.com?subject=Intro%20Call%20re:%20LockHabit">Request intro call</a>
+        <a class="btn" href="/calculator.html">Open calculator</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="grid">
+      <div>
+        <h1>Investor Summary</h1>
+        <p class="sub">
+          Discipline-first savings for working Americans. Users lock what they meant to save, balances compound weekly,
+          and a self-backed emergency line (up to 80% of vested) prevents a single crisis from destroying the habit.
+        </p>
+      </div>
+      <aside class="panel" aria-label="Highlights">
+        <h3 style="margin:0 0 6px">Highlights (2-minute scan)</h3>
+        <ul style="margin:0">
+          <li>Core APR tiers: 2.0% / 2.5% / 3.0% / 3.5% (weekly compounding)</li>
+          <li>Emergency line: 80% LTV; 0% for 4 months, then 6% APR; interest credited back after payoff</li>
+          <li>Funds with partner banks; deposits are never lent to other customers</li>
+          <li>Transparent, flat unlock fees; credit-builder reporting intended</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- NEW: Purpose & Impact (emotional core) -->
+  <section class="s" id="purpose">
+    <div class="panel">
+      <h2>Purpose & Impact</h2>
+      <p>
+        People don’t fail at math—they fail at behavior. The current system makes saving
+        <em>frictionless to start</em> and <em>frictionless to quit</em>. LockHabit flips that: we add just enough
+        productive friction to protect intent. Users lock funds on a schedule, watch progress compound, and when life
+        happens, they get controlled access without predatory terms.
+      </p>
+      <p class="muted">
+        We serve workers who already know what they should do—our product helps them actually do it. The outcome is
+        less stress, fewer debt spirals, and a repeatable savings habit that builds confidence month after month.
+      </p>
+    </div>
+  </section>
+
+  <!-- Problem / Solution + Model -->
+  <section class="s">
+    <div class="cols2">
+      <div class="panel">
+        <h2>Problem</h2>
+        <p>
+          Traditional savings is liquid by design—great for banks, terrible for behavior. A single unexpected expense
+          often empties accounts and resets progress. Credit steps in with interest that compounds the wrong way.
+        </p>
+        <h2>Solution</h2>
+        <p>
+          A voluntary hard-lock that rewards time, not spend. Weekly compounding reinforces momentum. A self-backed
+          emergency line against the user’s vested balance preserves the habit instead of punishing the emergency.
+        </p>
+      </div>
+      <div class="panel">
+        <h2>Model (high-level)</h2>
+        <ul>
+          <li>Programmatic yield share with bank partners (float)</li>
+          <li>Flat unlock fee by term ($1–$3), clearly disclosed</li>
+          <li>Optional High-Risk Growth (7.8–20% variable APR; may lose value)</li>
+          <li><b>No</b> lending of customer deposits to other customers</li>
+        </ul>
+        <p class="muted">We intentionally omit specific unit economics and partner terms on this public page.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Now / Why Us -->
+  <section class="s">
+    <div class="cols2">
+      <div class="panel">
+        <h2>Why Now</h2>
+        <ul>
+          <li>Rising volatility & cost of living → demand for disciplined saving + safe emergency access</li>
+          <li>Consumer trust favors transparent, aligned products with simple rules</li>
+          <li>Modern infra (banking-as-a-service, compliant data) reduces time to market</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h2>Why Us</h2>
+        <ul>
+          <li>Discipline-first philosophy: incentives aligned with user success</li>
+          <li>Simple UX: calculator-first on-ramp, clear terms, weekly compounding</li>
+          <li>Focused GTM: start with workers who feel the problem daily (healthcare, retail, gig)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- GTM / Traction -->
+  <section class="s">
+    <div class="cols2">
+      <div class="panel">
+        <h2>GTM & Audience</h2>
+        <ul>
+          <li>Healthcare, retail, and gig workers (high intent, repeatable income)</li>
+          <li>Calculator-first acquisition → waitlist → phased invites</li>
+          <li>Employer and creator partnerships; performance marketing with strict LTV:CAC gates</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h2>Traction (early)</h2>
+        <ul>
+          <li>Live calculator + working waitlist (Resend with fallback)</li>
+          <li>Investor page (this) + deck-ready copy</li>
+          <li>Ads queued: calculator-only campaign to validate intent</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compliance / Tech -->
+  <section class="s">
+    <div class="cols2">
+      <div class="panel">
+        <h2>Compliance & Risk</h2>
+        <ul>
+          <li>Deposits at regulated partner banks; pass-through FDIC eligibility when structured correctly</li>
+          <li>Self-backed emergency line; clear disclosures; credit reporting intended</li>
+          <li>Hard-lock with emergency exception; no early non-emergency withdrawals (5% fee attempts)</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h2>Tech & Ops</h2>
+        <div class="kv">
+          <div class="box">
+            <h3>Stack</h3>
+            <div class="muted">Static site + API on Vercel, email via Resend (verified domain), analytics via Plausible.</div>
+          </div>
+          <div class="box">
+            <h3>Roadmap</h3>
+            <div class="muted">Waitlist → closed beta (custody partner) → employer pilots → staged rollout.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Raise -->
+  <section class="s">
+    <div class="panel">
+      <h2>Raise & Use of Funds</h2>
+      <ul>
+        <li>Target: pre-seed to validate compliance stack and pilot markets</li>
+        <li>Use: integrations, legal/compliance, fraud/risk tooling, and initial GTM</li>
+      </ul>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <a class="btn acc" href="mailto:lockhabit@outlook.com?subject=Intro%20Call%20re:%20LockHabit">Request intro call</a>
+        <a class="btn" href="/#top">Join the waitlist</a>
+        <a class="btn ghost" href="/calculator.html">Open calculator</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot">
+      © <span id="yr"></span> LockHabit — <a href="/">Home</a> • <a href="/calculator.html">Calculator</a> • <a href="/#faq">FAQ</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
