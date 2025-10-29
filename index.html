@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Premium, informative, static demo (autosize fix)
+       LockHabit — Investor-ready Home with interactive 3-box demo
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 
   <title>LockHabit — Lock your money. Own your future.</title>
-  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, earn up to 3.5% APR (compounded weekly). Emergency line up to 80% of your vested balance with 0% for 4 months, then 6% APR (interest credited back). Optional High-Risk Growth (7.8–20% variable APR, may lose value)."/>
+  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, transparent fixed APR tiers, and a self-backed emergency line up to 80% of your vested balance (0% for 4 months, then 6% APR; interest credited back after payoff). Optional High-Risk Growth (variable, may lose value)."/>
   <meta name="theme-color" content="#0b0e1a"/>
 
   <!-- Canonical + Social -->
   <link rel="canonical" href="https://lockhabit.com/"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="LockHabit — Lock your money. Own your future."/>
-  <meta property="og:description" content="Hard-lock savings that actually grow. Weekly compounding, transparent fees, and an emergency line up to 80% of your vested balance."/>
+  <meta property="og:description" content="Hard-lock savings that actually grow. Transparent fixed APR tiers and emergency access up to 80% of your vested balance."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
   <meta property="og:image" content="/public/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="LockHabit — Save on purpose"/>
-  <meta name="twitter:description" content="Plan your deposits and see projected growth with weekly compounding."/>
+  <meta name="twitter:description" content="Plan your deposits and see projected growth with selectable compounding."/>
   <meta name="twitter:image" content="/public/og-image.png"/>
 
   <!-- Fonts -->
@@ -113,7 +113,7 @@
     .cta{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
     .cta .btn{padding:12px 16px}
 
-    /* Static mock card */
+    /* Demo card */
     .mock{
       background:#fff;border:1px solid var(--line);border-radius:20px;
       padding:18px;box-shadow:var(--shadow-elev);position:relative;overflow:hidden
@@ -122,24 +122,23 @@
     .mini{font-size:12px;color:#66728c}
     .badge{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800;white-space:nowrap}
 
-    .card{margin-top:12px;background:linear-gradient(180deg,#fff,#f9f9ff);border:1px solid var(--line);border-radius:14px;padding:12px}
+    .panel{margin-top:12px;background:linear-gradient(180deg,#fff,#f9f9ff);border:1px solid var(--line);border-radius:14px;padding:12px}
     .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
     @media (min-width:560px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
     .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:112px}
     .k{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
     .v{font-weight:800;font-size:22px;line-height:1.2;color:#0b1230;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
     .help{font-size:12px;color:#64718a}
-    /* ensure long text never clips */
-    .stat, .v, .help{overflow-wrap:anywhere;word-break:break-word}
+    .bar{height:10px;border-radius:999px;background:#edf0f6;border:1px solid #e5e8f1;overflow:hidden}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,var(--brand));transition:width .6s ease}
+    .input{font-weight:800;border:1px solid #dbe0ea;border-radius:10px;padding:6px 8px}
+    .sel{font-weight:800;border:1px solid #dbe0ea;border-radius:10px;padding:6px 8px}
 
     /* Sections */
     section.s{max-width:1200px;margin:0 auto;padding:44px 16px}
     @media (min-width:768px){ section.s{padding:56px 22px} }
     .section-title{font-size:28px;text-align:center;margin:0 0 12px;color:#f8f9ff}
     @media (min-width:768px){ .section-title{font-size:32px} }
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-elev)}
-    @media (min-width:768px){ .panel{padding:24px} }
-
     .cols3{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width:900px){ .cols3{grid-template-columns:repeat(3,minmax(0,1fr))} }
     .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
@@ -157,7 +156,7 @@
     .trust{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
     .trust b{color:#101828}
 
-    /* Social proof bar (kept in code, hidden by design per request) */
+    /* Social proof (kept hidden) */
     .proof{display:none !important; background:var(--bg-2); border-top:1px solid #1a2140;border-bottom:1px solid #1a2140}
     .proofwrap{max-width:1200px;margin:0 auto;padding:14px 16px;color:#cfd6ff;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
     .pitem{display:flex;align-items:center;gap:10px}
@@ -220,8 +219,7 @@
   <div class="hero-grid" aria-describedby="hero-copy">
     <div>
       <div class="chips" aria-label="Highlights">
-        <!-- Removed “Discipline Pays” per request -->
-        <span class="chip"><b style="color:#22c55e">Up to 3.5% APR</b> • weekly compounding</span>
+        <span class="chip"><b style="color:#22c55e">Up to 3.5% APR</b> • selectable compounding</span>
         <span class="chip">Emergency line: <b>80%</b> of vested</span>
       </div>
 
@@ -241,52 +239,66 @@
       <!-- Social proof bar kept for later, hidden -->
       <div class="proof" aria-hidden="true">
         <div class="proofwrap">
-          <div class="pitem"><span class="pnum">700+</span> creators & savers follow our build</div>
+          <div class="pitem"><span class="pnum">700+</span> followers of our build</div>
           <div class="pitem"><span class="pnum">92%</span> said “this finally makes me save”</div>
           <div class="pitem">Clear terms. No dark patterns.</div>
         </div>
       </div>
     </div>
 
-    <!-- Right: static demo (no animation) -->
-    <aside class="mock" aria-live="polite">
+    <!-- Right: INTERACTIVE 3-BOX DEMO -->
+    <aside class="mock" aria-live="polite" id="demoCard">
       <div class="row">
         <div>
-          <div class="mini">Savings Vault — Static Preview</div>
-          <div style="font-weight:800;font-size:18px;color:#0f1a34">10-Year Weekly Plan</div>
-          <div class="mini">Initial $3,000 • +$200/week • 3.5% APR (weekly compounding)</div>
+          <div class="mini">Savings Vault — Live Demo</div>
+          <div style="font-weight:800;font-size:18px;color:#0f1a34">12-Month Plan</div>
+          <div class="mini">Hypothetical: <b>$200/month</b> • <span id="cmpTxt">Monthly</span> • <span id="aprTxt">3.0% APR</span></div>
         </div>
         <span class="badge">On-time ↑ credit</span>
       </div>
 
-      <!-- Static stats -->
-      <div class="grid">
+      <!-- 3 boxes (Deposit / APR / Compounding) -->
+      <div class="grid" role="group" aria-label="Demo controls">
         <div class="stat">
-          <div class="k">Locked today</div>
-          <div class="v" data-fit>$3,000</div>
-          <div class="help">Auto-deposit $200 weekly</div>
+          <div class="k">Deposit <abbr title="For this home demo, deposit is fixed at $200 per month.">ⓘ</abbr></div>
+          <div class="v">$200</div>
+          <div class="help">Fixed for demo</div>
         </div>
         <div class="stat">
-          <div class="k">Projected interest</div>
-          <div class="v" data-fit>$21,729.99</div>
-          <div class="help">Over 10 years at 3.5% APR</div>
+          <div class="k">APR <abbr title="Fixed APR tier. For illustration only.">ⓘ</abbr></div>
+          <div class="v">
+            <input id="aprInput" class="input" type="number" step="0.1" min="0" max="20" value="3.0" aria-label="APR percentage"> %
+          </div>
+          <div class="help">2.0 / 2.5 / 3.0 / 3.5</div>
         </div>
         <div class="stat">
-          <div class="k">Account balance (projected)</div>
-          <div class="v" data-fit>$128,729.99</div>
-          <div class="help">Principal + deposits + interest</div>
+          <div class="k">Compounding <abbr title="How often interest is compounded on your balance.">ⓘ</abbr></div>
+          <div class="v">
+            <select id="cmpSel" class="sel" aria-label="Compounding frequency">
+              <option value="12" selected>Monthly</option>
+              <option value="52">Weekly</option>
+              <option value="365">Daily</option>
+            </select>
+          </div>
+          <div class="help">Demo only</div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="row" style="gap:12px; align-items:flex-end">
-          <div style="min-width:0">
-            <div class="k">Emergency line (80% of vested)</div>
-            <div class="v" style="font-size:20px" data-fit>$102,983.99</div>
-            <div class="help">0% for 4 months, then 6% APR • interest credited back after payoff</div>
-          </div>
-          <button class="btn acc pill" type="button" id="btnWaitlistCard">Join the waitlist</button>
+      <!-- Progress + Readouts -->
+      <div class="panel" aria-label="Projection">
+        <div class="row" style="margin-bottom:8px">
+          <div class="mini">Progress</div><div class="mini" id="pval" aria-live="polite">0%</div>
         </div>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="pbar"></div></div>
+        <div class="grid" style="margin-top:12px">
+          <div class="stat"><div class="k">Deposited <abbr title="Sum of all your monthly contributions.">ⓘ</abbr></div><div class="v" id="vDeposited" data-fit>$0.00</div></div>
+          <div class="stat"><div class="k">Interest <abbr title="Growth from compounding at the selected APR.">ⓘ</abbr></div><div class="v" id="vInterest" data-fit>$0.00</div></div>
+          <div class="stat"><div class="k">Total vested <abbr title="Principal plus interest (before any fees).">ⓘ</abbr></div><div class="v" id="vTotal" data-fit>$0.00</div></div>
+        </div>
+        <div class="mini" id="summaryLine" style="margin-top:8px;color:#405070"></div>
+      </div>
+      <div class="mini" style="margin-top:8px">
+        Hypothetical example. Rates are posted and may change; returns not guaranteed. See terms below.
       </div>
     </aside>
   </div>
@@ -318,7 +330,7 @@
       <div class="plan">
         <h3>2) Grow automatically</h3>
         <ul>
-          <li>Compounded weekly at the plan rate</li>
+          <li>Compounding at the posted rate</li>
           <li>Your money is <b>never lent out</b></li>
           <li>Clear, in-app projections — no guesswork</li>
         </ul>
@@ -342,7 +354,7 @@
     <div class="plan">
       <h3>1–3 months</h3>
       <ul>
-        <li><b>2.0% APR</b> (weekly compounding)</li>
+        <li><b>2.0% APR</b></li>
         <li><b>$3</b> flat at unlock</li>
         <li>Fast goals & habit building</li>
       </ul>
@@ -350,7 +362,7 @@
     <div class="plan">
       <h3>4–6 months</h3>
       <ul>
-        <li><b>2.5% APR</b> (weekly compounding)</li>
+        <li><b>2.5% APR</b></li>
         <li><b>$2</b> flat at unlock</li>
         <li>Balanced discipline</li>
       </ul>
@@ -359,7 +371,7 @@
     <div class="plan">
       <h3>12 months</h3>
       <ul>
-        <li><b>3.0% APR</b> (weekly compounding)</li>
+        <li><b>3.0% APR</b></li>
         <li><b>$1</b> flat at unlock</li>
         <li>Annual rhythm, steady growth</li>
       </ul>
@@ -369,8 +381,8 @@
   <div class="panel" style="margin-top:12px">
     <h3 style="margin:0 0 6px;color:#15213d">12+ months (long-term)</h3>
     <ul style="margin:8px 0 0;padding-left:18px;color:#3b4a67">
-      <li><b>3.5% APR</b>, compounded weekly</li>
-      <li>Examples called out for clarity: <b>3.25 years (39 mo)</b> & <b>3.5 years (42 mo)</b> both priced at the 12+ month rate</li>
+      <li><b>3.5% APR</b></li>
+      <li>Examples: <b>3.25 years (39 mo)</b> & <b>3.5 years (42 mo)</b> priced at the 12+ month rate</li>
     </ul>
   </div>
 </section>
@@ -384,7 +396,7 @@
         <h3>Core Fixed</h3>
         <ul>
           <li>2.0% • 2.5% • 3.0% • <b>3.5%</b> APR tiers</li>
-          <li>Weekly compounding</li>
+          <li>Selectable compounding</li>
           <li>Funds segregated, not lent</li>
         </ul>
       </div>
@@ -414,7 +426,7 @@
   <h2 id="sec-title" class="section-title">Your money stays safe</h2>
   <div class="panel">
     <div class="trustgrid">
-      <div class="trust>
+      <div class="trust">
         <b>FDIC-backed via partner banks</b>
         <p class="mini">When deposits are held at partner banks and structured for pass-through coverage, FDIC insurance applies up to legal limits per depositor, per bank.</p>
       </div>
@@ -452,7 +464,7 @@
     </details>
     <details>
       <summary>Do I earn interest while locked?</summary>
-      <p>Yes. Balances earn the disclosed APR, <b>compounded weekly</b> and prorated by time in lock. Rates may change with notice.</p>
+      <p>Yes. Balances earn the disclosed APR and compound at the selected cadence. Rates may change with notice.</p>
     </details>
     <details>
       <summary>How does the emergency line work?</summary>
@@ -525,14 +537,14 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Is this a hard lock?","acceptedAnswer":{"@type":"Answer","text":"Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. Non-emergency early break attempts incur a 5% fee."}},
-{"@type":"Question","name":"Do I earn interest while locked?","acceptedAnswer":{"@type":"Answer","text":"Yes. Balances earn the disclosed APR, compounded weekly and prorated by time in lock. Rates may change with notice."}},
+{"@type":"Question","name":"Do I earn interest while locked?","acceptedAnswer":{"@type":"Answer","text":"Yes. Balances earn the disclosed APR and compound at the selected cadence. Rates may change with notice."}},
 {"@type":"Question","name":"How does the emergency line work?","acceptedAnswer":{"@type":"Answer","text":"You can borrow up to 80% of your vested amount. The line is 0% for the first 4 months, then 6% APR. After payoff, interest is credited back to your balance. On-time payment may help your credit; late payment may harm it."}},
 {"@type":"Question","name":"Is my money FDIC insured?","acceptedAnswer":{"@type":"Answer","text":"Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for FDIC insurance up to applicable limits per depositor, per bank."}},
 {"@type":"Question","name":"What about the High-Risk Growth option?","acceptedAnswer":{"@type":"Answer","text":"It is variable APR (7.8–20%) and you can lose value. It’s optional and includes extra disclosures before opt-in. Consider your risk tolerance."}}
 ]}
 </script>
 
-<!-- ========================= SCRIPTS (static demo + fitText + modal + header) ========================= -->
+<!-- ========================= SCRIPTS (demo + fitText + modal + header) ========================= -->
 <script>
   /* Live year */
   document.getElementById('yr').textContent = new Date().getFullYear();
@@ -564,7 +576,7 @@
   window.openModal = openModal; window.closeModal = closeModal;
 
   /* Wire all waitlist buttons */
-  ['btnWaitlistHdr','btnWaitlistHero','btnWaitlistCard'].forEach(id=>{
+  ['btnWaitlistHdr','btnWaitlistHero'].forEach(id=>{
     const el = document.getElementById(id);
     if (el) el.addEventListener('click', openModal);
   });
@@ -626,8 +638,89 @@
     });
   })();
 
-  /* PWA SW registration — temporarily disabled to prevent redirect/cache loops */
-  // One-time cleanup: unregister any previously installed service workers.
+  /* ================== INTERACTIVE 3-BOX DEMO (correct math + count-up) ================== */
+  (function(){
+    const depMonthly = 200;          // fixed in home demo
+    const months = 12;               // 12-month illustration
+    const aprInput = document.getElementById('aprInput');
+    const cmpSel   = document.getElementById('cmpSel');
+    const aprTxt   = document.getElementById('aprTxt');
+    const cmpTxt   = document.getElementById('cmpTxt');
+    const vD = document.getElementById('vDeposited');
+    const vI = document.getElementById('vInterest');
+    const vT = document.getElementById('vTotal');
+    const sum = document.getElementById('summaryLine');
+    const pbar = document.getElementById('pbar'), pval = document.getElementById('pval');
+
+    if(!aprInput || !cmpSel) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function currency(n){ return n.toLocaleString(undefined,{style:'currency',currency:'USD'}); }
+
+    // Count-up animation for numbers (subtle, premium)
+    function animateValue(el, from, to, dur=450){
+      if(prefersReduced || !el) { el.textContent = currency(to); return; }
+      const start = performance.now();
+      function step(ts){
+        const t = Math.min(1, (ts - start)/dur);
+        const eased = 1 - Math.pow(1 - t, 3); // cubic ease-out
+        el.textContent = currency(from + (to - from)*eased);
+        if(t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Monthly contributions; interest compounds ppy times/year.
+    function project(depMonthly, months, aprPct, ppy){
+      const r = (aprPct/100)/ppy;                       // rate per compounding period
+      const totalPeriods = Math.round(ppy * (months/12));
+      const periodsPerMonth = ppy/12;
+      let bal = 0, contrib = 0;
+      for (let p = 1; p <= totalPeriods; p++){
+        // deposit at the end of each month boundary
+        if (Math.abs(p % periodsPerMonth) < 1e-9){ bal += depMonthly; contrib += depMonthly; }
+        bal *= (1 + r);
+      }
+      const interest = Math.max(0, bal - contrib);
+      return {contrib, interest, total: bal};
+    }
+
+    function render(){
+      const apr = Math.max(0, Math.min(20, Number(aprInput.value || 3)));
+      const ppy = Number(cmpSel.value || 12);
+      aprTxt.textContent = apr.toFixed(1) + '% APR';
+      cmpTxt.textContent = cmpSel.selectedOptions[0].textContent;
+
+      const before = {
+        d: parseFloat((vD.textContent||'0').replace(/[^0-9.\-]/g,''))||0,
+        i: parseFloat((vI.textContent||'0').replace(/[^0-9.\-]/g,''))||0,
+        t: parseFloat((vT.textContent||'0').replace(/[^0-9.\-]/g,''))||0
+      };
+
+      const out = project(depMonthly, months, apr, ppy);
+
+      animateValue(vD, before.d, out.contrib);
+      animateValue(vI, before.i, out.interest);
+      animateValue(vT, before.t, out.total);
+
+      sum.textContent = `$200/mo × ${months} @ ${apr.toFixed(1)}% (${cmpSel.selectedOptions[0].textContent.toLowerCase()}) → ${currency(out.total)} total (${currency(out.interest)} interest)`;
+
+      // gentle animated bar (illustrative only)
+      let prog = 0; clearInterval(window.__prog);
+      window.__prog = setInterval(()=>{
+        prog = (prog + 2) % 100;
+        pbar.style.width = prog + '%';
+        pval.textContent = prog + '%';
+        pbar.parentElement.setAttribute('aria-valuenow', String(prog));
+      }, 500);
+    }
+
+    aprInput.addEventListener('input', render);
+    cmpSel.addEventListener('change', render);
+    render();
+  })();
+
+  /* PWA SW registration — disabled during dev to avoid cache surprises */
   if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
     navigator.serviceWorker.getRegistrations().then(regs => {
       regs.forEach(r => r.unregister());
@@ -636,10 +729,6 @@
       }
     }).catch(() => {});
   }
-  // To re-enable later, restore your original register() block:
-  // navigator.serviceWorker.register('/public/sw.js')
-  //   .then(() => console.log('✅ Service Worker registered'))
-  //   .catch(err => console.error('❌ SW registration failed:', err));
 </script>
 </body>
 </html>
