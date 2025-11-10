@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
+  <!-- Google tag (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Student Loan Repayment Calculator — LockHabit Tools</title>
+  <meta name="description" content="Estimate monthly payments, total interest, and payoff schedule for your student loans. Add extra payments, compare terms, and email yourself the results."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --brand:#6f7cff; --brand-2:#9c78ff; --line:#e6e7f1; --ink:#0b1230; --bg:#0b0e1a; --panel:#fff;
+      --muted:#5b677f; --green:#22c55e; --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:#f7f8ff;color:var(--ink);font:16px/1.6 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,var(--brand),var(--brand-2))}
+    .word{font-weight:800;color:#0e1a34;letter-spacing:.2px}
+    .menu{position:relative}
+    .more{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer}
+    .dropdown{position:absolute;right:0;top:44px;min-width:260px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:none}
+    .dropdown a{display:block;padding:10px 12px;text-decoration:none;color:#14223e;border-bottom:1px solid #f0f2f8}
+    .dropdown a:last-child{border-bottom:0}
+    .hero{padding:32px 16px;border-bottom:1px solid var(--line);background:
+      radial-gradient(1100px 650px at 50% -150px, rgba(111,124,255,.20) 0%, rgba(156,120,255,.10) 40%, transparent 60%), #f8f9ff}
+    .hwrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:start}
+    @media (max-width:980px){ .hwrap{grid-template-columns:1fr} }
+
+    h1{font-size:36px;line-height:1.1;margin:0 0 8px}
+    .sub{color:#33415f;margin:0}
+
+    .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:720px){ .grid{grid-template-columns:1fr} }
+    label{font-weight:600;color:#12203d;font-size:14px}
+    input,select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}
+    .mini{font-size:12px;color:var(--muted)}
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .kv .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:20px;color:#0b1230;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{padding:10px;border-bottom:1px solid #eef1f6;text-align:right}
+    th:first-child, td:first-child{text-align:left}
+    tfoot td{font-weight:800}
+    .bar{height:6px;border-radius:999px;background:#eef1ff;overflow:hidden}
+    .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+    footer{padding:24px 16px;color:#3a4a66}
+    .foot{max-width:1100px;margin:0 auto}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/"><span class="logo" aria-hidden="true"></span><span class="word">LockHabit</span></a>
+    <div class="menu">
+      <button class="more" id="moreBtn">More calculators ▾</button>
+      <div class="dropdown" id="menu">
+        <a href="/income-calculator.html">Income (Take-Home)</a>
+        <a href="/mortgage-calculator.html">Mortgage</a>
+        <a href="/loan-payoff-calculator.html">Loan Payoff</a>
+        <a href="/savings-calculator.html">Savings Growth</a>
+        <a href="/retirement-calculator.html">Retirement</a>
+        <a href="/credit-card-payoff.html">Credit Card Payoff</a>
+        <a href="/emergency-fund.html">Emergency Fund</a>
+        <a href="/car-loan-calculator.html">Car Loan</a>
+        <a href="/rent-vs-buy.html">Rent vs Buy</a>
+        <a href="/currency-converter.html">Currency Converter</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hwrap">
+    <div>
+      <h1>Student Loan Repayment Calculator</h1>
+      <p class="sub">Estimate monthly payment, total interest, and payoff date. Add optional extra payments and email the schedule to yourself.</p>
+      <div class="card" style="margin-top:12px">
+        <form id="form" class="grid" novalidate>
+          <div>
+            <label>Loan balance</label>
+            <input type="number" id="balance" inputmode="decimal" placeholder="e.g., 35000" min="0" step="0.01" required>
+            <div class="mini">Principal you owe right now.</div>
+          </div>
+          <div>
+            <label>Interest rate (APR, %)</label>
+            <input type="number" id="rate" inputmode="decimal" placeholder="e.g., 5.5" min="0" step="0.01" required>
+            <div class="mini">Annual percentage rate.</div>
+          </div>
+          <div>
+            <label>Term (years)</label>
+            <input type="number" id="years" inputmode="decimal" placeholder="e.g., 10" min="1" step="1" required>
+            <div class="mini">Length of the repayment plan.</div>
+          </div>
+          <div>
+            <label>Extra payment (monthly, optional)</label>
+            <input type="number" id="extra" inputmode="decimal" placeholder="e.g., 50" min="0" step="0.01">
+            <div class="mini">Applied directly to principal each month.</div>
+          </div>
+          <div>
+            <label>Start month</label>
+            <input type="month" id="startMonth">
+            <div class="mini">If empty, today’s month is used.</div>
+          </div>
+          <div>
+            <label>Pull saved monthly income (optional)</label>
+            <div class="row">
+              <button type="button" class="btn" id="loadIncome">Use saved income</button>
+              <span class="mini" id="incomeNote">Loads last saved income (from Income calculator) to consider affordability.</span>
+            </div>
+          </div>
+        </form>
+        <div class="row" style="margin-top:10px">
+          <button class="btn acc" id="calc">Calculate</button>
+          <button class="btn" id="reset">Reset</button>
+          <button class="btn" id="emailBtn">Email me the results</button>
+        </div>
+      </div>
+      <p class="mini" style="margin-top:8px">Note: This is a general amortization model (standard/fixed payment). Country-specific student loan programs and income-driven plans vary.</p>
+    </div>
+
+    <div>
+      <div class="kv">
+        <div class="box">
+          <div class="k">Estimated payment</div>
+          <div class="v" id="outPayment">—</div>
+        </div>
+        <div class="box">
+          <div class="k">Payoff date</div>
+          <div class="v" id="outPayoff">—</div>
+        </div>
+        <div class="box">
+          <div class="k">Total interest</div>
+          <div class="v" id="outInterest">—</div>
+        </div>
+        <div class="box">
+          <div class="k">Total paid</div>
+          <div class="v" id="outTotal">—</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 8px">Paydown progress</h3>
+        <div class="bar"><span id="progress" style="width:0%"></span></div>
+        <div class="mini" id="progressLabel" style="margin-top:6px">0% principal paid</div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 8px">Amortization schedule</h3>
+        <div style="max-height:340px;overflow:auto;border:1px solid #eef1f6;border-radius:12px">
+          <table id="table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Payment</th>
+                <th>Principal</th>
+                <th>Interest</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+              <tr>
+                <td>Totals</td>
+                <td id="tPay">—</td>
+                <td id="tPrin">—</td>
+                <td id="tInt">—</td>
+                <td>—</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div class="mini">© <span id="yr"></span> LockHabit Tools — Free calculators for smarter money choices. No signup required.</div>
+  </div>
+</footer>
+
+<script>
+  // Simple menu toggle
+  const moreBtn = document.getElementById('moreBtn');
+  const menu = document.getElementById('menu');
+  moreBtn.addEventListener('click', ()=> {
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  });
+  document.addEventListener('click', (e)=>{
+    if (!menu.contains(e.target) && !moreBtn.contains(e.target)) menu.style.display='none';
+  });
+
+  // Helpers
+  const $ = sel => document.querySelector(sel);
+  const cur = (n) => new Intl.NumberFormat(undefined, { style:'currency', currency: guessCurrency() }).format(n ?? 0);
+  const pct = (n) => `${(n||0).toFixed(2)}%`;
+  const fmt = (n) => new Intl.NumberFormat().format(n ?? 0);
+  const today = new Date();
+  $('#yr').textContent = today.getFullYear();
+
+  function guessCurrency(){
+    try {
+      // derive from browser locale
+      const r = new Intl.NumberFormat().resolvedOptions().locale || 'en-US';
+      // Rough default mapping; currency display only
+      if (r.includes('GB')) return 'GBP';
+      if (r.includes('IN')) return 'INR';
+      if (r.includes('EU') || r.includes('DE') || r.includes('FR') || r.includes('ES') || r.includes('IT')) return 'EUR';
+      if (r.includes('CA')) return 'CAD';
+      if (r.includes('AU')) return 'AUD';
+      return 'USD';
+    } catch(_) { return 'USD'; }
+  }
+
+  // Load saved monthly income (from income calculator localStorage key)
+  const loadIncomeBtn = $('#loadIncome');
+  loadIncomeBtn.addEventListener('click', ()=>{
+    try{
+      const saved = JSON.parse(localStorage.getItem('lh_income_calc') || '{}');
+      if(saved && saved.takeHomeMonthly){
+        const note = $('#incomeNote');
+        note.textContent = `Loaded monthly income: ${cur(saved.takeHomeMonthly)} (for affordability check only)`;
+        note.style.color = '#0b3b22';
+        gtag('event','load_saved_income', {page:'student_loan'});
+      }else{
+        alert('No saved income found on this device yet.');
+      }
+    }catch(_){ alert('No saved income found on this device yet.'); }
+  });
+
+  // Calculation
+  const balanceEl = $('#balance');
+  const rateEl = $('#rate');
+  const yearsEl = $('#years');
+  const extraEl = $('#extra');
+  const startEl = $('#startMonth');
+
+  const outPayment = $('#outPayment');
+  const outPayoff = $('#outPayoff');
+  const outInterest = $('#outInterest');
+  const outTotal = $('#outTotal');
+  const tbody = $('#table tbody');
+  const tPay = $('#tPay');
+  const tPrin = $('#tPrin');
+  const tInt = $('#tInt');
+  const progress = $('#progress');
+  const progressLabel = $('#progressLabel');
+
+  // Save inputs locally for persistence
+  const STORAGE_KEY = 'lh_student_loan_calc';
+  function loadSaved(){
+    try{
+      const s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      if(Object.keys(s).length){
+        balanceEl.value = s.balance ?? '';
+        rateEl.value = s.rate ?? '';
+        yearsEl.value = s.years ?? '';
+        extraEl.value = s.extra ?? '';
+        startEl.value = s.start ?? '';
+      }
+    }catch(_){}
+  }
+  function saveInputs(){
+    const s = {
+      balance: +balanceEl.value || 0,
+      rate: +rateEl.value || 0,
+      years: +yearsEl.value || 0,
+      extra: +extraEl.value || 0,
+      start: startEl.value || ''
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+  }
+  loadSaved();
+
+  function buildSchedule(P, annualRate, years, extra, startMonthStr){
+    const r = (annualRate/100)/12;
+    const n = Math.max(1, Math.round(years*12));
+    // Standard fixed payment (without extra)
+    const basePayment = r > 0 ? (P * r) / (1 - Math.pow(1 + r, -n)) : (P / n);
+    const payment = basePayment + (extra||0);
+
+    let bal = P, m = 0;
+    const rows = [];
+    let totalPay=0, totalInt=0, totalPrin=0;
+    let date = startMonthStr ? new Date(startMonthStr+'-01') : new Date();
+
+    while (bal > 0 && m < 1000*12){ // safety cap
+      const interest = bal * r;
+      let principal = payment - interest;
+      if (r === 0) principal = Math.min(payment, bal);
+      if (principal <= 0){ // payment too low
+        // force at least 1 unit principal to avoid infinite loop
+        principal = Math.min(1, bal);
+      }
+      if (principal > bal){ // final month
+        principal = bal;
+      }
+      const pay = principal + interest;
+      bal = +(bal - principal).toFixed(10);
+
+      rows.push({
+        idx: m+1,
+        date: new Date(date),
+        payment: pay,
+        principal,
+        interest,
+        balance: Math.max(0, bal)
+      });
+
+      totalPay += pay; totalInt += interest; totalPrin += principal;
+      // next month
+      date.setMonth(date.getMonth()+1);
+      m++;
+      if (bal <= 0.009){ bal = 0; break; }
+    }
+
+    return {
+      payment: basePayment, // base payment (without extra)
+      effectivePayment: payment,
+      rows,
+      totals:{ pay: totalPay, prin: totalPrin, int: totalInt },
+      payoffDate: rows.length ? rows[rows.length-1].date : null,
+      principalPercentPaid: (P - Math.max(0, bal)) / P * 100
+    };
+  }
+
+  function render(){
+    const P = +balanceEl.value || 0;
+    const rate = +rateEl.value || 0;
+    const years = +yearsEl.value || 0;
+    const extra = +extraEl.value || 0;
+    const startStr = startEl.value || '';
+
+    if(P<=0 || rate<0 || years<=0){
+      outPayment.textContent = '—';
+      outPayoff.textContent = '—';
+      outInterest.textContent = '—';
+      outTotal.textContent = '—';
+      tbody.innerHTML = '';
+      tPay.textContent = '—'; tPrin.textContent = '—'; tInt.textContent = '—';
+      progress.style.width = '0%'; progressLabel.textContent = '0% principal paid';
+      return;
+    }
+
+    const sch = buildSchedule(P, rate, years, extra, startStr);
+    outPayment.textContent = cur(sch.effectivePayment);
+    outPayoff.textContent = sch.payoffDate ? sch.payoffDate.toLocaleDateString() : '—';
+    outInterest.textContent = cur(sch.totals.int);
+    outTotal.textContent = cur(sch.totals.pay);
+
+    progress.style.width = Math.max(0, Math.min(100, sch.principalPercentPaid)).toFixed(1) + '%';
+    progressLabel.textContent = `${sch.principalPercentPaid.toFixed(1)}% principal paid`;
+
+    // table
+    const frag = document.createDocumentFragment();
+    sch.rows.forEach(r=>{
+      const tr = document.createElement('tr');
+      const month = `${r.date.getFullYear()}-${String(r.date.getMonth()+1).padStart(2,'0')}`;
+      tr.innerHTML = `
+        <td>${r.idx}. ${month}</td>
+        <td>${cur(r.payment)}</td>
+        <td>${cur(r.principal)}</td>
+        <td>${cur(r.interest)}</td>
+        <td>${cur(r.balance)}</td>
+      `;
+      frag.appendChild(tr);
+    });
+    tbody.innerHTML = '';
+    tbody.appendChild(frag);
+
+    tPay.textContent = cur(sch.totals.pay);
+    tPrin.textContent = cur(sch.totals.prin);
+    tInt.textContent = cur(sch.totals.int);
+
+    // Save inputs
+    saveInputs();
+  }
+
+  // Buttons
+  document.getElementById('calc').addEventListener('click', ()=>{
+    render();
+    gtag('event','student_calc_run');
+  });
+  document.getElementById('reset').addEventListener('click', ()=>{
+    ['balance','rate','years','extra','startMonth'].forEach(id=> document.getElementById(id).value='');
+    tbody.innerHTML=''; outPayment.textContent=outPayoff.textContent=outInterest.textContent=outTotal.textContent='—';
+    progress.style.width='0%'; progressLabel.textContent='0% principal paid';
+    localStorage.removeItem(STORAGE_KEY);
+    gtag('event','student_calc_reset');
+  });
+
+  // Email results
+  document.getElementById('emailBtn').addEventListener('click', ()=>{
+    const P = +balanceEl.value || 0;
+    const rate = +rateEl.value || 0;
+    const years = +yearsEl.value || 0;
+    const extra = +extraEl.value || 0;
+
+    const lines = [];
+    lines.push('Student Loan Repayment Results — LockHabit');
+    lines.push(`Balance: ${cur(P)}`);
+    lines.push(`APR: ${rate}%`);
+    lines.push(`Term: ${years} years`);
+    if (extra>0) lines.push(`Extra monthly: ${cur(extra)}`);
+    lines.push(`Estimated payment: ${outPayment.textContent}`);
+    lines.push(`Total interest: ${outInterest.textContent}`);
+    lines.push(`Total paid: ${outTotal.textContent}`);
+    lines.push(`Payoff date: ${outPayoff.textContent}`);
+    lines.push('');
+    lines.push('Schedule (first 12 rows):');
+    const rows = Array.from(tbody.querySelectorAll('tr')).slice(0,12);
+    rows.forEach(tr=>{
+      const tds = tr.querySelectorAll('td');
+      lines.push(`${tds[0].textContent} | Pay ${tds[1].textContent} | Prin ${tds[2].textContent} | Int ${tds[3].textContent} | Bal ${tds[4].textContent}`);
+    });
+
+    const subject = encodeURIComponent('Student Loan Repayment — LockHabit');
+    const body = encodeURIComponent(lines.join('\n'));
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    gtag('event','student_email_export');
+  });
+
+  // Auto-calc if stored values exist
+  window.addEventListener('load', render, { once:true });
+</script>
+</body>
+</html>
