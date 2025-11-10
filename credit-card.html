@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Credit Card Payoff Calculator | LockHabit</title>
+  <meta name="description" content="See how long it takes to pay off your credit card, total interest paid, and a full month-by-month schedule. Compare minimum vs fixed payment."/>
+  <link rel="canonical" href="https://lockhabit.com/credit-card.html"/>
+  <meta name="theme-color" content="#0b0e1a"/>
+
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Credit Card Payoff Calculator"/>
+  <meta property="og:description" content="Enter balance, APR, and payment strategy to get payoff time, interest, and an amortization schedule."/>
+  <meta property="og:url" content="https://lockhabit.com/credit-card.html"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --brand:#6f7cff; --brand2:#9c78ff; --ink:#0b1230; --muted:#586381;
+      --line:#e6e7f1; --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#fff;color:var(--ink)}
+    a{color:inherit}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+    /* Header */
+    .hdr{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo{width:26px;height:26px;background:linear-gradient(135deg,var(--brand),var(--brand2));border-radius:6px}
+    .word{font-weight:800;letter-spacing:.2px}
+    .menu{position:relative}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .dd{position:absolute;right:0;top:48px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:none;min-width:240px;padding:8px}
+    .dd a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none}
+    .dd a:hover{background:#f4f6ff}
+    /* Hero */
+    .hero{background:linear-gradient(180deg,#f8f9ff,#fff);border-bottom:1px solid var(--line)}
+    h1{font-size:34px;line-height:1.15;margin:0 0 8px}
+    .sub{color:var(--muted);margin:0}
+    /* Layout */
+    .grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+    @media(min-width:960px){ .grid{grid-template-columns:1.05fr .95fr} }
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+    label{font-weight:700;display:block;margin:6px 0 6px}
+    input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-color:transparent}
+    .muted{background:#f7f8ff}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .stat{border:1px solid var(--line);border-radius:12px;padding:12px}
+    .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:22px}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{border-bottom:1px solid var(--line);padding:8px;text-align:right}
+    th:first-child,td:first-child{text-align:left}
+    tfoot td{font-weight:800}
+    .fine{font-size:12px;color:var(--muted);margin-top:10px}
+    .ads{margin-top:12px}
+    .hint{font-size:12px;color:var(--muted)}
+  </style>
+
+  <!-- Breadcrumbs for SEO -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"LockHabit","item":"https://lockhabit.com/"},
+    {"@type":"ListItem","position":2,"name":"Calculators","item":"https://lockhabit.com/"},
+    {"@type":"ListItem","position":3,"name":"Credit Card Payoff","item":"https://lockhabit.com/credit-card.html"}
+  ]}
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="hdr">
+    <div class="wrap bar">
+      <a class="brand" href="/index.html" aria-label="LockHabit home">
+        <span class="logo" aria-hidden="true"></span><span class="word">LockHabit</span>
+      </a>
+      <div class="menu">
+        <button class="btn" id="moreBtn" aria-expanded="false" aria-controls="dd">More calculators ▾</button>
+        <nav id="dd" class="dd" aria-label="More calculators">
+          <a href="/income.html">Income & Taxes</a>
+          <a href="/mortgage.html">Mortgage</a>
+          <a href="/loan.html">Loan & Amortization</a>
+          <a href="/savings.html">Savings Goal</a>
+          <a href="/retirement.html">Retirement</a>
+          <a href="/fx.html">Currency Converter</a>
+          <a href="/business.html">Business Tools</a>
+          <a href="/blog.html">Blog / Newsletter</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Credit Card Payoff Calculator</h1>
+      <p class="sub">Compare paying the minimum vs a fixed monthly amount. Get payoff time, total interest, and a clear month-by-month schedule. Inputs auto-save on this device.</p>
+    </div>
+  </section>
+
+  <main class="wrap grid" id="app">
+    <!-- Inputs -->
+    <section class="panel" aria-labelledby="inputs">
+      <h2 id="inputs" style="margin:0 0 6px">Inputs</h2>
+
+      <div class="row">
+        <div>
+          <label for="balance">Current balance</label>
+          <input id="balance" type="number" inputmode="decimal" placeholder="e.g., 5200">
+        </div>
+        <div>
+          <label for="apr">APR (%)</label>
+          <input id="apr" type="number" inputmode="decimal" placeholder="e.g., 22.99">
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="minPct">Minimum payment rule</label>
+          <select id="minPct">
+            <option value="0.02">2% of balance (or $25 min)</option>
+            <option value="0.015">1.5% of balance (or $25 min)</option>
+            <option value="0.01">1% of balance (or $25 min)</option>
+          </select>
+          <div class="hint">We’ll apply the greater of the percentage or $25 (and never more than remaining balance).</div>
+        </div>
+        <div>
+          <label for="fixed">OR choose a fixed monthly payment</label>
+          <input id="fixed" type="number" inputmode="decimal" placeholder="Leave empty to use minimum rule">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="calcBtn">Calculate</button>
+        <button class="btn muted" id="resetBtn" type="button">Reset</button>
+        <button class="btn" id="emailBtn" type="button">Email me the results</button>
+      </div>
+      <div class="fine">Estimates only. Issuer policies vary.</div>
+
+      <div class="ads">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8769734249298884" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="panel" aria-labelledby="results">
+      <h2 id="results" style="margin:0 0 6px">Results</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Monthly payment used</div>
+          <div class="v" id="outPay">—</div>
+        </div>
+        <div class="stat">
+          <div class="k">Months to payoff</div>
+          <div class="v" id="outMonths">—</div>
+        </div>
+        <div class="stat">
+          <div class="k">Total interest</div>
+          <div class="v" id="outInterest">—</div>
+        </div>
+        <div class="stat">
+          <div class="k">Total paid</div>
+          <div class="v" id="outTotal">—</div>
+        </div>
+      </div>
+
+      <h3 style="margin:18px 0 8px">Month-by-month schedule</h3>
+      <div style="overflow:auto">
+        <table id="table" aria-describedby="tableNote">
+          <thead>
+            <tr><th>Month</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Balance</th></tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr><td>Total</td><td id="tPay">—</td><td id="tInt">—</td><td id="tPrin">—</td><td>—</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <div id="tableNote" class="fine">Assumes interest compounds monthly from APR/12 and no new purchases/fees.</div>
+    </section>
+  </main>
+
+  <footer class="wrap fine" style="margin-top:18px">
+    © <span id="yr"></span> LockHabit — Calculators. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
+  </footer>
+
+  <script>
+    // Header dropdown
+    const moreBtn = document.getElementById('moreBtn'), dd = document.getElementById('dd');
+    moreBtn.addEventListener('click', () => {
+      const open = dd.style.display === 'block';
+      dd.style.display = open ? 'none' : 'block';
+      moreBtn.setAttribute('aria-expanded', String(!open));
+    });
+    document.addEventListener('click', (e)=>{ if(!dd.contains(e.target) && e.target!==moreBtn) dd.style.display='none'; });
+
+    // Year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Currency formatter
+    let fmt = new Intl.NumberFormat(undefined,{style:'currency',currency:(Intl.NumberFormat().resolvedOptions().currency)||'USD'});
+    const money = n => fmt.format(isFinite(n)? n : 0);
+
+    // Elements
+    const $ = id => document.getElementById(id);
+    const balance=$('balance'), apr=$('apr'), minPct=$('minPct'), fixed=$('fixed');
+    const outPay=$('outPay'), outMonths=$('outMonths'), outInterest=$('outInterest'), outTotal=$('outTotal');
+    const tbody=document.querySelector('#table tbody'); const tPay=$('tPay'), tInt=$('tInt'), tPrin=$('tPrin');
+
+    // Local storage
+    const KEY='lh_cc_v1';
+    (function restore(){
+      try{ const s=JSON.parse(localStorage.getItem(KEY)||'{}');
+        ['balance','apr','minPct','fixed'].forEach(k=>{ if(s[k]!=null) $(k).value=s[k]; });
+      }catch(_){}
+    })();
+    function save(){ localStorage.setItem(KEY, JSON.stringify({balance:balance.value,apr:apr.value,minPct:minPct.value,fixed:fixed.value})); }
+    [balance,apr,minPct,fixed].forEach(el=>el.addEventListener('input',save));
+
+    function calc(){
+      const B0 = +balance.value || 0;
+      const r = (+apr.value||0)/100/12;
+      const pct = +minPct.value || 0.02;
+      const fixedPay = +fixed.value || 0;
+
+      if(B0<=0 || r<0){ renderNone(); return; }
+
+      let month=0, B=B0, totalInt=0, totalPay=0, totalPrin=0, payUsed=0;
+      tbody.innerHTML='';
+
+      while(B>0 && month<1200){
+        month++;
+        const interest = B * r;
+        let payment;
+
+        if(fixedPay>0){
+          // Use fixed payment, but not less than interest + $5 (to ensure progress), and not more than balance+interest
+          payment = Math.max(fixedPay, interest + 5);
+        } else {
+          // Minimum rule: greater of percent*balance or $25
+          payment = Math.max(pct * B, 25);
+        }
+
+        if(payment > B + interest) payment = B + interest;
+
+        const principal = payment - interest;
+        B = Math.max(0, B - principal);
+
+        totalInt += interest; totalPay += payment; totalPrin += principal;
+        if(month===1) payUsed = payment;
+
+        const tr=document.createElement('tr');
+        tr.innerHTML = `<td>${month}</td><td>${money(payment)}</td><td>${money(interest)}</td><td>${money(principal)}</td><td>${money(B)}</td>`;
+        tbody.appendChild(tr);
+
+        if(!isFinite(B) || B<0) break;
+      }
+
+      outPay.textContent = money(payUsed);
+      outMonths.textContent = month ? (month + ' mo') : '—';
+      outInterest.textContent = money(totalInt);
+      outTotal.textContent = money(totalPay);
+      tPay.textContent = money(totalPay); tInt.textContent = money(totalInt); tPrin.textContent = money(totalPrin);
+    }
+
+    function renderNone(){
+      tbody.innerHTML=''; outPay.textContent=outMonths.textContent=outInterest.textContent=outTotal.textContent='—';
+      tPay.textContent=tInt.textContent=tPrin.textContent='—';
+    }
+
+    $('calcBtn').addEventListener('click', calc);
+    $('resetBtn').addEventListener('click', ()=>{ [balance,apr,fixed].forEach(el=>el.value=''); minPct.value='0.02'; save(); renderNone(); });
+
+    // Email results
+    $('emailBtn').addEventListener('click', ()=>{
+      const body = encodeURIComponent(
+`Credit Card Payoff — LockHabit
+Balance: ${balance.value}
+APR %: ${apr.value}
+Minimum rule: ${(+minPct.value*100).toFixed(2)}% (or $25)
+Fixed payment (if any): ${fixed.value}
+
+Payment used (first month): ${outPay.textContent}
+Months to payoff: ${outMonths.textContent}
+Total interest: ${outInterest.textContent}
+Total paid: ${outTotal.textContent}
+
+Generated at: https://lockhabit.com/credit-card.html`);
+      window.location.href = `mailto:?subject=Credit%20Card%20Payoff%20Results&body=${body}`;
+    });
+
+    // First render
+    calc();
+  </script>
+</body>
+</html>
