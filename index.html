@@ -1,323 +1,290 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Ads & Analytics -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>LockHabit — Financial calculators for everyone</title>
+  <meta name="description" content="Clean, fast calculators for income & taxes, mortgages, loans, savings, retirement, credit cards, and currency conversion. Private by default. No sign-up required."/>
+
+  <!-- Canonical + Social -->
+  <link rel="canonical" href="https://lockhabit.com/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="LockHabit — Financial calculators for everyone"/>
+  <meta property="og:description" content="Clean, fast calculators for income & taxes, mortgages, loans, savings, retirement, credit cards, and currency conversion."/>
+  <meta property="og:url" content="https://lockhabit.com/"/>
+  <meta property="og:image" content="/public/og-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="LockHabit — Financial calculators"/>
+  <meta name="twitter:description" content="Private by default. Global-ready. No sign-up required."/>
+  <meta name="theme-color" content="#0b0e1a"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- AdSense (home can show ads; legal pages stay ad-free) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config','G-WMJ37PBW8H');
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
   </script>
 
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit — Financial Calculators for Everyone</title>
-  <meta name="description" content="Fast, clean calculators for income & taxes, mortgage, loans, budgeting, savings, retirement, and live currency conversion. No sign-up required."/>
-  <link rel="canonical" href="https://lockhabit.com/"/>
-  <meta name="theme-color" content="#0b0e1a"/>
-
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit — Financial Calculators for Everyone"/>
-  <meta property="og:description" content="All the money math you need in one place. Global-ready, private by default."/>
-  <meta property="og:url" content="https://lockhabit.com/"/>
-  <meta property="og:image" content="/assets/og-image.png"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-
-  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/public/favicon.ico">
-  <link rel="apple-touch-icon" href="/public/icon-192.png">
-  <link rel="manifest" href="/public/manifest.webmanifest">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-
+  <!-- Styles -->
   <style>
     :root{
-      --bg:#0b0e1a; --panel:#0f1630; --ink:#e8ecff; --muted:#9fb0d6;
-      --chip:#1a2042; --chip-bd:#2b3563; --brand:#6f7cff; --brand2:#9c78ff;
-      --card:#0f1224; --card-bd:#222a54; --line:#1e2853; --white:#fff;
-      --radius:16px; --shadow:0 14px 40px rgba(7,10,18,.35);
+      --bg:#0b0e1a; --bg2:#0d1330;
+      --panel:#ffffff; --ink:#0e1a34; --muted:#4d5a78;
+      --line:#e7ebf3;
+      --brand:#6f7cff; --brand-2:#9c78ff; --brand-lite:#8a96ff;
+      --radius:14px; --radius-lg:18px;
+      --shadow:0 20px 60px rgba(10,16,35,.20);
+      --shadow-soft:0 10px 28px rgba(111,124,255,.22);
+      --grad-hero:
+        radial-gradient(1200px 520px at 50% -120px, rgba(111,124,255,.24) 0%, rgba(156,120,255,.14) 40%, transparent 60%),
+        radial-gradient(900px 500px at -10% 10%, rgba(156,120,255,.12) 0%, transparent 55%),
+        radial-gradient(900px 500px at 110% -10%, rgba(111,124,255,.10) 0%, transparent 60%),
+        #f8f9ff;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; background:
-        radial-gradient(1200px 700px at 70% -80px, rgba(111,124,255,.18), transparent 60%),
-        radial-gradient(900px 600px at -10% 10%, rgba(156,120,255,.16), transparent 55%),
-        var(--bg);
-      color:var(--ink);
-      font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      margin:0; background:var(--bg); color:var(--ink);
+      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
 
     /* Header */
-    .hdr{position:sticky;top:0;z-index:80;background:rgba(10,14,34,.65);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
-    .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2))}
-    .word{font-weight:800}
-    .right{display:flex;align-items:center;gap:10px}
-    .sel{appearance:none;background:var(--chip);border:1px solid var(--chip-bd);color:var(--ink);padding:10px 12px;border-radius:12px}
-    .btn{border:1px solid var(--chip-bd);background:var(--chip);color:var(--ink);padding:10px 12px;border-radius:12px;font-weight:700;cursor:pointer}
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));border-color:transparent;color:#fff}
-
-    /* Dropdown */
+    .hdr{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo{width:28px;height:28px;flex:none}
+    .word{font-weight:800;font-size:18px;color:#0e1a34;letter-spacing:.2px}
+    .actions{display:flex;align-items:center;gap:8px}
+    .pill{
+      appearance:none;border:1px solid var(--line);background:#fff;color:#0e1a34;
+      padding:10px 14px;border-radius:999px;font-weight:700;cursor:pointer;min-height:40px
+    }
+    .pill.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}
+    .pill:hover{box-shadow:var(--shadow-soft)}
     .menu{position:relative}
-    .menu .panel{position:absolute;right:0;top:calc(100% + 8px);background:var(--panel);border:1px solid var(--chip-bd);border-radius:14px;box-shadow:var(--shadow);padding:10px;display:none;min-width:260px}
-    .menu.open .panel{display:block}
-    .panel a{display:block;color:var(--ink);text-decoration:none;padding:10px 12px;border-radius:10px}
-    .panel a:hover{background:#161c3e}
+    .menu-panel{
+      position:absolute;right:0;top:calc(100% + 8px);min-width:260px;background:#fff;border:1px solid var(--line);
+      border-radius:12px;box-shadow:var(--shadow);padding:8px;display:none
+    }
+    .menu.open .menu-panel{display:block}
+    .menu a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#0e1a34}
+    .menu a:hover{background:#f5f7ff}
 
     /* Hero */
-    .hero{max-width:1100px;margin:28px auto 0;padding:0 16px}
-    .h1{font-size:40px;line-height:1.08;margin:0 0 8px}
-    .sub{color:var(--muted);max-width:70ch;margin:0 0 18px}
+    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line)}
+    .hero .box{max-width:1200px;margin:0 auto;padding:56px 16px 36px}
+    h1{font-size:40px;line-height:1.08;margin:0 0 10px;letter-spacing:-.4px}
+    @media (min-width:1000px){ h1{font-size:56px} }
+    .sub{color:#34405f;max-width:70ch;margin:0}
+    .cta{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+    .cta .pill{padding:12px 16px}
 
-    /* Search */
-    .search{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--card-bd);border-radius:14px;padding:8px 10px;max-width:640px}
-    .search input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font-size:16px;outline:none}
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .chip{background:var(--chip);border:1px solid var(--chip-bd);color:var(--ink);padding:8px 12px;border-radius:999px;font-weight:700}
+    /* Bubble grid */
+    .section{max-width:1200px;margin:0 auto;padding:26px 16px}
+    .group-title{font-weight:700;color:#122049;margin:14px 0 8px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media (min-width:740px){ .grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+    @media (min-width:1100px){ .grid{grid-template-columns:repeat(6,minmax(0,1fr))} }
+    .bubble{
+      display:flex;align-items:center;justify-content:center;text-align:center;padding:18px 12px;
+      background:#fff;border:1px solid var(--line);border-radius:16px;text-decoration:none;color:#0e1a34;font-weight:700;
+      min-height:84px;transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .bubble:hover{transform:translateY(-2px);box-shadow:var(--shadow-soft);border-color:#d9dcff}
+    .bubble .small{display:block;font-weight:600;font-size:12px;color:#5b6a8a;margin-top:6px}
+    .bubble.disabled{opacity:.5;pointer-events:none}
 
-    /* Grid bubbles */
-    .grid{max-width:1100px;margin:26px auto;padding:0 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    @media(min-width:800px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-    .bubble{background:var(--card);border:1px solid var(--card-bd);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px}
-    .bubble h3{margin:0;font-size:18px}
-    .bubble p{margin:0;color:var(--muted)}
-    .bubble a{align-self:flex-start;margin-top:6px;text-decoration:none;font-weight:800;color:#d9d6ff;border:1px solid var(--chip-bd);background:#181d41;padding:8px 12px;border-radius:12px}
-    .small{font-size:12px;color:var(--muted)}
+    /* Recently used */
+    .recent{margin-top:10px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{
+      background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-weight:700;color:#0e1a34;text-decoration:none
+    }
 
     /* Footer */
-    footer{border-top:1px solid var(--line);margin-top:30px}
-    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#cbd4ff}
-    .fine{background:#0f1432;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;color:#aab5e6;font-size:12px}
-    .links a{color:#cbd4ff;text-decoration:underline}
-    .rightnote{float:right}
+    footer{background:#fff;border-top:1px solid var(--line);color:#3a4a66}
+    .foot{max-width:1200px;margin:0 auto;padding:22px 16px}
+    .fine{background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#41506a}
+    .links a{color:#0e1a34;text-decoration:none;margin:0 6px}
+
+    /* Utility */
+    .sr{position:absolute;left:-9999px}
   </style>
 </head>
 <body>
-  <!-- HEADER -->
-  <header class="hdr">
-    <div class="wrap">
-      <a class="brand" href="/"><div class="logo" aria-hidden="true"></div><div class="word">LockHabit</div></a>
-      <div class="right">
-        <select id="countrySel" class="sel" title="Country"></select>
-        <select id="currencySel" class="sel" title="Currency"></select>
-        <div class="menu" id="calcMenu">
-          <button class="btn">All calculators ▾</button>
-          <div class="panel" role="menu" aria-label="All calculators">
-            <a href="/income-tax.html">Paycheck & Income Tax</a>
-            <a href="/mortgage.html">Mortgage</a>
-            <a href="/loan.html">Loan Payoff</a>
-            <a href="/savings.html">Savings Goal</a>
-            <a href="/retirement.html">Retirement</a>
-            <a href="/fx-converter.html">Currency Converter</a>
-            <a href="/budget.html">Budget Planner</a>
-            <a href="/credit-card.html">Credit Card</a>
-            <a href="/credit-card-payoff.html">Credit Card Payoff</a>
-            <a href="/car-loan-calculator.html">Car Loan</a>
-            <a href="/rent-vs-buy.htm">Rent vs Buy</a>
-          </div>
-        </div>
-        <a class="btn acc" href="/calculator.html">Open Calculator</a>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="LockHabit home">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <span class="word">LockHabit</span>
+    </a>
+    <div class="actions">
+      <div class="menu" id="menu">
+        <button class="pill" id="menuBtn" aria-expanded="false" aria-controls="menuPanel">Calculators ▾</button>
+        <nav class="menu-panel" id="menuPanel" aria-label="All calculators">
+          <a href="/calculator.html">Paycheck & Income Tax</a>
+          <a href="/mortgage.html">Mortgage</a>
+          <a href="/loan.html">Loan Payoff</a>
+          <a href="/savings.html">Savings Goal</a>
+          <a href="/retirement.html">Retirement (Simple)</a>
+          <a href="/credit-card.html">Credit Card</a>
+          <a href="/credit-card-payoff.html">Credit Card Payoff</a>
+          <a href="/car-loan-calculator.html">Car Loan</a>
+          <a href="/rent-vs-buy.htm">Rent vs Buy</a>
+          <a href="/emergency-fund.html">Emergency Fund</a>
+          <a href="/fx-converter.html">Currency Converter</a>
+          <a href="#" aria-disabled="true" style="opacity:.55">Business Tools (soon)</a>
+        </nav>
       </div>
+      <a class="pill primary" href="/calculator.html">Open Calculator</a>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1 class="h1">Financial calculators for everyone.</h1>
-    <p class="sub">Clean, fast tools for income and taxes, mortgages, loans, savings, retirement, and real-time currency conversion. Private by default. No sign-up required.</p>
-
-    <div class="search" role="search">
-      <input id="search" placeholder="Find a calculator (e.g., mortgage, paycheck, FX)…" aria-label="Search calculators">
-      <button class="btn" id="clear">Clear</button>
+<section class="hero">
+  <div class="box">
+    <h1>Financial calculators, done right.</h1>
+    <p class="sub">Clean, fast tools for income & taxes, mortgages, loans, savings, retirement, credit cards, and currency conversion. Private by default. No sign-up required.</p>
+    <div class="cta">
+      <a class="pill primary" href="/calculator.html">Open Income & Taxes</a>
+      <button class="pill" id="jumpAll">See all calculators</button>
     </div>
-    <div class="chips">
-      <span class="chip">Global-ready</span>
-      <span class="chip">Private — stored on device</span>
-      <span class="chip">Email results</span>
-      <a class="chip" href="/blog.html">Blog</a>
-      <a class="chip" href="/newsletter.html" aria-label="Newsletter">Newsletter <span class="small">coming soon</span></a>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <!-- GRID (bubbles) -->
-  <section class="grid" id="grid">
-    <!-- Each bubble -->
-    <article class="bubble" data-tags="income paycheck tax salary">
-      <h3>Paycheck & Income Tax</h3>
-      <p>Estimate net pay with editable federal/state/local rates.</p>
-      <a href="/income-tax.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="mortgage home housing pmi escrow">
-      <h3>Mortgage</h3>
-      <p>Payment, amortization, PMI, taxes & insurance estimates.</p>
-      <a href="/mortgage.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="loan payoff apr extra payments amortization">
-      <h3>Loan Payoff</h3>
-      <p>APR, extra payments, payoff dates, amortization table.</p>
-      <a href="/loan.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="budget 50/30/20 spending">
-      <h3>Budget Planner</h3>
-      <p>Monthly plan with 50/30/20 and custom categories.</p>
-      <a href="/budget.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="savings goal emergency fund">
-      <h3>Savings Goal</h3>
-      <p>Grow a target balance with lump sums and recurring deposits.</p>
-      <a href="/savings.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="retirement 401k ira superannuation">
-      <h3>Retirement (Simple)</h3>
-      <p>Contributions, growth, withdrawal horizon.</p>
-      <a href="/retirement.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="currency fx converter exchange">
-      <h3>Currency Converter</h3>
-      <p>Live FX for quick conversions (global-ready).</p>
-      <a href="/fx-converter.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="credit card interest payoff">
-      <h3>Credit Card</h3>
-      <p>Monthly interest & costs at different APRs.</p>
-      <a href="/credit-card.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="credit card payoff snowball avalanche">
-      <h3>Credit Card Payoff</h3>
-      <p>Payoff timeline with extra payments and strategies.</p>
-      <a href="/credit-card-payoff.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="car auto loan payment">
-      <h3>Car Loan</h3>
-      <p>Auto payment & amortization with taxes/fees.</p>
-      <a href="/car-loan-calculator.html">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="rent buy mortgage compare">
-      <h3>Rent vs Buy</h3>
-      <p>Compare total cost over time (renting vs mortgage).</p>
-      <a href="/rent-vs-buy.htm">Open</a>
-    </article>
-
-    <article class="bubble" data-tags="emergency fund safety net">
-      <h3>Emergency Fund</h3>
-      <p>Months of expenses, target size, and build plan.</p>
-      <a href="/emergency-fund.html">Open</a>
-    </article>
-  </section>
-
-  <!-- ADS (homepage only) -->
-  <div style="max-width:1100px;margin:0 auto;padding:0 16px">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8769734249298884" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+<main id="main" class="section" aria-label="Calculator shortcuts">
+  <!-- Essentials -->
+  <h2 class="group-title">Essentials</h2>
+  <div class="grid">
+    <a class="bubble" data-name="Income & Taxes" href="/calculator.html">Income & Taxes</a>
+    <a class="bubble" data-name="Mortgage" href="/mortgage.html">Mortgage</a>
+    <a class="bubble" data-name="Loan Payoff" href="/loan.html">Loan Payoff</a>
+    <a class="bubble" data-name="Budget Planner" href="/savings.html"><span>Budget Planner</span><span class="small">(via Savings)</span></a>
   </div>
 
-  <!-- RECENTS -->
-  <section class="hero" style="margin-top:24px">
-    <h2 class="h1" style="font-size:24px">Recently used</h2>
-    <p class="sub">Quick shortcuts saved to this device only.</p>
-    <div class="chips" id="recentChips"></div>
+  <!-- Savings & Goals -->
+  <h2 class="group-title">Savings & Goals</h2>
+  <div class="grid">
+    <a class="bubble" data-name="Savings Goal" href="/savings.html">Savings Goal</a>
+    <a class="bubble" data-name="Retirement" href="/retirement.html">Retirement</a>
+    <a class="bubble" data-name="Emergency Fund" href="/emergency-fund.html">Emergency Fund</a>
+    <a class="bubble" data-name="Currency Converter" href="/fx-converter.html">Currency<br/>Converter</a>
+  </div>
+
+  <!-- Credit & Debt -->
+  <h2 class="group-title">Credit & Debt</h2>
+  <div class="grid">
+    <a class="bubble" data-name="Credit Card" href="/credit-card.html">Credit Card</a>
+    <a class="bubble" data-name="Card Payoff" href="/credit-card-payoff.html">Card Payoff</a>
+    <a class="bubble" data-name="Car Loan" href="/car-loan-calculator.html">Car Loan</a>
+    <a class="bubble" data-name="Rent vs Buy" href="/rent-vs-buy.htm">Rent vs Buy</a>
+  </div>
+
+  <!-- Business -->
+  <h2 class="group-title">Business</h2>
+  <div class="grid">
+    <a class="bubble disabled" aria-disabled="true" href="#" title="Coming soon">Margin & Markup</a>
+    <a class="bubble disabled" aria-disabled="true" href="#" title="Coming soon">Break-even & ROI</a>
+  </div>
+
+  <!-- Recently used -->
+  <section class="recent" aria-live="polite" id="recentWrap" hidden>
+    <h2 class="group-title">Recently used</h2>
+    <div class="row" id="recentRow"></div>
   </section>
+</main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="foot">
-      <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone. <span class="rightnote"><a class="links" href="/terms.html">Terms</a> • <a class="links" href="/privacy.html">Privacy</a> • <a class="links" href="/security.html">Security</a></span></div>
-      <div class="fine">Information on this site is for educational purposes only and is not financial advice. Results are estimates and may differ from your actual outcomes. Please verify critical numbers with your financial institution or advisor.</div>
+<footer role="contentinfo">
+  <div class="foot">
+    <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone.
+      <span class="links">
+        <a href="/terms.html">Terms</a> •
+        <a href="/privacy.html">Privacy</a> •
+        <a href="/security.html">Security</a>
+      </span>
     </div>
-  </footer>
+    <details class="fine">
+      <summary>Important information</summary>
+      Information on this site is for educational purposes only and is not financial advice. Results are estimates and may differ from your actual outcomes. Please verify critical numbers with your financial institution or advisor.
+    </details>
+  </div>
+</footer>
 
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"https://lockhabit.com/public/logo.svg"}
-  </script>
+<script>
+  // Year
+  document.getElementById('yr').textContent = new Date().getFullYear();
 
-  <script>
-    // Year
-    document.getElementById('yr').textContent = new Date().getFullYear();
+  // Menu
+  const menu = document.getElementById('menu');
+  const btn  = document.getElementById('menuBtn');
+  const panel = document.getElementById('menuPanel');
+  btn.addEventListener('click', ()=>{
+    const open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', (e)=>{
+    if(!menu.contains(e.target)) { menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  });
 
-    // Menu toggle
-    const menu = document.getElementById('calcMenu');
-    menu.querySelector('button').addEventListener('click', ()=>menu.classList.toggle('open'));
-    document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) menu.classList.remove('open'); });
+  // Jump to list
+  document.getElementById('jumpAll').addEventListener('click', ()=>{
+    document.getElementById('main').scrollIntoView({behavior:'smooth', block:'start'});
+  });
 
-    // Search filter
-    const q = document.getElementById('search'), clear = document.getElementById('clear'), grid = document.getElementById('grid');
-    function filter(){
-      const v = q.value.toLowerCase().trim();
-      [...grid.children].forEach(card=>{
-        const hit = (card.textContent+card.dataset.tags).toLowerCase().includes(v);
-        card.style.display = hit ? '' : 'none';
-      });
-    }
-    q.addEventListener('input', filter); clear.addEventListener('click', ()=>{ q.value=''; filter(); q.focus(); });
-
-    // Recents: save when user clicks "Open"
-    grid.addEventListener('click', e=>{
-      const a = e.target.closest('a'); if(!a) return;
-      const title = e.target.closest('.bubble').querySelector('h3').textContent;
-      const url = a.getAttribute('href');
-      const rec = JSON.parse(localStorage.getItem('lh_recents')||'[]').filter(r=>r.url!==url);
-      rec.unshift({title,url}); localStorage.setItem('lh_recents', JSON.stringify(rec.slice(0,8)));
+  // Recently used (private, device-only)
+  const storeKey = 'lh_recent_calcs';
+  function addRecent(name, href){
+    let items = [];
+    try { items = JSON.parse(localStorage.getItem(storeKey) || '[]'); } catch(_){}
+    items = items.filter(i => i.href !== href);
+    items.unshift({name, href});
+    items = items.slice(0, 6);
+    localStorage.setItem(storeKey, JSON.stringify(items));
+  }
+  document.querySelectorAll('.bubble[href^="/"]').forEach(a=>{
+    a.addEventListener('click', ()=> addRecent(a.dataset.name || a.textContent.trim(), a.getAttribute('href')));
+  });
+  (function renderRecent(){
+    let items = [];
+    try { items = JSON.parse(localStorage.getItem(storeKey) || '[]'); } catch(_){}
+    if(!items.length) return;
+    const wrap = document.getElementById('recentWrap');
+    const row  = document.getElementById('recentRow');
+    items.forEach(i=>{
+      const el = document.createElement('a');
+      el.className = 'chip';
+      el.href = i.href;
+      el.textContent = i.name;
+      row.appendChild(el);
     });
-    // Render recents
-    (function renderRecents(){
-      const container = document.getElementById('recentChips'); if(!container) return;
-      const rec = JSON.parse(localStorage.getItem('lh_recents')||'[]');
-      container.innerHTML = rec.length? '' : '<span class="chip">No history yet</span>';
-      rec.forEach(r=>{
-        const a = document.createElement('a'); a.href=r.url; a.className='chip'; a.textContent=r.title; container.appendChild(a);
-      });
-    })();
+    wrap.hidden = false;
+  })();
+</script>
 
-    // Country & Currency (auto + manual)
-    const countries = [
-      {c:"US", n:"United States", cur:"USD"},
-      {c:"CA", n:"Canada", cur:"CAD"},
-      {c:"GB", n:"United Kingdom", cur:"GBP"},
-      {c:"EU", n:"Euro area", cur:"EUR"},
-      {c:"IN", n:"India", cur:"INR"},
-      {c:"AU", n:"Australia", cur:"AUD"},
-    ];
-    const countrySel = document.getElementById('countrySel');
-    const currencySel = document.getElementById('currencySel');
-    countries.forEach(k=>{
-      const o=document.createElement('option'); o.value=k.c; o.textContent=k.n; countrySel.appendChild(o);
-    });
-    const allCurrencies=["USD","CAD","GBP","EUR","INR","AUD","JPY","CHF","CNY","MXN"];
-    allCurrencies.forEach(x=>{ const o=document.createElement('option'); o.value=x; o.textContent=x; currencySel.appendChild(o); });
-
-    function applyAuto(){
-      try{
-        const loc = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-        let guess = "US"; if(/india/i.test(loc)) guess="IN"; else if(/london|europe|dublin|gibraltar|guernsey|jersey/i.test(loc)) guess="GB";
-        countrySel.value = localStorage.getItem('lh_country') || guess;
-        const cur = localStorage.getItem('lh_currency') || (countries.find(x=>x.c===countrySel.value)||{}).cur || "USD";
-        currencySel.value = cur;
-      }catch(_){ countrySel.value="US"; currencySel.value="USD"; }
-    }
-    applyAuto();
-    countrySel.addEventListener('change', ()=>{
-      const cur = (countries.find(x=>x.c===countrySel.value)||{}).cur || currencySel.value;
-      if(allCurrencies.includes(cur)) currencySel.value = cur;
-      localStorage.setItem('lh_country', countrySel.value);
-      localStorage.setItem('lh_currency', currencySel.value);
-    });
-    currencySel.addEventListener('change', ()=>localStorage.setItem('lh_currency', currencySel.value));
-  </script>
+<!-- Structured Data -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"/public/logo.svg"}
+</script>
 </body>
 </html>
