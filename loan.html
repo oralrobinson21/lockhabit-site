@@ -3,109 +3,143 @@
 <head>
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);} gtag('js',new Date()); gtag('config','G-WMJ37PBW8H');</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>Loan Calculator (Personal • Auto • Student) | LockHabit</title>
-  <meta name="description" content="Bank-grade loan calculator: monthly payment, total interest, payoff time, fees → effective APR, extra payments, A/B compare, and affordability with DTI. Imports net income from the Income & Taxes tool."/>
-  <meta name="theme-color" content="#0b0f23"/>
+  <meta name="description" content="Monthly payment, total interest, payoff time, effective APR including fees, extra payments, DTI-based affordability, and A/B comparison. Imports your net income from the Income & Taxes tool."/>
+  <meta name="theme-color" content="#0b0e1a"/>
 
   <!-- Social -->
   <link rel="canonical" href="https://lockhabit.com/loan.html"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Loan Calculator (Personal • Auto • Student) | LockHabit"/>
-  <meta property="og:description" content="Payments, fees → APR, extra payments, A/B compare, and DTI affordability."/>
+  <meta property="og:description" content="Bank-grade loan math with effective APR, amortization, DTI affordability, and clean exports."/>
   <meta property="og:url" content="https://lockhabit.com/loan.html"/>
   <meta property="og:image" content="/public/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Loan Calculator (Personal • Auto • Student) | LockHabit"/>
+  <meta name="twitter:description" content="Payments, payoff time, effective APR, extra payments, DTI, and A/B compare."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
 
-  <!-- Fonts -->
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
 
   <style>
+    /* ==== Dark theme to match Mortgage page exactly ==== */
     :root{
-      /* Dark mortgage theme */
-      --bg:#0b0f23; --hero:#0e152f; --panel:#0f1a33; --panel-border:#162345;
-      --ink:#e9eefc; --muted:#a7b1c8; --chip:#121e3a; --line:#1e2b53;
-      --brand:#6f7cff; --brand-2:#9c78ff; --ok-bg:#0e2a1c; --ok-bd:#1f6a3a; --ok-ink:#bcf7d3;
-      --radius:16px; --shadow:0 18px 50px rgba(0,0,0,.35);
+      --bg:#0c1424;           /* page bg */
+      --hero:#0f1b2f;         /* header + hero bg */
+      --card:#0f1b2f;         /* panel bg */
+      --ink:#dbe4ff;          /* main text */
+      --muted:#93a4c6;        /* helper text */
+      --line:#243049;         /* borders */
+      --brand:#6f7cff;        /* gradient start */
+      --brand-2:#9c78ff;      /* gradient end  */
+      --ok-bg:#0c2b1b;        /* success chip bg */
+      --ok-bd:#1f6f46;        /* success chip border */
+      --ok-ink:#bff7d5;       /* success ink */
+      --radius:16px;
+      --shadow:0 18px 50px rgba(0,0,0,.25);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;background:var(--bg);color:var(--ink);
       font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-    a{color:var(--ink);text-decoration:none}
+    a{color:#cdd7ff}
     header{
-      position:sticky;top:0;z-index:40;background:rgba(14,21,47,.85);
-      backdrop-filter:blur(10px);border-bottom:1px solid var(--panel-border);
+      position:sticky;top:0;z-index:50;background:rgba(15,27,47,.92);
+      backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
     }
     .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between}
     .brand{display:flex;gap:10px;align-items:center;min-width:0;cursor:pointer}
     .logo{width:28px;height:28px}
     .word{font-weight:800;letter-spacing:.2px;white-space:nowrap}
-    .nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .chip{border:1px solid var(--panel-border);background:var(--chip);border-radius:12px;padding:8px 12px;font-weight:600}
-    .chip:hover{border-color:#2a3c78}
+    .top-actions{display:flex;gap:10px}
+    .chip{border:1px solid var(--line);background:transparent;border-radius:12px;padding:8px 12px;color:var(--ink);font-weight:600;cursor:pointer}
+    .menu{position:relative}
+    .menu-panel{
+      position:absolute;right:0;top:44px;background:var(--card);border:1px solid var(--line);
+      border-radius:14px;box-shadow:var(--shadow);padding:8px;display:none;min-width:220px
+    }
+    .menu.open .menu-panel{display:block}
+    .menu a{display:block;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none}
+    .menu a:hover{background:#0c1629}
     .hero{
       background:
-        radial-gradient(1400px 650px at 50% -220px, rgba(111,124,255,.22) 0%, transparent 60%),
+        radial-gradient(1400px 650px at 50% -220px, rgba(111,124,255,.18) 0%, transparent 60%),
         var(--hero);
-      border-bottom:1px solid var(--panel-border);
+      border-bottom:1px solid var(--line);
     }
-    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 12px}
+    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 16px}
     h1{margin:0 0 6px;font-size:34px;letter-spacing:-.3px}
     .sub{color:var(--muted);max-width:65ch;margin:0}
     .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr; padding:0 16px}
     @media(min-width:980px){ .grid{grid-template-columns:1.05fr .95fr} }
-
-    .panel{background:var(--panel);border:1px solid var(--panel-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
-    .panel h2{margin:0 0 10px;font-size:20px}
-    label{font-weight:600;font-size:14px;color:#d7def2}
-    input,select{
-      width:100%;padding:12px;border-radius:12px;border:1px solid #2b3a6e;background:#0b1430;color:var(--ink);font-size:15px
+    .panel{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:16px
     }
-    input::placeholder{color:#6f7aa1}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .panel h2{margin:0 0 10px;font-size:20px}
+    label{font-weight:600;font-size:14px;color:#c7d5ff}
+    input,select{
+      width:100%;padding:12px;border-radius:12px;border:1px solid #22314c;background:#0b1322;
+      color:var(--ink);font-size:15px;outline:none
+    }
+    input::placeholder{color:#6e7ea3}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
     .stack{display:grid;gap:8px}
+    .muted{color:var(--muted);font-size:13px}
     .btn{
-      appearance:none;border:1px solid #2b3a6e;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-2));
       color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer
     }
-    .ghost{background:#0b1430;color:#e9eefc}
-    .muted{color:var(--muted);font-size:13px}
-    .k{font-size:12px;color:#9bacd6;text-transform:uppercase;letter-spacing:.04em}
+    .ghost{background:transparent;color:var(--ink)}
+    .pill{border-radius:999px}
+    .break{
+      display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);
+      border-radius:12px;padding:12px;background:#0b1322
+    }
+    .ok{color:var(--ok-ink);background:var(--ok-bg);border-color:var(--ok-bd)}
+    .k{font-size:12px;color:#98a9cd;text-transform:uppercase;letter-spacing:.04em}
     .v{font-weight:800;font-size:22px}
-    .results{display:grid;gap:12px}
-    .break{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--panel-border);border-radius:12px;padding:12px}
-    .ok{color:var(--ok-ink);background:var(--ok-bg);border:1px solid var(--ok-bd)}
     table{width:100%;border-collapse:collapse}
-    th,td{border:1px solid var(--panel-border);padding:8px;text-align:right;font-size:14px}
+    th,td{border:1px solid var(--line);padding:8px;text-align:right;font-size:14px}
     th:first-child,td:first-child{text-align:left}
-    /* Tools dropdown (chips grid) */
-    .tools{position:relative}
-    .menu{position:absolute;right:0;top:46px;background:var(--panel);border:1px solid var(--panel-border);border-radius:14px;padding:12px;display:none;box-shadow:var(--shadow);width:min(560px,calc(100vw - 24px))}
-    .menu.open{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .menu a{display:block;text-align:center;padding:12px;border:1px solid var(--panel-border);border-radius:12px;background:var(--chip)}
-    .menu .close{grid-column:1/-1;text-align:right;color:var(--muted);cursor:pointer}
-    @media(max-width:560px){ .menu{grid-template-columns:1fr} }
-    footer{border-top:1px solid var(--panel-border);margin-top:24px;background:var(--hero)}
-    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#c7d0ea}
-    .small{font-size:12px;color:#8e9bbd}
+    .accordion{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    details{border-top:1px solid var(--line);background:#0d172a}
+    details:first-of-type{border-top:none}
+    summary{
+      list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;color:#d7e1ff;
+      display:flex;justify-content:space-between;align-items:center
+    }
+    summary::-webkit-details-marker{display:none}
+    .acc-body{padding:12px 16px 16px}
+    footer{border-top:1px solid var(--line);margin-top:24px;background:var(--hero)}
+    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#9fb1db}
+    /* align ads container spacing */
+    .ads{margin-top:10px}
   </style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <div class="brand" onclick="location.href='/index.html'" role="button" aria-label="Home" title="Home">
+    <div class="brand" onclick="location.href='/index.html'" role="button" aria-label="Home">
       <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
         <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
         <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
@@ -116,20 +150,20 @@
       <div class="word">LockHabit</div>
     </div>
 
-    <div class="nav">
-      <a class="chip" href="/index.html">Home</a>
-      <div class="tools">
-        <button class="chip" id="toolsBtn">Tools ▾</button>
-        <div class="menu" id="toolsMenu" aria-hidden="true">
-          <div class="close" id="toolsClose">Close ✕</div>
+    <div class="top-actions">
+      <button class="chip" onclick="location.href='/'">Home</button>
+      <div class="menu" id="toolsMenu">
+        <button class="chip" onclick="document.getElementById('toolsMenu').classList.toggle('open')">Tools ▾</button>
+        <div class="menu-panel" onclick="event.stopPropagation()">
           <a href="/income-tax.html">Income & Taxes</a>
           <a href="/mortgage.html">Mortgage</a>
-          <a href="/loan.html">Loan</a>
-          <a href="/savings.html">Savings</a>
-          <a href="/retirement.html">Retirement</a>
-          <a href="/currency.html">FX Converter</a>
-          <a href="/business.html">Business Tools</a>
-          <a href="/blog.html">Blog / Newsletter</a>
+          <a href="/loan.html"><strong>Loan</strong></a>
+          <a href="/savings.html" title="Coming soon">Savings</a>
+          <a href="/retirement.html" title="Coming soon">Retirement</a>
+          <a href="/currency.html" title="Coming soon">FX Converter</a>
+          <a href="/business.html" title="Coming soon">Business Tools</a>
+          <a href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+          <a href="#" onclick="document.getElementById('toolsMenu').classList.remove('open')" style="text-align:right">Close ✕</a>
         </div>
       </div>
     </div>
@@ -139,249 +173,247 @@
 <section class="hero">
   <div class="hero-inner">
     <h1>Loan Calculator (Personal • Auto • Student)</h1>
-    <p class="sub">Monthly payment, total interest, payoff time, origination fees → effective APR, extra payments, A/B compare, and **Affordability with DTI**. Imports your net income from the Income & Taxes tool.</p>
+    <p class="sub">Monthly payment, payoff time, total interest, **effective APR** (incl. fees), extra payments, DTI affordability, and A/B comparison. Imports your net income from the Income & Taxes tool.</p>
   </div>
 </section>
 
 <main class="grid" id="app">
-  <!-- Inputs -->
-  <section class="panel" aria-labelledby="inputs">
-    <h2 id="inputs">Inputs</h2>
-
+  <!-- LEFT: Always visible (Basic info) -->
+  <section class="panel" aria-labelledby="basic">
+    <h2 id="basic">Basic loan info</h2>
     <div class="row">
-      <div class="stack">
-        <label for="currency">Currency</label>
-        <select id="currency"></select>
-        <span class="muted">Auto-detected; you can change it.</span>
-      </div>
       <div class="stack">
         <label for="loanType">Loan type</label>
-        <select id="loanType"><option>Personal</option><option>Auto</option><option>Student</option><option>Other</option></select>
+        <select id="loanType" aria-label="Choose loan type">
+          <option>Personal</option><option>Auto</option><option>Student</option><option>Other</option>
+        </select>
+        <div class="muted">Used only for labeling; calculations are generic fixed-rate.</div>
       </div>
-    </div>
-
-    <div class="row">
       <div class="stack">
         <label for="amount">Amount borrowed</label>
-        <input id="amount" type="number" inputmode="decimal" placeholder="e.g., 20000"/>
+        <input id="amount" inputmode="decimal" placeholder="e.g., 20,000 — enter dollars only"/>
+        <div class="muted">If there’s an origination fee, we’ll finance it automatically (see dropdown).</div>
       </div>
+    </div>
+    <div class="row">
       <div class="stack">
         <label for="rate">Nominal interest rate (APR %)</label>
-        <input id="rate" type="number" inputmode="decimal" placeholder="e.g., 9.99"/>
+        <input id="rate" inputmode="decimal" placeholder="e.g., 9.99"/>
+        <div class="muted">Enter the stated annual percentage rate.</div>
       </div>
-    </div>
-
-    <div class="row">
       <div class="stack">
         <label for="termY">Term (years)</label>
-        <input id="termY" type="number" inputmode="decimal" value="5"/>
-      </div>
-      <div class="stack">
-        <label for="feePct">Origination fee (%)</label>
-        <input id="feePct" type="number" inputmode="decimal" placeholder="e.g., 2"/>
-        <span class="muted">Financed into the loan by default.</span>
+        <input id="termY" inputmode="numeric" placeholder="e.g., 5"/>
+        <div class="muted">Typical: Personal 2–7, Auto 3–7, Student 5–20.</div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="stack">
-        <label for="extraMonthly">Extra toward principal / month</label>
-        <input id="extraMonthly" type="number" inputmode="decimal" placeholder="e.g., 50"/>
-      </div>
-      <div class="stack">
-        <label for="oneTimeExtra">One-time extra payment</label>
-        <input id="oneTimeExtra" type="number" inputmode="decimal" placeholder="e.g., 500"/>
-      </div>
+    <!-- Snapshot (always visible) -->
+    <h2 style="margin-top:14px">Snapshot</h2>
+    <div class="break ok">
+      <div><div class="k">Monthly payment</div><div class="v" id="monthly">—</div></div>
+      <div><div class="k">Estimated payoff time</div><div class="v" id="payoffTime">—</div></div>
+    </div>
+    <div class="break">
+      <div><span class="k">Financed amount (incl. fees)</span><div class="v" id="financed">—</div></div>
+      <div><span class="k">Total interest (life of loan)</span><div class="v" id="totalInterest">—</div></div>
+    </div>
+    <div class="break">
+      <div><span class="k">Effective APR</span><div class="v" id="aprEff">—</div></div>
+      <div><span class="k">Origination fee cost</span><div class="v" id="feeCost">—</div></div>
     </div>
 
-    <!-- Affordability -->
-    <h2 style="margin-top:14px">Affordability (optional)</h2>
-    <div class="row">
-      <div class="stack">
-        <label for="netIncome">Net monthly income</label>
-        <input id="netIncome" type="number" inputmode="decimal" placeholder="auto-imported if available"/>
-        <span class="muted">Imported from Income & Taxes, or enter manually.</span>
+    <div class="stack" style="margin-top:10px">
+      <div class="flex" style="gap:8px;flex-wrap:wrap">
+        <button class="btn" id="calcBtn">Calculate</button>
+        <button class="btn ghost" id="resetBtn" type="button">Reset</button>
+        <button class="btn ghost pill" id="emailBtn" type="button">Email summary</button>
       </div>
-      <div class="stack">
-        <label for="otherDebts">Other monthly debts</label>
-        <input id="otherDebts" type="number" inputmode="decimal" placeholder="e.g., 350"/>
-        <span class="muted">Cards, car, student loans, child support, etc.</span>
+      <div class="muted">Inputs auto-save to this device.</div>
+      <div class="ads">
+        <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+             data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+             data-ad-slot="1234567892"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
       </div>
-    </div>
-    <div class="row">
-      <div class="stack">
-        <label for="targetPct">Target payment as % of net</label>
-        <input id="targetPct" type="number" inputmode="decimal" value="15"/>
-        <span class="muted">Common back-end DTI guardrail: ≤ 36% total debt.</span>
-      </div>
-      <div class="stack">
-        <label for="maxMonthlyOut">Max loan payment (calc)</label>
-        <input id="maxMonthlyOut" type="text" disabled/>
-        <span class="muted">Based on target % minus other debts.</span>
-      </div>
-    </div>
-
-    <div class="flex" style="margin-top:14px">
-      <button class="btn" id="calcBtn">Calculate</button>
-      <button class="btn ghost" id="resetBtn" type="button">Reset</button>
-      <span class="muted">Inputs auto-save to this device.</span>
-    </div>
-
-    <div style="margin-top:10px">
-      <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
-           data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
-           data-ad-slot="1234567892"></ins>
-      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
     </div>
   </section>
 
-  <!-- Results -->
-  <section class="panel" aria-labelledby="results">
-    <h2 id="results">Results</h2>
-
-    <div class="results">
-      <div class="break ok">
-        <div><div class="k">Monthly payment</div><div class="v" id="monthly">—</div></div>
-        <div><div class="k">Total interest</div><div class="v" id="totalInterest">—</div></div>
-      </div>
-
-      <div class="break">
-        <div><span class="k">Financed amount (incl. fees)</span><div class="v" id="financed">—</div></div>
-        <div><span class="k">Estimated payoff time</span><div class="v" id="payoffTime">—</div></div>
-      </div>
-
-      <div class="break">
-        <div><span class="k">APR (effective)</span><div class="v" id="aprEff">—</div></div>
-        <div><span class="k">Origination fee cost</span><div class="v" id="feeCost">—</div></div>
-      </div>
-
-      <div class="break">
-        <div><span class="k">DTI (back-end)</span><div class="v" id="dtiOut">—</div></div>
-        <div><span class="k">Max affordable loan (est.)</span><div class="v" id="maxLoanOut">—</div></div>
-      </div>
-
-      <div class="flex" style="margin-top:4px">
-        <button class="btn pill" id="emailBtn" type="button">Email me this summary</button>
-        <button class="btn ghost pill" type="button" onclick="location.href='/mortgage.html'">Go to Mortgage</button>
-      </div>
-
-      <h3 style="margin:12px 0 6px;font-size:18px">Amortization (first 12 months)</h3>
-      <div style="overflow:auto">
-        <table id="amortTable"><thead><tr>
-          <th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th>
-        </tr></thead><tbody></tbody></table>
-      </div>
-
-      <h3 style="margin:14px 0 6px;font-size:18px">Compare two offers</h3>
-      <div class="row">
-        <div class="panel" style="padding:12px">
+  <!-- RIGHT: Collapsible sections -->
+  <section class="panel" aria-label="Advanced & affordability">
+    <div class="accordion">
+      <!-- Extra payments -->
+      <details>
+        <summary>Extra payments (optional) ▾</summary>
+        <div class="acc-body">
           <div class="row">
-            <div class="stack"><label for="cAmt1">Amount</label><input id="cAmt1" type="number" placeholder="20000"></div>
-            <div class="stack"><label for="cRate1">Rate %</label><input id="cRate1" type="number" placeholder="9.99"></div>
+            <div class="stack">
+              <label for="extraMonthly">Extra toward principal / month</label>
+              <input id="extraMonthly" inputmode="decimal" placeholder="e.g., 50"/>
+              <div class="muted">Added to each monthly payment; shortens payoff and reduces interest.</div>
+            </div>
+            <div class="stack">
+              <label for="oneTimeExtra">One-time extra payment</label>
+              <input id="oneTimeExtra" inputmode="decimal" placeholder="e.g., 500"/>
+              <div class="muted">Applied at first payment in this simplified model.</div>
+            </div>
           </div>
-          <div class="row">
-            <div class="stack"><label for="cTerm1">Years</label><input id="cTerm1" type="number" value="5"></div>
-            <div class="stack"><label for="cFee1">Fee %</label><input id="cFee1" type="number" placeholder="2"></div>
-          </div>
-          <div class="stack"><button class="btn ghost" id="cBtn1" type="button">Calc A</button><div class="muted" id="cOut1">—</div></div>
         </div>
-        <div class="panel" style="padding:12px">
-          <div class="row">
-            <div class="stack"><label for="cAmt2">Amount</label><input id="cAmt2" type="number" placeholder="20000"></div>
-            <div class="stack"><label for="cRate2">Rate %</label><input id="cRate2" type="number" placeholder="8.99"></div>
-          </div>
-          <div class="row">
-            <div class="stack"><label for="cTerm2">Years</label><input id="cTerm2" type="number" value="5"></div>
-            <div class="stack"><label for="cFee2">Fee %</label><input id="cFee2" type="number" placeholder="0"></div>
-          </div>
-          <div class="stack"><button class="btn ghost" id="cBtn2" type="button">Calc B</button><div class="muted" id="cOut2">—</div></div>
-        </div>
-      </div>
+      </details>
 
-      <p class="small">Educational use only; not financial advice. Terms vary by lender and jurisdiction.</p>
+      <!-- Fees & currency -->
+      <details>
+        <summary>Fees & currency ▾</summary>
+        <div class="acc-body">
+          <div class="row">
+            <div class="stack">
+              <label for="feePct">Origination fee (%)</label>
+              <input id="feePct" inputmode="decimal" placeholder="e.g., 2"/>
+              <div class="muted">Financed into the loan by default for effective APR calculation.</div>
+            </div>
+            <div class="stack">
+              <label for="currency">Currency</label>
+              <select id="currency" aria-label="Display currency"></select>
+              <div class="muted">Display-only; does not change math.</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Affordability / DTI -->
+      <details>
+        <summary>Affordability & DTI (optional) ▾</summary>
+        <div class="acc-body">
+          <div class="row">
+            <div class="stack">
+              <label for="netIncome">Net monthly income</label>
+              <input id="netIncome" inputmode="decimal" placeholder="Imported automatically"/>
+              <div class="muted">Auto-imports from Income & Taxes. Or enter manually.</div>
+            </div>
+            <div class="stack">
+              <label for="otherDebts">Other monthly debts</label>
+              <input id="otherDebts" inputmode="decimal" placeholder="Cards, car, loans, child support"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="stack">
+              <label for="targetPct">Target payment as % of net</label>
+              <input id="targetPct" inputmode="decimal" placeholder="e.g., 15"/>
+              <div class="muted">Back-end DTI guardrail typically ≤ 36% total debt.</div>
+            </div>
+            <div class="stack">
+              <label>Max loan payment (calc)</label>
+              <input id="maxPay" disabled placeholder="—"/>
+              <div class="muted">= Target% × Net − Other debts.</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Amort & Compare -->
+      <details>
+        <summary>Amortization & comparison ▾</summary>
+        <div class="acc-body">
+          <h3 style="margin:0 0 8px;font-size:18px">Amortization (first 12 months)</h3>
+          <div style="overflow:auto;margin-bottom:12px">
+            <table id="amortTable">
+              <thead><tr>
+                <th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:6px 0 8px;font-size:18px">Compare two offers</h3>
+          <div class="row">
+            <div class="panel" style="padding:12px">
+              <div class="row">
+                <div class="stack"><label for="cAmt1">Amount</label><input id="cAmt1" placeholder="e.g., 20,000"></div>
+                <div class="stack"><label for="cRate1">Rate %</label><input id="cRate1" placeholder="e.g., 9.99"></div>
+              </div>
+              <div class="row">
+                <div class="stack"><label for="cTerm1">Years</label><input id="cTerm1" value="5"></div>
+                <div class="stack"><label for="cFee1">Fee %</label><input id="cFee1" placeholder="e.g., 2"></div>
+              </div>
+              <button class="btn ghost" id="cBtn1" type="button">Calc A</button>
+              <div class="muted" id="cOut1" style="margin-top:6px">—</div>
+            </div>
+
+            <div class="panel" style="padding:12px">
+              <div class="row">
+                <div class="stack"><label for="cAmt2">Amount</label><input id="cAmt2" placeholder="e.g., 20,000"></div>
+                <div class="stack"><label for="cRate2">Rate %</label><input id="cRate2" placeholder="e.g., 8.99"></div>
+              </div>
+              <div class="row">
+                <div class="stack"><label for="cTerm2">Years</label><input id="cTerm2" value="5"></div>
+                <div class="stack"><label for="cFee2">Fee %</label><input id="cFee2" placeholder="e.g., 0"></div>
+              </div>
+              <button class="btn ghost" id="cBtn2" type="button">Calc B</button>
+              <div class="muted" id="cOut2" style="margin-top:6px">—</div>
+            </div>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="foot">
-    <span class="small">© <span id="yr"></span> LockHabit</span>
-    <span class="small"> • </span>
-    <a class="small" href="/terms.html">Terms</a>
-    <span class="small"> • </span>
-    <a class="small" href="/privacy.html">Privacy</a>
-    <span class="small"> • </span>
-    <a class="small" href="/security.html">Security</a>
+    <div>© <span id="yr"></span> LockHabit · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="/security.html">Security</a></div>
+    <div class="muted">Educational use only; not financial advice. Actual terms vary by lender and jurisdiction.</div>
   </div>
 </footer>
 
 <script>
 (function(){
-  // Year
+  // ── Year
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Tools dropdown (chips)
-  const tBtn = document.getElementById('toolsBtn'), menu=document.getElementById('toolsMenu'), tClose=document.getElementById('toolsClose');
-  function toggleMenu(open){ menu.classList.toggle('open', open); menu.setAttribute('aria-hidden', !open); }
-  tBtn.addEventListener('click', ()=>toggleMenu(!menu.classList.contains('open')));
-  tClose.addEventListener('click', ()=>toggleMenu(false));
-  document.addEventListener('click', (e)=>{ if(!menu.contains(e.target) && e.target!==tBtn){ toggleMenu(false); } });
-
-  // Currency
+  // ── Currency list (display only)
   const currencySel = document.getElementById('currency');
   ["USD","CAD","GBP","EUR","INR","AUD","JPY","CHF","CNY","MXN"].forEach(c=>{
     const o=document.createElement('option'); o.value=c; o.textContent=c; currencySel.appendChild(o);
   });
-  function guessCurrency(){
-    try{
-      const loc = Intl.DateTimeFormat().resolvedOptions().locale || 'en-US';
-      if (loc.includes('US')) return 'USD';
-      if (loc.includes('CA')) return 'CAD';
-      if (loc.includes('GB')||loc.includes('UK')) return 'GBP';
-      if (loc.includes('IN')) return 'INR';
-      if (loc.match(/(DE|FR|ES|IT|NL|EU)/)) return 'EUR';
-    }catch(_){}
-    return 'USD';
-  }
-  currencySel.value = guessCurrency();
+  try{
+    const loc = Intl.DateTimeFormat().resolvedOptions().locale || 'en-US';
+    currencySel.value = loc.includes('US') ? 'USD' : 'USD';
+  }catch(_){ currencySel.value='USD'; }
 
-  // Elements
+  // ── Elements
+  const loanType = document.getElementById('loanType');
   const amount = document.getElementById('amount');
   const rate = document.getElementById('rate');
   const termY = document.getElementById('termY');
   const feePct = document.getElementById('feePct');
   const extraMonthly = document.getElementById('extraMonthly');
   const oneTimeExtra = document.getElementById('oneTimeExtra');
+  const netIncome = document.getElementById('netIncome');
+  const otherDebts = document.getElementById('otherDebts');
+  const targetPct = document.getElementById('targetPct');
+  const maxPay = document.getElementById('maxPay');
+
   const monthly = document.getElementById('monthly');
   const totalInterest = document.getElementById('totalInterest');
   const financed = document.getElementById('financed');
   const payoffTime = document.getElementById('payoffTime');
   const aprEff = document.getElementById('aprEff');
   const feeCost = document.getElementById('feeCost');
+
   const amortTableBody = document.querySelector('#amortTable tbody');
-  const emailBtn = document.getElementById('emailBtn');
+
   const calcBtn = document.getElementById('calcBtn');
   const resetBtn = document.getElementById('resetBtn');
+  const emailBtn = document.getElementById('emailBtn');
 
-  // Affordability
-  const netIncome = document.getElementById('netIncome');
-  const otherDebts = document.getElementById('otherDebts');
-  const targetPct = document.getElementById('targetPct');
-  const maxMonthlyOut = document.getElementById('maxMonthlyOut');
-  const dtiOut = document.getElementById('dtiOut');
-  const maxLoanOut = document.getElementById('maxLoanOut');
-
-  // Compare
-  const c=(id)=>document.getElementById(id);
-  const cBtn1=c('cBtn1'), cBtn2=c('cBtn2'), cOut1=c('cOut1'), cOut2=c('cOut2');
-
-  // Local save
+  // ── Local storage
   const KEY='lh_loan_calc_v2';
   function save(){
     const d = {
-      currency:currencySel.value, amount:amount.value, rate:rate.value, termY:termY.value,
+      loanType:loanType.value, amount:amount.value, rate:rate.value, termY:termY.value,
       feePct:feePct.value, extraMonthly:extraMonthly.value, oneTimeExtra:oneTimeExtra.value,
-      netIncome:netIncome.value, otherDebts:otherDebts.value, targetPct:targetPct.value
+      netIncome:netIncome.value, otherDebts:otherDebts.value, targetPct:targetPct.value,
+      currency:currencySel.value
     };
     localStorage.setItem(KEY, JSON.stringify(d));
   }
@@ -389,148 +421,142 @@
     const raw=localStorage.getItem(KEY); if(!raw) return false;
     try{
       const d=JSON.parse(raw);
+      loanType.value=d.loanType||loanType.value;
+      amount.value=d.amount||'';
+      rate.value=d.rate||'';
+      termY.value=d.termY||'';
+      feePct.value=d.feePct||'';
+      extraMonthly.value=d.extraMonthly||'';
+      oneTimeExtra.value=d.oneTimeExtra||'';
+      otherDebts.value=d.otherDebts||'';
+      targetPct.value=d.targetPct||'15';
       currencySel.value=d.currency||currencySel.value;
-      amount.value=d.amount||''; rate.value=d.rate||''; termY.value=d.termY||'5';
-      feePct.value=d.feePct||''; extraMonthly.value=d.extraMonthly||''; oneTimeExtra.value=d.oneTimeExtra||'';
-      netIncome.value=d.netIncome||''; otherDebts.value=d.otherDebts||''; targetPct.value=d.targetPct||'15';
+      // Net income prefers import; fill only if blank
+      if(!(netIncome.value&&netIncome.value!=='') && d.netIncome){ netIncome.value=d.netIncome; }
       return true;
     }catch(_){return false;}
   }
 
-  // Import net income from Income & Taxes (support multiple keys)
+  // ── Import net income from Income & Taxes
   (function importIncome(){
-    const guesses = [
-      'lh_income_net_monthly','lh_income_tax_monthly_net','lh_income_calc_v1','lh_income_calc_v2'
-    ];
-    for(const k of guesses){
-      try{
-        const v = localStorage.getItem(k);
-        if(!v) continue;
-        let num = NaN;
-        if(/^\d+(\.\d+)?$/.test(v)) num = parseFloat(v);
-        else {
-          const obj = JSON.parse(v);
-          num = parseFloat(obj?.netMonthly || obj?.monthlyNet || obj?.net_monthly);
-        }
-        if(isFinite(num) && num>0 && !netIncome.value){
-          netIncome.value = Math.round(num);
-          break;
-        }
-      }catch(_){}
-    }
+    try{
+      const exp = JSON.parse(localStorage.getItem('lh_income_export')||'{}'); // preferred
+      const alt = localStorage.getItem('lh_net_monthly'); // legacy
+      const net = exp.netMonthly || exp.monthlyNet || alt || '';
+      if(net && !netIncome.value) netIncome.value = net;
+    }catch(_){}
   })();
 
-  // Helpers
+  // ── Helpers
   function money(n){
     const c = currencySel.value || 'USD';
     try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:c,maximumFractionDigits:2}).format(n||0); }
-    catch(_){ return (c + ' ' + (n||0).toFixed(2)); }
+    catch(_){ return c+' '+(Number(n||0).toFixed(2)); }
   }
+  function num(v){ return parseFloat((v||'').toString().replace(/,/g,''))||0; }
 
   function monthlyPayment(principal, annualRate, years){
     const r=(annualRate/100)/12, n=years*12;
     if(r<=0) return principal/n;
     return principal*r/(1-Math.pow(1+r,-n));
   }
-
-  // Solve principal from payment, rate, years (for affordability)
-  function principalFromPayment(pmt, annualRate, years){
-    const r=(annualRate/100)/12, n=years*12;
-    if(r<=0) return pmt*n;
-    return pmt*(1-Math.pow(1+r,-n))/r;
-  }
-
   function buildAmort(principal, annualRate, years, extra, oneTime){
     const r=(annualRate/100)/12, n=years*12;
-    const sched=[]; let bal=principal; let pmt=monthlyPayment(principal, annualRate, years)+extra;
-    let month=1, totalInt=0, oneTimeApplied=false;
+    const sched=[];
+    let bal=principal, pmt=monthlyPayment(principal, annualRate, years)+(extra||0);
+    let month=1, totalInt=0, applied=false;
     while(bal>0 && month<=n+360){
-      const int=bal*r;
-      if(!oneTimeApplied && oneTime>0){ bal=Math.max(0, bal-oneTime); oneTimeApplied=true; }
-      let prin=pmt-int; if(prin>bal){ prin=bal; }
-      bal-=prin; totalInt+=int;
-      if(month<=12){ sched.push({m:month,pmt:pmt,prin:int>pmt?0:prin,int:int,bal:bal}); }
+      if(!applied && num(oneTime)>0){ bal=Math.max(0, bal-num(oneTime)); applied=true; }
+      const interest=bal*r;
+      let principalPay = pmt - interest;
+      if(principalPay>bal) principalPay=bal;
+      bal -= principalPay;
+      totalInt += interest;
+      if(month<=12) sched.push({m:month,pmt:pmt,prin:principalPay,int:interest,bal:bal});
       month++;
     }
     return {sched, months:month-1, totalInt};
   }
-
+  // Effective APR incl. financed origination fee (approx IRR)
   function effectiveApr(amount, feePct, nominalRate, years){
-    const fee=amount*(parseFloat(feePct||0)/100);
-    const financed = amount + fee;
-    const pmt = monthlyPayment(financed, nominalRate, years);
-    const n=years*12;
+    const fee = num(amount)*(num(feePct)/100);
+    const fin = num(amount) + fee;
+    const pmt = monthlyPayment(fin, num(nominalRate), num(years));
+    const n = num(years)*12;
     let lo=0, hi=1, mid=0;
     for(let k=0;k<60;k++){
       mid=(lo+hi)/2;
-      let npv=amount;
-      for(let t=1;t<=n;t++) npv -= pmt/Math.pow(1+mid,t);
+      let npv=num(amount);
+      for(let t=1;t<=n;t++){ npv -= pmt/Math.pow(1+mid,t); }
       if(npv>0) lo=mid; else hi=mid;
     }
-    return {apr:(mid*12)*100, financed, fee};
-  }
-
-  function calcAffordability(baseMonthly){
-    const ni = parseFloat(netIncome.value||0);
-    const od = parseFloat(otherDebts.value||0);
-    const pct = parseFloat(targetPct.value||0)/100;
-    let maxPmt = Math.max(0, ni*pct - od);
-    maxMonthlyOut.value = money(maxPmt);
-
-    // Back-end DTI using THIS loan's payment
-    const totalDebtWithThis = od + (baseMonthly||0);
-    const dti = ni>0 ? (totalDebtWithThis/ni)*100 : 0;
-    dtiOut.textContent = isFinite(dti) ? dti.toFixed(1)+'%' : '—';
-
-    // Max affordable principal (estimate; uses current rate/term)
-    const R = parseFloat(rate.value||0), Y=parseFloat(termY.value||0);
-    const maxPrincipal = principalFromPayment(maxPmt, R, Y);
-    maxLoanOut.textContent = money(maxPrincipal);
+    return {apr:(mid*12)*100, financed:fin, fee:fee};
   }
 
   function calc(){
     save();
 
-    const A = parseFloat(amount.value||0);
-    const R = parseFloat(rate.value||0);
-    const Y = parseFloat(termY.value||0);
-    const Fpct = parseFloat(feePct.value||0);
-    const extra = parseFloat(extraMonthly.value||0);
-    const oneT = parseFloat(oneTimeExtra.value||0);
+    const A = num(amount.value);
+    const R = num(rate.value);
+    const Y = num(termY.value);
+    const F = num(feePct.value);
+    const EX = num(extraMonthly.value);
+    const OT = num(oneTimeExtra.value);
 
-    const eff = effectiveApr(A, Fpct, R, Y);
+    if(A<=0 || R<0 || Y<=0){
+      monthly.textContent = '—';
+      payoffTime.textContent = '—';
+      financed.textContent = '—';
+      totalInterest.textContent = '—';
+      aprEff.textContent = '—';
+      feeCost.textContent = '—';
+      amortTableBody.innerHTML='';
+      return;
+    }
+
+    const eff = effectiveApr(A, F, R, Y);
     const financedAmt = eff.financed;
     const baseMonthly = monthlyPayment(financedAmt, R, Y);
-    const amort = buildAmort(financedAmt, R, Y, extra, oneT);
+    const amort = buildAmort(financedAmt, R, Y, EX, OT);
+    const months = amort.months;
+    const yrs = (months/12).toFixed(1);
 
-    monthly.textContent = money(baseMonthly + (extra||0));
+    monthly.textContent = money(baseMonthly + EX);
     totalInterest.textContent = money(amort.totalInt);
     financed.textContent = money(financedAmt);
-    payoffTime.textContent = `${amort.months} months (~${(amort.months/12).toFixed(1)} yrs)`;
+    payoffTime.textContent = `${months} months (~${yrs} yrs)`;
     aprEff.textContent = isFinite(eff.apr) ? eff.apr.toFixed(2)+'%' : '—';
-    feeCost.textContent = Fpct ? money(eff.fee) : '—';
+    feeCost.textContent = F ? money(eff.fee) : '—';
 
-    // Affordability / DTI
-    calcAffordability(baseMonthly + (extra||0));
+    // DTI / max payment
+    const ni = num(netIncome.value);
+    const od = num(otherDebts.value);
+    const tp = num(targetPct.value||15)/100;
+    if(ni>0){
+      const mp = Math.max(0, ni*tp - od);
+      maxPay.value = money(mp);
+    }
 
     // Amort table (first 12)
-    const r=(R/100)/12;
-    let bal=financedAmt - (oneT>0?oneT:0);
-    const pmt=baseMonthly + (extra||0);
     amortTableBody.innerHTML='';
+    const r=(R/100)/12;
+    let bal=financedAmt - (OT>0?OT:0);
+    const pmt=baseMonthly + EX;
     for(let m=1;m<=12 && bal>0;m++){
-      const interest = bal*r; let principal = pmt - interest; if(principal>bal) principal=bal;
+      const interest = bal*r;
+      let principal = pmt - interest;
+      if(principal>bal) principal=bal;
       bal -= principal;
       const tr=document.createElement('tr');
-      tr.innerHTML=`<td>${m}</td><td>${money(pmt)}</td><td>${money(principal)}</td><td>${money(interest)}</td><td>${money(Math.max(0,bal))}</td>`;
+      tr.innerHTML = `<td>${m}</td><td>${money(pmt)}</td><td>${money(principal)}</td><td>${money(interest)}</td><td>${money(Math.max(0,bal))}</td>`;
       amortTableBody.appendChild(tr);
     }
   }
 
-  // Email summary
   function emailSummary(){
     const msg = [
-      'LockHabit Loan Calculator — Summary','',
+      'LockHabit — Loan Calculator Summary','',
+      `Type: ${loanType.value}`,
       `Amount: ${amount.value||'-'}`,
       `Rate: ${rate.value||'-'}%`,
       `Term: ${termY.value||'-'} years`,
@@ -539,49 +565,35 @@
       `One-time extra: ${oneTimeExtra.value||'0'}`,
       '',
       `Monthly payment: ${monthly.textContent}`,
-      `Total interest: ${totalInterest.textContent}`,
+      `Payoff time: ${payoffTime.textContent}`,
       `Financed amount: ${financed.textContent}`,
-      `Estimated payoff time: ${payoffTime.textContent}`,
+      `Total interest: ${totalInterest.textContent}`,
       `Effective APR: ${aprEff.textContent}`,
       `Fee cost: ${feeCost.textContent}`,
       '',
-      `Net monthly income: ${netIncome.value||'-'}`,
-      `Other monthly debts: ${otherDebts.value||'-'}`,
-      `Target payment %: ${targetPct.value||'-'}%`,
-      `DTI: ${dtiOut.textContent}`,
-      `Max affordable loan: ${maxLoanOut.textContent}`,
+      `Net income: ${netIncome.value||'-'}`,
+      `Other debts: ${otherDebts.value||'-'}`,
+      `Target % of net: ${targetPct.value||'-'}%`,
+      `Max payment (calc): ${maxPay.value||'-'}`,
       '',
       'Generated by LockHabit (educational use only).'
     ].join('%0D%0A');
     location.href = `mailto:?subject=${encodeURIComponent('My Loan Calculation (LockHabit)')}&body=${msg}`;
   }
 
-  // Compare helpers
-  function quickCompare(amount, rate, years, feePct){
-    const fee=(parseFloat(feePct||0)/100)*(parseFloat(amount||0));
-    const fin=parseFloat(amount||0)+fee;
-    const pmt=monthlyPayment(fin, parseFloat(rate||0), parseFloat(years||0));
-    const n=(parseFloat(years||0))*12;
-    return {pmt, interest: pmt*n - fin, fin, fee};
-  }
-  cBtn1.addEventListener('click', ()=>{
-    const r=quickCompare(parseFloat(c('cAmt1').value||0), parseFloat(c('cRate1').value||0), parseFloat(c('cTerm1').value||0), parseFloat(c('cFee1').value||0));
-    cOut1.innerHTML = `Payment ${money(r.pmt)} • Interest ${money(r.interest)} • Financed ${money(r.fin)} • Fee ${money(r.fee)}`;
+  // ── Events
+  [loanType,amount,rate,termY,feePct,extraMonthly,oneTimeExtra,netIncome,otherDebts,targetPct,currencySel].forEach(el=>{
+    el.addEventListener('input', save);
   });
-  cBtn2.addEventListener('click', ()=>{
-    const r=quickCompare(parseFloat(c('cAmt2').value||0), parseFloat(c('cRate2').value||0), parseFloat(c('cTerm2').value||0), parseFloat(c('cFee2').value||0));
-    cOut2.innerHTML = `Payment ${money(r.pmt)} • Interest ${money(r.interest)} • Financed ${money(r.fin)} • Fee ${money(r.fee)}`;
-  });
-
-  // Events
   calcBtn.addEventListener('click', calc);
   resetBtn.addEventListener('click', ()=>{ localStorage.removeItem(KEY); location.reload(); });
   emailBtn.addEventListener('click', emailSummary);
-  [amount,rate,termY,feePct,extraMonthly,oneTimeExtra,netIncome,otherDebts,targetPct,currencySel]
-    .forEach(el=>el.addEventListener('input', ()=>{ save(); }));
 
   // Init
-  if(!load()){ currencySel.value = guessCurrency(); }
+  load();
+  // sensible defaults for clarity
+  if(!termY.value) termY.value = '5';
+  if(!targetPct.value) targetPct.value = '15';
 })();
 </script>
 </body>
