@@ -1,43 +1,45 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884"
-     crossorigin="anonymous"></script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
 
-  gtag('config', 'G-WMJ37PBW8H');
-</script>
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
   <!-- =========================================================
-       LockHabit — Premium, informative, static demo (autosize fix)
+       LockHabit — Financial Calculators for Everyone
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-
-  <title>LockHabit — Lock your money. Own your future.</title>
-  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, earn up to 3.5% APR (compounded weekly). Emergency line up to 80% of your vested balance with 0% for 4 months, then 6% APR (interest credited back). Optional High-Risk Growth (7.8–20% variable APR, may lose value)."/>
   <meta name="theme-color" content="#0b0e1a"/>
 
-  <!-- Canonical + Social -->
+  <title>LockHabit — Free Financial Calculators for Paychecks, Loans, Mortgages & Budgets</title>
+  <meta name="description" content="LockHabit is a globally-friendly hub of free financial calculators for individuals and businesses — paycheck & income tax, mortgage, loan payoff, budgeting, savings goals, currency conversion, ROI, and more. No sign-up required."/>
+
+  <!-- SEO -->
+  <meta name="robots" content="index,follow,max-image-preview:large"/>
   <link rel="canonical" href="https://lockhabit.com/"/>
+  <meta name="keywords" content="financial calculators, paycheck calculator, income tax calculator, mortgage calculator, loan payoff, budget calculator, savings goal, currency converter, ROI, APR"/>
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit — Lock your money. Own your future."/>
-  <meta property="og:description" content="Hard-lock savings that actually grow. Weekly compounding, transparent fees, and an emergency line up to 80% of your vested balance."/>
+  <meta property="og:title" content="LockHabit — Free Financial Calculators"/>
+  <meta property="og:description" content="Calculate paychecks, taxes, mortgages, loans, budgets, savings goals, currency conversions, and more — fast and free."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
   <meta property="og:image" content="/public/og-image.png"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="LockHabit — Save on purpose"/>
-  <meta name="twitter:description" content="Plan your deposits and see projected growth with weekly compounding."/>
-  <meta name="twitter:image" content="/public/og-image.png"/>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="LockHabit — Free Financial Calculators"/>
+  <meta name="twitter:description" content="A clean toolbox of everyday money calculators. No sign-up required."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
 
   <!-- Icons & PWA -->
   <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
@@ -45,8 +47,10 @@
   <link rel="apple-touch-icon" href="/public/icon-192.png">
   <link rel="manifest" href="/public/manifest.webmanifest">
 
-  <!-- Analytics -->
-  <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 
   <!-- ========================= Styles ========================= -->
   <style>
@@ -74,36 +78,19 @@
     }
 
     /* Header */
-    .header{
-      position:sticky; top:0; z-index:60;
-      background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
-      border-bottom:1px solid var(--line);
-      transform:translateY(0); transition:transform .18s ease, box-shadow .18s ease;
-    }
+    .header{position:sticky; top:0; z-index:60; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transition:box-shadow .18s ease}
     .header.stuck{ box-shadow:0 6px 20px rgba(17,24,39,.08); }
-    .header.hide{ transform:translateY(-100%); }
-    .wrap{
-      max-width:1200px;margin:0 auto;padding:12px 16px;
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-    }
+    .wrap{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
     .brand{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer}
     .logo{width:28px;height:28px;flex:none}
     .word{font-weight:800;font-size:18px;color:#0e1a34;white-space:nowrap;letter-spacing:.2px}
-    .nav{display:flex;align-items:center;gap:14px;min-width:0}
+    .nav{display:flex;align-items:center;gap:14px;min-width:0;flex-wrap:wrap}
     .nav a{color:#19253f;text-decoration:none;font-weight:600;white-space:nowrap}
-    .btn{
-      appearance:none;border:1px solid var(--line);background:#fff;
-      padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;
-      min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation
-    }
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:44px}
     .btn.acc{background:linear-gradient(135deg, var(--brand), var(--brand-2));color:#fff;border-color:transparent;box-shadow:0 10px 26px rgba(111,124,255,.28)}
     .btn.ghost{background:transparent}
     .btn.pill{border-radius:999px}
-
-    @media (max-width:720px){
-      .nav a{display:none}
-      .btn.ghost{display:none}
-    }
+    @media (max-width:760px){ .nav a.hide-sm{display:none} }
 
     /* Hero */
     .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:64px 16px 40px}
@@ -113,91 +100,67 @@
     @media (min-width:1000px){ h1{font-size:56px} }
     .sub{color:#33415f;max-width:65ch}
 
-    /* Chips */
     .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-    .chip{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
-      background:linear-gradient(135deg,#e7ebff,#f4f1ff);border:1px solid #dfe3ff;
-      font-weight:700;color:#3a4a66
-    }
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,#e7ebff,#f4f1ff);border:1px solid #dfe3ff;font-weight:700;color:#3a4a66}
 
     .cta{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
     .cta .btn{padding:12px 16px}
 
-    /* Static mock card */
-    .mock{
-      background:#fff;border:1px solid var(--line);border-radius:20px;
-      padding:18px;box-shadow:var(--shadow-elev);position:relative;overflow:hidden
-    }
-    .mock .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .mini{font-size:12px;color:#66728c}
-    .badge{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800;white-space:nowrap}
-
-    .card{margin-top:12px;background:linear-gradient(180deg,#fff,#f9f9ff);border:1px solid var(--line);border-radius:14px;padding:12px}
-    .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
-    @media (min-width:560px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
-    .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:112px}
-    .k{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
-    .v{font-weight:800;font-size:22px;line-height:1.2;color:#0b1230;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-    .help{font-size:12px;color:#64718a}
-    /* ensure long text never clips */
-    .stat, .v, .help{overflow-wrap:anywhere;word-break:break-word}
-
-    /* Sections */
+    /* Calculator grid */
     section.s{max-width:1200px;margin:0 auto;padding:44px 16px}
     @media (min-width:768px){ section.s{padding:56px 22px} }
     .section-title{font-size:28px;text-align:center;margin:0 0 12px;color:#f8f9ff}
     @media (min-width:768px){ .section-title{font-size:32px} }
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-elev)}
-    @media (min-width:768px){ .panel{padding:24px} }
-
-    .cols3{display:grid;grid-template-columns:1fr;gap:12px}
-    @media (min-width:900px){ .cols3{grid-template-columns:repeat(3,minmax(0,1fr))} }
-    .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
-    .plan h3{margin:0 0 6px;color:#15213d}
-    .plan ul{margin:8px 0 0;padding-left:18px;color:#3b4a67}
-
-    .ribbon{background:linear-gradient(135deg, rgba(111,124,255,.22), rgba(156,120,255,.22));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .ribwrap{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;gap:10px;align-items:center;justify-content:center;color:#e7ebff;flex-wrap:wrap}
-    .ribwrap .item{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:10px 12px;border-radius:999px}
-    .ribwrap .item b{color:#fff}
-
-    /* Trust grid */
-    .trustgrid{display:grid;grid-template-columns:1fr;gap:12px}
-    @media (min-width:900px){ .trustgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
-    .trust{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
-    .trust b{color:#101828}
-
-    /* Social proof bar (kept in code, hidden by design per request) */
-    .proof{display:none !important; background:var(--bg-2); border-top:1px solid #1a2140;border-bottom:1px solid #1a2140}
-    .proofwrap{max-width:1200px;margin:0 auto;padding:14px 16px;color:#cfd6ff;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .pitem{display:flex;align-items:center;gap:10px}
-    .pnum{font-weight:800;color:#fff}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:720px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    @media (min-width:1024px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .tile{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow-elev);display:flex;flex-direction:column;gap:8px}
+    .tile h3{margin:0;color:#15213d}
+    .tile p{margin:0;color:#3b4a67}
+    .tile a{margin-top:auto;align-self:flex-start}
+    .kicker{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
 
     /* Footer */
     footer{background:#fff;border-top:1px solid var(--line);color:#3a4a66}
     .foot{max-width:1200px;margin:0 auto;padding:22px 16px}
     .fine{background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#41506a}
-    .footnote{font-size:12px;color:#60708c}
+    .footnote{font-size:12px;color:#60708c;text-align:center}
 
-    /* Modal */
+    /* Modals */
     .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
     .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-deep)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
-    .form{display:grid;gap:10px;margin-top:10px}
-    input,select{padding:14px;border-radius:12px;border:1px solid #dbe0ea;font-size:16px}
-    .note{font-size:12px;color:#60708c}
-    .success{display:none;text-align:center;padding:18px}
-    .check{font-size:42px}
-
-    /* Small screen tweaks */
-    @media (max-width:420px){
-      .word{font-size:17px}
-      .btn{padding:10px 12px}
-      .v{font-size:20px}
-    }
+    .note{font-size:14px;color:#41506a}
   </style>
+
+  <!-- Structured Data: WebSite + Sitelinks SearchBox -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "LockHabit",
+    "url": "https://lockhabit.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://lockhabit.com/search.html?q={query}",
+      "query-input": "required name=query"
+    }
+  }
+  </script>
+
+  <!-- Structured Data: FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. All calculators work without sign-up. You can optionally save inputs on your device or email a copy to yourself."}},
+      {"@type":"Question","name":"Is my data stored?","acceptedAnswer":{"@type":"Answer","text":"By default, inputs can be saved locally on your device (you can turn this off). We do not sell personal data."}},
+      {"@type":"Question","name":"Is this global?","acceptedAnswer":{"@type":"Answer","text":"Yes. We support multiple locales and a live currency converter. Regional tax logic is rolling out over time."}}
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -215,13 +178,10 @@
       <div class="word">LockHabit</div>
     </div>
     <nav class="nav" role="navigation" aria-label="Main">
-      <a href="/calculator.html" aria-label="Open calculator">Calculator</a>
-      <a href="#how">How it works</a>
-      <a href="#plans">Plans</a>
-      <a href="#security">Security</a>
-      <a href="#growth">Growth options</a>
-      <a href="#faq">FAQ</a>
-      <button class="btn acc" type="button" id="btnWaitlistHdr">Join waitlist</button>
+      <a href="#calculators">Calculators</a>
+      <a href="#about" class="hide-sm">About</a>
+      <a href="#faq" class="hide-sm">FAQ</a>
+      <a href="#" id="blogLink">Blog / Newsletter</a>
     </nav>
   </div>
 </header>
@@ -231,426 +191,173 @@
   <div class="hero-grid" aria-describedby="hero-copy">
     <div>
       <div class="chips" aria-label="Highlights">
-        <!-- Removed “Discipline Pays” per request -->
-        <span class="chip"><b style="color:#22c55e">Up to 3.5% APR</b> • weekly compounding</span>
-        <span class="chip">Emergency line: <b>80%</b> of vested</span>
+        <span class="chip"><b style="color:#22c55e">Free & fast</b> — no sign-up</span>
+        <span class="chip">Global-ready <b>currency converter</b></span>
       </div>
 
-      <h1>Lock your money. Own your future.</h1>
+      <h1>Financial calculators for everyday decisions.</h1>
       <p id="hero-copy" class="sub">
-        LockHabit is a behavioral savings vault: you choose a lock, deposit on a schedule, and your balance compounds automatically.
-        If life happens, access an <b>emergency line up to 80% of your vested amount</b> — <b>0% for the first 4 months</b>, then <b>6% APR</b>.
-        After payoff, interest on that line is <b>credited back to your balance</b>.
+        LockHabit is a clean toolbox of personal and business money calculators:
+        from <b>paychecks & taxes</b> to <b>mortgages, loans, budgets, savings goals</b>,
+        and <b>live currency conversion</b>. Save inputs on your device or email a copy to yourself.
       </p>
 
       <div class="cta">
-        <button class="btn acc" type="button" id="btnWaitlistHero">Join the waitlist</button>
-        <a class="btn" href="/calculator.html">Open calculator</a>
-        <a class="btn ghost" href="/security.html">Read security</a>
-      </div>
-
-      <!-- Social proof bar kept for later, hidden -->
-      <div class="proof" aria-hidden="true">
-        <div class="proofwrap">
-          <div class="pitem"><span class="pnum">700+</span> creators & savers follow our build</div>
-          <div class="pitem"><span class="pnum">92%</span> said “this finally makes me save”</div>
-          <div class="pitem">Clear terms. No dark patterns.</div>
-        </div>
+        <a class="btn acc" href="#calculators">Browse calculators</a>
+        <button class="btn ghost" type="button" id="newsletterCta">Join the newsletter (soon)</button>
       </div>
     </div>
 
-    <!-- Right: static demo (no animation) -->
-    <aside class="mock" aria-live="polite">
-      <div class="row">
-        <div>
-          <div class="mini">Savings Vault — Static Preview</div>
-          <div style="font-weight:800;font-size:18px;color:#0f1a34">10-Year Weekly Plan</div>
-          <div class="mini">Initial $3,000 • +$200/week • 3.5% APR (weekly compounding)</div>
-        </div>
-        <span class="badge">On-time ↑ credit</span>
-      </div>
-
-      <!-- Static stats -->
-      <div class="grid">
-        <div class="stat">
-          <div class="k">Locked today</div>
-          <div class="v" data-fit>$3,000</div>
-          <div class="help">Auto-deposit $200 weekly</div>
-        </div>
-        <div class="stat">
-          <div class="k">Projected interest</div>
-          <div class="v" data-fit>$21,729.99</div>
-          <div class="help">Over 10 years at 3.5% APR</div>
-        </div>
-        <div class="stat">
-          <div class="k">Account balance (projected)</div>
-          <div class="v" data-fit>$128,729.99</div>
-          <div class="help">Principal + deposits + interest</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row" style="gap:12px; align-items:flex-end">
-          <div style="min-width:0">
-            <div class="k">Emergency line (80% of vested)</div>
-            <div class="v" style="font-size:20px" data-fit>$102,983.99</div>
-            <div class="help">0% for 4 months, then 6% APR • interest credited back after payoff</div>
-          </div>
-          <button class="btn acc pill" type="button" id="btnWaitlistCard">Join the waitlist</button>
-        </div>
-      </div>
+    <!-- Right: small “popular today” card -->
+    <aside class="tile" style="background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow-elev)">
+      <div class="kicker">Popular today</div>
+      <h3>Paycheck & Income Tax Estimator</h3>
+      <p class="sub" style="color:#3b4a67;margin:0">Estimate take-home pay with deductions and state options.</p>
+      <a class="btn pill" href="/income-tax.html" aria-label="Open Paycheck & Income Tax Estimator">Open</a>
     </aside>
   </div>
 </section>
 
-<!-- ========================= RIBBON ========================= -->
-<div class="ribbon" role="region" aria-label="Summary">
-  <div class="ribwrap">
-    <div class="item">🔒 <b>Hard-lock</b> (no early withdrawals except emergencies)</div>
-    <div class="item">🏦 <b>FDIC-backed custody</b> via partner banks</div>
-    <div class="item">🧮 <b>Transparent</b> $3/$2/$1 unlock fee by term</div>
-    <div class="item">📈 <b>Credit-builder</b> reporting intended</div>
-  </div>
-</div>
-
-<!-- ========================= HOW IT WORKS ========================= -->
-<section id="how" class="s" aria-labelledby="how-title">
-  <h2 id="how-title" class="section-title">How LockHabit Works</h2>
-  <div class="panel">
-    <div class="cols3">
-      <div class="plan">
-        <h3>1) Choose your lock</h3>
-        <ul>
-          <li>Pick <b>1–3</b>, <b>4–6</b>, <b>12</b>, or <b>12+ months</b></li>
-          <li>Auto-deposit weekly/bi-weekly/monthly</li>
-          <li>Your goals, your pace — balance stays hidden by default</li>
-        </ul>
-      </div>
-      <div class="plan">
-        <h3>2) Grow automatically</h3>
-        <ul>
-          <li>Compounded weekly at the plan rate</li>
-          <li>Your money is <b>never lent out</b></li>
-          <li>Clear, in-app projections — no guesswork</li>
-        </ul>
-      </div>
-      <div class="plan">
-        <h3>3) Unlock or borrow</h3>
-        <ul>
-          <li>Unlock day: principal + interest − small flat fee</li>
-          <li>Emergency line up to <b>80%</b> of vested amount</li>
-          <li><b>0% for first 4 months</b>, then 6% APR (credited back after payoff)</li>
-        </ul>
-      </div>
+<!-- ========================= CALCULATORS ========================= -->
+<section id="calculators" class="s" aria-labelledby="calc-title">
+  <h2 id="calc-title" class="section-title">All calculators</h2>
+  <div class="grid">
+    <div class="tile">
+      <h3>Paycheck & Income Tax</h3>
+      <p>Estimate net pay and taxes; supports deductions/allowances.</p>
+      <a class="btn pill" href="/income-tax.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Mortgage</h3>
+      <p>Payment, amortization, PMI, taxes & insurance estimates.</p>
+      <a class="btn pill" href="/mortgage.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Loan Payoff</h3>
+      <p>APR, extra payments, payoff dates, amortization table.</p>
+      <a class="btn pill" href="/loan.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Budget Planner</h3>
+      <p>Monthly budget with 50/30/20 and custom categories.</p>
+      <a class="btn pill" href="/budget.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Savings Goal</h3>
+      <p>Target amount, date, deposits, projected growth.</p>
+      <a class="btn pill" href="/savings-goal.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Currency Converter</h3>
+      <p>Live FX rates for quick conversions (global-ready).</p>
+      <a class="btn pill" href="/currency.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Retirement (Simple)</h3>
+      <p>Contributions, growth, withdrawal horizon.</p>
+      <a class="btn pill" href="/retirement.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Paycheck Splitter</h3>
+      <p>Split to bills, savings, and spending automatically.</p>
+      <a class="btn pill" href="/paycheck.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Tip & Split</h3>
+      <p>Quick restaurant tips & group bill splits.</p>
+      <a class="btn pill" href="/tip.html">Open</a>
+    </div>
+    <div class="tile">
+      <h3>Business Margin & Markup</h3>
+      <p>COGS, margin, markup, break-even, simple ROI.</p>
+      <a class="btn pill" href="/business-margin.html">Open</a>
     </div>
   </div>
 </section>
 
-<!-- ========================= PLANS & RATES (fixed) ========================= -->
-<section id="plans" class="s" aria-labelledby="plans-title">
-  <h2 id="plans-title" class="section-title">Simple, transparent plans</h2>
-  <div class="cols3">
-    <div class="plan">
-      <h3>1–3 months</h3>
-      <ul>
-        <li><b>2.0% APR</b> (weekly compounding)</li>
-        <li><b>$3</b> flat at unlock</li>
-        <li>Fast goals & habit building</li>
-      </ul>
-    </div>
-    <div class="plan">
-      <h3>4–6 months</h3>
-      <ul>
-        <li><b>2.5% APR</b> (weekly compounding)</li>
-        <li><b>$2</b> flat at unlock</li>
-        <li>Balanced discipline</li>
-      </ul>
-      <div class="footnote">Non-emergency early break attempts incur a <b>5% fee</b>.</div>
-    </div>
-    <div class="plan">
-      <h3>12 months</h3>
-      <ul>
-        <li><b>3.0% APR</b> (weekly compounding)</li>
-        <li><b>$1</b> flat at unlock</li>
-        <li>Annual rhythm, steady growth</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="panel" style="margin-top:12px">
-    <h3 style="margin:0 0 6px;color:#15213d">12+ months (long-term)</h3>
-    <ul style="margin:8px 0 0;padding-left:18px;color:#3b4a67">
-      <li><b>3.5% APR</b>, compounded weekly</li>
-      <li>Examples called out for clarity: <b>3.25 years (39 mo)</b> & <b>3.5 years (42 mo)</b> both priced at the 12+ month rate</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ========================= GROWTH OPTIONS (incl. variable) ========================= -->
-<section id="growth" class="s" aria-labelledby="growth-title">
-  <h2 id="growth-title" class="section-title">Growth options</h2>
-  <div class="panel">
-    <div class="cols3">
-      <div class="plan">
-        <h3>Core Fixed</h3>
-        <ul>
-          <li>2.0% • 2.5% • 3.0% • <b>3.5%</b> APR tiers</li>
-          <li>Weekly compounding</li>
-          <li>Funds segregated, not lent</li>
-        </ul>
-      </div>
-      <div class="plan">
-        <h3>High-Risk Growth (optional)</h3>
-        <ul>
-          <li><b>7.8–20% variable APR</b></li>
-          <li><b>Can lose value</b> (drawdowns possible)</li>
-          <li>Suited for risk-tolerant users only</li>
-        </ul>
-        <div class="footnote">If selected, disclosures and risk controls are presented before opt-in.</div>
-      </div>
-      <div class="plan">
-        <h3>Emergency Line</h3>
-        <ul>
-          <li>Up to <b>80%</b> of vested amount</li>
-          <li><b>0% for first 4 months</b>, then 6% APR</li>
-          <li>Interest credited back to you after payoff</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========================= SECURITY / TRUST ========================= -->
-<section id="security" class="s" aria-labelledby="sec-title">
-  <h2 id="sec-title" class="section-title">Your money stays safe</h2>
-  <div class="panel">
-    <div class="trustgrid">
-      <div class="trust>
-        <b>FDIC-backed via partner banks</b>
-        <p class="mini">When deposits are held at partner banks and structured for pass-through coverage, FDIC insurance applies up to legal limits per depositor, per bank.</p>
-      </div>
-      <div class="trust">
-        <b>Segregated & never lent</b>
-        <p class="mini">Your funds remain reserved for you — <b>we do not lend out customer deposits</b>. Emergency access is a secured, self-backed line to <i>you</i>, not others.</p>
-      </div>
-      <div class="trust">
-        <b>Hard-lock with emergency override</b>
-        <p class="mini">Withdrawals aren’t allowed before the unlock date except for approved emergencies. Non-emergency early break attempts incur a <b>5% fee</b>.</p>
-      </div>
-      <div class="trust">
-        <b>Credit-builder reporting</b>
-        <p class="mini">Emergency line payments are intended to be <b>reported to major bureaus</b>. On-time payments may help build credit; late payments may harm credit.</p>
-      </div>
-      <div class="trust">
-        <b>Interest that benefits you</b>
-        <p class="mini">Line interest (after the 0% promo) is <b>credited back to your locked balance</b> after payoff, helping you reach your goal faster.</p>
-      </div>
-      <div class="trust">
-        <b>Privacy & transparency</b>
-        <p class="mini">We keep your data private and use it only to operate LockHabit. No dark patterns — just clear terms.</p>
-      </div>
-    </div>
+<!-- ========================= ABOUT ========================= -->
+<section id="about" class="s" aria-labelledby="about-title">
+  <h2 id="about-title" class="section-title">About LockHabit</h2>
+  <div class="tile">
+    <p>
+      We build practical, trustworthy tools that help people make smarter money decisions without friction.
+      No logins required. Inputs can be saved locally on your device, or you can email yourself a summary.
+      Our long-term vision is a comprehensive, global calculator hub that’s fast, accurate, and easy to use.
+    </p>
   </div>
 </section>
 
 <!-- ========================= FAQ ========================= -->
 <section id="faq" class="s" aria-labelledby="faq-title">
   <h2 id="faq-title" class="section-title">FAQ</h2>
-  <div class="panel" aria-live="polite">
-    <details>
-      <summary>Is this a hard lock?</summary>
-      <p>Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. <b>Non-emergency</b> early break attempts incur a <b>5% fee</b>.</p>
-    </details>
-    <details>
-      <summary>Do I earn interest while locked?</summary>
-      <p>Yes. Balances earn the disclosed APR, <b>compounded weekly</b> and prorated by time in lock. Rates may change with notice.</p>
-    </details>
-    <details>
-      <summary>How does the emergency line work?</summary>
-      <p>You can borrow up to <b>80% of your vested amount</b>. The line is <b>0% for the first 4 months</b>, then <b>6% APR</b>. After payoff, interest is <b>credited back to your balance</b>. On-time payment may help your credit; late payment may harm it.</p>
-    </details>
-    <details>
-      <summary>Is my money FDIC insured?</summary>
-      <p>Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for <b>FDIC insurance</b> up to applicable limits per depositor, per bank.</p>
-    </details>
-    <details>
-      <summary>What about the High-Risk Growth option?</summary>
-      <p>It is <b>variable APR (7.8–20%)</b> and <b>you can lose value</b>. It’s optional and includes extra disclosures before opt-in. Consider your risk tolerance.</p>
-    </details>
+  <div class="grid">
+    <div class="tile">
+      <h3>Do I need an account?</h3>
+      <p>No. Everything works without sign-up. You can opt to save inputs locally or send results to your email.</p>
+    </div>
+    <div class="tile">
+      <h3>Is this available outside the U.S.?</h3>
+      <p>Yes. Most tools are global and we’re adding region-specific logic over time. A live currency converter is included.</p>
+    </div>
+    <div class="tile">
+      <h3>Is my data private?</h3>
+      <p>We keep things simple: local device storage by default, clear reset options, and no selling of personal data.</p>
+    </div>
   </div>
 </section>
 
 <!-- ========================= FOOTER ========================= -->
 <footer role="contentinfo">
   <div class="foot">
-    <div>© <span id="yr"></span> LockHabit — Save on purpose. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
+    <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
     <div class="fine">
-      LockHabit is a financial technology company, not a bank. Banking services and deposit custody are provided by regulated partner banks.
-      When deposits are held at partner banks and structured for pass-through coverage, funds may be eligible for FDIC insurance up to the applicable limits per depositor, per bank.
-      This is a <b>hard lock</b>: early withdrawal is not permitted except for approved emergencies; <b>non-emergency</b> early break attempts incur a <b>5% fee</b>.
-      Emergency access is provided via a secured, self-backed line: <b>0% for 4 months</b>, then <b>6% APR</b>; line interest is <b>credited back to your locked balance after payoff</b>.
-      Fixed APR tiers: <b>2.0%</b> (1–3 mo), <b>2.5%</b> (4–6 mo), <b>3.0%</b> (12 mo), <b>3.5%</b> (12+ mo). Optional High-Risk Growth: <b>7.8–20% variable APR</b> and may lose value.
-      APRs, terms, and fees are subject to change with notice. Disclosures will be presented prior to account opening. Joining the waitlist does not guarantee approval.
+      Information on this site is for educational purposes only and is not financial advice. Results are estimates and may differ from your actual outcomes. Please verify critical numbers with your financial institution or advisor.
     </div>
-    <div class="footnote" style="margin-top:8px;text-align:center">
-      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a>
+    <div class="footnote" style="margin-top:8px">
+      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a>
     </div>
   </div>
 </footer>
 
-<!-- ========================= WAITLIST MODAL ========================= -->
-<div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title">
+<!-- ========================= COMING SOON MODAL ========================= -->
+<div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="cs-title">
   <div class="modal" id="modalBox">
     <div class="row">
-      <h3 id="wl-title" style="margin:0">Join the LockHabit waitlist</h3>
+      <h3 id="cs-title" style="margin:0">Coming soon</h3>
       <button class="x" aria-label="Close" onclick="closeModal()">✕</button>
     </div>
-    <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
-    <form id="wl-form" class="form" novalidate>
-      <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
-      <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
-      <select name="term" aria-label="Preferred lock term">
-        <option value="">Preferred lock term (optional)</option>
-        <option value="1-3">1–3 months (2.0%)</option>
-        <option value="4-6">4–6 months (2.5%)</option>
-        <option value="12">12 months (3.0%)</option>
-        <option value="12+">12+ months (3.5%)</option>
-      </select>
-      <button class="btn acc" type="submit">Join the waitlist</button>
-      <div id="msg" class="note" role="status" aria-live="polite"></div>
-      <div class="footnote">By joining, you consent to receive early-access communications. We never sell your data.</div>
-    </form>
-    <div id="ok" class="success" aria-live="polite">
-      <div class="check">✅</div>
-      <h3>Thanks — you’re on the list!</h3>
-      <p class="note">We’ve recorded your interest. Keep an eye on your inbox for updates.</p>
-      <button class="btn acc" onclick="closeModal()">Back to home</button>
-    </div>
+    <p class="note">Our Blog & Newsletter are on the way. For now, you can use all calculators without an account.</p>
+    <button class="btn acc" onclick="closeModal()">Back to site</button>
   </div>
 </div>
 
-<!-- ========================= Structured Data (SEO) ========================= -->
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"/public/logo.svg","sameAs":["https://twitter.com/lockhabit","https://www.linkedin.com/company/lockhabit"]}
-</script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"Is this a hard lock?","acceptedAnswer":{"@type":"Answer","text":"Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. Non-emergency early break attempts incur a 5% fee."}},
-{"@type":"Question","name":"Do I earn interest while locked?","acceptedAnswer":{"@type":"Answer","text":"Yes. Balances earn the disclosed APR, compounded weekly and prorated by time in lock. Rates may change with notice."}},
-{"@type":"Question","name":"How does the emergency line work?","acceptedAnswer":{"@type":"Answer","text":"You can borrow up to 80% of your vested amount. The line is 0% for the first 4 months, then 6% APR. After payoff, interest is credited back to your balance. On-time payment may help your credit; late payment may harm it."}},
-{"@type":"Question","name":"Is my money FDIC insured?","acceptedAnswer":{"@type":"Answer","text":"Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for FDIC insurance up to applicable limits per depositor, per bank."}},
-{"@type":"Question","name":"What about the High-Risk Growth option?","acceptedAnswer":{"@type":"Answer","text":"It is variable APR (7.8–20%) and you can lose value. It’s optional and includes extra disclosures before opt-in. Consider your risk tolerance."}}
-]}
-</script>
-
-<!-- ========================= SCRIPTS (static demo + fitText + modal + header) ========================= -->
+<!-- ========================= SCRIPTS ========================= -->
 <script>
-  /* Live year */
+  /* Live year + sticky header */
   document.getElementById('yr').textContent = new Date().getFullYear();
-
-  /* Header behavior (sticky + hide on scroll down) */
   (function(){
     const hdr = document.getElementById('hdr');
-    let lastY = window.scrollY, ticking = false;
-    const onScroll = ()=>{
-      const y = window.scrollY;
-      hdr.classList.toggle('stuck', y > 2);
-      if (y > lastY && y > 80) hdr.classList.add('hide'); else hdr.classList.remove('hide');
-      lastY = y; ticking = false;
-    };
-    window.addEventListener('scroll', ()=>{
-      if(!ticking){ window.requestAnimationFrame(onScroll); ticking = true; }
-    }, {passive:true});
+    const onScroll = ()=> hdr.classList.toggle('stuck', window.scrollY > 2);
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
   })();
 
-  /* Brand click scrolls to top */
-  document.getElementById('brand')?.addEventListener('click', ()=>{
+  /* Brand click scroll */
+  document.getElementById('brand')?.addEventListener('click', ()=> {
     window.scrollTo({ top:0, behavior:'smooth' });
   });
 
-  /* Modal open/close */
+  /* Coming soon modal */
   const overlay = document.getElementById('overlay');
   function openModal(){ overlay.style.display='flex'; document.body.style.overflow='hidden'; }
   function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
-  window.openModal = openModal; window.closeModal = closeModal;
+  window.closeModal = closeModal;
+  document.getElementById('blogLink')?.addEventListener('click', (e)=>{ e.preventDefault(); openModal(); });
+  document.getElementById('newsletterCta')?.addEventListener('click', ()=> openModal());
 
-  /* Wire all waitlist buttons */
-  ['btnWaitlistHdr','btnWaitlistHero','btnWaitlistCard'].forEach(id=>{
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('click', openModal);
-  });
-
-  /* Waitlist submit -> your working backend, fallback to Formspree */
-  (function(){
-    const form = document.getElementById('wl-form');
-    const msg  = document.getElementById('msg');
-    const ok   = document.getElementById('ok');
-    if(!form) return;
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      msg.textContent = 'Submitting…';
-      msg.style.color = '#60708c';
-
-      const data = Object.fromEntries(new FormData(form).entries());
-      const showOK = ()=>{ form.style.display='none'; ok.style.display='block'; };
-
-      try{
-        const res = await fetch('/api/waitlist', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify(data)
-        });
-        const out = await res.json().catch(()=>({}));
-        if(res.ok && (out.ok || out.id || out.inserted)){ showOK(); return; }
-      }catch(_){}
-
-      try{
-        const fs = await fetch('https://formspree.io/f/mrbywgpw', {
-          method:'POST',
-          headers:{'Accept':'application/json'},
-          body:new FormData(form)
-        });
-        if(fs.ok){ showOK(); return; }
-        msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
-      }catch(e){
-        msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
-      }
-    });
-  })();
-
-  /* Fit numbers into cards (prevents overflow/clipping) */
-  (function(){
-    function fitText(el, {min=16, max=26, step=0.5}={}){
-      if(!el) return;
-      el.style.fontSize = max + 'px';
-      while (el.scrollWidth > el.clientWidth && max > min){
-        max -= step;
-        el.style.fontSize = max + 'px';
-      }
-    }
-    const run = ()=> document.querySelectorAll('[data-fit]').forEach(el=>fitText(el));
-    window.addEventListener('load', run, {once:true});
-    window.addEventListener('resize', ()=>{
-      document.querySelectorAll('[data-fit]').forEach(el=>{ el.style.fontSize=''; });
-      run();
-    });
-  })();
-
-  /* PWA SW registration — temporarily disabled to prevent redirect/cache loops */
-  // One-time cleanup: unregister any previously installed service workers.
-  if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
-    navigator.serviceWorker.getRegistrations().then(regs => {
-      regs.forEach(r => r.unregister());
-      if (window.caches && caches.keys) {
-        caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
-      }
-    }).catch(() => {});
-  }
-  // To re-enable later, restore your original register() block:
-  // navigator.serviceWorker.register('/public/sw.js')
-  //   .then(() => console.log('✅ Service Worker registered'))
-  //   .catch(err => console.error('❌ SW registration failed:', err));
+  /* Optional: auto-detect locale (placeholder for future currency/date localization) */
+  // const locale = navigator.language || 'en-US';
+  // console.log('Detected locale:', locale);
 </script>
 </body>
 </html>
