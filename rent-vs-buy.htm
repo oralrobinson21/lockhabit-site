@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Rent vs Buy Calculator — LockHabit</title>
+  <meta name="description" content="Compare the long-term costs of renting vs buying a home. Adjust mortgage, taxes, insurance, appreciation, rent increases, and more."/>
+  <link rel="canonical" href="https://lockhabit.com/rent-vs-buy.html"/>
+
+  <!-- GA (same as your site) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <style>
+    :root{
+      --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
+      --ink:#0b1230; --muted:#55617a; --line:#e6e7f1; --panel:#ffffff; --surface:#f7f8ff; --bg:#0b0e1a;
+      --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0e1a34}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 16px}
+    header{
+      position:sticky; top:0; z-index:10; background:#fffcc; background:#fff; border-bottom:1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+    .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:28px;height:28px}
+    .title{font-weight:800;letter-spacing:.2px}
+    .crumbs a{color:#19253f;text-decoration:none;font-weight:600;margin-right:12px}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,#e7ebff,#f4f1ff);border:1px solid #dfe3ff;font-weight:700;color:#3a4a66}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    @media (min-width:980px){ .grid{grid-template-columns:1.05fr .95fr} }
+
+    .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    h1{margin:0 0 8px;font-size:28px}
+    h2{margin:0 0 6px;font-size:20px}
+    .muted{color:#55617a}
+    label{font-weight:600}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    input,select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:10px;font:inherit}
+    .help{font-size:12px;color:#64718a}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:12px 14px;border-radius:12px;font-weight:800;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg, var(--brand), var(--brand-2));color:#fff;border-color:transparent;box-shadow:0 10px 26px rgba(111,124,255,.28)}
+    .stats{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:560px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:22px}
+    .ok{color:#0b3b22}
+    .bad{color:#7a1020}
+    .footerlinks{margin-top:10px;text-align:center}
+    .footerlinks a{color:#19253f;text-decoration:none;font-weight:600;margin:0 6px}
+
+    .note{font-size:12px;color:#60708c;margin-top:8px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand">
+      <!-- Simple inline logo lock -->
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs><rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/><path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/><path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/><path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/></svg>
+      <div class="title">LockHabit Calculators</div>
+    </div>
+    <div>
+      <span class="chip">Currency: 
+        <select id="currencySelect" aria-label="Currency"></select>
+      </span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+    <section class="card">
+      <h1>Rent vs Buy</h1>
+      <p class="muted">Estimate long-term cost of renting versus buying a home, including mortgage, taxes, insurance, maintenance, appreciation, rent growth, selling costs, and the investment return on cash if you rent.</p>
+
+      <h2>Home purchase</h2>
+      <div class="row">
+        <div>
+          <label>Home price</label>
+          <input id="price" type="number" min="0" step="1000" placeholder="300000">
+        </div>
+        <div>
+          <label>Down payment (%)</label>
+          <input id="downPct" type="number" min="0" max="100" step="0.1" placeholder="10">
+        </div>
+      </div>
+      <div class="row3" style="margin-top:10px">
+        <div>
+          <label>Mortgage rate (%)</label>
+          <input id="rate" type="number" min="0" step="0.01" placeholder="6.5">
+        </div>
+        <div>
+          <label>Loan term (years)</label>
+          <input id="term" type="number" min="1" step="1" placeholder="30">
+        </div>
+        <div>
+          <label>Closing costs (%)</label>
+          <input id="closePct" type="number" min="0" step="0.1" placeholder="3">
+        </div>
+      </div>
+
+      <div class="row3" style="margin-top:10px">
+        <div>
+          <label>Property tax (%/yr)</label>
+          <input id="taxPct" type="number" min="0" step="0.1" placeholder="1.2">
+        </div>
+        <div>
+          <label>Home insurance (%/yr)</label>
+          <input id="insPct" type="number" min="0" step="0.1" placeholder="0.5">
+        </div>
+        <div>
+          <label>Maintenance (%/yr)</label>
+          <input id="maintPct" type="number" min="0" step="0.1" placeholder="1">
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <div>
+          <label>Home appreciation (%/yr)</label>
+          <input id="appPct" type="number" min="-10" step="0.1" placeholder="3">
+        </div>
+        <div>
+          <label>Selling costs (% of future price)</label>
+          <input id="sellPct" type="number" min="0" step="0.1" placeholder="6">
+        </div>
+      </div>
+
+      <h2 style="margin-top:16px">Renting</h2>
+      <div class="row">
+        <div>
+          <label>Current monthly rent</label>
+          <input id="rent" type="number" min="0" step="10" placeholder="2200">
+        </div>
+        <div>
+          <label>Rent increase (%/yr)</label>
+          <input id="rentGrowPct" type="number" min="0" step="0.1" placeholder="3">
+        </div>
+      </div>
+
+      <h2 style="margin-top:16px">Compare horizon</h2>
+      <div class="row">
+        <div>
+          <label>Years to compare</label>
+          <input id="years" type="number" min="1" step="1" placeholder="7">
+        </div>
+        <div>
+          <label>Return if you invest cash instead (%/yr)</label>
+          <input id="investPct" type="number" min="0" step="0.1" placeholder="5">
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn acc" id="calcBtn">Calculate</button>
+        <button class="btn" id="resetBtn">Reset</button>
+      </div>
+      <div class="note">We keep your inputs on this device (localStorage) so you don’t need to retype next time.</div>
+    </section>
+
+    <aside class="card">
+      <h2>Results</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Buy: total cash out</div>
+          <div class="v" id="buyOut">—</div>
+          <div class="help">Down payment + closing + cumulative monthly costs − principal repaid (treated as equity)</div>
+        </div>
+        <div class="stat">
+          <div class="k">Buy: net equity after selling</div>
+          <div class="v" id="buyEquity">—</div>
+          <div class="help">Home value with appreciation − selling costs − remaining loan</div>
+        </div>
+        <div class="stat">
+          <div class="k">Rent: total paid</div>
+          <div class="v" id="rentPaid">—</div>
+          <div class="help">All rent paid over the period (with increases)</div>
+        </div>
+        <div class="stat">
+          <div class="k">Rent: value of invested cash</div>
+          <div class="v" id="rentInvest">—</div>
+          <div class="help">Down payment + closing cost alternative invested at chosen return</div>
+        </div>
+      </div>
+
+      <div class="stat" style="margin-top:12px">
+        <div class="k">Recommendation (simplified)</div>
+        <div class="v" id="rec">—</div>
+        <div class="help">Compares net position of renting (investing cash) vs buying (equity net of sale).</div>
+      </div>
+
+      <div class="footerlinks">
+        <a href="/income-calculator.html">Income & Take-Home</a> •
+        <a href="/debt-paydown.html">Debt Paydown</a> •
+        <a href="/savings-growth.html">Savings Growth</a> •
+        <a href="/mortgage-affordability.html">Mortgage Affordability</a> •
+        <a href="/currency-converter.html">Currency Converter</a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script>
+/* ---------- Currency autodetect + dropdown (auto-enabled going forward) ---------- */
+const currencyMap = {
+  'US':'USD','GB':'GBP','CA':'CAD','AU':'AUD','NZ':'NZD','IN':'INR','SG':'SGD','JP':'JPY','CN':'CNY','HK':'HKD','EU':'EUR',
+  'DE':'EUR','FR':'EUR','ES':'EUR','IT':'EUR','IE':'EUR','NL':'EUR','BE':'EUR','PT':'EUR','AT':'EUR','FI':'EUR','GR':'EUR','LU':'EUR'
+};
+const currencyNames = {
+  USD:'US Dollar', EUR:'Euro', GBP:'British Pound', CAD:'Canadian Dollar', AUD:'Australian Dollar', NZD:'New Zealand Dollar',
+  INR:'Indian Rupee', SGD:'Singapore Dollar', JPY:'Japanese Yen', CNY:'Chinese Yuan', HKD:'Hong Kong Dollar'
+};
+const supported = Object.keys(currencyNames);
+
+function guessCountryFromLocale(){
+  const lang = (navigator.language || 'en-US').toUpperCase();
+  const m = lang.split('-')[1];
+  return m || 'US';
+}
+function defaultCurrency(){
+  const saved = localStorage.getItem('lh_currency');
+  if (saved && supported.includes(saved)) return saved;
+  const cc = guessCountryFromLocale();
+  const cur = currencyMap[cc] || 'USD';
+  localStorage.setItem('lh_currency', cur);
+  return cur;
+}
+function setupCurrencySelect(){
+  const sel = document.getElementById('currencySelect');
+  const cur = defaultCurrency();
+  sel.innerHTML = supported.map(c=>`<option value="${c}">${c} — ${currencyNames[c]}</option>`).join('');
+  sel.value = cur;
+  sel.addEventListener('change', ()=>{
+    localStorage.setItem('lh_currency', sel.value);
+    render(); // re-render with new symbol
+  });
+}
+function fmt(n){
+  const cur = localStorage.getItem('lh_currency') || defaultCurrency();
+  try{
+    return new Intl.NumberFormat(undefined,{style:'currency',currency:cur,maximumFractionDigits:0}).format(n||0);
+  }catch(_){
+    return (cur + ' ' + (n||0).toLocaleString());
+  }
+}
+
+/* ---------- Local storage of inputs ---------- */
+const IDS = ['price','downPct','rate','term','closePct','taxPct','insPct','maintPct','appPct','sellPct','rent','rentGrowPct','years','investPct'];
+function loadInputs(){
+  const saved = JSON.parse(localStorage.getItem('lh_rvb_inputs')||'{}');
+  IDS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el && saved[id]!=null) el.value = saved[id];
+  });
+}
+function saveInputs(){
+  const out = {};
+  IDS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) out[id] = el.value;
+  });
+  localStorage.setItem('lh_rvb_inputs', JSON.stringify(out));
+}
+
+/* ---------- Core math ---------- */
+function pmts(principal, annualRate, years){
+  const r = (annualRate/100)/12;
+  const n = years*12;
+  if (r === 0) return principal / n;
+  return principal * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+}
+
+function calc(){
+  const val = id=>parseFloat(document.getElementById(id).value||'0');
+  const price=val('price'), downPct=val('downPct'), rate=val('rate'), term=val('term'), closePct=val('closePct');
+  const taxPct=val('taxPct'), insPct=val('insPct'), maintPct=val('maintPct'), appPct=val('appPct'), sellPct=val('sellPct');
+  const rent0=val('rent'), rentGrowPct=val('rentGrowPct'), years=val('years'), investPct=val('investPct');
+
+  const down = price * (downPct/100);
+  const closing = price * (closePct/100);
+  const loan = price - down;
+  const pmtPI = pmts(loan, rate, term); // monthly principal+interest
+  const taxM = (price * (taxPct/100)) / 12;
+  const insM = (price * (insPct/100)) / 12;
+  const maintM = (price * (maintPct/100)) / 12;
+  const totalBuyMonthly = pmtPI + taxM + insM + maintM;
+
+  let totalRentPaid = 0;
+  let curRent = rent0;
+  for(let y=0;y<years;y++){
+    for(let m=0;m<12;m++) totalRentPaid += curRent;
+    curRent *= (1 + rentGrowPct/100);
+  }
+
+  // Track principal repaid & remaining balance using an amortization loop
+  let bal = loan;
+  let principalPaid = 0;
+  for(let m=0;m<years*12;m++){
+    const rM = (rate/100)/12;
+    const interest = bal * rM;
+    const principal = pmtPI - interest;
+    bal = Math.max(0, bal - principal);
+    principalPaid += principal;
+    if (bal<=0){ // paid off early
+      // after payoff, monthly still has tax/ins/maint
+      // we ignore redirecting PI to investing, to keep model simple
+      break;
+    }
+  }
+
+  // Home future value
+  const futurePrice = price * Math.pow(1 + appPct/100, years);
+  const sellingCosts = futurePrice * (sellPct/100);
+  const buyEquity = Math.max(0, futurePrice - sellingCosts - bal);
+
+  // Cash out for buying (roughly): down + closing + monthly costs - principal (treated as equity already counted)
+  const totalMonthlyBuy = totalBuyMonthly * (years*12);
+  const buyCashOut = Math.max(0, down + closing + totalMonthlyBuy - principalPaid);
+
+  // If renting, invest (down + closing) at investPct
+  const invested = (down + closing) * Math.pow(1 + investPct/100, years);
+
+  return {
+    buyOut: buyCashOut,
+    buyEquity,
+    rentPaid: totalRentPaid,
+    rentInvest: invested
+  };
+}
+
+function render(){
+  const {buyOut,buyEquity,rentPaid,rentInvest} = calc();
+  document.getElementById('buyOut').textContent = fmt(buyOut);
+  document.getElementById('buyEquity').textContent = fmt(buyEquity);
+  document.getElementById('rentPaid').textContent = fmt(rentPaid);
+  document.getElementById('rentInvest').textContent = fmt(rentInvest);
+
+  const netBuy = buyEquity - buyOut;
+  const netRent = rentInvest - rentPaid;
+  const rec = document.getElementById('rec');
+  if (isFinite(netBuy) && isFinite(netRent)){
+    if (netBuy > netRent){
+      rec.textContent = `Buying looks better by about ${fmt(netBuy - netRent)} over the period.`;
+      rec.className = 'v ok';
+    } else if (netRent > netBuy){
+      rec.textContent = `Renting + investing looks better by about ${fmt(netRent - netBuy)} over the period.`;
+      rec.className = 'v ok';
+    } else {
+      rec.textContent = 'It’s roughly a wash over this timeframe.';
+      rec.className = 'v';
+    }
+  } else {
+    rec.textContent = '—';
+    rec.className = 'v';
+  }
+}
+
+/* ---------- Wire up ---------- */
+setupCurrencySelect();
+loadInputs();
+document.getElementById('calcBtn').addEventListener('click', ()=>{ saveInputs(); render(); });
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  localStorage.removeItem('lh_rvb_inputs'); loadInputs(); render();
+});
+// initial sample values for first visit
+(function seed(){
+  const saved = localStorage.getItem('lh_rvb_inputs');
+  if (!saved){
+    document.getElementById('price').value = 300000;
+    document.getElementById('downPct').value = 10;
+    document.getElementById('rate').value = 6.5;
+    document.getElementById('term').value = 30;
+    document.getElementById('closePct').value = 3;
+    document.getElementById('taxPct').value = 1.2;
+    document.getElementById('insPct').value = 0.5;
+    document.getElementById('maintPct').value = 1.0;
+    document.getElementById('appPct').value = 3;
+    document.getElementById('sellPct').value = 6;
+    document.getElementById('rent').value = 2200;
+    document.getElementById('rentGrowPct').value = 3;
+    document.getElementById('years').value = 7;
+    document.getElementById('investPct').value = 5;
+  }
+  render();
+})();
+</script>
+</body>
+</html>
