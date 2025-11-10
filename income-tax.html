@@ -1,282 +1,883 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit — <span data-i18n="app_title">Income & Taxes</span></title>
-  <meta name="description" content="Clean, fast income & tax calculator with animated breakdown. Auto country, auto currency, no sign-up."/>
-  <meta name="theme-color" content="#0b1220"/>
+
+  <title>Income & Take-Home Pay Calculator | LockHabit</title>
+  <meta name="description" content="Estimate your take-home pay with editable tax presets. Supports annual, monthly, bi-weekly, weekly and hourly. Save inputs to your device and email yourself the results.">
+  <meta name="theme-color" content="#6f7cff"/>
+
+  <!-- Social -->
+  <link rel="canonical" href="https://lockhabit.com/income-tax.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Income & Take-Home Pay Calculator | LockHabit"/>
+  <meta property="og:description" content="Estimate your take-home pay with editable tax presets. Save your inputs and email your results."/>
+  <meta property="og:url" content="https://lockhabit.com/income-tax.html"/>
+  <meta property="og:image" content="/public/og-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Income & Take-Home Pay Calculator | LockHabit"/>
+  <meta name="twitter:description" content="Easy take-home pay calculator with country presets and local save."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
 
   <style>
     :root{
-      --bg:#0b1220; --panel:#0f1727; --line:#1a2740;
-      --ink:#e7edf6; --muted:#a5b2c8; --accent:#45e0c7; --accent2:#67a8ff;
-      --radius:16px; --shadow:0 10px 28px rgba(8,14,28,.35);
-      --w:1120px;
+      /* Index.html palette / spacing */
+      --brand:#6f7cff; --brand2:#9c78ff; --accent:#9fb2ff;
+      --ink:#0f172a; --ink2:#15213d; --muted:#536179; --muted2:#3a4a66;
+      --line:#e5e7f1; --panel:#ffffff; --surface:#fbfcff;
+      --green:#22c55e; --bg:#0e1330;
+      --radius:16px; --shadow:0 18px 50px rgba(17,24,39,.10);
+      --wave1:rgba(111,124,255,.18); --wave2:rgba(156,120,255,.12);
     }
-    *{box-sizing:border-box} html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:var(--bg);color:var(--ink);
+      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
 
-    /* subtle animated header bg */
-    header{position:sticky;top:0;z-index:40;background:linear-gradient(180deg, rgba(7,13,28,.85), rgba(7,13,28,.55));border-bottom:1px solid rgba(26,39,64,.8);backdrop-filter:blur(8px)}
-    .nav{max-width:var(--w);margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
-    .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800}
-    .logo{width:26px;height:26px;border-radius:8px;background:linear-gradient(145deg,#45e0c7,#67a8ff)}
-    .spacer{flex:1}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:#0e2036;border:1px solid #183154;color:#d5e6ff}
+    /* Live, subtle animated background (parallax or motion-safe fallback) */
+    .bg-anim{
+      position:fixed; inset:0; z-index:-1;
+      background:
+        radial-gradient(1200px 600px at 70% -200px, var(--wave1), transparent 60%),
+        radial-gradient(900px 520px at -10% 10%, var(--wave2), transparent 55%),
+        #0f1338;
+      animation: floaty 18s ease-in-out infinite alternate;
+    }
+    @media (prefers-reduced-motion: reduce){ .bg-anim{ animation:none; } }
+    @keyframes floaty{
+      0%   { filter:hue-rotate(0deg) brightness(1); transform:translateY(0) }
+      100% { filter:hue-rotate(8deg) brightness(1.02); transform:translateY(10px) }
+    }
 
-    main{max-width:var(--w);margin:0 auto;padding:18px 16px 36px}
-    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}
-    @media (max-width:900px){ .hero{grid-template-columns:1fr} }
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:40;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+      transition:box-shadow .2s ease;
+    }
+    header.small{ box-shadow:0 6px 18px rgba(17,24,39,.08) }
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;min-width:0;cursor:pointer}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800;letter-spacing:.2px;color:#0e1a34;white-space:nowrap}
+    nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    nav a, nav button{
+      border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;
+      text-decoration:none;color:#1a2643;font-weight:600;cursor:pointer
+    }
 
-    .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
-    h1{margin:6px 0 4px;font-size:clamp(24px,3.8vw,36px);line-height:1.08}
-    .muted{color:var(--muted)}
+    /* Hero */
+    .hero{
+      background:
+        radial-gradient(1400px 650px at 50% -200px, rgba(111,124,255,.25) 0%, transparent 60%),
+        #f6f8ff;
+      border-bottom:1px solid var(--line);
+    }
+    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 12px}
+    h1{margin:0 0 6px;font-size:36px;letter-spacing:-.3px}
+    .sub{color:#33415f;max-width:65ch;margin:0}
 
+    /* Grid & panels */
+    .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr; padding:0 16px}
+    @media(min-width:980px){ .grid{grid-template-columns:1.05fr .95fr} }
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .panel h2{margin:0 0 10px;font-size:20px}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    @media (max-width:620px){ .row{grid-template-columns:1fr} }
-    label{font-weight:600;font-size:14px;color:#cfe3fb}
-    input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #1b2e4c;background:#0e2036;color:#e7f0ff}
-    .subgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    label{font-weight:600;font-size:14px;color:#1a2643}
+    input,select,button.text{
+      width:100%;height:44px;padding:12px;border-radius:12px;border:1px solid #dbe0ea;background:#fff;font-size:15px;line-height:20px
+    }
+    .stack{display:grid;gap:8px}
+    .muted{color:#5b6a88;font-size:13px}
+    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:22px}
 
-    .cta{display:flex;gap:10px;margin-top:10px}
-    .btn{appearance:none;border:0;border-radius:12px;padding:12px 14px;background:linear-gradient(135deg,#45e0c7,#67a8ff);color:#042b26;font-weight:800;cursor:pointer}
+    .btn{
+      appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand2));
+      color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer
+    }
+    .ghost{background:#fff;color:#1a2643}
+    .pill{border-radius:999px}
 
-    .viz{display:grid;grid-template-columns:1fr;gap:12px}
-    .viz canvas{width:100%;height:320px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02))}
-    .legend{display:flex;gap:10px;flex-wrap:wrap}
-    .tag{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid #203a5f;background:#10223a}
-    .dot{width:10px;height:10px;border-radius:99px}
+    .results{display:grid;gap:12px}
+    .break{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:12px}
+    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9}
+    footer{border-top:1px solid var(--line);margin-top:24px;background:#fff}
+    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#3a4a66}
+    .small{font-size:12px;color:#5b6a88}
+    .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .ads{margin-top:8px}
 
-    .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:900px){ .cols{grid-template-columns:1fr} }
-    .stat{background:#0e2036;border:1px solid #183154;border-radius:14px;padding:12px}
-    .stat b{font-size:20px}
+    /* Confidence bar (psychology nudge) */
+    .conf-wrap{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+    .conf-bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
+    .conf-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
 
-    .note{font-size:12px;color:#9fb2cf;margin-top:8px}
+    /* Bottom-sheet (locale override) */
+    .sheet{
+      position:fixed;left:0;right:0;bottom:-100%;z-index:60;background:#fff;border-top-left-radius:16px;border-top-right-radius:16px;
+      box-shadow:0 -18px 50px rgba(17,24,39,.25);transition:bottom .25s ease;max-height:80vh;overflow:auto;border:1px solid var(--line)
+    }
+    .sheet.open{ bottom:0 }
+    .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+    .sheet-body{padding:14px 16px;display:grid;gap:12px}
+    .mini{font-size:12px;color:#60708c}
   </style>
 </head>
 <body>
-  <header>
-    <nav class="nav">
-      <a class="brand" href="index.html"><span class="logo"></span>LockHabit</a>
-      <div class="spacer"></div>
-      <a class="pill" href="index.html" id="switchCalc"></a>
+<div class="bg-anim" aria-hidden="true"></div>
+
+<header id="hdr">
+  <div class="wrap">
+    <div class="brand" onclick="location.href='/index.html'" role="button" aria-label="Back to Home" title="Home">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="word">LockHabit</div>
+    </div>
+
+    <nav>
+      <div class="flex">
+        <div class="mini" id="localeBadge" style="padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer" title="Change locale">Auto locale</div>
+        <div class="mini" style="opacity:.7">Calculators</div>
+      </div>
+      <a href="/income-tax.html" aria-current="page">Income & Taxes</a>
+      <a href="/mortgage.html" title="Coming soon">Mortgage</a>
+      <a href="/loan.html" title="Coming soon">Loan</a>
+      <a href="/savings.html" title="Coming soon">Savings</a>
+      <a href="/retirement.html" title="Coming soon">Retirement</a>
+      <a href="/currency.html" title="Coming soon">FX Converter</a>
+      <a href="/business.html" title="Coming soon">Business Tools</a>
+      <a href="/blog.html" title="Coming soon">Blog/Newsletter</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <section class="hero">
-      <!-- Left: form -->
-      <div class="panel">
-        <h1 id="title"></h1>
-        <p class="muted" id="sub"></p>
+<section class="hero">
+  <div class="hero-inner">
+    <h1 id="t_title">Income & Take-Home Pay Calculator</h1>
+    <p class="sub" id="t_sub">Quickly estimate your net pay. Choose your pay frequency, edit country presets (as estimates), and email yourself a clean breakdown. Your inputs are saved to this device.</p>
+  </div>
+</section>
 
-        <div class="controls" role="group">
-          <div>
-            <label id="lblCountry" for="countrySel"></label>
-            <select id="countrySel" aria-label="Country">
-              <option value="US">United States</option>
-              <option value="GB">United Kingdom</option>
-              <option value="AU">Australia</option>
-              <option value="IN">India</option>
-              <option value="CN">China</option>
-            </select>
-          </div>
-          <div>
-            <label id="lblCurrency" for="currencySel"></label>
-            <select id="currencySel" aria-label="Currency">
-              <option>USD</option><option>GBP</option><option>AUD</option>
-              <option>INR</option><option>CNY</option>
-            </select>
-          </div>
-          <div>
-            <label for="cycleSel" id="lblCycle"></label>
-            <select id="cycleSel">
-              <option value="annual"></option>
-              <option value="monthly"></option>
-              <option value="biweekly"></option>
-              <option value="weekly"></option>
-            </select>
-          </div>
-        </div>
+<main class="grid" id="app">
+  <!-- Left: Inputs -->
+  <section class="panel" aria-labelledby="inputs">
+    <h2 id="inputs" data-i18n="inputs">Inputs</h2>
 
-        <div class="row" style="margin-top:8px">
-          <div>
-            <label id="lblGross" for="gross"></label>
-            <input id="gross" type="number" inputmode="decimal" min="0" value="80000"/>
-          </div>
-          <div>
-            <label id="lblOther" for="other"></label>
-            <input id="other" type="number" inputmode="decimal" min="0" value="0"/>
-          </div>
-        </div>
-
-        <div class="subgrid" style="margin-top:8px">
-          <div>
-            <label id="lblFed" for="fed"></label>
-            <input id="fed" type="number" inputmode="decimal" min="0" max="70" value="18"/>
-          </div>
-          <div>
-            <label id="lblState" for="state"></label>
-            <input id="state" type="number" inputmode="decimal" min="0" max="30" value="5"/>
-          </div>
-          <div>
-            <label id="lblSocial" for="social"></label>
-            <input id="social" type="number" inputmode="decimal" min="0" max="25" value="7.65"/>
-          </div>
-          <div>
-            <label>&nbsp;</label>
-            <button class="btn" id="btnCalc"></button>
-          </div>
-        </div>
-        <p class="note" id="note"></p>
+    <div class="row">
+      <div class="stack">
+        <label for="country" data-i18n="country">Country (preset)</label>
+        <div class="mini">Auto-selected; override in the Locale panel.</div>
+        <select id="country"></select>
+        <span class="muted" data-i18n="preset_note">Presets are rough estimates. Edit any rate below.</span>
       </div>
 
-      <!-- Right: viz + stats -->
-      <div class="panel viz">
-        <canvas id="pie"></canvas>
-        <div class="legend" id="legend"></div>
-        <div class="cols">
-          <div class="stat"><div id="statTake"></div><b id="valTake"></b></div>
-          <div class="stat"><div id="statTax"></div><b id="valTax"></b></div>
+      <div class="stack">
+        <label for="currency" data-i18n="currency">Currency</label>
+        <select id="currency"></select>
+        <span class="muted" data-i18n="currency_note">Auto-detected from your locale. You can change it.</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="frequency" data-i18n="pay_frequency">Pay frequency</label>
+        <select id="frequency">
+          <option value="annual" data-i18n="annual">Annual</option>
+          <option value="monthly" data-i18n="monthly">Monthly</option>
+          <option value="biweekly" data-i18n="biweekly">Bi-Weekly (26)</option>
+          <option value="weekly" data-i18n="weekly">Weekly (52)</option>
+          <option value="hourly" data-i18n="hourly">Hourly</option>
+        </select>
+      </div>
+      <div class="stack">
+        <label for="gross" data-i18n="gross_pay">Gross pay</label>
+        <input id="gross" type="number" inputmode="decimal" placeholder="e.g., 65000"/>
+        <span class="muted" id="grossHint">Enter amount per selected frequency.</span>
+      </div>
+    </div>
+
+    <div class="row" id="hourlyRow" style="display:none">
+      <div class="stack">
+        <label for="rate" data-i18n="hourly_rate">Hourly rate</label>
+        <input id="rate" type="number" inputmode="decimal" placeholder="e.g., 28"/>
+      </div>
+      <div class="stack">
+        <label for="hours" data-i18n="hours_week">Hours / week</label>
+        <input id="hours" type="number" inputmode="decimal" placeholder="e.g., 40" value="40"/>
+      </div>
+    </div>
+
+    <h2 style="margin-top:14px" data-i18n="pretax_deductions">Deductions (pre-tax)</h2>
+    <div class="row">
+      <div class="stack">
+        <label for="k401" data-i18n="ret_pct">Retirement % (401k/PPF/etc.)</label>
+        <input id="k401" type="number" inputmode="decimal" placeholder="e.g., 5"/>
+        <span class="muted" data-i18n="pct_of_gross">% of gross</span>
+      </div>
+      <div class="stack">
+        <label for="hsa" data-i18n="hsa">Health/HSA or similar (per period)</label>
+        <input id="hsa" type="number" inputmode="decimal" placeholder="e.g., 0"/>
+      </div>
+    </div>
+
+    <h2 style="margin-top:14px" data-i18n="tax_rates">Tax rates (edit presets)</h2>
+    <div class="row3">
+      <div class="stack">
+        <label for="federal" data-i18n="federal">Federal</label>
+        <input id="federal" type="number" inputmode="decimal" placeholder="e.g., 12"/>
+        <span class="muted">%</span>
+      </div>
+      <div class="stack">
+        <label for="state" data-i18n="state_prov">State/Prov.</label>
+        <input id="state" type="number" inputmode="decimal" placeholder="e.g., 5"/>
+        <span class="muted">%</span>
+      </div>
+      <div class="stack">
+        <label for="local" data-i18n="local_other">Local/Other</label>
+        <input id="local" type="number" inputmode="decimal" placeholder="e.g., 1"/>
+        <span class="muted">%</span>
+      </div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div class="stack">
+        <label for="social" data-i18n="payroll_social">Payroll (FICA/NI/etc.)</label>
+        <input id="social" type="number" inputmode="decimal" placeholder="e.g., 7.65"/>
+        <span class="muted">%</span>
+      </div>
+      <div class="stack">
+        <label for="pretaxOther" data-i18n="other_pretax">Other pre-tax (per period)</label>
+        <input id="pretaxOther" type="number" inputmode="decimal" placeholder="e.g., 0"/>
+      </div>
+    </div>
+
+    <div class="flex" style="margin-top:14px">
+      <button class="btn" id="calcBtn" data-i18n="calculate">Calculate</button>
+      <button class="btn ghost" id="resetBtn" type="button" data-i18n="reset">Reset</button>
+      <span class="muted" data-i18n="autosave_note">Inputs auto-save to this device.</span>
+    </div>
+
+    <!-- Nudge: confidence bar -->
+    <div class="conf-wrap">
+      <div class="mini" id="confText">Complete more fields for a tighter estimate</div>
+      <div class="conf-bar"><div class="conf-fill" id="confFill"></div></div>
+    </div>
+
+    <div class="ads">
+      <!-- Ad in the middle, CLS-safe -->
+      <ins class="adsbygoogle"
+           style="display:block" data-ad-format="fluid"
+           data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+           data-ad-slot="1234567890"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </div>
+  </section>
+
+  <!-- Right: Results -->
+  <section class="panel" aria-labelledby="results">
+    <h2 id="results" data-i18n="results">Results</h2>
+    <div class="results" id="out">
+      <div class="break ok">
+        <div>
+          <div class="k" data-i18n="net_per_period">Net per period</div>
+          <div class="v" id="netPeriod">—</div>
+        </div>
+        <div>
+          <div class="k" data-i18n="net_per_year">Net per year</div>
+          <div class="v" id="netYear">—</div>
         </div>
       </div>
-    </section>
-  </main>
 
-  <!-- Scripts -->
-  <script src="i18n.js"></script>
-  <script src="charts.js"></script>
-  <script>
-    // ---- Minimal locale wiring
-    function t(k){ return LHi18n.t(k); }
+      <div class="break">
+        <div><span class="k" data-i18n="gross_per_period">Gross per period</span><div class="v" id="grossShow">—</div></div>
+        <div><span class="k" data-i18n="pretax_total">Pre-tax total</span><div class="v" id="pretaxShow">—</div></div>
+      </div>
 
-    // hydrate static labels
-    document.getElementById("title").textContent = t("app_title");
-    document.getElementById("sub").textContent = t("hero_sub");
-    document.getElementById("switchCalc").textContent = "← " + t("switch_calc");
-    document.getElementById("lblCountry").textContent = t("country");
-    document.getElementById("lblCurrency").textContent = t("currency");
-    document.getElementById("lblCycle").textContent = t("pay_cycle");
-    document.querySelector('#cycleSel option[value="annual"]').textContent = t("annual");
-    document.querySelector('#cycleSel option[value="monthly"]').textContent = t("monthly");
-    document.querySelector('#cycleSel option[value="biweekly"]').textContent = t("biweekly");
-    document.querySelector('#cycleSel option[value="weekly"]').textContent = t("weekly");
-    document.getElementById("lblGross").textContent = t("gross_income");
-    document.getElementById("lblOther").textContent = t("other_deductions");
-    document.getElementById("lblFed").textContent = t("fed_tax") + " (%)";
-    document.getElementById("lblState").textContent = t("state_tax") + " (%)";
-    document.getElementById("lblSocial").textContent = t("social_tax") + " (%)";
-    document.getElementById("btnCalc").textContent = t("calculate");
-    document.getElementById("note").textContent = t("note_demo");
-    document.getElementById("statTake").textContent = t("take_home");
-    document.getElementById("statTax").textContent  = t("total_tax");
+      <div class="break">
+        <div><span class="k" data-i18n="taxable_base">Taxable base</span><div class="v" id="taxableShow">—</div></div>
+        <div><span class="k" data-i18n="taxes_per_period">Total taxes per period</span><div class="v" id="taxesShow">—</div></div>
+      </div>
 
-    // ---- Auto-select country/currency
-    const countrySel = document.getElementById("countrySel");
-    const currencySel = document.getElementById("currencySel");
+      <div class="break">
+        <div><span class="k" data-i18n="eff_rate">Effective tax rate</span><div class="v" id="effRate">—</div></div>
+        <div><span class="k" data-i18n="ret_pct_short">Retirement/Pre-tax %</span><div class="v" id="retRate">—</div></div>
+      </div>
 
-    function autoCountry(){
-      const saved = JSON.parse(localStorage.getItem("lh.country")||"null");
-      if(saved && ["US","GB","AU","IN","CN"].includes(saved)) return saved;
-      const lang = (navigator.language||"en-US").toUpperCase();
-      const cc = lang.includes("-") ? lang.split("-")[1] : "US";
-      return ["US","GB","AU","IN","CN"].includes(cc) ? cc : "US";
-    }
-    function syncCurrencyFromCountry(cc){
-      const map = {US:"USD", GB:"GBP", AU:"AUD", IN:"INR", CN:"CNY"};
-      const cur = map[cc] || "USD";
-      currencySel.value = cur;
-      localStorage.setItem("lh.currency", JSON.stringify(cur));
-    }
+      <div class="flex" style="margin-top:4px">
+        <button class="btn pill" id="emailBtn" type="button" data-i18n="email_me">Email me this breakdown</button>
+        <button class="btn ghost pill" type="button" onclick="location.href='/mortgage.html'">Go to Mortgage (coming soon)</button>
+      </div>
 
-    const cc = autoCountry();
-    countrySel.value = cc;
-    syncCurrencyFromCountry(cc);
+      <p class="small" data-i18n="disclaimer">This tool is educational and uses editable rate presets (not legal or tax advice). For exact taxes, consult official guidance or a professional.</p>
+    </div>
+  </section>
+</main>
 
-    countrySel.addEventListener("change", ()=>{
-      localStorage.setItem("lh.country", JSON.stringify(countrySel.value));
-      syncCurrencyFromCountry(countrySel.value);
-      // switch UI language
-      location.reload();
+<footer>
+  <div class="foot">
+    <div class="flex">
+      <span class="small">© <span id="yr"></span> LockHabit</span>
+      <a class="small" href="/index.html">Home</a>
+      <a class="small" href="/terms.html">Terms</a>
+      <a class="small" href="/privacy.html">Privacy</a>
+      <a class="small" href="/security.html">Security</a>
+      <a class="small" href="/calculator.html" title="Legacy page">Legacy Calculator</a>
+      <a class="small" href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Bottom-sheet: Locale override -->
+<div class="sheet" id="localeSheet" aria-modal="true" role="dialog" aria-labelledby="localeTitle">
+  <div class="sheet-head">
+    <strong id="localeTitle">Locale & Language</strong>
+    <button class="btn ghost" id="closeSheet" type="button">Close</button>
+  </div>
+  <div class="sheet-body">
+    <div class="row">
+      <div class="stack">
+        <label class="k">Country</label>
+        <select id="sheetCountry"></select>
+      </div>
+      <div class="stack">
+        <label class="k">Currency</label>
+        <select id="sheetCurrency"></select>
+      </div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div class="stack">
+        <label class="k">Language</label>
+        <select id="sheetLang"></select>
+      </div>
+      <div class="stack" style="align-items:flex-end;display:flex">
+        <button class="btn" id="applyLocale" type="button">Apply</button>
+      </div>
+    </div>
+    <div class="mini">Tip: This setting will also carry over to other calculators on this device.</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Year + compact header
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const hdr = document.getElementById('hdr');
+  window.addEventListener('scroll', ()=> hdr.classList.toggle('small', window.scrollY>2), {passive:true});
+
+  // ---- country & currency lists (expanded) — EXACTLY as you provided
+  const countries = [
+    {code:"auto", name:"Auto"},
+    {code:"US", name:"United States"},
+    {code:"GB", name:"United Kingdom"},
+    {code:"CA", name:"Canada"},
+    {code:"AU", name:"Australia"},
+    {code:"EU", name:"Eurozone"},
+    {code:"CN", name:"China"},
+    {code:"IN", name:"India"},
+    {code:"JP", name:"Japan"},
+    {code:"KR", name:"South Korea"},
+    {code:"SG", name:"Singapore"},
+    {code:"HK", name:"Hong Kong"},
+    {code:"TW", name:"Taiwan"},
+    {code:"MY", name:"Malaysia"},
+    {code:"TH", name:"Thailand"},
+    {code:"VN", name:"Vietnam"},
+    {code:"ID", name:"Indonesia"},
+    {code:"PH", name:"Philippines"},
+    {code:"NZ", name:"New Zealand"},
+    {code:"AE", name:"United Arab Emirates"},
+    {code:"SA", name:"Saudi Arabia"},
+    {code:"QA", name:"Qatar"},
+    {code:"KW", name:"Kuwait"},
+    {code:"TR", name:"Türkiye"},
+    {code:"IL", name:"Israel"},
+    {code:"CH", name:"Switzerland"},
+    {code:"NO", name:"Norway"},
+    {code:"SE", name:"Sweden"},
+    {code:"DK", name:"Denmark"},
+    {code:"FI", name:"Finland"},
+    {code:"NL", name:"Netherlands"},
+    {code:"BE", name:"Belgium"},
+    {code:"DE", name:"Germany"},
+    {code:"FR", name:"France"},
+    {code:"ES", name:"Spain"},
+    {code:"IT", name:"Italy"},
+    {code:"PT", name:"Portugal"},
+    {code:"IE", name:"Ireland"},
+    {code:"PL", name:"Poland"},
+    {code:"CZ", name:"Czechia"},
+    {code:"HU", name:"Hungary"},
+    {code:"RO", name:"Romania"},
+    {code:"GR", name:"Greece"},
+    {code:"MX", name:"Mexico"},
+    {code:"BR", name:"Brazil"},
+    {code:"AR", name:"Argentina"},
+    {code:"CL", name:"Chile"},
+    {code:"CO", name:"Colombia"},
+    {code:"PE", name:"Peru"},
+    {code:"ZA", name:"South Africa"},
+    {code:"EG", name:"Egypt"},
+    {code:"MA", name:"Morocco"},
+    {code:"GH", name:"Ghana"},
+    {code:"NG", name:"Nigeria"}
+  ];
+  const currencyByCountry = {
+    US:"USD", GB:"GBP", CA:"CAD", AU:"AUD", EU:"EUR",
+    CN:"CNY", IN:"INR", JP:"JPY", KR:"KRW", SG:"SGD",
+    HK:"HKD", TW:"TWD", MY:"MYR", TH:"THB", VN:"VND",
+    ID:"IDR", PH:"PHP", NZ:"NZD", AE:"AED", SA:"SAR",
+    QA:"QAR", KW:"KWD", TR:"TRY", IL:"ILS", CH:"CHF",
+    NO:"NOK", SE:"SEK", DK:"DKK", FI:"EUR", NL:"EUR",
+    BE:"EUR", DE:"EUR", FR:"EUR", ES:"EUR", IT:"EUR",
+    PT:"EUR", IE:"EUR", PL:"PLN", CZ:"CZK", HU:"HUF",
+    RO:"RON", GR:"EUR", MX:"MXN", BR:"BRL", AR:"ARS",
+    CL:"CLP", CO:"COP", PE:"PEN", ZA:"ZAR", EG:"EGP",
+    MA:"MAD", GH:"GHS", NG:"NGN"
+  };
+  const currencies = [
+    "Auto","USD","EUR","GBP","CAD","AUD","NZD",
+    "CNY","JPY","KRW","HKD","TWD","SGD","INR",
+    "AED","SAR","QAR","KWD","TRY","ILS","CHF",
+    "NOK","SEK","DKK","PLN","CZK","HUF","RON",
+    "MXN","BRL","ARS","CLP","COP","PEN","ZAR",
+    "EGP","MAD","GHS","NGN","MYR","THB","VND",
+    "IDR","PHP"
+  ];
+
+  // Lightweight language map (primary language per major country; fallback en)
+  const langForCountry = {
+    US:'en', GB:'en', CA:'en', AU:'en', NZ:'en', IE:'en',
+    IN:'hi', CN:'zh', HK:'zh', TW:'zh', SG:'en', JP:'ja', KR:'ko',
+    MX:'es', ES:'es', AR:'es', CL:'es', CO:'es', PE:'es',
+    BR:'pt', FR:'fr', DE:'de', IT:'it', PT:'pt',
+    NL:'nl', BE:'fr', CH:'de', AT:'de', SE:'sv', NO:'no', DK:'da', FI:'fi',
+    AE:'ar', SA:'ar', QA:'ar', KW:'ar', IL:'he', TR:'tr', GR:'el',
+    PL:'pl', CZ:'cs', HU:'hu', RO:'ro', RU:'ru', UA:'uk',
+    ZA:'en', EG:'ar', MA:'ar', NG:'en', GH:'en', MY:'ms', TH:'th', VN:'vi', ID:'id', PH:'en'
+  };
+
+  // Minimal i18n strings (key subset). Fallback to English.
+  const I18N = {
+    en:{
+      inputs:"Inputs", country:"Country (preset)", preset_note:"Presets are rough estimates. Edit any rate below.",
+      currency:"Currency", currency_note:"Auto-detected from your locale. You can change it.",
+      pay_frequency:"Pay frequency", annual:"Annual", monthly:"Monthly", biweekly:"Bi-Weekly (26)", weekly:"Weekly (52)", hourly:"Hourly",
+      gross_pay:"Gross pay", pretax_deductions:"Deductions (pre-tax)", ret_pct:"Retirement % (401k/PPF/etc.)", pct_of_gross:"% of gross",
+      hsa:"Health/HSA or similar (per period)", tax_rates:"Tax rates (edit presets)",
+      federal:"Federal", state_prov:"State/Prov.", local_other:"Local/Other",
+      payroll_social:"Payroll (FICA/NI/etc.)", other_pretax:"Other pre-tax (per period)",
+      calculate:"Calculate", reset:"Reset", autosave_note:"Inputs auto-save to this device.",
+      results:"Results", net_per_period:"Net per period", net_per_year:"Net per year",
+      gross_per_period:"Gross per period", pretax_total:"Pre-tax total",
+      taxable_base:"Taxable base", taxes_per_period:"Total taxes per period",
+      eff_rate:"Effective tax rate", ret_pct_short:"Retirement/Pre-tax %",
+      email_me:"Email me this breakdown", disclaimer:"This tool is educational and uses editable rate presets (not legal or tax advice). For exact taxes, consult official guidance or a professional."
+    },
+    es:{ // Spanish (core labels)
+      inputs:"Entradas", country:"País (preajuste)", preset_note:"Los preajustes son estimaciones. Puedes editar cualquier tasa.",
+      currency:"Moneda", currency_note:"Detectada automáticamente. Puedes cambiarla.",
+      pay_frequency:"Frecuencia de pago", annual:"Anual", monthly:"Mensual", biweekly:"Quincenal (26)", weekly:"Semanal (52)", hourly:"Por hora",
+      gross_pay:"Salario bruto", pretax_deductions:"Deducciones (antes de impuestos)", ret_pct:"% de jubilación (401k/PPF/etc.)", pct_of_gross:"% del bruto",
+      hsa:"Salud/HSA u otro (por período)", tax_rates:"Impuestos (edita preajustes)",
+      federal:"Federal", state_prov:"Estatal/Prov.", local_other:"Local/Otros",
+      payroll_social:"Nómina (FICA/NI/etc.)", other_pretax:"Otros antes de impuestos (por período)",
+      calculate:"Calcular", reset:"Restablecer", autosave_note:"Se guarda automáticamente en este dispositivo.",
+      results:"Resultados", net_per_period:"Neto por período", net_per_year:"Neto anual",
+      gross_per_period:"Bruto por período", pretax_total:"Total antes de impuestos",
+      taxable_base:"Base imponible", taxes_per_period:"Impuestos por período",
+      eff_rate:"Tasa efectiva", ret_pct_short:"Jubilación/Pre-impuestos %",
+      email_me:"Envíame este desglose", disclaimer:"Herramienta educativa con tasas editables (no es asesoría fiscal o legal)."
+    },
+    pt:{...I18N_en=undefined}, fr:{}, de:{}, hi:{}, zh:{}
+  };
+  // Fill non-English maps with English fallback to keep file concise:
+  ["pt","fr","de","hi","zh"].forEach(l=>I18N[l]=Object.assign({},I18N.en, I18N[l]||{}));
+
+  // DOM els
+  const countrySel = document.getElementById('country');
+  const currencySel = document.getElementById('currency');
+  const freqSel = document.getElementById('frequency');
+  const grossInput = document.getElementById('gross');
+  const rateInput = document.getElementById('rate');
+  const hoursInput = document.getElementById('hours');
+  const hourlyRow = document.getElementById('hourlyRow');
+  const k401 = document.getElementById('k401');
+  const hsa = document.getElementById('hsa');
+  const pretaxOther = document.getElementById('pretaxOther');
+  const fFederal = document.getElementById('federal');
+  const fState   = document.getElementById('state');
+  const fLocal   = document.getElementById('local');
+  const fSocial  = document.getElementById('social');
+
+  const netPeriod = document.getElementById('netPeriod');
+  const netYear = document.getElementById('netYear');
+  const grossShow = document.getElementById('grossShow');
+  const pretaxShow = document.getElementById('pretaxShow');
+  const taxableShow = document.getElementById('taxableShow');
+  const taxesShow = document.getElementById('taxesShow');
+  const effRate = document.getElementById('effRate');
+  const retRate = document.getElementById('retRate');
+  const calcBtn = document.getElementById('calcBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const emailBtn = document.getElementById('emailBtn');
+  const grossHint = document.getElementById('grossHint');
+
+  const confFill = document.getElementById('confFill');
+  const confText = document.getElementById('confText');
+  const localeBadge = document.getElementById('localeBadge');
+
+  // Bottom-sheet elements
+  const sheet = document.getElementById('localeSheet');
+  const closeSheet = document.getElementById('closeSheet');
+  const sheetCountry = document.getElementById('sheetCountry');
+  const sheetCurrency = document.getElementById('sheetCurrency');
+  const sheetLang = document.getElementById('sheetLang');
+  const applyLocale = document.getElementById('applyLocale');
+
+  // Build selects
+  function buildSelect(el, list, getVal, getText){
+    el.textContent='';
+    list.forEach(item=>{
+      const o=document.createElement('option');
+      o.value=getVal?getVal(item):item;
+      o.textContent=getText?getText(item):item;
+      el.appendChild(o);
     });
-    currencySel.addEventListener("change", ()=>{
-      localStorage.setItem("lh.currency", JSON.stringify(currencySel.value));
+  }
+  buildSelect(countrySel, countries, x=>x.code, x=>x.name);
+  buildSelect(sheetCountry, countries, x=>x.code, x=>x.name);
+  buildSelect(sheetCurrency, currencies, x=>x, x=>x);
+  buildSelect(sheetLang, [
+    {v:'auto',n:'Auto'}, {v:'en',n:'English'}, {v:'es',n:'Español'}, {v:'pt',n:'Português'},
+    {v:'fr',n:'Français'}, {v:'de',n:'Deutsch'}, {v:'hi',n:'हिन्दी'}, {v:'zh',n:'中文'}
+  ], x=>x.v, x=>x.n);
+
+  // Guess locale
+  function guessFromBrowser(){
+    const loc = (Intl.DateTimeFormat().resolvedOptions().locale || navigator.language || 'en-US');
+    const parts = loc.split('-');
+    const lang = parts[0].toLowerCase();
+    const region = (parts[1]||'US').toUpperCase();
+    // Country preference: region if present, else map common langs
+    let country = region;
+    if(!countries.some(c=>c.code===country)){
+      // fallback by language
+      const fallback = {en:'US', es:'ES', pt:'BR', fr:'FR', de:'DE', hi:'IN', zh:'CN'};
+      country = fallback[lang] || 'US';
+    }
+    let currency = currencyByCountry[country] || 'USD';
+    return {lang, country, currency};
+  }
+
+  // Presets per country (effective rates; editable)
+  const presets = {
+    US:{ federal:12, state:4, local:1, social:7.65 },
+    CA:{ federal:10, state:6, local:0.5, social:7 },
+    GB:{ federal:12, state:0, local:0, social:12 },
+    IN:{ federal:8, state:0, local:1, social:0 },
+    AU:{ federal:11, state:0, local:1, social:0 },
+    EU:{ federal:12, state:0, local:2, social:8 }
+  };
+
+  function setPreset(code){
+    if(code==='auto'){
+      const cur = currencySel.value;
+      const mapByCur = {USD:'US', CAD:'CA', GBP:'GB', INR:'IN', EUR:'EU', AUD:'AU'};
+      code = mapByCur[cur] || 'US';
+    }
+    const p = presets[code];
+    if(!p) return;
+    fFederal.value = p.federal;
+    fState.value   = p.state;
+    fLocal.value   = p.local;
+    fSocial.value  = p.social;
+  }
+
+  // Auto locale load/save shared across calculators
+  const LKEY = 'lh_locale_v1';
+  function saveLocale(lc){ localStorage.setItem(LKEY, JSON.stringify(lc)); }
+  function loadLocale(){
+    const raw = localStorage.getItem(LKEY);
+    if(!raw) return null;
+    try{ return JSON.parse(raw); }catch(_){ return null; }
+  }
+
+  // Public module so other calculators can import locale instantly
+  window.LHLocale = {
+    get(){ return loadLocale() || guessFromBrowser(); },
+    applyToSelects(){
+      const lc = window.LHLocale.get();
+      // Set UI selects
+      countrySel.value = lc.country || 'US';
+      currencySel.value = lc.currency || 'USD';
+      sheetCountry.value = lc.country || 'US';
+      sheetCurrency.value = lc.currency || 'USD';
+      sheetLang.value = lc.lang ? lc.lang : 'auto';
+      // Badge
+      localeBadge.textContent = `${lc.country || 'US'} · ${lc.currency || 'USD'} · ${(lc.lang||'auto')}`;
+      // Presets
+      setPreset(countrySel.value);
+      applyI18N(lc.lang || 'en');
+    }
+  };
+
+  // i18n apply
+  function applyI18N(lang){
+    if(lang==='auto') lang = (window.LHLocale.get().lang || 'en');
+    const dict = I18N[lang] || I18N.en;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(dict[key]) el.textContent = dict[key];
     });
+  }
 
-    // ---- Calculator
-    const gross     = document.getElementById("gross");
-    const other     = document.getElementById("other");
-    const fed       = document.getElementById("fed");
-    const state     = document.getElementById("state");
-    const social    = document.getElementById("social");
-    const cycleSel  = document.getElementById("cycleSel");
-    const valTake   = document.getElementById("valTake");
-    const valTax    = document.getElementById("valTax");
-    const legend    = document.getElementById("legend");
-    const pieCanvas = document.getElementById("pie");
-    let pie;
-
-    function toAnnual(amount, cycle){
-      const n = Number(amount)||0;
-      switch(cycle){
-        case "monthly": return n*12;
-        case "biweekly": return n*26;
-        case "weekly": return n*52;
-        default: return n;
-      }
+  // Currency formatting
+  function money(n){
+    const c = currencySel.value || 'USD';
+    try{
+      return new Intl.NumberFormat(undefined,{style:'currency',currency:c,maximumFractionDigits:2}).format(n||0);
+    }catch(_){
+      return (c + ' ' + (Number(n||0).toFixed(2)));
     }
+  }
 
-    function fmtMoney(n){
-      const cur = JSON.parse(localStorage.getItem("lh.currency")||'"USD"');
-      const code = cur==="Auto" ? "USD" : cur;
-      try { return new Intl.NumberFormat(undefined,{style:"currency",currency:code,maximumFractionDigits:0}).format(n); }
-      catch { return `$${Math.round(n)}`; }
+  function periodsPerYear(freq){
+    if(freq==='annual') return 1;
+    if(freq==='monthly') return 12;
+    if(freq==='biweekly') return 26;
+    if(freq==='weekly') return 52;
+    if(freq==='hourly') return 52; // weekly basis for hourly calc
+    return 1;
+  }
+
+  function computeGrossPerPeriod(){
+    const freq = freqSel.value;
+    if(freq==='hourly'){
+      const r = parseFloat(rateInput.value||0);
+      const h = parseFloat(hoursInput.value||0);
+      return r*h; // weekly basis
     }
+    return parseFloat(grossInput.value||0);
+  }
 
-    function calc(){
-      // Basic placeholder math (editable rates)
-      const annualGross = toAnnual(gross.value, cycleSel.value);
-      const taxFed   = annualGross * (Math.max(0, Number(fed.value))/100);
-      const taxState = annualGross * (Math.max(0, Number(state.value))/100);
-      const taxSoc   = annualGross * (Math.max(0, Number(social.value))/100);
-      const otherD   = Math.max(0, Number(other.value));
-      const totalTax = taxFed + taxState + taxSoc + otherD;
-      const takeHome = Math.max(0, annualGross - totalTax);
+  function updateHints(){
+    const f = freqSel.value;
+    const dict = {
+      'annual':'Enter annual gross income.',
+      'monthly':'Enter monthly gross income.',
+      'biweekly':'Enter gross per 2-week period.',
+      'weekly':'Enter weekly gross income.',
+      'hourly':'Enter hourly details below (rate & hours).'
+    };
+    grossHint.textContent = dict[f];
+  }
 
-      // Update numbers
-      valTake.textContent = fmtMoney(takeHome);
-      valTax.textContent  = fmtMoney(totalTax);
+  // Confidence score
+  function updateConfidence(){
+    let filled = 0, total = 6;
+    if(grossInput.value) filled++;
+    if(freqSel.value) filled++;
+    if(k401.value) filled++;
+    if(fFederal.value) filled++;
+    if(fSocial.value) filled++;
+    if(currencySel.value) filled++;
+    const pct = Math.max(8, Math.min(100, Math.round((filled/total)*100)));
+    confFill.style.width = pct+'%';
+    confText.textContent = pct<100 ? 'Complete more fields for a tighter estimate' : 'Nice — your estimate is fully tuned';
+  }
 
-      // Update legend
-      const items = [
-        { key:"federal", color:"#63b3ff", value:taxFed },
-        { key:"state",   color:"#9f9fff", value:taxState },
-        { key:"social",  color:"#5ee0c8", value:taxSoc },
-        { key:"other",   color:"#ffd27a", value:otherD },
-      ];
-      legend.innerHTML = "";
-      items.forEach(it=>{
-        const el = document.createElement("div");
-        el.className = "tag";
-        el.innerHTML = `<span class="dot" style="background:${it.color}"></span>${t(it.key)} — <b style="margin-left:6px">${fmtMoney(it.value)}</b>`;
-        legend.appendChild(el);
-      });
+  // Storage for this calc
+  const KEY = 'lh_income_calc_v1';
+  function saveCalc(){
+    const data = {
+      country:countrySel.value, currency:currencySel.value, frequency:freqSel.value,
+      gross:grossInput.value, rate:rateInput.value, hours:hoursInput.value,
+      k401:k401.value, hsa:hsa.value, pretaxOther:pretaxOther.value,
+      federal:fFederal.value, state:fState.value, local:fLocal.value, social:fSocial.value
+    };
+    localStorage.setItem(KEY, JSON.stringify(data));
+  }
+  function loadCalc(){
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return false;
+    try{
+      const d = JSON.parse(raw);
+      countrySel.value = d.country || countrySel.value;
+      currencySel.value = d.currency || currencySel.value;
+      freqSel.value = d.frequency || 'annual';
+      grossInput.value = d.gross || '';
+      rateInput.value = d.rate || '';
+      hoursInput.value = d.hours || '40';
+      k401.value = d.k401 || '';
+      hsa.value = d.hsa || '';
+      pretaxOther.value = d.pretaxOther || '';
+      fFederal.value = d.federal || '';
+      fState.value = d.state || '';
+      fLocal.value = d.local || '';
+      fSocial.value = d.social || '';
+      return true;
+    }catch(_){ return false; }
+  }
 
-      // Draw chart
-      const dataset = buildTaxDataset({
-        federal: taxFed, state: taxState, social: taxSoc, other: otherD
-      });
-      pie = new PieChart(pieCanvas, dataset, { animate:true });
-    }
+  function calc(){
+    saveCalc();
+    updateConfidence();
 
-    document.getElementById("btnCalc").addEventListener("click", calc);
-    // initial run
+    const ppy = periodsPerYear(freqSel.value);
+    const grossP = computeGrossPerPeriod();
+    const annualGross = (freqSel.value==='hourly') ? grossP*52 : grossP * ppy;
+
+    const k401Pct = parseFloat(k401.value||0)/100;
+    const hsaAmt = parseFloat(hsa.value||0);
+    const otherPre = parseFloat(pretaxOther.value||0);
+
+    const preTax = (grossP*k401Pct) + hsaAmt + otherPre;
+    const taxBase = Math.max(0, grossP - preTax);
+
+    const fed = parseFloat(fFederal.value||0)/100;
+    const st  = parseFloat(fState.value||0)/100;
+    const loc = parseFloat(fLocal.value||0)/100;
+    const soc = parseFloat(fSocial.value||0)/100;
+
+    const taxes = taxBase * (fed + st + loc + soc);
+    const netP = Math.max(0, taxBase - taxes);
+    const netY = (freqSel.value==='hourly') ? netP*52 : netP*ppy;
+
+    const eff = annualGross>0 ? (1 - (netY/annualGross))*100 : 0;
+    const ret = grossP>0 ? (k401Pct*100) : 0;
+
+    grossShow.textContent = money(grossP);
+    pretaxShow.textContent = money(preTax);
+    taxableShow.textContent = money(taxBase);
+    taxesShow.textContent = money(taxes);
+    netPeriod.textContent = money(netP);
+    netYear.textContent = money(netY);
+    effRate.textContent = eff.toFixed(2) + '%';
+    retRate.textContent = ret.toFixed(2) + '%';
+
+    // subtle shimmer on update (results reinforcement)
+    document.getElementById('out').style.boxShadow = '0 0 0 2px rgba(111,124,255,.18) inset';
+    setTimeout(()=>{ document.getElementById('out').style.boxShadow='none'; }, 280);
+  }
+
+  // Events
+  countrySel.addEventListener('change', e=>{
+    if(e.target.value==='CUSTOM') return;
+    setPreset(e.target.value);
+    // If currency is Auto or matches previous country, align currency to country
+    const ccy = currencyByCountry[e.target.value];
+    if(ccy){ currencySel.value = ccy; }
+    saveCalc();
+  });
+  currencySel.addEventListener('change', ()=>{ saveCalc(); updateConfidence(); });
+  [grossInput, rateInput, hoursInput, k401, hsa, pretaxOther, fFederal, fState, fLocal, fSocial].forEach(el=>{
+    el.addEventListener('input', ()=>{ updateConfidence(); });
+  });
+  freqSel.addEventListener('change', ()=>{
+    hourlyRow.style.display = (freqSel.value==='hourly') ? '' : 'none';
+    updateHints(); updateConfidence();
+  });
+  calcBtn.addEventListener('click', calc);
+  resetBtn.addEventListener('click', ()=>{
+    localStorage.removeItem(KEY);
+    location.reload();
+  });
+
+  emailBtn.addEventListener('click', ()=>{
+    const subj = encodeURIComponent('My Take-Home Pay Breakdown (LockHabit)');
+    const body = encodeURIComponent(
+`Here is my estimated take-home pay:
+
+Country preset: ${countrySel.value}
+Currency: ${currencySel.value}
+Pay frequency: ${freqSel.value}
+
+Gross per period: ${grossShow.textContent}
+Pre-tax total:    ${pretaxShow.textContent}
+Taxable base:     ${taxableShow.textContent}
+Taxes per period: ${taxesShow.textContent}
+
+Net per period:   ${netPeriod.textContent}
+Net per year:     ${netYear.textContent}
+
+Effective tax rate: ${effRate.textContent}
+Retirement/pre-tax %: ${retRate.textContent}
+
+(Generated with LockHabit’s Income & Take-Home Pay Calculator — estimates only)`);
+    window.location.href = `mailto:?subject=${subj}&body=${body}`;
+  });
+
+  // Locale badge -> open sheet
+  localeBadge.addEventListener('click', ()=> sheet.classList.add('open'));
+  closeSheet.addEventListener('click', ()=> sheet.classList.remove('open'));
+  applyLocale.addEventListener('click', ()=>{
+    const lc = {
+      country: sheetCountry.value,
+      currency: sheetCurrency.value,
+      lang: sheetLang.value==='auto' ? guessFromBrowser().lang : sheetLang.value
+    };
+    saveLocale(lc);
+    window.LHLocale.applyToSelects();
+    sheet.classList.remove('open');
     calc();
-  </script>
+  });
 
-  <!-- (Optional) Google tags — paste your GA/Adsense below if needed -->
+  // Initialize locale (shared across calculators)
+  (function init(){
+    const saved = loadLocale();
+    const initial = saved || guessFromBrowser();
+    saveLocale(initial); // persist for other calculators
+    window.LHLocale.applyToSelects();
+
+    // Sync main selects to sheet selects on open
+    sheet.addEventListener('transitionend', ()=> {
+      if(sheet.classList.contains('open')){
+        const lc = window.LHLocale.get();
+        sheetCountry.value = lc.country || 'US';
+        sheetCurrency.value = lc.currency || 'USD';
+        sheetLang.value = lc.lang || 'auto';
+      }
+    });
+
+    // Load calc inputs after locale
+    loadCalc(); // if any
+    if(!loadCalc()){ setPreset('auto'); }
+    updateHints();
+    if(freqSel.value==='hourly') hourlyRow.style.display='';
+    updateConfidence();
+  })();
+})();
+</script>
 </body>
 </html>
