@@ -195,6 +195,24 @@
       </div>
     </div>
 
+    <!-- Affordability from Income & Taxes -->
+    <h2 style="margin-top:14px">Affordability (optional)</h2>
+    <div class="row">
+      <div class="stack">
+        <label for="netMonthly">Net monthly income</label>
+        <input id="netMonthly" type="number" inputmode="decimal" placeholder="Imported from Income & Taxes"/>
+        <span class="muted">Auto-imports if you used the Income & Taxes tool.</span>
+      </div>
+      <div class="stack">
+        <label for="otherMonthly">Other monthly expenses</label>
+        <input id="otherMonthly" type="number" inputmode="decimal" placeholder="e.g., 800"/>
+      </div>
+    </div>
+    <div class="flex" style="margin-top:8px">
+      <button class="btn ghost" id="importBtn" type="button">Import from Income & Taxes</button>
+      <span class="muted">Or pass <code>?netMonthly=</code> in the URL.</span>
+    </div>
+
     <div class="flex" style="margin-top:14px">
       <button class="btn" id="calcBtn">Calculate</button>
       <button class="btn ghost" id="resetBtn" type="button">Reset</button>
@@ -234,6 +252,11 @@
       <div class="break">
         <div><span class="k">APR (effective)</span><div class="v" id="aprEff">—</div></div>
         <div><span class="k">Origination fee cost</span><div class="v" id="feeCost">—</div></div>
+      </div>
+
+      <div class="break">
+        <div><span class="k">DTI with this loan</span><div class="v" id="dti">—</div></div>
+        <div><span class="k">Leftover after expenses</span><div class="v" id="leftover">—</div></div>
       </div>
 
       <div class="flex" style="margin-top:4px">
@@ -333,17 +356,23 @@
   const extraMonthly = document.getElementById('extraMonthly');
   const oneTimeExtra = document.getElementById('oneTimeExtra');
 
+  const netMonthlyInput = document.getElementById('netMonthly');
+  const otherMonthly = document.getElementById('otherMonthly');
+
   const monthly = document.getElementById('monthly');
   const totalInterest = document.getElementById('totalInterest');
   const financed = document.getElementById('financed');
   const payoffTime = document.getElementById('payoffTime');
   const aprEff = document.getElementById('aprEff');
   const feeCost = document.getElementById('feeCost');
+  const dtiOut = document.getElementById('dti');
+  const leftoverOut = document.getElementById('leftover');
 
   const amortTableBody = document.querySelector('#amortTable tbody');
   const emailBtn = document.getElementById('emailBtn');
   const calcBtn = document.getElementById('calcBtn');
   const resetBtn = document.getElementById('resetBtn');
+  const importBtn = document.getElementById('importBtn');
 
   // Compare
   const c = (id)=>document.getElementById(id);
@@ -355,7 +384,8 @@
   function save(){
     const d = {
       currency:currencySel.value, amount:amount.value, rate:rate.value, termY:termY.value,
-      feePct:feePct.value, extraMonthly:extraMonthly.value, oneTimeExtra:oneTimeExtra.value
+      feePct:feePct.value, extraMonthly:extraMonthly.value, oneTimeExtra:oneTimeExtra.value,
+      netMonthly: netMonthlyInput.value, otherMonthly: otherMonthly.value
     };
     localStorage.setItem(KEY, JSON.stringify(d));
   }
@@ -370,6 +400,8 @@
       feePct.value=d.feePct||'';
       extraMonthly.value=d.extraMonthly||'';
       oneTimeExtra.value=d.oneTimeExtra||'';
+      netMonthlyInput.value = d.netMonthly || '';
+      otherMonthly.value = d.otherMonthly || '';
       return true;
     }catch(_){return false;}
   }
@@ -411,22 +443,71 @@
     const fee=amount*(parseFloat(feePct||0)/100);
     const financed = amount + fee; // fee financed
     const pmt = monthlyPayment(financed, nominalRate, years);
-    // Cash flow: at t0 user receives amount (positive), pays pmt for n months (negative)
     const n=years*12;
-    // Solve monthly rate i via bisection for IRR
     let lo=0, hi=1, mid=0;
     for(let k=0;k<60;k++){
       mid=(lo+hi)/2;
-      let npv=amount; // inflow
-      for(let t=1;t<=n;t++){
-        npv -= pmt/Math.pow(1+mid,t);
-      }
+      let npv=amount;
+      for(let t=1;t<=n;t++){ npv -= pmt/Math.pow(1+mid,t); }
       if(npv>0) lo=mid; else hi=mid;
     }
     const apr = (mid*12)*100;
     return {apr, financed, fee};
   }
 
+  // ---------- Income import ----------
+  function getParam(name){
+    const url = new URL(location.href);
+    const v = url.searchParams.get(name);
+    return v ? parseFloat(v) : null;
+  }
+
+  function tryImportFromLocalStorage(){
+    // Try a few known keys and also scan values for a monthly net field
+    const CANDIDATE_KEYS = [
+      'lh_income_calc_v1',     // our income tool (preferred)
+      'lh_income_tax_v1',      // alt name
+      'lh_tax_calc_v1'
+    ];
+    for(const k of CANDIDATE_KEYS){
+      const raw = localStorage.getItem(k);
+      if(!raw) continue;
+      try{
+        const d = JSON.parse(raw);
+        const m = d.netMonthly || d.monthlyNet || d.net_monthly || d.netPerMonth || null;
+        if(m){ return m; }
+      }catch(_){}
+    }
+    // Fallback: scan all LS for a plausible object
+    for(let i=0;i<localStorage.length;i++){
+      const key = localStorage.key(i);
+      try{
+        const obj = JSON.parse(localStorage.getItem(key));
+        const m = obj && (obj.netMonthly || obj.monthlyNet || obj.net_monthly);
+        if(m){ return m; }
+      }catch(_){}
+    }
+    return null;
+  }
+
+  function importIncome(){
+    const fromParam = getParam('netMonthly');
+    if(fromParam && isFinite(fromParam)){
+      netMonthlyInput.value = String(fromParam);
+      save();
+      return true;
+    }
+    const fromLS = tryImportFromLocalStorage();
+    if(fromLS && isFinite(fromLS)){
+      netMonthlyInput.value = String(fromLS);
+      save();
+      return true;
+    }
+    alert('No saved income found. Open the Income & Taxes tool first, or pass ?netMonthly= in the URL.');
+    return false;
+  }
+
+  // ---------- Calculation ----------
   function calc(){
     save();
 
@@ -445,19 +526,35 @@
     const months = amort.months;
     const yrs = (months/12).toFixed(1);
 
-    monthly.textContent = money(baseMonthly + (extra||0));
+    const monthlyWithExtras = baseMonthly + (extra||0);
+
+    monthly.textContent = money(monthlyWithExtras);
     totalInterest.textContent = money(amort.totalInt);
     financed.textContent = money(financedAmt);
     payoffTime.textContent = `${months} months (~${yrs} yrs)`;
     aprEff.textContent = isFinite(eff.apr) ? eff.apr.toFixed(2)+'%' : '—';
     feeCost.textContent = Fpct? money(eff.fee) : '—';
 
+    // Affordability (DTI & leftover)
+    const netM = parseFloat(netMonthlyInput.value||0);
+    const other = parseFloat(otherMonthly.value||0);
+    if(netM>0){
+      const dti = (monthlyWithExtras/netM)*100;
+      dtiOut.textContent = dti ? dti.toFixed(1)+'%' : '—';
+      leftoverOut.textContent = money(netM - monthlyWithExtras - (other||0));
+      // quick visual cue
+      const ok = dti <= 36;
+      dtiOut.parentElement.parentElement.classList.toggle('ok', ok);
+    }else{
+      dtiOut.textContent = '—';
+      leftoverOut.textContent = '—';
+    }
+
     // Amort table (first 12)
     const r=(R/100)/12;
     let bal=financedAmt - (oneT>0?oneT:0);
-    const pmt=baseMonthly + (extra||0);
-    const tb=document.querySelector('#amortTable tbody');
-    tb.innerHTML='';
+    const pmt=monthlyWithExtras;
+    amortTableBody.innerHTML='';
     for(let m=1;m<=12 && bal>0;m++){
       const interest = bal*r;
       let principal = pmt - interest;
@@ -465,7 +562,7 @@
       bal -= principal;
       const tr=document.createElement('tr');
       tr.innerHTML=`<td>${m}</td><td>${money(pmt)}</td><td>${money(principal)}</td><td>${money(interest)}</td><td>${money(Math.max(0,bal))}</td>`;
-      tb.appendChild(tr);
+      amortTableBody.appendChild(tr);
     }
   }
 
@@ -493,6 +590,8 @@
       `Origination fee: ${feePct.value || '0'}%`,
       `Extra monthly: ${extraMonthly.value || '0'}`,
       `One-time extra: ${oneTimeExtra.value || '0'}`,
+      `Net monthly income: ${netMonthlyInput.value || '-'}`,
+      `Other expenses: ${otherMonthly.value || '0'}`,
       '',
       `Monthly payment: ${monthly.textContent}`,
       `Total interest: ${totalInterest.textContent}`,
@@ -500,6 +599,8 @@
       `Estimated payoff time: ${payoffTime.textContent}`,
       `Effective APR: ${aprEff.textContent}`,
       `Fee cost: ${feeCost.textContent}`,
+      `DTI: ${dtiOut.textContent}`,
+      `Leftover: ${leftoverOut.textContent}`,
       '',
       'Generated by LockHabit (educational use only).'
     ].join('%0D%0A');
@@ -511,20 +612,20 @@
   calcBtn.addEventListener('click', calc);
   resetBtn.addEventListener('click', ()=>{ localStorage.removeItem(KEY); location.reload(); });
   emailBtn.addEventListener('click', emailSummary);
-  [amount,rate,termY,feePct,extraMonthly,oneTimeExtra,currencySel].forEach(el=>el.addEventListener('input', save));
+  importBtn.addEventListener('click', importIncome);
+  [amount,rate,termY,feePct,extraMonthly,oneTimeExtra,currencySel,netMonthlyInput,otherMonthly]
+    .forEach(el=>el.addEventListener('input', save));
 
-  // Compare buttons
-  cBtn1.addEventListener('click', ()=>{
-    const r=quickCompare(parseFloat(c('cAmt1').value||0), parseFloat(c('cRate1').value||0), parseFloat(c('cTerm1').value||0), parseFloat(c('cFee1').value||0));
-    cOut1.innerHTML = `Payment ${money(r.pmt)} • Interest ${money(r.interest)} • Financed ${money(r.fin)} • Fee ${money(r.fee)}`;
-  });
-  cBtn2.addEventListener('click', ()=>{
-    const r=quickCompare(parseFloat(c('cAmt2').value||0), parseFloat(c('cRate2').value||0), parseFloat(c('cTerm2').value||0), parseFloat(c('cFee2').value||0));
-    cOut2.innerHTML = `Payment ${money(r.pmt)} • Interest ${money(r.interest)} • Financed ${money(r.fin)} • Fee ${money(r.fee)}`;
-  });
-
-  // Init
-  if(!load()){ currencySel.value = guessCurrency(); }
+  // Auto-import on load if URL param present, else try LS once
+  (function autoImport(){
+    const fromParam = getParam('netMonthly');
+    if(fromParam && isFinite(fromParam)){ netMonthlyInput.value = String(fromParam); return; }
+    const loaded = load();
+    if(!loaded){
+      const m = tryImportFromLocalStorage();
+      if(m) netMonthlyInput.value = String(m);
+    }
+  })();
 })();
 </script>
 </body>
