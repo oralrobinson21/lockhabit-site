@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Savings & Goal Planner (Recurring + Compounding) | LockHabit</title>
+  <meta name="description" content="Project savings growth with recurring deposits and compounding. Back-solve for target date or required deposit to hit a goal. Email results; auto-save to device.">
+  <meta name="theme-color" content="#0b0e1a"/>
+
+  <!-- Social -->
+  <link rel="canonical" href="https://lockhabit.com/savings.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Savings & Goal Planner | LockHabit"/>
+  <meta property="og:description" content="Initial + recurring deposits, variable rate, compounding, and goal back-solver."/>
+  <meta property="og:url" content="https://lockhabit.com/savings.html"/>
+  <meta property="og:image" content="/public/og-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Savings & Goal Planner | LockHabit"/>
+  <meta name="twitter:description" content="See how fast your savings grow and what it takes to hit your goal."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
+      --green:#22c55e; --ink:#0b1230; --muted:#55617a;
+      --line:#e6e7f1; --panel:#ffffff; --surface:#f7f8ff;
+      --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:#f5f7ff;color:#0b1230;
+      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    header{
+      position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);
+      backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;min-width:0;cursor:pointer}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800;letter-spacing:.2px;color:#0e1a34;white-space:nowrap}
+    nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    nav a, nav button{
+      border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;
+      text-decoration:none;color:#1a2643;font-weight:600;cursor:pointer
+    }
+    .hero{
+      background:
+        radial-gradient(1400px 650px at 50% -200px, rgba(111,124,255,.25) 0%, transparent 60%),
+        #f8f9ff;
+      border-bottom:1px solid var(--line);
+    }
+    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 12px}
+    h1{margin:0 0 6px;font-size:34px;letter-spacing:-.3px}
+    .sub{color:#33415f;max-width:65ch;margin:0}
+    .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr; padding:0 16px}
+    @media(min-width:980px){ .grid{grid-template-columns:1.05fr .95fr} }
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .panel h2{margin:0 0 10px;font-size:20px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    label{font-weight:600;font-size:14px;color:#1a2643}
+    input,select{
+      width:100%;padding:12px;border-radius:10px;border:1px solid #dbe0ea;background:#fff;font-size:15px
+    }
+    .btn{
+      appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer
+    }
+    .ghost{background:#fff;color:#1a2643}
+    .muted{color:#5b6a88;font-size:13px}
+    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:22px}
+    .stack{display:grid;gap:8px}
+    .results{display:grid;gap:12px}
+    .break{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:12px}
+    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--line);padding:8px;text-align:right;font-size:14px}
+    th:first-child,td:first-child{text-align:left}
+    footer{border-top:1px solid var(--line);margin-top:24px;background:#fff}
+    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#3a4a66}
+    .small{font-size:12px;color:#5b6a88}
+    .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .pill{border-radius:999px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand" onclick="location.href='/index.html'" role="button" aria-label="Back to Home" title="Home">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="word">LockHabit</div>
+    </div>
+
+    <nav>
+      <a href="/index.html">All Calculators</a>
+      <a href="/income-tax.html">Income & Taxes</a>
+      <a href="/mortgage.html">Mortgage</a>
+      <a href="/loan.html">Loan</a>
+      <a href="/savings.html">Savings</a>
+      <a href="/retirement.html" title="Coming soon">Retirement</a>
+      <a href="/currency.html" title="Coming soon">FX Converter</a>
+      <a href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Savings & Goal Planner</h1>
+    <p class="sub">Initial deposit + recurring contributions with compounding. Back-solve a target date or the monthly deposit needed to reach a goal. Auto-saves on this device and can email a clean summary.</p>
+  </div>
+</section>
+
+<main class="grid" id="app">
+  <!-- Inputs -->
+  <section class="panel" aria-labelledby="inputs">
+    <h2 id="inputs">Inputs</h2>
+
+    <div class="row">
+      <div class="stack">
+        <label for="currency">Currency</label>
+        <select id="currency"></select>
+        <span class="muted">Auto-detected; you can change it.</span>
+      </div>
+      <div class="stack">
+        <label for="comp">Compounding</label>
+        <select id="comp">
+          <option value="12">Monthly</option>
+          <option value="4">Quarterly</option>
+          <option value="1">Annually</option>
+          <option value="52">Weekly</option>
+          <option value="365">Daily (approx.)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="init">Initial deposit</label>
+        <input id="init" type="number" inputmode="decimal" placeholder="e.g., 1000"/>
+      </div>
+      <div class="stack">
+        <label for="rate">Interest rate (APY %)</label>
+        <input id="rate" type="number" inputmode="decimal" placeholder="e.g., 4.25"/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="recAmt">Recurring contribution</label>
+        <input id="recAmt" type="number" inputmode="decimal" placeholder="e.g., 200"/>
+        <span class="muted">Tip: we’ll try to prefill from your Income calculator if available.</span>
+      </div>
+      <div class="stack">
+        <label for="recFreq">Frequency</label>
+        <select id="recFreq">
+          <option value="12">Monthly</option>
+          <option value="26">Bi-weekly</option>
+          <option value="52">Weekly</option>
+          <option value="1">Annually</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="years">Years to save</label>
+        <input id="years" type="number" inputmode="decimal" value="5"/>
+      </div>
+      <div class="stack">
+        <label for="goal">Target goal amount (optional)</label>
+        <input id="goal" type="number" inputmode="decimal" placeholder="Set to back-solve deposit/date"/>
+      </div>
+    </div>
+
+    <div class="flex" style="margin-top:14px">
+      <button class="btn" id="calcBtn">Calculate</button>
+      <button class="btn ghost" id="solveDepositBtn" type="button" title="Find the recurring deposit needed">Solve deposit for goal</button>
+      <button class="btn ghost" id="solveYearsBtn" type="button" title="Find time needed for your goal">Solve years for goal</button>
+      <button class="btn ghost" id="resetBtn" type="button">Reset</button>
+      <span class="muted">Inputs auto-save to this device.</span>
+    </div>
+
+    <div style="margin-top:10px">
+      <ins class="adsbygoogle"
+           style="display:block" data-ad-format="fluid"
+           data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+           data-ad-slot="1234567893"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="panel" aria-labelledby="results">
+    <h2 id="results">Results</h2>
+
+    <div class="results">
+      <div class="break ok">
+        <div>
+          <div class="k">Projected balance</div>
+          <div class="v" id="projBal">—</div>
+        </div>
+        <div>
+          <div class="k">Total contributions</div>
+          <div class="v" id="totalContrib">—</div>
+        </div>
+      </div>
+
+      <div class="break">
+        <div><span class="k">Total interest earned</span><div class="v" id="totalInterest">—</div></div>
+        <div><span class="k">Estimated goal date</span><div class="v" id="goalDate">—</div></div>
+      </div>
+
+      <div class="flex" style="margin-top:4px">
+        <button class="btn pill" id="emailBtn" type="button">Email me this summary</button>
+        <button class="btn ghost pill" type="button" onclick="location.href='/loan.html'">Go to Loan</button>
+      </div>
+
+      <h3 style="margin:10px 0 6px;font-size:18px">First 12 months</h3>
+      <div style="overflow:auto">
+        <table id="table">
+          <thead>
+            <tr><th>Month</th><th>Contribution</th><th>Interest</th><th>End Balance</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <p class="small">Educational use only; actual bank APYs/compounding and timing may differ.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="flex">
+      <span class="small">© <span id="yr"></span> LockHabit</span>
+      <a class="small" href="/index.html">Home</a>
+      <a class="small" href="/terms.html">Terms</a>
+      <a class="small" href="/privacy.html">Privacy</a>
+      <a class="small" href="/security.html">Security</a>
+      <a class="small" href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Currency
+  const currencySel = document.getElementById('currency');
+  const currencyList = ["USD","CAD","GBP","EUR","INR","AUD","JPY","CHF","CNY","MXN"];
+  currencyList.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; currencySel.appendChild(o); });
+  function guessCurrency(){
+    try{
+      const loc = Intl.DateTimeFormat().resolvedOptions().locale || 'en-US';
+      if (loc.includes('US')) return 'USD';
+      if (loc.includes('CA')) return 'CAD';
+      if (loc.includes('GB')||loc.includes('UK')) return 'GBP';
+      if (loc.includes('IN')) return 'INR';
+      if (loc.includes('EU')||loc.includes('DE')||loc.includes('FR')||loc.includes('ES')||loc.includes('IT')) return 'EUR';
+    }catch(_){}
+    return 'USD';
+  }
+  currencySel.value = guessCurrency();
+
+  // Elements
+  const comp = document.getElementById('comp');
+  const init = document.getElementById('init');
+  const rate = document.getElementById('rate');
+  const recAmt = document.getElementById('recAmt');
+  const recFreq = document.getElementById('recFreq');
+  const years = document.getElementById('years');
+  const goal = document.getElementById('goal');
+
+  const projBal = document.getElementById('projBal');
+  const totalContrib = document.getElementById('totalContrib');
+  const totalInterest = document.getElementById('totalInterest');
+  const goalDate = document.getElementById('goalDate');
+  const tbody = document.querySelector('#table tbody');
+
+  const calcBtn = document.getElementById('calcBtn');
+  const solveDepositBtn = document.getElementById('solveDepositBtn');
+  const solveYearsBtn = document.getElementById('solveYearsBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const emailBtn = document.getElementById('emailBtn');
+
+  // Local save
+  const KEY='lh_savings_calc_v1';
+  function save(){
+    const d = {
+      currency:currencySel.value, comp:comp.value, init:init.value, rate:rate.value,
+      recAmt:recAmt.value, recFreq:recFreq.value, years:years.value, goal:goal.value
+    };
+    localStorage.setItem(KEY, JSON.stringify(d));
+  }
+  function load(){
+    const raw=localStorage.getItem(KEY); if(!raw) return false;
+    try{
+      const d=JSON.parse(raw);
+      currencySel.value=d.currency||currencySel.value;
+      comp.value=d.comp||'12';
+      init.value=d.init||'';
+      rate.value=d.rate||'';
+      recAmt.value=d.recAmt||'';
+      recFreq.value=d.recFreq||'12';
+      years.value=d.years||'5';
+      goal.value=d.goal||'';
+      return true;
+    }catch(_){return false;}
+  }
+  // Optional: prefill recurring amt from income calculator if present
+  try{
+    const icRaw = localStorage.getItem('lh_income_calc_v1');
+    if(icRaw && !recAmt.value){
+      const ic = JSON.parse(icRaw);
+      if(ic && ic.netMonthly){ recAmt.value = Math.round(ic.netMonthly*0.1); } // suggest 10% save rate
+    }
+  }catch(_){}
+
+  // Helpers
+  function money(n){
+    const c = currencySel.value || 'USD';
+    try{
+      return new Intl.NumberFormat(undefined,{style:'currency',currency:c,maximumFractionDigits:2}).format(n||0);
+    }catch(_){ return (c + ' ' + (n||0).toFixed(2)); }
+  }
+  function monthsToYearsMonths(m){
+    const y=Math.floor(m/12), mm=Math.round(m%12);
+    return y>0? `${y}y ${mm}m` : `${mm}m`;
+  }
+  function addMonths(date, m){
+    const d=new Date(date.getTime());
+    d.setMonth(d.getMonth()+m);
+    return d;
+  }
+
+  // Core math
+  // Future value with compounding periods per year 'm', contribution frequency 'k' (as periods/year)
+  function futureValue(P0, r, m, C, k, tYears){
+    const i = r/100;
+    const n = m*tYears;             // total compounding periods
+    const per = i/m;                // rate per compounding period
+    const fvPrincipal = P0*Math.pow(1+per, n);
+
+    // Convert recurring C at frequency k to equivalent stream aligned to compounding m
+    // Approximation: deposit C at end of each (m/k) compounding chunk
+    const steps = Math.floor(tYears*k);
+    let fvDeposits = 0;
+    for(let s=1; s<=steps; s++){
+      const monthsElapsed = Math.round((12/k)*s);
+      const periodsElapsed = Math.round((m/12)*monthsElapsed);
+      const remaining = n - periodsElapsed;
+      if(remaining>=0){
+        fvDeposits += C * Math.pow(1+per, remaining);
+      }
+    }
+    return fvPrincipal + fvDeposits;
+  }
+
+  function scheduleFirst12(P0, r, m, C, k){
+    const per = (r/100)/m;
+    let bal = P0;
+    const rows=[];
+    for(let month=1; month<=12; month++){
+      // contribution if this month hits the chosen recurrence
+      let contrib = 0;
+      const contribEveryMonths = Math.round(12/k);
+      if(contribEveryMonths>0 && month%contribEveryMonths===0){ contrib = C; }
+
+      const interest = bal*per*(m/12); // approximate interest for the month
+      bal = bal + interest + contrib;
+
+      rows.push({month,contrib,interest,bal});
+    }
+    return rows;
+  }
+
+  // Back-solve recurring deposit for target goal (bisection)
+  function solveDepositForGoal(P0, r, m, k, tYears, target){
+    let lo=0, hi=Math.max(50, target/ (tYears*k)); // bracket
+    for(let i=0;i<60;i++){
+      const mid=(lo+hi)/2;
+      const fv=futureValue(P0,r,m,mid,k,tYears);
+      if(fv<target) lo=mid; else hi=mid;
+    }
+    return (lo+hi)/2;
+  }
+
+  // Back-solve time for target goal (months)
+  function solveYearsForGoal(P0, r, m, C, k, target){
+    let lo=0, hi=60; // up to 60 years
+    for(let i=0;i<60;i++){
+      const mid=(lo+hi)/2;
+      const fv=futureValue(P0,r,m,C,k,mid);
+      if(fv<target) lo=mid; else hi=mid;
+    }
+    return (lo+hi)/2;
+  }
+
+  function calc(){
+    save();
+
+    const P0 = parseFloat(init.value||0);
+    const apy = parseFloat(rate.value||0);
+    const m = parseFloat(comp.value||12);
+    const C = parseFloat(recAmt.value||0);
+    const k = parseFloat(recFreq.value||12);
+    const tYrs = parseFloat(years.value||0);
+    const target = parseFloat(goal.value||0);
+
+    const fv = futureValue(P0, apy, m, C, k, tYrs);
+    const totalC = C * Math.floor(tYrs*k);
+    const interest = fv - (P0 + totalC);
+
+    projBal.textContent = money(fv);
+    totalContrib.textContent = money(totalC + P0);
+    totalInterest.textContent = money(interest);
+
+    const today=new Date();
+    const months = Math.round(tYrs*12);
+    const gDate = addMonths(today, months);
+    goalDate.textContent = isFinite(months) && months>0 ? gDate.toLocaleDateString() + ` (${monthsToYearsMonths(months)})` : '—';
+
+    // Table
+    tbody.innerHTML='';
+    scheduleFirst12(P0, apy, m, C, k).forEach(r=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td>${r.month}</td><td>${money(r.contrib)}</td><td>${money(r.interest)}</td><td>${money(r.bal)}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function solveDeposit(){
+    const P0 = parseFloat(init.value||0);
+    const apy = parseFloat(rate.value||0);
+    const m = parseFloat(comp.value||12);
+    const k = parseFloat(recFreq.value||12);
+    const tYrs = parseFloat(years.value||0);
+    const target = parseFloat(goal.value||0);
+    if(!target || target<=0){ alert('Enter a target goal amount first.'); return; }
+    const need = solveDepositForGoal(P0, apy, m, k, tYrs, target);
+    recAmt.value = Math.ceil(need*100)/100;
+    calc();
+  }
+
+  function solveYears(){
+    const P0 = parseFloat(init.value||0);
+    const apy = parseFloat(rate.value||0);
+    const m = parseFloat(comp.value||12);
+    const C = parseFloat(recAmt.value||0);
+    const k = parseFloat(recFreq.value||12);
+    const target = parseFloat(goal.value||0);
+    if(!target || target<=0){ alert('Enter a target goal amount first.'); return; }
+    const yrs = solveYearsForGoal(P0, apy, m, C, k, target);
+    years.value = (Math.ceil(yrs*10)/10).toFixed(1);
+    calc();
+  }
+
+  function emailSummary(){
+    const msg = [
+      'LockHabit Savings & Goal Planner — Summary',
+      '',
+      `Currency: ${currencySel.value || 'USD'}`,
+      `Initial deposit: ${init.value || '0'}`,
+      `Recurring: ${recAmt.value || '0'} (x${recFreq.value}/yr)`,
+      `APY: ${rate.value || '0'}% | Compounding: ${comp.value}/yr`,
+      `Years: ${years.value || '0'}`,
+      goal.value ? `Target goal: ${goal.value}` : '',
+      '',
+      `Projected balance: ${projBal.textContent}`,
+      `Total contributions (incl. initial): ${totalContrib.textContent}`,
+      `Total interest: ${totalInterest.textContent}`,
+      `Estimated goal date: ${goalDate.textContent}`,
+      '',
+      'Generated by LockHabit (educational use only).'
+    ].filter(Boolean).join('%0D%0A');
+    const subject = encodeURIComponent('My Savings Plan (LockHabit)');
+    location.href = `mailto:?subject=${subject}&body=${msg}`;
+  }
+
+  // Events
+  calcBtn.addEventListener('click', calc);
+  solveDepositBtn.addEventListener('click', solveDeposit);
+  solveYearsBtn.addEventListener('click', solveYears);
+  resetBtn.addEventListener('click', ()=>{ localStorage.removeItem(KEY); location.reload(); });
+  emailBtn.addEventListener('click', emailSummary);
+  [currencySel,comp,init,rate,recAmt,recFreq,years,goal].forEach(el=>el.addEventListener('input', save));
+
+  // Init
+  if(!load()){ currencySel.value = guessCurrency(); }
+})();
+</script>
+</body>
+</html>
