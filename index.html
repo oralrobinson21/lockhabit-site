@@ -4,24 +4,17 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>LockHabit — Financial calculators, done right.</title>
-  <meta name="description" content="Clean, fast tools for income & taxes, mortgages, loans, savings, retirement, credit cards, and currency conversion. Private by default. No sign-up required."/>
+  <meta name="description" content="Clean, fast calculators for income & taxes, mortgages, loans, savings, retirement, credit cards, and real-time currency conversion. Private by default. No sign-up required."/>
+  <link rel="canonical" href="https://lockhabit.com/"/>
   <meta name="theme-color" content="#0b0e1a"/>
 
-  <!-- Canonical + Social -->
-  <link rel="canonical" href="https://lockhabit.com/"/>
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit — Financial calculators for everyone"/>
-  <meta property="og:description" content="Accurate, private, global-ready calculators. No sign-up needed."/>
+  <meta property="og:title" content="LockHabit — Financial calculators, done right."/>
+  <meta property="og:description" content="Clean, fast calculators for income & taxes, mortgages, loans, savings, retirement, credit cards, and FX."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
   <meta property="og:image" content="/public/og-image.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="LockHabit — Financial calculators, done right."/>
-  <meta name="twitter:description" content="Income & taxes, mortgage, debt, savings, retirement, FX — clean and fast."/>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
 
   <!-- Icons & PWA -->
   <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
@@ -29,299 +22,298 @@
   <link rel="apple-touch-icon" href="/public/icon-192.png">
   <link rel="manifest" href="/public/manifest.webmanifest">
 
-  <!-- Analytics (keep your existing IDs) -->
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- AdSense (homepage only) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config','G-WMJ37PBW8H');
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
   </script>
 
-  <!-- Shared styles -->
-  <link rel="stylesheet" href="/assets/base.css">
   <style>
-    /* page-only tweaks (kept tiny) */
+    :root{
+      /* brand tokens (kept consistent with your calculators) */
+      --bg:#0b0e1a;        --bg-2:#0e1330;
+      --ink:#0f1a34;       --muted:#55617a;
+      --card:#0f1834;      --line:#162142;
+      --panel:#111a3a;     --chip:#132047;
+      --brand:#6f7cff;     --brand-2:#9c78ff;
+      --accent:#9fb2ff;    --white:#eef2ff;
+      --radius:18px;       --radius-lg:22px;
+      --shadow:0 18px 40px rgba(8,12,26,.35);
+      --grad: radial-gradient(1400px 750px at 50% -200px, rgba(111,124,255,.25) 0%, rgba(156,120,255,.12) 45%, transparent 65%),
+              radial-gradient(1100px 700px at -10% 10%, rgba(156,120,255,.16) 0%, transparent 60%),
+              radial-gradient(1100px 700px at 110% -20%, rgba(111,124,255,.14) 0%, transparent 60%), #0b0e1a;
+      --h1: clamp(34px, 5vw, 52px);
+      --h2: clamp(20px, 3.2vw, 28px);
+      --h3: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:#cfd6ff; background:var(--bg);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* header */
+    .hdr{position:sticky; top:0; z-index:50; background:rgba(12,16,35,.75); backdrop-filter:blur(10px); border-bottom:1px solid #131d3a}
+    .wrap{max-width:1180px; margin:0 auto; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand{display:flex; align-items:center; gap:10px; color:#e6ebff; text-decoration:none}
+    .logo{width:28px; height:28px; flex:none}
+    .word{font-weight:800; font-size:18px; letter-spacing:.2px}
+
+    .right{display:flex; align-items:center; gap:10px}
+    .pill{
+      appearance:none; border:1px solid #1b274e; background:#0e1635; color:#dbe2ff;
+      padding:10px 14px; border-radius:999px; font-weight:700; cursor:pointer; min-height:40px;
+    }
+    .cta{background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#fff; border-color:transparent; box-shadow:0 10px 26px rgba(111,124,255,.28)}
+
+    /* hero */
+    .hero{background:var(--grad); border-bottom:1px solid #101731}
+    .hero .wrap{padding:32px 16px}
+    h1{margin:0 0 10px; font-size:var(--h1); line-height:1.06; color:#f7f8ff; letter-spacing:-.02em}
+    .sub{max-width:70ch; color:#b9c3ff}
+    .chiprow{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px}
+    .chip{background:var(--chip); border:1px solid #1b274e; color:#cfe0ff; padding:8px 12px; border-radius:999px; font-weight:700}
+
+    /* sections */
+    section.s{max-width:1180px; margin:0 auto; padding:28px 16px}
+    .h2{font-size:var(--h2); margin:0 0 14px; color:#bcd1ff}
+
+    /* grid bubbles */
+    .grid{display:grid; grid-template-columns:1fr; gap:14px}
+    @media (min-width:660px){ .grid{grid-template-columns:1fr 1fr} }
+    @media (min-width:980px){ .grid{grid-template-columns:1fr 1fr 1fr 1fr} }
+
+    .card{
+      background:#0d1533; border:1px solid #162142; border-radius:20px; padding:18px;
+      display:flex; align-items:center; justify-content:center; min-height:92px;
+      font-weight:800; color:#f1f4ff; text-decoration:none; text-align:center;
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .card:hover{transform:translateY(-1px); border-color:#21306a; box-shadow:0 10px 26px rgba(17,24,39,.25)}
+    .card small{display:block; font-weight:600; color:#9fb0ff; margin-top:6px}
+
+    /* recently used */
+    .chips{display:flex; gap:10px; flex-wrap:wrap}
+    .recent{background:#0f1834; border:1px solid #1b274e; color:#dbe2ff; padding:8px 12px; border-radius:999px; text-decoration:none; font-weight:700}
+    .muted{color:#8fa0d0}
+
+    /* footer */
+    footer{border-top:1px solid #101731; background:#0b0f24}
+    .foot{max-width:1180px; margin:0 auto; padding:22px 16px}
+    .legal{background:#0f1834; border:1px solid #162142; border-radius:12px; padding:14px; color:#9fb0ff; margin-top:10px; font-size:13px}
+
+    /* calculators sheet (dropdown) */
+    .sheet{position:fixed; inset:0; display:none; align-items:flex-end; justify-content:center; z-index:60}
+    .sheet.show{display:flex}
+    .back{position:absolute; inset:0; background:rgba(7,10,20,.6); backdrop-filter:blur(3px)}
+    .panel{position:relative; width:min(980px, 96vw); background:#0b1026; border:1px solid #152046; border-top-left-radius:16px; border-top-right-radius:16px; box-shadow:var(--shadow); max-height:85vh; overflow:auto}
+    .panel h3{font-size:20px; color:#e7ecff; margin:12px 16px}
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 16px 16px}
+    .row a{display:block; background:#0f1834; border:1px solid #162142; border-radius:12px; padding:12px; text-decoration:none; color:#d9e1ff; font-weight:700}
+    .row a:hover{border-color:#22306b}
+
+    /* util */
+    a.clean{color:#cfe0ff; text-decoration:none}
+    .spacer{height:6px}
   </style>
 </head>
 <body>
+  <!-- Header -->
+  <header class="hdr">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="LockHabit home">
+        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+          <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#g1)"/>
+          <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+          <path d="M40 90V58" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
+          <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <span class="word">LockHabit</span>
+      </a>
 
-<!-- ========================= HEADER ========================= -->
-<header class="header" role="banner">
-  <div class="wrap">
-    <div class="brand" onclick="location.href='/'" aria-label="LockHabit — Home">
-      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
-      </svg>
-      <div class="word">LockHabit</div>
+      <div class="right">
+        <button class="pill" id="btnSheet" aria-haspopup="dialog" aria-controls="sheet">Calculators ▾</button>
+        <a class="pill cta" href="/income-tax.html">Open Calculator</a>
+      </div>
     </div>
+  </header>
 
-    <div style="display:flex;align-items:center;gap:10px">
-      <button id="btnOpenSheet" class="btn ghost">Calculators ▾</button>
-      <a class="btn acc" href="/income-tax.html" aria-label="Open Income & Taxes Calculator">Open Calculator</a>
-    </div>
-  </div>
-</header>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="wrap">
+      <h1>Financial calculators, done right.</h1>
+      <p class="sub">Clean, fast tools for income &amp; taxes, mortgages, loans, savings, retirement, credit cards, and real-time currency conversion. Private by default. No sign-up required.</p>
 
-<!-- ========================= HERO ========================= -->
-<section class="hero">
-  <div class="hero-inner">
-    <h1>Financial calculators, done right.</h1>
-    <p class="sub">Clean, fast tools for income & taxes, mortgages, loans, savings, retirement, credit cards, and real-time currency conversion. Private by default. No sign-up required.</p>
-
-    <div class="ctrls" role="group" aria-label="Locale controls">
-      <button id="pillCountry" class="pill" type="button" aria-haspopup="dialog">Country: <b id="countryLabel">Auto</b></button>
-      <button id="pillCurrency" class="pill" type="button" aria-haspopup="dialog">Currency: <b id="currencyLabel">Auto</b></button>
-      <a class="pill" href="/blog/">Blog</a>
-      <span class="pill" aria-disabled="true">Newsletter <i style="opacity:.7">coming soon</i></span>
-    </div>
-  </div>
-</section>
-
-<!-- ========================= ESSENTIALS ========================= -->
-<section class="s">
-  <h2 class="h2">Essentials</h2>
-  <div class="grid">
-    <a class="card" href="/income-tax.html" data-name="Income & Taxes">
-      <div class="ct">Income & Taxes</div>
-      <div class="cd">Estimate take-home pay with editable federal/state/local presets.</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/mortgage.html" data-name="Mortgage">
-      <div class="ct">Mortgage</div>
-      <div class="cd">Payment, amortization, PMI, taxes & insurance estimates.</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/loan.html" data-name="Loan Payoff">
-      <div class="ct">Loan Payoff</div>
-      <div class="cd">APR, extra payments, payoff dates, amortization table.</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/credit-card.html" data-name="Credit Card">
-      <div class="ct">Credit Card</div>
-      <div class="cd">Monthly interest & costs at different APRs.</div>
-      <span class="btn open">Open</span>
-    </a>
-  </div>
-</section>
-
-<!-- ========================= SAVINGS & GOALS ========================= -->
-<section class="s">
-  <h2 class="h2">Savings & Goals</h2>
-  <div class="grid">
-    <a class="card" href="/savings.html" data-name="Savings Goal">
-      <div class="ct">Savings Goal</div>
-      <div class="cd">Grow a target balance with lump sums and recurring deposits.</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/retirement.html" data-name="Retirement">
-      <div class="ct">Retirement</div>
-      <div class="cd">Contributions, growth, and withdrawal horizon.</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/emergency-fund.html" data-name="Emergency Fund">
-      <div class="ct">Emergency Fund</div>
-      <div class="cd">Months of expenses, target size, and build plan.</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/fx-converter.html" data-name="Currency Converter">
-      <div class="ct">Currency Converter</div>
-      <div class="cd">Live FX rates for quick global conversions.</div>
-      <span class="btn open">Open</span>
-    </a>
-  </div>
-</section>
-
-<!-- ========================= CREDIT & DEBT ========================= -->
-<section class="s">
-  <h2 class="h2">Credit & Debt</h2>
-  <div class="grid">
-    <a class="card" href="/credit-card-payoff.html" data-name="Card Payoff">
-      <div class="ct">Card Payoff</div>
-      <div class="cd">Payoff timeline with extra payments and strategies.</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/car-loan-calculator.html" data-name="Car Loan">
-      <div class="ct">Car Loan</div>
-      <div class="cd">Auto payment & amortization with taxes/fees.</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/rent-vs-buy.htm" data-name="Rent vs Buy">
-      <div class="ct">Rent vs Buy</div>
-      <div class="cd">Compare total cost over time (renting vs mortgage).</div>
-      <span class="btn open">Open</span>
-    </a>
-    <a class="card" href="/student-loan-calculator.html" data-name="Student Loan">
-      <div class="ct">Student Loan</div>
-      <div class="cd">Payments, extra contributions, payoff horizon.</div>
-      <span class="btn open">Open</span>
-    </a>
-  </div>
-</section>
-
-<!-- ========================= BUSINESS (collapsed feel, no links yet) ========================= -->
-<section class="s">
-  <h2 class="h2">Business</h2>
-  <div class="grid">
-    <div class="card" aria-disabled="true">
-      <div class="ct" style="opacity:.55">Margin & Markup</div>
-      <div class="cd">COGS, margin, markup, unit economics. <i>Coming soon</i>.</div>
-      <span class="btn open" style="opacity:.5;pointer-events:none">Soon</span>
-    </div>
-    <div class="card" aria-disabled="true">
-      <div class="ct" style="opacity:.55">Break-even & ROI</div>
-      <div class="cd">Fixed/variable costs, targets, simple ROI. <i>Coming soon</i>.</div>
-      <span class="btn open" style="opacity:.5;pointer-events:none">Soon</span>
+      <div class="chiprow" id="locRow">
+        <span class="chip" id="countryChip">Country: <b style="margin-left:6px" id="countryText">Auto</b></span>
+        <span class="chip">Currency: <b style="margin-left:6px" id="currencyText">Auto</b></span>
+        <a class="chip clean" href="/blog.html">Blog</a>
+        <span class="chip muted">Newsletter <i style="opacity:.7;margin-left:6px">coming soon</i></span>
+      </div>
     </div>
   </div>
-</section>
 
-<!-- ========================= RECENT ========================= -->
-<section class="s">
-  <h2 class="h2">Recently used</h2>
-  <div id="recent" class="chips" aria-live="polite">
-    <span class="chip" style="opacity:.7">No history yet</span>
-  </div>
-</section>
-
-<!-- ========================= FOOTER ========================= -->
-<footer role="contentinfo">
-  <div class="foot">
-    <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone. &nbsp;
-      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a>
+  <!-- Essentials -->
+  <section class="s">
+    <h2 class="h2">Essentials</h2>
+    <div class="grid">
+      <a class="card" data-track="Income & Taxes" href="/income-tax.html">Income &amp; Taxes<small>Take-home pay, editable presets</small></a>
+      <a class="card" data-track="Mortgage" href="/mortgage.html">Mortgage<small>Payment, amortization, PMI, taxes</small></a>
+      <a class="card" data-track="Loan Payoff" href="/loan.html">Loan Payoff<small>APR, extra payments, payoff date</small></a>
+      <a class="card" data-track="Budget Planner" href="/savings.html#budget">Budget Planner<small>50/30/20 &amp; custom categories</small></a>
     </div>
-    <div class="disclaimer">
-      Information on this site is for educational purposes only and is not financial advice. Results are estimates and may differ from your actual outcomes.
-      Please verify critical numbers with your financial institution or advisor.
+  </section>
+
+  <!-- Savings & Goals -->
+  <section class="s">
+    <h2 class="h2">Savings &amp; Goals</h2>
+    <div class="grid">
+      <a class="card" data-track="Savings Goal" href="/savings.html">Savings Goal<small>Lump sums + recurring deposits</small></a>
+      <a class="card" data-track="Retirement" href="/retirement.html">Retirement<small>Contributions, growth, horizon</small></a>
+      <a class="card" data-track="Emergency Fund" href="/emergency-fund.html">Emergency Fund<small>Months of expenses &amp; plan</small></a>
+      <a class="card" data-track="Currency Converter" href="/fx-converter.html">Currency Converter<small>Live FX, global-ready</small></a>
+    </div>
+  </section>
+
+  <!-- Credit & Debt -->
+  <section class="s">
+    <h2 class="h2">Credit &amp; Debt</h2>
+    <div class="grid">
+      <a class="card" data-track="Credit Card" href="/credit-card.html">Credit Card<small>Monthly interest &amp; costs</small></a>
+      <a class="card" data-track="Card Payoff" href="/credit-card-payoff.html">Card Payoff<small>Timeline with strategies</small></a>
+      <a class="card" data-track="Car Loan" href="/car-loan-calculator.html">Car Loan<small>Payment &amp; amortization</small></a>
+      <a class="card" data-track="Rent vs Buy" href="/rent-vs-buy.htm">Rent vs Buy<small>Total cost over time</small></a>
+      <a class="card" data-track="Student Loan" href="/student-loan-calculator.html">Student Loan<small>Payments &amp; payoff horizon</small></a>
+    </div>
+  </section>
+
+  <!-- Business -->
+  <section class="s">
+    <h2 class="h2">Business</h2>
+    <div class="grid">
+      <a class="card" data-track="Margin & Markup" href="/business-margin.html" aria-disabled="true" style="opacity:.55; pointer-events:none;">Margin &amp; Markup<small>COGS, margin, markup (soon)</small></a>
+      <a class="card" data-track="Break-even & ROI" href="/business-breakeven.html" aria-disabled="true" style="opacity:.55; pointer-events:none;">Break-even &amp; ROI<small>Targets &amp; simple ROI (soon)</small></a>
+    </div>
+  </section>
+
+  <!-- Recently used -->
+  <section class="s">
+    <h2 class="h2">Recently used</h2>
+    <div id="recentRow" class="chips">
+      <span class="muted">No history yet</span>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="foot">
+      <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone. &nbsp;
+        <a class="clean" href="/terms.html">Terms</a> •
+        <a class="clean" href="/privacy.html">Privacy</a> •
+        <a class="clean" href="/security.html">Security</a>
+      </div>
+      <div class="legal">
+        Information on this site is for educational purposes only and is not financial advice. Results are estimates and may differ from your actual outcomes. Please verify critical numbers with your financial institution or advisor.
+      </div>
+    </div>
+  </footer>
+
+  <!-- All calculators sheet -->
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="back" id="sheetBack"></div>
+    <div class="panel">
+      <h3 id="sheetTitle">All calculators</h3>
+      <div class="row">
+        <a href="/income-tax.html">Paycheck &amp; Income Tax</a>
+        <a href="/mortgage.html">Mortgage</a>
+        <a href="/loan.html">Loan Payoff</a>
+        <a href="/savings.html#budget">Budget Planner</a>
+        <a href="/savings.html">Savings Goal</a>
+        <a href="/retirement.html">Retirement</a>
+        <a href="/emergency-fund.html">Emergency Fund</a>
+        <a href="/fx-converter.html">Currency Converter</a>
+        <a href="/credit-card.html">Credit Card</a>
+        <a href="/credit-card-payoff.html">Credit Card Payoff</a>
+        <a href="/car-loan-calculator.html">Car Loan</a>
+        <a href="/rent-vs-buy.htm">Rent vs Buy</a>
+        <a href="/student-loan-calculator.html">Student Loan</a>
+      </div>
     </div>
   </div>
-</footer>
 
-<!-- ========================= ALL CALCULATORS SHEET ========================= -->
-<div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
-  <div class="back" onclick="closeSheet()"></div>
-  <div class="panel">
-    <h3 id="sheetTitle" style="margin-top:6px;color:#e8eeff">All calculators</h3>
-    <div class="row">
-      <a class="item" href="/income-tax.html">Paycheck & Income Tax</a>
-      <a class="item" href="/mortgage.html">Mortgage</a>
-      <a class="item" href="/loan.html">Loan Payoff</a>
-      <a class="item" href="/savings.html">Savings Goal</a>
-      <a class="item" href="/retirement.html">Retirement</a>
-      <a class="item" href="/emergency-fund.html">Emergency Fund</a>
-      <a class="item" href="/fx-converter.html">Currency Converter</a>
-      <a class="item" href="/credit-card.html">Credit Card</a>
-      <a class="item" href="/credit-card-payoff.html">Credit Card Payoff</a>
-      <a class="item" href="/car-loan-calculator.html">Car Loan</a>
-      <a class="item" href="/rent-vs-buy.htm">Rent vs Buy</a>
-      <a class="item" href="/student-loan-calculator.html">Student Loan</a>
-    </div>
-  </div>
-</div>
+  <script>
+    /* live year */
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-<!-- ========================= SCRIPTS ========================= -->
-<script>
-  /* Live year */
-  document.getElementById('yr').textContent = new Date().getFullYear();
+    /* calculators sheet */
+    const sheet = document.getElementById('sheet');
+    const openBtn = document.getElementById('btnSheet');
+    const closeSheet = () => sheet.classList.remove('show');
+    openBtn.addEventListener('click', ()=> sheet.classList.add('show'));
+    document.getElementById('sheetBack').addEventListener('click', closeSheet);
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeSheet(); });
 
-  /* Open/close sheet */
-  const sheet = document.getElementById('sheet');
-  function openSheet(){ sheet.classList.add('show'); document.body.style.overflow='hidden'; }
-  function closeSheet(){ sheet.classList.remove('show'); document.body.style.overflow=''; }
-  document.getElementById('btnOpenSheet').addEventListener('click', openSheet);
-  window.closeSheet = closeSheet;
-  window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSheet(); });
-
-  /* Recent chips: save on click */
-  (function(){
-    const recentKey='lh_recent';
-    function saveRecent(name, href){
-      try{
-        const now = {name, href};
-        let arr = JSON.parse(localStorage.getItem(recentKey)||'[]');
-        arr = [now, ...arr.filter(x=>x.href!==href)].slice(0,10);
-        localStorage.setItem(recentKey, JSON.stringify(arr));
-      }catch(_){}
+    /* recent chips (local only) */
+    const recentKey = 'lh_recent_calcs';
+    function addRecent(name, href){
+      let arr = JSON.parse(localStorage.getItem(recentKey)||'[]');
+      arr = arr.filter(x=>x.href!==href);
+      arr.unshift({name, href});
+      arr = arr.slice(0,8);
+      localStorage.setItem(recentKey, JSON.stringify(arr));
+      renderRecent();
     }
-    document.querySelectorAll('.card[href]').forEach(a=>{
-      a.addEventListener('click', ()=>saveRecent(a.dataset.name||a.textContent.trim(), a.getAttribute('href')));
-    });
     function renderRecent(){
-      const box = document.getElementById('recent');
-      let arr = [];
-      try{ arr = JSON.parse(localStorage.getItem(recentKey)||'[]'); }catch(_){}
-      box.innerHTML = arr.length ? arr.map(i=>`<a class="chip" href="${i.href}">${i.name}</a>`).join('') : '<span class="chip" style="opacity:.7">No history yet</span>';
+      const row = document.getElementById('recentRow');
+      const arr = JSON.parse(localStorage.getItem(recentKey)||'[]');
+      row.innerHTML = '';
+      if(!arr.length){ row.innerHTML = '<span class="muted">No history yet</span>'; return; }
+      arr.forEach(i=>{
+        const a = document.createElement('a');
+        a.className = 'recent'; a.href = i.href; a.textContent = i.name;
+        row.appendChild(a);
+      });
     }
     renderRecent();
-  })();
+    document.querySelectorAll('[data-track]').forEach(a=>{
+      a.addEventListener('click', ()=> addRecent(a.getAttribute('data-track'), a.getAttribute('href')));
+    });
 
-  /* Country/Currency auto-detect + picker (lightweight, device-only) */
-  (function(){
-    const countryEl = document.getElementById('countryLabel');
-    const currencyEl = document.getElementById('currencyLabel');
-    const KEY='lh_locale';
+    /* light geo/currency guess (no external call) */
+    try{
+      const loc = Intl.DateTimeFormat().resolvedOptions().locale || '';
+      const region = (loc.split('-')[1]||'').toUpperCase();
+      const cc = (Intl.NumberFormat().resolvedOptions().currency) || '';
+      const regionMap = {US:'United States', GB:'United Kingdom', CA:'Canada', AU:'Australia', IN:'India'};
+      document.getElementById('countryText').textContent = regionMap[region] || 'Auto';
+      document.getElementById('currencyText').textContent = cc || (Intl.NumberFormat(undefined,{style:'currency',currency:'USD'}).resolvedOptions().currency||'USD');
+    }catch(_){}
 
-    const FALLBACK = {country:'United States', code:'US', currency:'USD'};
-    const MAP = {
-      'US':{country:'United States',currency:'USD'},
-      'GB':{country:'United Kingdom',currency:'GBP'},
-      'CA':{country:'Canada',currency:'CAD'},
-      'EU':{country:'European Union',currency:'EUR'},
-      'IN':{country:'India',currency:'INR'},
-      'AU':{country:'Australia',currency:'AUD'},
-      'JP':{country:'Japan',currency:'JPY'}
-    };
+    /* one-tap anchor focus outline for a11y */
+    document.querySelectorAll('a, button').forEach(el=>{
+      el.addEventListener('keyup', e=>{ if(e.key==='Tab') el.style.outline='2px solid #7f8cff'; });
+      el.addEventListener('blur', ()=> el.style.outline='none');
+    });
+  </script>
 
-    function autodetect(){
-      try{
-        const saved = JSON.parse(localStorage.getItem(KEY)||'null');
-        if(saved){ return saved; }
-        const lang = navigator.language || 'en-US';
-        const region = (lang.split('-')[1]||'US').toUpperCase();
-        const m = MAP[region] || (region==='IE'||region==='DE'||region==='FR' ? MAP.EU : null);
-        const out = m ? {country:m.country, code:region, currency:m.currency} : FALLBACK;
-        localStorage.setItem(KEY, JSON.stringify(out));
-        return out;
-      }catch(_){ return FALLBACK; }
-    }
-    function apply(o){
-      countryEl.textContent = o.country;
-      currencyEl.textContent = o.currency;
-      document.documentElement.setAttribute('data-currency', o.currency);
-    }
-    const cur = autodetect(); apply(cur);
-
-    function openPicker(which){
-      const val = prompt(`Set ${which==='country'?'country (US, GB, CA, EU, IN, AU, JP)':'currency (USD, GBP, CAD, EUR, INR, AUD, JPY)'}`, which==='country'?cur.code:cur.currency);
-      if(!val) return;
-      let next = {...cur};
-      if(which==='country'){
-        const v = val.toUpperCase();
-        next = MAP[v] ? {country:MAP[v].country, code:v, currency:MAP[v].currency} : cur;
-      }else{
-        next.currency = val.toUpperCase();
-      }
-      localStorage.setItem(KEY, JSON.stringify(next));
-      apply(next);
-    }
-    document.getElementById('pillCountry').addEventListener('click', ()=>openPicker('country'));
-    document.getElementById('pillCurrency').addEventListener('click', ()=>openPicker('currency'));
-  })();
-
-  /* PWA SW clean-up (kept disabled; safe, no loops) */
-  if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
-    navigator.serviceWorker.getRegistrations().then(regs => { regs.forEach(r => r.unregister()); })
-      .catch(()=>{});
-  }
-</script>
-
-<!-- Structured Data -->
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"/public/logo.svg"}
-</script>
+  <!-- Minimal structured data -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"LockHabit",
+   "url":"https://lockhabit.com/","potentialAction":{"@type":"SearchAction",
+   "target":"https://lockhabit.com/{calculator}","query-input":"required name=calculator"}}
+  </script>
 </body>
 </html>
