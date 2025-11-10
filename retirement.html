@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Retirement Planner (Nest Egg & Income) | LockHabit</title>
+  <meta name="description" content="Plan your retirement: growth to retirement, target nest egg, income needed (inflation-adjusted), and gaps. Email results; auto-save to device.">
+  <meta name="theme-color" content="#0b0e1a"/>
+
+  <link rel="canonical" href="https://lockhabit.com/retirement.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Retirement Planner | LockHabit"/>
+  <meta property="og:description" content="Project savings to retirement and estimate sustainable income in retirement."/>
+  <meta property="og:url" content="https://lockhabit.com/retirement.html"/>
+  <meta property="og:image" content="/public/og-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Retirement Planner | LockHabit"/>
+  <meta name="twitter:description" content="Target nest egg, required contributions, inflation-aware income."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{ --brand:#6f7cff; --brand-2:#9c78ff; --line:#e6e7f1; --panel:#fff; --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.08); }
+    *{box-sizing:border-box}
+    body{margin:0;background:#f5f7ff;color:#0b1230;font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;cursor:pointer}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800;color:#0e1a34;white-space:nowrap}
+    nav{display:flex;gap:10px;flex-wrap:wrap}
+    nav a{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;text-decoration:none;color:#1a2643;font-weight:600}
+    .hero{background:radial-gradient(1400px 650px at 50% -200px, rgba(111,124,255,.24) 0%, transparent 60%), #f8f9ff;border-bottom:1px solid var(--line)}
+    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 12px}
+    h1{margin:0 0 6px;font-size:34px;letter-spacing:-.3px}
+    .sub{color:#33415f;max-width:65ch;margin:0}
+    .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr;padding:0 16px}
+    @media(min-width:980px){ .grid{grid-template-columns:1.05fr .95fr} }
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .panel h2{margin:0 0 10px;font-size:20px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    label{font-weight:600;font-size:14px;color:#1a2643}
+    input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #dbe0ea;background:#fff;font-size:15px}
+    .btn{appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .ghost{background:#fff;color:#1a2643}
+    .muted{color:#5b6a88;font-size:13px}
+    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:22px}
+    .stack{display:grid;gap:8px}
+    .results{display:grid;gap:12px}
+    .break{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:12px}
+    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--line);padding:8px;text-align:right;font-size:14px}
+    th:first-child,td:first-child{text-align:left}
+    footer{border-top:1px solid var(--line);margin-top:24px;background:#fff}
+    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#3a4a66}
+    .small{font-size:12px;color:#5b6a88}
+    .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .pill{border-radius:999px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand" onclick="location.href='/index.html'" role="button" title="Home" aria-label="Home">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="word">LockHabit</div>
+    </div>
+    <nav>
+      <a href="/index.html">All Calculators</a>
+      <a href="/income-tax.html">Income & Taxes</a>
+      <a href="/mortgage.html">Mortgage</a>
+      <a href="/loan.html">Loan</a>
+      <a href="/savings.html">Savings</a>
+      <a href="/retirement.html">Retirement</a>
+      <a href="/currency.html" title="Coming soon">FX Converter</a>
+      <a href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Retirement Planner</h1>
+    <p class="sub">Project your savings to retirement, estimate a target nest egg, and see the income it could safely support (inflation-aware). Pulls your income data if available and auto-saves to this device.</p>
+  </div>
+</section>
+
+<main class="grid" id="app">
+  <!-- Inputs -->
+  <section class="panel" aria-labelledby="inputs">
+    <h2 id="inputs">Inputs</h2>
+
+    <div class="row">
+      <div class="stack">
+        <label for="ageNow">Current age</label>
+        <input id="ageNow" type="number" min="0" value="30"/>
+      </div>
+      <div class="stack">
+        <label for="ageRet">Target retirement age</label>
+        <input id="ageRet" type="number" min="0" value="67"/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="yearsRet">Years in retirement (plan)</label>
+        <input id="yearsRet" type="number" min="1" value="25"/>
+        <span class="muted">E.g., to age 92 if retiring at 67.</span>
+      </div>
+      <div class="stack">
+        <label for="infl">Inflation (annual %)</label>
+        <input id="infl" type="number" step="0.1" value="2.5"/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="balNow">Current retirement savings</label>
+        <input id="balNow" type="number" inputmode="decimal" placeholder="e.g., 35000"/>
+      </div>
+      <div class="stack">
+        <label for="annualContrib">Annual contribution (pre-tax/after-tax)</label>
+        <input id="annualContrib" type="number" inputmode="decimal" placeholder="e.g., 6000"/>
+        <span class="muted">Tip: we’ll try to prefill 10% of net from your Income calc.</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="retBefore">Return before retirement (annual %)</label>
+        <input id="retBefore" type="number" step="0.1" value="6.0"/>
+      </div>
+      <div class="stack">
+        <label for="retDuring">Return during retirement (annual %)</label>
+        <input id="retDuring" type="number" step="0.1" value="4.0"/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="desiredIncomeToday">Desired annual income in retirement (today’s $)</label>
+        <input id="desiredIncomeToday" type="number" inputmode="decimal" placeholder="e.g., 50000"/>
+      </div>
+      <div class="stack">
+        <label for="otherIncome">Other yearly income in retirement (SS/pension)</label>
+        <input id="otherIncome" type="number" inputmode="decimal" value="0"/>
+      </div>
+    </div>
+
+    <div class="flex" style="margin-top:14px">
+      <button class="btn" id="calcBtn" type="button">Calculate</button>
+      <button class="btn ghost" id="solveContribBtn" type="button" title="Back-solve contribution">Solve annual contribution</button>
+      <button class="btn ghost" id="resetBtn" type="button">Reset</button>
+      <span class="muted">Inputs auto-save to this device.</span>
+    </div>
+
+    <div style="margin-top:10px">
+      <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+           data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+           data-ad-slot="2234567890"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="panel" aria-labelledby="results">
+    <h2 id="results">Results</h2>
+
+    <div class="results">
+      <div class="break ok">
+        <div>
+          <div class="k">Projected nest egg at retirement</div>
+          <div class="v" id="egg">—</div>
+        </div>
+        <div>
+          <div class="k">Required nest egg for target income</div>
+          <div class="v" id="eggNeed">—</div>
+        </div>
+      </div>
+
+      <div class="break">
+        <div><span class="k">Gap (need − projected)</span><div class="v" id="gap">—</div></div>
+        <div><span class="k">Sustainable income (plan)</span><div class="v" id="sustInc">—</div></div>
+      </div>
+
+      <div class="flex" style="margin-top:4px">
+        <button class="btn pill" id="emailBtn" type="button">Email me this summary</button>
+        <button class="btn ghost pill" type="button" onclick="location.href='/savings.html'">Go to Savings</button>
+      </div>
+
+      <h3 style="margin:10px 0 6px;font-size:18px">Milestones</h3>
+      <div style="overflow:auto">
+        <table id="table">
+          <thead><tr><th>Age</th><th>Balance (nominal)</th><th>Balance (today’s $)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <p class="small">Educational use only; not investment advice. Returns & inflation are assumptions; real outcomes vary.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="flex">
+      <span class="small">© <span id="yr"></span> LockHabit</span>
+      <a class="small" href="/index.html">Home</a>
+      <a class="small" href="/terms.html">Terms</a>
+      <a class="small" href="/privacy.html">Privacy</a>
+      <a class="small" href="/security.html">Security</a>
+      <a class="small" href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Elements
+  const ageNow = document.getElementById('ageNow');
+  const ageRet = document.getElementById('ageRet');
+  const yearsRet = document.getElementById('yearsRet');
+  const infl = document.getElementById('infl');
+  const balNow = document.getElementById('balNow');
+  const annualContrib = document.getElementById('annualContrib');
+  const retBefore = document.getElementById('retBefore');
+  const retDuring = document.getElementById('retDuring');
+  const desiredIncomeToday = document.getElementById('desiredIncomeToday');
+  const otherIncome = document.getElementById('otherIncome');
+
+  const egg = document.getElementById('egg');
+  const eggNeed = document.getElementById('eggNeed');
+  const gap = document.getElementById('gap');
+  const sustInc = document.getElementById('sustInc');
+  const tbody = document.querySelector('#table tbody');
+
+  const calcBtn = document.getElementById('calcBtn');
+  const solveContribBtn = document.getElementById('solveContribBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const emailBtn = document.getElementById('emailBtn');
+
+  // Prefill from income calculator (10% of net monthly * 12)
+  try{
+    const icRaw = localStorage.getItem('lh_income_calc_v1');
+    if(icRaw && !annualContrib.value){
+      const ic = JSON.parse(icRaw);
+      if(ic && ic.netMonthly){ annualContrib.value = Math.round(ic.netMonthly*0.10*12); }
+    }
+  }catch(_){}
+
+  // Local save/load
+  const KEY='lh_retire_calc_v1';
+  function save(){
+    const d = {
+      ageNow: ageNow.value, ageRet: ageRet.value, yearsRet: yearsRet.value, infl: infl.value,
+      balNow: balNow.value, annualContrib: annualContrib.value, retBefore: retBefore.value,
+      retDuring: retDuring.value, desiredIncomeToday: desiredIncomeToday.value, otherIncome: otherIncome.value
+    };
+    localStorage.setItem(KEY, JSON.stringify(d));
+  }
+  function load(){
+    const raw=localStorage.getItem(KEY); if(!raw) return;
+    try{
+      const d=JSON.parse(raw);
+      for (const k in d){ const el = document.getElementById(k); if(el) el.value = d[k]; }
+    }catch(_){}
+  }
+  load();
+  [ageNow,ageRet,yearsRet,infl,balNow,annualContrib,retBefore,retDuring,desiredIncomeToday,otherIncome]
+    .forEach(el=>el.addEventListener('input', save));
+
+  // Helpers
+  function moneyUSD(n){ try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD'}).format(n||0); }catch(_){ return '$'+(n||0).toFixed(2); } }
+  function realAdjust(n, inflPct, years){ const r = inflPct/100; return n/Math.pow(1+r, years); } // nominal -> today's $
+  function futureValueSeries(P0, r, years, C){ // annual compounding with end-of-year contributions
+    const R=r/100; let bal= P0;
+    const rows=[];
+    for(let y=1;y<=years;y++){
+      bal = bal*(1+R) + C;
+      rows.push(bal);
+    }
+    return {bal, rows};
+  }
+  function requiredEggForIncome(incomeToday, otherInc, inflPct, yearsToRet, retDuringPct, yearsInRet){
+    // Convert desired income to nominal at retirement
+    const incomeNominalAtRet = incomeToday * Math.pow(1+inflPct/100, yearsToRet);
+    const needPerYear = Math.max(0, incomeNominalAtRet - (otherInc||0));
+    // Level annuity present value with real return approx:
+    // Using nominal return during retirement (retDuringPct) and level withdrawals (nominal)
+    const i = retDuringPct/100;
+    const n = Math.max(1, yearsInRet);
+    const pvFactor = (i===0)? n : (1 - Math.pow(1+i, -n)) / i;
+    return needPerYear * pvFactor;
+  }
+  function sustainableIncome(eggNominal, retDuringPct, yearsInRet){
+    const i = retDuringPct/100;
+    const n = Math.max(1, yearsInRet);
+    const annFactor = (i===0)? n : (1 - Math.pow(1+i, -n)) / i;
+    return eggNominal / annFactor;
+  }
+
+  function calc(){
+    save();
+
+    const aNow = parseFloat(ageNow.value||0);
+    const aRet = parseFloat(ageRet.value||0);
+    const yrsToRet = Math.max(0, aRet - aNow);
+    const yrsInRet = parseFloat(yearsRet.value||25);
+    const inflPct = parseFloat(infl.value||0);
+
+    const P0 = parseFloat(balNow.value||0);
+    const C = parseFloat(annualContrib.value||0);
+    const rBefore = parseFloat(retBefore.value||0);
+    const rDuring = parseFloat(retDuring.value||0);
+    const wantIncomeToday = parseFloat(desiredIncomeToday.value||0);
+    const othInc = parseFloat(otherIncome.value||0);
+
+    // Project to retirement
+    const {bal: eggNominal, rows} = futureValueSeries(P0, rBefore, yrsToRet, C);
+
+    // Need for target income
+    const eggNeeded = requiredEggForIncome(wantIncomeToday, othInc, inflPct, yrsToRet, rDuring, yrsInRet);
+
+    // Sustainable income
+    const incNominal = sustainableIncome(eggNominal, rDuring, yrsInRet);
+
+    egg.textContent = moneyUSD(eggNominal);
+    eggNeed.textContent = moneyUSD(eggNeeded);
+    gap.textContent = moneyUSD(eggNeeded - eggNominal);
+    sustInc.textContent = moneyUSD(incNominal);
+
+    // Milestones table (every 5 years)
+    const tbodyEl = tbody; tbodyEl.innerHTML='';
+    const every = 5;
+    for(let y=every; y<=yrsToRet; y+=every){
+      const balNom = rows[y-1];
+      const balRealToday = realAdjust(balNom, inflPct, y);
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td>${aNow + y}</td><td>${moneyUSD(balNom)}</td><td>${moneyUSD(balRealToday)}</td>`;
+      tbodyEl.appendChild(tr);
+    }
+    if(yrsToRet===0){
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td>${aRet}</td><td>${moneyUSD(eggNominal)}</td><td>${moneyUSD(realAdjust(eggNominal, inflPct, 0))}</td>`;
+      tbodyEl.appendChild(tr);
+    }
+  }
+
+  function solveContribution(){
+    // Back-solve annual contribution to meet target income
+    const aNow = parseFloat(ageNow.value||0);
+    const aRet = parseFloat(ageRet.value||0);
+    const yrsToRet = Math.max(0, aRet - aNow);
+    const inflPct = parseFloat(infl.value||0);
+    const P0 = parseFloat(balNow.value||0);
+    const rBefore = parseFloat(retBefore.value||0);
+    const rDuring = parseFloat(retDuring.value||0);
+    const yrsInRet = parseFloat(yearsRet.value||25);
+    const wantIncomeToday = parseFloat(desiredIncomeToday.value||0);
+    const othInc = parseFloat(otherIncome.value||0);
+
+    if(yrsToRet<=0 || wantIncomeToday<=0){ alert('Set a valid retirement age in the future and desired income.'); return; }
+
+    const needed = requiredEggForIncome(wantIncomeToday, othInc, inflPct, yrsToRet, rDuring, yrsInRet);
+
+    // Bisection on annual contribution
+    let lo=0, hi=Math.max(10000, needed/yrsToRet);
+    for(let i=0;i<60;i++){
+      const mid=(lo+hi)/2;
+      const {bal} = futureValueSeries(P0, rBefore, yrsToRet, mid);
+      if(bal < needed) lo=mid; else hi=mid;
+    }
+    const req = Math.ceil(((lo+hi)/2)*100)/100;
+    annualContrib.value = req;
+    calc();
+  }
+
+  function emailSummary(){
+    const msg = [
+      'LockHabit Retirement Planner — Summary',
+      '',
+      `Age now: ${ageNow.value} | Retire at: ${ageRet.value} | Years in retirement: ${yearsRet.value}`,
+      `Inflation: ${infl.value}%`,
+      `Current balance: $${balNow.value || 0} | Annual contrib: $${annualContrib.value || 0}`,
+      `Return pre-ret: ${retBefore.value || 0}% | Return during ret: ${retDuring.value || 0}%`,
+      `Desired income (today’s $): $${desiredIncomeToday.value || 0} | Other income: $${otherIncome.value || 0}`,
+      '',
+      `Projected nest egg: ${egg.textContent}`,
+      `Required nest egg: ${eggNeed.textContent}`,
+      `Gap: ${gap.textContent}`,
+      `Sustainable income (nominal): ${sustInc.textContent}`,
+      '',
+      'Generated by LockHabit (educational use only).'
+    ].join('%0D%0A');
+    const subject = encodeURIComponent('My Retirement Plan (LockHabit)');
+    location.href = `mailto:?subject=${subject}&body=${encodeURIComponent(msg)}`;
+  }
+
+  calcBtn.addEventListener('click', calc);
+  solveContribBtn.addEventListener('click', solveContribution);
+  resetBtn.addEventListener('click', ()=>{ localStorage.removeItem(KEY); location.reload(); });
+  emailBtn.addEventListener('click', emailSummary);
+
+  // Auto-calc if we have enough inputs
+  calc();
+})();
+</script>
+</body>
+</html>
