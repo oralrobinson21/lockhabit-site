@@ -1,437 +1,656 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884"
+     crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WMJ37PBW8H');
+</script>
   <!-- =========================================================
-       LockHabit — Dashboard (static demo, calculator-integrated)
-       Clean Tesla vibe • Mobile-first • SoFi/Chase style cards
-       Reads plan from localStorage('lh_plan') and/or URL params
+       LockHabit — Premium, informative, static demo (autosize fix)
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit — Dashboard (Preview)</title>
-  <meta name="description" content="LockHabit dashboard preview: balances, vaults, emergency line, activity, and insights. Auto-loads from calculator plan."/>
+
+  <title>LockHabit — Lock your money. Own your future.</title>
+  <meta name="description" content="LockHabit is a behavioral savings vault. Hard-lock funds, earn up to 3.5% APR (compounded weekly). Emergency line up to 80% of your vested balance with 0% for 4 months, then 6% APR (interest credited back). Optional High-Risk Growth (7.8–20% variable APR, may lose value)."/>
   <meta name="theme-color" content="#0b0e1a"/>
 
+  <!-- Canonical + Social -->
+  <link rel="canonical" href="https://lockhabit.com/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="LockHabit — Lock your money. Own your future."/>
+  <meta property="og:description" content="Hard-lock savings that actually grow. Weekly compounding, transparent fees, and an emergency line up to 80% of your vested balance."/>
+  <meta property="og:url" content="https://lockhabit.com/"/>
+  <meta property="og:image" content="/public/og-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="LockHabit — Save on purpose"/>
+  <meta name="twitter:description" content="Plan your deposits and see projected growth with weekly compounding."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
+  <!-- Icons & PWA -->
   <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/public/favicon.ico">
   <link rel="apple-touch-icon" href="/public/icon-192.png">
   <link rel="manifest" href="/public/manifest.webmanifest">
 
+  <!-- Analytics -->
+  <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
+
+  <!-- ========================= Styles ========================= -->
   <style>
     :root{
-      --brand:#6f7cff; --brand2:#9c78ff; --ink:#0b1230; --muted:#5c6b86;
-      --line:#e8ebf4; --panel:#ffffff; --surface:#f7f8ff; --bg:#0b0e1a;
-      --ok:#22c55e; --warn:#f59e0b; --bad:#b42318;
-      --shadow:0 18px 50px rgba(17,24,39,.10); --shadow-deep:0 40px 120px rgba(7,10,18,.45);
-      --radius:16px; --radius-lg:22px;
+      --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
+      --green:#22c55e; --ink:#0b1230; --muted:#55617a;
+      --line:#e6e7f1; --panel:#ffffff; --surface:#f7f8ff;
+      --bg:#0b0e1a; --bg-2:#0e1330;
+      --radius-sm:12px; --radius:16px; --radius-lg:22px;
+      --shadow-elev:0 18px 50px rgba(17,24,39,.10);
+      --shadow-deep:0 40px 120px rgba(7,10,18,.45);
+      --grad-hero:
+        radial-gradient(1400px 750px at 50% -200px, rgba(111,124,255,.28) 0%, rgba(156,120,255,.18) 35%, transparent 60%),
+        radial-gradient(1100px 700px at -10% 10%, rgba(156,120,255,.18) 0%, transparent 55%),
+        radial-gradient(1100px 700px at 110% -20%, rgba(111,124,255,.16) 0%, transparent 60%),
+        #f8f9ff;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; background:#f6f7fb; color:var(--ink);
-      font:15.5px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      margin:0; background:var(--bg); color:var(--ink);
+      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding-bottom: env(safe-area-inset-bottom, 0px); overflow-x:hidden;
     }
 
     /* Header */
-    .hdr{
-      position:sticky; top:0; z-index:60; background:rgba(255,255,255,.92);
-      backdrop-filter:saturate(1.2) blur(10px); border-bottom:1px solid var(--line);
+    .header{
+      position:sticky; top:0; z-index:60;
+      background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+      transform:translateY(0); transition:transform .18s ease, box-shadow .18s ease;
     }
-    .wrap{max-width:1180px; margin:0 auto; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
-    .brand{display:flex; align-items:center; gap:10px; text-decoration:none}
-    .logo{width:28px; height:28px; flex:none}
-    .word{font-weight:800; font-size:18px; color:#0e1a34}
-    .nav{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-    .nav a{color:#19253f; text-decoration:none; font-weight:600}
+    .header.stuck{ box-shadow:0 6px 20px rgba(17,24,39,.08); }
+    .header.hide{ transform:translateY(-100%); }
+    .wrap{
+      max-width:1200px;margin:0 auto;padding:12px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer}
+    .logo{width:28px;height:28px;flex:none}
+    .word{font-weight:800;font-size:18px;color:#0e1a34;white-space:nowrap;letter-spacing:.2px}
+    .nav{display:flex;align-items:center;gap:14px;min-width:0}
+    .nav a{color:#19253f;text-decoration:none;font-weight:600;white-space:nowrap}
     .btn{
-      appearance:none; border:1px solid var(--line); background:#fff; color:#0f1a34;
-      padding:10px 14px; border-radius:12px; font-weight:800; cursor:pointer;
-      min-height:40px; -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+      appearance:none;border:1px solid var(--line);background:#fff;
+      padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;
+      min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation
     }
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff; border-color:transparent; box-shadow:0 10px 26px rgba(111,124,255,.25)}
+    .btn.acc{background:linear-gradient(135deg, var(--brand), var(--brand-2));color:#fff;border-color:transparent;box-shadow:0 10px 26px rgba(111,124,255,.28)}
     .btn.ghost{background:transparent}
+    .btn.pill{border-radius:999px}
 
-    /* Preview banner */
-    .banner{
-      background:#0e1330; color:#e7ebff; border-bottom:1px solid #1a2140;
-      font-size:13px;
-    }
-    .banner .wrap{justify-content:center}
-    .badge{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); font-weight:700}
-
-    /* Page layout */
-    .page{max-width:1180px; margin:0 auto; padding:16px}
-    .grid{
-      display:grid; gap:14px;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width:960px){
-      .grid{
-        grid-template-columns: 1.25fr .75fr;
-      }
+    @media (max-width:720px){
+      .nav a{display:none}
+      .btn.ghost{display:none}
     }
 
-    /* Cards */
-    .card{
-      background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px; box-shadow:var(--shadow);
+    /* Hero */
+    .hero{background:var(--grad-hero);border-bottom:1px solid var(--line);padding:64px 16px 40px}
+    .hero-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center}
+    @media (max-width:999px){ .hero-grid{grid-template-columns:1fr; gap:22px} }
+    h1{font-size:40px;line-height:1.08;margin:0 0 12px;letter-spacing:-.5px}
+    @media (min-width:1000px){ h1{font-size:56px} }
+    .sub{color:#33415f;max-width:65ch}
+
+    /* Chips */
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+      background:linear-gradient(135deg,#e7ebff,#f4f1ff);border:1px solid #dfe3ff;
+      font-weight:700;color:#3a4a66
     }
-    .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
-    .k{font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); font-weight:800}
-    .v{font-weight:800; font-size:26px; color:#0b1230}
-    .mini{font-size:12.5px; color:#60708c}
-    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#f1f4ff; border:1px solid #e3e7ff; color:#3a4a66; font-weight:700}
-    .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
 
-    /* Summary grid */
-    .summary{display:grid; grid-template-columns:1fr; gap:12px}
-    @media (min-width:680px){ .summary{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .cta{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+    .cta .btn{padding:12px 16px}
 
-    .progress{height:10px; background:#eef1f8; border:1px solid #e5e8f1; border-radius:999px; overflow:hidden}
-    .fill{height:100%; width:0; background:linear-gradient(90deg,var(--ok),var(--brand)); transition:width .5s ease}
+    /* Static mock card */
+    .mock{
+      background:#fff;border:1px solid var(--line);border-radius:20px;
+      padding:18px;box-shadow:var(--shadow-elev);position:relative;overflow:hidden
+    }
+    .mock .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .mini{font-size:12px;color:#66728c}
+    .badge{background:#eafff2;color:#0b3b22;border:1px solid #c8f5d9;padding:6px 10px;border-radius:999px;font-weight:800;white-space:nowrap}
 
-    /* Sub grids */
-    .cols2{display:grid; grid-template-columns:1fr; gap:12px}
-    @media (min-width:900px){ .cols2{grid-template-columns:1fr 1fr} }
+    .card{margin-top:12px;background:linear-gradient(180deg,#fff,#f9f9ff);border:1px solid var(--line);border-radius:14px;padding:12px}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+    @media (min-width:560px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:112px}
+    .k{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
+    .v{font-weight:800;font-size:22px;line-height:1.2;color:#0b1230;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+    .help{font-size:12px;color:#64718a}
+    /* ensure long text never clips */
+    .stat, .v, .help{overflow-wrap:anywhere;word-break:break-word}
 
-    table{width:100%; border-collapse:collapse}
-    th, td{padding:10px 8px; border-bottom:1px solid #eef1f7; text-align:right; font-size:14px}
-    th:first-child, td:first-child{text-align:left}
-    th{font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:#64718a}
-    .muted{color:#66728c}
+    /* Sections */
+    section.s{max-width:1200px;margin:0 auto;padding:44px 16px}
+    @media (min-width:768px){ section.s{padding:56px 22px} }
+    .section-title{font-size:28px;text-align:center;margin:0 0 12px;color:#f8f9ff}
+    @media (min-width:768px){ .section-title{font-size:32px} }
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-elev)}
+    @media (min-width:768px){ .panel{padding:24px} }
 
-    /* Vault list */
-    .vault{display:flex; align-items:center; gap:12px}
-    .pill{border-radius:999px; padding:4px 8px; border:1px solid #e6e9f6; background:#fafbff; font-size:12px; color:#3a4a66; font-weight:700}
+    .cols3{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:900px){ .cols3{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+    .plan h3{margin:0 0 6px;color:#15213d}
+    .plan ul{margin:8px 0 0;padding-left:18px;color:#3b4a67}
+
+    .ribbon{background:linear-gradient(135deg, rgba(111,124,255,.22), rgba(156,120,255,.22));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .ribwrap{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;gap:10px;align-items:center;justify-content:center;color:#e7ebff;flex-wrap:wrap}
+    .ribwrap .item{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:10px 12px;border-radius:999px}
+    .ribwrap .item b{color:#fff}
+
+    /* Trust grid */
+    .trustgrid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:900px){ .trustgrid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .trust{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+    .trust b{color:#101828}
+
+    /* Social proof bar (kept in code, hidden by design per request) */
+    .proof{display:none !important; background:var(--bg-2); border-top:1px solid #1a2140;border-bottom:1px solid #1a2140}
+    .proofwrap{max-width:1200px;margin:0 auto;padding:14px 16px;color:#cfd6ff;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .pitem{display:flex;align-items:center;gap:10px}
+    .pnum{font-weight:800;color:#fff}
 
     /* Footer */
-    footer{color:#3a4a66; font-size:12px; text-align:center; padding:22px 0}
-    a.clean{color:#19253f; text-decoration:none; font-weight:700}
+    footer{background:#fff;border-top:1px solid var(--line);color:#3a4a66}
+    .foot{max-width:1200px;margin:0 auto;padding:22px 16px}
+    .fine{background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#41506a}
+    .footnote{font-size:12px;color:#60708c}
 
-    /* Toast */
-    .toast{
-      position:fixed; left:50%; transform:translateX(-50%);
-      bottom:18px; background:#0e1330; color:#e7ebff; border:1px solid #1a2140; border-radius:12px;
-      padding:10px 14px; box-shadow:var(--shadow-deep); display:none; z-index:70; font-weight:700
+    /* Modal */
+    .overlay{position:fixed;inset:0;background:rgba(9,12,22,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90}
+    .modal{width:min(560px,92vw);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-deep)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .x{border:0;background:transparent;font-size:20px;cursor:pointer;color:#64748b}
+    .form{display:grid;gap:10px;margin-top:10px}
+    input,select{padding:14px;border-radius:12px;border:1px solid #dbe0ea;font-size:16px}
+    .note{font-size:12px;color:#60708c}
+    .success{display:none;text-align:center;padding:18px}
+    .check{font-size:42px}
+
+    /* Small screen tweaks */
+    @media (max-width:420px){
+      .word{font-size:17px}
+      .btn{padding:10px 12px}
+      .v{font-size:20px}
     }
   </style>
 </head>
 <body>
 
-  <!-- Sticky header -->
-  <header class="hdr" role="banner">
-    <div class="wrap">
-      <a class="brand" href="/" aria-label="Back to home">
-        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+<!-- ========================= HEADER ========================= -->
+<header class="header" role="banner" id="hdr">
+  <div class="wrap">
+    <div class="brand" aria-label="LockHabit" id="brand">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
         <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
         <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
         <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
         <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
-        </svg>
-        <div class="word">LockHabit</div>
-      </a>
-      <nav class="nav" role="navigation">
-        <a href="/index.html">Home</a>
-        <a href="/calculator.html">Calculator</a>
-        <a class="clean" aria-current="page">Dashboard</a>
-        <button id="importBtn" class="btn">Import from Calculator</button>
-      </nav>
+      </svg>
+      <div class="word">LockHabit</div>
     </div>
-  </header>
+    <nav class="nav" role="navigation" aria-label="Main">
+      <a href="/calculator.html" aria-label="Open calculator">Calculator</a>
+      <a href="#how">How it works</a>
+      <a href="#plans">Plans</a>
+      <a href="#security">Security</a>
+      <a href="#growth">Growth options</a>
+      <a href="#faq">FAQ</a>
+      <button class="btn acc" type="button" id="btnWaitlistHdr">Join waitlist</button>
+    </nav>
+  </div>
+</header>
 
-  <!-- Preview banner -->
-  <div class="banner" role="note" aria-live="polite">
-    <div class="wrap">
-      <span class="badge">Preview mode — figures below are simulated from your plan</span>
+<!-- ========================= HERO ========================= -->
+<section class="hero" id="top">
+  <div class="hero-grid" aria-describedby="hero-copy">
+    <div>
+      <div class="chips" aria-label="Highlights">
+        <!-- Removed “Discipline Pays” per request -->
+        <span class="chip"><b style="color:#22c55e">Up to 3.5% APR</b> • weekly compounding</span>
+        <span class="chip">Emergency line: <b>80%</b> of vested</span>
+      </div>
+
+      <h1>Lock your money. Own your future.</h1>
+      <p id="hero-copy" class="sub">
+        LockHabit is a behavioral savings vault: you choose a lock, deposit on a schedule, and your balance compounds automatically.
+        If life happens, access an <b>emergency line up to 80% of your vested amount</b> — <b>0% for the first 4 months</b>, then <b>6% APR</b>.
+        After payoff, interest on that line is <b>credited back to your balance</b>.
+      </p>
+
+      <div class="cta">
+        <button class="btn acc" type="button" id="btnWaitlistHero">Join the waitlist</button>
+        <a class="btn" href="/calculator.html">Open calculator</a>
+        <a class="btn ghost" href="/security.html">Read security</a>
+      </div>
+
+      <!-- Social proof bar kept for later, hidden -->
+      <div class="proof" aria-hidden="true">
+        <div class="proofwrap">
+          <div class="pitem"><span class="pnum">700+</span> creators & savers follow our build</div>
+          <div class="pitem"><span class="pnum">92%</span> said “this finally makes me save”</div>
+          <div class="pitem">Clear terms. No dark patterns.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: static demo (no animation) -->
+    <aside class="mock" aria-live="polite">
+      <div class="row">
+        <div>
+          <div class="mini">Savings Vault — Static Preview</div>
+          <div style="font-weight:800;font-size:18px;color:#0f1a34">10-Year Weekly Plan</div>
+          <div class="mini">Initial $3,000 • +$200/week • 3.5% APR (weekly compounding)</div>
+        </div>
+        <span class="badge">On-time ↑ credit</span>
+      </div>
+
+      <!-- Static stats -->
+      <div class="grid">
+        <div class="stat">
+          <div class="k">Locked today</div>
+          <div class="v" data-fit>$3,000</div>
+          <div class="help">Auto-deposit $200 weekly</div>
+        </div>
+        <div class="stat">
+          <div class="k">Projected interest</div>
+          <div class="v" data-fit>$21,729.99</div>
+          <div class="help">Over 10 years at 3.5% APR</div>
+        </div>
+        <div class="stat">
+          <div class="k">Account balance (projected)</div>
+          <div class="v" data-fit>$128,729.99</div>
+          <div class="help">Principal + deposits + interest</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="gap:12px; align-items:flex-end">
+          <div style="min-width:0">
+            <div class="k">Emergency line (80% of vested)</div>
+            <div class="v" style="font-size:20px" data-fit>$102,983.99</div>
+            <div class="help">0% for 4 months, then 6% APR • interest credited back after payoff</div>
+          </div>
+          <button class="btn acc pill" type="button" id="btnWaitlistCard">Join the waitlist</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ========================= RIBBON ========================= -->
+<div class="ribbon" role="region" aria-label="Summary">
+  <div class="ribwrap">
+    <div class="item">🔒 <b>Hard-lock</b> (no early withdrawals except emergencies)</div>
+    <div class="item">🏦 <b>FDIC-backed custody</b> via partner banks</div>
+    <div class="item">🧮 <b>Transparent</b> $3/$2/$1 unlock fee by term</div>
+    <div class="item">📈 <b>Credit-builder</b> reporting intended</div>
+  </div>
+</div>
+
+<!-- ========================= HOW IT WORKS ========================= -->
+<section id="how" class="s" aria-labelledby="how-title">
+  <h2 id="how-title" class="section-title">How LockHabit Works</h2>
+  <div class="panel">
+    <div class="cols3">
+      <div class="plan">
+        <h3>1) Choose your lock</h3>
+        <ul>
+          <li>Pick <b>1–3</b>, <b>4–6</b>, <b>12</b>, or <b>12+ months</b></li>
+          <li>Auto-deposit weekly/bi-weekly/monthly</li>
+          <li>Your goals, your pace — balance stays hidden by default</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>2) Grow automatically</h3>
+        <ul>
+          <li>Compounded weekly at the plan rate</li>
+          <li>Your money is <b>never lent out</b></li>
+          <li>Clear, in-app projections — no guesswork</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>3) Unlock or borrow</h3>
+        <ul>
+          <li>Unlock day: principal + interest − small flat fee</li>
+          <li>Emergency line up to <b>80%</b> of vested amount</li>
+          <li><b>0% for first 4 months</b>, then 6% APR (credited back after payoff)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= PLANS & RATES (fixed) ========================= -->
+<section id="plans" class="s" aria-labelledby="plans-title">
+  <h2 id="plans-title" class="section-title">Simple, transparent plans</h2>
+  <div class="cols3">
+    <div class="plan">
+      <h3>1–3 months</h3>
+      <ul>
+        <li><b>2.0% APR</b> (weekly compounding)</li>
+        <li><b>$3</b> flat at unlock</li>
+        <li>Fast goals & habit building</li>
+      </ul>
+    </div>
+    <div class="plan">
+      <h3>4–6 months</h3>
+      <ul>
+        <li><b>2.5% APR</b> (weekly compounding)</li>
+        <li><b>$2</b> flat at unlock</li>
+        <li>Balanced discipline</li>
+      </ul>
+      <div class="footnote">Non-emergency early break attempts incur a <b>5% fee</b>.</div>
+    </div>
+    <div class="plan">
+      <h3>12 months</h3>
+      <ul>
+        <li><b>3.0% APR</b> (weekly compounding)</li>
+        <li><b>$1</b> flat at unlock</li>
+        <li>Annual rhythm, steady growth</li>
+      </ul>
     </div>
   </div>
 
-  <!-- Main page -->
-  <main class="page">
-    <div class="grid">
-      <!-- LEFT COLUMN -->
-      <section aria-label="Main">
-        <!-- Summary cards -->
-        <div class="summary">
-          <div class="card">
-            <div class="row"><div class="k">Projected balance @ maturity</div><span class="chip" id="aprChip">APR 3.0%</span></div>
-            <div class="v" id="sumBalance">$0</div>
-            <div class="mini" id="sumTerm">12 months • weekly compounding</div>
-          </div>
-          <div class="card">
-            <div class="k">Projected interest</div>
-            <div class="v" id="sumInterest">$0</div>
-            <div class="mini">Based on your plan inputs below</div>
-          </div>
-          <div class="card">
-            <div class="k">Emergency line (available)</div>
-            <div class="v" id="sumLine">$0</div>
-            <div class="mini">Up to <b>80%</b> of vested amount • 0% for 4 months, then 6% APR</div>
-          </div>
-        </div>
+  <div class="panel" style="margin-top:12px">
+    <h3 style="margin:0 0 6px;color:#15213d">12+ months (long-term)</h3>
+    <ul style="margin:8px 0 0;padding-left:18px;color:#3b4a67">
+      <li><b>3.5% APR</b>, compounded weekly</li>
+      <li>Examples called out for clarity: <b>3.25 years (39 mo)</b> & <b>3.5 years (42 mo)</b> both priced at the 12+ month rate</li>
+    </ul>
+  </div>
+</section>
 
-        <!-- Vaults / Goals -->
-        <div class="card" style="margin-top:12px">
-          <div class="row">
-            <div class="k">Vaults</div>
-            <span class="pill" id="vaultCount">1 Active</span>
-          </div>
-          <div class="vault" style="margin-top:10px">
-            <div style="flex:1">
-              <div class="row" style="align-items:flex-end">
-                <div>
-                  <div style="font-weight:800">Core Lock</div>
-                  <div class="mini" id="vaultLabel">Init $0 • +$0 / bi-weekly • 12 mo</div>
-                </div>
-                <div class="mini" id="vaultPct">Vested 0%</div>
-              </div>
-              <div class="progress" style="margin-top:8px"><div class="fill" id="vaultFill" style="width:0%"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Activity -->
-        <div class="card" style="margin-top:12px">
-          <div class="row"><div class="k">Recent activity</div><span class="pill" id="activityCount">Scheduled 4</span></div>
-          <table style="margin-top:8px" aria-label="Recent activity">
-            <thead><tr><th>Date</th><th>Type</th><th>Amount</th></tr></thead>
-            <tbody id="activityBody">
-              <!-- inserted by JS -->
-            </tbody>
-          </table>
-          <div class="mini" style="margin-top:8px">Activity is simulated from your contribution schedule.</div>
-        </div>
-
-        <!-- Insights -->
-        <div class="card" style="margin-top:12px">
-          <div class="row"><div class="k">Insights</div></div>
-          <ul style="margin:8px 0 0; padding-left:18px; color:#33415f">
-            <li id="insight1">Locking 25% of your estimated monthly leftover is a good starting discipline.</li>
-            <li id="insight2">At maturity, consider stepping up your term to 12+ months for the 3.5% tier.</li>
-            <li id="insight3">Emergency line interest (after promo) is credited back to your balance after payoff.</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- RIGHT COLUMN -->
-      <aside aria-label="Plan details & actions">
-        <!-- Plan preview (collapsible) -->
-        <details class="card" open>
-          <summary class="row" style="cursor:pointer"><div class="k">Your LockHabit plan</div><span class="pill">Edit in Calculator</span></summary>
-          <div style="margin-top:10px">
-            <table>
-              <tbody>
-                <tr><td>Initial deposit</td><td id="planInit" style="text-align:right">$0</td></tr>
-                <tr><td>Recurring deposit</td><td id="planRec" style="text-align:right">$0</td></tr>
-                <tr><td>Contribution frequency</td><td id="planFreq" style="text-align:right">—</td></tr>
-                <tr><td>Term (months)</td><td id="planTerm" style="text-align:right">—</td></tr>
-                <tr><td>APR</td><td id="planApr" style="text-align:right">—</td></tr>
-              </tbody>
-            </table>
-            <div class="row" style="margin-top:12px; gap:8px">
-              <a class="btn ghost" href="/calculator.html">Open Calculator</a>
-              <button class="btn acc" id="recalcBtn">Recalculate</button>
-            </div>
-          </div>
-        </details>
-
-        <!-- Emergency Line (collapsible) -->
-        <details class="card" style="margin-top:12px" open>
-          <summary class="row" style="cursor:pointer"><div class="k">Emergency Line</div><span class="pill">80% LTV</span></summary>
-          <div style="margin-top:10px">
-            <table>
-              <tbody>
-                <tr><td>Available (preview)</td><td id="lineAvail" style="text-align:right">$0</td></tr>
-                <tr><td>Promo</td><td style="text-align:right">0% for 4 months</td></tr>
-                <tr><td>After promo</td><td style="text-align:right">6% APR</td></tr>
-              </tbody>
-            </table>
-            <div class="mini" style="margin-top:8px">Interest after promo is credited back to your locked balance after payoff.</div>
-          </div>
-        </details>
-
-        <!-- LockHabit Projection (collapsible) -->
-        <details class="card" style="margin-top:12px" open>
-          <summary class="row" style="cursor:pointer"><div class="k">LockHabit projection (compounding)</div></summary>
-          <div style="margin-top:10px">
-            <table>
-              <tbody>
-                <tr><td>APR used</td><td id="aprUsed" style="text-align:right">—</td></tr>
-                <tr><td>Projected interest</td><td id="projInterest" style="text-align:right">$0</td></tr>
-                <tr><td><b>Projected balance @ maturity</b></td><td id="projBalance" style="text-align:right; font-weight:800">$0</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </details>
-
-        <!-- Account actions -->
-        <div class="card" style="margin-top:12px">
-          <div class="k">Account</div>
-          <div class="row" style="margin-top:10px; gap:8px; flex-wrap:wrap">
-            <a class="btn" href="/#top">Join Waitlist</a>
-            <a class="btn ghost" href="/security.html">Security</a>
-          </div>
-          <div class="mini" style="margin-top:8px">This is a static preview. No money moves here.</div>
-        </div>
-      </aside>
+<!-- ========================= GROWTH OPTIONS (incl. variable) ========================= -->
+<section id="growth" class="s" aria-labelledby="growth-title">
+  <h2 id="growth-title" class="section-title">Growth options</h2>
+  <div class="panel">
+    <div class="cols3">
+      <div class="plan">
+        <h3>Core Fixed</h3>
+        <ul>
+          <li>2.0% • 2.5% • 3.0% • <b>3.5%</b> APR tiers</li>
+          <li>Weekly compounding</li>
+          <li>Funds segregated, not lent</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>High-Risk Growth (optional)</h3>
+        <ul>
+          <li><b>7.8–20% variable APR</b></li>
+          <li><b>Can lose value</b> (drawdowns possible)</li>
+          <li>Suited for risk-tolerant users only</li>
+        </ul>
+        <div class="footnote">If selected, disclosures and risk controls are presented before opt-in.</div>
+      </div>
+      <div class="plan">
+        <h3>Emergency Line</h3>
+        <ul>
+          <li>Up to <b>80%</b> of vested amount</li>
+          <li><b>0% for first 4 months</b>, then 6% APR</li>
+          <li>Interest credited back to you after payoff</li>
+        </ul>
+      </div>
     </div>
-  </main>
+  </div>
+</section>
 
-  <footer>© <span id="yr"></span> LockHabit — Preview dashboard. <a class="clean" href="/index.html">Home</a> • <a class="clean" href="/calculator.html">Calculator</a></footer>
+<!-- ========================= SECURITY / TRUST ========================= -->
+<section id="security" class="s" aria-labelledby="sec-title">
+  <h2 id="sec-title" class="section-title">Your money stays safe</h2>
+  <div class="panel">
+    <div class="trustgrid">
+      <div class="trust>
+        <b>FDIC-backed via partner banks</b>
+        <p class="mini">When deposits are held at partner banks and structured for pass-through coverage, FDIC insurance applies up to legal limits per depositor, per bank.</p>
+      </div>
+      <div class="trust">
+        <b>Segregated & never lent</b>
+        <p class="mini">Your funds remain reserved for you — <b>we do not lend out customer deposits</b>. Emergency access is a secured, self-backed line to <i>you</i>, not others.</p>
+      </div>
+      <div class="trust">
+        <b>Hard-lock with emergency override</b>
+        <p class="mini">Withdrawals aren’t allowed before the unlock date except for approved emergencies. Non-emergency early break attempts incur a <b>5% fee</b>.</p>
+      </div>
+      <div class="trust">
+        <b>Credit-builder reporting</b>
+        <p class="mini">Emergency line payments are intended to be <b>reported to major bureaus</b>. On-time payments may help build credit; late payments may harm credit.</p>
+      </div>
+      <div class="trust">
+        <b>Interest that benefits you</b>
+        <p class="mini">Line interest (after the 0% promo) is <b>credited back to your locked balance</b> after payoff, helping you reach your goal faster.</p>
+      </div>
+      <div class="trust">
+        <b>Privacy & transparency</b>
+        <p class="mini">We keep your data private and use it only to operate LockHabit. No dark patterns — just clear terms.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <div id="toast" class="toast" role="status" aria-live="polite">Imported from Calculator</div>
+<!-- ========================= FAQ ========================= -->
+<section id="faq" class="s" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="section-title">FAQ</h2>
+  <div class="panel" aria-live="polite">
+    <details>
+      <summary>Is this a hard lock?</summary>
+      <p>Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. <b>Non-emergency</b> early break attempts incur a <b>5% fee</b>.</p>
+    </details>
+    <details>
+      <summary>Do I earn interest while locked?</summary>
+      <p>Yes. Balances earn the disclosed APR, <b>compounded weekly</b> and prorated by time in lock. Rates may change with notice.</p>
+    </details>
+    <details>
+      <summary>How does the emergency line work?</summary>
+      <p>You can borrow up to <b>80% of your vested amount</b>. The line is <b>0% for the first 4 months</b>, then <b>6% APR</b>. After payoff, interest is <b>credited back to your balance</b>. On-time payment may help your credit; late payment may harm it.</p>
+    </details>
+    <details>
+      <summary>Is my money FDIC insured?</summary>
+      <p>Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for <b>FDIC insurance</b> up to applicable limits per depositor, per bank.</p>
+    </details>
+    <details>
+      <summary>What about the High-Risk Growth option?</summary>
+      <p>It is <b>variable APR (7.8–20%)</b> and <b>you can lose value</b>. It’s optional and includes extra disclosures before opt-in. Consider your risk tolerance.</p>
+    </details>
+  </div>
+</section>
 
-  <script>
-    // Live year
-    document.getElementById('yr').textContent = new Date().getFullYear();
+<!-- ========================= FOOTER ========================= -->
+<footer role="contentinfo">
+  <div class="foot">
+    <div>© <span id="yr"></span> LockHabit — Save on purpose. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
+    <div class="fine">
+      LockHabit is a financial technology company, not a bank. Banking services and deposit custody are provided by regulated partner banks.
+      When deposits are held at partner banks and structured for pass-through coverage, funds may be eligible for FDIC insurance up to the applicable limits per depositor, per bank.
+      This is a <b>hard lock</b>: early withdrawal is not permitted except for approved emergencies; <b>non-emergency</b> early break attempts incur a <b>5% fee</b>.
+      Emergency access is provided via a secured, self-backed line: <b>0% for 4 months</b>, then <b>6% APR</b>; line interest is <b>credited back to your locked balance after payoff</b>.
+      Fixed APR tiers: <b>2.0%</b> (1–3 mo), <b>2.5%</b> (4–6 mo), <b>3.0%</b> (12 mo), <b>3.5%</b> (12+ mo). Optional High-Risk Growth: <b>7.8–20% variable APR</b> and may lose value.
+      APRs, terms, and fees are subject to change with notice. Disclosures will be presented prior to account opening. Joining the waitlist does not guarantee approval.
+    </div>
+    <div class="footnote" style="margin-top:8px;text-align:center">
+      <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a> • <a href="/calculator.html">Calculator</a>
+    </div>
+  </div>
+</footer>
 
-    // ===== Utilities =====
-    const $ = (id)=>document.getElementById(id);
-    const fmt = (n)=> (isFinite(n)? n : 0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-    const clamp = (x,min,max)=>Math.max(min,Math.min(max,x));
+<!-- ========================= WAITLIST MODAL ========================= -->
+<div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title">
+  <div class="modal" id="modalBox">
+    <div class="row">
+      <h3 id="wl-title" style="margin:0">Join the LockHabit waitlist</h3>
+      <button class="x" aria-label="Close" onclick="closeModal()">✕</button>
+    </div>
+    <p class="note">Be first in line when invites open. We’ll only email you about LockHabit.</p>
+    <form id="wl-form" class="form" novalidate>
+      <input type="email" name="email" placeholder="Email address" required aria-label="Email address"/>
+      <input type="text" name="name" placeholder="Name (optional)" aria-label="Name"/>
+      <select name="term" aria-label="Preferred lock term">
+        <option value="">Preferred lock term (optional)</option>
+        <option value="1-3">1–3 months (2.0%)</option>
+        <option value="4-6">4–6 months (2.5%)</option>
+        <option value="12">12 months (3.0%)</option>
+        <option value="12+">12+ months (3.5%)</option>
+      </select>
+      <button class="btn acc" type="submit">Join the waitlist</button>
+      <div id="msg" class="note" role="status" aria-live="polite"></div>
+      <div class="footnote">By joining, you consent to receive early-access communications. We never sell your data.</div>
+    </form>
+    <div id="ok" class="success" aria-live="polite">
+      <div class="check">✅</div>
+      <h3>Thanks — you’re on the list!</h3>
+      <p class="note">We’ve recorded your interest. Keep an eye on your inbox for updates.</p>
+      <button class="btn acc" onclick="closeModal()">Back to home</button>
+    </div>
+  </div>
+</div>
 
-    // Simple APR tier helper (mirror of calculator)
-    function aprForMonths(m){
-      if(m>=24) return 0.035;
-      if(m>=12) return 0.030;
-      if(m>=6)  return 0.025;
-      return 0.020;
-    }
+<!-- ========================= Structured Data (SEO) ========================= -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"/public/logo.svg","sameAs":["https://twitter.com/lockhabit","https://www.linkedin.com/company/lockhabit"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is this a hard lock?","acceptedAnswer":{"@type":"Answer","text":"Yes. Funds remain locked until the chosen unlock date. Early withdrawal is not permitted except for approved emergencies. Non-emergency early break attempts incur a 5% fee."}},
+{"@type":"Question","name":"Do I earn interest while locked?","acceptedAnswer":{"@type":"Answer","text":"Yes. Balances earn the disclosed APR, compounded weekly and prorated by time in lock. Rates may change with notice."}},
+{"@type":"Question","name":"How does the emergency line work?","acceptedAnswer":{"@type":"Answer","text":"You can borrow up to 80% of your vested amount. The line is 0% for the first 4 months, then 6% APR. After payoff, interest is credited back to your balance. On-time payment may help your credit; late payment may harm it."}},
+{"@type":"Question","name":"Is my money FDIC insured?","acceptedAnswer":{"@type":"Answer","text":"Deposits are held at regulated partner banks. When structured for pass-through coverage, balances are eligible for FDIC insurance up to applicable limits per depositor, per bank."}},
+{"@type":"Question","name":"What about the High-Risk Growth option?","acceptedAnswer":{"@type":"Answer","text":"It is variable APR (7.8–20%) and you can lose value. It’s optional and includes extra disclosures before opt-in. Consider your risk tolerance."}}
+]}
+</script>
 
-    // FV (monthly-compounding baseline) matching calculator’s projection function
-    function projectedBalance(init, recurring, freq, months, apr){
-      const r = apr/12;
-      const n = Math.max(0, Math.floor(months));
-      const pmtPerMonth = (freq==='weekly') ? recurring*(52/12)
-                         : (freq==='biweekly') ? recurring*(26/12)
-                         : recurring;
-      const fvLump = init * Math.pow(1+r, n);
-      const fvSeries = r ? pmtPerMonth * ((Math.pow(1+r, n) - 1) / r) : pmtPerMonth * n;
-      const balance = fvLump + fvSeries;
-      const totalContrib = init + pmtPerMonth * n;
-      return { balance, interest: Math.max(0, balance - totalContrib) };
-    }
+<!-- ========================= SCRIPTS (static demo + fitText + modal + header) ========================= -->
+<script>
+  /* Live year */
+  document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // Build 4 upcoming contribution dates (or recent)
-    function buildSchedule(freq, count=4){
-      const now = new Date();
-      const out = [];
-      const stepDays = (freq==='weekly') ? 7 : (freq==='biweekly' ? 14 : 30);
-      for(let i=0;i<count;i++){
-        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + (i*stepDays));
-        out.push(d);
-      }
-      return out;
-    }
-    function fmtDate(d){
-      return d.toLocaleDateString(undefined,{month:'short', day:'numeric'});
-    }
+  /* Header behavior (sticky + hide on scroll down) */
+  (function(){
+    const hdr = document.getElementById('hdr');
+    let lastY = window.scrollY, ticking = false;
+    const onScroll = ()=>{
+      const y = window.scrollY;
+      hdr.classList.toggle('stuck', y > 2);
+      if (y > lastY && y > 80) hdr.classList.add('hide'); else hdr.classList.remove('hide');
+      lastY = y; ticking = false;
+    };
+    window.addEventListener('scroll', ()=>{
+      if(!ticking){ window.requestAnimationFrame(onScroll); ticking = true; }
+    }, {passive:true});
+  })();
 
-    // Read plan from localStorage and/or URL
-    function readPlan(){
-      let plan = {};
+  /* Brand click scrolls to top */
+  document.getElementById('brand')?.addEventListener('click', ()=>{
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+
+  /* Modal open/close */
+  const overlay = document.getElementById('overlay');
+  function openModal(){ overlay.style.display='flex'; document.body.style.overflow='hidden'; }
+  function closeModal(){ overlay.style.display='none'; document.body.style.overflow=''; }
+  window.openModal = openModal; window.closeModal = closeModal;
+
+  /* Wire all waitlist buttons */
+  ['btnWaitlistHdr','btnWaitlistHero','btnWaitlistCard'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', openModal);
+  });
+
+  /* Waitlist submit -> your working backend, fallback to Formspree */
+  (function(){
+    const form = document.getElementById('wl-form');
+    const msg  = document.getElementById('msg');
+    const ok   = document.getElementById('ok');
+    if(!form) return;
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      msg.textContent = 'Submitting…';
+      msg.style.color = '#60708c';
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      const showOK = ()=>{ form.style.display='none'; ok.style.display='block'; };
+
       try{
-        const s = localStorage.getItem('lh_plan');
-        if(s){ plan = JSON.parse(s) || {}; }
+        const res = await fetch('/api/waitlist', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(data)
+        });
+        const out = await res.json().catch(()=>({}));
+        if(res.ok && (out.ok || out.id || out.inserted)){ showOK(); return; }
       }catch(_){}
 
-      const q = new URLSearchParams(location.search);
-      // URL values override localStorage if present
-      if(q.has('init')) plan.init = Number(q.get('init'))||0;
-      if(q.has('save')) plan.save = Number(q.get('save'))||0;
-      if(q.has('freq')) plan.freq = q.get('freq');
-      if(q.has('term')) plan.term = Number(q.get('term'))||12;
-      if(q.has('apr'))  plan.apr  = Number(q.get('apr'))/100;
-
-      // sensible defaults
-      if(!plan.freq) plan.freq = 'biweekly';
-      if(!plan.term) plan.term = 12;
-
-      // derive apr if not supplied
-      if(typeof plan.apr !== 'number' || !(plan.apr>0)) plan.apr = aprForMonths(plan.term);
-
-      // normalize types
-      plan.init = Number(plan.init)||0;
-      plan.save = Number(plan.save)||0;
-
-      return plan;
-    }
-
-    function hydrateUI(){
-      const plan = readPlan();
-      // projection
-      const proj = projectedBalance(plan.init, plan.save, plan.freq, plan.term, plan.apr);
-
-      // Summary
-      $('sumBalance').textContent = fmt(proj.balance);
-      $('sumInterest').textContent = fmt(proj.interest);
-      $('aprChip').textContent = 'APR ' + (plan.apr*100).toFixed(1) + '%';
-      $('sumTerm').textContent = plan.term + ' months • monthly projection';
-
-      // Vault card
-      $('vaultLabel').textContent = `Init ${fmt(plan.init)} • +${fmt(plan.save)} / ${plan.freq.replace('bi','bi-')} • ${plan.term} mo`;
-
-      // Vesting preview — sliderless estimate: assume 10% vested if term > 0 (purely visual)
-      const vestedPct = clamp(Math.round((plan.term>0? 10:0)), 0, 100);
-      $('vaultPct').textContent = `Vested ${vestedPct}%`;
-      $('vaultFill').style.width = vestedPct + '%';
-
-      // Emergency line preview: 80% of vested * projected balance
-      const lineAvail = 0.80 * (vestedPct/100) * proj.balance;
-      $('sumLine').textContent = fmt(lineAvail);
-      $('lineAvail').textContent = fmt(lineAvail);
-
-      // Plan panel
-      $('planInit').textContent = fmt(plan.init);
-      $('planRec').textContent = fmt(plan.save);
-      $('planFreq').textContent = ({weekly:'Weekly',biweekly:'Bi-weekly',monthly:'Monthly'})[plan.freq] || '—';
-      $('planTerm').textContent = String(plan.term);
-      $('planApr').textContent  = (plan.apr*100).toFixed(2) + '%';
-
-      // Projection panel
-      $('aprUsed').textContent = (plan.apr*100).toFixed(2) + '%';
-      $('projInterest').textContent = fmt(proj.interest);
-      $('projBalance').textContent  = fmt(proj.balance);
-
-      // Activity (next 4 scheduled deposits)
-      const tbody = $('activityBody');
-      tbody.innerHTML = '';
-      const schedule = buildSchedule(plan.freq, 4);
-      schedule.forEach(d=>{
-        const tr = document.createElement('tr');
-        const dt = document.createElement('td'); dt.textContent = fmtDate(d);
-        const tp = document.createElement('td'); tp.textContent = 'Scheduled deposit';
-        const am = document.createElement('td'); am.textContent = fmt(plan.save);
-        tr.append(dt, tp, am); tbody.appendChild(tr);
-      });
-      $('activityCount').textContent = `Scheduled ${schedule.length}`;
-    }
-
-    function toast(msg='Imported from Calculator'){
-      const el = $('toast');
-      el.textContent = msg;
-      el.style.display = 'block';
-      setTimeout(()=> el.style.display='none', 2200);
-    }
-
-    $('importBtn').addEventListener('click', ()=>{
-      // Force re-read/local import
-      hydrateUI();
-      toast();
+      try{
+        const fs = await fetch('https://formspree.io/f/mrbywgpw', {
+          method:'POST',
+          headers:{'Accept':'application/json'},
+          body:new FormData(form)
+        });
+        if(fs.ok){ showOK(); return; }
+        msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
+      }catch(e){
+        msg.textContent = 'Network error. Please try again.'; msg.style.color = '#b42318';
+      }
     });
+  })();
 
-    $('recalcBtn').addEventListener('click', ()=>{
-      hydrateUI();
-      toast('Recalculated from current plan');
+  /* Fit numbers into cards (prevents overflow/clipping) */
+  (function(){
+    function fitText(el, {min=16, max=26, step=0.5}={}){
+      if(!el) return;
+      el.style.fontSize = max + 'px';
+      while (el.scrollWidth > el.clientWidth && max > min){
+        max -= step;
+        el.style.fontSize = max + 'px';
+      }
+    }
+    const run = ()=> document.querySelectorAll('[data-fit]').forEach(el=>fitText(el));
+    window.addEventListener('load', run, {once:true});
+    window.addEventListener('resize', ()=>{
+      document.querySelectorAll('[data-fit]').forEach(el=>{ el.style.fontSize=''; });
+      run();
     });
+  })();
 
-    // Auto-import on load
-    hydrateUI();
-  </script>
+  /* PWA SW registration — temporarily disabled to prevent redirect/cache loops */
+  // One-time cleanup: unregister any previously installed service workers.
+  if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(r => r.unregister());
+      if (window.caches && caches.keys) {
+        caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+      }
+    }).catch(() => {});
+  }
+  // To re-enable later, restore your original register() block:
+  // navigator.serviceWorker.register('/public/sw.js')
+  //   .then(() => console.log('✅ Service Worker registered'))
+  //   .catch(err => console.error('❌ SW registration failed:', err));
+</script>
 </body>
 </html>
