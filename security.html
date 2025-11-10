@@ -1,98 +1,93 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
+  </script>
 
-  gtag('config', 'G-WMJ37PBW8H');
-</script>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Security — LockHabit</title>
-  <meta name="description" content="How LockHabit keeps your money and data safe."/>
-  <meta name="theme-color" content="#6f7cff"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Security | LockHabit Calculators</title>
+  <meta name="description" content="Learn how LockHabit protects users: static site architecture, HTTPS, limited data, and vendor controls."/>
+  <link rel="canonical" href="https://lockhabit.com/security.html"/>
+  <meta property="og:title" content="Security | LockHabit"/>
+  <meta property="og:description" content="Overview of our security posture and limited data practices."/>
+  <meta property="og:url" content="https://lockhabit.com/security.html"/>
+  <meta property="og:type" content="article"/>
+
   <style>
-    :root{--brand:#6f7cff;--line:#e5e7f1;--ink:#0f172a;--muted:#5b6a86}
-    *{box-sizing:border-box}body{margin:0;background:#0e1330;color:var(--ink);font:16px/1.65 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-    a{color:#2b50ff;text-decoration:none}
-    .wrap{max-width:900px;margin:0 auto;padding:28px 20px}
-    .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 60px rgba(10,15,35,.12);padding:22px}
-    h1{margin:0 0 4px;font-size:34px}.sub{color:#667085;margin:0 0 16px}
-    h2{margin-top:22px;font-size:20px} p,li{color:#1f2a44}
-    header{position:sticky;top:0;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
-    .nav{max-width:900px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:10px;align-items:center}.logo{width:28px;height:28px}
-    footer{margin:24px 0;color:#cbd5e1;text-align:center;font-size:12px}
-    .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:700;background:#f3f6ff}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    @media (max-width:720px){.grid{grid-template-columns:1fr}}
+    :root{--ink:#0b1230;--muted:#4a5b7a;--line:#e7e9f3;}
+    body{margin:0;font:16px/1.6 system-ui,-apple-system,Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);}
+    .wrap{max-width:900px;margin:0 auto;padding:18px 16px;}
+    h1{font-size:32px;margin:18px 0 12px}
+    h2{margin:28px 0 8px;font-size:20px}
+    p,li{color:#20304f}
+    .muted{color:var(--muted)}
+    .card{background:#f7f9ff;border:1px solid var(--line);padding:12px;border-radius:10px;margin:12px 0}
+    footer{border-top:1px solid var(--line);margin-top:28px;background:#fff}
+    .links a{color:#384c9b;text-decoration:none;margin-right:12px}
   </style>
 </head>
 <body>
 <header>
-  <div class="nav">
-    <div class="brand">
-      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-        <defs><linearGradient id="lg" x1="0" y="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
-      </svg>
-      <strong>LockHabit</strong>
-    </div>
-    <div><a href="/">Home</a></div>
+  <div class="wrap">
+    <a href="/index.html" style="text-decoration:none;font-weight:800;color:#0e1a34">LockHabit</a>
   </div>
 </header>
 
 <main class="wrap">
+  <h1>Security</h1>
+  <p class="muted">Last updated: November 9, 2025</p>
+
+  <h2>Our approach</h2>
+  <p>LockHabit is intentionally simple: a <b>static website</b> serving client-side calculators. We <b>do not store sensitive user data on our servers</b> and avoid building large data stores. This design reduces attack surface and risk.</p>
+
+  <h2>Key controls</h2>
   <div class="card">
-    <h1>Security</h1>
-    <p class="sub">Your deposits stay yours. Your data stays private. Here’s how we protect both.</p>
-
-    <div class="grid">
-      <div>
-        <h2>Custody & FDIC</h2>
-        <p>LockHabit is not a bank. We plan to partner with regulated banks for deposit custody. When deposits are held at partner banks and structured for pass-through coverage, balances may be eligible for FDIC insurance up to legal limits per depositor, per bank.</p>
-      </div>
-      <div>
-        <h2>Hard-lock by default</h2>
-        <p>Your savings are held in a lock that can’t be withdrawn early except for approved emergencies. Non-emergency early break attempts may incur a 5% fee.</p>
-      </div>
-      <div>
-        <h2>Data protection</h2>
-        <ul>
-          <li>Encryption in transit (TLS) and at rest (cloud provider controls).</li>
-          <li>Principle of least privilege for systems and staff.</li>
-          <li>Secrets stored in secure vaults; key rotation policies.</li>
-        </ul>
-      </div>
-      <div>
-        <h2>Credit-builder loans</h2>
-        <p>Emergency access is a secured, self-backed loan. On-time payments are intended to be reported to credit bureaus. Interest you pay is credited back to your locked balance after payoff.</p>
-      </div>
-      <div>
-        <h2>Monitoring & incidents</h2>
-        <p>We monitor for abuse and anomalies. If a material incident occurs, we’ll notify users as required by law and take remediation steps.</p>
-      </div>
-      <div>
-        <h2>Responsible disclosure</h2>
-        <p>Found a security concern? Please email <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a> with details. Do not access data that isn’t yours. We appreciate coordinated disclosure.</p>
-      </div>
-    </div>
-
-    <p><span class="pill">We never sell your data</span> • <span class="pill">No dark patterns</span> • <span class="pill">Transparent fees</span></p>
+    <ul>
+      <li><b>HTTPS everywhere</b>: All pages are served over TLS.</li>
+      <li><b>Minimal data</b>: Inputs are kept in your browser (localStorage) unless you ask to email results.</li>
+      <li><b>Content Security</b>: We limit third-party scripts to required providers (Google Analytics/AdSense, optional FX API) and review integrations.</li>
+      <li><b>Infrastructure</b>: Hosted on reputable edge/CDN providers with DDoS protection, caching, and managed certificates.</li>
+      <li><b>Secrets management</b>: Any API keys (e.g., FX rates) are scoped and rotated; no secrets are embedded client-side if they grant write or account access.</li>
+      <li><b>Backups & continuity</b>: Source code is version-controlled; deploys are reproducible.</li>
+      <li><b>Vulnerability hygiene</b>: We keep dependencies lean, audit third-party scripts, and ship security patches promptly.</li>
+    </ul>
   </div>
+
+  <h2>“Email my results” safety</h2>
+  <p>If you use an email feature, we transmit the calculation summary to the address you provide using a reputable email service. We do not create accounts. Transient delivery logs may be retained briefly for troubleshooting and abuse prevention, then aged out.</p>
+
+  <h2>Your controls</h2>
+  <ul>
+    <li>Use the <b>Reset</b> button on any calculator to clear saved inputs.</li>
+    <li>Clear site data in your browser settings to remove localStorage cookies/cache.</li>
+    <li>Use modern browsers, keep devices updated, and enable a screen lock.</li>
+  </ul>
+
+  <h2>Responsible disclosure</h2>
+  <p>If you believe you have found a security vulnerability, please email <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a> with details. We will investigate promptly.</p>
+
+  <h2>Third-party services</h2>
+  <p>We rely on cloud providers and ad/analytics vendors that maintain their own security programs. Their processing is subject to their terms and privacy policies.</p>
+
+  <h2>Changes</h2>
+  <p>We may update this page as our stack evolves.</p>
 </main>
 
-<footer>© <span id="y"></span> LockHabit — Security</footer>
-<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+<footer>
+  <div class="wrap links">
+    <a href="/index.html">Home</a> •
+    <a href="/privacy.html">Privacy</a> •
+    <a href="/terms.html">Terms</a>
+  </div>
+</footer>
 </body>
 </html>
