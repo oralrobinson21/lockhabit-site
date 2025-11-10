@@ -21,210 +21,265 @@
   <meta property="og:image" content="/assets/og-lockhabit.png"/>
 
   <style>
-    /* =========================================================
-       1) CSS RESET (tiny)
-       ========================================================= */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#0b1220;color:#e7edf6}
-    img,svg,video,canvas{display:block;max-width:100%}
-    input,button,select,textarea{font:inherit}
-    a{color:inherit;text-decoration:none}
-    :focus-visible{outline:2px solid #67d4ff;outline-offset:2px;border-radius:8px}
+  /* =========================================================
+     1) CSS RESET (tiny, accessibility-friendly)
+     ========================================================= */
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    background:#0b1220; /* fallback to theme var below */
+    color:#e7edf6;
+  }
+  img,svg,video,canvas{display:block;max-width:100%}
+  input,button,select,textarea{font:inherit}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid #67d4ff;outline-offset:2px;border-radius:8px}
+  @media (prefers-contrast: more){
+    :focus-visible{outline-width:3px}
+  }
 
-    /* =========================================================
-       2) THEME
-       ========================================================= */
-    :root{
-      --bg:#0b1220;            /* page base */
-      --panel:#0f1727;         /* section/card */
-      --panel-2:#0d1424;       /* deeper */
-      --text:#e7edf6;          /* primary text */
-      --muted:#a5b2c8;         /* secondary text */
-      --faint:#8091ad;
-      --link:#b5d7ff;
-      --cta:#26c6a8;           /* apple-ish minty primary button */
-      --cta-ink:#042b26;
-      --chip:#0f2338;
-      --chip-border:#16324c;
-      --line:#1a2740;
-      --ring:#67d4ff;
-      --brand-1:#62a0ff;       /* soft blue for gradients */
-      --brand-2:#33c1b1;       /* mint */
-      --brand-3:#6d7cff;       /* violet-blue accent */
-      --shadow:0 6px 22px rgba(10,20,40,.28);
-      --radius:18px;
-      --radius-sm:12px;
-      --radius-lg:26px;
-      --w-max:1160px;
-      --h1:clamp(28px,4.8vw,44px);
-      --h2:clamp(18px,2.6vw,26px);
-      --h3:16px;
-    }
+  /* Prevent text overflow in tight cards */
+  h1,h2,h3,p,button,a,span{overflow-wrap:anywhere}
 
-    /* =========================================================
-       3) ANIMATED FINANCE BACKGROUND
-       - Subtle conic + radial blend, no jank, composited
-       ========================================================= */
-    .bg{
-      position:fixed; inset:0; z-index:-2; pointer-events:none;
-      background:
-        radial-gradient(1200px 800px at 85% -10%, rgba(99,145,255,.10), transparent 60%),
-        radial-gradient(900px 800px at -5% 10%, rgba(41,205,181,.10), transparent 50%),
-        radial-gradient(900px 900px at 60% 120%, rgba(120,130,255,.10), transparent 55%),
-        linear-gradient(180deg, #0b1220 0%, #0a1324 100%);
-      filter:saturate(1.05);
-    }
-    .orbs{
-      position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
-    }
-    .orb{
-      position:absolute; width:480px; height:480px; border-radius:999px;
-      background:radial-gradient(closest-side, rgba(51,193,177,.32), rgba(51,193,177,0) 70%);
-      filter:blur(6px) saturate(1.1);
-      mix-blend-mode:screen;
-      animation:float 22s ease-in-out infinite;
-    }
-    .orb.o2{
-      background:radial-gradient(closest-side, rgba(98,160,255,.28), rgba(98,160,255,0) 70%);
-      width:520px; height:520px; animation-duration:26s; animation-delay:-7s;
-    }
-    .orb.o3{
-      background:radial-gradient(closest-side, rgba(109,124,255,.24), rgba(109,124,255,0) 70%);
-      width:420px; height:420px; animation-duration:24s; animation-delay:-13s;
-    }
-    @keyframes float{
-      0%   {transform:translate(-12%, -8%)}
-      33%  {transform:translate(60%, 6%)}
-      66%  {transform:translate(20%, 48%)}
-      100% {transform:translate(-12%, -8%)}
-    }
+  /* =========================================================
+     2) THEME (tokens)
+     ========================================================= */
+  :root{
+    /* Surfaces */
+    --bg:#0b1220;            /* page base */
+    --panel:#0f1727;         /* section/card */
+    --panel-2:#0d1424;       /* deeper */
 
-    /* =========================================================
-       4) LAYOUT
-       ========================================================= */
-    header{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter:saturate(1.1) blur(10px);
-      background:linear-gradient(180deg, rgba(4,10,22,.72), rgba(4,10,22,.38));
-      border-bottom:1px solid rgba(28,40,66,.8);
-    }
-    .nav{
-      max-width:var(--w-max); margin:0 auto; padding:14px 16px;
-      display:flex; align-items:center; gap:12px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
-    }
-    .logo{
-      width:28px; height:28px; border-radius:8px;
-      background:linear-gradient(145deg, var(--brand-1), var(--brand-3));
-      box-shadow:inset 0 0 0 2px rgba(255,255,255,.12), 0 2px 12px rgba(40,60,110,.5);
-      position:relative;
-    }
-    .logo::after{
-      content:""; position:absolute; inset:7px 8px 7px 9px; border-radius:10px;
-      background:linear-gradient(180deg, #eef6ff, #d7e9ff);
-      mask:radial-gradient(circle at 30% 70%, #000 58%, transparent 59%) left/60% 90% no-repeat,
-           linear-gradient(#000 0 0) right/34% 26% no-repeat;
-    }
-    .spacer{flex:1}
-    .pill{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 14px; border-radius:999px; background:#0e2036; color:#dcedff;
-      border:1px solid #173050; box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 6px 16px rgba(10,20,40,.25);
-    }
-    .pill:hover{transform:translateY(-1px)}
-    .pill[data-variant="cta"]{
-      background:linear-gradient(135deg, #45e0c7, #67a8ff 65%); color:#042b26;
-      border:0; font-weight:800;
-    }
-    .nav-btn{cursor:pointer; user-select:none}
+    /* Text */
+    --text:#e7edf6;          /* primary text */
+    --muted:#a5b2c8;         /* secondary text */
+    --faint:#8091ad;
 
-    main{max-width:var(--w-max); margin:0 auto; padding:26px 16px 40px}
+    /* Accents */
+    --link:#b5d7ff;
+    --cta:#26c6a8;           /* minty CTA */
+    --cta-ink:#042b26;
 
-    /* Hero */
-    .hero{
-      display:grid; grid-template-columns:1fr; gap:14px; margin:12px 0 18px;
-    }
-    .eyebrow{font-size:13px; color:var(--faint); letter-spacing:.35px}
-    .h1{font-size:var(--h1); line-height:1.05; font-weight:900; margin:4px 0 8px}
-    .lede{color:var(--muted); max-width:880px}
-    .cta-row{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 14px}
-    .chip{display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px;
-      background:var(--chip); border:1px solid var(--chip-border); color:#cfe3fb}
-    .chip .dot{width:8px;height:8px;border-radius:999px;background:#57c9ff;box-shadow:0 0 0 3px rgba(87,201,255,.12)}
+    /* Chips & lines */
+    --chip:#0f2338;
+    --chip-border:#16324c;
+    --line:#1a2740;
+    --ring:#67d4ff;
 
-    /* Controls under hero */
-    .controls{display:flex; flex-wrap:wrap; gap:10px; margin:6px 0 24px}
-    .control{display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border-radius:999px;
-      background:#0e2036; border:1px solid #16314e; color:#d6e6ff}
-    .control select{background:transparent; color:inherit; border:0; outline:none}
-    .control .bullet{width:8px;height:8px;border-radius:99px;background:#57c9ff}
-    .control .bullet.purple{background:#b494ff}
-    .control .bullet.gold{background:#f3c471}
+    /* Brand gradient anchors */
+    --brand-1:#62a0ff;       /* soft blue */
+    --brand-2:#33c1b1;       /* mint */
+    --brand-3:#6d7cff;       /* violet-blue */
 
-    /* Sections & cards */
-    .section{margin:18px 0 12px}
-    .section h2{font-size:var(--h2); margin:0 0 10px; color:#cfe3fb; letter-spacing:.2px}
-    .grid{display:grid; gap:12px}
-    @media(min-width:720px){ .grid{grid-template-columns:1fr 1fr} }
-    @media(min-width:980px){ .grid{grid-template-columns:1fr 1fr} }
+    /* FX */
+    --shadow:0 6px 22px rgba(10,20,40,.28);
 
-    .card{
-      background:linear-gradient(180deg, rgba(17,29,54,.78), rgba(13,22,42,.88));
-      border:1px solid var(--line); border-radius:var(--radius);
-      padding:16px; position:relative; overflow:hidden;
-      box-shadow:0 1px 0 rgba(255,255,255,.04) inset, var(--shadow);
-      transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
-    }
-    .card:hover{transform:translateY(-1px); border-color:#26406b; box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 10px 26px rgba(10,20,40,.35)}
-    .card h3{margin:0 0 6px; font-size:18px}
-    .card p{margin:0; color:#a9bad3}
-    .card .open{
-      position:absolute; right:12px; top:12px;
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 16px; border-radius:999px; border:1px solid #2a3e61;
-      color:#d8e7ff; background:rgba(14,29,52,.6); backdrop-filter:blur(6px);
-      font-weight:700;
-    }
-    .card .open:hover{border-color:#3c5889}
+    /* Radii */
+    --radius:18px;
+    --radius-sm:12px;
+    --radius-lg:26px;
 
-    /* Recently used chips */
-    .recent{display:flex; flex-wrap:wrap; gap:10px; margin-top:6px}
-    .recent a{
-      padding:8px 14px; border-radius:999px; background:#0f2338; border:1px solid #16324c; color:#cfe3fb
-    }
+    /* Layout */
+    --w-max:1160px;
 
-    /* All calculators sheet (dropdown) */
-    .sheet{position:fixed; inset:0; display:none; align-items:flex-end; z-index:60}
-    .sheet.show{display:flex}
-    .sheet .back{position:absolute; inset:0; background:rgba(3,9,20,.6)}
-    .panel{
-      position:relative; width:100%; background:linear-gradient(180deg, #0d1424, #0b1220);
-      border-top-left-radius:24px; border-top-right-radius:24px;
-      box-shadow:0 -10px 30px rgba(7,12,24,.6);
-      border-top:1px solid #1a2740; padding:14px 16px 22px; max-height:82vh; overflow:auto;
-    }
-    .panel h3{margin:2px 0 12px; font-size:18px}
-    .sheet .grid{grid-template-columns:1fr 1fr}
-    @media(min-width:860px){ .panel{max-width:var(--w-max); margin:0 auto} .sheet .grid{grid-template-columns:1fr 1fr 1fr} }
+    /* Type scale */
+    --h1:clamp(28px,4.8vw,44px);
+    --h2:clamp(18px,2.6vw,26px);
+    --h3:16px;
+  }
 
-    .mini{
-      display:block; padding:12px; border-radius:12px; border:1px solid #183154;
-      background:#0e1d34; color:#cfe3fb
-    }
-    .mini:hover{border-color:#2c4974}
+  /* =========================================================
+     3) ANIMATED FINANCE BACKGROUND
+     - Subtle, composited layers; GPU-accelerated orbs
+     - Respects reduced-motion
+     ========================================================= */
+  .bg{
+    position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background:
+      radial-gradient(1200px 800px at 85% -10%, rgba(99,145,255,.10), transparent 60%),
+      radial-gradient(900px 800px at -5% 10%, rgba(41,205,181,.10), transparent 50%),
+      radial-gradient(900px 900px at 60% 120%, rgba(120,130,255,.10), transparent 55%),
+      linear-gradient(180deg, var(--bg) 0%, #0a1324 100%);
+    filter:saturate(1.05);
+    will-change:opacity;
+  }
 
-    /* Footer */
-    footer{margin:28px 0 40px; color:#a3b4cb}
-    .legal{display:flex; gap:18px; flex-wrap:wrap}
-    .disclaimer{margin-top:12px; padding:14px; border-radius:14px; background:#0d1424; border:1px solid #1a2740; color:#9db2cf}
+  .orbs{
+    position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
+    contain:layout paint;
+  }
 
-    /* Utility helpers */
-    .row{display:flex; gap:10px; flex-wrap:wrap}
-    .hide{display:none !important}
-    .nowrap{white-space:nowrap}
+  .orb{
+    position:absolute; width:480px; height:480px; border-radius:999px;
+    background:radial-gradient(closest-side, rgba(51,193,177,.32), rgba(51,193,177,0) 70%);
+    filter:blur(6px) saturate(1.1);
+    mix-blend-mode:screen;
+    will-change:transform;
+    animation:floatA 22s ease-in-out infinite;
+    transform:translate3d(0,0,0);
+  }
+  .orb.o2{
+    background:radial-gradient(closest-side, rgba(98,160,255,.28), rgba(98,160,255,0) 70%);
+    width:520px; height:520px; animation:floatB 26s ease-in-out infinite -7s;
+  }
+  .orb.o3{
+    background:radial-gradient(closest-side, rgba(109,124,255,.24), rgba(109,124,255,0) 70%);
+    width:420px; height:420px; animation:floatC 24s ease-in-out infinite -13s;
+  }
+
+  @keyframes floatA{
+    0%{   transform:translate3d(-12%, -8%, 0)}
+    33%{  transform:translate3d(58%,  6%, 0)}
+    66%{  transform:translate3d(18%, 48%, 0)}
+    100%{ transform:translate3d(-12%, -8%, 0)}
+  }
+  @keyframes floatB{
+    0%{   transform:translate3d(8%, -12%, 0)}
+    25%{  transform:translate3d(28%, 18%, 0)}
+    50%{  transform:translate3d(-6%, 42%, 0)}
+    100%{ transform:translate3d(8%, -12%, 0)}
+  }
+  @keyframes floatC{
+    0%{   transform:translate3d(40%, 52%, 0)}
+    40%{  transform:translate3d(12%, 18%, 0)}
+    80%{  transform:translate3d(54%, -6%, 0)}
+    100%{ transform:translate3d(40%, 52%, 0)}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .orb{animation:none}
+    .bg{filter:none}
+  }
+
+  /* =========================================================
+     4) LAYOUT
+     ========================================================= */
+  header{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:saturate(1.1) blur(10px);
+    background:linear-gradient(180deg, rgba(4,10,22,.72), rgba(4,10,22,.38));
+    border-bottom:1px solid rgba(28,40,66,.8);
+  }
+  .nav{
+    max-width:var(--w-max); margin:0 auto; padding:14px 16px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+  }
+  .logo{
+    width:28px; height:28px; border-radius:8px;
+    background:linear-gradient(145deg, var(--brand-1), var(--brand-3));
+    box-shadow:inset 0 0 0 2px rgba(255,255,255,.12), 0 2px 12px rgba(40,60,110,.5);
+    position:relative;
+  }
+  .logo::after{
+    content:""; position:absolute; inset:7px 8px 7px 9px; border-radius:10px;
+    background:linear-gradient(180deg, #eef6ff, #d7e9ff);
+    mask:radial-gradient(circle at 30% 70%, #000 58%, transparent 59%) left/60% 90% no-repeat,
+         linear-gradient(#000 0 0) right/34% 26% no-repeat;
+  }
+  .spacer{flex:1}
+  .pill{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:10px 14px; border-radius:999px; background:#0e2036; color:#dcedff;
+    border:1px solid #173050; box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 6px 16px rgba(10,20,40,.25);
+  }
+  .pill:hover{transform:translateY(-1px)}
+  .pill[data-variant="cta"]{
+    background:linear-gradient(135deg, #45e0c7, #67a8ff 65%); color:#042b26;
+    border:0; font-weight:800;
+  }
+  .nav-btn{cursor:pointer; user-select:none}
+
+  main{max-width:var(--w-max); margin:0 auto; padding:26px 16px 40px}
+
+  /* Hero */
+  .hero{
+    display:grid; grid-template-columns:1fr; gap:14px; margin:12px 0 18px;
+  }
+  .eyebrow{font-size:13px; color:var(--faint); letter-spacing:.35px}
+  .h1{font-size:var(--h1); line-height:1.05; font-weight:900; margin:4px 0 8px}
+  .lede{color:var(--muted); max-width:880px}
+  .cta-row{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 14px}
+  .chip{display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px;
+    background:var(--chip); border:1px solid var(--chip-border); color:#cfe3fb}
+  .chip .dot{width:8px;height:8px;border-radius:999px;background:#57c9ff;box-shadow:0 0 0 3px rgba(87,201,255,.12)}
+
+  /* Controls under hero */
+  .controls{display:flex; flex-wrap:wrap; gap:10px; margin:6px 0 24px}
+  .control{display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border-radius:999px;
+    background:#0e2036; border:1px solid #16314e; color:#d6e6ff}
+  .control select{background:transparent; color:inherit; border:0; outline:none}
+  .control .bullet{width:8px;height:8px;border-radius:99px;background:#57c9ff}
+  .control .bullet.purple{background:#b494ff}
+  .control .bullet.gold{background:#f3c471}
+
+  /* Sections & cards */
+  .section{margin:18px 0 12px}
+  .section h2{font-size:var(--h2); margin:0 0 10px; color:#cfe3fb; letter-spacing:.2px}
+  .grid{display:grid; gap:12px}
+  @media(min-width:720px){ .grid{grid-template-columns:1fr 1fr} }
+  @media(min-width:980px){ .grid{grid-template-columns:1fr 1fr} }
+
+  .card{
+    background:linear-gradient(180deg, rgba(17,29,54,.78), rgba(13,22,42,.88));
+    border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px; position:relative; overflow:hidden;
+    box-shadow:0 1px 0 rgba(255,255,255,.04) inset, var(--shadow);
+    transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .card:hover{transform:translateY(-1px); border-color:#26406b; box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 10px 26px rgba(10,20,40,.35)}
+  .card h3{margin:0 0 6px; font-size:18px}
+  .card p{margin:0; color:#a9bad3}
+  .card .open{
+    position:absolute; right:12px; top:12px;
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:10px 16px; border-radius:999px; border:1px solid #2a3e61;
+    color:#d8e7ff; background:rgba(14,29,52,.6); backdrop-filter:blur(6px);
+    font-weight:700;
+  }
+  .card .open:hover{border-color:#3c5889}
+
+  /* Recently used chips */
+  .recent{display:flex; flex-wrap:wrap; gap:10px; margin-top:6px}
+  .recent a{
+    padding:8px 14px; border-radius:999px; background:#0f2338; border:1px solid #16324c; color:#cfe3fb
+  }
+
+  /* All calculators sheet (dropdown) */
+  .sheet{position:fixed; inset:0; display:none; align-items:flex-end; z-index:60}
+  .sheet.show{display:flex}
+  .sheet .back{position:absolute; inset:0; background:rgba(3,9,20,.6)}
+  .panel{
+    position:relative; width:100%; background:linear-gradient(180deg, #0d1424, #0b1220);
+    border-top-left-radius:24px; border-top-right-radius:24px;
+    box-shadow:0 -10px 30px rgba(7,12,24,.6);
+    border-top:1px solid #1a2740; padding:14px 16px 22px; max-height:82vh; overflow:auto;
+  }
+  .panel h3{margin:2px 0 12px; font-size:18px}
+  .sheet .grid{grid-template-columns:1fr 1fr}
+  @media(min-width:860px){ .panel{max-width:var(--w-max); margin:0 auto} .sheet .grid{grid-template-columns:1fr 1fr 1fr} }
+
+  .mini{
+    display:block; padding:12px; border-radius:12px; border:1px solid #183154;
+    background:#0e1d34; color:#cfe3fb
+  }
+  .mini:hover{border-color:#2c4974}
+
+  /* Footer */
+  footer{margin:28px 0 40px; color:#a3b4cb}
+  .legal{display:flex; gap:18px; flex-wrap:wrap}
+  .disclaimer{margin-top:12px; padding:14px; border-radius:14px; background:#0d1424; border:1px solid #1a2740; color:#9db2cf}
+
+  /* Utility helpers */
+  .row{display:flex; gap:10px; flex-wrap:wrap}
+  .hide{display:none !important}
+  .nowrap{white-space:nowrap}
   </style>
 </head>
 <body>
@@ -282,7 +337,6 @@
             <select id="currencySel" aria-label="Select currency"></select>
           </div>
           <a class="control" href="blog.html"><span class="bullet gold"></span>Blog</a>
-
         </div>
       </div>
     </section>
@@ -462,7 +516,7 @@
       set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
     };
 
-    // ---- country & currency lists (compact)
+    // ---- country & currency lists (expanded)
     const countries = [
       {code:"auto", name:"Auto"},
       {code:"US", name:"United States"},
@@ -470,15 +524,78 @@
       {code:"CA", name:"Canada"},
       {code:"AU", name:"Australia"},
       {code:"EU", name:"Eurozone"},
+      {code:"CN", name:"China"},
       {code:"IN", name:"India"},
+      {code:"JP", name:"Japan"},
+      {code:"KR", name:"South Korea"},
       {code:"SG", name:"Singapore"},
-      {code:"JP", name:"Japan"}
+      {code:"HK", name:"Hong Kong"},
+      {code:"TW", name:"Taiwan"},
+      {code:"MY", name:"Malaysia"},
+      {code:"TH", name:"Thailand"},
+      {code:"VN", name:"Vietnam"},
+      {code:"ID", name:"Indonesia"},
+      {code:"PH", name:"Philippines"},
+      {code:"NZ", name:"New Zealand"},
+      {code:"AE", name:"United Arab Emirates"},
+      {code:"SA", name:"Saudi Arabia"},
+      {code:"QA", name:"Qatar"},
+      {code:"KW", name:"Kuwait"},
+      {code:"TR", name:"Türkiye"},
+      {code:"IL", name:"Israel"},
+      {code:"CH", name:"Switzerland"},
+      {code:"NO", name:"Norway"},
+      {code:"SE", name:"Sweden"},
+      {code:"DK", name:"Denmark"},
+      {code:"FI", name:"Finland"},
+      {code:"NL", name:"Netherlands"},
+      {code:"BE", name:"Belgium"},
+      {code:"DE", name:"Germany"},
+      {code:"FR", name:"France"},
+      {code:"ES", name:"Spain"},
+      {code:"IT", name:"Italy"},
+      {code:"PT", name:"Portugal"},
+      {code:"IE", name:"Ireland"},
+      {code:"PL", name:"Poland"},
+      {code:"CZ", name:"Czechia"},
+      {code:"HU", name:"Hungary"},
+      {code:"RO", name:"Romania"},
+      {code:"GR", name:"Greece"},
+      {code:"MX", name:"Mexico"},
+      {code:"BR", name:"Brazil"},
+      {code:"AR", name:"Argentina"},
+      {code:"CL", name:"Chile"},
+      {code:"CO", name:"Colombia"},
+      {code:"PE", name:"Peru"},
+      {code:"ZA", name:"South Africa"},
+      {code:"EG", name:"Egypt"},
+      {code:"MA", name:"Morocco"},
+      {code:"GH", name:"Ghana"},
+      {code:"NG", name:"Nigeria"}
     ];
+
     const currencyByCountry = {
-      "US":"USD", "GB":"GBP", "CA":"CAD", "AU":"AUD", "EU":"EUR", "IN":"INR", "SG":"SGD", "JP":"JPY"
+      US:"USD", GB:"GBP", CA:"CAD", AU:"AUD", EU:"EUR",
+      CN:"CNY", IN:"INR", JP:"JPY", KR:"KRW", SG:"SGD",
+      HK:"HKD", TW:"TWD", MY:"MYR", TH:"THB", VN:"VND",
+      ID:"IDR", PH:"PHP", NZ:"NZD", AE:"AED", SA:"SAR",
+      QA:"QAR", KW:"KWD", TR:"TRY", IL:"ILS", CH:"CHF",
+      NO:"NOK", SE:"SEK", DK:"DKK", FI:"EUR", NL:"EUR",
+      BE:"EUR", DE:"EUR", FR:"EUR", ES:"EUR", IT:"EUR",
+      PT:"EUR", IE:"EUR", PL:"PLN", CZ:"CZK", HU:"HUF",
+      RO:"RON", GR:"EUR", MX:"MXN", BR:"BRL", AR:"ARS",
+      CL:"CLP", CO:"COP", PE:"PEN", ZA:"ZAR", EG:"EGP",
+      MA:"MAD", GH:"GHS", NG:"NGN"
     };
+
     const currencies = [
-      "Auto","USD","GBP","EUR","CAD","AUD","INR","SGD","JPY"
+      "Auto","USD","EUR","GBP","CAD","AUD","NZD",
+      "CNY","JPY","KRW","HKD","TWD","SGD","INR",
+      "AED","SAR","QAR","KWD","TRY","ILS","CHF",
+      "NOK","SEK","DKK","PLN","CZK","HUF","RON",
+      "MXN","BRL","ARS","CLP","COP","PEN","ZAR",
+      "EGP","MAD","GHS","NGN","MYR","THB","VND",
+      "IDR","PHP"
     ];
 
     // ---- build selects
@@ -500,7 +617,6 @@
 
     // ---- auto-detect locale
     function detectCountry(){
-      // Use browser language then fallback (best-effort)
       const lang = (navigator.language || "en-US").toUpperCase();
       if(lang.includes("-")){
         const cc = lang.split("-")[1];
@@ -526,7 +642,6 @@
     countrySel.value = countries.find(c=>c.code===country) ? country : "US";
     currencySel.value = currencies.includes(currency) ? currency : "USD";
 
-    // if user sets country to something known & currency is Auto, sync currency
     function syncCurrencyFromCountry(){
       if(countrySel.value !== "auto"){
         const cur = currencyByCountry[countrySel.value] || "USD";
@@ -557,13 +672,14 @@
 
     // ---- recently used chips
     const recentKey = "lh.recent";
+    theMax = 8; // note: keep original logic; not changing any other behavior
     const maxRecent = 8;
     const recentList = $("#recentList");
     const recentWrap = $("#recentWrap");
 
     function addRecent(name, url){
       let arr = store.get(recentKey, []);
-      arr = arr.filter(x=>x.url!==url); // dedup
+      arr = arr.filter(x=>x.url!==url);
       arr.unshift({name, url});
       if(arr.length>maxRecent) arr.length = maxRecent;
       store.set(recentKey, arr);
@@ -583,19 +699,15 @@
     }
     renderRecent();
 
-    // attach to all "Open" buttons
     $$(".open").forEach(btn=>{
-      btn.addEventListener("click", (e)=>{
+      btn.addEventListener("click", ()=>{
         const name = btn.dataset.calc || btn.closest(".card")?.querySelector("h3")?.textContent || "Calculator";
         addRecent(name, btn.getAttribute("href"));
       });
     });
 
-    // ---- tighten top spacing on iOS Safari (safe-area)
-    // (prevents giant gap if toolbar shown/hidden)
     document.documentElement.style.scrollPaddingTop = "72px";
 
-    // ---- highlight active primary CTA based on locale
     (function setPrimaryCTA(){
       const c = countrySel.value;
       const id = (c==="US"||c==="CA") ? "income-tax.html" : "fx-converter.html";
@@ -606,9 +718,7 @@
 
     // =========================================================
     //  OPTIONAL: ANALYTICS / ADS
-    //  Paste your GA/Adsense snippets below this line.
-    //  (We deliberately leave them out per your request to keep
-    //  policy pages ad-free and the home clean.)
+    //  Paste GA/AdSense here (kept empty by request).
     // =========================================================
   </script>
 </body>
