@@ -1,0 +1,1230 @@
+{
+  "_meta": {
+    "schema_version": "1.0",
+    "notes": "Effective-rate presets only. Leave null where unknown. UI should show blanks for null.",
+    "fields": {
+      "country_code": "ISO-3166-1 alpha-2",
+      "country_name": "Human readable name",
+      "currency": "ISO 4217 code",
+      "federal": {
+        "effective_rate": "decimal like 0.12 for 12% (null when unknown)",
+        "social_insurance_rate": "optional decimal; set null when combined in effective_rate",
+        "notes": "string"
+      },
+      "regions_item": {
+        "code": "region short code (e.g., US-CA -> CA) or custom national code 'NAT'",
+        "name": "region name",
+        "effective_rate": "decimal (null if unknown)",
+        "local_rate": "decimal for municipal/city surcharge when applicable; null otherwise",
+        "notes": "string"
+      }
+    }
+  },
+  "countries": [
+    {
+      "country_code": "US",
+      "country_name": "United States",
+      "currency": "USD",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "AL",
+          "name": "Alabama",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "AK",
+          "name": "Alaska",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "AZ",
+          "name": "Arizona",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "AR",
+          "name": "Arkansas",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "CA",
+          "name": "California",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "CO",
+          "name": "Colorado",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "CT",
+          "name": "Connecticut",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "DE",
+          "name": "Delaware",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "DC",
+          "name": "District of Columbia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "FL",
+          "name": "Florida",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "GA",
+          "name": "Georgia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HI",
+          "name": "Hawaii",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "ID",
+          "name": "Idaho",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "IL",
+          "name": "Illinois",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "IN",
+          "name": "Indiana",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "IA",
+          "name": "Iowa",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "KS",
+          "name": "Kansas",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "KY",
+          "name": "Kentucky",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "LA",
+          "name": "Louisiana",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "ME",
+          "name": "Maine",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MD",
+          "name": "Maryland",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MA",
+          "name": "Massachusetts",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MI",
+          "name": "Michigan",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MN",
+          "name": "Minnesota",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MS",
+          "name": "Mississippi",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MO",
+          "name": "Missouri",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MT",
+          "name": "Montana",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NE",
+          "name": "Nebraska",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NV",
+          "name": "Nevada",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NH",
+          "name": "New Hampshire",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NJ",
+          "name": "New Jersey",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NM",
+          "name": "New Mexico",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NY",
+          "name": "New York",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NC",
+          "name": "North Carolina",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "ND",
+          "name": "North Dakota",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "OH",
+          "name": "Ohio",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "OK",
+          "name": "Oklahoma",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "OR",
+          "name": "Oregon",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "PA",
+          "name": "Pennsylvania",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "RI",
+          "name": "Rhode Island",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SC",
+          "name": "South Carolina",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SD",
+          "name": "South Dakota",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "TN",
+          "name": "Tennessee",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "TX",
+          "name": "Texas",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "UT",
+          "name": "Utah",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "VT",
+          "name": "Vermont",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "VA",
+          "name": "Virginia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "WA",
+          "name": "Washington",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "WV",
+          "name": "West Virginia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "WI",
+          "name": "Wisconsin",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "WY",
+          "name": "Wyoming",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "AU",
+      "country_name": "Australia",
+      "currency": "AUD",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NSW",
+          "name": "New South Wales",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "VIC",
+          "name": "Victoria",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "QLD",
+          "name": "Queensland",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "WA",
+          "name": "Western Australia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SA",
+          "name": "South Australia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "TAS",
+          "name": "Tasmania",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "ACT",
+          "name": "Australian Capital Territory",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NT",
+          "name": "Northern Territory",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "CN",
+      "country_name": "China",
+      "currency": "CNY",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "BJ",
+          "name": "Beijing",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SH",
+          "name": "Shanghai",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "TJ",
+          "name": "Tianjin",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "CQ",
+          "name": "Chongqing",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HE",
+          "name": "Hebei",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SX",
+          "name": "Shanxi",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NM",
+          "name": "Inner Mongolia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "LN",
+          "name": "Liaoning",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "JL",
+          "name": "Jilin",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HL",
+          "name": "Heilongjiang",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "JS",
+          "name": "Jiangsu",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "ZJ",
+          "name": "Zhejiang",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "AH",
+          "name": "Anhui",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "FJ",
+          "name": "Fujian",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "JX",
+          "name": "Jiangxi",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SD",
+          "name": "Shandong",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HA",
+          "name": "Henan",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HB",
+          "name": "Hubei",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HN",
+          "name": "Hunan",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "GD",
+          "name": "Guangdong",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "GX",
+          "name": "Guangxi",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HI",
+          "name": "Hainan",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SC",
+          "name": "Sichuan",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "GZ",
+          "name": "Guizhou",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "YN",
+          "name": "Yunnan",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "XZ",
+          "name": "Tibet",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SN",
+          "name": "Shaanxi",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "GS",
+          "name": "Gansu",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "QH",
+          "name": "Qinghai",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NX",
+          "name": "Ningxia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "XJ",
+          "name": "Xinjiang",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HK",
+          "name": "Hong Kong SAR",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MO",
+          "name": "Macao SAR",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "GB",
+      "country_name": "United Kingdom",
+      "currency": "GBP",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "ENG",
+          "name": "England",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SCT",
+          "name": "Scotland",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "WLS",
+          "name": "Wales",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NIR",
+          "name": "Northern Ireland",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "DE",
+      "country_name": "Germany",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "BW",
+          "name": "BadenâWÃ¼rttemberg",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "BY",
+          "name": "Bavaria",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "BE",
+          "name": "Berlin",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "BB",
+          "name": "Brandenburg",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HB",
+          "name": "Bremen",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HH",
+          "name": "Hamburg",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "HE",
+          "name": "Hesse",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "MV",
+          "name": "MecklenburgâVorpommern",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NI",
+          "name": "Lower Saxony",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "NW",
+          "name": "North RhineâWestphalia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "RP",
+          "name": "RhinelandâPalatinate",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SL",
+          "name": "Saarland",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SN",
+          "name": "Saxony",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "ST",
+          "name": "SaxonyâAnhalt",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "SH",
+          "name": "SchleswigâHolstein",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        },
+        {
+          "code": "TH",
+          "name": "Thuringia",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "FR",
+      "country_name": "France",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "IT",
+      "country_name": "Italy",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "ES",
+      "country_name": "Spain",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "NL",
+      "country_name": "Netherlands",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "IE",
+      "country_name": "Ireland",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "PT",
+      "country_name": "Portugal",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "PL",
+      "country_name": "Poland",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "SE",
+      "country_name": "Sweden",
+      "currency": "SEK",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "NO",
+      "country_name": "Norway",
+      "currency": "NOK",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "DK",
+      "country_name": "Denmark",
+      "currency": "DKK",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "FI",
+      "country_name": "Finland",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "CH",
+      "country_name": "Switzerland",
+      "currency": "CHF",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "AT",
+      "country_name": "Austria",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "CZ",
+      "country_name": "Czechia",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "HU",
+      "country_name": "Hungary",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "RO",
+      "country_name": "Romania",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "GR",
+      "country_name": "Greece",
+      "currency": "EUR",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "country_code": "TR",
+      "country_name": "TÃ¼rkiye",
+      "currency": "TRY",
+      "federal": {
+        "effective_rate": null,
+        "social_insurance_rate": null,
+        "notes": ""
+      },
+      "regions": [
+        {
+          "code": "NAT",
+          "name": "National",
+          "effective_rate": null,
+          "local_rate": null,
+          "notes": ""
+        }
+      ]
+    }
+  ],
+  "fallback": {
+    "country_code": "OTHER",
+    "country_name": "Other",
+    "currency": "",
+    "federal": {
+      "effective_rate": null,
+      "social_insurance_rate": null,
+      "notes": ""
+    },
+    "regions": [
+      {
+        "code": "NAT",
+        "name": "National",
+        "effective_rate": null,
+        "local_rate": null,
+        "notes": ""
+      }
+    ]
+  }
+}
