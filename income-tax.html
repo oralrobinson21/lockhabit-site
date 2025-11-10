@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Ads/Analytics (unchanged) -->
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -13,392 +15,610 @@
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Income & Take-Home Pay Calculator | LockHabit</title>
-  <meta name="description" content="Clean global take-home calculator. Auto country & region presets from tax-presets.json. Weekly/Bi-weekly/Monthly results."/>
-  <meta name="theme-color" content="#0b1220"/>
+
+  <title>Income & Take-Home Pay (2025 est.) | LockHabit</title>
+  <meta name="description" content="Clean, global take-home calculator. Country & state presets from tax-presets.json. Weekly / Bi-weekly / Monthly net with optional additional deductions and LockHabit savings nudge."/>
+  <meta name="theme-color" content="#6f7cff"/>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
 
+  <!-- Icons/PWA (optional) -->
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+
   <style>
-    /* ===== Base (keep dark site background) ===== */
-    html,body{height:100%} body{margin:0;background:#0b1220;color:#e7edf6;
-      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    a{color:inherit;text-decoration:none}
-    :focus-visible{outline:2px solid #67d4ff;outline-offset:2px;border-radius:8px}
+    :root{
+      /* LockHabit brand (match index/calculator) */
+      --brand:#6f7cff; --brand2:#9c78ff; --accent:#9fb2ff;
+      --ink:#0f172a; --ink2:#15213d; --muted:#536179; --muted2:#3a4a66;
+      --line:#e5e7f1; --panel:#ffffff; --surface:#fbfcff;
+      --green:#22c55e; --bg:#0e1330;
+      --radius:16px; --radius-lg:22px;
+      --shadow:0 18px 50px rgba(17,24,39,.10);
+      --grad:
+        radial-gradient(1400px 700px at 50% -200px, rgba(111,124,255,.25), transparent 60%),
+        radial-gradient(900px 600px at -10% 10%, rgba(156,120,255,.18), transparent 55%),
+        #0e1330;
+    }
 
-    /* Container */
-    .wrap{max-width:1120px;margin:0 auto;padding:18px 16px 36px}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--grad);color:#e7edf6;
+         font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
 
-    /* Header (kept minimal) */
-    header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(1.05) blur(10px);
-      background:linear-gradient(180deg, rgba(6,12,24,.65), rgba(6,12,24,.35));
-      border-bottom:1px solid rgba(28,40,66,.6)}
-    .nav{max-width:1120px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:10px}
-    .logo{width:26px;height:26px;border-radius:8px;background:linear-gradient(145deg,#62a0ff,#6d7cff)}
+    /* Header */
+    header.hdr{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
+      backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transition:box-shadow .2s ease}
+    header.hdr.small{box-shadow:0 6px 18px rgba(17,24,39,.12)}
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 22px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+    .logo{width:32px;height:32px}
+    .word{font-weight:800;color:#0e1a34}
+    nav a{color:#19253f;text-decoration:none;font-weight:600;margin-left:14px}
 
-    /* White card (only input area is light) */
-    .lh-card{background:#ffffff;border-radius:18px;color:#0f172a;
-      box-shadow:0 10px 28px rgba(8,16,32,.35);padding:16px;border:1px solid #e6edf7}
-    .title{font:800 28px/1.15 Inter,system-ui;margin:0 0 4px;color:#e7edf6}
-    .muted{color:#a5b2c8}
+    /* Hero */
+    .hero{padding:40px 0;border-bottom:1px solid rgba(229,231,241,.45)}
+    h1{margin:0 0 8px;font-size:34px}
+    .sub{margin:0;color:#c7d0e4;max-width:70ch}
 
-    /* Form layout */
-    .grid{display:grid;gap:12px}
-    @media(min-width:900px){ .grid.two{grid-template-columns:1.05fr .95fr} }
-    .row{display:grid;gap:10px}
-    .row.two{grid-template-columns:1fr 1fr}
-    .row.three{grid-template-columns:1fr 1fr 1fr}
+    /* Layout */
+    main.wrap{padding-top:18px}
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:16px}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
 
-    /* Inputs (light) */
-    .lh-card label{font-weight:800;font-size:12px;letter-spacing:.03em;color:#0b2440;text-transform:uppercase}
-    .ctrl{width:100%;height:44px;border-radius:12px;background:#fff;color:#111827;border:1px solid #e5e7eb;
-      padding:10px 12px;appearance:none}
+    /* Cards / Panels */
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);color:#0f172a}
+    .panel h2{margin:0 0 8px}
+    .k{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#5b6a86;font-weight:700}
+    .v{font-weight:800;color:#0f1a34}
+
+    /* Controls */
+    .ctrl{width:100%;height:44px;padding:10px 12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px;background:#fff;line-height:22px;appearance:none}
     .ctrl[type="number"]{-moz-appearance:textfield}
     .ctrl::-webkit-outer-spin-button,.ctrl::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+    .select-wrap{position:relative}
+    .select-wrap:after{content:"";position:absolute;right:12px;top:50%;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #7a869e;transform:translateY(-50%)}
+
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
     .note{font-size:12px;color:#6b7280}
 
-    /* Accordions */
-    details.acc{border:1px solid #e7eef7;border-radius:12px;background:#f8fbff}
-    details.acc>summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:800}
-    details.acc>summary::-webkit-details-marker{display:none}
-    .acc-body{padding:0 14px 14px}
-
-    /* Results pills */
-    .pill{background:#f8fafc;border:1px solid #eef2f7;border-radius:14px;padding:14px}
-    .pill h4{margin:0 0 6px;font:600 13px/1.2 Inter,system-ui;color:#334155}
-    .amt{font:900 20px/1.2 Inter,system-ui;color:#0f172a}
-
     /* Buttons */
-    .btn{appearance:none;border:1px solid #173050;background:#0e2036;color:#dcedff;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
-    .btn.primary{background:linear-gradient(135deg,#45e0c7,#67a8ff 65%);border:0;color:#052a27}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 10px 24px rgba(111,124,255,.35)}
+    .btn.ghost{background:transparent}
 
-    /* Spacer between card and side text on widescreens */
-    .side{align-self:start}
+    /* Accordions */
+    details.acc{border:1px solid var(--line);border-radius:14px;background:#fff;margin-top:10px;overflow:hidden}
+    details.acc>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;color:#101828;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    details.acc>summary::-webkit-details-marker{display:none}
+    .acc-body{padding:0 16px 16px}
+    .hint{color:#5d6a86;font-weight:600;font-size:13px}
+
+    /* Tables */
+    .table{width:100%;border-collapse:collapse;margin-top:8px}
+    .table th,.table td{padding:10px 8px;border-bottom:1px solid #eef1f7;text-align:right}
+    .table th:first-child,.table td:first-child{text-align:left}
+
+    /* Progress (nudge) */
+    .bar{height:10px;border-radius:999px;background:#edf0f6;overflow:hidden;border:1px solid #e5e8f1}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--brand));transition:width .6s ease}
+
+    footer{margin:22px 0;color:#cbd5e1;font-size:12px;text-align:center}
   </style>
 </head>
 <body>
-  <header>
-    <nav class="nav">
-      <div class="logo" aria-hidden="true"></div>
-      <strong>LockHabit</strong>
-      <div style="flex:1"></div>
-      <a href="/" class="btn" style="font-weight:700">Home</a>
-    </nav>
+  <!-- Header -->
+  <header class="hdr" id="hdr">
+    <div class="wrap row">
+      <div class="brand" id="brandTop" title="Back to top">
+        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+          <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+          <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+          <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+          <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <div class="word">LockHabit</div>
+      </div>
+      <nav class="row" style="gap:8px">
+        <a href="/index.html">Home</a>
+        <a href="/income-tax.html" aria-current="page" class="word" style="font-weight:700;font-size:16px;color:#1f2b45">Income & Taxes</a>
+        <a href="/mortgage.html">Mortgage</a>
+        <a href="/loan.html">Loan</a>
+        <a href="/savings.html">Savings</a>
+        <a href="/retirement.html">Retirement</a>
+        <a href="/currency.html">FX</a>
+        <a href="/business.html">Business Tools</a>
+      </nav>
+    </div>
   </header>
 
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Income & Take-Home Pay (2025 est.)</h1>
+      <p class="sub">Auto country & state presets from <code>tax-presets.json</code>. Edit anything. Weekly / Bi-weekly / Monthly nets with optional deductions and a simple savings nudge.</p>
+    </div>
+  </section>
+
+  <!-- Main -->
   <main class="wrap">
-    <h1 class="title">Income & Take-Home Pay</h1>
-    <p class="muted" style="margin:0 0 16px">Auto country & region presets from <code>tax-presets.json</code>. Tweak numbers anytime.</p>
+    <div class="grid">
+      <!-- LEFT: Inputs -->
+      <section class="panel" aria-labelledby="inputs-title">
+        <h2 id="inputs-title">Your details</h2>
 
-    <div class="grid two">
-      <!-- ================= LEFT: INPUTS (white card) ================= -->
-      <section class="lh-card" aria-labelledby="inputsTitle">
-        <h2 id="inputsTitle" style="margin:0 0 10px;font:800 18px Inter">Your details</h2>
-
-        <!-- Country + Region -->
-        <div class="row two">
+        <!-- Country / State / County -->
+        <div class="two" style="margin-top:6px">
           <div>
-            <label>Country</label>
-            <select id="lhCountry" class="ctrl"></select>
+            <div class="k">Country</div>
+            <div class="select-wrap">
+              <select id="country" class="ctrl"></select>
+            </div>
             <div class="note">Auto-detected; change if needed.</div>
           </div>
           <div>
-            <label>Region / State</label>
-            <select id="lhRegion" class="ctrl"></select>
-            <div class="note">If your country has no regions, this will be disabled.</div>
+            <div class="k">State / Region</div>
+            <div class="select-wrap"><select id="region" class="ctrl" disabled></select></div>
+            <div class="note">Hidden if not applicable.</div>
           </div>
         </div>
 
-        <!-- Frequency + Gross -->
-        <div class="row two" style="margin-top:8px">
+        <div class="two" id="countyRow" style="margin-top:8px; display:none">
           <div>
-            <label>Pay frequency</label>
-            <select id="lhPayFreq" class="ctrl">
-              <option value="weekly">Weekly (52)</option>
-              <option value="biweekly" selected>Bi-weekly (26)</option>
-              <option value="monthly">Monthly (12)</option>
-              <option value="annual">Annual (1)</option>
-            </select>
+            <div class="k">County (optional)</div>
+            <div class="select-wrap"><select id="county" class="ctrl" disabled></select></div>
+            <div class="note">Use if your state preset distinguishes counties. Not used if blank.</div>
+          </div>
+          <div></div>
+        </div>
+
+        <!-- Frequency + Gross -->
+        <div class="two" style="margin-top:8px">
+          <div>
+            <div class="k">Pay frequency</div>
+            <div class="select-wrap">
+              <select id="freq" class="ctrl">
+                <option value="weekly">Weekly (52)</option>
+                <option value="biweekly" selected>Bi-weekly (26)</option>
+                <option value="monthly">Monthly (12)</option>
+                <option value="annual">Annual (1)</option>
+              </select>
+            </div>
           </div>
           <div>
-            <label>Income (gross)</label>
-            <input id="lhGross" class="ctrl" type="number" inputmode="decimal" placeholder="e.g., 2000"/>
+            <div class="k">Income (gross)</div>
+            <input id="income" class="ctrl" type="number" min="0" inputmode="decimal" placeholder="e.g., 2000"/>
             <div class="note">Amount per selected frequency.</div>
           </div>
         </div>
 
-        <!-- Advanced tax options (dropdown) -->
-        <details class="acc" style="margin-top:10px" open>
-          <summary>Advanced tax options</summary>
+        <!-- Tax rates (editable presets) -->
+        <details class="acc" open>
+          <summary>Tax rates <span class="hint" id="rateHint"></span></summary>
           <div class="acc-body">
-            <div class="row three" style="margin-top:8px">
+            <div class="three" style="margin-top:6px">
               <div>
-                <label>Federal / National %</label>
-                <input id="lhFederalPct" class="ctrl" type="number" step="0.01" placeholder="e.g., 12"/>
+                <label class="k">Federal / National %</label>
+                <input id="federalPct" class="ctrl" type="number" step="0.01" placeholder="—"/>
               </div>
               <div>
-                <label>Regional (state / province) %</label>
-                <input id="lhRegionPct" class="ctrl" type="number" step="0.01" placeholder="e.g., 6"/>
+                <label class="k">State / Region %</label>
+                <input id="statePct" class="ctrl" type="number" step="0.01" placeholder="—"/>
               </div>
               <div>
-                <label>Local / city %</label>
-                <input id="lhLocalPct" class="ctrl" type="number" step="0.01" placeholder="0"/>
+                <label class="k">Include payroll taxes (7.65%)</label>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+                  <input id="useFICA" type="checkbox" checked/>
+                  <span class="note">Social Security + Medicare</span>
+                </div>
               </div>
-            </div>
-            <div class="row two" style="margin-top:8px">
-              <div>
-                <label>Pre-tax contribution % (401k/PPF/etc.)</label>
-                <input id="lhPretaxPct" class="ctrl" type="number" step="0.01" placeholder="0"/>
-              </div>
-              <div class="note" style="align-self:end">Edit if you contribute to retirement or similar.</div>
             </div>
           </div>
         </details>
 
-        <!-- Actions -->
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-          <button id="lhCalc" class="btn primary">Calculate</button>
-          <button id="lhReset" class="btn">Reset</button>
-          <span class="note">Inputs save locally on this device.</span>
-        </div>
+        <!-- Additional deductions -->
+        <details class="acc" style="margin-top:10px">
+          <summary>Additional deductions (optional)</summary>
+          <div class="acc-body">
+            <div class="two" style="margin-top:6px">
+              <div>
+                <label class="k">Retirement % (401k/PPF/etc.)</label>
+                <input id="retPct" class="ctrl" type="number" step="0.1" placeholder="e.g., 5"/>
+              </div>
+              <div>
+                <label class="k">HSA / FSA (per period)</label>
+                <input id="hsaAmt" class="ctrl" type="number" step="0.01" placeholder="0"/>
+              </div>
+            </div>
+            <div class="two" style="margin-top:8px">
+              <div>
+                <label class="k">Pre-tax insurance (per period)</label>
+                <input id="insPreAmt" class="ctrl" type="number" step="0.01" placeholder="0"/>
+              </div>
+              <div>
+                <label class="k">Commuter pre-tax (per period)</label>
+                <input id="commuterAmt" class="ctrl" type="number" step="0.01" placeholder="0"/>
+              </div>
+            </div>
+            <div class="two" style="margin-top:8px">
+              <div>
+                <label class="k">Other post-tax deductions (per period)</label>
+                <input id="postTaxAmt" class="ctrl" type="number" step="0.01" placeholder="0"/>
+              </div>
+              <div>
+                <label class="k">Notes</label>
+                <input id="userNote" class="ctrl" type="text" placeholder="e.g., union dues, loan, medical"/>
+              </div>
+            </div>
+            <div class="note" style="margin-top:8px">Pre-tax deductions reduce your taxable base; post-tax are subtracted after taxes.</div>
+          </div>
+        </details>
 
-        <!-- Weekly / Bi-weekly / Monthly result -->
-        <div class="row three" style="margin-top:14px" id="lhResults">
-          <div class="pill">
-            <h4>Weekly take-home</h4>
-            <div class="amt" id="lhOutWeekly">—</div>
-            <div class="note" id="lhGrossWeekly">Gross: —</div>
-          </div>
-          <div class="pill">
-            <h4>Bi-weekly take-home</h4>
-            <div class="amt" id="lhOutBiweekly">—</div>
-            <div class="note" id="lhGrossBiweekly">Gross: —</div>
-          </div>
-          <div class="pill">
-            <h4>Monthly take-home</h4>
-            <div class="amt" id="lhOutMonthly">—</div>
-            <div class="note" id="lhGrossMonthly">Gross: —</div>
-          </div>
+        <!-- Actions -->
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <button id="recalc" class="btn acc">Calculate</button>
+          <button id="reset" class="btn">Reset</button>
+          <button id="emailBtn" class="btn">Email me this breakdown</button>
+          <span class="note">Inputs save locally on this device.</span>
         </div>
       </section>
 
-      <!-- ================= RIGHT: CONTEXT ================= -->
-      <aside class="side">
-        <div style="margin-bottom:12px">
+      <!-- RIGHT: Output -->
+      <aside class="panel" aria-labelledby="out-title">
+        <h2 id="out-title">Your snapshot</h2>
+
+        <div class="two">
+          <div>
+            <div class="k">Annual gross</div>
+            <div class="v" id="outGross">$0</div>
+          </div>
+          <div>
+            <div class="k">Pre-tax contributions</div>
+            <div class="v" id="outPretax">$0</div>
+          </div>
+        </div>
+
+        <div class="two" style="margin-top:8px">
+          <div>
+            <div class="k">Est. federal income tax</div>
+            <div class="v" id="outFed">$0</div>
+          </div>
+          <div>
+            <div class="k">Est. state income tax</div>
+            <div class="v" id="outState">$0</div>
+          </div>
+        </div>
+
+        <div class="two" style="margin-top:8px">
+          <div>
+            <div class="k">Payroll taxes (SS + Medicare)</div>
+            <div class="v" id="outFica">$0</div>
+          </div>
+          <div>
+            <div class="k">Annual net (est.)</div>
+            <div class="v" id="outNet">$0</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:10px">
+          <div class="k">Net by pay period</div>
+          <table class="table">
+            <tbody>
+              <tr><td>Weekly</td><td id="netW">$0</td></tr>
+              <tr><td>Bi-weekly</td><td id="netB">$0</td></tr>
+              <tr><td>Monthly</td><td id="netM">$0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel" style="margin-top:10px">
+          <div class="k">Behavioral nudge — safe to lock</div>
+          <table class="table">
+            <tbody>
+              <tr><td>Net monthly</td><td id="netMonthly">$0</td></tr>
+              <tr><td>Suggested (≈25%)</td><td id="safeAmt" style="font-weight:800">$0</td></tr>
+            </tbody>
+          </table>
+          <div class="bar" style="margin-top:6px"><div id="safeFill" class="fill"></div></div>
+          <div class="note" style="margin-top:6px">A small, consistent lock builds the habit. Adjust to comfort — you’re in control.</div>
+        </div>
+
+        <div style="margin-top:12px">
           <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
                data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
                data-ad-slot="1234567890"></ins>
           <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
         </div>
-        <p class="muted">Federal + regional presets are **estimates**. If your city adds a surcharge, put it in “Local / city %”.</p>
-        <p class="muted">Switching country updates currency automatically (from the presets file).</p>
       </aside>
     </div>
   </main>
 
+  <footer>© <span id="yr"></span> LockHabit — Calculator is for estimates only.</footer>
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"LockHabit Income & Tax Calculator","url":"https://lockhabit.com/income-tax.html","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+
   <script>
-    (function(){
-      const $ = id => document.getElementById(id);
+  (function(){
+    const $ = (id)=>document.getElementById(id);
+    $('yr').textContent = new Date().getFullYear();
+    const hdr=$('hdr'), brand=$('brandTop');
+    window.addEventListener('scroll', ()=> hdr.classList.toggle('small', window.scrollY>2), {passive:true});
+    brand?.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-      // Elements
-      const els = {
-        country: $('lhCountry'),
-        region:  $('lhRegion'),
-        freq:    $('lhPayFreq'),
-        gross:   $('lhGross'),
-        fed:     $('lhFederalPct'),
-        reg:     $('lhRegionPct'),
-        loc:     $('lhLocalPct'),
-        pretax:  $('lhPretaxPct'),
-        wNet:    $('lhOutWeekly'),
-        bNet:    $('lhOutBiweekly'),
-        mNet:    $('lhOutMonthly'),
-        wGross:  $('lhGrossWeekly'),
-        bGross:  $('lhGrossBiweekly'),
-        mGross:  $('lhGrossMonthly'),
-        calc:    $('lhCalc'),
-        reset:   $('lhReset'),
-      };
+    // Elements
+    const els = {
+      country:$('country'), region:$('region'), county:$('county'), countyRow:$('countyRow'),
+      freq:$('freq'), income:$('income'),
+      fed:$('federalPct'), st:$('statePct'), useFICA:$('useFICA'),
+      ret:$('retPct'), hsa:$('hsaAmt'), ins:$('insPreAmt'), commuter:$('commuterAmt'), post:$('postTaxAmt'),
+      note:$('userNote'),
+      // outputs
+      outGross:$('outGross'), outPretax:$('outPretax'), outFed:$('outFed'), outState:$('outState'),
+      outFica:$('outFica'), outNet:$('outNet'), netW:$('netW'), netB:$('netB'), netM:$('netM'),
+      netMonthly:$('netMonthly'), safeAmt:$('safeAmt'), safeFill:$('safeFill'),
+      rateHint:$('rateHint'),
+      recalc:$('recalc'), reset:$('reset'), email:$('emailBtn')
+    };
 
-      const P = { weekly:52, biweekly:26, monthly:12, annual:1 };
-      const STORE = 'lh.income.v3';
-      let PRESETS = {};           // from /tax-presets.json
-      let CURRENCY = 'USD';       // set by country preset
+    const STORE='lh.income.v4';
+    const P = { weekly:52, biweekly:26, monthly:12, annual:1 };
+    let CURRENCY='USD';
+    let PRESETS = {}; // normalized { [countryName]: { currency, federal, regions{code:{name,rate}}, counties? } }
 
-      const fmt = (n,c=CURRENCY)=>{
-        try { return new Intl.NumberFormat(undefined,{style:'currency',currency:c}).format(n||0); }
-        catch { return (c+' '+(n||0).toFixed(2)); }
-      };
+    const fmtC = (n,c=CURRENCY)=> {
+      const v = isFinite(n)? n : 0;
+      try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:c}).format(v); }
+      catch{ return (c + ' ' + v.toFixed(2)); }
+    };
 
-      // Country guess from locale (maps to full name in the presets file if possible)
-      function guessCountryName(list){
-        const r = (Intl.DateTimeFormat().resolvedOptions().locale||navigator.language||'').split('-')[1];
-        if(!r) return null;
-        const map = {US:'United States',GB:'United Kingdom',AU:'Australia',CA:'Canada',CN:'China',IN:'India',
-          IE:'Ireland',DE:'Germany',FR:'France',ES:'Spain',IT:'Italy',NL:'Netherlands',PT:'Portugal',
-          SE:'Sweden',NO:'Norway',DK:'Denmark',CH:'Switzerland',AT:'Austria',CZ:'Czechia',HU:'Hungary',
-          RO:'Romania',GR:'Greece',TR:'Türkiye',SG:'Singapore',BR:'Brazil',MX:'Mexico',ZA:'South Africa'};
-        const name = map[r] || null;
-        return list.includes(name) ? name : null;
-      }
-
-      function buildCountries(){
-        const names = Object.keys(PRESETS).sort();
-        els.country.innerHTML = '';
-        names.forEach(name => {
-          const o = document.createElement('option');
-          o.value = name; o.textContent = name;
-          els.country.appendChild(o);
+    // --- Load presets (your new schema) and normalize ---
+    function normalize(data){
+      const out = {};
+      (data.countries||[]).forEach(c=>{
+        const name = c.country_name || c.country_code || 'Country';
+        const cur = c.currency || 'USD';
+        const fed = (c.federal && typeof c.federal.effective_rate==='number')
+          ? (c.federal.effective_rate*100) : null;
+        const regions = {};
+        (c.regions||[]).forEach(r=>{
+          regions[r.code] = { name: r.name || r.code, rate: (typeof r.effective_rate==='number') ? (r.effective_rate*100) : null };
         });
-        return names;
-      }
+        out[name] = { currency:cur, federalFlat:fed, regions };
+      });
+      return out;
+    }
 
-      function buildRegions(){
-        const c = PRESETS[els.country.value] || {};
-        const regions = c.regions || {};
-        els.region.innerHTML = '';
-        const keys = Object.keys(regions);
-        if(!keys.length){
-          const o = document.createElement('option'); o.value=''; o.textContent='— Not applicable —';
+    function buildCountries(){
+      const names = Object.keys(PRESETS).sort();
+      els.country.innerHTML='';
+      names.forEach(name=>{
+        const opt=document.createElement('option');
+        opt.value=name; opt.textContent=name;
+        els.country.appendChild(opt);
+      });
+      return names;
+    }
+
+    function buildRegions(){
+      const c = PRESETS[els.country.value]||{};
+      const regions = c.regions||{};
+      els.region.innerHTML='';
+      const keys = Object.keys(regions);
+      if(!keys.length){
+        els.region.disabled = true;
+        const o=document.createElement('option'); o.value=''; o.textContent='— Not applicable —';
+        els.region.appendChild(o);
+      }else{
+        els.region.disabled=false;
+        const o0=document.createElement('option'); o0.value=''; o0.textContent='— Select state / region —';
+        els.region.appendChild(o0);
+        keys.sort().forEach(code=>{
+          const o=document.createElement('option');
+          o.value=code; o.textContent=`${code} — ${regions[code].name}`;
           els.region.appendChild(o);
-          els.region.disabled = true;
-        } else {
-          els.region.disabled = false;
-          const first = document.createElement('option'); first.value=''; first.textContent='— Select region —';
-          els.region.appendChild(first);
-          keys.sort().forEach(code=>{
-            const r = regions[code];
-            const o = document.createElement('option');
-            o.value = code; o.textContent = r.name || code;
-            els.region.appendChild(o);
-          });
-        }
+        });
       }
+      // County UI is off by default (can wire later if you add counties to presets)
+      els.countyRow.style.display='none';
+      els.county.innerHTML=''; els.county.disabled=true;
+    }
 
-      function autoFillRates(){
-        const c = PRESETS[els.country.value] || {};
-        CURRENCY = c.currency || 'USD';
-        // Set base/federal
-        if(!els.fed.hasAttribute('data-user')){
-          els.fed.value = (c.federalFlat ?? '');
-        }
-        // Clear region/local until a region is chosen
-        if(!els.reg.hasAttribute('data-user')) els.reg.value = '';
-        if(!els.loc.hasAttribute('data-user')) els.loc.value = '';
+    // Locale -> guess country name
+    function guessCountryName(list){
+      const r = (Intl.DateTimeFormat().resolvedOptions().locale||navigator.language||'').split('-')[1];
+      const map={US:'United States',GB:'United Kingdom',AU:'Australia',CA:'Canada',CN:'China',IN:'India',
+        IE:'Ireland',DE:'Germany',FR:'France',ES:'Spain',IT:'Italy',NL:'Netherlands',PT:'Portugal',
+        SE:'Sweden',NO:'Norway',DK:'Denmark',CH:'Switzerland',AT:'Austria',CZ:'Czechia',HU:'Hungary',
+        RO:'Romania',GR:'Greece',TR:'Türkiye',MX:'Mexico',BR:'Brazil',ZA:'South Africa',PL:'Poland'};
+      const guess = map[r]||null;
+      return list.includes(guess)? guess : null;
+    }
 
-        // If region chosen, apply its rate
+    // Autofill rates from presets (don’t overwrite user edited once they type)
+    function autoFillRates(){
+      const c = PRESETS[els.country.value]||{};
+      CURRENCY = c.currency || 'USD';
+      if(!els.fed.hasAttribute('data-user')){
+        els.fed.value = (c.federalFlat ?? '');
+      }
+      if(!els.st.hasAttribute('data-user')){
         const rKey = els.region.value;
-        if(rKey){
-          const r = (c.regions||{})[rKey] || {};
-          if(!els.reg.hasAttribute('data-user')) els.reg.value = (r.rate ?? '');
+        if(rKey && (c.regions||{})[rKey] && (c.regions[rKey].rate!=null)){
+          els.st.value = c.regions[rKey].rate;
+        }else{
+          els.st.value = '';
         }
       }
+      els.rateHint.textContent = `${els.country.value}${els.region.value? ' • '+els.region.value : ''}`;
+    }
 
-      // Mark manual overrides so we don't overwrite with presets on change
-      ['input','change'].forEach(ev=>{
-        [els.fed, els.reg, els.loc].forEach(x=>{
-          x.addEventListener(ev, ()=> x.setAttribute('data-user','1'));
-        });
-      });
+    // mark manual overrides
+    ['input','change'].forEach(ev=>{
+      [els.fed,els.st].forEach(x=> x.addEventListener(ev, ()=> x.setAttribute('data-user','1')));
+    });
 
-      // Persistence
-      function save(){
-        const data = {
-          c:els.country.value, r:els.region.value, f:els.freq.value, g:els.gross.value,
-          fed:els.fed.value, reg:els.reg.value, loc:els.loc.value, pr:els.pretax.value, cur:CURRENCY
+    // Persist
+    function save(){
+      const data = {
+        c:els.country.value, r:els.region.value, f:els.freq.value, g:els.income.value,
+        fed:els.fed.value, st:els.st.value, fica:els.useFICA.checked,
+        ret:els.ret.value, hsa:els.hsa.value, ins:els.ins.value, com:els.commuter.value, post:els.post.value,
+        note:els.note.value, cur:CURRENCY
+      };
+      localStorage.setItem(STORE, JSON.stringify(data));
+    }
+    function load(){
+      try{
+        const d = JSON.parse(localStorage.getItem(STORE)||'null');
+        if(!d) return false;
+        if(d.c) els.country.value=d.c;
+        buildRegions();
+        if(d.r && els.region.querySelector(`option[value="${d.r}"]`)) els.region.value=d.r;
+        if(d.f) els.freq.value=d.f;
+        if(d.g) els.income.value=d.g;
+        if(d.fed){ els.fed.value=d.fed; els.fed.setAttribute('data-user','1'); }
+        if(d.st){ els.st.value=d.st; els.st.setAttribute('data-user','1'); }
+        if(typeof d.fica==='boolean') els.useFICA.checked=d.fica;
+        if(d.ret) els.ret.value=d.ret;
+        if(d.hsa) els.hsa.value=d.hsa;
+        if(d.ins) els.ins.value=d.ins;
+        if(d.com) els.commuter.value=d.com;
+        if(d.post) els.post.value=d.post;
+        if(d.note) els.note.value=d.note;
+        if(d.cur) CURRENCY=d.cur;
+        return true;
+      }catch(_){ return false; }
+    }
+
+    // Core calc
+    function periodsPerYear(){ return P[els.freq.value] ?? 26; }
+    function annualize(per){ return (Number(per)||0) * (P[els.freq.value] ?? 26); }
+    function compute(){
+      save();
+
+      const perGross = Number(els.income.value||0);
+      const ppy = periodsPerYear();
+      const annualGross = annualize(perGross);
+
+      // Pre-tax deductions
+      const retPct = Math.max(0, Number(els.ret.value||0))/100;
+      const hsa = Number(els.hsa.value||0);
+      const ins = Number(els.ins.value||0);
+      const com = Number(els.commuter.value||0);
+
+      const preTaxPer = perGross*retPct + hsa + ins + com;
+      const taxBasePer = Math.max(0, perGross - preTaxPer);
+
+      // Rates
+      const fed = Math.max(0, Number(els.fed.value||0))/100;
+      const st  = Math.max(0, Number(els.st.value||0))/100;
+      const fica = els.useFICA.checked ? 0.0765 : 0;
+
+      const taxesPer = taxBasePer * (fed + st + fica);
+      let netPer = Math.max(0, taxBasePer - taxesPer);
+
+      // Post-tax deductions
+      const post = Number(els.post.value||0);
+      netPer = Math.max(0, netPer - post);
+
+      // Annuals
+      const netAnnual = netPer * ppy;
+      const fedAnnual = taxBasePer*fed*ppy;
+      const stAnnual  = taxBasePer*st*ppy;
+      const ficaAnnual= taxBasePer*fica*ppy;
+      const preAnnual = preTaxPer*ppy;
+
+      // Output
+      els.outGross.textContent = fmtC(annualGross);
+      els.outPretax.textContent = fmtC(preAnnual);
+      els.outFed.textContent = fmtC(fedAnnual);
+      els.outState.textContent = fmtC(stAnnual);
+      els.outFica.textContent = fmtC(ficaAnnual);
+      els.outNet.textContent = fmtC(netAnnual);
+
+      els.netW.textContent = fmtC(netAnnual/52);
+      els.netB.textContent = fmtC(netAnnual/26);
+      els.netM.textContent = fmtC(netAnnual/12);
+
+      els.netMonthly.textContent = fmtC(netAnnual/12);
+      const suggested = Math.max(0, Math.round((netAnnual/12) * 0.25));
+      els.safeAmt.textContent = fmtC(suggested);
+      const pct = Math.max(0, Math.min(100, (suggested / ((netAnnual/12)||1))*100));
+      els.safeFill.style.width = pct.toFixed(0)+'%';
+
+      // Hint
+      els.rateHint.textContent = `${els.country.value}${els.region.value? ' • '+els.region.value : ''} • ${CURRENCY}`;
+    }
+
+    // Events
+    ['input','change'].forEach(ev=>{
+      [els.country,els.region,els.freq,els.income,els.fed,els.st,els.useFICA,
+       els.ret,els.hsa,els.ins,els.commuter,els.post].forEach(x=> x.addEventListener(ev, compute));
+    });
+    els.recalc.addEventListener('click', (e)=>{ e.preventDefault(); compute(); });
+    els.reset.addEventListener('click', ()=>{ localStorage.removeItem(STORE); location.reload(); });
+
+    // Email summary
+    els.email.addEventListener('click', ()=>{
+      const subj = encodeURIComponent('My Take-Home Pay (LockHabit)');
+      const body = encodeURIComponent(
+`Income & Take-Home Pay
+
+Country: ${els.country.value}
+State/Region: ${els.region.value || '—'}
+Currency: ${CURRENCY}
+Frequency: ${els.freq.value}
+
+Federal %: ${els.fed.value || '—'}
+State %: ${els.st.value || '—'}
+Include FICA: ${els.useFICA.checked ? 'Yes' : 'No'}
+
+Retirement %: ${els.ret.value || 0}
+HSA/FSA per period: ${els.hsa.value || 0}
+Pre-tax insurance per period: ${els.ins.value || 0}
+Commuter pre-tax per period: ${els.commuter.value || 0}
+Post-tax deductions per period: ${els.post.value || 0}
+Notes: ${els.note.value || ''}
+
+(Generated by LockHabit — estimates only)`);
+      window.location.href = `mailto:?subject=${subj}&body=${body}`;
+    });
+
+    // Boot
+    fetch('/tax-presets.json',{cache:'no-cache'})
+      .then(r=>r.json())
+      .then(data=>{
+        PRESETS = normalize(data);
+        const names = buildCountries();
+        const had = load();
+        if(!had){
+          const guess = guessCountryName(names);
+          els.country.value = guess || names[0] || '';
+          buildRegions();
+        }
+        autoFillRates();
+        compute();
+      })
+      .catch(()=>{
+        // fallback (tiny inline defaults)
+        PRESETS = {
+          "United States":{"currency":"USD","federalFlat":12,"regions":{"NY":{"name":"New York","rate":6},"CA":{"name":"California","rate":6},"TX":{"name":"Texas","rate":0}}},
+          "United Kingdom":{"currency":"GBP","federalFlat":20,"regions":{"ENG":{"name":"England","rate":0}}}
         };
-        localStorage.setItem(STORE, JSON.stringify(data));
-      }
-      function load(){
-        try{
-          const d = JSON.parse(localStorage.getItem(STORE)||'null');
-          if(!d) return;
-          if(d.c) els.country.value = d.c;
-          buildRegions();
-          if(d.r && els.region.querySelector(`option[value="${d.r}"]`)) els.region.value = d.r;
-          if(d.f) els.freq.value = d.f;
-          if(d.g) els.gross.value = d.g;
-          if(d.fed) els.fed.value = d.fed;
-          if(d.reg) els.reg.value = d.reg;
-          if(d.loc) els.loc.value = d.loc;
-          if(d.pr)  els.pretax.value = d.pr;
-          if(d.cur) CURRENCY = d.cur;
-        }catch(_){}
-      }
-
-      // Calculations
-      function annualFromUI(){
-        const per = Number(els.gross.value||0);
-        const mult = P[els.freq.value] ?? 26;
-        return per * mult;
-      }
-      function netPer(periods){
-        const annual = annualFromUI();
-        const pretax = Math.max(0, Number(els.pretax.value||0))/100;
-        const base = annual * (1 - pretax);
-        const fed = Math.max(0, Number(els.fed.value||0));
-        const reg = Math.max(0, Number(els.reg.value||0));
-        const loc = Math.max(0, Number(els.loc.value||0));
-        const total = Math.min(100, fed + reg + loc)/100;
-        return base * (1 - total) / periods;
-      }
-      function recalc(){
-        save();
-        const annual = annualFromUI();
-        const wG = annual/52, bG = annual/26, mG = annual/12;
-        const w = netPer(52), b = netPer(26), m = netPer(12);
-        els.wNet.textContent = fmt(w);
-        els.bNet.textContent = fmt(b);
-        els.mNet.textContent = fmt(m);
-        els.wGross.textContent = 'Gross: ' + fmt(wG);
-        els.bGross.textContent = 'Gross: ' + fmt(bG);
-        els.mGross.textContent = 'Gross: ' + fmt(mG);
-      }
-
-      // Events
-      ['input','change'].forEach(ev=>{
-        [els.freq, els.gross, els.fed, els.reg, els.loc, els.pretax].forEach(x=> x.addEventListener(ev,recalc));
+        buildCountries(); buildRegions(); autoFillRates(); compute();
       });
-      els.country.addEventListener('change', ()=>{ buildRegions(); autoFillRates(); recalc(); });
-      els.region.addEventListener('change', ()=>{ autoFillRates(); recalc(); });
-      els.calc.addEventListener('click', recalc);
-      els.reset.addEventListener('click', ()=>{ localStorage.removeItem(STORE); location.reload(); });
-
-      // Boot: fetch presets, then build UI
-      fetch('/tax-presets.json',{cache:'no-cache'})
-        .then(r=>r.json())
-        .then(data=>{
-          PRESETS = data?.countries || {};
-          const names = buildCountries();
-          // Try resume from storage, else guess country
-          const had = localStorage.getItem(STORE);
-          if(!had){
-            const guess = guessCountryName(names);
-            els.country.value = guess || names[0] || '';
-          }
-          buildRegions();
-          if(!had){
-            autoFillRates();
-          } else {
-            load();  // applies saved c/r/f/g/etc.
-            autoFillRates(); // ensure currency + rates are coherent
-          }
-          recalc();
-        })
-        .catch(()=>{
-          // Graceful fallback (tiny inline defaults)
-          PRESETS = {
-            "United States":{"currency":"USD","federalFlat":12,"regions":{"NY":{"name":"New York","rate":6.85},"CA":{"name":"California","rate":6},"TX":{"name":"Texas","rate":0}}},
-            "United Kingdom":{"currency":"GBP","federalFlat":20,"regions":{"England":{"name":"England","rate":0},"Scotland":{"name":"Scotland","rate":0}}},
-            "Australia":{"currency":"AUD","federalFlat":14,"regions":{"NSW":{"name":"New South Wales","rate":2},"VIC":{"name":"Victoria","rate":2}}},
-            "China":{"currency":"CNY","federalFlat":10,"regions":{"Beijing":{"name":"Beijing","rate":0},"Shanghai":{"name":"Shanghai","rate":0}}}
-          };
-          const names = buildCountries();
-          els.country.value = names[0] || 'United States';
-          buildRegions(); autoFillRates(); recalc();
-        });
-    })();
+  })();
   </script>
 </body>
 </html>
