@@ -2,14 +2,39 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Financial Calculators (Homepage v3)
-       Clean, condensed, premium UI with animated background
+       LockHabit — Financial Calculators (2025, high-finance polish)
        ========================================================= -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 
-  <!-- AdSense (homepage only) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+  <title>LockHabit — Financial calculators, done right.</title>
+  <meta name="description" content="Clean, fast tools for income & taxes, mortgages, loans, savings, retirement, credit cards, and real-time currency conversion. Private by default. No sign-up required."/>
+  <meta name="theme-color" content="#0b0e1a"/>
 
-  <!-- Google Analytics -->
+  <!-- Canonical + Social -->
+  <link rel="canonical" href="https://lockhabit.com/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="LockHabit — Financial calculators, done right."/>
+  <meta property="og:description" content="Income & taxes, mortgage, loans, savings, retirement, credit cards, and currency conversion — all clean, fast, and private by default."/>
+  <meta property="og:url" content="https://lockhabit.com/"/>
+  <meta property="og:image" content="/public/og-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="LockHabit — Financial calculators, done right."/>
+  <meta name="twitter:description" content="Clean tools for everyday money decisions. No sign-up required."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Icons & PWA -->
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/public/favicon.ico">
+  <link rel="apple-touch-icon" href="/public/icon-192.png">
+  <link rel="manifest" href="/public/manifest.webmanifest">
+
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -18,618 +43,555 @@
     gtag('config', 'G-WMJ37PBW8H');
   </script>
 
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <meta name="theme-color" content="#0b0e1a"/>
-  <title>LockHabit — Financial calculators for everyone</title>
-  <meta name="description" content="Clean, fast financial calculators for income & taxes, mortgages, loans, savings, retirement, credit cards, and currency conversion. Private by default — no sign-up required."/>
-  <link rel="canonical" href="https://lockhabit.com/"/>
+  <!-- Google AdSense (homepage only) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit — Financial calculators for everyone"/>
-  <meta property="og:description" content="Income & taxes, mortgage, loans, savings, retirement, credit cards, FX. Private by default — no sign-up required."/>
-  <meta property="og:url" content="https://lockhabit.com/"/>
-  <meta property="og:image" content="/public/og-image.png"/>
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="LockHabit — Financial calculators"/>
-  <meta name="twitter:description" content="Clean, fast, global-ready. Private by default."/>
-  <meta name="twitter:image" content="/public/og-image.png"/>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-
-  <!-- Icons / PWA -->
-  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/public/favicon.ico">
-  <link rel="apple-touch-icon" href="/public/icon-192.png">
-  <link rel="manifest" href="/public/manifest.webmanifest">
-
-  <!-- Plausible (optional additional analytics) -->
+  <!-- Plausible (keep) -->
   <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
 
   <!-- ========================= Styles ========================= -->
   <style>
-    /* ===========================================================
-       Design system tokens (shared with calculators)
-       =========================================================== */
+    /* ---------- Design tokens (high-finance palette) ---------- */
     :root{
       /* Brand */
-      --brand-1:#6f7cff;        /* indigo */
-      --brand-2:#9c78ff;        /* violet */
-      --accent:#9fb2ff;
+      --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
 
-      /* Surfaces + text (light) */
-      --bg:#f7f8fe;
-      --bg-2:#ffffff;
-      --ink:#0c1533;
-      --muted:#4b5875;
-      --line:#e5e8f4;
-      --card:#ffffff;
+      /* Neutral ink & backgrounds (slightly lighter than before) */
+      --ink:#eaf0ff;            /* primary text on dark */
+      --ink-2:#c9d3ff;          /* secondary */
+      --ink-3:#a9b4de;          /* tertiary */
+      --bg:#0b0f23;             /* main background */
+      --bg-2:#0d132d;           /* hero gradient base overlay */
+      --panel:#0f1834;          /* card background (dark paper) */
+      --line:#202a4b;           /* hairline */
+      --chip:#101a3a;           /* chip background */
 
-      /* Surfaces + text (dark) */
-      --bg-dark:#0b0e1a;
-      --bg-2-dark:#0f1430;
-      --ink-dark:#eef3ff;
-      --muted-dark:#9fb0d1;
-      --line-dark:#1a2140;
-      --card-dark:#0e1330;
+      /* Light “paper” for callouts (kept for contrast on hover) */
+      --paper:#111b3f;
 
-      /* Radii / shadow / rhythm */
-      --r-xs:10px;
-      --r:16px;
-      --r-lg:22px;
-      --shadow:0 18px 50px rgba(17,24,39,.10);
-      --shadow-deep:0 40px 120px rgba(7,10,18,.38);
+      /* Elevation */
+      --shadow-1:0 10px 26px rgba(8,12,28,.18);
+      --shadow-2:0 22px 60px rgba(8,12,28,.22);
+      --ring:0 0 0 2px rgba(159,178,255,.25);
+
+      /* Radii & sizing */
+      --r-sm:12px; --r:16px; --r-lg:22px; --r-pill:999px;
+      --max:1180px;
 
       /* Type scale */
-      --h1:clamp(28px, 5vw, 44px);
-      --h2:clamp(20px, 4vw, 28px);
-      --h3:16px;
-      --body:16px;
-      --tiny:12px;
+      --h1:clamp(36px, 6vw, 56px);
+      --h2:clamp(20px, 3.6vw, 28px);
+      --h3:clamp(16px, 3vw, 18px);
+      --p:16px;
 
       /* Motion */
-      --motion-fast:.12s;
-      --motion-med:.18s;
-
-      /* Gradient ring colors for animated background */
-      --ring-a:rgba(111,124,255,.25);
-      --ring-b:rgba(156,120,255,.20);
-      --ring-c:rgba(156,120,255,.18);
-      --ring-d:rgba(111,124,255,.16);
-    }
-
-    @media (prefers-color-scheme:dark){
-      :root{
-        --bg:var(--bg-dark);
-        --bg-2:var(--bg-2-dark);
-        --ink:var(--ink-dark);
-        --muted:var(--muted-dark);
-        --line:var(--line-dark);
-        --card:var(--card-dark);
-      }
+      --t-fast:.12s ease; --t-med:.24s ease; --t-slow:.6s ease;
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
-    html:focus-within{scroll-behavior:smooth}
     body{
-      margin:0; font:var(--body)/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--ink); background:var(--bg);
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      overflow-x:hidden;
+      margin:0; font:var(--p)/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink); background:var(--bg); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden; padding-bottom:env(safe-area-inset-bottom,0px);
     }
 
-    /* ===========================================================
-       Animated background (subtle, performance-friendly)
-       =========================================================== */
-    .bg-anim{
-      position:fixed; inset:-20vh -10vw auto -10vw; height:60vh; pointer-events:none; z-index:0;
+    /* ---------- Background: “gradient beam” (finance calm) ---------- */
+    .bg{
+      position:fixed; inset:-8vh -8vw; z-index:-1; filter:saturate(105%);
       background:
-        radial-gradient(1200px 700px at 30% -20%, var(--ring-a) 0%, transparent 60%),
-        radial-gradient(1000px 600px at 110% 10%, var(--ring-b) 0%, transparent 60%),
-        radial-gradient(1100px 650px at -10% 40%, var(--ring-c) 0%, transparent 60%);
-      filter:saturate(1.05);
-      animation:bgFloat 18s ease-in-out infinite alternate;
+        radial-gradient(1200px 800px at 8% -20%, rgba(111,124,255,.16), transparent 60%),
+        radial-gradient(900px 700px at 100% 10%, rgba(156,120,255,.10), transparent 60%),
+        linear-gradient(180deg, #0b0f23 0%, #0d132d 100%);
+      overflow:hidden;
     }
-    @keyframes bgFloat{
-      0%   {transform:translateY(0) scale(1)}
-      50%  {transform:translateY(-22px) scale(1.02)}
-      100% {transform:translateY(10px)  scale(1.01)}
+    .beam{
+      position:absolute; inset:-40vh -40vw; pointer-events:none; opacity:.22;
+      background:linear-gradient(110deg, rgba(111,124,255,.0) 0%, rgba(111,124,255,.65) 40%, rgba(156,120,255,.0) 85%);
+      transform:translate3d(0,0,0) rotate(0.5deg);
+      animation:beamShift 28s ease-in-out infinite alternate;
+      will-change:transform, opacity;
     }
-    @media (prefers-reduced-motion:reduce){ .bg-anim{animation:none} }
+    @keyframes beamShift{
+      0%   { transform:translate3d(-2%, -1%, 0) rotate(-1.2deg); opacity:.18; }
+      50%  { transform:translate3d(1%, 0.5%, 0) rotate(.6deg);   opacity:.22; }
+      100% { transform:translate3d(3%, 1.5%, 0) rotate(1.4deg);  opacity:.20; }
+    }
+    @media (prefers-reduced-motion:reduce){
+      .beam{ animation:none; opacity:.14 }
+    }
 
-    /* ===========================================================
-       Header (sticky)
-       =========================================================== */
+    /* ---------- Header ---------- */
     .hdr{
-      position:sticky; top:0; z-index:40;
-      backdrop-filter:saturate(1.2) blur(8px);
-      background:color-mix(in oklab, var(--bg-2) 92%, transparent);
-      border-bottom:1px solid var(--line);
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:saturate(150%) blur(10px);
+      background:rgba(13,19,45,.72); border-bottom:1px solid var(--line);
+      transition:box-shadow var(--t-med), transform var(--t-med);
     }
-    .wrap{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
-    .brand{display:flex;align-items:center;gap:10px;min-width:0}
-    .logo{width:28px;height:28px;display:block;flex:none}
-    .word{font-weight:800;font-size:18px;letter-spacing:.2px;white-space:nowrap}
-    .nav{display:flex;gap:10px;align-items:center;margin-left:auto}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);font-weight:700}
-    .pill:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
-    .cta{padding:12px 18px;border-radius:24px;background:linear-gradient(135deg,var(--brand-1),var(--brand-2));color:#fff;border:0;font-weight:800;cursor:pointer;min-height:44px}
-    .cta:hover{filter:saturate(1.08) brightness(1.02);box-shadow:0 16px 36px rgba(111,124,255,.35)}
-    .calcBtn{white-space:nowrap}
+    .hdr.stuck{ box-shadow:0 6px 24px rgba(0,0,0,.25) }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:12px 16px; display:flex; align-items:center; gap:12px; }
+    .brand{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer; text-decoration:none}
+    .logo{width:28px;height:28px;flex:none; border-radius:8px;
+      background:linear-gradient(145deg, var(--brand), var(--brand-2)); position:relative; box-shadow:inset 0 -8px 18px rgba(0,0,0,.25)}
+    .logo:before{
+      content:""; position:absolute; inset:6px 8px 6px 10px; border-radius:12px; background:rgba(255,255,255,.85);
+      clip-path: polygon(0 20%, 70% 20%, 70% 38%, 36% 38%, 36% 80%, 0 80%);
+    }
+    .word{font-weight:800;font-size:18px;color:#dfe6ff;white-space:nowrap;letter-spacing:.2px}
 
-    /* ===========================================================
-       Hero
-       =========================================================== */
-    .hero{position:relative; z-index:1; padding:28px 16px 8px; border-bottom:1px solid var(--line)}
-    .hero .grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:center}
-    @media (max-width:900px){ .hero .grid{grid-template-columns:1fr} }
-    h1{font-size:var(--h1);line-height:1.08;margin:0 0 10px;letter-spacing:-.02em}
-    .sub{color:var(--muted);max-width:65ch;margin:0}
-    .chipbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-    .chip{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:999px;background:var(--bg-2);border:1px solid var(--line);font-weight:700;color:var(--muted)}
-    .chip b{color:var(--ink)}
-    .chip.ghost{opacity:.7}
+    .nav{margin-left:auto; display:flex; align-items:center; gap:10px}
+    .btn{
+      appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.02);
+      color:var(--ink); padding:10px 14px; border-radius:var(--r-pill);
+      font-weight:700; min-height:42px; cursor:pointer; -webkit-tap-highlight-color:transparent;
+      transition:transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+    }
+    .btn:hover{ transform:translateY(-1px); box-shadow:var(--ring) }
+    .btn:active{ transform:translateY(0); }
+    .btn.ghost{ background:transparent }
+    .btn.acc{
+      border-color:transparent; color:#0d1230;
+      background:linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow:0 12px 30px rgba(111,124,255,.30);
+    }
 
-    /* ===========================================================
-       Section shell
-       =========================================================== */
-    section.s{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:26px 16px}
-    .h2{font-size:var(--h2);margin:0 0 12px;color:color-mix(in oklab, var(--ink) 92%, transparent)}
-    .hint{color:var(--muted);font-size:14px;margin:2px 0 12px}
+    /* ---------- Hero ---------- */
+    .hero{ position:relative; border-bottom:1px solid var(--line) }
+    .hero .inner{ max-width:var(--max); margin:0 auto; padding:32px 16px 20px; display:grid; grid-template-columns:1.1fr .9fr; gap:22px; align-items:center }
+    @media (max-width:980px){ .hero .inner{ grid-template-columns:1fr } }
 
-    /* ===========================================================
-       Card list (condensed, bubble style)
-       =========================================================== */
-    .grid{display:grid;grid-template-columns:1fr;gap:12px}
-    @media (min-width:600px){ .grid{grid-template-columns:1fr 1fr} }
-    @media (min-width:980px){ .grid{grid-template-columns:repeat(3,1fr)} }
+    h1{ font-size:var(--h1); line-height:1.06; margin:0 0 10px; letter-spacing:-.5px }
+    .lead{ color:var(--ink-2); max-width:62ch; margin:0 }
+    .heroCTAs{ display:flex; gap:10px; margin-top:16px; flex-wrap:wrap }
+    .hero aside{
+      justify-self:end; width:min(560px, 92%); height:220px; border-radius:26px; border:1px solid var(--line);
+      background:linear-gradient(180deg, #0f1738, #0d132d); box-shadow:var(--shadow-2); position:relative; overflow:hidden;
+    }
+    .hero aside:after{
+      content:""; position:absolute; inset:-20% -20% auto auto; height:200%; width:60%;
+      background:radial-gradient(50% 50% at 50% 50%, rgba(156,120,255,.25), transparent 70%);
+      filter:blur(40px);
+    }
+    .hero .chips{ display:flex; gap:8px; margin-top:14px; flex-wrap:wrap }
+    .chip{ background:var(--chip); border:1px solid var(--line); border-radius:var(--r-pill); padding:8px 12px; color:#d7e0ff; font-weight:700; font-size:14px }
+
+    /* ---------- Sections ---------- */
+    section.s{ max-width:var(--max); margin:0 auto; padding:30px 16px 18px }
+    .h2{ font-size:var(--h2); margin:0 0 12px; color:#dbe4ff }
+    .subtle{ color:var(--ink-3); margin-top:-4px; margin-bottom:14px }
+
+    /* ---------- Card list (clean, condensed) ---------- */
+    .grid{ display:grid; grid-template-columns:1fr; gap:14px }
+    @media (min-width:700px){ .grid{ grid-template-columns:1fr 1fr } }
+    @media (min-width:1080px){ .grid{ grid-template-columns:1fr 1fr } }
 
     .card{
-      background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px;
-      display:flex;align-items:center;justify-content:space-between;gap:14px; min-height:74px;
-      transition:transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease, border-color var(--motion-fast) ease;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      background:var(--panel); border:1px solid var(--line); border-radius:22px; min-height:84px; padding:16px 16px;
+      box-shadow:0 0 0 rgba(0,0,0,0); transition:transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast), background var(--t-fast);
     }
-    .card:hover{transform:translateY(-1px); box-shadow:var(--shadow)}
-    .card:active{transform:translateY(0)}
-    .cd-left{min-width:0}
-    .cd-title{font-weight:800;font-size:18px;color:var(--ink);margin:0 0 4px;line-height:1.2}
-    .cd-desc{color:var(--muted);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58ch}
-    .open{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);font-weight:800}
-    .open:hover{transform:translateY(-1px)}
-    .chev{width:14px;height:14px;display:inline-block;transform:translateY(1px)}
-    .chev svg{display:block}
+    .card:hover{ transform:translateY(-1px); box-shadow:var(--shadow-1) }
+    .card:active{ transform:translateY(0) }
+    .ct{ min-width:0 }
+    .ct h3{ font-size:20px; margin:0 0 2px }
+    .cd{ color:var(--ink-3); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:56ch }
+    .open{ font-weight:800; border-radius:var(--r-pill); padding:10px 14px; background:transparent; border:1px solid var(--line); color:#dfe6ff; text-decoration:none }
+    .open:hover{ box-shadow:var(--ring) }
 
-    /* ===========================================================
-       All-calculators sheet (mobile-friendly bottom sheet)
-       =========================================================== */
-    .sheet{position:fixed;inset:0;display:none;align-items:flex-end;z-index:60}
-    .sheet.show{display:flex}
-    .sheet .back{position:absolute;inset:0;background:rgba(10,12,20,.35);backdrop-filter:blur(2px)}
+    /* ---------- Recently used ---------- */
+    .chipsRow{ display:flex; flex-wrap:wrap; gap:10px; }
+    .chipSm{
+      background:transparent; border:1px solid var(--line); color:#dfe6ff; border-radius:var(--r-pill);
+      padding:8px 12px; text-decoration:none; transition:transform var(--t-fast), box-shadow var(--t-fast);
+    }
+    .chipSm:hover{ transform:translateY(-1px); box-shadow:var(--ring) }
+
+    /* ---------- Footer ---------- */
+    footer{ border-top:1px solid var(--line); background:#0b1028 }
+    .foot{ max-width:var(--max); margin:0 auto; padding:22px 16px }
+    .legal{ color:var(--ink-3); margin-top:12px; background:#0d132d; border:1px solid var(--line); border-radius:14px; padding:14px }
+
+    /* ---------- Bottom sheet: all calculators ---------- */
+    .sheet{ position:fixed; inset:0; display:none; align-items:flex-end; z-index:70 }
+    .sheet.show{ display:flex }
+    .sheet .back{ position:absolute; inset:0; background:rgba(4,6,14,.65); backdrop-filter:blur(3px) }
     .sheet .panel{
-      position:relative;width:min(1080px,100vw);max-height:86vh;margin:0 auto;background:var(--bg-2);border:1px solid var(--line);
-      border-radius:22px 22px 0 0;box-shadow:var(--shadow-deep);display:grid;grid-template-rows:auto 1fr auto;overflow:hidden
+      position:relative; width:min(960px,96vw); height:min(78vh, 680px);
+      margin:0 auto 2vh; background:#0d132d; border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow-2);
+      display:flex; flex-direction:column; overflow:hidden;
     }
-    .sheet header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
-    .sheet h3{font-size:18px;margin:0}
-    .x{background:transparent;border:0;font-size:20px;cursor:pointer;color:var(--muted)}
-    .sheet .body{padding:12px 16px;overflow:auto}
-    .sheet .cats{display:grid;grid-template-columns:1fr;gap:10px}
-    @media (min-width:720px){ .sheet .cats{grid-template-columns:repeat(2,1fr)} }
-    .sheet .item{display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
-    .sheet .item b{font-weight:800}
-    .sheet .foot{display:flex;justify-content:flex-end;padding:10px 16px;border-top:1px solid var(--line)}
-    .sheet .close{padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:700}
+    .sheet header{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; border-bottom:1px solid var(--line) }
+    .sheet h3{ margin:0; font-size:18px }
+    .sheet .x{ appearance:none; border:0; background:transparent; color:#cfd6ff; font-size:22px; cursor:pointer }
+    .sheet .body{ padding:12px; overflow:auto }
+    .sheet .row{ display:grid; grid-template-columns:1fr; gap:12px }
+    @media (min-width:700px){ .sheet .row{ grid-template-columns:1fr 1fr } }
+    @media (min-width:1100px){ .sheet .row{ grid-template-columns:1fr 1fr 1fr } }
+    .sheet a.item{
+      display:block; text-decoration:none; color:inherit; background:#0f1834; border:1px solid var(--line); border-radius:16px; padding:14px;
+      transition:transform var(--t-fast), box-shadow var(--t-fast);
+    }
+    .sheet a.item:hover{ transform:translateY(-1px); box-shadow:var(--shadow-1) }
+    .sheet small{ color:var(--ink-3) }
 
-    /* ===========================================================
-       Recently used chips
-       =========================================================== */
-    .chips{display:flex;gap:10px;flex-wrap:wrap}
-    .chip2{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;background:var(--bg-2);border:1px solid var(--line);font-weight:700}
-    .chip2 button{background:transparent;border:0;font-size:18px;line-height:1;cursor:pointer;color:var(--muted)}
+    /* ---------- Accessibility focus ---------- */
+    :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:8px }
 
-    /* ===========================================================
-       Footer
-       =========================================================== */
-    footer{border-top:1px solid var(--line);background:var(--bg-2)}
-    .foot{max-width:1180px;margin:0 auto;padding:22px 16px}
-    .legal{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
-    .fine{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--muted);font-size:14px}
-
-    /* ===========================================================
-       Utilities
-       =========================================================== */
-    a{color:inherit;text-decoration:none}
-    .sr{position:absolute;clip:rect(0,0,0,0);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap;border:0;padding:0;margin:-1px}
+    /* ---------- Utility spacing ---------- */
     .mt8{margin-top:8px} .mt12{margin-top:12px} .mt16{margin-top:16px}
-    .hide{display:none !important}
-    .center{display:flex;align-items:center;justify-content:center}
-    .right{margin-left:auto}
+    .mb0{margin-bottom:0} .mb8{margin-bottom:8px} .mb12{margin-bottom:12px} .mb16{margin-bottom:16px}
+    .rowFlex{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   </style>
 </head>
 <body>
-
-  <!-- Subtle animated gradient -->
-  <div class="bg-anim" aria-hidden="true"></div>
+  <!-- Animated background -->
+  <div class="bg"><div class="beam"></div></div>
 
   <!-- ========================= HEADER ========================= -->
-  <header class="hdr" role="banner">
+  <header class="hdr" id="hdr">
     <div class="wrap">
       <a class="brand" href="/" aria-label="LockHabit home">
-        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
-        </svg>
-        <div class="word">LockHabit</div>
+        <span class="logo" aria-hidden="true"></span>
+        <span class="word">LockHabit</span>
       </a>
 
-      <button class="pill" id="btnMenu" aria-haspopup="dialog" aria-controls="sheetAll" aria-expanded="false">Calculators ▾</button>
-      <a class="cta calcBtn" href="/income-tax.html" aria-label="Open Income & Tax Calculator">Open Calculator</a>
+      <nav class="nav" aria-label="Main">
+        <button class="btn" id="btnSheet" aria-haspopup="dialog" aria-controls="sheetAll">Calculators ▾</button>
+        <a class="btn acc" href="/income-tax.html">Open Calculator</a>
+      </nav>
     </div>
   </header>
 
   <!-- ========================= HERO ========================= -->
-  <section class="hero" id="top">
-    <div class="grid">
+  <section class="hero" role="region" aria-labelledby="hero-title">
+    <div class="inner">
       <div>
-        <h1>Financial calculators, done right.</h1>
-        <p class="sub">Clean, fast tools for income & taxes, mortgages, loans, savings, retirement, credit cards, and real-time currency conversion. Private by default. No sign-up required.</p>
-        <div class="chipbar">
-          <a class="chip" href="/income-tax.html"><b>Open Income & Taxes</b></a>
-          <button class="chip" id="btnMenu2" aria-haspopup="dialog" aria-controls="sheetAll" aria-expanded="false">All calculators</button>
-          <a class="chip" href="/blog.html"><b>Blog</b></a>
-          <span class="chip ghost">Newsletter <i>coming soon</i></span>
+        <h1 id="hero-title">Financial calculators, done right.</h1>
+        <p class="lead">Clean, fast tools for income & taxes, mortgages, loans, savings, retirement, credit cards, and real-time currency conversion. Private by default. No sign-up required.</p>
+
+        <div class="heroCTAs">
+          <a class="btn acc" href="/income-tax.html">Open Income & Taxes</a>
+          <button class="btn ghost" id="btnSheet2" aria-haspopup="dialog" aria-controls="sheetAll">See all calculators</button>
+        </div>
+
+        <div class="chips mt12" aria-label="Flags">
+          <span class="chip" id="chipCountry">Country: <b id="countryVal" style="margin-left:6px">Auto</b></span>
+          <span class="chip">Currency: <b id="ccyVal" style="margin-left:6px">Auto</b></span>
+          <a class="chip" href="/blog.html">Blog</a>
+          <span class="chip" aria-disabled="true" style="opacity:.55">Newsletter <i style="margin-left:6px">coming soon</i></span>
         </div>
       </div>
-      <div>
-        <div class="chipbar">
-          <span class="chip">Country: <b id="locCountry">Auto</b></span>
-          <span class="chip">Currency: <b id="locCurrency">Auto</b></span>
-        </div>
-      </div>
+
+      <aside aria-hidden="true"></aside>
     </div>
   </section>
 
-  <!-- ========================= SECTION: Essentials ========================= -->
-  <section class="s" aria-labelledby="ess-h">
-    <h2 id="ess-h" class="h2">Essentials</h2>
-    <div class="grid" id="essGrid">
-      <a class="card" href="/income-tax.html">
-        <div class="cd-left">
-          <div class="cd-title">Income & Taxes</div>
-          <div class="cd-desc">Take-home pay with editable presets</div>
-        </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+  <!-- ========================= ESSENTIALS ========================= -->
+  <section class="s" aria-labelledby="essentials-title">
+    <h2 id="essentials-title" class="h2">Essentials</h2>
+    <p class="subtle">The most-used, tuned for speed and clarity.</p>
 
-      <a class="card" href="/mortgage.html">
-        <div class="cd-left">
-          <div class="cd-title">Mortgage</div>
-          <div class="cd-desc">Payment, amortization, PMI, taxes</div>
-        </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
-
-      <a class="card" href="/loan.html">
-        <div class="cd-left">
-          <div class="cd-title">Loan Payoff</div>
-          <div class="cd-desc">APR, extra payments, payoff date</div>
-        </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
-
-      <a class="card" href="/savings.html">
-        <div class="cd-left">
-          <div class="cd-title">Budget Planner</div>
-          <div class="cd-desc">50/30/20 & custom categories</div>
-        </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
-    </div>
-  </section>
-
-  <!-- ========================= SECTION: Savings & Goals ========================= -->
-  <section class="s" aria-labelledby="sav-h">
-    <h2 id="sav-h" class="h2">Savings & Goals</h2>
     <div class="grid">
-      <a class="card" href="/savings.html">
-        <div class="cd-left">
-          <div class="cd-title">Savings Goal</div>
-          <div class="cd-desc">Lump sums + recurring deposits</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Income & Taxes</h3>
+          <p class="cd">Take-home pay with editable presets.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/income-tax.html">Open</a>
+      </article>
 
-      <a class="card" href="/retirement.html">
-        <div class="cd-left">
-          <div class="cd-title">Retirement</div>
-          <div class="cd-desc">Contributions, growth, horizon</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Mortgage</h3>
+          <p class="cd">Payment, amortization, PMI, taxes.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/mortgage.html">Open</a>
+      </article>
 
-      <a class="card" href="/emergency-fund.html">
-        <div class="cd-left">
-          <div class="cd-title">Emergency Fund</div>
-          <div class="cd-desc">Months of expenses & plan</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Loan Payoff</h3>
+          <p class="cd">APR, extra payments, payoff date.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/loan.html">Open</a>
+      </article>
 
-      <a class="card" href="/fx-converter.html">
-        <div class="cd-left">
-          <div class="cd-title">Currency Converter</div>
-          <div class="cd-desc">Live FX, global-ready</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Budget</h3>
+          <p class="cd">50/30/20 and custom categories.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/savings.html">Open</a>
+      </article>
     </div>
   </section>
 
-  <!-- ========================= SECTION: Credit & Debt ========================= -->
-  <section class="s" aria-labelledby="cred-h">
-    <h2 id="cred-h" class="h2">Credit & Debt</h2>
+  <!-- ========================= SAVINGS & GOALS ========================= -->
+  <section class="s" aria-labelledby="sg-title">
+    <h2 id="sg-title" class="h2">Savings & Goals</h2>
+    <p class="subtle">Grow balances and plan horizons.</p>
+
     <div class="grid">
-      <a class="card" href="/credit-card.html">
-        <div class="cd-left">
-          <div class="cd-title">Credit Card</div>
-          <div class="cd-desc">Monthly interest & costs</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Savings Goal</h3>
+          <p class="cd">Lump sums + recurring deposits.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/savings.html">Open</a>
+      </article>
 
-      <a class="card" href="/credit-card-payoff.html">
-        <div class="cd-left">
-          <div class="cd-title">Card Payoff</div>
-          <div class="cd-desc">Timeline with strategies</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Retirement</h3>
+          <p class="cd">Contributions, growth, horizon.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/retirement.html">Open</a>
+      </article>
 
-      <a class="card" href="/car-loan-calculator.html">
-        <div class="cd-left">
-          <div class="cd-title">Car Loan</div>
-          <div class="cd-desc">Payment & amortization</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Emergency Fund</h3>
+          <p class="cd">Months of expenses + plan.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/emergency-fund.html">Open</a>
+      </article>
 
-      <a class="card" href="/rent-vs-buy.htm">
-        <div class="cd-left">
-          <div class="cd-title">Rent vs Buy</div>
-          <div class="cd-desc">Total cost over time</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Currency Converter</h3>
+          <p class="cd">Live FX, global-ready.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/fx-converter.html">Open</a>
+      </article>
     </div>
   </section>
 
-  <!-- ========================= SECTION: Student Loan ========================= -->
-  <section class="s" aria-labelledby="student-h">
-    <h2 id="student-h" class="h2">Student Loans</h2>
+  <!-- ========================= CREDIT & DEBT ========================= -->
+  <section class="s" aria-labelledby="debt-title">
+    <h2 id="debt-title" class="h2">Credit & Debt</h2>
+    <p class="subtle">Compare costs and accelerate payoff.</p>
+
     <div class="grid">
-      <a class="card" href="/student-loan-calculator.html">
-        <div class="cd-left">
-          <div class="cd-title">Student Loan</div>
-          <div class="cd-desc">Payments & payoff horizon</div>
+      <article class="card">
+        <div class="ct">
+          <h3>Credit Card</h3>
+          <p class="cd">Monthly interest & costs.</p>
         </div>
-        <span class="open">Open <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 18l6-6-6-6"/></svg></span></span>
-      </a>
+        <a class="open" href="/credit-card.html">Open</a>
+      </article>
+
+      <article class="card">
+        <div class="ct">
+          <h3>Card Payoff</h3>
+          <p class="cd">Timeline + strategies.</p>
+        </div>
+        <a class="open" href="/credit-card-payoff.html">Open</a>
+      </article>
+
+      <article class="card">
+        <div class="ct">
+          <h3>Car Loan</h3>
+          <p class="cd">Payment & amortization.</p>
+        </div>
+        <a class="open" href="/car-loan-calculator.html">Open</a>
+      </article>
+
+      <article class="card">
+        <div class="ct">
+          <h3>Rent vs Buy</h3>
+          <p class="cd">Total cost over time.</p>
+        </div>
+        <a class="open" href="/rent-vs-buy.htm">Open</a>
+      </article>
+
+      <article class="card">
+        <div class="ct">
+          <h3>Student Loan</h3>
+          <p class="cd">Payments & payoff horizon.</p>
+        </div>
+        <a class="open" href="/student-loan-calculator.html">Open</a>
+      </article>
     </div>
   </section>
 
-  <!-- ========================= SECTION: Business (coming soon tiles) ========================= -->
-  <section class="s" aria-labelledby="biz-h">
-    <h2 id="biz-h" class="h2">Business</h2>
+  <!-- ========================= BUSINESS (soft) ========================= -->
+  <section class="s" aria-labelledby="biz-title">
+    <h2 id="biz-title" class="h2">Business</h2>
+    <p class="subtle">Simple unit economics (preview).</p>
+
     <div class="grid">
-      <a class="card" href="/business.html" aria-disabled="true">
-        <div class="cd-left">
-          <div class="cd-title">Margin & Markup</div>
-          <div class="cd-desc">COGS, margin, markup <i>(coming soon)</i></div>
+      <article class="card" aria-disabled="true" style="opacity:.6">
+        <div class="ct">
+          <h3>Margin & Markup</h3>
+          <p class="cd">COGS, margin, markup <i>(soon)</i>.</p>
         </div>
-        <span class="open">Soon</span>
-      </a>
-      <a class="card" href="/business.html" aria-disabled="true">
-        <div class="cd-left">
-          <div class="cd-title">Break-even & ROI</div>
-          <div class="cd-desc">Targets & simple ROI <i>(coming soon)</i></div>
+        <a class="open" href="#" aria-disabled="true" tabindex="-1">Soon</a>
+      </article>
+
+      <article class="card" aria-disabled="true" style="opacity:.6">
+        <div class="ct">
+          <h3>Break-even & ROI</h3>
+          <p class="cd">Targets & simple ROI <i>(soon)</i>.</p>
         </div>
-        <span class="open">Soon</span>
-      </a>
+        <a class="open" href="#" aria-disabled="true" tabindex="-1">Soon</a>
+      </article>
     </div>
   </section>
 
-  <!-- ========================= Recently Used ========================= -->
-  <section class="s" aria-labelledby="rec-h">
-    <h2 id="rec-h" class="h2">Recently used</h2>
-    <p class="hint">Quick shortcuts saved to this device only.</p>
-    <div class="chips" id="recentWrap">
-      <span class="chip2" id="noHistory">No history yet</span>
+  <!-- ========================= RECENTLY USED ========================= -->
+  <section class="s" aria-labelledby="recent-title">
+    <h2 id="recent-title" class="h2">Recently used</h2>
+    <p class="subtle">Quick shortcuts saved to this device only.</p>
+    <div class="chipsRow" id="recentRow" aria-live="polite">
+      <span class="chipSm" id="noHistory">No history yet</span>
     </div>
   </section>
 
   <!-- ========================= FOOTER ========================= -->
   <footer role="contentinfo">
     <div class="foot">
-      <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone.</div>
-      <div class="legal"><a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a></div>
-      <div class="fine">
-        Information on this site is for educational purposes only and is not financial advice. Results are estimates and may differ from your actual outcomes. Please verify critical numbers with your financial institution or advisor.
+      <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone.
+        &nbsp; <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a>
+      </div>
+      <div class="legal">
+        Information on this site is for educational purposes only and is not financial advice. Results are estimates and may differ from your actual outcomes.
+        Please verify critical numbers with your financial institution or advisor.
       </div>
     </div>
   </footer>
 
-  <!-- ========================= All Calculators Sheet ========================= -->
-  <div class="sheet" id="sheetAll" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
-    <div class="back" data-close></div>
+  <!-- ========================= ALL CALCULATORS SHEET ========================= -->
+  <div class="sheet" id="sheetAll" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="back" id="sheetBack" tabindex="-1" aria-hidden="true"></div>
     <div class="panel">
       <header>
-        <h3 id="sheetTitle">All calculators</h3>
-        <button class="x" title="Close" aria-label="Close" data-close>✕</button>
+        <h3 id="sheet-title">All calculators</h3>
+        <button class="x" id="sheetClose" aria-label="Close">✕</button>
       </header>
       <div class="body">
-        <div class="cats">
-          <div>
-            <h4>Essentials</h4>
-            <a class="item" href="/income-tax.html"><span><b>Income & Taxes</b> — take-home pay</span> ➔</a>
-            <a class="item" href="/mortgage.html"><span><b>Mortgage</b> — payment & PMI</span> ➔</a>
-            <a class="item" href="/loan.html"><span><b>Loan Payoff</b> — payoff date</span> ➔</a>
-            <a class="item" href="/savings.html"><span><b>Budget Planner</b> — 50/30/20</span> ➔</a>
-          </div>
-          <div>
-            <h4>Savings & Goals</h4>
-            <a class="item" href="/savings.html"><span><b>Savings Goal</b> — deposits & target</span> ➔</a>
-            <a class="item" href="/retirement.html"><span><b>Retirement</b> — contributions</span> ➔</a>
-            <a class="item" href="/emergency-fund.html"><span><b>Emergency Fund</b> — months</span> ➔</a>
-            <a class="item" href="/fx-converter.html"><span><b>Currency Converter</b> — live FX</span> ➔</a>
-          </div>
-          <div>
-            <h4>Credit & Debt</h4>
-            <a class="item" href="/credit-card.html"><span><b>Credit Card</b> — monthly costs</span> ➔</a>
-            <a class="item" href="/credit-card-payoff.html"><span><b>Card Payoff</b> — strategies</span> ➔</a>
-            <a class="item" href="/car-loan-calculator.html"><span><b>Car Loan</b> — amortization</span> ➔</a>
-            <a class="item" href="/rent-vs-buy.htm"><span><b>Rent vs Buy</b> — total cost</span> ➔</a>
-          </div>
-          <div>
-            <h4>Student Loans</h4>
-            <a class="item" href="/student-loan-calculator.html"><span><b>Student Loan</b> — payoff</span> ➔</a>
-          </div>
+        <div class="row">
+          <a class="item" href="/income-tax.html"><b>Income & Taxes</b><br/><small>Take-home pay, presets</small></a>
+          <a class="item" href="/mortgage.html"><b>Mortgage</b><br/><small>Payment, amortization</small></a>
+          <a class="item" href="/loan.html"><b>Loan Payoff</b><br/><small>APR, extra payments</small></a>
+          <a class="item" href="/savings.html"><b>Budget</b><br/><small>50/30/20, custom</small></a>
+          <a class="item" href="/savings.html"><b>Savings Goal</b><br/><small>Lumps + recurring</small></a>
+          <a class="item" href="/retirement.html"><b>Retirement</b><br/><small>Contribs & horizon</small></a>
+          <a class="item" href="/emergency-fund.html"><b>Emergency Fund</b><br/><small>Months & plan</small></a>
+          <a class="item" href="/fx-converter.html"><b>Currency Converter</b><br/><small>Live FX</small></a>
+          <a class="item" href="/credit-card.html"><b>Credit Card</b><br/><small>Monthly costs</small></a>
+          <a class="item" href="/credit-card-payoff.html"><b>Card Payoff</b><br/><small>Timeline</small></a>
+          <a class="item" href="/car-loan-calculator.html"><b>Car Loan</b><br/><small>Payment</small></a>
+          <a class="item" href="/rent-vs-buy.htm"><b>Rent vs Buy</b><br/><small>Total cost</small></a>
+          <a class="item" href="/student-loan-calculator.html"><b>Student Loan</b><br/><small>Payments</small></a>
         </div>
-      </div>
-      <div class="foot">
-        <button class="close" data-close>Close</button>
       </div>
     </div>
   </div>
 
-  <!-- ========================= Scripts ========================= -->
-  <script>
-    /* Year */
-    document.getElementById('yr').textContent = new Date().getFullYear();
-
-    /* Bottom-sheet controls */
-    const sheet = document.getElementById('sheetAll');
-    const btnMenu = document.getElementById('btnMenu');
-    const btnMenu2 = document.getElementById('btnMenu2');
-    const toggles = [btnMenu, btnMenu2].filter(Boolean);
-
-    function openSheet(){
-      sheet.classList.add('show');
-      toggles.forEach(t=>t.setAttribute('aria-expanded','true'));
-      document.body.style.overflow='hidden';
-    }
-    function closeSheet(){
-      sheet.classList.remove('show');
-      toggles.forEach(t=>t.setAttribute('aria-expanded','false'));
-      document.body.style.overflow='';
-    }
-    toggles.forEach(t=>t.addEventListener('click', openSheet));
-    sheet.addEventListener('click', (e)=>{ if(e.target.hasAttribute('data-close')) closeSheet(); });
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeSheet(); });
-
-    /* Device locale → show country + currency readouts (no external calls) */
-    (function(){
-      try{
-        const loc = Intl.DateTimeFormat().resolvedOptions().locale || 'en-US';
-        const region = (loc.split('-')[1] || 'US').toUpperCase();
-        const currency = (Intl.NumberFormat().resolvedOptions().currency) || (region==='US'?'USD': (region==='GB'?'GBP': 'USD'));
-        document.getElementById('locCountry').textContent = new Intl.DisplayNames([loc], {type:'region'}).of(region) || region;
-        document.getElementById('locCurrency').textContent = currency;
-      }catch(_){
-        document.getElementById('locCountry').textContent = 'United States';
-        document.getElementById('locCurrency').textContent = 'USD';
-      }
-    })();
-
-    /* Recently used: store last 8 pages the user opened from the homepage */
-    const recentKey = 'lh_recent_pages_v1';
-    const recentWrap = document.getElementById('recentWrap');
-    const noHistory = document.getElementById('noHistory');
-
-    function getRecent(){
-      try{ return JSON.parse(localStorage.getItem(recentKey) || '[]'); }catch(_){ return []; }
-    }
-    function setRecent(arr){
-      try{ localStorage.setItem(recentKey, JSON.stringify(arr.slice(0,8))); }catch(_){}
-    }
-    function addRecent(title, href){
-      const r = getRecent().filter(x=>x.href!==href);
-      r.unshift({title, href});
-      setRecent(r);
-      renderRecent();
-    }
-    function removeRecent(href){
-      const r = getRecent().filter(x=>x.href!==href);
-      setRecent(r);
-      renderRecent();
-    }
-    function renderRecent(){
-      const r = getRecent();
-      recentWrap.innerHTML = '';
-      if(!r.length){
-        noHistory.classList.remove('hide');
-        recentWrap.appendChild(noHistory);
-        return;
-      }
-      r.forEach(item=>{
-        const el = document.createElement('a');
-        el.className='chip2';
-        el.href=item.href;
-        el.textContent=item.title;
-        el.addEventListener('click', ()=>{
-          // clicking a recent chip also bubbles to track again at destination
-        });
-        const del = document.createElement('button');
-        del.setAttribute('aria-label', 'Remove');
-        del.textContent='×';
-        del.addEventListener('click', (e)=>{ e.preventDefault(); removeRecent(item.href); });
-        el.appendChild(del);
-        recentWrap.appendChild(el);
-      });
-    }
-    renderRecent();
-
-    /* Track clicks on visible cards for Recently used */
-    document.querySelectorAll('.card').forEach(card=>{
-      card.addEventListener('click', ()=>{
-        const title = card.querySelector('.cd-title')?.textContent?.trim() || 'Calculator';
-        const href = card.getAttribute('href') || '#';
-        addRecent(title, href);
-      }, {passive:true});
-    });
-
-    /* Respect reduced motion: strip hover lift if user prefers */
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('.card,.open,.pill,.cta').forEach(el=>{
-        el.style.transition='none';
-      });
-      const anim = document.querySelector('.bg-anim');
-      if(anim) anim.style.animation='none';
-    }
+  <!-- ========================= Structured Data (SEO) ========================= -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"LockHabit","url":"https://lockhabit.com/","logo":"/public/logo.svg"}
   </script>
 
-  <!-- Schema -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"LockHabit",
-    "url":"https://lockhabit.com/",
-    "potentialAction":{
-      "@type":"SearchAction",
-      "target":"https://lockhabit.com/{calculator}",
-      "query-input":"required name=calculator"
-    }
-  }
+  <!-- ========================= Scripts ========================= -->
+  <script>
+    /* Live year */
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* Sticky header shadow */
+    (function(){
+      const hdr = document.getElementById('hdr');
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', ()=>{
+        const y = window.scrollY;
+        hdr.classList.toggle('stuck', y > 2);
+        lastY = y;
+      }, {passive:true});
+    })();
+
+    /* All calculators sheet (accessible) */
+    (function(){
+      const sheet  = document.getElementById('sheetAll');
+      const back   = document.getElementById('sheetBack');
+      const closeX = document.getElementById('sheetClose');
+      const openers= [document.getElementById('btnSheet'), document.getElementById('btnSheet2')];
+      let lastFocus=null;
+
+      function open(){
+        lastFocus = document.activeElement;
+        sheet.classList.add('show');
+        closeX.focus();
+        document.body.style.overflow='hidden';
+      }
+      function close(){
+        sheet.classList.remove('show');
+        document.body.style.overflow='';
+        lastFocus && lastFocus.focus();
+      }
+      openers.forEach(b=>b && b.addEventListener('click', open));
+      closeX.addEventListener('click', close);
+      back.addEventListener('click', close);
+      window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && sheet.classList.contains('show')) close(); });
+
+      // trap focus
+      sheet.addEventListener('keydown', (e)=>{
+        if(e.key!=='Tab') return;
+        const focusables = sheet.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
+        const first = focusables[0], last = focusables[focusables.length-1];
+        if(e.shiftKey && document.activeElement===first){ last.focus(); e.preventDefault(); }
+        else if(!e.shiftKey && document.activeElement===last){ first.focus(); e.preventDefault(); }
+      });
+    })();
+
+    /* Country / currency auto (best-effort; stored locally) */
+    (function(){
+      try{
+        const n = Intl.NumberFormat();
+        const parts = n.resolvedOptions();
+        const loc = parts.locale || '';
+        const region = loc.split('-')[1] || 'US';
+        const ccy = (Intl.NumberFormat(loc, {style:'currency', currencyDisplay:'narrowSymbol'}).resolvedOptions().currency) || 'USD';
+
+        const map = {US:'United States', GB:'United Kingdom', CA:'Canada', AU:'Australia', IN:'India'};
+        document.getElementById('countryVal').textContent = map[region] || region;
+        document.getElementById('ccyVal').textContent = ccy;
+
+        localStorage.setItem('lh_country', map[region] || region);
+        localStorage.setItem('lh_ccy', ccy);
+      }catch(_){}
+    })();
+
+    /* Recently used — store last 6 visited calculators (by path) */
+    (function(){
+      const key='lh_recent';
+      const row=document.getElementById('recentRow');
+      const no=document.getElementById('noHistory');
+
+      function render(items){
+        row.innerHTML='';
+        if(!items || !items.length){ row.appendChild(no); no.style.display='inline-block'; return; }
+        items.forEach(([label, href])=>{
+          const a=document.createElement('a');
+          a.className='chipSm'; a.href=href; a.textContent=label;
+          row.appendChild(a);
+        });
+      }
+      try{
+        const items=JSON.parse(localStorage.getItem(key)||'[]');
+        render(items);
+        window.addEventListener('click',(e)=>{
+          const a=e.target.closest('a.open, a.item, a.chipSm');
+          if(!a) return;
+          const label=a.textContent.trim()||'Calculator';
+          const href=a.getAttribute('href')||'/';
+          let list=JSON.parse(localStorage.getItem(key)||'[]').filter(x=>x[1]!==href);
+          list.unshift([label, href]); list=list.slice(0,6);
+          localStorage.setItem(key, JSON.stringify(list));
+        }, {capture:true});
+      }catch(_){ render([]); }
+    })();
+
+    /* AdSense policy: load only once and not in dialogs (no extra code needed here) */
   </script>
 </body>
 </html>
