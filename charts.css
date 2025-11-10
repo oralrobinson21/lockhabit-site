@@ -1,0 +1,70 @@
+/* charts.css — LockHabit chart styles (dark finance theme) */
+
+:root{
+  --bg:#0b1220; --panel:#0f1727; --line:#1a2740;
+  --text:#e7edf6; --muted:#a5b2c8;
+  --c-federal:#67a8ff; --c-state:#33c1b1; --c-social:#6d7cff;
+  --c-other:#f3c471; --c-net:#25d3b4;
+  --radius:16px; --shadow:0 6px 22px rgba(10,20,40,.28);
+}
+
+/* Container */
+.chart-wrap{
+  background:linear-gradient(180deg,rgba(17,29,54,.78),rgba(13,22,42,.88));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  color:var(--text);
+}
+
+/* Legend */
+.legend{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:12px}
+.legend-item{display:inline-flex;align-items:center;gap:8px;
+  padding:8px 10px;border:1px solid var(--line);border-radius:999px;
+  background:#0e1d34;color:#cfe3fb;font-size:13px}
+.legend-swatch{width:10px;height:10px;border-radius:3px}
+.sw-federal{background:var(--c-federal)}
+.sw-state{background:var(--c-state)}
+.sw-social{background:var(--c-social)}
+.sw-other{background:var(--c-other)}
+.sw-net{background:var(--c-net)}
+
+/* Donut base */
+.donut{display:grid;place-items:center;position:relative}
+.donut svg{width:clamp(220px,40vw,320px);height:clamp(220px,40vw,320px)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:18}
+.seg{fill:none;stroke-linecap:butt;stroke-width:18;
+  transform:rotate(-90deg);transform-origin:50% 50%;
+  stroke-dasharray:0 1000;opacity:.95}
+.seg--federal{stroke:var(--c-federal)}
+.seg--state{stroke:var(--c-state)}
+.seg--social{stroke:var(--c-social)}
+.seg--other{stroke:var(--c-other)}
+
+@keyframes drawSlice{from{stroke-dasharray:0 1000}to{stroke-dasharray:var(--dash,0) 1000}}
+.seg{animation:drawSlice .9s ease forwards}
+.seg--state{animation-delay:.06s}
+.seg--social{animation-delay:.12s}
+.seg--other{animation-delay:.18s}
+@media(prefers-reduced-motion:reduce){.seg{animation:none;stroke-dasharray:var(--dash,0) 1000}}
+
+.donut-center{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.donut-takehome{font-weight:900;font-size:clamp(18px,3.8vw,26px)}
+.donut-caption{color:var(--muted);font-size:13px}
+
+/* Bars */
+.bar-chart{display:grid;gap:8px;margin-top:14px}
+.bar-row{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center}
+.bar-label{color:var(--muted);font-size:13px}
+.bar-track{position:relative;height:14px;background:rgba(255,255,255,.06);
+  border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.bar-fill{position:absolute;inset:0 auto 0 0;width:0%;
+  background:linear-gradient(90deg,var(--from,#67a8ff),var(--to,#33c1b1));
+  border-radius:999px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.fill-federal{--from:var(--c-federal);--to:#5fb0ff}
+.fill-state{--from:var(--c-state);--to:#4ad1c2}
+.fill-social{--from:var(--c-social);--to:#7a8bff}
+.fill-other{--from:var(--c-other);--to:#ffd88e}
+.fill-net{--from:var(--c-net);--to:#6de3cd}
+.bar-val{font-weight:700;font-variant-numeric:tabular-nums}
