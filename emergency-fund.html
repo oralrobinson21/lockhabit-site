@@ -1,389 +1,492 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Google AdSense -->
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
 
-  <!-- Google tag (GA4) -->
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-WMJ37PBW8H');
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
   </script>
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Emergency Fund Calculator — LockHabit Tools</title>
-  <meta name="description" content="Figure out how much you need for a 3–12 month emergency fund, how long it will take to reach it, and a monthly save plan. Email yourself the plan."/>
+  <title>Emergency Fund Calculator | LockHabit</title>
+  <meta name="description" content="Set a 3–12 month emergency fund target, include deductibles & one-time buffers, estimate months to goal with APY and compounding, and get a monthly save plan. Email a clean summary."/>
+  <link rel="canonical" href="https://lockhabit.com/emergency.html"/>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
 
   <style>
+    /* ==== Dark theme, aligned with Mortgage/Loan/Savings/Retirement ==== */
     :root{
-      --brand:#6f7cff; --brand-2:#9c78ff; --line:#e6e7f1; --ink:#0b1230; --panel:#fff;
-      --muted:#5b677f; --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.10);
+      --bg:#0c1424;--hero:#0f1b2f;--card:#0f1b2f;
+      --ink:#dbe4ff;--muted:#93a4c6;--line:#243049;
+      --brand:#6f7cff;--brand-2:#9c78ff;
+      --ok-bg:#0c2b1b;--ok-bd:#1f6f46;--ok-ink:#bff7d5;
+      --radius:16px;--shadow:0 18px 50px rgba(0,0,0,.25);
     }
     *{box-sizing:border-box}
-    body{margin:0;background:#f7f8ff;color:var(--ink);font:16px/1.6 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
-    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-    .logo{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,var(--brand),var(--brand-2))}
-    .word{font-weight:800;color:#0e1a34;letter-spacing:.2px}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:#cdd7ff}
+    header{position:sticky;top:0;z-index:50;background:rgba(15,27,47,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;cursor:pointer}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800;letter-spacing:.2px;white-space:nowrap}
+    .chip{border:1px solid var(--line);background:transparent;border-radius:12px;padding:8px 12px;color:var(--ink);font-weight:600;cursor:pointer}
     .menu{position:relative}
-    .more{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer}
-    .dropdown{position:absolute;right:0;top:44px;min-width:260px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:none}
-    .dropdown a{display:block;padding:10px 12px;text-decoration:none;color:#14223e;border-bottom:1px solid #f0f2f8}
-    .dropdown a:last-child{border-bottom:0}
-    .hero{padding:32px 16px;border-bottom:1px solid var(--line);background:
-      radial-gradient(1100px 650px at 50% -150px, rgba(111,124,255,.20) 0%, rgba(156,120,255,.10) 40%, transparent 60%), #f8f9ff}
-    .hwrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:start}
-    @media (max-width:980px){ .hwrap{grid-template-columns:1fr} }
-
-    h1{font-size:36px;line-height:1.1;margin:0 0 8px}
-    .sub{color:#33415f;margin:0}
-
-    .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:720px){ .grid{grid-template-columns:1fr} }
-    label{font-weight:600;color:#12203d;font-size:14px}
-    input,select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
-    .row{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}
-    .mini{font-size:12px;color:var(--muted)}
+    .menu-panel{position:absolute;right:0;top:44px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:8px;display:none;min-width:220px}
+    .menu.open .menu-panel{display:block}
+    .menu a{display:block;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none}
+    .menu a:hover{background:#0c1629}
+    .hero{background:radial-gradient(1400px 650px at 50% -220px, rgba(111,124,255,.18) 0%, transparent 60%),var(--hero);border-bottom:1px solid var(--line)}
+    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 16px}
+    h1{margin:0 0 6px;font-size:34px;letter-spacing:-.3px}
+    .sub{color:var(--muted);max-width:65ch;margin:0}
+    .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr;padding:0 16px}
+    @media(min-width:980px){.grid{grid-template-columns:1.05fr .95fr}}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .panel h2{margin:0 0 10px;font-size:20px}
+    label{font-weight:600;font-size:14px;color:#c7d5ff}
+    input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #22314c;background:#0b1322;color:var(--ink);font-size:15px;outline:none}
+    input::placeholder{color:#6e7ea3}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .stack{display:grid;gap:8px}
+    .muted{color:var(--muted);font-size:13px}
+    .btn{appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .ghost{background:transparent;color:var(--ink)}
+    .pill{border-radius:999px}
+    .break{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:12px;background:#0b1322}
+    .ok{color:var(--ok-ink);background:var(--ok-bg);border-color:var(--ok-bd)}
+    .k{font-size:12px;color:#98a9cd;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:22px}
+    .accordion{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    details{border-top:1px solid var(--line);background:#0d172a}
+    details:first-of-type{border-top:none}
+    summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;color:#d7e1ff;display:flex;justify-content:space-between;align-items:center}
+    summary::-webkit-details-marker{display:none}
+    .acc-body{padding:12px 16px 16px}
     .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .kv .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
-    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
-    .v{font-weight:800;font-size:20px;color:#0b1230;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-    table{width:100%;border-collapse:collapse;font-size:14px}
-    th,td{padding:10px;border-bottom:1px solid #eef1f6;text-align:right}
-    th:first-child, td:first-child{text-align:left}
-    footer{padding:24px 16px;color:#3a4a66}
-    .foot{max-width:1100px;margin:0 auto}
-    .bar{height:6px;border-radius:999px;background:#eef1ff;overflow:hidden}
+    .box{background:#0b1322;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .bar{height:8px;border-radius:999px;background:#0b1322;border:1px solid var(--line);overflow:hidden}
     .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--line);padding:8px;text-align:right;font-size:14px}
+    th:first-child,td:first-child{text-align:left}
+    footer{border-top:1px solid var(--line);margin-top:24px;background:var(--hero)}
+    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#9fb1db}
+    .ads{margin-top:10px}
   </style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <a class="brand" href="/"><span class="logo" aria-hidden="true"></span><span class="word">LockHabit</span></a>
-    <div class="menu">
-      <button class="more" id="moreBtn">More calculators ▾</button>
-      <div class="dropdown" id="menu">
-        <a href="/income-calculator.html">Income (Take-Home)</a>
-        <a href="/mortgage-calculator.html">Mortgage</a>
-        <a href="/loan-payoff-calculator.html">Loan Payoff</a>
-        <a href="/savings-calculator.html">Savings Growth</a>
-        <a href="/retirement-calculator.html">Retirement</a>
-        <a href="/student-loan-calculator.html">Student Loan</a>
-        <a href="/car-loan-calculator.html">Car Loan</a>
-        <a href="/credit-card-payoff.html">Credit Card Payoff</a>
-        <a href="/rent-vs-buy.html">Rent vs Buy</a>
-        <a href="/currency-converter.html">Currency Converter</a>
+    <div class="brand" onclick="location.href='/index.html'" role="button" aria-label="Home">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="word">LockHabit</div>
+    </div>
+
+    <div class="top-actions" style="display:flex;gap:10px">
+      <button class="chip" onclick="location.href='/'">Home</button>
+      <div class="menu" id="toolsMenu">
+        <button class="chip" onclick="document.getElementById('toolsMenu').classList.toggle('open')">Tools ▾</button>
+        <div class="menu-panel" onclick="event.stopPropagation()">
+          <a href="/income-tax.html">Income & Taxes</a>
+          <a href="/mortgage.html">Mortgage</a>
+          <a href="/loan.html">Loan</a>
+          <a href="/savings.html">Savings</a>
+          <a href="/retirement.html">Retirement</a>
+          <a href="/currency.html" title="Coming soon">FX Converter</a>
+          <a href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+          <a href="#" onclick="document.getElementById('toolsMenu').classList.remove('open')" style="text-align:right">Close ✕</a>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
 <section class="hero">
-  <div class="hwrap">
-    <div>
-      <h1>Emergency Fund Calculator</h1>
-      <p class="sub">Set a goal for 3–12 months of expenses, see how much you need, and get a monthly save plan based on what you can contribute and what you already have.</p>
-      <div class="card" style="margin-top:12px">
-        <form id="form" class="grid" novalidate>
-          <div>
-            <label>Monthly essential expenses</label>
-            <input type="number" id="expenses" inputmode="decimal" placeholder="e.g., 2800" min="0" step="0.01" required>
-            <div class="mini">Rent/mortgage, utilities, food, transport, insurance, minimum debt payments.</div>
-          </div>
-          <div>
-            <label>Months to cover</label>
-            <select id="months">
-              <option value="3">3 months (starter)</option>
-              <option value="6" selected>6 months (standard)</option>
-              <option value="9">9 months (buffer)</option>
-              <option value="12">12 months (max safety)</option>
-            </select>
-          </div>
-          <div>
-            <label>Current emergency savings</label>
-            <input type="number" id="current" inputmode="decimal" placeholder="e.g., 1200" min="0" step="0.01">
-          </div>
-          <div>
-            <label>Monthly contribution</label>
-            <input type="number" id="contrib" inputmode="decimal" placeholder="e.g., 300" min="0" step="0.01">
-            <div class="mini">What you can set aside each month.</div>
-          </div>
-          <div>
-            <label>Expected annual yield (%)</label>
-            <input type="number" id="apy" inputmode="decimal" placeholder="e.g., 4.5" min="0" step="0.01">
-            <div class="mini">Optional. Used to estimate time with interest.</div>
-          </div>
-          <div>
-            <label>Compounding</label>
-            <select id="compound">
-              <option value="12">Monthly</option>
-              <option value="52">Weekly</option>
-              <option value="1">Annual</option>
-              <option value="0" selected>No compounding</option>
-            </select>
-          </div>
-        </form>
-        <div class="row" style="margin-top:10px">
-          <button class="btn acc" id="calc">Calculate</button>
-          <button class="btn" id="reset">Reset</button>
-          <button class="btn" id="emailBtn">Email me the plan</button>
-        </div>
-      </div>
-      <p class="mini" style="margin-top:8px">Tip: If your income varies, start with 3 months and work toward 6–12 as your budget stabilizes.</p>
-    </div>
-
-    <div>
-      <div class="kv">
-        <div class="box">
-          <div class="k">Target fund</div>
-          <div class="v" id="outTarget">—</div>
-        </div>
-        <div class="box">
-          <div class="k">Amount remaining</div>
-          <div class="v" id="outRemain">—</div>
-        </div>
-        <div class="box">
-          <div class="k">Months to goal</div>
-          <div class="v" id="outTime">—</div>
-        </div>
-        <div class="box">
-          <div class="k">Suggested monthly</div>
-          <div class="v" id="outSuggest">—</div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <h3 style="margin:0 0 8px">Progress to goal</h3>
-        <div class="bar"><span id="progress" style="width:0%"></span></div>
-        <div class="mini" id="progressLabel" style="margin-top:6px">0% funded</div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <h3 style="margin:0 0 8px">Month-by-month projection (first 18 months)</h3>
-        <div style="max-height:340px;overflow:auto;border:1px solid #eef1f6;border-radius:12px">
-          <table id="table">
-            <thead>
-              <tr>
-                <th>Month</th>
-                <th>Start</th>
-                <th>Contribution</th>
-                <th>Interest</th>
-                <th>End</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
+  <div class="hero-inner">
+    <h1>Emergency Fund Calculator</h1>
+    <p class="sub">Set a target (3–12 months of essential expenses), add buffers (deductibles, one-time costs), include APY & compounding, and get a monthly save plan. We’ll import your net income if available to suggest a starting contribution.</p>
   </div>
 </section>
 
+<main class="grid" id="app">
+  <!-- LEFT: Basic + Snapshot -->
+  <section class="panel" aria-labelledby="basic">
+    <h2 id="basic">Basic plan</h2>
+
+    <div class="row">
+      <div class="stack">
+        <label for="essentials">Monthly essential expenses</label>
+        <input id="essentials" inputmode="decimal" placeholder="e.g., 2,800"/>
+        <div class="muted">Rent/mortgage, utilities, food, transport, insurance, minimum debt.</div>
+      </div>
+      <div class="stack">
+        <label for="months">Months to cover</label>
+        <select id="months">
+          <option value="3">3 (starter)</option>
+          <option value="6" selected>6 (standard)</option>
+          <option value="9">9 (buffer)</option>
+          <option value="12">12 (max safety)</option>
+        </select>
+        <div class="muted">Use “Recommend months” below if unsure.</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="current">Current emergency savings</label>
+        <input id="current" inputmode="decimal" placeholder="e.g., 1,200"/>
+      </div>
+      <div class="stack">
+        <label for="contrib">Planned monthly contribution</label>
+        <input id="contrib" inputmode="decimal" placeholder="e.g., 300"/>
+        <div class="muted">Prefill: ~10% of net from Income tool if present.</div>
+      </div>
+    </div>
+
+    <div class="break ok" style="margin-top:10px">
+      <div><div class="k">Target fund</div><div class="v" id="outTarget">—</div></div>
+      <div><div class="k">Amount remaining</div><div class="v" id="outRemain">—</div></div>
+    </div>
+    <div class="break">
+      <div><span class="k">Estimated months to goal</span><div class="v" id="outTime">—</div></div>
+      <div><span class="k">Suggested monthly to hit goal</span><div class="v" id="outSuggest">—</div></div>
+    </div>
+
+    <div class="stack" style="margin-top:10px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" id="calcBtn">Calculate</button>
+        <button class="btn ghost" id="recommendBtn" type="button">Recommend months</button>
+        <button class="btn ghost" id="resetBtn" type="button">Reset</button>
+        <button class="btn ghost pill" id="emailBtn" type="button">Email summary</button>
+      </div>
+      <div class="muted">Inputs auto-save to this device.</div>
+
+      <div class="ads">
+        <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+             data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+             data-ad-slot="3234567890"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT: Dropdowns + Progress/Projection -->
+  <section class="panel">
+    <div class="accordion">
+      <details open>
+        <summary>APY, compounding & buffers ▾</summary>
+        <div class="acc-body">
+          <div class="row">
+            <div class="stack">
+              <label for="apy">Expected annual yield (APY %)</label>
+              <input id="apy" inputmode="decimal" placeholder="e.g., 4.50"/>
+              <div class="muted">High-yield savings or treasury bills, optional.</div>
+            </div>
+            <div class="stack">
+              <label for="compound">Compounding</label>
+              <select id="compound">
+                <option value="0">No compounding</option>
+                <option value="12" selected>Monthly</option>
+                <option value="52">Weekly</option>
+                <option value="1">Annual</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="stack">
+              <label for="deductible">Insurance deductible cushion</label>
+              <input id="deductible" inputmode="decimal" placeholder="e.g., 1,000"/>
+              <div class="muted">Add the highest medical/auto/home deductible you might face.</div>
+            </div>
+            <div class="stack">
+              <label for="oneTime">One-time upcoming expenses</label>
+              <input id="oneTime" inputmode="decimal" placeholder="e.g., 600 (travel, repairs)"/>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Risk profile (suggested months) ▾</summary>
+        <div class="acc-body">
+          <div class="row">
+            <div class="stack">
+              <label for="household">Household</label>
+              <select id="household">
+                <option value="single">Single income</option>
+                <option value="dual" selected>Dual income</option>
+              </select>
+            </div>
+            <div class="stack">
+              <label for="incomeVar">Income stability</label>
+              <select id="incomeVar">
+                <option value="stable" selected>Stable (salary)</option>
+                <option value="variable">Variable (hourly/commission/self-employed)</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="stack">
+              <label for="dependents">Dependents</label>
+              <select id="dependents">
+                <option value="0" selected>0</option>
+                <option value="1">1+</option>
+              </select>
+            </div>
+            <div class="stack">
+              <label for="healthRisk">Health & coverage</label>
+              <select id="healthRisk">
+                <option value="low" selected>Low risk & good coverage</option>
+                <option value="high">High risk or high deductibles</option>
+              </select>
+            </div>
+          </div>
+          <div class="muted">Rule of thumb: start at 3 months, then +1 for each risk flag above (cap 12). Click “Recommend months.”</div>
+        </div>
+      </details>
+
+      <details open>
+        <summary>Progress & projection ▾</summary>
+        <div class="acc-body">
+          <div class="kv">
+            <div class="box"><div class="k">Funded</div><div class="v" id="fundedPct">—</div></div>
+            <div class="box"><div class="k">Projected in 12 mo</div><div class="v" id="in12">—</div></div>
+          </div>
+          <div class="box" style="margin-top:10px">
+            <div class="k">Progress to goal</div>
+            <div class="bar" style="margin-top:8px"><span id="progress" style="width:0%"></span></div>
+          </div>
+
+          <h3 style="margin:14px 0 6px;font-size:18px">Month-by-month (first 18 months)</h3>
+          <div style="overflow:auto">
+            <table id="table">
+              <thead><tr><th>Month</th><th>Start</th><th>Contribution</th><th>Interest</th><th>End</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
+
 <footer>
   <div class="foot">
-    <div class="mini">© <span id="yr"></span> LockHabit Tools — Free calculators for smarter money choices. No signup required.</div>
+    <div>© <span id="yr"></span> LockHabit · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="/security.html">Security</a></div>
+    <div class="muted">Educational use only; banks may use different compounding/timing.</div>
   </div>
 </footer>
 
 <script>
-  // Menu toggle
-  const moreBtn = document.getElementById('moreBtn');
-  const menu = document.getElementById('menu');
-  moreBtn.addEventListener('click', ()=> {
-    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-  });
-  document.addEventListener('click', (e)=>{
-    if (!menu.contains(e.target) && !moreBtn.contains(e.target)) menu.style.display='none';
-  });
+(function(){
+  document.getElementById('yr').textContent = new Date().getFullYear();
 
-  const $ = s => document.querySelector(s);
-  $('#yr').textContent = new Date().getFullYear();
-
+  // Shortcuts
+  const $ = id => document.getElementById(id);
+  const fmt = (n, c='USD')=>{
+    try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:c,maximumFractionDigits:2}).format(n||0); }
+    catch(_){ return '$'+(n||0).toFixed(2); }
+  };
   function guessCurrency(){
-    try {
-      const r = new Intl.NumberFormat().resolvedOptions().locale || 'en-US';
-      if (r.includes('GB')) return 'GBP';
-      if (r.includes('IN')) return 'INR';
-      if (r.includes('EU') || r.includes('DE') || r.includes('FR') || r.includes('ES') || r.includes('IT')) return 'EUR';
-      if (r.includes('CA')) return 'CAD';
-      if (r.includes('AU')) return 'AUD';
-      return 'USD';
-    } catch(_) { return 'USD'; }
+    try{
+      const loc = Intl.DateTimeFormat().resolvedOptions().locale||'en-US';
+      if(loc.includes('US')) return 'USD';
+      if(loc.includes('GB')||loc.includes('UK')) return 'GBP';
+      if(loc.includes('CA')) return 'CAD';
+      if(loc.includes('AU')) return 'AUD';
+      if(loc.includes('IN')) return 'INR';
+      if(loc.match(/DE|FR|ES|IT|EU/)) return 'EUR';
+    }catch(_){}
+    return 'USD';
   }
-  const cur = (n) => new Intl.NumberFormat(undefined, { style:'currency', currency: guessCurrency() }).format(n ?? 0);
+  const CURRENCY = guessCurrency();
+  const num = v => parseFloat((v||'').toString().replace(/,/g,''))||0;
 
   // Elements
-  const expensesEl = $('#expenses');
-  const monthsEl = $('#months');
-  const currentEl = $('#current');
-  const contribEl = $('#contrib');
-  const apyEl = $('#apy');
-  const compoundEl = $('#compound');
+  const essentials=$('essentials'), months=$('months'), current=$('current'), contrib=$('contrib');
+  const apy=$('apy'), compound=$('compound'), deductible=$('deductible'), oneTime=$('oneTime');
 
-  const outTarget = $('#outTarget');
-  const outRemain = $('#outRemain');
-  const outTime = $('#outTime');
-  const outSuggest = $('#outSuggest');
+  const household=$('household'), incomeVar=$('incomeVar'), dependents=$('dependents'), healthRisk=$('healthRisk');
 
-  const tbody = $('#table tbody');
-  const progress = $('#progress');
-  const progressLabel = $('#progressLabel');
+  const outTarget=$('outTarget'), outRemain=$('outRemain'), outTime=$('outTime'), outSuggest=$('outSuggest');
+  const fundedPct=$('fundedPct'), in12=$('in12'), progress=$('progress'), tbody=document.querySelector('#table tbody');
 
-  // Storage
-  const KEY = 'lh_emergency_fund';
-  function loadSaved(){
+  const calcBtn=$('calcBtn'), resetBtn=$('resetBtn'), emailBtn=$('emailBtn'), recommendBtn=$('recommendBtn');
+
+  // Import from income tool (suggest 10% of net as default contribution)
+  try{
+    const ic = JSON.parse(localStorage.getItem('lh_income_export')||'{}');
+    const net = ic.netMonthly || ic.monthlyNet || (JSON.parse(localStorage.getItem('lh_income_calc_v1')||'{}').netMonthly);
+    if(net && !contrib.value) contrib.value = Math.round(net*0.10);
+    // If essentials empty, suggest 70% of net as a conservative "must-have" baseline
+    if(net && !essentials.value) essentials.value = Math.round(net*0.7);
+  }catch(_){}
+
+  // Save/Load
+  const KEY='lh_emergency_calc_v1';
+  function save(){
+    const d = {
+      essentials:essentials.value, months:months.value, current:current.value, contrib:contrib.value,
+      apy:apy.value, compound:compound.value, deductible:deductible.value, oneTime:oneTime.value,
+      household:household.value, incomeVar:incomeVar.value, dependents:dependents.value, healthRisk:healthRisk.value
+    };
+    localStorage.setItem(KEY, JSON.stringify(d));
+  }
+  function load(){
+    const raw=localStorage.getItem(KEY); if(!raw) return;
     try{
-      const s = JSON.parse(localStorage.getItem(KEY) || '{}');
-      if(Object.keys(s).length){
-        expensesEl.value = s.expenses ?? '';
-        monthsEl.value = s.months ?? '6';
-        currentEl.value = s.current ?? '';
-        contribEl.value = s.contrib ?? '';
-        apyEl.value = s.apy ?? '';
-        compoundEl.value = s.compound ?? '0';
-      }
+      const d=JSON.parse(raw);
+      for(const k in d){ const el=$(k); if(el) el.value=d[k]; }
     }catch(_){}
   }
-  function saveInputs(){
-    const s = {
-      expenses: +expensesEl.value || 0,
-      months: +monthsEl.value || 6,
-      current: +currentEl.value || 0,
-      contrib: +contribEl.value || 0,
-      apy: +apyEl.value || 0,
-      compound: +compoundEl.value || 0
-    };
-    localStorage.setItem(KEY, JSON.stringify(s));
-  }
-  loadSaved();
+  load();
+  [essentials,months,current,contrib,apy,compound,deductible,oneTime,household,incomeVar,dependents,healthRisk].forEach(el=>el.addEventListener('input', save));
 
-  function monthsToGoal(current, target, monthlyAdd, apy, nComp){
-    if (target <= current) return 0;
-    if (!apy || !nComp){ // no interest case
-      if (monthlyAdd <= 0) return Infinity;
-      return Math.ceil((target - current) / monthlyAdd);
-    }
-    // With compounding (approximate by monthly steps)
-    const r = (apy/100)/12;
-    let bal = current;
+  // Core math
+  function targetFund(ess, months, buffers){
+    return Math.max(0, ess*months + (buffers||0));
+  }
+  function monthsToGoal(start, target, monthly, apyPct, comp){
+    if(target<=start) return 0;
+    if(!monthly && !apyPct) return Infinity;
+    const r = (apyPct/100)/12;
+    let bal = start;
     let m = 0;
-    while (bal < target && m < 600){ // cap 50 years
-      bal += monthlyAdd;
-      bal += bal * r;
+    while(bal<target && m<600){
+      if(monthly) bal += monthly;
+      if(comp>0 && apyPct>0) bal += bal*r;
       m++;
     }
-    return m;
+    return m>=600? Infinity : m;
   }
-
-  function buildProjection(current, target, monthlyAdd, apy){
-    const rows = [];
-    let bal = current;
-    const r = (apy/100)/12;
-    let m = 0;
-    while (bal < target && m < 600){
-      const start = bal;
-      const interest = bal * r;
-      const end = start + monthlyAdd + interest;
-      rows.push({ idx: m+1, start, add: monthlyAdd, interest, end });
-      bal = end;
-      m++;
-      if (rows.length >= 18) break; // first 18 months shown
+  function projection(start, monthly, apyPct, months=18){
+    const r=(apyPct/100)/12;
+    let bal=start; const rows=[];
+    for(let i=1;i<=months;i++){
+      const begin=bal;
+      const interest = bal*r;
+      bal = begin + monthly + interest;
+      rows.push({m:i, begin, add:monthly, interest, end:bal});
     }
     return rows;
   }
 
-  function render(){
-    const expenses = +expensesEl.value || 0;
-    const months = +monthsEl.value || 6;
-    const current = +currentEl.value || 0;
-    const contrib = +contribEl.value || 0;
-    const apy = +apyEl.value || 0;
+  function recommendMonths(){
+    let m=3;
+    if(household.value==='single') m+=1;
+    if(incomeVar.value==='variable') m+=1;
+    if(parseInt(dependents.value,10)>0) m+=1;
+    if(healthRisk.value==='high') m+=1;
+    m=Math.min(12, Math.max(3,m));
+    months.value = String(m);
+    save();
+  }
 
-    if (expenses <= 0 || months <= 0){
-      outTarget.textContent = outRemain.textContent = outTime.textContent = outSuggest.textContent = '—';
-      tbody.innerHTML = ''; progress.style.width='0%'; progressLabel.textContent='0% funded';
+  function calc(){
+    // Buffers
+    const buffers = num(deductible.value) + num(oneTime.value);
+
+    const ess = num(essentials.value);
+    const mo = parseInt(months.value||'6',10);
+    const cur = num(current.value);
+    const add = num(contrib.value);
+    const ap = num(apy.value);
+    const comp = parseInt(compound.value||'12',10);
+
+    if(!ess || !mo){
+      outTarget.textContent=outRemain.textContent=outTime.textContent=outSuggest.textContent='—';
+      fundedPct.textContent='—'; in12.textContent='—'; progress.style.width='0%'; tbody.innerHTML='';
       return;
     }
 
-    const target = expenses * months;
-    const remain = Math.max(0, target - current);
-    const time = monthsToGoal(current, target, contrib, apy, +compoundEl.value);
-    const suggest = remain > 0 ? (remain / Math.max(1, Math.min(time || Infinity, months))).toFixed(2) : 0;
+    const tgt = targetFund(ess, mo, buffers);
+    const remain = Math.max(0, tgt - cur);
+    const mTo = monthsToGoal(cur, tgt, add, ap, comp);
+    const suggest = remain>0 ? (remain / Math.max(1, Math.min(mTo || Infinity, mo))) : 0;
 
-    outTarget.textContent = cur(target);
-    outRemain.textContent = cur(remain);
-    outTime.textContent = (time === Infinity) ? '—' : `${time} mo`;
-    outSuggest.textContent = cur(+suggest || 0);
+    outTarget.textContent = fmt(tgt, CURRENCY);
+    outRemain.textContent = fmt(remain, CURRENCY);
+    outTime.textContent = (mTo===Infinity)? '—' : `${mTo} mo`;
+    outSuggest.textContent = fmt(suggest, CURRENCY);
 
-    const pct = Math.min(100, Math.max(0, (current/Math.max(target,1))*100));
-    progress.style.width = pct.toFixed(1) + '%';
-    progressLabel.textContent = `${pct.toFixed(1)}% funded`;
+    const pct = Math.min(100, Math.max(0, (cur/Math.max(1,tgt))*100));
+    progress.style.width = pct.toFixed(1)+'%';
+    fundedPct.textContent = pct.toFixed(1)+'%';
 
-    const rows = buildProjection(current, target, contrib, apy);
+    // 12-month projection for quick glance
+    const proj12 = projection(cur, add, ap, 12);
+    in12.textContent = fmt(proj12.at(-1)?.end || cur, CURRENCY);
+
+    // Table (first 18)
+    const rows = projection(cur, add, ap, 18);
+    tbody.innerHTML='';
     const frag = document.createDocumentFragment();
-    tbody.innerHTML = '';
     rows.forEach(r=>{
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${r.idx}</td>
-        <td>${cur(r.start)}</td>
-        <td>${cur(r.add)}</td>
-        <td>${cur(r.interest)}</td>
-        <td>${cur(r.end)}</td>
-      `;
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td>${r.m}</td><td>${fmt(r.begin,CURRENCY)}</td><td>${fmt(r.add,CURRENCY)}</td><td>${fmt(r.interest,CURRENCY)}</td><td>${fmt(r.end,CURRENCY)}</td>`;
       frag.appendChild(tr);
     });
     tbody.appendChild(frag);
 
-    saveInputs();
+    save();
   }
 
-  document.getElementById('calc').addEventListener('click', ()=>{ render(); gtag('event','ef_calc_run'); });
-  document.getElementById('reset').addEventListener('click', ()=>{
-    ['expenses','current','contrib','apy'].forEach(id=> document.getElementById(id).value='');
-    monthsEl.value='6'; compoundEl.value='0';
-    tbody.innerHTML=''; outTarget.textContent=outRemain.textContent=outTime.textContent=outSuggest.textContent='—';
-    progress.style.width='0%'; progressLabel.textContent='0% funded';
-    localStorage.removeItem(KEY);
-    gtag('event','ef_calc_reset');
+  function emailSummary(){
+    const lines = [
+      'LockHabit — Emergency Fund Summary',
+      `Essentials / month: ${fmt(num(essentials.value), CURRENCY)}`,
+      `Months to cover: ${months.value}`,
+      `Deductible cushion: ${fmt(num(deductible.value), CURRENCY)}`,
+      `One-time buffer: ${fmt(num(oneTime.value), CURRENCY)}`,
+      `Target fund: ${outTarget.textContent}`,
+      `Current savings: ${fmt(num(current.value), CURRENCY)}`,
+      `Amount remaining: ${outRemain.textContent}`,
+      `Monthly contribution: ${fmt(num(contrib.value), CURRENCY)}`,
+      apy.value ? `APY: ${apy.value}% (comp: ${compound.value}/yr)` : '',
+      `Estimated months to goal: ${outTime.textContent}`,
+      `Suggested monthly to hit goal: ${outSuggest.textContent}`
+    ].filter(Boolean).join('%0D%0A');
+    location.href = `mailto:?subject=${encodeURIComponent('Emergency Fund Plan (LockHabit)')}&body=${lines}`;
+  }
+
+  // Events
+  calcBtn.addEventListener('click', ()=>{ calc(); gtag('event','ef_calc'); });
+  resetBtn.addEventListener('click', ()=>{
+    ['essentials','current','contrib','apy','deductible','oneTime'].forEach(id=>$(id).value='');
+    months.value='6'; compound.value='12'; household.value='dual'; incomeVar.value='stable'; dependents.value='0'; healthRisk.value='low';
+    save(); calc();
+    gtag('event','ef_reset');
+  });
+  emailBtn.addEventListener('click', emailSummary);
+  recommendBtn.addEventListener('click', ()=>{ recommendMonths(); calc(); });
+
+  // Close Tools dropdown on outside click
+  document.addEventListener('click', e=>{
+    const m=document.getElementById('toolsMenu');
+    if(m && !m.contains(e.target)) m.classList.remove('open');
   });
 
-  // Email results
-  document.getElementById('emailBtn').addEventListener('click', ()=>{
-    const lines = [];
-    lines.push('Emergency Fund Plan — LockHabit');
-    lines.push(`Monthly expenses: ${cur(+expensesEl.value||0)}`);
-    lines.push(`Months to cover: ${monthsEl.value}`);
-    lines.push(`Target fund: ${outTarget.textContent}`);
-    lines.push(`Current savings: ${cur(+currentEl.value||0)}`);
-    lines.push(`Amount remaining: ${outRemain.textContent}`);
-    lines.push(`Monthly contribution: ${cur(+contribEl.value||0)}`);
-    const apyVal = +apyEl.value || 0;
-    if (apyVal>0) lines.push(`Assumed APY: ${apyVal}%`);
-    lines.push(`Estimated months to goal: ${outTime.textContent}`);
-    lines.push(`Suggested monthly to hit goal sooner: ${outSuggest.textContent}`);
-    const subject = encodeURIComponent('Emergency Fund Plan — LockHabit');
-    const body = encodeURIComponent(lines.join('\n'));
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-    gtag('event','ef_email_export');
-  });
-
-  // Auto-calc on load if values exist
-  window.addEventListener('load', render, { once:true });
+  // First paint
+  calc();
+})();
 </script>
 </body>
 </html>
