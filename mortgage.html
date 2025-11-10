@@ -9,124 +9,104 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-WMJ37PBW8H');
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
   </script>
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-
   <title>Mortgage Payment & Affordability Calculator | LockHabit</title>
-  <meta name="description" content="Estimate monthly mortgage payment with taxes, insurance, PMI, and extra payments. See payoff time, total interest, and a quick amortization table. Save inputs to your device and email yourself the results.">
+  <meta name="description" content="Estimate monthly mortgage payments with taxes, insurance, PMI and extras. See payoff time, total interest, and affordability using your imported monthly net income from the Income & Taxes calculator."/>
   <meta name="theme-color" content="#0b0e1a"/>
 
-  <!-- Social -->
-  <link rel="canonical" href="https://lockhabit.com/mortgage.html"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Mortgage Payment & Affordability Calculator | LockHabit"/>
-  <meta property="og:description" content="Fast mortgage estimates with taxes, insurance, PMI and extra payments. Save and email your results."/>
-  <meta property="og:url" content="https://lockhabit.com/mortgage.html"/>
-  <meta property="og:image" content="/public/og-image.png"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Mortgage Payment & Affordability Calculator | LockHabit"/>
-  <meta name="twitter:description" content="Monthly payment, payoff time, total interest, amortization—all in one view."/>
-  <meta name="twitter:image" content="/public/og-image.png"/>
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
 
   <style>
     :root{
-      --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
-      --green:#22c55e; --ink:#0b1230; --muted:#55617a;
-      --line:#e6e7f1; --panel:#ffffff; --surface:#f7f8ff;
+      --ink:#0b1230; --muted:#5b6a88; --line:#e6e7f1; --panel:#fff;
+      --brand:#6f7cff; --brand2:#9c78ff; --ok:#22c55e;
       --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.08);
     }
     *{box-sizing:border-box}
-    body{
-      margin:0;background:#f5f7ff;color:#0b1230;
-      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    header{
-      position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);
-      backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
-    }
-    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between}
-    .brand{display:flex;gap:10px;align-items:center;min-width:0;cursor:pointer}
-    .logo{width:28px;height:28px}
-    .word{font-weight:800;letter-spacing:.2px;color:#0e1a34;white-space:nowrap}
-    nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    nav a, nav button{
-      border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;
-      text-decoration:none;color:#1a2643;font-weight:600;cursor:pointer
-    }
-    .hero{
-      background:
-        radial-gradient(1400px 650px at 50% -200px, rgba(111,124,255,.25) 0%, transparent 60%),
-        #f8f9ff;
-      border-bottom:1px solid var(--line);
-    }
-    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 12px}
+    html,body{height:100%}
+    body{margin:0;background:#f5f7ff;color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
+    .brand{display:flex;gap:10px;align-items:center;cursor:pointer}
+    .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2))}
+    .word{font-weight:800;letter-spacing:.2px;color:#0e1a34}
+    nav{margin-left:auto;display:flex;gap:10px;align-items:center}
+    .navbtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;font-weight:700;cursor:pointer}
+
+    /* Tools dropdown */
+    .menu{position:relative}
+    .menu button{min-width:110px}
+    .menu ul{position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:8px;display:none;min-width:220px}
+    .menu.open ul{display:block}
+    .menu ul a{display:block;padding:8px 10px;border-radius:8px;color:#1a2643;text-decoration:none;font-weight:600}
+    .menu ul a:hover{background:#f3f6ff}
+
+    /* Hero */
+    .hero{background:radial-gradient(1200px 600px at 50% -220px, rgba(111,124,255,.25), transparent 60%), #f8f9ff;border-bottom:1px solid var(--line)}
+    .hero-inner{max-width:1100px;margin:0 auto;padding:34px 16px 12px}
     h1{margin:0 0 6px;font-size:34px;letter-spacing:-.3px}
-    .sub{color:#33415f;max-width:65ch;margin:0}
-    .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr; padding:0 16px}
+    .sub{color:#33415f;max-width:66ch;margin:0}
+
+    /* Layout */
+    main{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+    .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr;padding:0 16px}
     @media(min-width:980px){ .grid{grid-template-columns:1.05fr .95fr} }
     .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
     .panel h2{margin:0 0 10px;font-size:20px}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    label{font-weight:600;font-size:14px;color:#1a2643}
-    input,select{
-      width:100%;padding:12px;border-radius:10px;border:1px solid #dbe0ea;background:#fff;font-size:15px
-    }
-    .btn{
-      appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-2));
-      color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer
-    }
+    .stack{display:grid;gap:6px}
+    label{font-weight:700;color:#1a2643}
+    input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #dbe0ea;background:#fff;font-size:15px}
+    .muted{font-size:13px;color:var(--muted)}
+
+    .btn{appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
     .ghost{background:#fff;color:#1a2643}
-    .muted{color:#5b6a88;font-size:13px}
-    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
-    .v{font-weight:800;font-size:22px}
-    .stack{display:grid;gap:8px}
-    .results{display:grid;gap:12px}
+    .pill{border-radius:999px}
+
+    .k{font-size:12px;color:#5c6b86;letter-spacing:.04em;text-transform:uppercase}
+    .v{font-weight:900;font-size:22px}
     .break{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:12px}
-    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9}
+    .ok{background:#eafff2;border-color:#c8f5d9;color:#0b3b22}
+
     table{width:100%;border-collapse:collapse}
     th,td{border:1px solid var(--line);padding:8px;text-align:right;font-size:14px}
     th:first-child,td:first-child{text-align:left}
-    footer{border-top:1px solid var(--line);margin-top:24px;background:#fff}
-    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#3a4a66}
-    .small{font-size:12px;color:#5b6a88}
-    .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-    .pill{border-radius:999px}
+
+    footer{border-top:1px solid var(--line);background:#fff}
+    .foot{max-width:1100px;margin:0 auto;padding:18px 16px 10px;color:#3a4a66}
+    .small{font-size:12px;color:var(--muted)}
   </style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <div class="brand" onclick="location.href='/index.html'" role="button" aria-label="Back to Home" title="Home">
-      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
-      </svg>
+    <div class="brand" onclick="location.href='/'" role="button" aria-label="Home">
+      <div class="logo" aria-hidden="true"></div>
       <div class="word">LockHabit</div>
     </div>
 
     <nav>
-      <a href="/income-tax.html">Income & Taxes</a>
-      <a href="/mortgage.html">Mortgage</a>
-      <a href="/loan.html" title="Coming soon">Loan</a>
-      <a href="/savings.html" title="Coming soon">Savings</a>
-      <a href="/retirement.html" title="Coming soon">Retirement</a>
-      <a href="/currency.html" title="Coming soon">FX Converter</a>
-      <a href="/business.html" title="Coming soon">Business Tools</a>
-      <a href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+      <a class="navbtn" href="/income-tax.html">Income & Taxes</a>
+      <a class="navbtn" href="/mortgage.html" aria-current="page">Mortgage</a>
+      <div class="menu" id="toolsMenu">
+        <button class="navbtn">Tools ▾</button>
+        <ul aria-label="Other calculators">
+          <li><a href="/loan.html">Loan Calculator</a></li>
+          <li><a href="/savings.html">Savings Growth</a></li>
+          <li><a href="/retirement.html">Retirement</a></li>
+          <li><a href="/currency.html">FX Converter</a></li>
+          <li><a href="/business.html">Business Tools</a></li>
+        </ul>
+      </div>
     </nav>
   </div>
 </header>
@@ -134,7 +114,7 @@
 <section class="hero">
   <div class="hero-inner">
     <h1>Mortgage Payment & Affordability</h1>
-    <p class="sub">Estimate your monthly payment with taxes, insurance, and PMI. Add extra payments to see interest saved and payoff time. Save your inputs and email yourself a clean summary.</p>
+    <p class="sub">Estimate PITI (principal, interest, taxes, insurance) + PMI and HOA. Import your monthly net income from the Income & Taxes calculator to check DTI and see the max price you can target.</p>
   </div>
 </section>
 
@@ -145,49 +125,48 @@
 
     <div class="row">
       <div class="stack">
-        <label for="currency">Currency</label>
-        <select id="currency"></select>
-        <span class="muted">Auto-detected; you can change it.</span>
-      </div>
-      <div class="stack">
         <label for="homePrice">Home price</label>
         <input id="homePrice" type="number" inputmode="decimal" placeholder="e.g., 450000"/>
+      </div>
+      <div class="stack">
+        <label for="downPct">Down payment %</label>
+        <input id="downPct" type="number" inputmode="decimal" value="10"/>
       </div>
     </div>
 
     <div class="row">
-      <div class="stack">
-        <label for="downPct">Down payment %</label>
-        <input id="downPct" type="number" inputmode="decimal" placeholder="e.g., 10" value="10"/>
-      </div>
       <div class="stack">
         <label for="rate">Interest rate (APR %)</label>
         <input id="rate" type="number" inputmode="decimal" placeholder="e.g., 6.75"/>
       </div>
-    </div>
-
-    <div class="row">
       <div class="stack">
         <label for="term">Term (years)</label>
         <select id="term">
-          <option value="30">30</option>
+          <option value="30" selected>30</option>
           <option value="20">20</option>
           <option value="15">15</option>
           <option value="10">10</option>
         </select>
       </div>
+    </div>
+
+    <div class="row">
       <div class="stack">
         <label for="pmiPct">PMI % (if down &lt; 20%)</label>
-        <input id="pmiPct" type="number" inputmode="decimal" placeholder="e.g., 0.5" value="0.5"/>
-        <span class="muted">Annualized, will drop once LTV ≤ 80%.</span>
+        <input id="pmiPct" type="number" inputmode="decimal" value="0.5"/>
+        <span class="muted">Annualized; removed when LTV ≤ 80% (approx.).</span>
+      </div>
+      <div class="stack">
+        <label for="hoaMonthly">HOA / month</label>
+        <input id="hoaMonthly" type="number" inputmode="decimal" value="0"/>
       </div>
     </div>
 
-    <h2 style="margin-top:14px">Taxes, Insurance & HOA</h2>
+    <h2 style="margin-top:12px">Taxes & Insurance</h2>
     <div class="row3">
       <div class="stack">
         <label for="taxPct">Property tax %</label>
-        <input id="taxPct" type="number" inputmode="decimal" placeholder="e.g., 1.2" value="1.2"/>
+        <input id="taxPct" type="number" inputmode="decimal" value="1.2"/>
         <span class="muted">% of home value per year</span>
       </div>
       <div class="stack">
@@ -195,32 +174,31 @@
         <input id="insAnnual" type="number" inputmode="decimal" placeholder="e.g., 1600"/>
       </div>
       <div class="stack">
-        <label for="hoaMonthly">HOA / month</label>
-        <input id="hoaMonthly" type="number" inputmode="decimal" placeholder="e.g., 0"/>
+        <label for="escrowCushion">Escrow cushion / month (optional)</label>
+        <input id="escrowCushion" type="number" inputmode="decimal" value="0"/>
       </div>
     </div>
 
-    <h2 style="margin-top:14px">Extra Payments (optional)</h2>
+    <h2 style="margin-top:12px">Extra Payments (optional)</h2>
     <div class="row">
       <div class="stack">
         <label for="extraMonthly">Extra toward principal / month</label>
-        <input id="extraMonthly" type="number" inputmode="decimal" placeholder="e.g., 100"/>
+        <input id="extraMonthly" type="number" inputmode="decimal" value="0"/>
       </div>
       <div class="stack">
         <label for="oneTimeExtra">One-time extra payment</label>
-        <input id="oneTimeExtra" type="number" inputmode="decimal" placeholder="e.g., 2500"/>
+        <input id="oneTimeExtra" type="number" inputmode="decimal" value="0"/>
       </div>
     </div>
 
-    <div class="flex" style="margin-top:14px">
+    <div class="flex" style="margin-top:12px">
       <button class="btn" id="calcBtn">Calculate</button>
       <button class="btn ghost" id="resetBtn" type="button">Reset</button>
-      <span class="muted">Inputs auto-save to this device.</span>
+      <span class="muted">Inputs save to this device.</span>
     </div>
 
     <div style="margin-top:10px">
-      <ins class="adsbygoogle"
-           style="display:block" data-ad-format="fluid"
+      <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
            data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
            data-ad-slot="1234567891"></ins>
       <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
@@ -229,93 +207,107 @@
 
   <!-- Results -->
   <section class="panel" aria-labelledby="results">
-    <h2 id="results">Results</h2>
+    <h2 id="results">Results & Affordability</h2>
 
-    <div class="results" id="out">
-      <div class="break ok">
-        <div>
-          <div class="k">Monthly payment (PITI + HOA)</div>
-          <div class="v" id="piti">—</div>
-        </div>
-        <div>
-          <div class="k">Loan amount</div>
-          <div class="v" id="loanAmt">—</div>
-        </div>
+    <div class="break ok">
+      <div>
+        <div class="k">Monthly payment (PITI + HOA)</div>
+        <div class="v" id="piti">—</div>
       </div>
-
-      <div class="break">
-        <div><span class="k">Principal & interest (PI)</span><div class="v" id="pi">—</div></div>
-        <div><span class="k">Taxes & insurance</span><div class="v" id="ti">—</div></div>
+      <div>
+        <div class="k">Loan amount</div>
+        <div class="v" id="loanAmt">—</div>
       </div>
-
-      <div class="break">
-        <div><span class="k">PMI (if applicable)</span><div class="v" id="pmi">—</div></div>
-        <div><span class="k">HOA</span><div class="v" id="hoa">—</div></div>
-      </div>
-
-      <div class="break">
-        <div><span class="k">Total interest (life of loan)</span><div class="v" id="totalInterest">—</div></div>
-        <div><span class="k">Estimated payoff time</span><div class="v" id="payoffTime">—</div></div>
-      </div>
-
-      <div class="flex" style="margin-top:4px">
-        <button class="btn pill" id="emailBtn" type="button">Email me this summary</button>
-        <button class="btn ghost pill" type="button" onclick="location.href='/income-tax.html'">Go to Income & Taxes</button>
-      </div>
-
-      <h3 style="margin:10px 0 6px;font-size:18px">Amortization (first 12 months)</h3>
-      <div style="overflow:auto">
-        <table id="amortTable">
-          <thead>
-            <tr>
-              <th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-
-      <p class="small">Estimates only—actual payments vary by lender, escrow practices, PMI rules, and taxes/insurance. This is educational, not financial advice.</p>
     </div>
+
+    <div class="break">
+      <div><span class="k">Principal & interest (PI)</span><div class="v" id="pi">—</div></div>
+      <div><span class="k">Taxes & insurance (TI)</span><div class="v" id="ti">—</div></div>
+    </div>
+
+    <div class="break">
+      <div><span class="k">PMI (if applicable)</span><div class="v" id="pmi">—</div></div>
+      <div><span class="k">HOA</span><div class="v" id="hoa">—</div></div>
+    </div>
+
+    <div class="break">
+      <div><span class="k">Total interest (life of loan)</span><div class="v" id="totalInterest">—</div></div>
+      <div><span class="k">Estimated payoff time</span><div class="v" id="payoffTime">—</div></div>
+    </div>
+
+    <h3 style="margin:10px 0 6px;font-size:18px">Affordability</h3>
+    <div class="row">
+      <div class="stack">
+        <label>Monthly net income</label>
+        <div style="display:flex;gap:8px">
+          <input id="monthlyNet" type="number" inputmode="decimal" placeholder="e.g., 5200" style="flex:1"/>
+          <button class="btn ghost" id="importIncome" type="button" title="Import from Income & Taxes">Import</button>
+        </div>
+        <span class="muted">Pulls from your Income & Taxes calculator (local device).</span>
+      </div>
+      <div class="stack">
+        <label for="otherDebts">Other monthly expenses (debts/rent/childcare)</label>
+        <input id="otherDebts" type="number" inputmode="decimal" value="0"/>
+      </div>
+    </div>
+
+    <div class="break">
+      <div>
+        <div class="k">Front-end DTI (housing only)</div>
+        <div class="v" id="frontDTI">—</div>
+      </div>
+      <div>
+        <div class="k">Back-end DTI (housing + other)</div>
+        <div class="v" id="backDTI">—</div>
+      </div>
+    </div>
+
+    <div class="break">
+      <div>
+        <div class="k">Max home price @ 28% housing DTI</div>
+        <div class="v" id="maxPrice28">—</div>
+      </div>
+      <div>
+        <div class="k">Max home price @ 36% total DTI</div>
+        <div class="v" id="maxPrice36">—</div>
+      </div>
+    </div>
+
+    <div class="flex" style="margin:8px 0 4px">
+      <button class="btn pill" id="exportCsv" type="button">Export 12-mo amortization (CSV)</button>
+      <button class="btn ghost pill" type="button" onclick="location.href='/income-tax.html'">Go to Income & Taxes</button>
+    </div>
+
+    <h3 style="margin:10px 0 6px;font-size:18px">Amortization (first 12 months)</h3>
+    <div style="overflow:auto">
+      <table id="amortTable">
+        <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p class="small">Estimates only—actual payments vary by lender, escrow practices, PMI rules, and tax/insurance schedules. Educational use only.</p>
   </section>
 </main>
 
 <footer>
   <div class="foot">
-    <div class="flex">
-      <span class="small">© <span id="yr"></span> LockHabit</span>
-      <a class="small" href="/index.html">Home</a>
-      <a class="small" href="/terms.html">Terms</a>
-      <a class="small" href="/privacy.html">Privacy</a>
-      <a class="small" href="/security.html">Security</a>
-      <a class="small" href="/blog.html" title="Coming soon">Blog/Newsletter</a>
-    </div>
+    <span class="small">© <span id="yr"></span> LockHabit</span>
+    <span class="small" style="margin-left:12px"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></span>
   </div>
 </footer>
 
 <script>
 (function(){
+  // Header tools menu (click to open/close; click outside closes)
+  const menu = document.getElementById('toolsMenu');
+  menu.querySelector('button').addEventListener('click', e=>{
+    e.stopPropagation(); menu.classList.toggle('open');
+  });
+  document.addEventListener('click', ()=> menu.classList.remove('open'));
+
   // Year
   document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // Currency options
-  const currencySel = document.getElementById('currency');
-  const currencyList = ["USD","CAD","GBP","EUR","INR","AUD","JPY","CHF","CNY","MXN"];
-  currencyList.forEach(c=>{
-    const o=document.createElement('option'); o.value=c; o.textContent=c; currencySel.appendChild(o);
-  });
-  function guessCurrency(){
-    try{
-      const loc = Intl.DateTimeFormat().resolvedOptions().locale || 'en-US';
-      if (loc.includes('US')) return 'USD';
-      if (loc.includes('CA')) return 'CAD';
-      if (loc.includes('GB')||loc.includes('UK')) return 'GBP';
-      if (loc.includes('IN')) return 'INR';
-      if (loc.includes('EU')||loc.includes('DE')||loc.includes('FR')||loc.includes('ES')||loc.includes('IT')) return 'EUR';
-    }catch(_){}
-    return 'USD';
-  }
-  currencySel.value = guessCurrency();
 
   // Elements
   const homePrice = document.getElementById('homePrice');
@@ -325,6 +317,7 @@
   const pmiPct    = document.getElementById('pmiPct');
   const taxPct    = document.getElementById('taxPct');
   const insAnnual = document.getElementById('insAnnual');
+  const escrowCushion = document.getElementById('escrowCushion');
   const hoaMonthly= document.getElementById('hoaMonthly');
   const extraMonthly = document.getElementById('extraMonthly');
   const oneTimeExtra = document.getElementById('oneTimeExtra');
@@ -339,211 +332,229 @@
 
   const amortTableBody = document.querySelector('#amortTable tbody');
 
+  const monthlyNet = document.getElementById('monthlyNet');
+  const otherDebts = document.getElementById('otherDebts');
+  const frontDTI = document.getElementById('frontDTI');
+  const backDTI  = document.getElementById('backDTI');
+  const maxPrice28 = document.getElementById('maxPrice28');
+  const maxPrice36 = document.getElementById('maxPrice36');
+
   const calcBtn = document.getElementById('calcBtn');
   const resetBtn = document.getElementById('resetBtn');
-  const emailBtn = document.getElementById('emailBtn');
+  const importBtn = document.getElementById('importIncome');
+  const exportCsvBtn = document.getElementById('exportCsv');
 
-  // Local Save/Load
-  const KEY = 'lh_mortgage_calc_v1';
+  // Local save/load
+  const KEY = 'lh_mortgage_v2';
   function save(){
     const d = {
-      currency:currencySel.value, homePrice:homePrice.value, downPct:downPct.value, rate:rate.value,
-      term:term.value, pmiPct:pmiPct.value, taxPct:taxPct.value, insAnnual:insAnnual.value,
-      hoaMonthly:hoaMonthly.value, extraMonthly:extraMonthly.value, oneTimeExtra:oneTimeExtra.value
+      homePrice:homePrice.value, downPct:downPct.value, rate:rate.value, term:term.value,
+      pmiPct:pmiPct.value, taxPct:taxPct.value, insAnnual:insAnnual.value, hoaMonthly:hoaMonthly.value,
+      extraMonthly:extraMonthly.value, oneTimeExtra:oneTimeExtra.value, escrowCushion:escrowCushion.value,
+      monthlyNet:monthlyNet.value, otherDebts:otherDebts.value
     };
     localStorage.setItem(KEY, JSON.stringify(d));
   }
   function load(){
-    const raw = localStorage.getItem(KEY);
-    if(!raw) return false;
     try{
-      const d = JSON.parse(raw);
-      currencySel.value = d.currency || currencySel.value;
-      homePrice.value = d.homePrice || '';
-      downPct.value = d.downPct || '10';
-      rate.value = d.rate || '';
-      term.value = d.term || '30';
-      pmiPct.value = d.pmiPct || '0.5';
-      taxPct.value = d.taxPct || '1.2';
-      insAnnual.value = d.insAnnual || '';
-      hoaMonthly.value = d.hoaMonthly || '';
-      extraMonthly.value = d.extraMonthly || '';
-      oneTimeExtra.value = d.oneTimeExtra || '';
-      return true;
-    }catch(_){ return false; }
+      const d = JSON.parse(localStorage.getItem(KEY)||'null'); if(!d) return;
+      homePrice.value = d.homePrice ?? '';
+      downPct.value = d.downPct ?? '10';
+      rate.value = d.rate ?? '';
+      term.value = d.term ?? '30';
+      pmiPct.value = d.pmiPct ?? '0.5';
+      taxPct.value = d.taxPct ?? '1.2';
+      insAnnual.value = d.insAnnual ?? '';
+      hoaMonthly.value = d.hoaMonthly ?? '0';
+      extraMonthly.value = d.extraMonthly ?? '0';
+      oneTimeExtra.value = d.oneTimeExtra ?? '0';
+      escrowCushion.value = d.escrowCushion ?? '0';
+      monthlyNet.value = d.monthlyNet ?? '';
+      otherDebts.value = d.otherDebts ?? '0';
+    }catch(_){}
   }
 
-  // Helpers
+  // Money format (USD by default)
   function money(n){
-    const c = currencySel.value || 'USD';
-    try{
-      return new Intl.NumberFormat(undefined,{style:'currency',currency:c,maximumFractionDigits:2}).format(n||0);
-    }catch(_){
-      return (c + ' ' + (n||0).toFixed(2));
-    }
+    try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD'}).format(n||0); }
+    catch{ return '$'+(n||0).toFixed(2); }
   }
 
   function monthlyPI(principal, annualRate, years){
-    const r = (annualRate/100)/12;
-    const n = years*12;
+    const r = (annualRate/100)/12, n = years*12;
     if(r<=0) return principal/n;
     return principal * r / (1 - Math.pow(1+r, -n));
   }
 
-  function buildAmort(principal, annualRate, years, extra, oneTime){
-    const r = (annualRate/100)/12;
-    const n = years*12;
-    const sched = [];
-    let bal = principal;
-    let pmt = monthlyPI(principal, annualRate, years) + extra;
-    let month = 1;
-    let totalInt = 0;
-    let oneTimeApplied = false;
-
-    while(bal > 0 && month <= n+360){ // guard
-      const int = bal * r;
-      let prin = pmt - int;
-      if(!oneTimeApplied && oneTime>0){
-        bal = Math.max(0, bal - oneTime);
-        oneTimeApplied = true;
-      }
-      if(prin > bal){ prin = bal; } // last payment
-      bal = bal - prin;
-      totalInt += int;
-      if(month <= 12){
-        sched.push({m:month, pmt:pmt, prin:prin, int:int, bal:bal});
-      }
-      month++;
-      if(r<=0 && bal<=0) break;
+  function amortize(principal, annualRate, years, extra, oneTime){
+    const r = (annualRate/100)/12, n = years*12;
+    let bal = principal, totalInt = 0, m = 0;
+    const pmt = monthlyPI(principal, annualRate, years) + extra;
+    let applied = false;
+    while(bal > 0 && m < n+360){
+      if(!applied && oneTime>0){ bal = Math.max(0, bal - oneTime); applied = true; }
+      const interest = bal * r;
+      let principalPay = Math.max(0, pmt - interest);
+      if(principalPay > bal){ principalPay = bal; }
+      bal -= principalPay;
+      totalInt += interest;
+      m++;
     }
-    return {sched, months:month-1, totalInt};
+    return {months:m, totalInterest:totalInt};
   }
 
-  function ltv(currentBal, homeVal){
-    if(homeVal<=0) return 1;
-    return currentBal / homeVal;
+  // Estimate month count where PMI drops (LTV ≤ 80%)
+  function estimatePMIMonths(loan, price, ir, yrs, extra, oneTime){
+    const r = (ir/100)/12, target = price*0.80;
+    let bal = Math.max(0, loan - (oneTime||0)), m = 0;
+    const basePI = monthlyPI(loan, ir, yrs);
+    const sched = basePI + (extra||0);
+    while(bal > target && m < yrs*12+360){
+      const interest = bal * r;
+      const principal = Math.max(0, sched - interest);
+      bal -= principal; m++;
+    }
+    return m;
   }
 
   function calc(){
     save();
 
-    const hp = parseFloat(homePrice.value||0);
-    const dpct = parseFloat(downPct.value||0)/100;
-    const ir = parseFloat(rate.value||0);
+    const hp = +homePrice.value || 0;
+    const dpct = (+downPct.value || 0)/100;
+    const ir = +rate.value || 0;
     const yrs = parseInt(term.value||30,10);
-    const pmiA = parseFloat(pmiPct.value||0)/100;
-    const taxA = parseFloat(taxPct.value||0)/100;
-    const insY = parseFloat(insAnnual.value||0);
-    const hoaM = parseFloat(hoaMonthly.value||0);
-    const extraM = parseFloat(extraMonthly.value||0);
-    const oneTime = parseFloat(oneTimeExtra.value||0);
+    const pmiA = (+pmiPct.value || 0)/100;
+    const taxA = (+taxPct.value || 0)/100;
+    const insY = +insAnnual.value || 0;
+    const hoaM = +hoaMonthly.value || 0;
+    const extraM = +extraMonthly.value || 0;
+    const oneTime = +oneTimeExtra.value || 0;
+    const escrowM = +escrowCushion.value || 0;
 
     const down = hp * dpct;
     const loan = Math.max(0, hp - down);
 
-    // Base PI
     const basePI = monthlyPI(loan, ir, yrs);
+    const taxM = (hp * taxA)/12;
+    const insM = (insY)/12;
 
-    // Taxes & Insurance monthly
-    const taxM = (hp * taxA) / 12;
-    const insM = insY / 12;
-
-    // PMI (only if down < 20%, and until LTV ≤ 80%)
-    let pmiM = 0;
-    if(dpct < 0.20 && pmiA > 0){
-      pmiM = (loan * pmiA) / 12; // crude estimate till drop; not month-by-month dynamic
+    let pmiM = 0, pmiMonths = 0;
+    if (dpct < 0.20 && pmiA > 0) {
+      pmiM = (loan * pmiA)/12;                   // display month-1 PMI
+      pmiMonths = estimatePMIMonths(loan, hp, ir, yrs, extraM, oneTime);
     }
 
-    // Amortization with extra payments (PI only)
-    const amort = buildAmort(loan, ir, yrs, extraM, oneTime);
+    const pitiMonthly = basePI + taxM + insM + pmiM + hoaM + escrowM; // payment excluding extra principal
+    const amort = amortize(loan, ir, yrs, extraM, oneTime);
 
-    // Estimate when PMI falls off (approx): recompute LTV at 80% threshold using amort first 12 or rough
-    // Quick rough: find month where balance <= 80% of home price using a simplified loop
-    function estimatePmiMonths(){
-      if(dpct >= 0.20 || pmiA<=0) return 0;
-      const r = (ir/100)/12;
-      let bal = loan;
-      let month = 0;
-      const pmt = basePI + extraM;
-      while(bal > hp*0.80 && month < yrs*12+360){
-        const interest = bal * r;
-        const principal = Math.max(0, pmt - interest);
-        bal -= principal;
-        month++;
-        if(oneTime>0 && month===1){ bal = Math.max(0, bal - oneTime); }
-      }
-      return month; // months with PMI
-    }
-    const pmiMonths = estimatePmiMonths();
-
-    // If PMI exists, include it for the months PMI applies; for display, show current monthly with PMI if applicable
-    const currentMonthlyPMI = (dpct < 0.20 && pmiA > 0) ? (loan * pmiA)/12 : 0;
-
-    // Monthly PITI
-    const monthlyPIOnly = basePI + extraM; // we report PI excluding extras in PI box; but PITI includes escrow items
-    const pitiMonthly = basePI + taxM + insM + currentMonthlyPMI + hoaM + extraM;
-
-    // Totals
-    const totalIntAll = amort.totalInt;
-    const monthsToPayoff = amort.months;
-    const yearsPayoff = (monthsToPayoff/12).toFixed(1);
-
-    // Output
-    loanAmt.textContent = money(loan);
+    // Outputs
+    document.getElementById('loanAmt').textContent = money(loan);
     pi.textContent = money(basePI);
-    ti.textContent = money(taxM + insM);
-    pmi.textContent = currentMonthlyPMI>0 ? money(currentMonthlyPMI) + ` (est. ~${pmiMonths} mo)` : '—';
-    hoa.textContent = hoaM>0 ? money(hoaM) : '—';
+    ti.textContent = money(taxM + insM + escrowM);
+    pmi.textContent = (pmiM>0)? `${money(pmiM)} (≈ ${pmiMonths} mo)` : '—';
+    hoa.textContent = (hoaM>0)? money(hoaM) : '—';
     piti.textContent = money(pitiMonthly);
-    totalInterest.textContent = money(totalIntAll);
-    payoffTime.textContent = monthsToPayoff ? `${monthsToPayoff} months (~${yearsPayoff} yrs)` : '—';
+    totalInterest.textContent = money(amort.totalInterest);
+    payoffTime.textContent = `${amort.months} months (~${(amort.months/12).toFixed(1)} yrs)`;
 
-    // Amortization table (first 12 months)
+    // Amort table (first 12 months on PI + extras)
     const r = (ir/100)/12;
-    let bal = loan - (oneTime>0 ? oneTime : 0);
-    const pmt = basePI + extraM;
+    let bal = Math.max(0, loan - oneTime);
+    const sched = basePI + extraM;
     amortTableBody.innerHTML = '';
     for(let m=1;m<=12 && bal>0;m++){
       const interest = bal * r;
-      let principal = pmt - interest;
-      if(principal > bal){ principal = bal; }
+      let principal = Math.max(0, sched - interest);
+      if (principal > bal) principal = bal;
       bal -= principal;
       const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${m}</td>
-        <td>${money(pmt)}</td>
-        <td>${money(principal)}</td>
-        <td>${money(interest)}</td>
-        <td>${money(Math.max(0,bal))}</td>
-      `;
+      tr.innerHTML = `<td>${m}</td><td>${money(sched)}</td><td>${money(principal)}</td><td>${money(interest)}</td><td>${money(bal)}</td>`;
       amortTableBody.appendChild(tr);
     }
+
+    // Affordability
+    const net = +monthlyNet.value || 0;
+    const other = +otherDebts.value || 0;
+    const front = net ? (pitiMonthly/net)*100 : 0;
+    const back  = net ? ((pitiMonthly + other)/net)*100 : 0;
+    frontDTI.textContent = net ? front.toFixed(1)+'%' : '—';
+    backDTI.textContent  = net ? back.toFixed(1)+'%'  : '—';
+
+    // Max price targets (reverse using 28% housing and 36% total)
+    function maxHomePrice(targetHousingPct){
+      if(!net) return 0;
+      const allowedHousing = (targetHousingPct/100)*net;
+      // remove non-PI components to get allowed PI
+      // Guess TI from price iteratively; simple approach: iterate price to converge
+      let priceGuess = hp || 400000; // start near current
+      for(let i=0;i<20;i++){
+        const loanG = priceGuess * (1 - dpct);
+        const basePIG = monthlyPI(loanG, ir, yrs);
+        const taxG = (priceGuess * taxA)/12;
+        const insG = insY/12;
+        const pmiG = (dpct<0.20 && pmiA>0) ? (loanG*pmiA)/12 : 0;
+        const nonPI = taxG + insG + pmiG + hoaM + escrowM;
+        const diff = (basePIG + nonPI) - allowedHousing;
+        // adjust price by a small factor
+        priceGuess -= diff*1200; // heuristic step
+        if (Math.abs(diff) < 1) break;
+      }
+      return Math.max(0, Math.round(priceGuess));
+    }
+    const p28 = maxHomePrice(28);
+    const p36 = maxHomePrice(36) - (other*2500); // reduce for other debts (heuristic)
+    maxPrice28.textContent = net ? money(p28) : '—';
+    maxPrice36.textContent = net ? money(Math.max(0,p36)) : '—';
   }
 
-  function money(n){
-    const c = currencySel.value || 'USD';
+  // Import monthly net from Income & Taxes (reads localStorage `lh.income.v3`)
+  importBtn.addEventListener('click', ()=>{
     try{
-      return new Intl.NumberFormat(undefined,{style:'currency',currency:c,maximumFractionDigits:2}).format(n||0);
+      const raw = localStorage.getItem('lh.income.v3');
+      if(!raw){ alert('No saved Income & Taxes data found on this device.'); return; }
+      const d = JSON.parse(raw);
+      const per = Number(d?.g||0);
+      const mult = {weekly:52, biweekly:26, monthly:12, annual:1}[d?.f] || 26;
+      const annual = per * mult;
+      const pretax = Math.max(0, Number(d?.pr||0))/100;
+      const base = annual * (1 - pretax);
+      const fed = Math.max(0, Number(d?.fed||0));
+      const reg = Math.max(0, Number(d?.reg||0));
+      const loc = Math.max(0, Number(d?.loc||0));
+      const total = Math.min(100, fed + reg + loc)/100;
+      const netMonthly = (base * (1 - total))/12;
+      monthlyNet.value = Math.round(netMonthly);
+      save();
+      calc();
     }catch(_){
-      return (c + ' ' + (n||0).toFixed(2));
+      alert('Could not import. Try opening the Income & Taxes calculator first, press Calculate, then come back.');
     }
-  }
+  });
+
+  // CSV export of 12-mo amort
+  exportCsvBtn.addEventListener('click', ()=>{
+    const rows = [['Month','Payment','Principal','Interest','Balance']];
+    [...amortTableBody.querySelectorAll('tr')].forEach(tr=>{
+      const tds = [...tr.children].map(td=> td.textContent.replace(/[$,]/g,''));
+      rows.push(tds);
+    });
+    const csv = rows.map(r=> r.join(',')).join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'lockhabit_mortgage_amort_12mo.csv'; a.click();
+    URL.revokeObjectURL(url);
+  });
 
   // Events
   calcBtn.addEventListener('click', calc);
-  resetBtn.addEventListener('click', ()=>{
-    localStorage.removeItem(KEY);
-    location.reload();
-  });
-  currencySel.addEventListener('change', save);
-  [homePrice,downPct,rate,term,pmiPct,taxPct,insAnnual,hoaMonthly,extraMonthly,oneTimeExtra].forEach(el=>{
-    el.addEventListener('input', ()=>{/* optional live calc */});
-  });
+  resetBtn.addEventListener('click', ()=>{ localStorage.removeItem(KEY); location.reload(); });
+  [homePrice,downPct,rate,term,pmiPct,taxPct,insAnnual,escrowCushion,hoaMonthly,extraMonthly,oneTimeExtra,monthlyNet,otherDebts]
+    .forEach(el=> el.addEventListener('input', ()=>{ save(); }));
 
   // Init
-  if(!load()){
-    currencySel.value = guessCurrency();
-  }
+  load(); calc();
 })();
 </script>
 </body>
