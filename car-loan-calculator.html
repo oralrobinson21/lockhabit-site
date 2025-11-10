@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
+  <!-- Google tag (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Car Loan Calculator — LockHabit Tools</title>
+  <meta name="description" content="Estimate your car payment with price, APR, term, taxes, fees, down payment, and trade-in. See total interest and an amortization table. Email yourself the plan."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --brand:#6f7cff; --brand-2:#9c78ff; --line:#e6e7f1; --ink:#0b1230; --panel:#fff;
+      --muted:#5b677f; --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:#f7f8ff;color:var(--ink);font:16px/1.6 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,var(--brand),var(--brand-2))}
+    .word{font-weight:800;color:#0e1a34;letter-spacing:.2px}
+    .menu{position:relative}
+    .more{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer}
+    .dropdown{position:absolute;right:0;top:44px;min-width:260px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:none}
+    .dropdown a{display:block;padding:10px 12px;text-decoration:none;color:#14223e;border-bottom:1px solid #f0f2f8}
+    .dropdown a:last-child{border-bottom:0}
+    .hero{padding:32px 16px;border-bottom:1px solid var(--line);background:
+      radial-gradient(1100px 650px at 50% -150px, rgba(111,124,255,.20) 0%, rgba(156,120,255,.10) 40%, transparent 60%), #f8f9ff}
+    .hwrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:start}
+    @media (max-width:980px){ .hwrap{grid-template-columns:1fr} }
+    h1{font-size:36px;line-height:1.1;margin:0 0 8px}
+    .sub{color:#33415f;margin:0}
+    .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:720px){ .grid{grid-template-columns:1fr} }
+    label{font-weight:600;color:#12203d;font-size:14px}
+    input,select{width:100%;padding:12px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}
+    .mini{font-size:12px;color:var(--muted)}
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .kv .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:20px;color:#0b1230;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{padding:10px;border-bottom:1px solid #eef1f6;text-align:right}
+    th:first-child, td:first-child{text-align:left}
+    footer{padding:24px 16px;color:#3a4a66}
+    .foot{max-width:1100px;margin:0 auto}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/"><span class="logo" aria-hidden="true"></span><span class="word">LockHabit</span></a>
+    <div class="menu">
+      <button class="more" id="moreBtn">More calculators ▾</button>
+      <div class="dropdown" id="menu">
+        <a href="/income-calculator.html">Income (Take-Home)</a>
+        <a href="/mortgage-calculator.html">Mortgage</a>
+        <a href="/loan-payoff-calculator.html">Loan Payoff</a>
+        <a href="/savings-calculator.html">Savings Growth</a>
+        <a href="/retirement-calculator.html">Retirement</a>
+        <a href="/student-loan-calculator.html">Student Loan</a>
+        <a href="/credit-card-payoff.html">Credit Card Payoff</a>
+        <a href="/rent-vs-buy.html">Rent vs Buy</a>
+        <a href="/currency-converter.html">Currency Converter</a>
+        <a href="/emergency-fund.html">Emergency Fund</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hwrap">
+    <div>
+      <h1>Car Loan Calculator</h1>
+      <p class="sub">Estimate your monthly payment and total cost with price, down payment, trade-in, taxes, fees, APR, and term. See a full amortization schedule and email yourself the results.</p>
+      <div class="card" style="margin-top:12px">
+        <form id="form" class="grid" novalidate>
+          <div>
+            <label>Vehicle price</label>
+            <input type="number" id="price" inputmode="decimal" placeholder="e.g., 28000" min="0" step="0.01" required>
+          </div>
+          <div>
+            <label>Down payment</label>
+            <input type="number" id="down" inputmode="decimal" placeholder="e.g., 3000" min="0" step="0.01">
+          </div>
+          <div>
+            <label>Trade-in value</label>
+            <input type="number" id="trade" inputmode="decimal" placeholder="e.g., 2000" min="0" step="0.01">
+          </div>
+          <div>
+            <label>Trade-in loan payoff (if any)</label>
+            <input type="number" id="tradePayoff" inputmode="decimal" placeholder="e.g., 1500" min="0" step="0.01">
+            <div class="mini">Subtracted from trade equity.</div>
+          </div>
+          <div>
+            <label>Sales tax rate (%)</label>
+            <input type="number" id="tax" inputmode="decimal" placeholder="e.g., 8.875" min="0" step="0.001">
+            <div class="mini">Applied to taxable portion (price minus eligible credits). This varies by location.</div>
+          </div>
+          <div>
+            <label>Doc/registration fees</label>
+            <input type="number" id="fees" inputmode="decimal" placeholder="e.g., 450" min="0" step="0.01">
+          </div>
+          <div>
+            <label>APR (%)</label>
+            <input type="number" id="apr" inputmode="decimal" placeholder="e.g., 5.9" min="0" step="0.001" required>
+          </div>
+          <div>
+            <label>Term (months)</label>
+            <select id="term">
+              <option value="24">24</option>
+              <option value="36">36</option>
+              <option value="48">48</option>
+              <option value="60" selected>60</option>
+              <option value="72">72</option>
+              <option value="84">84</option>
+            </select>
+          </div>
+          <div>
+            <label>Cash rebate (optional)</label>
+            <input type="number" id="rebate" inputmode="decimal" placeholder="e.g., 1000" min="0" step="0.01">
+          </div>
+          <div>
+            <label>Include taxes in loan?</label>
+            <select id="taxInLoan">
+              <option value="yes" selected>Yes — finance taxes</option>
+              <option value="no">No — pay taxes upfront</option>
+            </select>
+          </div>
+        </form>
+        <div class="row" style="margin-top:10px">
+          <button class="btn acc" id="calc">Calculate</button>
+          <button class="btn" id="reset">Reset</button>
+          <button class="btn" id="emailBtn">Email me the plan</button>
+        </div>
+      </div>
+      <p class="mini" style="margin-top:8px">Tip: Longer terms lower the monthly payment but increase total interest. Aim to keep the loan length as short as your budget allows.</p>
+    </div>
+
+    <div>
+      <div class="kv">
+        <div class="box">
+          <div class="k">Loan amount</div>
+          <div class="v" id="outLoan">—</div>
+        </div>
+        <div class="box">
+          <div class="k">Monthly payment</div>
+          <div class="v" id="outPmt">—</div>
+        </div>
+        <div class="box">
+          <div class="k">Total interest</div>
+          <div class="v" id="outInterest">—</div>
+        </div>
+        <div class="box">
+          <div class="k">Total paid</div>
+          <div class="v" id="outTotal">—</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 8px">Amortization (first 24 months)</h3>
+        <div style="max-height:340px;overflow:auto;border:1px solid #eef1f6;border-radius:12px">
+          <table id="table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Payment</th>
+                <th>Principal</th>
+                <th>Interest</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="mini" style="margin-top:6px">Full schedule continues beyond 24 months; export via email to save.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div class="mini">© <span id="yr"></span> LockHabit Tools — Free calculators for smarter money choices. No signup required.</div>
+  </div>
+</footer>
+
+<script>
+  // Menu toggle
+  const moreBtn = document.getElementById('moreBtn');
+  const menu = document.getElementById('menu');
+  moreBtn.addEventListener('click', ()=> {
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  });
+  document.addEventListener('click', (e)=>{
+    if (!menu.contains(e.target) && !moreBtn.contains(e.target)) menu.style.display='none';
+  });
+
+  const $ = s => document.querySelector(s);
+  $('#yr').textContent = new Date().getFullYear();
+
+  function guessCurrency(){
+    try {
+      const r = new Intl.NumberFormat().resolvedOptions().locale || 'en-US';
+      if (r.includes('GB')) return 'GBP';
+      if (r.includes('IN')) return 'INR';
+      if (r.includes('EU') || r.includes('DE') || r.includes('FR') || r.includes('ES') || r.includes('IT')) return 'EUR';
+      if (r.includes('CA')) return 'CAD';
+      if (r.includes('AU')) return 'AUD';
+      return 'USD';
+    } catch(_) { return 'USD'; }
+  }
+  const cur = (n) => new Intl.NumberFormat(undefined, { style:'currency', currency: guessCurrency() }).format(n ?? 0);
+
+  // Inputs
+  const priceEl = $('#price');
+  const downEl = $('#down');
+  const tradeEl = $('#trade');
+  const tradePayoffEl = $('#tradePayoff');
+  const taxEl = $('#tax');
+  const feesEl = $('#fees');
+  const aprEl = $('#apr');
+  const termEl = $('#term');
+  const rebateEl = $('#rebate');
+  const taxInLoanEl = $('#taxInLoan');
+
+  // Outputs
+  const outLoan = $('#outLoan');
+  const outPmt = $('#outPmt');
+  const outInterest = $('#outInterest');
+  const outTotal = $('#outTotal');
+  const tbody = $('#table tbody');
+
+  // Storage
+  const KEY = 'lh_car_loan';
+  function loadSaved(){
+    try{
+      const s = JSON.parse(localStorage.getItem(KEY) || '{}');
+      if(Object.keys(s).length){
+        priceEl.value = s.price ?? '';
+        downEl.value = s.down ?? '';
+        tradeEl.value = s.trade ?? '';
+        tradePayoffEl.value = s.tradePayoff ?? '';
+        taxEl.value = s.tax ?? '';
+        feesEl.value = s.fees ?? '';
+        aprEl.value = s.apr ?? '';
+        termEl.value = s.term ?? '60';
+        rebateEl.value = s.rebate ?? '';
+        taxInLoanEl.value = s.taxInLoan ?? 'yes';
+      }
+    }catch(_){}
+  }
+  function saveInputs(){
+    const s = {
+      price: +priceEl.value || 0,
+      down: +downEl.value || 0,
+      trade: +tradeEl.value || 0,
+      tradePayoff: +tradePayoffEl.value || 0,
+      tax: +taxEl.value || 0,
+      fees: +feesEl.value || 0,
+      apr: +aprEl.value || 0,
+      term: +termEl.value || 60,
+      rebate: +rebateEl.value || 0,
+      taxInLoan: taxInLoanEl.value || 'yes'
+    };
+    localStorage.setItem(KEY, JSON.stringify(s));
+  }
+  loadSaved();
+
+  function calcLoanAmount(){
+    const price = +priceEl.value || 0;
+    const down = +downEl.value || 0;
+    const trade = +tradeEl.value || 0;
+    const tradePayoff = +tradePayoffEl.value || 0;
+    const rebate = +rebateEl.value || 0;
+    const fees = +feesEl.value || 0;
+    const taxRate = (+taxEl.value || 0) / 100;
+
+    const tradeEquity = Math.max(0, trade - tradePayoff);
+    const taxableBase = Math.max(0, price - tradeEquity - rebate);
+    const taxes = taxableBase * taxRate;
+
+    const cashDueUpfront = Math.max(0, taxes) * (taxInLoanEl.value === 'no' ? 1 : 0);
+
+    const amount = Math.max(0, price + fees + (taxInLoanEl.value === 'yes' ? taxes : 0) - down - tradeEquity - rebate);
+    return { amount, taxes, tradeEquity, cashDueUpfront };
+  }
+
+  function payment(PV, annualRatePct, nMonths){
+    const r = (annualRatePct/100) / 12;
+    if (r === 0) return PV / nMonths;
+    return PV * r / (1 - Math.pow(1 + r, -nMonths));
+  }
+
+  function buildSchedule(PV, pmt, annualRatePct, nMonths){
+    const r = (annualRatePct/100) / 12;
+    const rows = [];
+    let bal = PV;
+    for (let i=1; i<=nMonths; i++){
+      const interest = bal * r;
+      const principal = Math.min(pmt - interest, bal);
+      bal = Math.max(0, bal - principal);
+      rows.push({ i, pmt, principal, interest, bal });
+      if (rows.length >= 24) break; // show first 24 months
+    }
+    return rows;
+  }
+
+  function render(){
+    const term = +termEl.value || 60;
+    const apr = +aprEl.value || 0;
+
+    const { amount, taxes, tradeEquity, cashDueUpfront } = calcLoanAmount();
+    if (amount <= 0 || term <= 0){
+      outLoan.textContent = outPmt.textContent = outInterest.textContent = outTotal.textContent = '—';
+      tbody.innerHTML = '';
+      return;
+    }
+
+    const pmt = payment(amount, apr, term);
+    const totalPaid = pmt * term + cashDueUpfront;
+    const totalInterest = totalPaid - amount - cashDueUpfront;
+
+    outLoan.textContent = cur(amount);
+    outPmt.textContent = cur(pmt);
+    outInterest.textContent = cur(totalInterest);
+    outTotal.textContent = cur(totalPaid);
+
+    const rows = buildSchedule(amount, pmt, apr, term);
+    tbody.innerHTML = rows.map(r=>`
+      <tr>
+        <td>${r.i}</td>
+        <td>${cur(r.pmt)}</td>
+        <td>${cur(r.principal)}</td>
+        <td>${cur(r.interest)}</td>
+        <td>${cur(r.bal)}</td>
+      </tr>
+    `).join('');
+
+    saveInputs();
+    gtag('event','car_calc_run');
+  }
+
+  document.getElementById('calc').addEventListener('click', render);
+  document.getElementById('reset').addEventListener('click', ()=>{
+    ['price','down','trade','tradePayoff','tax','fees','apr','rebate'].forEach(id=> document.getElementById(id).value='');
+    termEl.value='60'; taxInLoanEl.value='yes'; tbody.innerHTML='';
+    outLoan.textContent=outPmt.textContent=outInterest.textContent=outTotal.textContent='—';
+    localStorage.removeItem(KEY);
+    gtag('event','car_calc_reset');
+  });
+
+  document.getElementById('emailBtn').addEventListener('click', ()=>{
+    const { amount, taxes, tradeEquity, cashDueUpfront } = calcLoanAmount();
+    const term = +termEl.value || 60;
+    const apr = +aprEl.value || 0;
+    const pmt = (amount>0 && term>0) ? payment(amount, apr, term) : 0;
+    const totalPaid = pmt * term + cashDueUpfront;
+    const totalInterest = totalPaid - amount - cashDueUpfront;
+
+    const lines = [];
+    lines.push('Car Loan Plan — LockHabit');
+    lines.push(`Vehicle price: ${cur(+priceEl.value||0)}`);
+    lines.push(`Down payment: ${cur(+downEl.value||0)}`);
+    lines.push(`Trade equity: ${cur(tradeEquity)}`);
+    lines.push(`Rebate: ${cur(+rebateEl.value||0)}`);
+    lines.push(`Taxes (${taxEl.value||0}%): ${cur(taxes)} (${taxInLoanEl.value==='yes'?'financed':'paid upfront'})`);
+    lines.push(`Fees: ${cur(+feesEl.value||0)}`);
+    lines.push(`Loan amount: ${cur(amount)}`);
+    lines.push(`APR: ${apr}% | Term: ${term} months`);
+    lines.push(`Monthly payment: ${cur(pmt)}`);
+    lines.push(`Total interest: ${cur(totalInterest)}`);
+    lines.push(`Total paid (incl. upfront taxes if any): ${cur(totalPaid)}`);
+    const subject = encodeURIComponent('Car Loan Plan — LockHabit');
+    const body = encodeURIComponent(lines.join('\n'));
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    gtag('event','car_email_export');
+  });
+
+  // Auto-calc if values present
+  window.addEventListener('load', ()=>{ render(); }, { once:true });
+</script>
+</body>
+</html>
