@@ -1,164 +1,172 @@
-l<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <!-- Ads / Analytics -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-WMJ37PBW8H');
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date()); gtag('config','G-WMJ37PBW8H');
   </script>
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Income & Take-Home Pay (USA) | LockHabit</title>
-  <meta name="description" content="Clean U.S. take-home pay calculator. Federal + state presets with precision sliders and optional deductions. Weekly / Bi-weekly / Monthly results."/>
+  <title>Income & Take-Home Pay Calculator | LockHabit</title>
+  <meta name="description" content="Clean U.S. take-home calculator. Federal + State presets with precision sliders. Add pre-tax and post-tax deductions for an accurate paycheck number."/>
   <meta name="theme-color" content="#6f7cff"/>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
 
   <style>
     :root{
+      /* Match index.html scheme */
       --brand:#6f7cff; --brand2:#9c78ff; --accent:#9fb2ff;
       --ink:#0f172a; --ink2:#15213d; --muted:#536179; --muted2:#3a4a66;
       --line:#e5e7f1; --panel:#ffffff; --surface:#fbfcff;
       --green:#22c55e; --bg:#0e1330;
-      --radius:16px; --shadow:0 18px 50px rgba(17,24,39,.10);
+      --radius:16px; --radius-lg:22px;
+      --shadow:0 18px 50px rgba(17,24,39,.10);
       --grad:
-        radial-gradient(1400px 700px at 50% -200px, rgba(111,124,255,.28), transparent 60%),
+        radial-gradient(1400px 700px at 50% -200px, rgba(111,124,255,.25), transparent 60%),
         radial-gradient(900px 600px at -10% 10%, rgba(156,120,255,.18), transparent 55%),
-        #0e1330;
+        #f6f8ff;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;background:var(--grad);color:#e7edf6;
+      margin:0;background:var(--bg);color:var(--ink);
       font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      overflow-x:hidden; /* lock page horizontally */
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-    a{color:inherit;text-decoration:none}
 
     /* Header */
-    header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);
-      backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:10px;cursor:pointer;color:#0e1a34}
+    header.hdr{
+      position:sticky;top:0;z-index:60;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 16px}
+    .hdr .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;cursor:pointer}
     .logo{width:30px;height:30px}
-    nav a{font-weight:700;color:#1f2b45;margin-left:14px}
+    .word{font-weight:800;color:#0e1a34}
+    nav a{color:#19253f;text-decoration:none;font-weight:600;margin-left:14px}
 
-    /* App Menu (top-right dropdown) */
-    .apps{position:relative}
-    .apps-btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:12px;
-      padding:10px 12px;font-weight:800;cursor:pointer}
-    .apps-list{position:absolute;right:0;top:110%;background:#fff;border:1px solid var(--line);
-      border-radius:14px;box-shadow:var(--shadow);min-width:240px;padding:8px;display:none}
-    .apps.open .apps-list{display:block}
-    .apps-list a{display:block;padding:10px 12px;border-radius:10px;color:#15213d;font-weight:600}
-    .apps-list a:hover{background:#f6f8ff}
-    .apps-close{display:block;text-align:center;margin-top:6px;font-size:12px;color:#6b7a96}
+    /* Tools dropdown (top-right) */
+    .menu-wrap{position:relative}
+    .tools-btn{
+      appearance:none;border:1px solid var(--line);background:#fff;
+      padding:10px 12px;border-radius:12px;font-weight:800;cursor:pointer
+    }
+    .tools{position:absolute;right:0;top:46px;background:#fff;border:1px solid var(--line);
+      box-shadow:var(--shadow);border-radius:12px;min-width:210px;display:none;overflow:hidden}
+    .tools.open{display:block}
+    .tools a{display:block;padding:10px 12px;color:#0f172a;text-decoration:none;border-bottom:1px solid #eef1f7}
+    .tools a:last-child{border-bottom:0}
+    .tools .close-line{display:flex;justify-content:flex-end;padding:6px 8px;background:#fbfcff;border-bottom:1px solid #eef1f7}
+    .tools .close{appearance:none;border:0;background:#fff;border:1px solid var(--line);padding:6px 8px;border-radius:8px;font-weight:700;cursor:pointer}
 
     /* Hero */
-    .hero{border-bottom:1px solid var(--line);padding:28px 0;background:transparent}
-    h1{margin:0 0 6px;font-size:32px;letter-spacing:-.2px}
-    .sub{margin:0;color:#ccd6ea}
+    .hero{background:var(--grad);border-bottom:1px solid var(--line)}
+    .hero .wrap{padding-top:28px;padding-bottom:20px}
+    h1{margin:0 0 6px;font-size:34px}
+    .sub{margin:0;color:#3a4a66;max-width:70ch}
 
     /* Grid */
-    .grid{display:grid;gap:16px;grid-template-columns:1.15fr .85fr}
+    main.wrap{padding-top:18px}
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
     @media (max-width:980px){ .grid{grid-template-columns:1fr} }
 
-    /* Card */
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);color:#0f172a}
-    .k{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#5b6a86;font-weight:800}
-    label.k{display:block;margin:8px 0 6px}
+    /* Cards / panels */
+    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+    .k{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#5b6a86;font-weight:700}
     .v{font-weight:800;color:#0f1a34}
+    .note{font-size:12px;color:#60708c}
 
     /* Controls */
-    .ctrl{width:100%;height:44px;padding:10px 12px;border:1px solid #dbe0ea;border-radius:12px;
-      font-size:16px;background:#fff;appearance:none}
-    .ctrl[type="number"]{-moz-appearance:textfield}
-    .ctrl::-webkit-outer-spin-button,.ctrl::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+    label.k{display:block;margin:8px 0 6px}
+    .ctrl{width:100%;height:44px;padding:10px 12px;border:1px solid #dbe0ea;border-radius:12px;background:#fff;font-size:16px}
     .select-wrap{position:relative}
     .select-wrap:after{content:"";position:absolute;right:12px;top:50%;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #7a869e;transform:translateY(-50%)}
-
     .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    .note{font-size:12px;color:#6b7280}
-
-    /* Sliders (precision slides) */
-    .slide-wrap{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px}
     input[type="range"]{width:100%}
 
-    /* Accordions */
-    details.acc{border:1px solid var(--line);border-radius:14px;background:#fff;margin-top:10px;overflow:hidden}
-    details.acc > summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:800;color:#101828;display:flex;align-items:center;justify-content:space-between;gap:10px}
-    details.acc > summary::-webkit-details-marker{display:none}
-    .acc-body{padding:0 14px 14px}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 10px 24px rgba(111,124,255,.35)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
 
-    /* Pills / Tables */
+    /* Pills / tables */
     .table{width:100%;border-collapse:collapse;margin-top:8px}
     .table th,.table td{padding:10px 8px;border-bottom:1px solid #eef1f7;text-align:right}
     .table th:first-child,.table td:first-child{text-align:left}
 
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
-    .btn.acc{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;box-shadow:0 10px 24px rgba(111,124,255,.35)}
-    .btn.ghost{background:transparent}
+    /* Accordions */
+    details.acc{border:1px solid var(--line);border-radius:14px;background:#fff;margin-top:10px;overflow:hidden}
+    details.acc>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;color:#101828;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    details.acc>summary::-webkit-details-marker{display:none}
+    .acc-body{padding:0 16px 16px}
+    .hint{color:#5d6a86;font-weight:600;font-size:13px}
 
-    footer{margin:22px 0;color:#cbd5e1;font-size:12px;text-align:center}
+    footer{margin:22px 0 32px;color:#cbd5e1;font-size:12px;text-align:center}
+    /* ensure bottom is visible on iOS */
+    main{padding-bottom:28px}
   </style>
 </head>
 <body>
-  <header>
+  <!-- Header -->
+  <header class="hdr" id="hdr">
     <div class="wrap row">
-      <div class="brand" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
+      <a class="brand" href="/index.html" title="Home">
         <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
           <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+          <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+          <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+          <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+          <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
         </svg>
-        <strong>LockHabit</strong>
-      </div>
-      <nav class="row" style="gap:10px">
+        <div class="word">LockHabit</div>
+      </a>
+      <nav style="display:flex;align-items:center;gap:10px">
         <a href="/index.html">Home</a>
-        <a aria-current="page" class="k" style="letter-spacing:.02em;color:#1f2b45">Calculator</a>
+        <a aria-current="page" style="font-weight:700;color:#1f2b45">Calculator</a>
       </nav>
-      <div class="apps" id="apps">
-        <button class="apps-btn" id="appsBtn">Tools ▾</button>
-        <div class="apps-list" id="appsList" aria-label="Other calculators">
-          <a href="/mortgage.html">Mortgage (coming soon)</a>
-          <a href="/loan.html">Loan (coming soon)</a>
-          <a href="/savings.html">Savings (coming soon)</a>
-          <a href="/retirement.html">Retirement (coming soon)</a>
-          <a href="/currency.html">FX Converter (coming soon)</a>
-          <a href="/business.html">Business Tools (coming soon)</a>
-          <a href="/calculator.html">Legacy Calculator</a>
+      <div class="menu-wrap">
+        <button id="toolsBtn" class="tools-btn">Tools ▾</button>
+        <div id="toolsMenu" class="tools" aria-label="More tools">
+          <div class="close-line"><button class="close" id="toolsClose">Close ✕</button></div>
+          <a href="/calculator.html">Salary & Planner</a>
+          <a href="/mortgage.html">Mortgage</a>
+          <a href="/loan.html">Loan</a>
+          <a href="/savings.html">Savings</a>
+          <a href="/retirement.html">Retirement</a>
+          <a href="/currency.html">FX Converter</a>
+          <a href="/business.html">Business Tools</a>
           <a href="/blog.html">Blog / Newsletter</a>
-          <span class="apps-close" id="appsClose">Tap to close ▲</span>
         </div>
       </div>
     </div>
   </header>
 
+  <!-- Hero -->
   <section class="hero">
     <div class="wrap">
-      <h1>Income & Take-Home Pay (USA)</h1>
+      <h1>Income & Take-Home Pay</h1>
       <p class="sub">Federal + State presets with precision sliders. Add deductions in a clean dropdown for an accurate paycheck number.</p>
     </div>
   </section>
 
+  <!-- Main -->
   <main class="wrap">
     <div class="grid">
       <!-- LEFT: Inputs -->
-      <section class="panel" aria-labelledby="inputs">
-        <h2 id="inputs" style="margin:0 0 8px">Your details</h2>
+      <section class="panel" aria-labelledby="inputs-title">
+        <h2 id="inputs-title" style="margin:0 0 8px">Your details</h2>
 
         <div class="two">
           <div>
@@ -174,7 +182,7 @@ l<!doctype html>
           </div>
           <div>
             <label class="k">Income (gross)</label>
-            <input id="income" class="ctrl" type="number" min="0" inputmode="decimal" placeholder="e.g., 2000"/>
+            <input id="income" class="ctrl" type="number" inputmode="decimal" placeholder="e.g., 2000"/>
             <div class="note">Per the selected frequency.</div>
           </div>
         </div>
@@ -191,94 +199,62 @@ l<!doctype html>
           </div>
           <div>
             <label class="k">State</label>
-            <div class="select-wrap">
-              <select id="state" class="ctrl"></select>
-            </div>
+            <div class="select-wrap"><select id="state" class="ctrl"></select></div>
           </div>
         </div>
 
-        <!-- Precision sliders (federal & state) -->
-        <details class="acc" style="margin-top:10px" open>
+        <!-- Precision sliders -->
+        <details class="acc" open style="margin-top:10px">
           <summary>Precision sliders (rates)</summary>
           <div class="acc-body">
-            <div class="two" style="margin-top:6px">
+            <div class="two" style="margin-top:6px;align-items:end">
               <div>
                 <label class="k">Federal effective %</label>
-                <div class="slide-wrap">
-                  <input id="fedPct" class="ctrl" type="number" step="0.1" min="0" max="60" placeholder="auto"/>
-                  <input id="fedSlide" type="range" min="0" max="60" step="0.1">
-                </div>
-                <div class="note">You can type or slide. We seed this from a simplified bracket estimate.</div>
+                <input id="fedPct" class="ctrl" type="number" step="0.05" placeholder="auto"/>
+                <input id="fedSlider" type="range" min="0" max="40" step="0.05" value="12"/>
+                <div class="note">Type or slide. We’ll auto-preset based on filing status.</div>
               </div>
               <div>
                 <label class="k">State effective %</label>
-                <div class="slide-wrap">
-                  <input id="statePct" class="ctrl" type="number" step="0.1" min="0" max="15" placeholder="auto"/>
-                  <input id="stateSlide" type="range" min="0" max="15" step="0.1">
-                </div>
-                <div class="note">Preset from your state (editable).</div>
+                <input id="statePct" class="ctrl" type="number" step="0.05" placeholder="auto"/>
+                <input id="stateSlider" type="range" min="0" max="15" step="0.05" value="4"/>
+                <div class="note">Preset from your state. Adjust if needed.</div>
               </div>
             </div>
           </div>
         </details>
 
-        <!-- Additional deductions dropdown -->
-        <details class="acc">
+        <!-- Deductions -->
+        <details class="acc" style="margin-top:10px" open>
           <summary>Additional deductions (optional)</summary>
           <div class="acc-body">
-            <div class="three" style="margin-top:6px">
+            <div class="two" style="margin-top:6px">
               <div>
-                <label class="k">Pre-tax % (401k/403b)</label>
-                <input id="pretaxPct" class="ctrl" type="number" step="0.5" min="0" max="50" placeholder="0"/>
+                <label class="k">Pre-tax contribution % (401k/HSA)</label>
+                <input id="pretaxPct" class="ctrl" type="number" min="0" max="50" step="0.25" placeholder="0"/>
               </div>
               <div>
-                <label class="k">HSA/FSA per period</label>
-                <input id="hsa" class="ctrl" type="number" step="1" min="0" placeholder="0"/>
-              </div>
-              <div>
-                <label class="k">Other pre-tax per period</label>
-                <input id="otherPre" class="ctrl" type="number" step="1" min="0" placeholder="0"/>
+                <label class="k">HSA / pre-tax per period</label>
+                <input id="pretaxFixed" class="ctrl" type="number" step="1" placeholder="0"/>
               </div>
             </div>
             <div class="two" style="margin-top:8px">
               <div>
-                <label class="k">Post-tax medical/benefits per period</label>
-                <input id="postMed" class="ctrl" type="number" step="1" min="0" placeholder="0"/>
+                <label class="k">Medical/benefits (post-tax, per period)</label>
+                <input id="postMedical" class="ctrl" type="number" step="1" placeholder="0"/>
               </div>
               <div>
-                <label class="k">Other post-tax per period</label>
-                <input id="postOther" class="ctrl" type="number" step="1" min="0" placeholder="0"/>
+                <label class="k">Other post-tax (per period)</label>
+                <input id="postOther" class="ctrl" type="number" step="1" placeholder="0"/>
               </div>
             </div>
           </div>
         </details>
 
-        <!-- Optional: Other Country (beta) with inflation input -->
-        <details class="acc">
-          <summary>Other Country (beta) — inflation adjuster</summary>
-          <div class="acc-body">
-            <div class="two" style="margin-top:6px">
-              <div>
-                <label class="k">Country name</label>
-                <input id="ocName" class="ctrl" placeholder="e.g., Canada"/>
-              </div>
-              <div>
-                <label class="k">Inflation / FX fudge %</label>
-                <input id="ocInfl" class="ctrl" type="number" step="0.1" min="-50" max="200" value="0"/>
-              </div>
-            </div>
-            <div class="note" style="margin-top:6px">Not used unless you enable “Use Other Country” below.</div>
-            <div style="margin-top:8px;display:flex;gap:10px;align-items:center">
-              <input id="ocUse" type="checkbox"/>
-              <label for="ocUse" class="k" style="text-transform:none;letter-spacing:0">Use Other Country adjustments</label>
-            </div>
-          </div>
-        </details>
-
-        <div class="row" style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-          <button id="calc" class="btn acc">Calculate</button>
+        <div class="actions">
+          <button id="recalc" class="btn acc">Calculate</button>
           <button id="reset" class="btn">Reset</button>
-          <span class="note">Inputs save locally to this device.</span>
+          <span class="note">Inputs save locally on this device.</span>
         </div>
 
         <!-- Ad slot -->
@@ -290,9 +266,9 @@ l<!doctype html>
         </div>
       </section>
 
-      <!-- RIGHT: Results -->
-      <aside class="panel" aria-labelledby="snap">
-        <h2 id="snap" style="margin:0 0 8px">Your snapshot</h2>
+      <!-- RIGHT: Output -->
+      <aside class="panel" aria-labelledby="out-title">
+        <h2 id="out-title" style="margin:0 0 8px">Your snapshot</h2>
 
         <div class="two">
           <div>
@@ -331,9 +307,9 @@ l<!doctype html>
           <div class="k">Net by pay period</div>
           <table class="table">
             <tbody>
-              <tr><td>Weekly</td><td id="netW">$0</td></tr>
-              <tr><td>Bi-weekly</td><td id="netB">$0</td></tr>
-              <tr><td>Monthly</td><td id="netM">$0</td></tr>
+              <tr><td>Weekly</td><td id="netWeekly">$0</td></tr>
+              <tr><td>Bi-weekly</td><td id="netBiweekly">$0</td></tr>
+              <tr><td>Monthly</td><td id="netMonthly">$0</td></tr>
             </tbody>
           </table>
         </div>
@@ -342,9 +318,9 @@ l<!doctype html>
           <div class="k">Post-tax deductions per period</div>
           <table class="table">
             <tbody>
-              <tr><td>Medical/benefits</td><td id="pMed">$0</td></tr>
-              <tr><td>Other</td><td id="pOther">$0</td></tr>
-              <tr><td><b>Net after post-tax</b></td><td id="netAfter" style="font-weight:800">$0</td></tr>
+              <tr><td>Medical/benefits</td><td id="outMed">$0</td></tr>
+              <tr><td>Other</td><td id="outOther">$0</td></tr>
+              <tr><td><b>Net after post-tax</b></td><td id="outAfter" style="font-weight:800">$0</td></tr>
             </tbody>
           </table>
         </div>
@@ -355,7 +331,7 @@ l<!doctype html>
   <footer>© <span id="yr"></span> LockHabit — Calculator is for estimates only.</footer>
 
   <script>
-    // ====== US State effective rates (editable presets) ======
+    // ===== Constants =====
     const STATE_EFFECTIVE_RATES = {
       "AL":3.5,"AK":0,"AZ":2.5,"AR":4.0,"CA":6.0,"CO":4.5,"CT":5.0,"DC":6.0,"DE":4.5,
       "FL":0,"GA":4.0,"HI":6.0,"ID":4.7,"IL":4.7,"IN":3.0,"IA":4.2,"KS":4.2,"KY":4.0,
@@ -364,219 +340,180 @@ l<!doctype html>
       "OK":3.5,"OR":6.5,"PA":3.1,"RI":4.5,"SC":3.5,"SD":0,"TN":0,"TX":0,"UT":4.6,
       "VT":4.8,"VA":4.5,"WA":0,"WV":4.0,"WI":4.0,"WY":0
     };
-
-    // 2025 (est.) federal bracket helper for a quick "effective" seed
-    const FED_2025 = {
-      std: { single: 15300, married: 30600 },
-      single: [[12000,.10],[48700,.12],[104050,.22],[198700,.24],[252250,.32],[630650,.35],[Infinity,.37]],
-      married:[[24000,.10],[97600,.12],[208100,.22],[397300,.24],[504000,.32],[756600,.35],[Infinity,.37]]
+    const STATE_NAMES = {
+      AL:"Alabama", AK:"Alaska", AZ:"Arizona", AR:"Arkansas", CA:"California", CO:"Colorado", CT:"Connecticut",
+      DC:"District of Columbia", DE:"Delaware", FL:"Florida", GA:"Georgia", HI:"Hawaii", ID:"Idaho", IL:"Illinois",
+      IN:"Indiana", IA:"Iowa", KS:"Kansas", KY:"Kentucky", LA:"Louisiana", ME:"Maine", MD:"Maryland", MA:"Massachusetts",
+      MI:"Michigan", MN:"Minnesota", MS:"Mississippi", MO:"Missouri", MT:"Montana", NE:"Nebraska", NV:"Nevada",
+      NH:"New Hampshire", NJ:"New Jersey", NM:"New Mexico", NY:"New York", NC:"North Carolina", ND:"North Dakota",
+      OH:"Ohio", OK:"Oklahoma", OR:"Oregon", PA:"Pennsylvania", RI:"Rhode Island", SC:"South Carolina", SD:"South Dakota",
+      TN:"Tennessee", TX:"Texas", UT:"Utah", VT:"Vermont", VA:"Virginia", WA:"Washington", WV:"West Virginia",
+      WI:"Wisconsin", WY:"Wyoming"
     };
+    // Quick federal effective defaults by filing status (editable via slider)
+    const FED_DEFAULT = { single: 12.0, married: 10.0 };
 
+    // Payroll
     const SS_WAGEBASE_2025 = 174200;
-    const SS_RATE = 0.062;
-    const MEDICARE_RATE = 0.0145;
+    const SS_RATE = 0.062, MED_RATE = 0.0145;
 
-    // ====== UI wiring ======
-    const $ = (id)=>document.getElementById(id);
+    // Helpers
+    const $ = id => document.getElementById(id);
+    const fmt = n => (isFinite(n)? n:0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+
     $('yr').textContent = new Date().getFullYear();
 
-    // Dropdown menu open/close
+    // Tools dropdown
     (function(){
-      const box = $('apps'), btn=$('appsBtn'), list=$('appsList'), close=$('appsClose');
-      const toggle=()=>box.classList.toggle('open');
-      btn.addEventListener('click', toggle);
-      close.addEventListener('click', toggle);
-      document.addEventListener('click', (e)=>{ if(!box.contains(e.target)) box.classList.remove('open'); });
+      const btn=$('toolsBtn'), menu=$('toolsMenu'), close=$('toolsClose');
+      function open(){ menu.classList.add('open'); }
+      function shut(){ menu.classList.remove('open'); }
+      btn.addEventListener('click', e=>{ e.stopPropagation(); menu.classList.toggle('open'); });
+      close.addEventListener('click', shut);
+      document.addEventListener('click', e=>{ if(!menu.contains(e.target) && e.target!==btn) shut(); });
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') shut(); });
     })();
 
-    // Build state select
+    // Build states
     (function buildStates(){
-      const names = {
-        AL:"Alabama", AK:"Alaska", AZ:"Arizona", AR:"Arkansas", CA:"California", CO:"Colorado", CT:"Connecticut",
-        DC:"District of Columbia", DE:"Delaware", FL:"Florida", GA:"Georgia", HI:"Hawaii", ID:"Idaho", IL:"Illinois",
-        IN:"Indiana", IA:"Iowa", KS:"Kansas", KY:"Kentucky", LA:"Louisiana", ME:"Maine", MD:"Maryland", MA:"Massachusetts",
-        MI:"Michigan", MN:"Minnesota", MS:"Mississippi", MO:"Missouri", MT:"Montana", NE:"Nebraska", NV:"Nevada",
-        NH:"New Hampshire", NJ:"New Jersey", NM:"New Mexico", NY:"New York", NC:"North Carolina", ND:"North Dakota",
-        OH:"Ohio", OK:"Oklahoma", OR:"Oregon", PA:"Pennsylvania", RI:"Rhode Island", SC:"South Carolina", SD:"South Dakota",
-        TN:"Tennessee", TX:"Texas", UT:"Utah", VT:"Vermont", VA:"Virginia", WA:"Washington", WV:"West Virginia",
-        WI:"Wisconsin", WY:"Wyoming"
-      };
-      const s = $('state');
+      const sel = $('state');
       const frag = document.createDocumentFragment();
       Object.keys(STATE_EFFECTIVE_RATES).sort().forEach(ab=>{
-        const o = document.createElement('option');
-        o.value = ab; o.textContent = `${ab} — ${names[ab]}`;
-        frag.appendChild(o);
+        const opt=document.createElement('option');
+        opt.value=ab; opt.textContent=`${ab} — ${STATE_NAMES[ab]}`;
+        if(ab==='NY') opt.selected=true;
+        frag.appendChild(opt);
       });
-      s.appendChild(frag);
-      s.value = 'NY';
+      sel.appendChild(frag);
     })();
 
-    // Link number inputs ↔ sliders
-    function bindSlider(numId, slideId, min=0, max=60){
-      const n=$(numId), s=$(slideId);
-      s.min=min; s.max=max;
-      const sync = (from)=>{ 
-        if(from==='n'){ s.value = n.value || 0; } else { n.value = s.value; }
-        recalc();
-      };
-      n.addEventListener('input', ()=>sync('n'));
-      s.addEventListener('input', ()=>sync('s'));
+    // Elements
+    const freq=$('freq'), income=$('income'), status=$('status'), stateSel=$('state');
+    const fedPct=$('fedPct'), statePct=$('statePct'), fedSlider=$('fedSlider'), stateSlider=$('stateSlider');
+    const pretaxPct=$('pretaxPct'), pretaxFixed=$('pretaxFixed'), postMedical=$('postMedical'), postOther=$('postOther');
+
+    const outGross=$('outGross'), outPretax=$('outPretax'), outFed=$('outFed'), outState=$('outState'), outFica=$('outFica'), outNet=$('outNet');
+    const netWeekly=$('netWeekly'), netBiweekly=$('netBiweekly'), netMonthly=$('netMonthly');
+    const outMed=$('outMed'), outOther=$('outOther'), outAfter=$('outAfter');
+
+    const STORE='lh.us.calcv1';
+
+    // Sync slider<->number
+    function bindSlider(numberEl, rangeEl){
+      numberEl.addEventListener('input', ()=>{ if(numberEl.value!=='' ) rangeEl.value = numberEl.value; recalc(); });
+      rangeEl.addEventListener('input', ()=>{ numberEl.value = rangeEl.value; recalc(); });
     }
-    bindSlider('fedPct','fedSlide',0,60);
-    bindSlider('statePct','stateSlide',0,15);
+    bindSlider(fedPct, fedSlider);
+    bindSlider(statePct, stateSlider);
+
+    // Auto presets (federal by filing; state by state)
+    function presetRates(){
+      const f = FED_DEFAULT[status.value] ?? 12;
+      if(!fedPct.hasAttribute('data-user')){ fedPct.value = f; fedSlider.value = f; }
+      const ab = stateSel.value;
+      const s = STATE_EFFECTIVE_RATES[ab] ?? 4;
+      if(!statePct.hasAttribute('data-user')){ statePct.value = s; stateSlider.value = s; }
+    }
+    [fedPct,statePct].forEach(el=>{
+      ['input','change'].forEach(ev=> el.addEventListener(ev, ()=> el.setAttribute('data-user','1')));
+    });
 
     // Storage
-    const STORE='lh.us.v1';
     function save(){
-      const data={
-        f:$('freq').value, inc:$('income').value, st:$('state').value, stat:$('status').value,
-        fed:$('fedPct').value, stp:$('statePct').value,
-        pre:$('pretaxPct').value, hsa:$('hsa').value, op:$('otherPre').value,
-        pm:$('postMed').value, po:$('postOther').value,
-        ocn:$('ocName').value, oci:$('ocInfl').value, ocu:$('ocUse').checked
+      const d = {
+        f:freq.value, i:income.value, st:status.value, s:stateSel.value,
+        fp:fedPct.value, sp:statePct.value, pp:pretaxPct.value, pf:pretaxFixed.value,
+        pm:postMedical.value, po:postOther.value
       };
-      localStorage.setItem(STORE, JSON.stringify(data));
+      localStorage.setItem(STORE, JSON.stringify(d));
     }
     function load(){
       try{
         const d = JSON.parse(localStorage.getItem(STORE)||'null'); if(!d) return;
-        $('freq').value = d.f || 'biweekly';
-        $('income').value = d.inc || '';
-        $('state').value = d.st || 'NY';
-        $('status').value = d.stat || 'single';
-        $('fedPct').value = d.fed || '';
-        $('statePct').value = d.stp || STATE_EFFECTIVE_RATES[$('state').value] || '';
-        $('fedSlide').value = $('fedPct').value||0;
-        $('stateSlide').value = $('statePct').value||0;
-        $('pretaxPct').value = d.pre || '';
-        $('hsa').value = d.hsa || '';
-        $('otherPre').value = d.op || '';
-        $('postMed').value = d.pm || '';
-        $('postOther').value = d.po || '';
-        $('ocName').value = d.ocn || '';
-        $('ocInfl').value = d.oci || 0;
-        $('ocUse').checked = !!d.ocu;
-      }catch(_){}
+        if(d.f) freq.value=d.f;
+        if(d.i) income.value=d.i;
+        if(d.st) status.value=d.st;
+        if(d.s && STATE_EFFECTIVE_RATES[d.s]) stateSel.value=d.s;
+        if(d.fp){ fedPct.value=d.fp; fedSlider.value=d.fp; fedPct.setAttribute('data-user','1'); }
+        if(d.sp){ statePct.value=d.sp; stateSlider.value=d.sp; statePct.setAttribute('data-user','1'); }
+        if(d.pp) pretaxPct.value=d.pp;
+        if(d.pf) pretaxFixed.value=d.pf;
+        if(d.pm) postMedical.value=d.pm;
+        if(d.po) postOther.value=d.po;
+      }catch(_) {}
     }
 
-    // Helpers
-    const P={weekly:52, biweekly:26, monthly:12, annual:1};
-    const fmt = (n)=> (isFinite(n)? n:0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-
-    function seedFederalEffective(annual, filing){
-      const d = filing==='married' ? FED_2025.std.married : FED_2025.std.single;
-      const x = Math.max(0, annual - d);
-      const B = filing==='married' ? FED_2025.married : FED_2025.single;
-      let prev=0, tax=0;
-      for(const [cap, rate] of B){
-        const slice = Math.min(x, cap) - prev;
-        if(slice>0){ tax += slice*rate; prev += slice; }
-        if(prev>=x) break;
-      }
-      const eff = annual>0 ? (tax/annual)*100 : 0;
-      return Math.max(0, Math.min(60, eff));
-    }
-
-    function payrollTax(gross){
-      const ss = Math.min(gross, SS_WAGEBASE_2025)*SS_RATE;
-      const medicare = gross*MEDICARE_RATE;
-      return ss+medicare;
-    }
-
+    // Math
+    const P = { weekly:52, biweekly:26, monthly:12, annual:1 };
     function toAnnual(){
-      const per = Number($('income').value||0);
-      return per * (P[$('freq').value]||26);
+      const per = Number(income.value||0);
+      const mult = P[freq.value] ?? 26;
+      return per*mult;
     }
-
+    function payrollTax(g){
+      const ss = Math.min(g, SS_WAGEBASE_2025) * SS_RATE;
+      const med = g * MED_RATE;
+      return ss + med;
+    }
     function recalc(){
       save();
+      // Annual gross
+      const annual = toAnnual();
 
-      const annualGross = toAnnual();
-
-      // Seed sliders if blank
-      if(($('fedPct').value==='' || $('fedPct').value===null) && annualGross>0){
-        $('fedPct').value = seedFederalEffective(annualGross, $('status').value).toFixed(1);
-        $('fedSlide').value = $('fedPct').value;
-      }
-      if($('statePct').value==='' || $('statePct').value===null){
-        $('statePct').value = STATE_EFFECTIVE_RATES[$('state').value] ?? 0;
-        $('stateSlide').value = $('statePct').value;
-      }
-
-      // Pre-tax per period to annual
-      const pretaxPct = Math.max(0, Number($('pretaxPct').value||0))/100;
-      const perPeriods = P[$('freq').value]||26;
-      const hsa = Math.max(0, Number($('hsa').value||0)) * perPeriods;
-      const otherPre = Math.max(0, Number($('otherPre').value||0)) * perPeriods;
-
-      const pretaxAnnual = (annualGross * pretaxPct) + hsa + otherPre;
-      const taxableWages = Math.max(0, annualGross - pretaxAnnual);
+      // Pre-tax
+      const prePct = Math.max(0, Number(pretaxPct.value||0))/100;
+      const preFixedPer = Math.max(0, Number(pretaxFixed.value||0));
+      const preFixedAnnual = preFixedPer * (P[freq.value] ?? 26);
+      const pretax = (annual * prePct) + preFixedAnnual;
+      const taxableWages = Math.max(0, annual - pretax);
 
       // Taxes
-      let fedEff = Math.max(0, Number($('fedPct').value||0))/100;
-      const stateEff = Math.max(0, Number($('statePct').value||0))/100;
-
-      // Optional Other Country inflation shift (beta)
-      if($('ocUse').checked){
-        const adj = Number($('ocInfl').value||0)/100;
-        fedEff = Math.max(0, fedEff + adj); // simple tweak to show impact
-      }
-
-      const fedTax = taxableWages * fedEff;
-      const stateTax = taxableWages * stateEff;
+      const fed = Math.max(0, Number(fedPct.value||0))/100;
+      const st  = Math.max(0, Number(statePct.value||0))/100;
+      const fedTax = taxableWages * fed;
+      const stateTax = taxableWages * st;
       const fica = payrollTax(taxableWages);
 
-      const netAnnual = Math.max(0, annualGross - pretaxAnnual - fedTax - stateTax - fica);
+      const netAnnual = Math.max(0, annual - pretax - fedTax - stateTax - fica);
 
-      // Per-period nets
-      const netW = netAnnual/52, netB = netAnnual/26, netM = netAnnual/12;
+      // Period nets
+      const w = netAnnual/52, b = netAnnual/26, m = netAnnual/12;
 
-      // Post-tax deductions (entered per period)
-      const postMed = Math.max(0, Number($('postMed').value||0));
-      const postOther = Math.max(0, Number($('postOther').value||0));
-      const postTotal = postMed + postOther;
+      // Post-tax deductions (per period -> annual)
+      const medP = Math.max(0, Number(postMedical.value||0));
+      const othP = Math.max(0, Number(postOther.value||0));
+      const periodMult = P[freq.value] ?? 26;
+      const postAnnual = (medP + othP) * periodMult;
 
-      // Net after post-tax based on chosen frequency (for paycheck feel)
-      const baseNet = $('freq').value==='weekly' ? netW : $('freq').value==='biweekly' ? netB : $('freq').value==='monthly' ? netM : (netAnnual);
-      const after = Math.max(0, baseNet - postTotal);
+      const afterAnnual = Math.max(0, netAnnual - postAnnual);
+      const afterPeriod = (v)=> Math.max(0, v - (medP+othP));
 
       // Reflect
-      $('outGross').textContent = fmt(annualGross);
-      $('outPretax').textContent = fmt(pretaxAnnual);
-      $('outFed').textContent = fmt(fedTax);
-      $('outState').textContent = fmt(stateTax);
-      $('outFica').textContent = fmt(fica);
-      $('outNet').textContent = fmt(netAnnual);
+      outGross.textContent = fmt(annual);
+      outPretax.textContent = fmt(pretax);
+      outFed.textContent = fmt(fedTax);
+      outState.textContent = fmt(stateTax);
+      outFica.textContent = fmt(fica);
+      outNet.textContent = fmt(netAnnual);
 
-      $('netW').textContent = fmt(netW);
-      $('netB').textContent = fmt(netB);
-      $('netM').textContent = fmt(netM);
+      netWeekly.textContent = fmt(afterPeriod(netAnnual/52));
+      netBiweekly.textContent = fmt(afterPeriod(netAnnual/26));
+      netMonthly.textContent = fmt(afterPeriod(netAnnual/12));
 
-      $('pMed').textContent = fmt(postMed);
-      $('pOther').textContent = fmt(postOther);
-      $('netAfter').textContent = fmt(after);
+      outMed.textContent = fmt(medP);
+      outOther.textContent = fmt(othP);
+      outAfter.textContent = fmt(afterAnnual);
     }
 
     // Events
     ['input','change'].forEach(ev=>{
-      ['freq','income','status','state','pretaxPct','hsa','otherPre','postMed','postOther','fedPct','statePct','ocInfl','ocUse']
-        .forEach(id => $(id).addEventListener(ev, recalc));
+      [freq,income,status,stateSel,fedPct,statePct,fedSlider,stateSlider,pretaxPct,pretaxFixed,postMedical,postOther].forEach(el=> el.addEventListener(ev, ()=>{ if(el===status||el===stateSel) presetRates(); recalc(); }));
     });
-    $('state').addEventListener('change', ()=>{ 
-      // when state changes and user hasn’t manually edited, resync preset
-      if(($('statePct').value==='' || $('statePct').value==null)){
-        $('statePct').value = STATE_EFFECTIVE_RATES[$('state').value] ?? 0;
-        $('stateSlide').value = $('statePct').value;
-      }
-      recalc();
-    });
-
-    $('calc').addEventListener('click', recalc);
+    $('recalc').addEventListener('click', recalc);
     $('reset').addEventListener('click', ()=>{ localStorage.removeItem(STORE); location.reload(); });
 
     // Boot
-    load(); recalc();
+    load(); presetRates(); recalc();
   </script>
 </body>
 </html>
