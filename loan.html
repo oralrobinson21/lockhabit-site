@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Personal/Auto/Student Loan Calculator | LockHabit</title>
+  <meta name="description" content="Calculate monthly payments, total interest, payoff time, and savings from extra payments. Supports origination fees, APR vs nominal rate, and side-by-side loan comparison. Save to device and email results.">
+  <meta name="theme-color" content="#0b0e1a"/>
+
+  <!-- Social -->
+  <link rel="canonical" href="https://lockhabit.com/loan.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Personal/Auto/Student Loan Calculator | LockHabit"/>
+  <meta property="og:description" content="Payments, fees, APR vs nominal, extra payments, and comparison in one place."/>
+  <meta property="og:url" content="https://lockhabit.com/loan.html"/>
+  <meta property="og:image" content="/public/og-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Personal/Auto/Student Loan Calculator | LockHabit"/>
+  <meta name="twitter:description" content="Estimate monthly payments and total cost. Email yourself the summary."/>
+  <meta name="twitter:image" content="/public/og-image.png"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --brand:#6f7cff; --brand-2:#9c78ff; --accent:#9fb2ff;
+      --green:#22c55e; --ink:#0b1230; --muted:#55617a;
+      --line:#e6e7f1; --panel:#ffffff; --surface:#f7f8ff;
+      --radius:14px; --shadow:0 18px 50px rgba(17,24,39,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:#f5f7ff;color:#0b1230;
+      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    header{
+      position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);
+      backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;min-width:0;cursor:pointer}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800;letter-spacing:.2px;color:#0e1a34;white-space:nowrap}
+    nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    nav a, nav button{
+      border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;
+      text-decoration:none;color:#1a2643;font-weight:600;cursor:pointer
+    }
+    .hero{
+      background:
+        radial-gradient(1400px 650px at 50% -200px, rgba(111,124,255,.25) 0%, transparent 60%),
+        #f8f9ff;
+      border-bottom:1px solid var(--line);
+    }
+    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 12px}
+    h1{margin:0 0 6px;font-size:34px;letter-spacing:-.3px}
+    .sub{color:#33415f;max-width:65ch;margin:0}
+    .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr; padding:0 16px}
+    @media(min-width:980px){ .grid{grid-template-columns:1.05fr .95fr} }
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .panel h2{margin:0 0 10px;font-size:20px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    label{font-weight:600;font-size:14px;color:#1a2643}
+    input,select{
+      width:100%;padding:12px;border-radius:10px;border:1px solid #dbe0ea;background:#fff;font-size:15px
+    }
+    .btn{
+      appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer
+    }
+    .ghost{background:#fff;color:#1a2643}
+    .muted{color:#5b6a88;font-size:13px}
+    .k{font-size:12px;color:#5c6b86;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-weight:800;font-size:22px}
+    .stack{display:grid;gap:8px}
+    .results{display:grid;gap:12px}
+    .break{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:12px}
+    .ok{color:#0b3b22;background:#eafff2;border:1px solid #c8f5d9}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--line);padding:8px;text-align:right;font-size:14px}
+    th:first-child,td:first-child{text-align:left}
+    footer{border-top:1px solid var(--line);margin-top:24px;background:#fff}
+    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#3a4a66}
+    .small{font-size:12px;color:#5b6a88}
+    .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .pill{border-radius:999px}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:900px){ .compare{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand" onclick="location.href='/index.html'" role="button" aria-label="Back to Home" title="Home">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="word">LockHabit</div>
+    </div>
+
+    <nav>
+      <a href="/index.html">All Calculators</a>
+      <a href="/income-tax.html">Income & Taxes</a>
+      <a href="/mortgage.html">Mortgage</a>
+      <a href="/loan.html">Loan</a>
+      <a href="/savings.html" title="Coming soon">Savings</a>
+      <a href="/retirement.html" title="Coming soon">Retirement</a>
+      <a href="/currency.html" title="Coming soon">FX Converter</a>
+      <a href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Loan Calculator (Personal • Auto • Student)</h1>
+    <p class="sub">Monthly payment, total interest, payoff time. Include origination fees, compare two offers, add extra payments, save to device, and email yourself a clean summary.</p>
+  </div>
+</section>
+
+<main class="grid" id="app">
+  <!-- Inputs -->
+  <section class="panel" aria-labelledby="inputs">
+    <h2 id="inputs">Inputs</h2>
+
+    <div class="row">
+      <div class="stack">
+        <label for="currency">Currency</label>
+        <select id="currency"></select>
+        <span class="muted">Auto-detected; you can change it.</span>
+      </div>
+      <div class="stack">
+        <label for="loanType">Loan type</label>
+        <select id="loanType">
+          <option>Personal</option>
+          <option>Auto</option>
+          <option>Student</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="amount">Amount borrowed</label>
+        <input id="amount" type="number" inputmode="decimal" placeholder="e.g., 20000"/>
+      </div>
+      <div class="stack">
+        <label for="rate">Nominal interest rate (APR %)</label>
+        <input id="rate" type="number" inputmode="decimal" placeholder="e.g., 9.99"/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="termY">Term (years)</label>
+        <input id="termY" type="number" inputmode="decimal" value="5"/>
+      </div>
+      <div class="stack">
+        <label for="feePct">Origination fee (%)</label>
+        <input id="feePct" type="number" inputmode="decimal" placeholder="e.g., 2"/>
+        <span class="muted">Financed into the loan by default.</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="extraMonthly">Extra toward principal / month</label>
+        <input id="extraMonthly" type="number" inputmode="decimal" placeholder="e.g., 50"/>
+      </div>
+      <div class="stack">
+        <label for="oneTimeExtra">One-time extra payment</label>
+        <input id="oneTimeExtra" type="number" inputmode="decimal" placeholder="e.g., 500"/>
+      </div>
+    </div>
+
+    <div class="flex" style="margin-top:14px">
+      <button class="btn" id="calcBtn">Calculate</button>
+      <button class="btn ghost" id="resetBtn" type="button">Reset</button>
+      <span class="muted">Inputs auto-save to this device.</span>
+    </div>
+
+    <div style="margin-top:10px">
+      <ins class="adsbygoogle"
+           style="display:block" data-ad-format="fluid"
+           data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+           data-ad-slot="1234567892"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="panel" aria-labelledby="results">
+    <h2 id="results">Results</h2>
+
+    <div class="results">
+      <div class="break ok">
+        <div>
+          <div class="k">Monthly payment</div>
+          <div class="v" id="monthly">—</div>
+        </div>
+        <div>
+          <div class="k">Total interest</div>
+          <div class="v" id="totalInterest">—</div>
+        </div>
+      </div>
+
+      <div class="break">
+        <div><span class="k">Financed amount (incl. fees)</span><div class="v" id="financed">—</div></div>
+        <div><span class="k">Estimated payoff time</span><div class="v" id="payoffTime">—</div></div>
+      </div>
+
+      <div class="break">
+        <div><span class="k">APR (effective)</span><div class="v" id="aprEff">—</div></div>
+        <div><span class="k">Origination fee cost</span><div class="v" id="feeCost">—</div></div>
+      </div>
+
+      <div class="flex" style="margin-top:4px">
+        <button class="btn pill" id="emailBtn" type="button">Email me this summary</button>
+        <button class="btn ghost pill" type="button" onclick="location.href='/mortgage.html'">Go to Mortgage</button>
+      </div>
+
+      <h3 style="margin:10px 0 6px;font-size:18px">Amortization (first 12 months)</h3>
+      <div style="overflow:auto">
+        <table id="amortTable">
+          <thead>
+            <tr>
+              <th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h3 style="margin:14px 0 6px;font-size:18px">Compare two offers</h3>
+      <div class="compare">
+        <div class="panel" style="padding:12px">
+          <div class="row">
+            <div class="stack"><label for="cAmt1">Amount</label><input id="cAmt1" type="number" placeholder="20000"></div>
+            <div class="stack"><label for="cRate1">Rate %</label><input id="cRate1" type="number" placeholder="9.99"></div>
+          </div>
+          <div class="row">
+            <div class="stack"><label for="cTerm1">Years</label><input id="cTerm1" type="number" value="5"></div>
+            <div class="stack"><label for="cFee1">Fee %</label><input id="cFee1" type="number" placeholder="2"></div>
+          </div>
+          <div class="stack">
+            <button class="btn ghost" id="cBtn1" type="button">Calc A</button>
+            <div class="muted" id="cOut1">—</div>
+          </div>
+        </div>
+        <div class="panel" style="padding:12px">
+          <div class="row">
+            <div class="stack"><label for="cAmt2">Amount</label><input id="cAmt2" type="number" placeholder="20000"></div>
+            <div class="stack"><label for="cRate2">Rate %</label><input id="cRate2" type="number" placeholder="8.99"></div>
+          </div>
+          <div class="row">
+            <div class="stack"><label for="cTerm2">Years</label><input id="cTerm2" type="number" value="5"></div>
+            <div class="stack"><label for="cFee2">Fee %</label><input id="cFee2" type="number" placeholder="0"></div>
+          </div>
+          <div class="stack">
+            <button class="btn ghost" id="cBtn2" type="button">Calc B</button>
+            <div class="muted" id="cOut2">—</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="small">Educational use only; not financial advice. Actual terms vary by lender and jurisdiction.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="flex">
+      <span class="small">© <span id="yr"></span> LockHabit</span>
+      <a class="small" href="/index.html">Home</a>
+      <a class="small" href="/terms.html">Terms</a>
+      <a class="small" href="/privacy.html">Privacy</a>
+      <a class="small" href="/security.html">Security</a>
+      <a class="small" href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Currency
+  const currencySel = document.getElementById('currency');
+  const currencyList = ["USD","CAD","GBP","EUR","INR","AUD","JPY","CHF","CNY","MXN"];
+  currencyList.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; currencySel.appendChild(o); });
+  function guessCurrency(){
+    try{
+      const loc = Intl.DateTimeFormat().resolvedOptions().locale || 'en-US';
+      if (loc.includes('US')) return 'USD';
+      if (loc.includes('CA')) return 'CAD';
+      if (loc.includes('GB')||loc.includes('UK')) return 'GBP';
+      if (loc.includes('IN')) return 'INR';
+      if (loc.includes('EU')||loc.includes('DE')||loc.includes('FR')||loc.includes('ES')||loc.includes('IT')) return 'EUR';
+    }catch(_){}
+    return 'USD';
+  }
+  currencySel.value = guessCurrency();
+
+  // Elements
+  const amount = document.getElementById('amount');
+  const rate = document.getElementById('rate');
+  const termY = document.getElementById('termY');
+  const feePct = document.getElementById('feePct');
+  const extraMonthly = document.getElementById('extraMonthly');
+  const oneTimeExtra = document.getElementById('oneTimeExtra');
+
+  const monthly = document.getElementById('monthly');
+  const totalInterest = document.getElementById('totalInterest');
+  const financed = document.getElementById('financed');
+  const payoffTime = document.getElementById('payoffTime');
+  const aprEff = document.getElementById('aprEff');
+  const feeCost = document.getElementById('feeCost');
+
+  const amortTableBody = document.querySelector('#amortTable tbody');
+  const emailBtn = document.getElementById('emailBtn');
+  const calcBtn = document.getElementById('calcBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  // Compare
+  const c = (id)=>document.getElementById(id);
+  const cBtn1 = c('cBtn1'), cBtn2 = c('cBtn2');
+  const cOut1 = c('cOut1'), cOut2 = c('cOut2');
+
+  // Local save
+  const KEY='lh_loan_calc_v1';
+  function save(){
+    const d = {
+      currency:currencySel.value, amount:amount.value, rate:rate.value, termY:termY.value,
+      feePct:feePct.value, extraMonthly:extraMonthly.value, oneTimeExtra:oneTimeExtra.value
+    };
+    localStorage.setItem(KEY, JSON.stringify(d));
+  }
+  function load(){
+    const raw=localStorage.getItem(KEY); if(!raw) return false;
+    try{
+      const d=JSON.parse(raw);
+      currencySel.value=d.currency||currencySel.value;
+      amount.value=d.amount||'';
+      rate.value=d.rate||'';
+      termY.value=d.termY||'5';
+      feePct.value=d.feePct||'';
+      extraMonthly.value=d.extraMonthly||'';
+      oneTimeExtra.value=d.oneTimeExtra||'';
+      return true;
+    }catch(_){return false;}
+  }
+
+  // Helpers
+  function money(n){
+    const c = currencySel.value || 'USD';
+    try{
+      return new Intl.NumberFormat(undefined,{style:'currency',currency:c,maximumFractionDigits:2}).format(n||0);
+    }catch(_){ return (c + ' ' + (n||0).toFixed(2)); }
+  }
+
+  function monthlyPayment(principal, annualRate, years){
+    const r=(annualRate/100)/12, n=years*12;
+    if(r<=0) return principal/n;
+    return principal*r/(1-Math.pow(1+r,-n));
+  }
+
+  function buildAmort(principal, annualRate, years, extra, oneTime){
+    const r=(annualRate/100)/12, n=years*12;
+    const sched=[];
+    let bal=principal;
+    let pmt=monthlyPayment(principal, annualRate, years)+extra;
+    let month=1, totalInt=0, oneTimeApplied=false;
+    while(bal>0 && month<=n+360){
+      const int=bal*r;
+      if(!oneTimeApplied && oneTime>0){ bal=Math.max(0, bal-oneTime); oneTimeApplied=true; }
+      let prin=pmt-int;
+      if(prin>bal){ prin=bal; }
+      bal-=prin; totalInt+=int;
+      if(month<=12){ sched.push({m:month,pmt:pmt,prin:int>pmt?0:prin,int:int,bal:bal}); }
+      month++;
+    }
+    return {sched, months:month-1, totalInt};
+  }
+
+  // Effective APR including financed origination fee (approx, IRR of cash flows)
+  function effectiveApr(amount, feePct, nominalRate, years){
+    const fee=amount*(parseFloat(feePct||0)/100);
+    const financed = amount + fee; // fee financed
+    const pmt = monthlyPayment(financed, nominalRate, years);
+    // Cash flow: at t0 user receives amount (positive), pays pmt for n months (negative)
+    const n=years*12;
+    // Solve monthly rate i via bisection for IRR
+    let lo=0, hi=1, mid=0;
+    for(let k=0;k<60;k++){
+      mid=(lo+hi)/2;
+      let npv=amount; // inflow
+      for(let t=1;t<=n;t++){
+        npv -= pmt/Math.pow(1+mid,t);
+      }
+      if(npv>0) lo=mid; else hi=mid;
+    }
+    const apr = (mid*12)*100;
+    return {apr, financed, fee};
+  }
+
+  function calc(){
+    save();
+
+    const A = parseFloat(amount.value||0);
+    const R = parseFloat(rate.value||0);
+    const Y = parseFloat(termY.value||0);
+    const Fpct = parseFloat(feePct.value||0);
+    const extra = parseFloat(extraMonthly.value||0);
+    const oneT = parseFloat(oneTimeExtra.value||0);
+
+    const eff = effectiveApr(A, Fpct, R, Y);
+    const financedAmt = eff.financed;
+    const baseMonthly = monthlyPayment(financedAmt, R, Y);
+
+    const amort = buildAmort(financedAmt, R, Y, extra, oneT);
+    const months = amort.months;
+    const yrs = (months/12).toFixed(1);
+
+    monthly.textContent = money(baseMonthly + (extra||0));
+    totalInterest.textContent = money(amort.totalInt);
+    financed.textContent = money(financedAmt);
+    payoffTime.textContent = `${months} months (~${yrs} yrs)`;
+    aprEff.textContent = isFinite(eff.apr) ? eff.apr.toFixed(2)+'%' : '—';
+    feeCost.textContent = Fpct? money(eff.fee) : '—';
+
+    // Amort table (first 12)
+    const r=(R/100)/12;
+    let bal=financedAmt - (oneT>0?oneT:0);
+    const pmt=baseMonthly + (extra||0);
+    const tb=document.querySelector('#amortTable tbody');
+    tb.innerHTML='';
+    for(let m=1;m<=12 && bal>0;m++){
+      const interest = bal*r;
+      let principal = pmt - interest;
+      if(principal>bal) principal=bal;
+      bal -= principal;
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${m}</td><td>${money(pmt)}</td><td>${money(principal)}</td><td>${money(interest)}</td><td>${money(Math.max(0,bal))}</td>`;
+      tb.appendChild(tr);
+    }
+  }
+
+  // Compare helper
+  function quickCompare(amount, rate, years, feePct){
+    const fee = (parseFloat(feePct||0)/100)*(parseFloat(amount||0));
+    const fin = parseFloat(amount||0) + fee;
+    const pmt = monthlyPayment(fin, parseFloat(rate||0), parseFloat(years||0));
+    const n = (parseFloat(years||0))*12;
+    const total = pmt*n;
+    const interest = total - fin;
+    return {pmt, total, interest, fin, fee};
+  }
+
+  // Email summary
+  function emailSummary(){
+    const curr = currencySel.value || 'USD';
+    const msg = [
+      'LockHabit Loan Calculator — Summary',
+      '',
+      `Currency: ${curr}`,
+      `Amount: ${amount.value || '-'}`,
+      `Rate: ${rate.value || '-'}%`,
+      `Term: ${termY.value || '-'} years`,
+      `Origination fee: ${feePct.value || '0'}%`,
+      `Extra monthly: ${extraMonthly.value || '0'}`,
+      `One-time extra: ${oneTimeExtra.value || '0'}`,
+      '',
+      `Monthly payment: ${monthly.textContent}`,
+      `Total interest: ${totalInterest.textContent}`,
+      `Financed amount: ${financed.textContent}`,
+      `Estimated payoff time: ${payoffTime.textContent}`,
+      `Effective APR: ${aprEff.textContent}`,
+      `Fee cost: ${feeCost.textContent}`,
+      '',
+      'Generated by LockHabit (educational use only).'
+    ].join('%0D%0A');
+    const subject = encodeURIComponent('My Loan Calculation (LockHabit)');
+    location.href = `mailto:?subject=${subject}&body=${msg}`;
+  }
+
+  // Events
+  calcBtn.addEventListener('click', calc);
+  resetBtn.addEventListener('click', ()=>{ localStorage.removeItem(KEY); location.reload(); });
+  emailBtn.addEventListener('click', emailSummary);
+  [amount,rate,termY,feePct,extraMonthly,oneTimeExtra,currencySel].forEach(el=>el.addEventListener('input', save));
+
+  // Compare buttons
+  cBtn1.addEventListener('click', ()=>{
+    const r=quickCompare(parseFloat(c('cAmt1').value||0), parseFloat(c('cRate1').value||0), parseFloat(c('cTerm1').value||0), parseFloat(c('cFee1').value||0));
+    cOut1.innerHTML = `Payment ${money(r.pmt)} • Interest ${money(r.interest)} • Financed ${money(r.fin)} • Fee ${money(r.fee)}`;
+  });
+  cBtn2.addEventListener('click', ()=>{
+    const r=quickCompare(parseFloat(c('cAmt2').value||0), parseFloat(c('cRate2').value||0), parseFloat(c('cTerm2').value||0), parseFloat(c('cFee2').value||0));
+    cOut2.innerHTML = `Payment ${money(r.pmt)} • Interest ${money(r.interest)} • Financed ${money(r.fin)} • Fee ${money(r.fee)}`;
+  });
+
+  // Init
+  if(!load()){ currencySel.value = guessCurrency(); }
+})();
+</script>
+</body>
+</html>
