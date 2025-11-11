@@ -14,12 +14,11 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>Currency Converter (Live FX) | LockHabit</title>
-  <meta name="description" content="Convert between 180+ currencies with live FX rates, swap, copy, and email. Auto-detect base currency and save last inputs."/>
+  <meta name="description" content="Convert between 180+ currencies with live exchange rates. Swap, copy, and email results. Auto-detects your likely currency and saves your inputs.">
   <link rel="canonical" href="https://lockhabit.com/currency.html"/>
 
   <style>
     :root{
-      /* Dark theme aligned to your Mortgage/Loan/Savings/Retirement */
       --bg:#0c1424;--hero:#0f1b2f;--card:#0f1b2f;
       --ink:#dbe4ff;--muted:#93a4c6;--line:#243049;
       --brand:#6f7cff;--brand-2:#9c78ff;
@@ -107,7 +106,7 @@
 <section class="hero">
   <div class="hero-inner">
     <h1>Currency Converter</h1>
-    <p class="sub">Live FX with swap/copy/email. We auto-detect your likely currency and save your last inputs on this device.</p>
+    <p class="sub">Live FX with swap, copy, and email. We auto-detect your likely currency and save your last inputs on this device.</p>
   </div>
 </section>
 
@@ -167,7 +166,7 @@
 (function(){
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // ==== Elements
+  // Elements
   const fromAmt = document.getElementById('fromAmt');
   const toAmt   = document.getElementById('toAmt');
   const fromCur = document.getElementById('fromCur');
@@ -179,7 +178,7 @@
   const btnCopy = document.getElementById('copyBtn');
   const btnEmail = document.getElementById('emailBtn');
 
-  // ==== Helpers
+  // Helpers
   function guessCurrency(){
     try{
       const l = (navigator.language||'en-US').toLowerCase();
@@ -188,7 +187,7 @@
       if(l.includes('ca')) return 'CAD';
       if(l.includes('au')) return 'AUD';
       if(l.includes('in')) return 'INR';
-      if(l.includes('eu')||l.match(/de|fr|es|it|nl/)) return 'EUR';
+      if(l.match(/de|fr|es|it|nl|eu/)) return 'EUR';
     }catch(_){}
     return 'USD';
   }
@@ -196,7 +195,7 @@
   function save(){ localStorage.setItem('lh_fx_v1', JSON.stringify({fromAmt:fromAmt.value,fromCur:fromCur.value,toCur:toCur.value,toAmt:toAmt.value})); }
   function load(){ try{ return JSON.parse(localStorage.getItem('lh_fx_v1')||'{}'); }catch(_){return {}} }
 
-  // ==== Currency labels (seed common; API fills the rest)
+  // Seed list (will be replaced if API gives full symbols)
   const COMMONS = {
     USD:"US Dollar", EUR:"Euro", GBP:"British Pound", CAD:"Canadian Dollar", AUD:"Australian Dollar",
     NZD:"New Zealand Dollar", JPY:"Japanese Yen", CNY:"Chinese Yuan", INR:"Indian Rupee", BRL:"Brazilian Real",
@@ -215,39 +214,27 @@
   }
   fillOptions(COMMONS);
 
-  // ==== Rates store (USD base)
+  // Rates (USD base). Using open.er-api.com (CORS-friendly, no key).
   let rates = {USD:1};
-  let lastDate = '';
-
-  // Fetch symbols (names) then latest rates once (USD base). Using exchangerate.host (no key).
-  async function initRates(){
+  async function loadRates(){
     try{
-      // symbols (names)
-      try{
-        const sym = await fetch('https://api.exchangerate.host/symbols');
-        if(sym.ok){
-          const js = await sym.json();
-          if(js && js.symbols){
-            const map={};
-            Object.keys(js.symbols).forEach(k=> map[k] = js.symbols[k].description || k);
-            fillOptions(map);
-          }
+      const r = await fetch('https://open.er-api.com/v6/latest/USD', {cache:'no-store'});
+      if(!r.ok) throw new Error('http');
+      const data = await r.json();
+      if(data && data.result === 'success' && data.rates){
+        rates = data.rates;
+        asOf.textContent = data.time_last_update_utc ? `As of ${data.time_last_update_utc}` : 'Live rates loaded';
+        // If API exposes supported codes, use them for labels (optional)
+        if(data && data.rates){
+          const map={}; Object.keys(data.rates).forEach(k=> map[k]=COMMONS[k]||k);
+          fillOptions(map);
         }
-      }catch(_){}
-      // latest rates (USD base)
-      const res = await fetch('https://api.exchangerate.host/latest?base=USD');
-      if(!res.ok) throw new Error('http');
-      const data = await res.json();
-      if(data && data.rates){
-        rates = Object.assign({USD:1}, data.rates);
-        lastDate = data.date || '';
-        asOf.textContent = lastDate ? `As of ${lastDate}` : 'Live rates loaded';
       }else{
-        asOf.textContent = 'Live rates unavailable — fallback used';
+        throw new Error('bad payload');
       }
     }catch(_){
-      // minimal fallback (static)
-      rates = Object.assign({USD:1}, {EUR:0.92, GBP:0.78, CAD:1.35, AUD:1.48, JPY:155, INR:83, MXN:17, CNY:7.2});
+      // Fallback static set so UI still works
+      rates = Object.assign({USD:1},{EUR:0.92, GBP:0.78, CAD:1.35, AUD:1.48, JPY:155, INR:83, MXN:17, CNY:7.2});
       asOf.textContent = 'Offline fallback rates (approx)';
     }
   }
@@ -259,7 +246,7 @@
     if(!amt){ toAmt.value=''; resultLine.textContent='—'; save(); return; }
     const rf = rates[f]; const rt = rates[t];
     if(!rf || !rt){ resultLine.textContent='Rates unavailable'; return; }
-    // Since rates are quoted as 1 USD -> X CUR, we do: amt_in_usd = amt / rf ; out = amt_in_usd * rt
+    // Rates are quoted as 1 USD -> X; convert via USD: (amt / rf) * rt
     const out = (amt / rf) * rt;
     toAmt.value = out.toFixed(6);
     resultLine.textContent = `${fmt(amt,f)} = ${fmt(out,t)}`;
@@ -275,12 +262,12 @@
     convert();
   }
 
-  // Restore defaults
+  // Restore saved/defaults
   const sv = load();
   fromCur.value = sv.fromCur || guessCurrency();
-  toCur.value = sv.toCur || 'USD';
+  toCur.value   = sv.toCur || 'USD';
   fromAmt.value = sv.fromAmt || '';
-  toAmt.value = sv.toAmt || '';
+  toAmt.value   = sv.toAmt || '';
 
   // Events
   btnConvert.addEventListener('click', convert);
@@ -295,14 +282,15 @@
     location.href = `mailto:?subject=${subject}&body=${body}`;
   });
 
-  // Tools dropdown outside-click close
+  // Tools dropdown close on outside click
   document.addEventListener('click', e=>{
     const m=document.getElementById('toolsMenu');
     if(m && !m.contains(e.target)) m.classList.remove('open');
   });
 
   // Init
-  initRates().then(convert);
+  loadRates().then(convert);
+  document.getElementById('yr').textContent = new Date().getFullYear();
 })();
 </script>
 </body>
