@@ -1,102 +1,88 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!--
-    LockHabit — Home (polished v3)
-    Design goals: minimal, legible, fast; high-finance feel; subtle motion;
-    zero overlap; dense but scannable; WCAG AA contrast; mobile-first.
-  -->
+  <!-- =========================================================
+       LockHabit — Homepage (v6, SEO + Engagement + Contact)
+       ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit — Financial calculators done right</title>
-  <meta name="description" content="Clean, fast tools for income & taxes, mortgages, loans, savings, retirement, credit cards, and live currency conversion. Private by default. No sign-up required."/>
+  <title>LockHabit — Financial Calculators Done Right (Income, Mortgage, Loan, Savings, Retirement, FX)</title>
+  <meta name="description" content="Clean, accurate, and private financial calculators for income & taxes, mortgages, loans, savings goals, retirement, credit cards, and live currency conversion. No sign-up required."/>
   <meta name="theme-color" content="#0b1220"/>
 
-  <!-- SEO essentials -->
+  <!-- Canonical + Social -->
   <link rel="canonical" href="https://lockhabit.com/"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="LockHabit — Financial calculators for everyone"/>
-  <meta property="og:description" content="Clean, fast tools for income, taxes, mortgages, loans, savings, retirement, credit cards, and live currency conversion."/>
+  <meta property="og:description" content="Income & taxes, mortgage, loan payoff, savings, retirement, credit cards, and currency conversion — clean & fast."/>
   <meta property="og:url" content="https://lockhabit.com/"/>
   <meta property="og:image" content="/assets/og-lockhabit.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="LockHabit — Financial calculators done right"/>
+  <meta name="twitter:description" content="Clean, accurate money tools. Private by default. No sign-up."/>
+  <meta name="twitter:image" content="/assets/og-lockhabit.png"/>
+
+  <!-- Favicons -->
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml"/>
+  <link rel="alternate icon" href="/public/favicon.ico"/>
+  <link rel="apple-touch-icon" href="/public/icon-192.png"/>
+
+  <!-- Google Ads / Analytics (customer-first content above the fold) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"LockHabit",
+    "url":"https://lockhabit.com/",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://lockhabit.com/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
+  </script>
 
   <style>
-  /* =========================================================
-     1) CSS RESET (tiny, accessibility-friendly)
-     ========================================================= */
+  /* =========================
+     Reset & Theme
+     ========================= */
   *,*::before,*::after{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0;
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-    background:#0b1220; /* fallback to theme var below */
-    color:#e7edf6;
+    font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background:#0b1220; color:#e7edf6; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   }
   img,svg,video,canvas{display:block;max-width:100%}
-  input,button,select,textarea{font:inherit}
   a{color:inherit;text-decoration:none}
   :focus-visible{outline:2px solid #67d4ff;outline-offset:2px;border-radius:8px}
-  @media (prefers-contrast: more){
-    :focus-visible{outline-width:3px}
-  }
+  @media (prefers-contrast: more){ :focus-visible{outline-width:3px} }
+  h1,h2,h3,p,span,button{overflow-wrap:anywhere}
 
-  /* Prevent text overflow in tight cards */
-  h1,h2,h3,p,button,a,span{overflow-wrap:anywhere}
-
-  /* =========================================================
-     2) THEME (tokens)
-     ========================================================= */
   :root{
-    /* Surfaces */
-    --bg:#0b1220;            /* page base */
-    --panel:#0f1727;         /* section/card */
-    --panel-2:#0d1424;       /* deeper */
-
-    /* Text */
-    --text:#e7edf6;          /* primary text */
-    --muted:#a5b2c8;         /* secondary text */
-    --faint:#8091ad;
-
-    /* Accents */
-    --link:#b5d7ff;
-    --cta:#26c6a8;           /* minty CTA */
-    --cta-ink:#042b26;
-
-    /* Chips & lines */
-    --chip:#0f2338;
-    --chip-border:#16324c;
-    --line:#1a2740;
-    --ring:#67d4ff;
-
-    /* Brand gradient anchors */
-    --brand-1:#62a0ff;       /* soft blue */
-    --brand-2:#33c1b1;       /* mint */
-    --brand-3:#6d7cff;       /* violet-blue */
-
-    /* FX */
+    --bg:#0b1220; --panel:#0f1727; --panel-2:#0d1424;
+    --text:#e7edf6; --muted:#a5b2c8; --faint:#8091ad;
+    --line:#1a2740; --chip:#0f2338; --chip-b:#16324c;
+    --cta:#26c6a8; --cta-ink:#042b26;
+    --brand-1:#62a0ff; --brand-2:#33c1b1; --brand-3:#6d7cff;
     --shadow:0 6px 22px rgba(10,20,40,.28);
-
-    /* Radii */
-    --radius:18px;
-    --radius-sm:12px;
-    --radius-lg:26px;
-
-    /* Layout */
-    --w-max:1160px;
-
-    /* Type scale */
-    --h1:clamp(28px,4.8vw,44px);
-    --h2:clamp(18px,2.6vw,26px);
-    --h3:16px;
+    --radius:18px; --r-sm:12px; --r-lg:26px;
+    --w-max:1160px; --hdr-h:64px;
+    --h1:clamp(28px,4.8vw,44px); --h2:clamp(18px,2.6vw,26px);
   }
 
-  /* =========================================================
-     3) ANIMATED FINANCE BACKGROUND
-     - Subtle, composited layers; GPU-accelerated orbs
-     - Respects reduced-motion
-     ========================================================= */
+  /* =========================
+     Subtle Animated Background
+     ========================= */
   .bg{
     position:fixed; inset:0; z-index:-2; pointer-events:none;
     background:
@@ -105,59 +91,20 @@
       radial-gradient(900px 900px at 60% 120%, rgba(120,130,255,.10), transparent 55%),
       linear-gradient(180deg, var(--bg) 0%, #0a1324 100%);
     filter:saturate(1.05);
-    will-change:opacity;
   }
-
-  .orbs{
-    position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
-    contain:layout paint;
-  }
-
+  .orbs{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
   .orb{
-    position:absolute; width:480px; height:480px; border-radius:999px;
-    background:radial-gradient(closest-side, rgba(51,193,177,.32), rgba(51,193,177,0) 70%);
-    filter:blur(6px) saturate(1.1);
-    mix-blend-mode:screen;
-    will-change:transform;
-    animation:floatA 22s ease-in-out infinite;
-    transform:translate3d(0,0,0);
+    position:absolute; border-radius:999px; filter:blur(6px) saturate(1.1); mix-blend-mode:screen;
+    transform:translate3d(0,0,0)
   }
-  .orb.o2{
-    background:radial-gradient(closest-side, rgba(98,160,255,.28), rgba(98,160,255,0) 70%);
-    width:520px; height:520px; animation:floatB 26s ease-in-out infinite -7s;
-  }
-  .orb.o3{
-    background:radial-gradient(closest-side, rgba(109,124,255,.24), rgba(109,124,255,0) 70%);
-    width:420px; height:420px; animation:floatC 24s ease-in-out infinite -13s;
-  }
+  .o1{width:480px; height:480px; background:radial-gradient(closest-side, rgba(51,193,177,.32), rgba(51,193,177,0) 70%); left:-12%; top:6%}
+  .o2{width:520px; height:520px; background:radial-gradient(closest-side, rgba(98,160,255,.28), rgba(98,160,255,0) 70%); right:-14%; top:-10%}
+  .o3{width:420px; height:420px; background:radial-gradient(closest-side, rgba(109,124,255,.24), rgba(109,124,255,0) 70%); left:40%; bottom:-18%}
+  @media(max-width:600px){ .o1,.o2,.o3{width:340px;height:340px} }
 
-  @keyframes floatA{
-    0%{   transform:translate3d(-12%, -8%, 0)}
-    33%{  transform:translate3d(58%,  6%, 0)}
-    66%{  transform:translate3d(18%, 48%, 0)}
-    100%{ transform:translate3d(-12%, -8%, 0)}
-  }
-  @keyframes floatB{
-    0%{   transform:translate3d(8%, -12%, 0)}
-    25%{  transform:translate3d(28%, 18%, 0)}
-    50%{  transform:translate3d(-6%, 42%, 0)}
-    100%{ transform:translate3d(8%, -12%, 0)}
-  }
-  @keyframes floatC{
-    0%{   transform:translate3d(40%, 52%, 0)}
-    40%{  transform:translate3d(12%, 18%, 0)}
-    80%{  transform:translate3d(54%, -6%, 0)}
-    100%{ transform:translate3d(40%, 52%, 0)}
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .orb{animation:none}
-    .bg{filter:none}
-  }
-
-  /* =========================================================
-     4) LAYOUT
-     ========================================================= */
+  /* =========================
+     Header / Nav
+     ========================= */
   header{
     position:sticky; top:0; z-index:50;
     backdrop-filter:saturate(1.1) blur(10px);
@@ -166,174 +113,179 @@
   }
   .nav{
     max-width:var(--w-max); margin:0 auto; padding:14px 16px;
-    display:flex; align-items:center; gap:12px;
+    display:flex; align-items:center; gap:12px; min-height:var(--hdr-h);
+    flex-wrap:wrap; row-gap:8px;
   }
-  .brand{
-    display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
-  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px}
   .logo{
     width:28px; height:28px; border-radius:8px;
     background:linear-gradient(145deg, var(--brand-1), var(--brand-3));
     box-shadow:inset 0 0 0 2px rgba(255,255,255,.12), 0 2px 12px rgba(40,60,110,.5);
-    position:relative;
-  }
-  .logo::after{
-    content:""; position:absolute; inset:7px 8px 7px 9px; border-radius:10px;
-    background:linear-gradient(180deg, #eef6ff, #d7e9ff);
-    mask:radial-gradient(circle at 30% 70%, #000 58%, transparent 59%) left/60% 90% no-repeat,
-         linear-gradient(#000 0 0) right/34% 26% no-repeat;
   }
   .spacer{flex:1}
   .pill{
     display:inline-flex; align-items:center; gap:10px;
     padding:10px 14px; border-radius:999px; background:#0e2036; color:#dcedff;
     border:1px solid #173050; box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 6px 16px rgba(10,20,40,.25);
+    white-space:nowrap; cursor:pointer
   }
   .pill:hover{transform:translateY(-1px)}
   .pill[data-variant="cta"]{
-    background:linear-gradient(135deg, #45e0c7, #67a8ff 65%); color:#042b26;
-    border:0; font-weight:800;
+    background:linear-gradient(135deg, #45e0c7, #67a8ff 65%); color:#042b26; border:0; font-weight:800
   }
-  .nav-btn{cursor:pointer; user-select:none}
 
+  /* Sticky mobile “Explore” bubble */
+  .sticky-cta{
+    position:fixed; right:16px; bottom:16px; z-index:40;
+    background:#0e2036; border:1px solid #16324c; color:#cfe3fb; border-radius:999px;
+    padding:10px 14px; box-shadow:0 8px 24px rgba(8,16,30,.35)
+  }
+  @media(min-width:980px){ .sticky-cta{display:none} }
+
+  /* =========================
+     Main / Hero / Controls
+     ========================= */
+  html{ scroll-padding-top: var(--hdr-h) }
   main{max-width:var(--w-max); margin:0 auto; padding:26px 16px 40px}
-
-  /* Hero */
-  .hero{
-    display:grid; grid-template-columns:1fr; gap:14px; margin:12px 0 18px;
-  }
+  .hero{ margin-top: calc(var(--hdr-h) + 8px) }
   .eyebrow{font-size:13px; color:var(--faint); letter-spacing:.35px}
   .h1{font-size:var(--h1); line-height:1.05; font-weight:900; margin:4px 0 8px}
-  .lede{color:var(--muted); max-width:880px}
+  .lede{color:var(--muted); max-width:78ch}
   .cta-row{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 14px}
-  .chip{display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px;
-    background:var(--chip); border:1px solid var(--chip-border); color:#cfe3fb}
-  .chip .dot{width:8px;height:8px;border-radius:999px;background:#57c9ff;box-shadow:0 0 0 3px rgba(87,201,255,.12)}
 
-  /* Controls under hero */
-  .controls{display:flex; flex-wrap:wrap; gap:10px; margin:6px 0 24px}
-  .control{display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border-radius:999px;
-    background:#0e2036; border:1px solid #16314e; color:#d6e6ff}
+  .controls{display:flex; flex-wrap:wrap; gap:10px; margin:8px 0 14px}
+  .control{
+    display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border-radius:999px;
+    background:#0e2036; border:1px solid #16314e; color:#d6e6ff
+  }
   .control select{background:transparent; color:inherit; border:0; outline:none}
-  .control .bullet{width:8px;height:8px;border-radius:99px;background:#57c9ff}
-  .control .bullet.purple{background:#b494ff}
-  .control .bullet.gold{background:#f3c471}
+  .bullet{width:8px; height:8px; border-radius:99px; background:#57c9ff}
+  .purple{background:#b494ff} .gold{background:#f3c471}
 
-  /* Sections & cards */
-  .section{margin:18px 0 12px}
+  /* Search strip + Popular chips */
+  .search{display:flex; gap:8px; margin:10px 0 18px; flex-wrap:wrap}
+  .search input{
+    flex:1 1 280px; min-height:44px; padding:10px 12px; border-radius:12px;
+    border:1px solid #1a2f4b; background:#0e1d34; color:#dfeafe
+  }
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:2px}
+  .chip{
+    display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+    background:#0f2338; border:1px solid #16324c; color:#cfe3fb; cursor:pointer
+  }
+
+  /* Sections & Cards */
+  .section{margin:22px 0 12px}
   .section h2{font-size:var(--h2); margin:0 0 10px; color:#cfe3fb; letter-spacing:.2px}
   .grid{display:grid; gap:12px}
   @media(min-width:720px){ .grid{grid-template-columns:1fr 1fr} }
-  @media(min-width:980px){ .grid{grid-template-columns:1fr 1fr} }
 
   .card{
     background:linear-gradient(180deg, rgba(17,29,54,.78), rgba(13,22,42,.88));
     border:1px solid var(--line); border-radius:var(--radius);
     padding:16px; position:relative; overflow:hidden;
     box-shadow:0 1px 0 rgba(255,255,255,.04) inset, var(--shadow);
-    transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+    transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease
   }
   .card:hover{transform:translateY(-1px); border-color:#26406b; box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 10px 26px rgba(10,20,40,.35)}
   .card h3{margin:0 0 6px; font-size:18px}
   .card p{margin:0; color:#a9bad3}
-  .card .open{
-    position:absolute; right:12px; top:12px;
-    display:inline-flex; align-items:center; justify-content:center;
-    padding:10px 16px; border-radius:999px; border:1px solid #2a3e61;
-    color:#d8e7ff; background:rgba(14,29,52,.6); backdrop-filter:blur(6px);
-    font-weight:700;
+  .open{
+    position:absolute; right:12px; top:12px; display:inline-flex; align-items:center; justify-content:center;
+    padding:8px 14px; border-radius:999px; border:1px solid #2a3e61;
+    color:#d8e7ff; background:rgba(14,29,52,.6); backdrop-filter:blur(6px); font-weight:700
   }
-  .card .open:hover{border-color:#3c5889}
 
-  /* Recently used chips */
+  /* Recently used */
   .recent{display:flex; flex-wrap:wrap; gap:10px; margin-top:6px}
-  .recent a{
-    padding:8px 14px; border-radius:999px; background:#0f2338; border:1px solid #16324c; color:#cfe3fb
-  }
+  .recent a{ padding:8px 14px; border-radius:999px; background:#0f2338; border:1px solid #16324c; color:#cfe3fb }
 
-  /* All calculators sheet (dropdown) */
+  /* All calculators sheet */
   .sheet{position:fixed; inset:0; display:none; align-items:flex-end; z-index:60}
   .sheet.show{display:flex}
-  .sheet .back{position:absolute; inset:0; background:rgba(3,9,20,.6)}
-  .panel{
+  .back{position:absolute; inset:0; background:rgba(3,9,20,.6)}
+  .panel-sheet{
     position:relative; width:100%; background:linear-gradient(180deg, #0d1424, #0b1220);
     border-top-left-radius:24px; border-top-right-radius:24px;
     box-shadow:0 -10px 30px rgba(7,12,24,.6);
-    border-top:1px solid #1a2740; padding:14px 16px 22px; max-height:82vh; overflow:auto;
+    border-top:1px solid #1a2740; padding:14px 16px 22px; max-height:82vh; overflow:auto
   }
-  .panel h3{margin:2px 0 12px; font-size:18px}
+  .panel-sheet h3{margin:2px 0 12px; font-size:18px}
   .sheet .grid{grid-template-columns:1fr 1fr}
-  @media(min-width:860px){ .panel{max-width:var(--w-max); margin:0 auto} .sheet .grid{grid-template-columns:1fr 1fr 1fr} }
-
+  @media(min-width:860px){ .panel-sheet{max-width:var(--w-max); margin:0 auto} .sheet .grid{grid-template-columns:1fr 1fr 1fr} }
   .mini{
     display:block; padding:12px; border-radius:12px; border:1px solid #183154;
     background:#0e1d34; color:#cfe3fb
   }
   .mini:hover{border-color:#2c4974}
 
-  /* Footer */
+  /* Contact & Footer */
+  .contact{margin:40px 0 20px; padding:20px; border-radius:16px; background:#0d1424; border:1px solid var(--line)}
+  .contact h2{margin-top:0; font-size:22px}
+  .contact a{color:#67a8ff; text-decoration:underline}
   footer{margin:28px 0 40px; color:#a3b4cb}
   .legal{display:flex; gap:18px; flex-wrap:wrap}
   .disclaimer{margin-top:12px; padding:14px; border-radius:14px; background:#0d1424; border:1px solid #1a2740; color:#9db2cf}
-
-  /* Utility helpers */
-  .row{display:flex; gap:10px; flex-wrap:wrap}
-  .hide{display:none !important}
-  .nowrap{white-space:nowrap}
   </style>
 </head>
 <body>
-  <!-- Subtle animated background -->
+  <!-- Background -->
   <div class="bg"></div>
-  <div class="orbs">
-    <div class="orb" style="left:-12%; top:6%"></div>
-    <div class="orb o2" style="right:-14%; top:-10%"></div>
-    <div class="orb o3" style="left:40%; bottom:-18%"></div>
+  <div class="orbs" aria-hidden="true">
+    <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
   </div>
 
   <!-- Header -->
   <header>
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
       <a class="brand" href="/" aria-label="LockHabit home">
         <span class="logo" aria-hidden="true"></span>
         <span>LockHabit</span>
       </a>
-
       <div class="spacer"></div>
-
-      <button id="openSheet" class="pill nav-btn" aria-haspopup="dialog" aria-controls="sheet" aria-expanded="false">
-        <span>Calculators</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="#b9d5ff" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-
-      <a href="income-tax.html" class="pill" data-variant="cta" id="primaryCta">
-        Open Income & Taxes
-      </a>
+      <button id="openSheet" class="pill" aria-haspopup="dialog" aria-controls="sheet" aria-expanded="false">All calculators ▾</button>
+      <a href="income-tax.html" class="pill" data-variant="cta" id="primaryCta">Open Income & Taxes</a>
     </nav>
   </header>
 
+  <!-- Mobile sticky explore -->
+  <a href="#" class="sticky-cta" id="stickyExplore">Explore tools ▾</a>
+
   <main>
     <!-- Hero -->
-    <section class="hero">
+    <section class="hero" aria-labelledby="heroTitle">
       <div>
-        <div class="eyebrow">Private by default • No sign-up</div>
-        <h1 class="h1">Financial calculators, done right.</h1>
-        <p class="lede">
-          Clean, fast tools for income & taxes, mortgages, loans, savings, retirement, credit cards, and real-time currency conversion.
-        </p>
+        <p class="eyebrow">Private by default • No sign-up • Free</p>
+        <h1 id="heroTitle" class="h1">Financial calculators, done right.</h1>
+        <p class="lede">Clean, accurate tools for income & taxes, mortgages, loans, savings goals, retirement, credit cards, and live currency conversion — designed to be readable and easy to act on.</p>
+
         <div class="cta-row">
           <a class="pill" data-variant="cta" href="income-tax.html">Open Income & Taxes</a>
-          <button class="pill nav-btn" id="openSheet2">See all calculators
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="margin-left:6px"><path d="M6 9l6 6 6-6" stroke="#082632" stroke-width="2" stroke-linecap="round"/></svg>
-          </button>
+          <button class="pill" id="openSheet2" aria-haspopup="dialog" aria-controls="sheet" aria-expanded="false">See all calculators ▾</button>
         </div>
+
+        <!-- Search + Popular chips (keeps users exploring) -->
+        <form class="search" role="search" aria-label="Search calculators" onsubmit="return false;">
+          <input id="searchBox" type="search" placeholder="Search calculators (e.g., mortgage, FX, payoff, retirement)"/>
+          <button class="pill" id="searchBtn" type="button">Find</button>
+        </form>
+
+        <div class="chips" aria-label="Popular this week">
+          <a class="chip" href="mortgage.html">Mortgage</a>
+          <a class="chip" href="loan.html">Loan Payoff</a>
+          <a class="chip" href="savings.html">Savings Goal</a>
+          <a class="chip" href="retirement.html">Retirement</a>
+          <a class="chip" href="fx-converter.html">Currency Converter</a>
+        </div>
+
+        <!-- Locale controls -->
         <div class="controls" role="group" aria-label="Location and currency">
           <div class="control">
-            <span class="bullet"></span><span class="nowrap">Country:</span>
+            <span class="bullet"></span><span>Country:</span>
             <select id="countrySel" aria-label="Select country"></select>
           </div>
           <div class="control">
-            <span class="bullet purple"></span><span class="nowrap">Currency:</span>
+            <span class="bullet purple"></span><span>Currency:</span>
             <select id="currencySel" aria-label="Select currency"></select>
           </div>
           <a class="control" href="blog.html"><span class="bullet gold"></span>Blog</a>
@@ -341,10 +293,27 @@
       </div>
     </section>
 
-    <!-- Essentials -->
-    <section class="section">
-      <h2>Essentials</h2>
+    <!-- Quick Wins -->
+    <section class="section" aria-labelledby="quickWins">
+      <h2 id="quickWins">Quick wins</h2>
       <div class="grid">
+        <article class="card">
+          <h3>Paycheck in 30 seconds</h3>
+          <p>Enter pay + state, see accurate take-home and taxes.</p>
+          <a class="open" href="income-tax.html" data-calc="Income & Taxes">Open</a>
+        </article>
+        <article class="card">
+          <h3>Mortgage payment snapshot</h3>
+          <p>Principal & interest, plus taxes/insurance estimates.</p>
+          <a class="open" href="mortgage.html" data-calc="Mortgage">Open</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Essentials -->
+    <section class="section" aria-labelledby="essentialsTitle">
+      <h2 id="essentialsTitle">Essentials</h2>
+      <div class="grid" id="essentialsGrid">
         <article class="card">
           <h3>Income & Taxes</h3>
           <p>Take-home pay with editable country/state presets.</p>
@@ -372,8 +341,8 @@
     </section>
 
     <!-- Savings & Goals -->
-    <section class="section">
-      <h2>Savings & Goals</h2>
+    <section class="section" aria-labelledby="savingsGoals">
+      <h2 id="savingsGoals">Savings & Goals</h2>
       <div class="grid">
         <article class="card">
           <h3>Savings Goal</h3>
@@ -402,8 +371,8 @@
     </section>
 
     <!-- Credit & Debt -->
-    <section class="section">
-      <h2>Credit & Debt</h2>
+    <section class="section" aria-labelledby="creditDebt">
+      <h2 id="creditDebt">Credit & Debt</h2>
       <div class="grid">
         <article class="card">
           <h3>Credit Card</h3>
@@ -412,7 +381,7 @@
         </article>
 
         <article class="card">
-          <h3>Card Payoff</h3>
+          <h3>Credit Card Payoff</h3>
           <p>Timeline, strategies, and extra payments.</p>
           <a class="open" href="credit-card-payoff.html" data-calc="Credit Card Payoff">Open</a>
         </article>
@@ -425,8 +394,8 @@
 
         <article class="card">
           <h3>Rent vs Buy</h3>
-          <p>Compare total 5–30yr cost of renting vs owning a home (house or apartment).</p>
-          <a class="open" href="rent-vs-buy.htm" data-calc="Rent vs Buy">Open</a>
+          <p>Compare total 5–30yr cost of renting vs owning a home.</p>
+          <a class="open" href="rent-vs-buy.html" data-calc="Rent vs Buy">Open</a>
         </article>
 
         <article class="card">
@@ -438,8 +407,8 @@
     </section>
 
     <!-- Business -->
-    <section class="section">
-      <h2>Business</h2>
+    <section class="section" aria-labelledby="businessTools">
+      <h2 id="businessTools">Business</h2>
       <div class="grid">
         <article class="card">
           <h3>Margin & Markup</h3>
@@ -456,16 +425,23 @@
     </section>
 
     <!-- Recently used -->
-    <section class="section" id="recentWrap" aria-live="polite">
-      <h2>Recently used</h2>
-      <div class="recent" id="recentList">
-        <!-- Filled by JS -->
-      </div>
+    <section class="section" id="recentWrap" aria-live="polite" aria-labelledby="recentlyUsed">
+      <h2 id="recentlyUsed">Recently used</h2>
+      <div class="recent" id="recentList"></div>
     </section>
 
+    <!-- Contact / Partnerships -->
+    <section class="contact" id="contact">
+      <h2>Contact & Partnerships</h2>
+      <p>Interested in partnerships, press, or integrating LockHabit tools? We’d love to connect.</p>
+      <p>Email: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></p>
+      <p>We collaborate with finance blogs, educational sites, and fintechs to bring clear, trustworthy money math to more people.</p>
+    </section>
+
+    <!-- Footer -->
     <footer>
       <div class="legal">
-        <div>© 2025 LockHabit — Financial calculators for everyone.</div>
+        <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone.</div>
         <a href="terms.html">Terms</a>
         <a href="privacy.html">Privacy</a>
         <a href="security.html">Security</a>
@@ -481,7 +457,7 @@
   <!-- All calculators sheet -->
   <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
     <div class="back" id="closeSheet"></div>
-    <div class="panel">
+    <div class="panel-sheet">
       <h3 id="sheetTitle">All calculators</h3>
       <div class="grid">
         <a class="mini" href="income-tax.html">Income & Taxes</a>
@@ -495,7 +471,7 @@
         <a class="mini" href="credit-card.html">Credit Card</a>
         <a class="mini" href="credit-card-payoff.html">Credit Card Payoff</a>
         <a class="mini" href="car-loan-calculator.html">Car Loan</a>
-        <a class="mini" href="rent-vs-buy.htm">Rent vs Buy</a>
+        <a class="mini" href="rent-vs-buy.html">Rent vs Buy</a>
         <a class="mini" href="student-loan-calculator.html">Student Loan</a>
         <a class="mini" href="business-margin.html">Margin & Markup</a>
         <a class="mini" href="business-breakeven.html">Break-even & ROI</a>
@@ -505,75 +481,50 @@
 
   <script>
     // =========================================================
-    //  JS — UX polish, persistence, locale, recent history
+    //  UX + Engagement Scripts (no frameworks)
     // =========================================================
-
-    // ---- helpers
-    const $ = (sel, el=document)=>el.querySelector(sel);
-    const $$ = (sel, el=document)=>Array.from(el.querySelectorAll(sel));
+    const $ = (s, el=document)=> el.querySelector(s);
+    const $$ = (s, el=document)=> Array.from(el.querySelectorAll(s));
     const store = {
-      get(k, def=null){ try {return JSON.parse(localStorage.getItem(k)) ?? def} catch {return def} },
+      get(k, d=null){ try{return JSON.parse(localStorage.getItem(k)) ?? d}catch{return d} },
       set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
     };
 
-    // ---- country & currency lists (expanded)
+    // Year
+    $('#yr').textContent = new Date().getFullYear();
+
+    // All calculators sheet
+    const sheet = $('#sheet'), closeSheet = $('#closeSheet');
+    function openSheet(){ sheet.classList.add('show'); $('#openSheet').setAttribute('aria-expanded','true'); }
+    function shutSheet(){ sheet.classList.remove('show'); $('#openSheet').setAttribute('aria-expanded','false'); }
+    $('#openSheet').addEventListener('click', openSheet);
+    $('#openSheet2').addEventListener('click', openSheet);
+    $('#stickyExplore').addEventListener('click', (e)=>{ e.preventDefault(); openSheet(); });
+    closeSheet.addEventListener('click', shutSheet);
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') shutSheet(); });
+
+    // Country & currency (auto + persistence)
     const countries = [
       {code:"auto", name:"Auto"},
-      {code:"US", name:"United States"},
-      {code:"GB", name:"United Kingdom"},
-      {code:"CA", name:"Canada"},
-      {code:"AU", name:"Australia"},
-      {code:"EU", name:"Eurozone"},
-      {code:"CN", name:"China"},
-      {code:"IN", name:"India"},
-      {code:"JP", name:"Japan"},
-      {code:"KR", name:"South Korea"},
-      {code:"SG", name:"Singapore"},
-      {code:"HK", name:"Hong Kong"},
-      {code:"TW", name:"Taiwan"},
-      {code:"MY", name:"Malaysia"},
-      {code:"TH", name:"Thailand"},
-      {code:"VN", name:"Vietnam"},
-      {code:"ID", name:"Indonesia"},
-      {code:"PH", name:"Philippines"},
-      {code:"NZ", name:"New Zealand"},
-      {code:"AE", name:"United Arab Emirates"},
-      {code:"SA", name:"Saudi Arabia"},
-      {code:"QA", name:"Qatar"},
-      {code:"KW", name:"Kuwait"},
-      {code:"TR", name:"Türkiye"},
-      {code:"IL", name:"Israel"},
-      {code:"CH", name:"Switzerland"},
-      {code:"NO", name:"Norway"},
-      {code:"SE", name:"Sweden"},
-      {code:"DK", name:"Denmark"},
-      {code:"FI", name:"Finland"},
-      {code:"NL", name:"Netherlands"},
-      {code:"BE", name:"Belgium"},
-      {code:"DE", name:"Germany"},
-      {code:"FR", name:"France"},
-      {code:"ES", name:"Spain"},
-      {code:"IT", name:"Italy"},
-      {code:"PT", name:"Portugal"},
-      {code:"IE", name:"Ireland"},
-      {code:"PL", name:"Poland"},
-      {code:"CZ", name:"Czechia"},
-      {code:"HU", name:"Hungary"},
-      {code:"RO", name:"Romania"},
-      {code:"GR", name:"Greece"},
-      {code:"MX", name:"Mexico"},
-      {code:"BR", name:"Brazil"},
-      {code:"AR", name:"Argentina"},
-      {code:"CL", name:"Chile"},
-      {code:"CO", name:"Colombia"},
-      {code:"PE", name:"Peru"},
-      {code:"ZA", name:"South Africa"},
-      {code:"EG", name:"Egypt"},
-      {code:"MA", name:"Morocco"},
-      {code:"GH", name:"Ghana"},
-      {code:"NG", name:"Nigeria"}
+      {code:"US", name:"United States"},{code:"GB", name:"United Kingdom"},{code:"CA", name:"Canada"},
+      {code:"AU", name:"Australia"},{code:"EU", name:"Eurozone"},{code:"CN", name:"China"},
+      {code:"IN", name:"India"},{code:"JP", name:"Japan"},{code:"KR", name:"South Korea"},
+      {code:"SG", name:"Singapore"},{code:"HK", name:"Hong Kong"},{code:"TW", name:"Taiwan"},
+      {code:"MY", name:"Malaysia"},{code:"TH", name:"Thailand"},{code:"VN", name:"Vietnam"},
+      {code:"ID", name:"Indonesia"},{code:"PH", name:"Philippines"},{code:"NZ", name:"New Zealand"},
+      {code:"AE", name:"United Arab Emirates"},{code:"SA", name:"Saudi Arabia"},{code:"QA", name:"Qatar"},
+      {code:"KW", name:"Kuwait"},{code:"TR", name:"Türkiye"},{code:"IL", name:"Israel"},
+      {code:"CH", name:"Switzerland"},{code:"NO", name:"Norway"},{code:"SE", name:"Sweden"},
+      {code:"DK", name:"Denmark"},{code:"FI", name:"Finland"},{code:"NL", name:"Netherlands"},
+      {code:"BE", name:"Belgium"},{code:"DE", name:"Germany"},{code:"FR", name:"France"},
+      {code:"ES", name:"Spain"},{code:"IT", name:"Italy"},{code:"PT", name:"Portugal"},
+      {code:"IE", name:"Ireland"},{code:"PL", name:"Poland"},{code:"CZ", name:"Czechia"},
+      {code:"HU", name:"Hungary"},{code:"RO", name:"Romania"},{code:"GR", name:"Greece"},
+      {code:"MX", name:"Mexico"},{code:"BR", name:"Brazil"},{code:"AR", name:"Argentina"},
+      {code:"CL", name:"Chile"},{code:"CO", name:"Colombia"},{code:"PE", name:"Peru"},
+      {code:"ZA", name:"South Africa"},{code:"EG", name:"Egypt"},{code:"MA", name:"Morocco"},
+      {code:"GH", name:"Ghana"},{code:"NG", name:"Nigeria"}
     ];
-
     const currencyByCountry = {
       US:"USD", GB:"GBP", CA:"CAD", AU:"AUD", EU:"EUR",
       CN:"CNY", IN:"INR", JP:"JPY", KR:"KRW", SG:"SGD",
@@ -587,139 +538,133 @@
       CL:"CLP", CO:"COP", PE:"PEN", ZA:"ZAR", EG:"EGP",
       MA:"MAD", GH:"GHS", NG:"NGN"
     };
-
     const currencies = [
-      "Auto","USD","EUR","GBP","CAD","AUD","NZD",
-      "CNY","JPY","KRW","HKD","TWD","SGD","INR",
-      "AED","SAR","QAR","KWD","TRY","ILS","CHF",
-      "NOK","SEK","DKK","PLN","CZK","HUF","RON",
-      "MXN","BRL","ARS","CLP","COP","PEN","ZAR",
-      "EGP","MAD","GHS","NGN","MYR","THB","VND",
-      "IDR","PHP"
+      "Auto","USD","EUR","GBP","CAD","AUD","NZD","CNY","JPY","KRW","HKD","TWD","SGD","INR",
+      "AED","SAR","QAR","KWD","TRY","ILS","CHF","NOK","SEK","DKK","PLN","CZK","HUF","RON",
+      "MXN","BRL","ARS","CLP","COP","PEN","ZAR","EGP","MAD","GHS","NGN","MYR","THB","VND","IDR","PHP"
     ];
 
-    // ---- build selects
-    const countrySel = $("#countrySel");
-    const currencySel = $("#currencySel");
+    const countrySel = $('#countrySel');
+    const currencySel = $('#currencySel');
 
     function buildSelect(select, items, isCountry=false){
-      select.innerHTML = "";
+      select.innerHTML = '';
       items.forEach(it=>{
-        const opt = document.createElement("option");
-        if(isCountry){ opt.value = it.code; opt.textContent = it.name; }
-        else { opt.value = it; opt.textContent = it; }
-        select.appendChild(opt);
+        const o = document.createElement('option');
+        if(isCountry){ o.value = it.code; o.textContent = it.name; }
+        else { o.value = it; o.textContent = it; }
+        select.appendChild(o);
       });
     }
-
     buildSelect(countrySel, countries, true);
     buildSelect(currencySel, currencies, false);
 
-    // ---- auto-detect locale
     function detectCountry(){
-      const lang = (navigator.language || "en-US").toUpperCase();
-      if(lang.includes("-")){
-        const cc = lang.split("-")[1];
-        if(currencyByCountry[cc]) return cc;
-      }
-      return "US";
+      const l = (navigator.language || 'en-US').toUpperCase();
+      if(l.includes('-')){ const cc = l.split('-')[1]; if(currencyByCountry[cc]) return cc; }
+      return 'US';
     }
     function detectCurrency(){
       try{
-        const fmt = new Intl.NumberFormat(undefined,{style:"currency",currency:"USD"});
-        const resolved = fmt.resolvedOptions().currency || "USD";
-        return resolved;
-      }catch{ return "USD" }
+        const r = new Intl.NumberFormat(undefined,{style:'currency', currency:'USD'}).resolvedOptions();
+        return r.currency || 'USD';
+      }catch{ return 'USD' }
     }
-
-    // ---- init selection
-    const savedCountry = store.get("lh.country");
-    const savedCurrency = store.get("lh.currency");
-
+    const savedCountry = store.get('lh.country');
+    const savedCurrency = store.get('lh.currency');
     const country = savedCountry ?? detectCountry();
     const currency = savedCurrency ?? detectCurrency();
 
-    countrySel.value = countries.find(c=>c.code===country) ? country : "US";
-    currencySel.value = currencies.includes(currency) ? currency : "USD";
+    countrySel.value = countries.find(c=>c.code===country) ? country : 'US';
+    currencySel.value = currencies.includes(currency) ? currency : 'USD';
 
     function syncCurrencyFromCountry(){
-      if(countrySel.value !== "auto"){
-        const cur = currencyByCountry[countrySel.value] || "USD";
-        if(currencySel.value==="Auto") currencySel.value = cur;
+      if(countrySel.value !== 'auto'){
+        const cur = currencyByCountry[countrySel.value] || 'USD';
+        if(currencySel.value==='Auto') currencySel.value = cur;
       }
     }
     syncCurrencyFromCountry();
+    countrySel.addEventListener('change', ()=>{ store.set('lh.country', countrySel.value); syncCurrencyFromCountry(); });
+    currencySel.addEventListener('change', ()=>{ store.set('lh.currency', currencySel.value); });
 
-    countrySel.addEventListener("change", ()=>{
-      store.set("lh.country", countrySel.value);
-      syncCurrencyFromCountry();
-    });
-    currencySel.addEventListener("change", ()=>{
-      store.set("lh.currency", currencySel.value);
-    });
+    // Primary CTA context (Income & Taxes for US/CA; FX elsewhere)
+    (function setPrimaryCTA(){
+      const c = countrySel.value;
+      const id = (c==='US' || c==='CA') ? 'income-tax.html' : 'fx-converter.html';
+      const el = $('#primaryCta');
+      el.href = id;
+      el.textContent = (id==='fx-converter.html') ? 'Open Currency Converter' : 'Open Income & Taxes';
+    })();
 
-    // ---- all calculators sheet
-    const sheet = $("#sheet");
-    const openers = ["#openSheet","#openSheet2"].map(sel=>$(sel));
-    const closer = $("#closeSheet");
-
-    function openSheet(){ sheet.classList.add("show"); $("#openSheet").setAttribute("aria-expanded","true"); }
-    function closeSheet(){ sheet.classList.remove("show"); $("#openSheet").setAttribute("aria-expanded","false"); }
-
-    openers.forEach(b=>b.addEventListener("click", openSheet));
-    closer.addEventListener("click", closeSheet);
-    document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeSheet() });
-
-    // ---- recently used chips
-    const recentKey = "lh.recent";
-    theMax = 8; // note: keep original logic; not changing any other behavior
-    const maxRecent = 8;
-    const recentList = $("#recentList");
-    const recentWrap = $("#recentWrap");
-
+    // Recently used chips
+    const recentKey = 'lh.recent';
+    const recentList = $('#recentList');
+    const recentWrap = $('#recentWrap');
     function addRecent(name, url){
       let arr = store.get(recentKey, []);
       arr = arr.filter(x=>x.url!==url);
-      arr.unshift({name, url});
-      if(arr.length>maxRecent) arr.length = maxRecent;
+      arr.unshift({name,url});
+      if(arr.length>8) arr.length=8;
       store.set(recentKey, arr);
       renderRecent();
     }
-
     function renderRecent(){
       const arr = store.get(recentKey, []);
-      recentList.innerHTML = "";
-      if(!arr.length){ recentWrap.classList.add("hide"); return }
-      recentWrap.classList.remove("hide");
+      recentList.innerHTML = '';
+      if(!arr.length){ recentWrap.classList.add('hide'); return; }
+      recentWrap.classList.remove('hide');
       arr.forEach(x=>{
-        const a = document.createElement("a");
-        a.href = x.url; a.textContent = x.name;
+        const a = document.createElement('a'); a.href = x.url; a.textContent = x.name;
         recentList.appendChild(a);
       });
     }
     renderRecent();
-
-    $$(".open").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const name = btn.dataset.calc || btn.closest(".card")?.querySelector("h3")?.textContent || "Calculator";
-        addRecent(name, btn.getAttribute("href"));
+    $$('.open').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const name = btn.dataset.calc || btn.closest('.card')?.querySelector('h3')?.textContent || 'Calculator';
+        addRecent(name, btn.getAttribute('href'));
       });
     });
 
-    document.documentElement.style.scrollPaddingTop = "72px";
+    // Search: lightweight matching to send users to the right tool (keeps exploration going)
+    const searchIndex = [
+      {k:['income','tax','take home','paycheck','federal','state'], url:'income-tax.html'},
+      {k:['mortgage','home loan','pmi','escrow'], url:'mortgage.html'},
+      {k:['loan','amortization','apr','payoff'], url:'loan.html'},
+      {k:['budget','50/30/20','planner'], url:'savings.html#budget'},
+      {k:['savings','goal','deposit','target'], url:'savings.html'},
+      {k:['retirement','401k','ira','withdrawal'], url:'retirement.html'},
+      {k:['emergency','fund'], url:'emergency-fund.html'},
+      {k:['currency','fx','converter','exchange'], url:'fx-converter.html'},
+      {k:['credit card','interest','apr'], url:'credit-card.html'},
+      {k:['card payoff','debt snowball'], url:'credit-card-payoff.html'},
+      {k:['car','auto loan'], url:'car-loan-calculator.html'},
+      {k:['rent','buy','rent vs buy'], url:'rent-vs-buy.html'},
+      {k:['student loan','repayment'], url:'student-loan-calculator.html'},
+      {k:['margin','markup','cogs'], url:'business-margin.html'},
+      {k:['breakeven','break-even','roi'], url:'business-breakeven.html'}
+    ];
+    function findTool(q){
+      q = (q||'').toLowerCase().trim();
+      if(!q) return null;
+      for(const row of searchIndex){
+        if(row.k.some(term=> q.includes(term))) return row.url;
+      }
+      return null;
+    }
+    $('#searchBtn').addEventListener('click', ()=>{
+      const q = $('#searchBox').value;
+      const url = findTool(q);
+      if(url){ window.location.href = url; }
+      else { openSheet(); }
+    });
+    $('#searchBox').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); $('#searchBtn').click(); } });
 
-    (function setPrimaryCTA(){
-      const c = countrySel.value;
-      const id = (c==="US"||c==="CA") ? "income-tax.html" : "fx-converter.html";
-      const el = $("#primaryCta");
-      el.href = id;
-      el.textContent = (id==="fx-converter.html") ? "Open Currency Converter" : "Open Income & Taxes";
-    })();
-
-    // =========================================================
-    //  OPTIONAL: ANALYTICS / ADS
-    //  Paste GA/AdSense here (kept empty by request).
-    // =========================================================
+    // Small analytics pings
+    $$('#essentialsGrid .open, .grid .open').forEach(el=>{
+      el.addEventListener('click', ()=>{ try{ gtag('event','open_calc', {label: el.getAttribute('href')}); }catch(_){} });
+    });
   </script>
 </body>
 </html>
