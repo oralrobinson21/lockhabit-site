@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- ====== Ads / Analytics ====== -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config','G-WMJ37PBW8H');
+  </script>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Break-even & ROI Calculator | LockHabit</title>
+  <meta name="description" content="Find break-even units and revenue. Enter fixed costs, variable costs, fees, price, and quantity. Add CAC and see contribution margin, payback, and ROI."/>
+  <link rel="canonical" href="https://www.lockhabit.com/business-breakeven.html"/>
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Break-even & ROI Calculator | LockHabit"/>
+  <meta property="og:description" content="Fixed/variable costs, fees, price, contribution margin, break-even, ROI, and payback period."/>
+  <meta property="og:url" content="https://www.lockhabit.com/business-breakeven.html"/>
+  <meta property="og:image" content="/assets/og-lockhabit.png"/>
+
+  <style>
+    /* ===== Reset / Base ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; background:#0b1220; color:#e7edf6;
+    }
+    a{color:inherit;text-decoration:none}
+    img,svg{display:block;max-width:100%}
+    :focus-visible{outline:2px solid #67d4ff; outline-offset:2px; border-radius:8px}
+
+    /* ===== Theme ===== */
+    :root{
+      --bg:#0b1220; --panel:#0f1727; --panel2:#0d1424;
+      --text:#e7edf6; --muted:#a5b2c8; --line:#1a2740;
+      --brand1:#62a0ff; --brand2:#33c1b1; --vio:#6d7cff;
+      --radius:16px; --radius-lg:22px; --shadow:0 10px 28px rgba(7,12,24,.35);
+      --w:1100px;
+    }
+
+    /* ===== Animated BG ===== */
+    .bg{
+      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      background:
+        radial-gradient(1200px 700px at 85% -10%, rgba(98,160,255,.14), transparent 60%),
+        radial-gradient(900px 700px at -10% 12%, rgba(51,193,177,.12), transparent 55%),
+        linear-gradient(180deg, #0b1220 0%, #0a1324 100%);
+      filter:saturate(1.06);
+    }
+    .orbs{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
+    .orb{position:absolute; width:520px; height:520px; border-radius:999px; filter:blur(6px) saturate(1.1); mix-blend-mode:screen}
+    .o1{background:radial-gradient(closest-side, rgba(51,193,177,.28), rgba(51,193,177,0) 70%); animation:fa 24s ease-in-out infinite}
+    .o2{background:radial-gradient(closest-side, rgba(98,160,255,.26), rgba(98,160,255,0) 70%); animation:fb 28s ease-in-out infinite -8s}
+    .o3{background:radial-gradient(closest-side, rgba(109,124,255,.24), rgba(109,124,255,0) 70%); animation:fc 26s ease-in-out infinite -14s}
+    @keyframes fa{0%{transform:translate(-14%,-8%)}33%{transform:translate(42%,8%)}66%{transform:translate(12%,46%)}100%{transform:translate(-14%,-8%)}}
+    @keyframes fb{0%{transform:translate(10%,-14%)}40%{transform:translate(28%,20%)}80%{transform:translate(-10%,44%)}100%{transform:translate(10%,-14%)}}
+    @keyframes fc{0%{transform:translate(46%,56%)}40%{transform:translate(12%,16%)}80%{transform:translate(52%,-8%)}100%{transform:translate(46%,56%)}}
+    @media (prefers-reduced-motion:reduce){.o1,.o2,.o3{animation:none}}
+
+    /* ===== Header ===== */
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.1) blur(10px);
+      background:linear-gradient(180deg, rgba(4,10,22,.72), rgba(4,10,22,.38));
+      border-bottom:1px solid rgba(28,40,66,.8);
+    }
+    .wrap{max-width:var(--w); margin:0 auto; padding:14px 16px}
+    .nav{display:flex; align-items:center; gap:12px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(145deg,var(--brand1),var(--vio));box-shadow:inset 0 0 0 2px rgba(255,255,255,.12), 0 2px 12px rgba(40,60,110,.5);position:relative}
+    .logo::after{content:"";position:absolute;inset:7px 8px 7px 9px;border-radius:10px;background:linear-gradient(180deg,#eef6ff,#d7e9ff);mask:radial-gradient(circle at 30% 70%, #000 58%, transparent 59%) left/60% 90% no-repeat,linear-gradient(#000 0 0) right/34% 26% no-repeat}
+    .sp{flex:1}
+    .pill{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:#0e2036;color:#dcedff;border:1px solid #173050;box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 6px 16px rgba(10,20,40,.25);cursor:pointer}
+    .pill[data-variant="cta"]{background:linear-gradient(135deg,#45e0c7,#67a8ff 65%); color:#042b26; border:0; font-weight:800}
+
+    /* ===== Page ===== */
+    main{max-width:var(--w); margin:0 auto; padding:26px 16px 40px}
+    .hero{background:linear-gradient(180deg, rgba(13,22,42,.8), rgba(13,22,42,.6)); border:1px solid var(--line); border-radius:18px; padding:18px; box-shadow:var(--shadow)}
+    h1{margin:0 0 6px; font-size:clamp(28px,4.8vw,44px); line-height:1.05}
+    .sub{margin:0; color:#aec0da; max-width:70ch}
+    .actions{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap}
+
+    .grid{display:grid; gap:14px; margin-top:16px}
+    @media(min-width:900px){ .grid{grid-template-columns:1.1fr .9fr} }
+    .panel{background:linear-gradient(180deg, rgba(17,29,54,.78), rgba(13,22,42,.88)); border:1px solid var(--line); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow)}
+    .two{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .three{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px}
+    label{font-weight:800; color:#cfe3fb}
+    input,select{width:100%; padding:12px; border:1px solid #21324f; border-radius:12px; background:#0d1b2f; color:#e7edf6; font-size:16px}
+    .k{font-size:12px; color:#7d91b0; text-transform:uppercase; letter-spacing:.04em; font-weight:800}
+    .v{font-weight:900; font-size:20px}
+    .note{font-size:12px; color:#9db0c9}
+    .table{width:100%; border-collapse:collapse; margin-top:8px}
+    .table th,.table td{padding:10px 8px; border-bottom:1px solid #1b2a49; text-align:right}
+    .table th:first-child,.table td:first-child{text-align:left}
+    details.acc{border:1px solid var(--line); border-radius:14px; background:#0d1424; overflow:hidden; margin-top:10px}
+    details.acc>summary{list-style:none; cursor:pointer; padding:14px 16px; font-weight:800; display:flex; align-items:center; justify-content:space-between}
+    details.acc>summary::-webkit-details-marker{display:none}
+    .acc-body{padding:0 16px 16px}
+    footer{margin:22px 0 32px; color:#a3b4cb; font-size:12px; text-align:center}
+  </style>
+</head>
+<body>
+  <!-- BG -->
+  <div class="bg"></div>
+  <div class="orbs">
+    <div class="orb o1" style="left:-12%; top:6%"></div>
+    <div class="orb o2" style="right:-14%; top:-10%"></div>
+    <div class="orb o3" style="left:40%; bottom:-18%"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="/"><span class="logo" aria-hidden="true"></span><span>LockHabit</span></a>
+      <div class="sp"></div>
+      <a class="pill" href="/index.html">Home</a>
+
+      <div class="menu" style="position:relative">
+        <button class="pill" id="toolsBtn" aria-haspopup="menu" aria-expanded="false">Tools ▾</button>
+        <div id="toolsMenu" role="menu" style="display:none;position:absolute;right:0;top:44px;background:#0f1727;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);min-width:260px;overflow:hidden">
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/income-tax.html">Income & Taxes</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/mortgage.html">Mortgage</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/loan.html">Loan Payoff</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/savings.html">Savings Goal</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/retirement.html">Retirement (Simple)</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/fx-converter.html">Currency Converter</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/credit-card.html">Credit Card</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/credit-card-payoff.html">Credit Card Payoff</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/car-loan-calculator.html">Car Loan</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/rent-vs-buy.html">Rent vs Buy</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/student-loan-calculator.html">Student Loan</a>
+          <a class="pill" style="display:block;border-radius:0;border:0;background:#0f1727" href="/business-margin.html">Margin & Markup</a>
+        </div>
+      </div>
+
+      <a class="pill" data-variant="cta" href="/business-margin.html">Open Margin & Markup</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Break-even & ROI</h1>
+      <p class="sub">Enter fixed costs (rent, team, SaaS), variable costs per unit (COGS, shipping, fees), and price. See **contribution margin**, **break-even units & revenue**, and optional **CAC payback**. Back-solve targets instantly.</p>
+      <div class="actions">
+        <button class="pill" id="presetRetail">Preset: Retail</button>
+        <button class="pill" id="presetDTC">Preset: DTC</button>
+        <button class="pill" id="reset">Reset</button>
+      </div>
+    </section>
+
+    <div class="grid">
+      <!-- Inputs -->
+      <section class="panel" aria-labelledby="inputs-title">
+        <h2 id="inputs-title" style="margin:0 0 8px">Inputs</h2>
+
+        <details class="acc" open>
+          <summary>Price & variable costs</summary>
+          <div class="acc-body">
+            <div class="three" style="margin-top:8px">
+              <div>
+                <label>Price per unit</label>
+                <input id="price" type="number" inputmode="decimal" placeholder="e.g., 30" min="0" step="0.01">
+              </div>
+              <div>
+                <label>COGS per unit</label>
+                <input id="cogs" type="number" inputmode="decimal" placeholder="e.g., 12" min="0" step="0.01">
+              </div>
+              <div>
+                <label>Shipping per unit</label>
+                <input id="ship" type="number" inputmode="decimal" placeholder="e.g., 4" min="0" step="0.01">
+              </div>
+            </div>
+            <div class="three" style="margin-top:8px">
+              <div>
+                <label>Platform fee %</label>
+                <input id="feePct" type="number" inputmode="decimal" placeholder="e.g., 3" min="0" max="50" step="0.1">
+              </div>
+              <div>
+                <label>Payment fee %</label>
+                <input id="payPct" type="number" inputmode="decimal" placeholder="e.g., 2.9" min="0" max="20" step="0.1">
+              </div>
+              <div>
+                <label>Payment fee (fixed $)</label>
+                <input id="payFixed" type="number" inputmode="decimal" placeholder="e.g., 0.30" min="0" step="0.01">
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="acc" open style="margin-top:10px">
+          <summary>Fixed costs & volume</summary>
+          <div class="acc-body">
+            <div class="two" style="margin-top:8px">
+              <div>
+                <label>Total fixed costs (per period)</label>
+                <input id="fixed" type="number" inputmode="decimal" placeholder="e.g., 12,000" min="0" step="1">
+                <div class="note">Rent, salaries, SaaS, insurance, etc.</div>
+              </div>
+              <div>
+                <label>Planned units (same period)</label>
+                <input id="qty" type="number" inputmode="numeric" placeholder="e.g., 2,000" min="0" step="1">
+              </div>
+            </div>
+            <div class="two" style="margin-top:8px">
+              <div>
+                <label>CAC (customer acquisition cost)</label>
+                <input id="cac" type="number" inputmode="decimal" placeholder="optional e.g., 8" min="0" step="0.01">
+                <div class="note">Only used for payback calc below.</div>
+              </div>
+              <div>
+                <label>Units per customer</label>
+                <input id="unitsPerCust" type="number" inputmode="decimal" placeholder="1" min="0" step="0.01">
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="acc" style="margin-top:10px">
+          <summary>Targets & back-solve</summary>
+          <div class="acc-body">
+            <div class="two" style="margin-top:8px">
+              <div>
+                <label>Desired profit (period)</label>
+                <input id="profitTarget" type="number" inputmode="decimal" placeholder="e.g., 5,000" min="0" step="1">
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-end">
+                <button class="pill" id="solveUnits">Units to hit target</button>
+                <button class="pill" id="solvePrice">Price to hit target</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="acc" open style="margin-top:10px">
+          <summary>Share / save</summary>
+          <div class="acc-body">
+            <div class="two" style="margin-top:8px">
+              <div>
+                <label>Period label</label>
+                <input id="periodLbl" type="text" placeholder="e.g., Month of May">
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-end">
+                <button class="pill" id="copy">Copy summary</button>
+                <button class="pill" id="email">Email summary</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Ad -->
+        <div style="margin-top:12px">
+          <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+               data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+               data-ad-slot="1234567890"></ins>
+          <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+        </div>
+      </section>
+
+      <!-- Outputs -->
+      <aside class="panel" aria-labelledby="out-title">
+        <h2 id="out-title" style="margin:0 0 8px">Snapshot</h2>
+
+        <div class="two">
+          <div>
+            <div class="k">Contribution per unit</div>
+            <div class="v" id="contribUnit">$0.00</div>
+          </div>
+          <div>
+            <div class="k">Contribution margin %</div>
+            <div class="v" id="contribPct">0.00%</div>
+          </div>
+        </div>
+
+        <div class="two" style="margin-top:8px">
+          <div>
+            <div class="k">Break-even units</div>
+            <div class="v" id="beUnits">0</div>
+          </div>
+          <div>
+            <div class="k">Break-even revenue</div>
+            <div class="v" id="beRevenue">$0.00</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:10px">
+          <div class="k">Totals (at planned volume)</div>
+          <table class="table">
+            <tbody>
+              <tr><td>Revenue</td><td id="tRev">$0.00</td></tr>
+              <tr><td>Variable cost</td><td id="tVar">$0.00</td></tr>
+              <tr><td>Contribution</td><td id="tContrib">$0.00</td></tr>
+              <tr><td>Fixed cost</td><td id="tFixed">$0.00</td></tr>
+              <tr><td><b>Operating profit</b></td><td id="tProfit" style="font-weight:900">$0.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel" style="margin-top:10px">
+          <div class="k">CAC & payback (optional)</div>
+          <table class="table">
+            <tbody>
+              <tr><td>Contribution per customer</td><td id="contribPerCust">$0.00</td></tr>
+              <tr><td>Payback (orders to recover CAC)</td><td id="ordersToPayback">–</td></tr>
+              <tr><td>ROI at planned volume</td><td id="roiPct">0.00%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </aside>
+    </div>
+
+    <footer>© <span id="yr"></span> LockHabit — Business tools. Estimates only.</footer>
+  </main>
+
+  <script>
+    // ===== Helpers =====
+    const $ = id => document.getElementById(id);
+    const fmt = (n,c='USD') => (isFinite(n)?n:0).toLocaleString(undefined,{style:'currency',currency:c,maximumFractionDigits:2});
+    const pct = n => (isFinite(n)? n : 0).toFixed(2) + '%';
+    $('yr').textContent = new Date().getFullYear();
+
+    // Tools dropdown
+    (function(){
+      const btn = $('toolsBtn'); const menu = $('toolsMenu');
+      btn.addEventListener('click', e=>{ e.stopPropagation(); const s=menu.style.display; menu.style.display = (s==='block'?'none':'block'); btn.setAttribute('aria-expanded',String(menu.style.display==='block')); });
+      document.addEventListener('click', e=>{ if(!menu.contains(e.target) && e.target!==btn){ menu.style.display='none'; btn.setAttribute('aria-expanded','false'); }});
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ menu.style.display='none'; btn.setAttribute('aria-expanded','false'); }});
+    })();
+
+    // ===== Elements =====
+    const price=$('price'), cogs=$('cogs'), ship=$('ship'), feePct=$('feePct'), payPct=$('payPct'), payFixed=$('payFixed');
+    const fixed=$('fixed'), qty=$('qty'), cac=$('cac'), unitsPerCust=$('unitsPerCust');
+    const profitTarget=$('profitTarget'), periodLbl=$('periodLbl');
+
+    const contribUnit=$('contribUnit'), contribPct=$('contribPct'), beUnits=$('beUnits'), beRevenue=$('beRevenue');
+    const tRev=$('tRev'), tVar=$('tVar'), tContrib=$('tContrib'), tFixed=$('tFixed'), tProfit=$('tProfit');
+    const contribPerCust=$('contribPerCust'), ordersToPayback=$('ordersToPayback'), roiPct=$('roiPct');
+
+    // ===== Storage =====
+    const KEY='lh_breakeven_v2';
+    function save(){
+      const d={p:price.value, g:cogs.value, s:ship.value, fp:feePct.value, pp:payPct.value, pf:payFixed.value,
+               f:fixed.value, q:qty.value, c:cac.value, u:unitsPerCust.value, t:profitTarget.value, l:periodLbl.value};
+      localStorage.setItem(KEY, JSON.stringify(d));
+    }
+    function load(){
+      try{
+        const d=JSON.parse(localStorage.getItem(KEY)||'null'); if(!d) return;
+        price.value=d.p||''; cogs.value=d.g||''; ship.value=d.s||''; feePct.value=d.fp||''; payPct.value=d.pp||''; payFixed.value=d.pf||'';
+        fixed.value=d.f||''; qty.value=d.q||''; cac.value=d.c||''; unitsPerCust.value=d.u||''; profitTarget.value=d.t||''; periodLbl.value=d.l||'';
+      }catch(_){}
+    } load();
+
+    // ===== Core math =====
+    function unitFees(P){ return ( (+feePct.value||0)/100*P ) + ( (+payPct.value||0)/100*P ) + (+payFixed.value||0); }
+    function unitVariableCost(){
+      const P=+price.value||0; return (+cogs.value||0) + (+ship.value||0) + unitFees(P);
+    }
+    function contribution(){
+      const P=+price.value||0; const V=unitVariableCost();
+      return { perUnit: P - V, marginPct: (P? ( (P-V)/P*100 ):0) };
+    }
+    function totals(){
+      const Q= Math.max(0, Math.floor(+qty.value||0));
+      const P=+price.value||0; const V=unitVariableCost(); const F=+fixed.value||0;
+      const rev=P*Q, varCost=V*Q, contrib=(P-V)*Q, profit=contrib-F;
+      return {Q,P,V,F,rev,varCost,contrib,profit};
+    }
+    function breakeven(){
+      const P=+price.value||0; const V=unitVariableCost(); const F=+fixed.value||0;
+      const cm= P - V; // contribution per unit
+      if(cm<=0){ return {units: Infinity, revenue: Infinity}; }
+      const u = Math.ceil(F / cm);
+      return {units:u, revenue: u*P};
+    }
+
+    function calc(){
+      save();
+
+      const c=contribution();
+      contribUnit.textContent = fmt(c.perUnit);
+      contribPct.textContent  = pct(c.marginPct);
+
+      const b=breakeven();
+      beUnits.textContent = (b.units===Infinity ? '—' : b.units.toLocaleString());
+      beRevenue.textContent = (b.revenue===Infinity ? '—' : fmt(b.revenue));
+
+      const t=totals();
+      tRev.textContent = fmt(t.rev);
+      tVar.textContent = fmt(t.varCost);
+      tContrib.textContent = fmt(t.contrib);
+      tFixed.textContent = fmt(t.F);
+      tProfit.textContent = fmt(t.profit);
+      const roi = (t.F? (t.profit/t.F*100) : (t.profit? 100:0));
+      roiPct.textContent = pct(roi);
+
+      // CAC & payback
+      const upc = Math.max(+(unitsPerCust.value||1), 0.0001);
+      const contribPerCustomer = c.perUnit * upc;
+      contribPerCust.textContent = fmt(contribPerCustomer);
+      const CAC = +cac.value||0;
+      ordersToPayback.textContent = (CAC>0 && c.perUnit>0) ? (CAC / c.perUnit).toFixed(2) : (CAC>0 ? '∞' : '—');
+    }
+
+    // Events
+    ['input','change'].forEach(ev=>{
+      [price,cogs,ship,feePct,payPct,payFixed,fixed,qty,cac,unitsPerCust,profitTarget].forEach(el=> el.addEventListener(ev, calc));
+    });
+
+    // Back-solve
+    $('solveUnits').addEventListener('click', ()=>{
+      const P=+price.value||0, V=unitVariableCost(), F=+fixed.value||0, target=+profitTarget.value||0;
+      const cm = P - V; if(cm<=0){ alert('Contribution must be positive to solve units.'); return; }
+      const units = Math.ceil( (F + target) / cm );
+      qty.value = units; calc();
+    });
+    $('solvePrice').addEventListener('click', ()=>{
+      const V0 = (+cogs.value||0) + (+ship.value||0);
+      const F=+fixed.value||0, Q=Math.max(1, Math.floor(+qty.value||0)), target=+profitTarget.value||0;
+
+      // Price appears inside percentage fees. Solve: Profit = (P - V(P))*Q - F  where V(P)=V0 + fee%*P + pay%*P + fixed
+      // => Profit = [P*(1 - fee% - pay%) - (V0 + fixedPay)]*Q - F
+      const fp = (+feePct.value||0)/100;
+      const pp = (+payPct.value||0)/100;
+      const pf = (+payFixed.value||0);
+      const a = (1 - fp - pp);             // coefficient on P
+      const b = V0 + pf;                    // constant part of variable cost per unit
+      const need = (F + target)/Q + b;      // per-unit net needed after a*P
+      if(a<=0){ alert('Percentage fees too high to solve a price.'); return; }
+      const P = need / a;
+      price.value = P.toFixed(2);
+      calc();
+    });
+
+    // Presets
+    $('presetRetail').addEventListener('click', ()=>{
+      price.value=30; cogs.value=12; ship.value=0; feePct.value=0; payPct.value=0; payFixed.value=0;
+      fixed.value=12000; qty.value=2000; cac.value=''; unitsPerCust.value=1; profitTarget.value=5000; periodLbl.value='Monthly';
+      calc();
+    });
+    $('presetDTC').addEventListener('click', ()=>{
+      price.value=30; cogs.value=12; ship.value=4; feePct.value=3; payPct.value=2.9; payFixed.value=0.3;
+      fixed.value=25000; qty.value=2500; cac.value=8; unitsPerCust.value=1.2; profitTarget.value=8000; periodLbl.value='Monthly';
+      calc();
+    });
+    $('reset').addEventListener('click', ()=>{ localStorage.removeItem(KEY); location.reload(); });
+
+    // Copy / Email
+    $('copy').addEventListener('click', async ()=>{
+      const text = buildSummary();
+      try{ await navigator.clipboard.writeText(text); $('copy').textContent='Copied!'; setTimeout(()=>$('copy').textContent='Copy summary',1200);}catch(_){}
+    });
+    $('email').addEventListener('click', ()=>{
+      const subject = encodeURIComponent('Break-even & ROI — LockHabit summary');
+      const body = encodeURIComponent(buildSummary());
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    });
+    function buildSummary(){
+      const t=totals(), c=contribution(), b=breakeven();
+      return [
+        'Break-even & ROI — LockHabit',
+        `Period: ${periodLbl.value||'(unspecified)'}`,
+        `Price ${price.value||0}, COGS ${cogs.value||0}, Ship ${ship.value||0}, Fees% ${feePct.value||0}+${payPct.value||0}, FixedPay ${payFixed.value||0}`,
+        `Fixed ${fixed.value||0}, Planned units ${qty.value||0}`,
+        `Contribution/unit ${fmt(c.perUnit)} (${(c.marginPct||0).toFixed(2)}%)`,
+        `Break-even: ${b.units===Infinity?'N/A':b.units} units, ${b.revenue===Infinity?'N/A':fmt(b.revenue)} revenue`,
+        `Totals: Rev ${fmt(t.rev)}, Var ${fmt(t.varCost)}, Contrib ${fmt(t.contrib)}, Fixed ${fmt(t.F)}, Profit ${fmt(t.profit)}`,
+        `CAC ${cac.value||0}, Units/Customer ${unitsPerCust.value||1}, Payback orders ${ordersToPayback.textContent}`
+      ].join('\n');
+    }
+
+    // Boot
+    calc();
+  </script>
+</body>
+</html>
