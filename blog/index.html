@@ -2,494 +2,519 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Journal (blog index, premium v3)
+       LockHabit Journal — Editorial Blog Index (Bright v1)
+       Purpose: Unique, magazine-quality blog hub (not calculator UI)
        ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit Journal — Understand money. Calm wealth. Practical, premium guides.</title>
-  <meta name="description" content="LockHabit Journal explains how money works—simply and precisely. Taxes, saving, debt, credit, home, and investing. Calm, premium guides you can act on today."/>
+  <title>LockHabit Journal — Understand money, calmly. Premium guides, real decisions.</title>
+  <meta name="description" content="A bright, calm space to understand money. Taxes, saving, debt, credit, home, and investing—premium guides that help you decide and move forward confidently."/>
   <link rel="canonical" href="https://lockhabit.com/blog/"/>
-  <meta name="theme-color" content="#0e1326"/>
+  <meta name="theme-color" content="#ffffff"/>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit Journal — Understand money. Build calm wealth."/>
-  <meta property="og:description" content="Clear, trustworthy breakdowns of taxes, saving, debt, credit, home, and investing—built for real decisions."/>
+  <meta property="og:title" content="LockHabit Journal — Understand money, calmly."/>
+  <meta property="og:description" content="Premium, practical finance writing that reduces anxiety and increases clarity."/>
   <meta property="og:url" content="https://lockhabit.com/blog/"/>
-  <meta property="og:image" content="/assets/og-lockhabit-blog.png"/>
+  <meta property="og:image" content="/assets/og-lockhabit-journal-bright.png"/>
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="LockHabit Journal — Understand money. Build calm wealth."/>
-  <meta name="twitter:description" content="Calm, premium guides that make financial decisions easier."/>
-  <meta name="twitter:image" content="/assets/og-lockhabit-blog.png"/>
+  <meta name="twitter:title" content="LockHabit Journal — Understand money, calmly."/>
+  <meta name="twitter:description" content="Premium, practical finance writing that reduces anxiety and increases clarity."/>
+  <meta name="twitter:image" content="/assets/og-lockhabit-journal-bright.png"/>
 
-  <!-- Structured data -->
+  <!-- Schema -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"Blog",
     "name":"LockHabit Journal",
     "url":"https://lockhabit.com/blog/",
-    "description":"Calm, premium guides to understand money and build wealth you can actually keep.",
-    "publisher":{
-      "@type":"Organization",
-      "name":"LockHabit",
-      "logo":{"@type":"ImageObject","url":"https://lockhabit.com/assets/logo-512.png"}
-    }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Home","item":"https://lockhabit.com/"},
-      {"@type":"ListItem","position":2,"name":"Journal","item":"https://lockhabit.com/blog/"}
-    ]
+    "description":"Bright, calm finance writing. Taxes, saving, debt, credit, home, investing.",
+    "publisher":{"@type":"Organization","name":"LockHabit","logo":{"@type":"ImageObject","url":"https://lockhabit.com/assets/logo-512.png"}}
   }
   </script>
 
-  <!-- Google Analytics (yours) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-WMJ37PBW8H');
   </script>
 
-  <!-- Google AdSense (customer-first placement) -->
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
 
   <style>
-    /* =========================
-       Base + Theme
-       ========================= */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;
-      color:#0c1324; background:radial-gradient(1200px 800px at 70% -20%, #bfe1ff40, transparent 60%), #f7f9ff;
-      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    /* =========================================================
+       DESIGN SYSTEM — Bright, editorial, optimistic
+       ========================================================= */
+
+    :root{
+      /* Color */
+      --bg: #ffffff;
+      --bg-tint: #fcfdfd;
+      --ink: #1b1f2a;
+      --ink-soft: #47506a;
+      --muted: #7c88a6;
+      --line: #e8edf6;
+      --card: #ffffff;
+      --chip: #f4f7ff;
+      --accent: #2457ff;             /* blue */
+      --accent-2: #2eccb3;           /* sea */
+      --accent-3: #ffb34d;           /* apricot */
+      --accent-4: #ff6e8d;           /* coral */
+
+      /* Radii & shadows */
+      --r-lg: 20px;
+      --r-md: 14px;
+      --r-sm: 10px;
+
+      --shadow-1: 0 6px 24px rgba(17, 29, 68, .06);
+      --shadow-2: 0 10px 38px rgba(17, 29, 68, .08);
+      --shadow-3: 0 18px 60px rgba(17, 29, 68, .10);
+
+      /* Type scale */
+      --h1: clamp(28px, 4.2vw, 48px);
+      --h2: clamp(20px, 3vw, 28px);
+      --h3: clamp(18px, 2.4vw, 22px);
+      --p: 16px;
+      --small: 13px;
     }
-    @media (prefers-color-scheme: dark){
-      body{ color:#e9f1ff; background:linear-gradient(180deg,#0b1022 0%,#0e152d 100%) }
-      .card{ background:linear-gradient(180deg,#121a34,#0f1730); border-color:#202c52; color:#cfe0ff }
-      .muted{ color:#9fb2d8 }
+
+    html, body { height:100% }
+    * { box-sizing:border-box }
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(70% 60% at 0% -10%, #e8f1ff60, transparent 60%),
+        radial-gradient(60% 60% at 100% -20%, #e7fff760, transparent 60%),
+        var(--bg);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Inter, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
     a{ color:inherit; text-decoration:none }
-    :focus-visible{ outline:3px solid #66d1ff; outline-offset:3px; border-radius:8px }
-    .wrap{ max-width:1160px; margin:0 auto; padding:20px 16px 60px }
+    a:hover{ text-decoration:underline; text-decoration-thickness: 2px; text-underline-offset: 3px }
+    .wrap { max-width:1200px; margin:0 auto; padding:24px 18px 80px }
 
-    /* Top nav */
+    /* ---------------- NAV (clean, airy) ---------------- */
     header{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter:blur(12px) saturate(1.1);
-      background:linear-gradient(180deg,rgba(247,249,255,.85),rgba(247,249,255,.65));
-      border-bottom:1px solid #e5edff;
+      position:sticky; top:0; z-index:50; background:rgba(255,255,255,.8);
+      backdrop-filter: blur(14px) saturate(1.2);
+      border-bottom:1px solid var(--line);
     }
-    @media (prefers-color-scheme: dark){
-      header{ background:linear-gradient(180deg,rgba(10,16,34,.75),rgba(10,16,34,.55)); border-bottom:1px solid #1a2548 }
-    }
-    .nav{ display:flex; align-items:center; gap:12px; padding:12px 16px; max-width:1160px; margin:0 auto }
-    .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px }
-    .logo{ width:28px; height:28px; border-radius:8px; background:linear-gradient(145deg,#6aa7ff,#6e7bff); box-shadow:inset 0 0 0 2px #ffffff20 }
+    .nav{ max-width:1200px; margin:0 auto; padding:12px 18px; display:flex; gap:16px; align-items:center }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.2px }
+    .logo{ width:28px; height:28px; border-radius:8px; background:
+      conic-gradient(from 210deg, #6ea8ff, #82ffd8, #ffd17a, #ff90a8, #6ea8ff); box-shadow: inset 0 0 0 2px #ffffffc0 }
     .spacer{ flex:1 }
-    .btn{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; border:1px solid #d9e5ff; background:#fff; font-weight:700 }
-    .btn:hover{ transform:translateY(-1px) }
-    .btn-ghost{ background:transparent }
-    .btn-cta{
-      background:linear-gradient(135deg,#6fe3cd,#79a8ff 65%); color:#072b25; border:0; font-weight:900;
-      box-shadow:0 6px 20px #79a8ff40;
-    }
+    .link{ padding:8px 10px; border-radius:10px }
+    .cta{ padding:10px 14px; border-radius:999px; background:linear-gradient(135deg, #9fe6d7, #83a7ff); color:#0b2633; font-weight:900; box-shadow: var(--shadow-1); border:0 }
+    .cta:hover{ transform: translateY(-1px) }
 
-    /* Hero */
-    .hero{ padding:18px 0 10px }
-    .eyebrow{ color:#6c7aa7; text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:800 }
-    .h1{ margin:8px 0 8px; font-weight:900; font-size:clamp(28px,4.8vw,44px); letter-spacing:-.02em }
-    .lede{ color:#415081; max-width:820px; font-size:18px }
-    @media (prefers-color-scheme: dark){ .eyebrow{ color:#9db0e2 } .lede{ color:#a8bcf0 } }
-
-    /* Filter rail */
-    .filters{ margin:18px 0 8px; display:flex; gap:10px; flex-wrap:wrap; align-items:center }
-    .pill{
-      display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:999px;
-      border:1px solid #d6e4ff; background:#feffff; color:#0f1b3a; font-weight:700; cursor:pointer;
-      user-select:none;
-    }
-    .pill[data-on="1"]{ background:#0f1b3a; color:#e9f2ff; border-color:#0f1b3a }
-    @media (prefers-color-scheme: dark){
-      .pill{ border-color:#273460; background:#0f1a39; color:#cfe0ff }
-      .pill[data-on="1"]{ background:#e9f2ff; color:#0f1b3a; border-color:#e9f2ff }
-    }
-
-    /* Disabled search w/ ribbon */
-    .searchWrap{ position:relative; flex:1; min-width:260px }
-    .search{
-      width:100%; padding:12px 14px; border-radius:16px; border:1px dashed #cbd9ff; background:#f8fbff; color:#3a4a78;
-      font-weight:600;
-    }
-    .ribbon{
-      position:absolute; top:-10px; right:12px; background:#0f1b3a; color:#e9f2ff; font-size:11px; font-weight:900;
-      padding:4px 8px; border-radius:999px; letter-spacing:.06em; text-transform:uppercase;
-    }
-    @media (prefers-color-scheme: dark){
-      .search{ border-color:#2a3a6a; background:#0c1633; color:#bcd0ff }
-      .ribbon{ background:#e9f2ff; color:#0f1b3a }
-    }
-
-    /* Sections */
-    .section{ margin:18px 0 12px }
-    .section h2{ font-size:clamp(18px,2.6vw,26px); margin:0 0 10px; letter-spacing:.2px }
-
-    /* Grids */
-    .grid{ display:grid; gap:12px }
-    @media(min-width:760px){ .grid{ grid-template-columns:1fr 1fr } }
-    @media(min-width:1060px){ .grid{ grid-template-columns:1.2fr 1fr 1fr } }
+    /* ---------------- HERO MOSAIC ---------------- */
+    .hero{ padding:22px 0 10px }
+    .sub{ color:var(--muted); text-transform:uppercase; letter-spacing:.18em; font-size:12px; font-weight:800 }
+    .h1{ font-size:var(--h1); line-height:1.2; margin:10px 0 6px; font-weight:900; letter-spacing:-.015em }
+    .lede{ font-size:18px; color:var(--ink-soft); max-width:880px; }
+    .mosaic{ margin-top:18px; display:grid; gap:14px }
+    @media(min-width:980px){ .mosaic{ grid-template-columns:1.3fr 1fr 1fr } }
 
     .card{
-      position:relative; padding:14px; border-radius:18px; border:1px solid #e0e9ff; background:#ffffff; overflow:hidden;
-      box-shadow:0 1px 0 #fff inset, 0 8px 24px #4379ff14;
-      transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+      background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow-1); overflow:hidden;
+      transition: transform .15s ease, box-shadow .2s ease;
     }
-    .card:hover{ transform:translateY(-2px); border-color:#cfe0ff; box-shadow:0 12px 30px #2d55ff26 }
-    .thumb{ position:relative; display:block; border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:#eaf2ff }
+    .card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-2) }
+
+    .thumb{ aspect-ratio: 16/9; background:#eef3ff; display:block; overflow:hidden }
     .thumb img{ width:100%; height:100%; object-fit:cover; display:block }
-    .meta{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; color:#6c7aa7; font-size:13px }
-    .title{ margin:8px 0 6px; font-weight:900; font-size:18px; letter-spacing:-.01em }
-    .excerpt{ margin:0; color:#4a5a88 }
-    @media (prefers-color-scheme: dark){
-      .card{ border-color:#22315e; background:linear-gradient(180deg,#141d3a,#0f1833) }
-      .thumb{ background:#0f1a39 }
-      .excerpt{ color:#a9b8e2 }
-      .meta{ color:#99aee0 }
-    }
+    .pad{ padding:14px 16px 16px }
+    .meta{ color:var(--muted); font-size:var(--small); display:flex; align-items:center; gap:8px; flex-wrap:wrap }
+    .title{ font-weight:900; font-size:var(--h3); line-height:1.25; margin:8px 0 6px; letter-spacing:-.01em }
+    .excerpt{ margin:0; color:var(--ink-soft) }
 
-    /* Lists */
-    .hList{ display:flex; gap:10px; flex-wrap:wrap; align-items:center }
+    /* Accent ribbons for hero cards (emotional cues) */
+    .ribbon{
+      position:absolute; top:12px; left:12px; background:#fff; color:#0d264a; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:900;
+      border:1px solid var(--line); box-shadow:var(--shadow-1)
+    }
+    .heroCard{ position:relative }
+    .heroCard .title{ font-size:clamp(20px,2.8vw,28px) }
+
+    /* ---------------- CATEGORY RAIL (sticky on desktop) ---------------- */
+    .railWrap{ margin:22px 0 12px; display:grid; gap:16px }
+    @media(min-width:1100px){ .railWrap{ grid-template-columns: 240px 1fr } }
+
+    .rail{
+      position:relative; display:flex; gap:10px; flex-wrap:wrap;
+    }
+    @media(min-width:1100px){
+      .rail{ position:sticky; top:76px; align-content:flex-start; height: fit-content; }
+    }
+    .pill{
+      background:var(--chip); border:1px solid var(--line); border-radius:999px; padding:9px 12px; font-weight:800; color:#1e2a4d;
+      display:inline-flex; align-items:center; gap:10px; cursor:pointer; user-select:none;
+    }
+    .pill[data-on="1"]{ background:#162a62; color:#fff; border-color:#162a62; box-shadow:0 6px 20px rgba(22,42,98,.18) }
+    .pill .dot{ width:8px; height:8px; border-radius:50% }
+    .pTaxes .dot{ background:var(--accent) }
+    .pSaving .dot{ background:var(--accent-2) }
+    .pDebt .dot{ background:var(--accent-4) }
+    .pCredit .dot{ background:#8a6bff }
+    .pHome .dot{ background:#ffb34d }
+    .pInvesting .dot{ background:#28a2ff }
+    .pBudgeting .dot{ background:#00cc8f }
+
+    /* Coming-soon search (disabled but visible) */
+    .searchBox{
+      margin-top:8px; display:flex; align-items:center; gap:10px; width:100%;
+      border:1px dashed #cfd9ef; background:#fbfdff; padding:10px 12px; border-radius:14px; color:#7a8ab0;
+    }
+    .coming{ margin-left:auto; background:#162a62; color:#fff; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:900; letter-spacing:.06em; text-transform:uppercase }
+
+    /* ---------------- SECTION FEEDS ---------------- */
+    .section{ margin:8px 0 12px }
+    .section h2{ font-size:var(--h2); margin:0 0 8px; letter-spacing:.2px }
+    .grid{ display:grid; gap:14px; }
+    @media(min-width:760px){ .grid{ grid-template-columns: 1fr 1fr } }
+    @media(min-width:1100px){ .grid{ grid-template-columns: 1fr 1fr 1fr } }
+
+    .hlist{ display:flex; gap:10px; flex-wrap:wrap }
     .chip{
-      padding:6px 10px; border-radius:999px; border:1px solid #d8e5ff; background:#f7fbff; font-weight:700; font-size:13px
-    }
-    @media (prefers-color-scheme: dark){
-      .chip{ border-color:#273a6f; background:#0d1736; color:#cfe0ff }
+      padding:6px 10px; border-radius:999px; background:#f5f8ff; border:1px solid var(--line); font-size:var(--small); font-weight:800; color:#22325a
     }
 
-    /* Featured row */
-    .featured{ display:grid; gap:12px }
-    @media(min-width:960px){ .featured{ grid-template-columns:1.2fr 1fr } }
+    /* ---------------- NEWSLETTER (emotion: safety + momentum) ---------------- */
+    .nl{
+      margin-top:16px; border:1px solid var(--line); border-radius:var(--r-lg);
+      background: linear-gradient(180deg, #f5fbff, #ffffff);
+      box-shadow: var(--shadow-1); padding:18px;
+    }
+    .nl h3{ margin:0 0 6px; font-size:20px; font-weight:900 }
+    .nlp{ color:var(--ink-soft); margin:0 }
+    .nlrow{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap }
+    .nlinput{ flex:1; min-width:260px; border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff }
+    .nlbtn{ border:0; background:linear-gradient(135deg, #9fe6d7, #83a7ff); padding:12px 16px; border-radius:12px; font-weight:900; color:#0b2633 }
 
-    /* Pagination */
+    /* ---------------- PAGINATION ---------------- */
     .pager{ display:flex; gap:8px; align-items:center; justify-content:center; margin:18px 0 0 }
-    .pager .pbtn{ padding:8px 12px; border-radius:999px; border:1px solid #d8e5ff; background:#fff; font-weight:800; min-width:86px; text-align:center }
-    .pager .pbtn[disabled]{ opacity:.45; pointer-events:none }
+    .pbtn{ padding:9px 12px; border-radius:999px; border:1px solid var(--line); background:#fff; font-weight:900; min-width:92px; text-align:center; box-shadow:var(--shadow-1) }
+    .pbtn[disabled]{ opacity:.4; pointer-events:none }
 
-    /* Newsletter */
-    .newsletter{ padding:18px; border:1px solid #dfe7ff; border-radius:18px; background:linear-gradient(145deg,#0f1b3a, #162a62); color:#e9f2ff; box-shadow:0 10px 26px #0a102422 }
-    .newsletter .h3{ font-weight:900; font-size:20px; margin:0 0 6px }
-    .nl-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px }
-    .nl-input{ flex:1; min-width:220px; padding:12px 14px; border-radius:12px; border:0; outline:none }
-    .nl-btn{ padding:12px 16px; border-radius:12px; border:0; font-weight:900; background:#a4e6da; color:#042f29 }
+    /* ---------------- FOOTER ---------------- */
+    footer{ margin-top:24px; border-top:1px solid var(--line); background:var(--bg-tint) }
+    .foot{ max-width:1200px; margin:0 auto; padding:18px }
+    .muted{ color:var(--muted) }
 
-    /* Footer */
-    footer{ border-top:1px solid #e3ebff; margin-top:20px; padding-top:18px; color:#5a6aa0 }
-    @media (prefers-color-scheme: dark){
-      footer{ border-color:#1f2a55; color:#9db0e2 }
-    }
+    /* ---------------- ANIMATION ---------------- */
+    @keyframes rise { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+    .fade{ animation: rise .35s ease both }
 
-    /* Small motion */
-    @keyframes fadeUp{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
-    .fade{ animation:fadeUp .35s ease both }
+    /* Utility */
+    .hide{ display:none !important }
+    .nowrap{ white-space:nowrap }
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- ======================== NAV ======================== -->
   <header>
-    <nav class="nav">
-      <a class="brand" href="/" aria-label="LockHabit Home"><span class="logo" aria-hidden="true"></span>LockHabit</a>
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/"><span class="logo" aria-hidden="true"></span>LockHabit</a>
       <span class="spacer"></span>
-      <a class="btn btn-ghost" href="/">Home</a>
-      <a class="btn btn-ghost" href="/#tools">Tools</a>
-      <a class="btn btn-cta" href="/income-tax.html">Open Income &amp; Taxes</a>
+      <a class="link" href="/">Home</a>
+      <a class="link" href="/#tools">Tools</a>
+      <a class="cta" href="/income-tax.html">Open Income &amp; Taxes</a>
     </nav>
   </header>
 
   <main class="wrap">
-    <!-- Hero -->
+    <!-- ======================== HERO ======================== -->
     <section class="hero fade">
-      <div class="eyebrow">Journal • Clear money thinking • No hype</div>
-      <h1 class="h1">Understand money. Build calm wealth.</h1>
-      <p class="lede">
-        We explain how money really works—taxes, saving, debt, credit, home, investing—so you can make confident decisions and
-        keep more of what you earn. Lock your habits. Grow your cushion. <b>Premium, practical, no jargon.</b>
-      </p>
+      <div class="sub">Journal</div>
+      <h1 class="h1">Understand money. Feel calmer. Act confidently.</h1>
+      <p class="lede">A bright, premium space to learn how money works—<span class="nowrap">no hype</span>, no jargon. We break down taxes, saving, debt, credit, home, and investing into clear steps you can take today.</p>
 
-      <!-- Filter rail -->
-      <div class="filters" id="filterRail">
-        <button class="pill" data-cat="all" data-on="1">All</button>
-        <button class="pill" data-cat="Taxes">Taxes</button>
-        <button class="pill" data-cat="Budgeting">Budgeting</button>
-        <button class="pill" data-cat="Saving">Saving</button>
-        <button class="pill" data-cat="Debt">Debt</button>
-        <button class="pill" data-cat="Credit">Credit</button>
-        <button class="pill" data-cat="Home">Home</button>
-        <button class="pill" data-cat="Investing">Investing</button>
+      <!-- Mosaic (3 cards layout) -->
+      <div id="heroMosaic" class="mosaic"></div>
+    </section>
 
-        <div class="searchWrap">
-          <input class="search" type="text" placeholder="Search (coming soon)" disabled aria-disabled="true"/>
-          <span class="ribbon">Coming&nbsp;soon</span>
+    <!-- ======================== CATEGORY RAIL + FEEDS ======================== -->
+    <div class="railWrap">
+      <!-- Sticky category rail -->
+      <aside class="rail" aria-label="Categories">
+        <button class="pill" data-cat="all" data-on="1"><span class="dot" style="background:#0f2960"></span> All</button>
+        <button class="pill pTaxes" data-cat="Taxes"><span class="dot"></span> Taxes</button>
+        <button class="pill pBudgeting" data-cat="Budgeting"><span class="dot"></span> Budgeting</button>
+        <button class="pill pSaving" data-cat="Saving"><span class="dot"></span> Saving</button>
+        <button class="pill pDebt" data-cat="Debt"><span class="dot"></span> Debt</button>
+        <button class="pill pCredit" data-cat="Credit"><span class="dot"></span> Credit</button>
+        <button class="pill pHome" data-cat="Home"><span class="dot"></span> Home</button>
+        <button class="pill pInvesting" data-cat="Investing"><span class="dot"></span> Investing</button>
+
+        <div class="searchBox" role="search" aria-label="Search (coming soon)">
+          <span>Search</span><span class="muted">— Coming soon</span>
+          <span class="coming">Coming soon</span>
         </div>
-      </div>
-    </section>
+      </aside>
 
-    <!-- Featured + Editor Picks -->
-    <section class="section">
-      <h2>Editor’s picks</h2>
-      <div id="featured" class="featured"></div>
-    </section>
+      <!-- Content side -->
+      <section>
+        <!-- Trending row -->
+        <div class="section">
+          <h2>Trending topics</h2>
+          <div id="trendTags" class="hlist"></div>
+        </div>
 
-    <!-- Trending tags -->
-    <section class="section">
-      <div class="hList" id="trendTags"></div>
-    </section>
+        <!-- Latest grid -->
+        <div class="section">
+          <h2>Latest</h2>
+          <div id="latest" class="grid"></div>
+          <div class="pager">
+            <button id="prev" class="pbtn" disabled>◀ Prev</button>
+            <div id="pageInfo" class="muted">Page 1</div>
+            <button id="next" class="pbtn">Next ▶</button>
+          </div>
+        </div>
 
-    <!-- Latest grid -->
-    <section class="section">
-      <h2>Latest</h2>
-      <div id="grid" class="grid"></div>
-      <div class="pager">
-        <button id="prev" class="pbtn" disabled>◀ Prev</button>
-        <div id="pageInfo" class="muted">Page 1</div>
-        <button id="next" class="pbtn">Next ▶</button>
-      </div>
-    </section>
+        <!-- Newsletter -->
+        <div class="nl section">
+          <h3>Get one useful money idea each week</h3>
+          <p class="nlp">Short, practical insights. Unsubscribe anytime.</p>
+          <form class="nlrow" onsubmit="event.preventDefault(); alert('Thanks! Email capture will be connected.');">
+            <input class="nlinput" type="email" placeholder="you@example.com" required/>
+            <button class="nlbtn" type="submit">Subscribe</button>
+          </form>
+        </div>
 
-    <!-- Newsletter (customer-first) -->
-    <section class="section">
-      <div class="newsletter">
-        <div class="h3">Get the 5-minute money brief</div>
-        <p class="muted" style="margin:0">One practical tip, one chart, and one calculator—weekly. No spam. Unsubscribe anytime.</p>
-        <form class="nl-row" onsubmit="event.preventDefault(); alert('Thanks! We will add email capture soon.');">
-          <input class="nl-input" type="email" placeholder="you@example.com" required/>
-          <button class="nl-btn" type="submit">Subscribe</button>
-        </form>
-      </div>
-    </section>
+        <!-- Ad block (polite, below primary content) -->
+        <div class="section" aria-label="Sponsored">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-8769734249298884"
+               data-ad-slot="2233445566"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+        </div>
 
-    <!-- Ad (subtle) -->
-    <section class="section" aria-label="sponsored">
-      <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-8769734249298884"
-        data-ad-slot="2233445566"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-    </section>
-
+        <!-- Journey lanes: read next by category -->
+        <div class="section">
+          <h2>Continue your journey</h2>
+          <div id="journey" class="grid"></div>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <footer class="wrap">
-    <div style="display:grid; gap:10px">
+  <!-- ======================== FOOTER ======================== -->
+  <footer>
+    <div class="foot">
       <div style="font-weight:900">LockHabit <span class="muted">/ Journal</span></div>
-      <p class="muted" style="margin:0">Understand money. Build calm wealth. Make better decisions with clear, practical guides.</p>
-      <div class="hList">
+      <p class="muted" style="margin:6px 0 12px">Understand money. Build calm wealth. Make better decisions with clear, practical guides.</p>
+      <div class="hlist" style="margin-bottom:8px">
         <a class="chip" href="/#tools">Calculators</a>
         <a class="chip" href="/blog/">Latest Articles</a>
         <a class="chip" href="/terms.html">Terms</a>
         <a class="chip" href="/privacy.html">Privacy</a>
         <a class="chip" href="/security.html">Security</a>
       </div>
-      <div class="hList">
+      <div class="hlist">
         <span class="muted">Partnerships & media:</span> <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
         <span class="muted">• General:</span> <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
       </div>
-      <div class="muted">© 2025 LockHabit. Educational content; not financial advice.</div>
+      <div class="muted" style="margin-top:6px">© 2025 LockHabit. Educational content; not financial advice.</div>
     </div>
   </footer>
 
   <!-- =========================================================
-       JS — Data, filters, rendering, pagination
-       Expects /blog/posts.json items like:
-       {
-         "slug":"paycheck-in-30-seconds",
-         "title":"Paycheck in 30 seconds",
-         "excerpt":"…",
-         "date":"2025-02-12",
-         "author":"LockHabit",
-         "category":"Taxes",
-         "tags":["income","taxes"],
-         "read":"4 min",
-         "views":1200,
-         "hero":"/assets/blog/hero-paycheck.jpg",
-         "thumb":"/assets/blog/thumb-paycheck.jpg",
-         "featured": true
-       }
-     ========================================================= -->
+       JS — Data loading, hero mosaic, filters, trending, lanes
+       Expects /blog/posts.json (same format as before).
+       ========================================================= -->
   <script>
   (function(){
     const $ = (s,el=document)=>el.querySelector(s);
     const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+    const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
+    const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
 
-    const state = {
-      cat: 'all',
+    const S = {
+      posts: [],
+      filtered: [],
       page: 1,
       per: 9,
-      posts: [],
-      filtered: []
+      cat: 'all'
     };
 
-    const els = {
-      grid: $('#grid'),
-      featured: $('#featured'),
-      trendTags: $('#trendTags'),
-      pageInfo: $('#pageInfo'),
+    const E = {
+      mosaic: $('#heroMosaic'),
+      latest: $('#latest'),
+      journey: $('#journey'),
+      trend: $('#trendTags'),
       prev: $('#prev'),
-      next: $('#next')
+      next: $('#next'),
+      pageInfo: $('#pageInfo')
     };
 
-    // Load posts.json
-    fetch('posts.json', {cache:'no-cache'})
+    // ---------- Load posts ----------
+    fetch('posts.json', { cache:'no-cache' })
       .then(r=>r.json())
       .then(data=>{
-        // Normalize + sort newest first
-        state.posts = (data||[]).map(p=>({
-          ...p,
-          dateNum: +new Date(p.date||0)
-        })).sort((a,b)=>b.dateNum - a.dateNum);
+        S.posts = (data||[]).map(p=>({...p, dateNum: +new Date(p.date||0)}))
+                             .sort((a,b)=> b.dateNum - a.dateNum);
 
-        // Build featured (top 1 featured + 2 high views)
-        const picks = [];
-        const feat = state.posts.find(p=>p.featured);
-        if(feat) picks.push(feat);
-        state.posts.filter(p=>!p.featured).sort((a,b)=> (b.views||0)-(a.views||0)).slice(0,2).forEach(p=>picks.push(p));
-        renderFeatured(picks);
-
-        // Build trending tags
-        renderTrendingTags(state.posts);
-
-        // Initial filter
-        applyFilter('all');
-
-        // Restore preferred category
-        const savedCat = localStorage.getItem('lh.blog.cat');
-        if(savedCat && savedCat !== 'all'){ applyFilter(savedCat); }
+        buildHeroMosaic();
+        buildTrending();
+        applyCat('all');      // initial
+        buildJourneyLanes();
       })
       .catch(err=>{
-        console.error('posts.json load failed', err);
-        els.grid.innerHTML = `<p class="muted">We couldn't load articles yet. Please refresh.</p>`;
+        console.error('posts load error', err);
+        E.mosaic.innerHTML = `<div class="card pad"><b>We couldn’t load stories.</b> Please refresh.</div>`;
       });
 
-    // Filters
-    $$('#filterRail .pill').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        applyFilter(btn.dataset.cat);
-      });
-    });
+    // ---------- HERO MOSAIC (1 big + 2 supporting) ----------
+    function buildHeroMosaic(){
+      if(!S.posts.length){ E.mosaic.innerHTML=''; return; }
+      const picks = [];
 
-    function applyFilter(cat){
-      state.cat = cat;
-      localStorage.setItem('lh.blog.cat', cat);
-      $$('#filterRail .pill').forEach(b=>b.setAttribute('data-on', b.dataset.cat===cat ? '1':'0'));
-      state.filtered = (cat==='all') ? state.posts : state.posts.filter(p=>p.category===cat);
-      state.page = 1;
-      renderGrid();
+      // 1) Prefer a featured, else top latest by views
+      const feat = S.posts.find(p=>p.featured);
+      if(feat) picks.push(feat);
+      const rest = S.posts.filter(p => p.slug !== (feat && feat.slug));
+      rest.sort((a,b)=>(b.views||0)-(a.views||0));
+      picks.push(...rest.slice(0,2));
+
+      E.mosaic.innerHTML = picks.map((p,i)=>heroCard(p, i===0)).join('');
+      lazyImgs(E.mosaic);
+    }
+    function heroCard(p, big=false){
+      return `
+        <article class="card heroCard fade" style="${big?'grid-column:1 / span 1':'grid-column:auto'}">
+          <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${esc(p.title)}">
+            <img data-src="${esc(p.hero || p.thumb)}" alt="${esc(p.title)}"/>
+          </a>
+          <span class="ribbon">${esc(p.category||'')}</span>
+          <div class="pad">
+            <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
+            <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${esc(p.title)}</a></h3>
+            <p class="excerpt">${esc(p.excerpt||'')}</p>
+          </div>
+        </article>`;
     }
 
-    // Grid + pagination
-    function renderGrid(){
-      const start = (state.page-1) * state.per;
-      const slice = state.filtered.slice(start, start + state.per);
-
-      els.grid.innerHTML = slice.map(p=>cardHTML(p)).join('');
-
-      const max = Math.max(1, Math.ceil(state.filtered.length / state.per));
-      els.pageInfo.textContent = `Page ${state.page} of ${max}`;
-      els.prev.disabled = state.page<=1;
-      els.next.disabled = state.page>=max;
-
-      // Lazy-load images
-      $$('img[data-src]').forEach(img=>{
-        const obs = new IntersectionObserver(entries=>{
-          entries.forEach(e=>{
-            if(e.isIntersecting){
-              img.src = img.dataset.src;
-              obs.disconnect();
-            }
-          });
-        }, {rootMargin:'150px'});
-        obs.observe(img);
-      });
-    }
-
-    els.prev.addEventListener('click', ()=>{ state.page=Math.max(1, state.page-1); renderGrid(); window.scrollTo({top:0,behavior:'smooth'}) });
-    els.next.addEventListener('click', ()=>{ state.page=state.page+1; renderGrid(); window.scrollTo({top:0,behavior:'smooth'}) });
-
-    // Featured
-    function renderFeatured(items){
-      if(!items.length){ $('#featured').innerHTML=''; return }
-      $('#featured').innerHTML = items.map((p,i)=>featuredHTML(p,i===0)).join('');
-    }
-
-    // Trending tags
-    function renderTrendingTags(all){
-      const cnt = {};
-      all.forEach(p=> (p.tags||[]).forEach(t=> cnt[t]=(cnt[t]||0)+1 ));
-      const top = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,10);
-      els.trendTags.innerHTML = top.map(([t,n])=>`<a class="chip" href="#" data-tag="${t}" title="${n} posts">${t}</a>`).join('');
+    // ---------- Trending tags ----------
+    function buildTrending(){
+      const count = {};
+      S.posts.forEach(p => (p.tags||[]).forEach(t => count[t] = (count[t]||0) + 1));
+      const top = Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,10);
+      E.trend.innerHTML = top.map(([t,n])=>`<a class="chip" href="#" data-tag="${esc(t)}" title="${n} posts">${esc(t)}</a>`).join('');
       $$('#trendTags .chip').forEach(ch=>{
-        ch.addEventListener('click', (e)=>{
+        ch.addEventListener('click', e=>{
           e.preventDefault();
-          // When clicking a tag, filter by its category if available, else show all and scroll grid
-          state.filtered = state.posts.filter(p => (p.tags||[]).includes(ch.dataset.tag));
-          state.page = 1;
-          // turn off cat pills
-          $$('#filterRail .pill').forEach(b=>b.setAttribute('data-on','0'));
-          renderGrid();
-          window.scrollTo({top: $('#grid').getBoundingClientRect().top + window.scrollY - 20, behavior:'smooth'});
+          const tag = ch.dataset.tag;
+          S.filtered = S.posts.filter(p=> (p.tags||[]).includes(tag) );
+          S.cat = 'tag:'+tag;
+          S.page = 1;
+          clearCatPills();
+          renderLatest();
+          window.scrollTo({ top: $('#latest').getBoundingClientRect().top + window.scrollY - 12, behavior:'smooth' });
         });
       });
     }
 
-    // Templating
-    function featuredHTML(p, large=false){
+    // ---------- Category filters ----------
+    $$('.rail .pill').forEach(btn=>{
+      btn.addEventListener('click', ()=> applyCat(btn.dataset.cat));
+    });
+
+    function applyCat(cat){
+      S.cat = cat;
+      S.page = 1;
+      $$('.rail .pill').forEach(b => b.setAttribute('data-on', b.dataset.cat===cat ? '1' : '0'));
+      S.filtered = (cat==='all') ? S.posts : S.posts.filter(p=> p.category===cat );
+      renderLatest();
+    }
+    function clearCatPills(){ $$('.rail .pill').forEach(b => b.setAttribute('data-on','0')); }
+
+    // ---------- Latest grid + pagination ----------
+    function renderLatest(){
+      const start = (S.page-1) * S.per;
+      const slice = S.filtered.slice(start, start + S.per);
+      E.latest.innerHTML = slice.map(card).join('');
+      lazyImgs(E.latest);
+
+      const max = Math.max(1, Math.ceil(S.filtered.length / S.per));
+      E.pageInfo.textContent = `Page ${S.page} of ${max}${S.cat && S.cat!=='all' ? ` • ${S.cat.replace('tag:','Tag: ')}`:''}`;
+      E.prev.disabled = S.page<=1;
+      E.next.disabled = S.page>=max;
+    }
+    E.prev.addEventListener('click', ()=>{ S.page = Math.max(1, S.page-1); renderLatest(); window.scrollTo({top:0,behavior:'smooth'}); });
+    E.next.addEventListener('click', ()=>{ S.page = S.page+1; renderLatest(); window.scrollTo({top:0,behavior:'smooth'}); });
+
+    function card(p){
       return `
-      <article class="card fade" style="${large?'grid-row:span 1':''}">
-        <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${escapeHTML(p.title)}">
-          <img loading="lazy" data-src="${p.hero || p.thumb}" alt="${escapeHTML(p.title)}"/>
-        </a>
-        <div class="meta" style="margin-top:8px">
-          <span>${escapeHTML(p.category||'')}</span>
-          <span>•</span>
-          <time datetime="${p.date}">${new Date(p.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</time>
-          <span>•</span>
-          <span>${escapeHTML(p.read||'')}</span>
-        </div>
-        <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${escapeHTML(p.title)}</a></h3>
-        <p class="excerpt">${escapeHTML(p.excerpt||'')}</p>
-      </article>`;
+        <article class="card fade">
+          <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}"><img data-src="${esc(p.thumb || p.hero)}" alt="${esc(p.title)}"/></a>
+          <div class="pad">
+            <div class="meta">${esc(p.category||'')} • <time datetime="${p.date}">${fmtDate(p.date)}</time> • ${esc(p.read||'')}</div>
+            <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${esc(p.title)}</a></h3>
+            <p class="excerpt">${esc(p.excerpt||'')}</p>
+          </div>
+        </article>`;
     }
 
-    function cardHTML(p){
+    // ---------- Journey lanes (category carousels rendered as grids) ----------
+    function buildJourneyLanes(){
+      const cats = ['Saving','Debt','Credit','Home','Investing','Taxes'];
+      const pools = cats.map(c => ({ cat:c, items: S.posts.filter(p=>p.category===c).slice(0,3) }))
+                        .filter(x => x.items.length);
+      E.journey.innerHTML = pools.map(pool => journey(pool.cat, pool.items)).join('');
+      lazyImgs(E.journey);
+    }
+    function journey(cat, items){
       return `
-      <article class="card fade">
-        <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}">
-          <img loading="lazy" data-src="${p.thumb || p.hero}" alt="${escapeHTML(p.title)}"/>
-        </a>
-        <div class="meta" style="margin-top:8px">
-          <span>${escapeHTML(p.category||'')}</span>
-          <span>•</span>
-          <time datetime="${p.date}">${new Date(p.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</time>
-          <span>•</span>
-          <span>${escapeHTML(p.read||'')}</span>
-        </div>
-        <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${escapeHTML(p.title)}</a></h3>
-        <p class="excerpt">${escapeHTML(p.excerpt||'')}</p>
-      </article>`;
+        <div class="card fade">
+          <div class="pad">
+            <div class="meta" style="margin-bottom:8px">${esc(cat)} • Starter pack</div>
+            <div class="hlist" style="margin-bottom:10px">
+              ${(items[0]?.tags||[]).slice(0,3).map(t=>`<span class="chip">${esc(t)}</span>`).join('')}
+            </div>
+            ${items.map(mini).join('')}
+          </div>
+        </div>`;
+    }
+    function mini(p){
+      return `
+        <div style="display:grid; grid-template-columns:100px 1fr; gap:10px; align-items:center; margin:10px 0">
+          <a href="post.html?slug=${encodeURIComponent(p.slug)}" class="thumb" style="border-radius:12px; overflow:hidden">
+            <img data-src="${esc(p.thumb||p.hero)}" alt="${esc(p.title)}"/>
+          </a>
+          <div>
+            <a href="post.html?slug=${encodeURIComponent(p.slug)}" style="font-weight:900">${esc(p.title)}</a>
+            <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
+          </div>
+        </div>`;
     }
 
-    function escapeHTML(s){ return (s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])) }
-
+    // ---------- Lazy images ----------
+    function lazyImgs(scope=document){
+      $$('img[data-src]', scope).forEach(img=>{
+        const io = new IntersectionObserver(entries=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting){
+              img.src = img.dataset.src; img.removeAttribute('data-src'); io.disconnect();
+            }
+          });
+        }, { rootMargin:'160px' });
+        io.observe(img);
+      });
+    }
   })();
   </script>
 </body>
