@@ -1,152 +1,496 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Google AdSense (kept minimal & compliant) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+  <!-- =========================================================
+       LockHabit — Journal (blog index, premium v3)
+       ========================================================= -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>LockHabit Journal — Understand money. Calm wealth. Practical, premium guides.</title>
+  <meta name="description" content="LockHabit Journal explains how money works—simply and precisely. Taxes, saving, debt, credit, home, and investing. Calm, premium guides you can act on today."/>
+  <link rel="canonical" href="https://lockhabit.com/blog/"/>
+  <meta name="theme-color" content="#0e1326"/>
 
-  <!-- Google Analytics (GA4) -->
+  <!-- Open Graph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="LockHabit Journal — Understand money. Build calm wealth."/>
+  <meta property="og:description" content="Clear, trustworthy breakdowns of taxes, saving, debt, credit, home, and investing—built for real decisions."/>
+  <meta property="og:url" content="https://lockhabit.com/blog/"/>
+  <meta property="og:image" content="/assets/og-lockhabit-blog.png"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="LockHabit Journal — Understand money. Build calm wealth."/>
+  <meta name="twitter:description" content="Calm, premium guides that make financial decisions easier."/>
+  <meta name="twitter:image" content="/assets/og-lockhabit-blog.png"/>
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Blog",
+    "name":"LockHabit Journal",
+    "url":"https://lockhabit.com/blog/",
+    "description":"Calm, premium guides to understand money and build wealth you can actually keep.",
+    "publisher":{
+      "@type":"Organization",
+      "name":"LockHabit",
+      "logo":{"@type":"ImageObject","url":"https://lockhabit.com/assets/logo-512.png"}
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://lockhabit.com/"},
+      {"@type":"ListItem","position":2,"name":"Journal","item":"https://lockhabit.com/blog/"}
+    ]
+  }
+  </script>
+
+  <!-- Google Analytics (yours) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
   </script>
 
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit Journal — Understand Money, Build Calm Wealth</title>
-  <meta name="description" content="The LockHabit Journal helps you understand money without noise: practical guides on budgeting, debt, saving, investing, and big life decisions."/>
-  <link rel="canonical" href="/blog/"/>
+  <!-- Google AdSense (customer-first placement) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit Journal — Understand Money, Build Calm Wealth"/>
-  <meta property="og:description" content="Premium, practical money explanations. Learn budgeting, investing, debt payoff, and smarter decisions with calm clarity."/>
-  <meta property="og:url" content="https://lockhabit.com/blog/"/>
-  <meta property="og:image" content="/blog/images/hero-1.jpg"/>
+  <style>
+    /* =========================
+       Base + Theme
+       ========================= */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+      color:#0c1324; background:radial-gradient(1200px 800px at 70% -20%, #bfe1ff40, transparent 60%), #f7f9ff;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    @media (prefers-color-scheme: dark){
+      body{ color:#e9f1ff; background:linear-gradient(180deg,#0b1022 0%,#0e152d 100%) }
+      .card{ background:linear-gradient(180deg,#121a34,#0f1730); border-color:#202c52; color:#cfe0ff }
+      .muted{ color:#9fb2d8 }
+    }
+    a{ color:inherit; text-decoration:none }
+    :focus-visible{ outline:3px solid #66d1ff; outline-offset:3px; border-radius:8px }
+    .wrap{ max-width:1160px; margin:0 auto; padding:20px 16px 60px }
 
-  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/public/favicon.ico">
-  <link rel="apple-touch-icon" href="/public/icon-192.png">
+    /* Top nav */
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:blur(12px) saturate(1.1);
+      background:linear-gradient(180deg,rgba(247,249,255,.85),rgba(247,249,255,.65));
+      border-bottom:1px solid #e5edff;
+    }
+    @media (prefers-color-scheme: dark){
+      header{ background:linear-gradient(180deg,rgba(10,16,34,.75),rgba(10,16,34,.55)); border-bottom:1px solid #1a2548 }
+    }
+    .nav{ display:flex; align-items:center; gap:12px; padding:12px 16px; max-width:1160px; margin:0 auto }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px }
+    .logo{ width:28px; height:28px; border-radius:8px; background:linear-gradient(145deg,#6aa7ff,#6e7bff); box-shadow:inset 0 0 0 2px #ffffff20 }
+    .spacer{ flex:1 }
+    .btn{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; border:1px solid #d9e5ff; background:#fff; font-weight:700 }
+    .btn:hover{ transform:translateY(-1px) }
+    .btn-ghost{ background:transparent }
+    .btn-cta{
+      background:linear-gradient(135deg,#6fe3cd,#79a8ff 65%); color:#072b25; border:0; font-weight:900;
+      box-shadow:0 6px 20px #79a8ff40;
+    }
 
-  <link rel="preload" href="/blog/assets/blog.css" as="style"/>
-  <link rel="stylesheet" href="/blog/assets/blog.css"/>
+    /* Hero */
+    .hero{ padding:18px 0 10px }
+    .eyebrow{ color:#6c7aa7; text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:800 }
+    .h1{ margin:8px 0 8px; font-weight:900; font-size:clamp(28px,4.8vw,44px); letter-spacing:-.02em }
+    .lede{ color:#415081; max-width:820px; font-size:18px }
+    @media (prefers-color-scheme: dark){ .eyebrow{ color:#9db0e2 } .lede{ color:#a8bcf0 } }
+
+    /* Filter rail */
+    .filters{ margin:18px 0 8px; display:flex; gap:10px; flex-wrap:wrap; align-items:center }
+    .pill{
+      display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:999px;
+      border:1px solid #d6e4ff; background:#feffff; color:#0f1b3a; font-weight:700; cursor:pointer;
+      user-select:none;
+    }
+    .pill[data-on="1"]{ background:#0f1b3a; color:#e9f2ff; border-color:#0f1b3a }
+    @media (prefers-color-scheme: dark){
+      .pill{ border-color:#273460; background:#0f1a39; color:#cfe0ff }
+      .pill[data-on="1"]{ background:#e9f2ff; color:#0f1b3a; border-color:#e9f2ff }
+    }
+
+    /* Disabled search w/ ribbon */
+    .searchWrap{ position:relative; flex:1; min-width:260px }
+    .search{
+      width:100%; padding:12px 14px; border-radius:16px; border:1px dashed #cbd9ff; background:#f8fbff; color:#3a4a78;
+      font-weight:600;
+    }
+    .ribbon{
+      position:absolute; top:-10px; right:12px; background:#0f1b3a; color:#e9f2ff; font-size:11px; font-weight:900;
+      padding:4px 8px; border-radius:999px; letter-spacing:.06em; text-transform:uppercase;
+    }
+    @media (prefers-color-scheme: dark){
+      .search{ border-color:#2a3a6a; background:#0c1633; color:#bcd0ff }
+      .ribbon{ background:#e9f2ff; color:#0f1b3a }
+    }
+
+    /* Sections */
+    .section{ margin:18px 0 12px }
+    .section h2{ font-size:clamp(18px,2.6vw,26px); margin:0 0 10px; letter-spacing:.2px }
+
+    /* Grids */
+    .grid{ display:grid; gap:12px }
+    @media(min-width:760px){ .grid{ grid-template-columns:1fr 1fr } }
+    @media(min-width:1060px){ .grid{ grid-template-columns:1.2fr 1fr 1fr } }
+
+    .card{
+      position:relative; padding:14px; border-radius:18px; border:1px solid #e0e9ff; background:#ffffff; overflow:hidden;
+      box-shadow:0 1px 0 #fff inset, 0 8px 24px #4379ff14;
+      transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card:hover{ transform:translateY(-2px); border-color:#cfe0ff; box-shadow:0 12px 30px #2d55ff26 }
+    .thumb{ position:relative; display:block; border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:#eaf2ff }
+    .thumb img{ width:100%; height:100%; object-fit:cover; display:block }
+    .meta{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; color:#6c7aa7; font-size:13px }
+    .title{ margin:8px 0 6px; font-weight:900; font-size:18px; letter-spacing:-.01em }
+    .excerpt{ margin:0; color:#4a5a88 }
+    @media (prefers-color-scheme: dark){
+      .card{ border-color:#22315e; background:linear-gradient(180deg,#141d3a,#0f1833) }
+      .thumb{ background:#0f1a39 }
+      .excerpt{ color:#a9b8e2 }
+      .meta{ color:#99aee0 }
+    }
+
+    /* Lists */
+    .hList{ display:flex; gap:10px; flex-wrap:wrap; align-items:center }
+    .chip{
+      padding:6px 10px; border-radius:999px; border:1px solid #d8e5ff; background:#f7fbff; font-weight:700; font-size:13px
+    }
+    @media (prefers-color-scheme: dark){
+      .chip{ border-color:#273a6f; background:#0d1736; color:#cfe0ff }
+    }
+
+    /* Featured row */
+    .featured{ display:grid; gap:12px }
+    @media(min-width:960px){ .featured{ grid-template-columns:1.2fr 1fr } }
+
+    /* Pagination */
+    .pager{ display:flex; gap:8px; align-items:center; justify-content:center; margin:18px 0 0 }
+    .pager .pbtn{ padding:8px 12px; border-radius:999px; border:1px solid #d8e5ff; background:#fff; font-weight:800; min-width:86px; text-align:center }
+    .pager .pbtn[disabled]{ opacity:.45; pointer-events:none }
+
+    /* Newsletter */
+    .newsletter{ padding:18px; border:1px solid #dfe7ff; border-radius:18px; background:linear-gradient(145deg,#0f1b3a, #162a62); color:#e9f2ff; box-shadow:0 10px 26px #0a102422 }
+    .newsletter .h3{ font-weight:900; font-size:20px; margin:0 0 6px }
+    .nl-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px }
+    .nl-input{ flex:1; min-width:220px; padding:12px 14px; border-radius:12px; border:0; outline:none }
+    .nl-btn{ padding:12px 16px; border-radius:12px; border:0; font-weight:900; background:#a4e6da; color:#042f29 }
+
+    /* Footer */
+    footer{ border-top:1px solid #e3ebff; margin-top:20px; padding-top:18px; color:#5a6aa0 }
+    @media (prefers-color-scheme: dark){
+      footer{ border-color:#1f2a55; color:#9db0e2 }
+    }
+
+    /* Small motion */
+    @keyframes fadeUp{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+    .fade{ animation:fadeUp .35s ease both }
+  </style>
 </head>
-<body class="lhb">
-  <!-- Sticky Header -->
-  <header class="hdr">
-    <div class="wrap nav">
-      <a href="/index.html" class="brand" aria-label="LockHabit home">
-        <span class="logo"></span><strong>LockHabit</strong>
-        <span class="sep">/</span><span class="brand-sub">Journal</span>
-      </a>
-
-      <nav class="nav-links">
-        <!-- Suggestion Filters (toggle buttons) -->
-        <button class="chip" data-filter="all" aria-pressed="true">All</button>
-        <button class="chip" data-filter="Budgeting">Budgeting</button>
-        <button class="chip" data-filter="Debt">Debt</button>
-        <button class="chip" data-filter="Saving">Saving</button>
-        <button class="chip" data-filter="Investing">Investing</button>
-        <button class="chip" data-filter="Home">Home</button>
-        <button class="chip" data-filter="Credit">Credit</button>
-      </nav>
-
-      <!-- Search disabled for now (placeholder only) -->
-      <div class="comingsoon" title="Search — coming soon">Search</div>
-    </div>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="nav">
+      <a class="brand" href="/" aria-label="LockHabit Home"><span class="logo" aria-hidden="true"></span>LockHabit</a>
+      <span class="spacer"></span>
+      <a class="btn btn-ghost" href="/">Home</a>
+      <a class="btn btn-ghost" href="/#tools">Tools</a>
+      <a class="btn btn-cta" href="/income-tax.html">Open Income &amp; Taxes</a>
+    </nav>
   </header>
 
-  <!-- Hero Rail -->
-  <section class="hero">
-    <div class="wrap hero-grid" id="heroGrid">
-      <!-- Filled by JS from posts.json (top 3 featured/latest) -->
-    </div>
-  </section>
-
-  <!-- Inline Ad block (tasteful) -->
-  <section class="wrap adwrap" aria-label="Sponsored">
-    <ins class="adsbygoogle"
-         style="display:block" data-ad-format="auto" data-full-width-responsive="true"
-         data-ad-client="ca-pub-8769734249298884" data-ad-slot="8990001001"></ins>
-    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-  </section>
-
-  <!-- Latest / Filtered Grid -->
   <main class="wrap">
-    <div class="split">
-      <!-- Content grid -->
-      <section class="grid" id="postGrid" aria-live="polite">
-        <!-- Filled by JS -->
-      </section>
+    <!-- Hero -->
+    <section class="hero fade">
+      <div class="eyebrow">Journal • Clear money thinking • No hype</div>
+      <h1 class="h1">Understand money. Build calm wealth.</h1>
+      <p class="lede">
+        We explain how money really works—taxes, saving, debt, credit, home, investing—so you can make confident decisions and
+        keep more of what you earn. Lock your habits. Grow your cushion. <b>Premium, practical, no jargon.</b>
+      </p>
 
-      <!-- Right rail -->
-      <aside class="rail">
-        <div class="card about">
-          <h3>What is the LockHabit Journal?</h3>
-          <p class="muted">
-            A premium, calm space to understand money. No hype. No jargon.
-            We explain how money works so you can make confident decisions and
-            build wealth you can actually keep.
-          </p>
-        </div>
+      <!-- Filter rail -->
+      <div class="filters" id="filterRail">
+        <button class="pill" data-cat="all" data-on="1">All</button>
+        <button class="pill" data-cat="Taxes">Taxes</button>
+        <button class="pill" data-cat="Budgeting">Budgeting</button>
+        <button class="pill" data-cat="Saving">Saving</button>
+        <button class="pill" data-cat="Debt">Debt</button>
+        <button class="pill" data-cat="Credit">Credit</button>
+        <button class="pill" data-cat="Home">Home</button>
+        <button class="pill" data-cat="Investing">Investing</button>
 
-        <div class="card nl">
-          <h3>Get 1 useful idea each week</h3>
-          <p class="muted">Short, practical insights. No spam. Unsubscribe anytime.</p>
-          <form class="nl-form" onsubmit="event.preventDefault(); window.location='mailto:lockhabit@outlook.com?subject=Subscribe to LockHabit Journal&body=Please subscribe me.';">
-            <input type="email" placeholder="you@email.com" required/>
-            <button type="submit" class="btn">Subscribe</button>
-          </form>
-          <div class="fine">By subscribing you agree to our <a href="/privacy.html">Privacy</a>.</div>
+        <div class="searchWrap">
+          <input class="search" type="text" placeholder="Search (coming soon)" disabled aria-disabled="true"/>
+          <span class="ribbon">Coming&nbsp;soon</span>
         </div>
+      </div>
+    </section>
 
-        <div class="card picks" id="editorPicks">
-          <h3>Editor’s Picks</h3>
-          <div class="mini-list"><!-- JS --></div>
-        </div>
+    <!-- Featured + Editor Picks -->
+    <section class="section">
+      <h2>Editor’s picks</h2>
+      <div id="featured" class="featured"></div>
+    </section>
 
-        <div class="card tags" id="popularTags">
-          <h3>Popular Topics</h3>
-          <div class="tags-wrap"><!-- JS --></div>
-        </div>
-      </aside>
-    </div>
+    <!-- Trending tags -->
+    <section class="section">
+      <div class="hList" id="trendTags"></div>
+    </section>
+
+    <!-- Latest grid -->
+    <section class="section">
+      <h2>Latest</h2>
+      <div id="grid" class="grid"></div>
+      <div class="pager">
+        <button id="prev" class="pbtn" disabled>◀ Prev</button>
+        <div id="pageInfo" class="muted">Page 1</div>
+        <button id="next" class="pbtn">Next ▶</button>
+      </div>
+    </section>
+
+    <!-- Newsletter (customer-first) -->
+    <section class="section">
+      <div class="newsletter">
+        <div class="h3">Get the 5-minute money brief</div>
+        <p class="muted" style="margin:0">One practical tip, one chart, and one calculator—weekly. No spam. Unsubscribe anytime.</p>
+        <form class="nl-row" onsubmit="event.preventDefault(); alert('Thanks! We will add email capture soon.');">
+          <input class="nl-input" type="email" placeholder="you@example.com" required/>
+          <button class="nl-btn" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Ad (subtle) -->
+    <section class="section" aria-label="sponsored">
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8769734249298884"
+        data-ad-slot="2233445566"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </section>
+
   </main>
 
-  <!-- Footer -->
-  <footer class="foot">
-    <div class="wrap footgrid">
-      <div>
-        <div class="brandline">
-          <span class="logo"></span><strong>LockHabit</strong><span class="sep">/</span><span class="brand-sub">Journal</span>
-        </div>
-        <p class="muted">Understand money. Build calm wealth. Make better decisions with clear, practical guides.</p>
+  <footer class="wrap">
+    <div style="display:grid; gap:10px">
+      <div style="font-weight:900">LockHabit <span class="muted">/ Journal</span></div>
+      <p class="muted" style="margin:0">Understand money. Build calm wealth. Make better decisions with clear, practical guides.</p>
+      <div class="hList">
+        <a class="chip" href="/#tools">Calculators</a>
+        <a class="chip" href="/blog/">Latest Articles</a>
+        <a class="chip" href="/terms.html">Terms</a>
+        <a class="chip" href="/privacy.html">Privacy</a>
+        <a class="chip" href="/security.html">Security</a>
       </div>
-
-      <div>
-        <h4>Explore</h4>
-        <ul class="links">
-          <li><a href="/index.html">Calculators</a></li>
-          <li><a href="/blog/">Latest Articles</a></li>
-          <li><a href="/terms.html">Terms</a></li>
-          <li><a href="/privacy.html">Privacy</a></li>
-          <li><a href="/security.html">Security</a></li>
-        </ul>
+      <div class="hList">
+        <span class="muted">Partnerships & media:</span> <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
+        <span class="muted">• General:</span> <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
       </div>
-
-      <div>
-        <h4>Contact</h4>
-        <ul class="links">
-          <li>Partnerships & media: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></li>
-          <li>General: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></li>
-        </ul>
-      </div>
+      <div class="muted">© 2025 LockHabit. Educational content; not financial advice.</div>
     </div>
-    <div class="wrap fine">© <span id="yr"></span> LockHabit. Educational content; not financial advice.</div>
   </footer>
 
-  <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
-  <script type="module" src="/blog/assets/blog.js"></script>
+  <!-- =========================================================
+       JS — Data, filters, rendering, pagination
+       Expects /blog/posts.json items like:
+       {
+         "slug":"paycheck-in-30-seconds",
+         "title":"Paycheck in 30 seconds",
+         "excerpt":"…",
+         "date":"2025-02-12",
+         "author":"LockHabit",
+         "category":"Taxes",
+         "tags":["income","taxes"],
+         "read":"4 min",
+         "views":1200,
+         "hero":"/assets/blog/hero-paycheck.jpg",
+         "thumb":"/assets/blog/thumb-paycheck.jpg",
+         "featured": true
+       }
+     ========================================================= -->
+  <script>
+  (function(){
+    const $ = (s,el=document)=>el.querySelector(s);
+    const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+
+    const state = {
+      cat: 'all',
+      page: 1,
+      per: 9,
+      posts: [],
+      filtered: []
+    };
+
+    const els = {
+      grid: $('#grid'),
+      featured: $('#featured'),
+      trendTags: $('#trendTags'),
+      pageInfo: $('#pageInfo'),
+      prev: $('#prev'),
+      next: $('#next')
+    };
+
+    // Load posts.json
+    fetch('posts.json', {cache:'no-cache'})
+      .then(r=>r.json())
+      .then(data=>{
+        // Normalize + sort newest first
+        state.posts = (data||[]).map(p=>({
+          ...p,
+          dateNum: +new Date(p.date||0)
+        })).sort((a,b)=>b.dateNum - a.dateNum);
+
+        // Build featured (top 1 featured + 2 high views)
+        const picks = [];
+        const feat = state.posts.find(p=>p.featured);
+        if(feat) picks.push(feat);
+        state.posts.filter(p=>!p.featured).sort((a,b)=> (b.views||0)-(a.views||0)).slice(0,2).forEach(p=>picks.push(p));
+        renderFeatured(picks);
+
+        // Build trending tags
+        renderTrendingTags(state.posts);
+
+        // Initial filter
+        applyFilter('all');
+
+        // Restore preferred category
+        const savedCat = localStorage.getItem('lh.blog.cat');
+        if(savedCat && savedCat !== 'all'){ applyFilter(savedCat); }
+      })
+      .catch(err=>{
+        console.error('posts.json load failed', err);
+        els.grid.innerHTML = `<p class="muted">We couldn't load articles yet. Please refresh.</p>`;
+      });
+
+    // Filters
+    $$('#filterRail .pill').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        applyFilter(btn.dataset.cat);
+      });
+    });
+
+    function applyFilter(cat){
+      state.cat = cat;
+      localStorage.setItem('lh.blog.cat', cat);
+      $$('#filterRail .pill').forEach(b=>b.setAttribute('data-on', b.dataset.cat===cat ? '1':'0'));
+      state.filtered = (cat==='all') ? state.posts : state.posts.filter(p=>p.category===cat);
+      state.page = 1;
+      renderGrid();
+    }
+
+    // Grid + pagination
+    function renderGrid(){
+      const start = (state.page-1) * state.per;
+      const slice = state.filtered.slice(start, start + state.per);
+
+      els.grid.innerHTML = slice.map(p=>cardHTML(p)).join('');
+
+      const max = Math.max(1, Math.ceil(state.filtered.length / state.per));
+      els.pageInfo.textContent = `Page ${state.page} of ${max}`;
+      els.prev.disabled = state.page<=1;
+      els.next.disabled = state.page>=max;
+
+      // Lazy-load images
+      $$('img[data-src]').forEach(img=>{
+        const obs = new IntersectionObserver(entries=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting){
+              img.src = img.dataset.src;
+              obs.disconnect();
+            }
+          });
+        }, {rootMargin:'150px'});
+        obs.observe(img);
+      });
+    }
+
+    els.prev.addEventListener('click', ()=>{ state.page=Math.max(1, state.page-1); renderGrid(); window.scrollTo({top:0,behavior:'smooth'}) });
+    els.next.addEventListener('click', ()=>{ state.page=state.page+1; renderGrid(); window.scrollTo({top:0,behavior:'smooth'}) });
+
+    // Featured
+    function renderFeatured(items){
+      if(!items.length){ $('#featured').innerHTML=''; return }
+      $('#featured').innerHTML = items.map((p,i)=>featuredHTML(p,i===0)).join('');
+    }
+
+    // Trending tags
+    function renderTrendingTags(all){
+      const cnt = {};
+      all.forEach(p=> (p.tags||[]).forEach(t=> cnt[t]=(cnt[t]||0)+1 ));
+      const top = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,10);
+      els.trendTags.innerHTML = top.map(([t,n])=>`<a class="chip" href="#" data-tag="${t}" title="${n} posts">${t}</a>`).join('');
+      $$('#trendTags .chip').forEach(ch=>{
+        ch.addEventListener('click', (e)=>{
+          e.preventDefault();
+          // When clicking a tag, filter by its category if available, else show all and scroll grid
+          state.filtered = state.posts.filter(p => (p.tags||[]).includes(ch.dataset.tag));
+          state.page = 1;
+          // turn off cat pills
+          $$('#filterRail .pill').forEach(b=>b.setAttribute('data-on','0'));
+          renderGrid();
+          window.scrollTo({top: $('#grid').getBoundingClientRect().top + window.scrollY - 20, behavior:'smooth'});
+        });
+      });
+    }
+
+    // Templating
+    function featuredHTML(p, large=false){
+      return `
+      <article class="card fade" style="${large?'grid-row:span 1':''}">
+        <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${escapeHTML(p.title)}">
+          <img loading="lazy" data-src="${p.hero || p.thumb}" alt="${escapeHTML(p.title)}"/>
+        </a>
+        <div class="meta" style="margin-top:8px">
+          <span>${escapeHTML(p.category||'')}</span>
+          <span>•</span>
+          <time datetime="${p.date}">${new Date(p.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</time>
+          <span>•</span>
+          <span>${escapeHTML(p.read||'')}</span>
+        </div>
+        <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${escapeHTML(p.title)}</a></h3>
+        <p class="excerpt">${escapeHTML(p.excerpt||'')}</p>
+      </article>`;
+    }
+
+    function cardHTML(p){
+      return `
+      <article class="card fade">
+        <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}">
+          <img loading="lazy" data-src="${p.thumb || p.hero}" alt="${escapeHTML(p.title)}"/>
+        </a>
+        <div class="meta" style="margin-top:8px">
+          <span>${escapeHTML(p.category||'')}</span>
+          <span>•</span>
+          <time datetime="${p.date}">${new Date(p.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</time>
+          <span>•</span>
+          <span>${escapeHTML(p.read||'')}</span>
+        </div>
+        <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${escapeHTML(p.title)}</a></h3>
+        <p class="excerpt">${escapeHTML(p.excerpt||'')}</p>
+      </article>`;
+    }
+
+    function escapeHTML(s){ return (s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])) }
+
+  })();
+  </script>
 </body>
 </html>
