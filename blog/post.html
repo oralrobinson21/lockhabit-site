@@ -1,189 +1,67 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Ads / Analytics -->
+  <!-- Ads + GA -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','G-WMJ37PBW8H');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);} gtag('js',new Date()); gtag('config','G-WMJ37PBW8H');</script>
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title id="titleTag">LockHabit Blog</title>
-  <meta name="description" id="descTag" content="Actionable money guides from LockHabit."/>
-  <link rel="canonical" id="canonTag" href=""/>
+  <title id="pgtitle">LockHabit Journal</title>
+  <meta name="description" id="pgdesc" content=""/>
 
-  <!-- Open Graph (filled at runtime for share previews; crawlers will still see static fallback) -->
+  <link rel="canonical" id="pgurl" href=""/>
   <meta property="og:type" content="article"/>
-  <meta property="og:title" id="ogTitle" content="LockHabit Blog"/>
-  <meta property="og:description" id="ogDesc" content="Actionable money guides from LockHabit."/>
-  <meta property="og:image" id="ogImg" content="/assets/og-lockhabit.png"/>
-  <meta property="og:url" id="ogUrl" content=""/>
+  <meta property="og:title" id="ogt" content=""/>
+  <meta property="og:description" id="ogd" content=""/>
+  <meta property="og:image" id="ogi" content="/blog/images/placeholder.jpg"/>
 
-  <style>
-    :root{
-      --bg:#0b1220; --panel:#0f1727; --ink:#e7edf6; --muted:#a6b2c9; --line:#1a2740;
-      --acc:#67e4c5; --pill:#13223a; --radius:18px; --w:860px;
-    }
-    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
-      font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    a{color:#b7d7ff;text-decoration:none}
-    header{position:sticky;top:0;z-index:10;background:rgba(10,18,36,.78);backdrop-filter:blur(10px);
-      border-bottom:1px solid var(--line)}
-    .nav{max-width:var(--w);margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:10px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
-    .pill{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--pill);border:1px solid var(--line);
-      padding:8px 12px;border-radius:999px}
-    main{max-width:var(--w);margin:0 auto;padding:20px 16px 40px}
-    .hero{border:1px solid var(--line);background:linear-gradient(180deg,#0f1727,#0b1220);border-radius:18px;padding:18px}
-    .title{margin:6px 0 6px;font-size:clamp(28px,4.5vw,42px);line-height:1.1}
-    .meta{color:var(--muted);font-weight:600}
-    .cover{margin:12px 0;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
-    .wrap{display:grid;grid-template-columns:1fr;gap:16px}
-    @media(min-width:980px){ .wrap{grid-template-columns:1fr 260px} }
-    .content{border:1px solid var(--line);background:#0d1527;border-radius:18px;padding:16px}
-    .content h2{margin:18px 0 4px}
-    .content h3{margin:14px 0 4px}
-    .toc{position:sticky;top:70px;border:1px solid var(--line);background:#0d1527;border-radius:16px;padding:12px}
-    .toc b{display:block;margin-bottom:6px}
-    .tag{display:inline-flex;align-items:center;gap:8px;background:#0f2338;border:1px solid #16324c;color:#cfe3fb;
-      padding:6px 10px;border-radius:999px;margin:6px 6px 0 0}
-    .row{display:flex;gap:10px;flex-wrap:wrap}
-    .share a{display:inline-flex;align-items:center;gap:8px;background:#0e2036;border:1px solid #16314e;padding:8px 10px;border-radius:999px}
-    .nextprev{margin-top:16px;border:1px solid var(--line);border-radius:16px;padding:12px;background:#0d1424}
-    footer{max-width:var(--w);margin:22px auto 40px;color:#9fb0c8;padding:0 16px}
-    .ads{margin:18px 0;border-radius:12px;overflow:hidden}
-  </style>
+  <link rel="stylesheet" href="/blog/assets/blog.css"/>
 </head>
-<body>
-  <header>
-    <div class="nav">
-      <a class="brand" href="/"><span style="width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#6ea8ff,#7a6dff)"></span> LockHabit</a>
-      <a class="pill" href="/blog/index.html">All articles ▸</a>
+<body class="lhb article">
+  <header class="hdr">
+    <div class="wrap nav">
+      <a href="/index.html" class="brand"><span class="logo"></span><strong>LockHabit</strong><span class="sep">/</span><span class="brand-sub">Journal</span></a>
+      <a class="pill" href="/blog/">All Articles</a>
     </div>
   </header>
 
-  <main>
-    <!-- Article header -->
-    <section class="hero">
-      <div class="meta" id="catLine">Category</div>
-      <h1 class="title" id="title">Loading…</h1>
-      <div class="meta" id="byline">By LockHabit</div>
-      <div class="cover" id="cover" style="display:none">
-        <img id="heroImg" alt="">
-      </div>
-      <div class="row" id="tagRow"></div>
-    </section>
+  <article class="wrap reading">
+    <header class="posthead" id="posthead"><!-- JS fills --></header>
 
-    <!-- Ad slot (optional) -->
-    <div class="ads">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8769734249298884"
-           data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <!-- Ad after header -->
+    <div class="adwrap">
+      <ins class="adsbygoogle" style="display:block" data-ad-format="auto" data-full-width-responsive="true"
+           data-ad-client="ca-pub-8769734249298884" data-ad-slot="8990001002"></ins>
     </div>
 
-    <!-- Content + TOC -->
-    <div class="wrap">
-      <article class="content" id="content"></article>
+    <main id="content" class="content"><!-- Markdown injected --></main>
 
-      <aside class="toc" id="toc">
-        <b>On this page</b>
-        <div id="tocLinks" style="display:grid;gap:6px"></div>
-      </aside>
+    <!-- Inline ad mid-article -->
+    <div class="adwrap">
+      <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+           data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+           data-ad-slot="8990001003"></ins>
     </div>
 
-    <!-- Share + next/prev -->
-    <section class="share" style="margin-top:14px">
-      <div class="row">
-        <a id="shareTw" target="_blank" rel="noopener">Share on X</a>
-        <a id="shareLn" target="_blank" rel="noopener">Share on LinkedIn</a>
-        <a id="shareFb" target="_blank" rel="noopener">Share on Facebook</a>
-      </div>
+    <section class="end-cta card">
+      <h3>Get 1 useful money idea each week</h3>
+      <form class="nl-form" onsubmit="event.preventDefault(); window.location='mailto:lockhabit@outlook.com?subject=Subscribe to LockHabit Journal&body=Please subscribe me.';">
+        <input type="email" placeholder="you@email.com" required>
+        <button class="btn">Subscribe</button>
+      </form>
+      <div class="fine">No spam. Unsubscribe anytime.</div>
     </section>
 
-    <section class="nextprev" id="navNp" style="display:none">
-      <div class="row">
-        <a id="prevLink"></a>
-        <a id="nextLink" style="margin-left:auto"></a>
-      </div>
-    </section>
-  </main>
+    <nav class="post-nav" id="postNav"><!-- prev/next by JS --></nav>
+  </article>
 
-  <footer>
-    © <span id="yr"></span> LockHabit — Financial calculators for everyone.
+  <footer class="foot">
+    <div class="wrap fine">© <span id="yr"></span> LockHabit — Educational content; not financial advice.</div>
   </footer>
 
-  <script>
-    const $ = s => document.querySelector(s);
-
-    // Basic boot
-    $('#yr').textContent = new Date().getFullYear();
-
-    const params = new URLSearchParams(location.search);
-    const slug = params.get('slug');
-
-    async function load(){
-      const res = await fetch('posts.json', {cache:'no-store'});
-      const posts = await res.json();
-      const i = posts.findIndex(p => p.slug === slug);
-      if(i === -1){ render404(); return; }
-      const p = posts[i];
-
-      // Fill meta
-      $('#title').textContent = p.title;
-      $('#titleTag').textContent = p.title + ' | LockHabit';
-      $('#descTag').setAttribute('content', p.excerpt || 'LockHabit blog');
-      $('#canonTag').setAttribute('href', location.href);
-      $('#ogTitle').setAttribute('content', p.title);
-      $('#ogDesc').setAttribute('content', p.excerpt || '');
-      $('#ogUrl').setAttribute('content', location.href);
-      if(p.hero){ $('#heroImg').src = p.hero; $('#heroImg').alt = p.title; $('#cover').style.display='block'; $('#ogImg').setAttribute('content', p.hero); }
-
-      $('#catLine').textContent = p.category || 'Article';
-      $('#byline').textContent = `${p.author || 'LockHabit'} • ${new Date(p.date).toLocaleDateString()} • ${p.read || ''}`;
-
-      // Tags
-      $('#tagRow').innerHTML = (p.tags||[]).map(t=>`<span class="tag">#${t}</span>`).join('');
-
-      // Article body
-      $('#content').innerHTML = p.content || '<p>Coming soon.</p>';
-
-      // Build TOC from h2/h3
-      const heads = Array.from($('#content').querySelectorAll('h2,h3'));
-      let links = '';
-      heads.forEach((h, idx)=>{
-        const id = (h.textContent || 'sec-'+idx).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-        h.id = id;
-        links += `<a href="#${id}" style="margin-left:${h.tagName==='H3'?'12':'0'}px">${h.textContent}</a>`;
-      });
-      $('#tocLinks').innerHTML = links || '<span style="color:#8fa4c6">—</span>';
-
-      // Share links
-      const url = encodeURIComponent(location.href);
-      const t = encodeURIComponent(p.title);
-      $('#shareTw').href = `https://twitter.com/intent/tweet?url=${url}&text=${t}`;
-      $('#shareLn').href = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
-      $('#shareFb').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-
-      // Prev/Next
-      const prev = posts[i-1], next = posts[i+1];
-      if(prev || next){
-        $('#navNp').style.display='block';
-        if(prev){ $('#prevLink').textContent = '◀ ' + prev.title; $('#prevLink').href = `post.html?slug=${prev.slug}`; }
-        if(next){ $('#nextLink').textContent = next.title + ' ▶'; $('#nextLink').href = `post.html?slug=${next.slug}`; }
-      }
-
-      // Ads init
-      try{ (adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
-    }
-
-    function render404(){
-      $('#title').textContent = 'Not found';
-      $('#content').innerHTML = '<p>We couldn’t find that article. <a href=\"/blog/index.html\">See all articles</a>.</p>';
-    }
-
-    load();
-  </script>
+  <script>document.getElementById('yr').textContent=new Date().getFullYear(); (adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  <script type="module" src="/blog/assets/blog.js"></script>
 </body>
 </html>
