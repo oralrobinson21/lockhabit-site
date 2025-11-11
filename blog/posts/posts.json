@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "understanding-compound-interest",
+    "title": "Compound Interest: The Calm Way to Build Wealth",
+    "dek": "No hype. Just how compounding really works, with examples you can actually use.",
+    "author": "LockHabit Editorial",
+    "date": "2025-01-12",
+    "category": "Saving",
+    "tags": ["basics", "growth", "compounding"],
+    "hero": "/blog/images/hero-1.jpg",
+    "read": "6 min",
+    "estWords": 1200
+  },
+  {
+    "slug": "emergency-fund-basics",
+    "title": "Emergency Funds: How Much You Need (and How to Get There)",
+    "dek": "Your buffer against chaos, explained simply with targets and a weekly plan.",
+    "author": "LockHabit Editorial",
+    "date": "2025-01-08",
+    "category": "Budgeting",
+    "tags": ["safety", "savings", "basics"],
+    "hero": "/blog/images/hero-2.jpg",
+    "read": "5 min",
+    "estWords": 1000
+  }
+]
