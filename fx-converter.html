@@ -3,314 +3,307 @@
 <head>
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
-  <!-- Google tag (gtag.js) -->
+  <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('js', new Date()); gtag('config','G-WMJ37PBW8H');
   </script>
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>Currency Converter (Live FX) | LockHabit</title>
-  <meta name="description" content="Fast, global-ready currency converter with live FX rates, auto-detected currency, swap, and email/share tools."/>
-  <link rel="canonical" href="https://lockhabit.com/fx-converter.html"/>
-
-  <!-- OpenGraph/Twitter -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Currency Converter (Live FX) | LockHabit"/>
-  <meta property="og:description" content="Fast, global-ready currency converter with live FX rates and auto-detected currency."/>
-  <meta property="og:url" content="https://lockhabit.com/fx-converter.html"/>
-  <meta property="og:image" content="/public/og-image.png"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-
-  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/public/favicon.ico">
-  <link rel="apple-touch-icon" href="/public/icon-192.png">
-
-  <!-- Optional analytics (Plausible) you already use -->
-  <script defer data-domain="lockhabit.com" src="https://plausible.io/js/script.js"></script>
+  <meta name="description" content="Convert between 180+ currencies with live FX rates, swap, copy, and email. Auto-detect base currency and save last inputs."/>
+  <link rel="canonical" href="https://lockhabit.com/currency.html"/>
 
   <style>
     :root{
-      --bg:#0b0e1a; --panel:#ffffff; --ink:#0e1a34; --muted:#50607c; --line:#e6e7f1;
-      --brand:#6f7cff; --brand-2:#9c78ff; --acc:#7b61ff; --green:#16a34a;
-      --radius:16px; --shadow:0 18px 50px rgba(17,24,39,.10);
-      --chip:linear-gradient(135deg,#eef2ff,#f6f3ff);
+      /* Dark theme aligned to your Mortgage/Loan/Savings/Retirement */
+      --bg:#0c1424;--hero:#0f1b2f;--card:#0f1b2f;
+      --ink:#dbe4ff;--muted:#93a4c6;--line:#243049;
+      --brand:#6f7cff;--brand-2:#9c78ff;
+      --radius:16px;--shadow:0 18px 50px rgba(0,0,0,.25);
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0b1230;-webkit-font-smoothing:antialiased}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 
-    /* Header */
-    .header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-    .brand .logo{width:28px;height:28px}
-    .brand .word{font-weight:800;color:#0e1a34}
-    .nav{display:flex;align-items:center;gap:8px}
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;min-height:40px}
-    .pill{border-radius:999px}
+    header{position:sticky;top:0;z-index:50;background:rgba(15,27,47,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;cursor:pointer}
+    .logo{width:28px;height:28px}
+    .word{font-weight:800;letter-spacing:.2px;white-space:nowrap}
+
+    .chip{border:1px solid var(--line);background:transparent;border-radius:12px;padding:8px 12px;color:var(--ink);font-weight:600;cursor:pointer}
     .menu{position:relative}
-    .menu-panel{position:absolute;right:0;top:calc(100% + 8px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:10px;display:none;min-width:240px}
+    .menu-panel{position:absolute;right:0;top:44px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:8px;display:none;min-width:220px}
     .menu.open .menu-panel{display:block}
-    .menu a{display:block;padding:10px 12px;border-radius:10px;color:#0e1a34;text-decoration:none}
-    .menu a:hover{background:#f7f7ff}
+    .menu a{display:block;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none}
+    .menu a:hover{background:#0c1629}
 
-    /* Hero */
-    .hero{background:radial-gradient(1200px 600px at 50% -120px, rgba(111,124,255,.24), transparent 60%), #f8f9ff;border-bottom:1px solid var(--line)}
-    .hero-inner{max-width:1100px;margin:0 auto;padding:44px 16px}
-    h1{margin:0 0 8px;font-size:40px;line-height:1.1}
-    .sub{color:#32425f;max-width:70ch}
+    .hero{background:radial-gradient(1400px 650px at 50% -220px, rgba(111,124,255,.18) 0%, transparent 60%),var(--hero);border-bottom:1px solid var(--line)}
+    .hero-inner{max-width:1100px;margin:0 auto;padding:36px 16px 16px}
+    h1{margin:0 0 6px;font-size:34px;letter-spacing:-.3px}
+    .sub{color:var(--muted);max-width:65ch;margin:0}
 
-    /* Card */
-    .card{max-width:1100px;margin:18px auto;padding:16px}
-    .panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px}
-    @media(min-width:860px){ .grid{grid-template-columns:1fr 1fr}}
+    .grid{max-width:1100px;margin:16px auto;display:grid;gap:16px;grid-template-columns:1fr;padding:0 16px}
+    @media(min-width:980px){.grid{grid-template-columns:1.05fr .95fr}}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .panel h2{margin:0 0 10px;font-size:20px}
 
-    label{font-weight:700;color:#0f1a34}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    input,select{width:100%;padding:14px;border:1px solid #dbe0ea;border-radius:12px;font-size:16px}
+    label{font-weight:600;font-size:14px;color:#c7d5ff}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .stack{display:grid;gap:8px}
+
+    input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #22314c;background:#0b1322;color:var(--ink);font-size:15px}
+    input::placeholder{color:#6e7ea3}
 
     .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .ghost{background:transparent}
-    .acc{background:linear-gradient(135deg,var(--brand),var(--brand-2));border-color:transparent;color:#fff;box-shadow:0 8px 24px rgba(111,124,255,.25)}
-    .muted{color:#5c6a87}
-    .result{font-size:22px;font-weight:800;color:#0e1a34}
-    .mini{font-size:12px;color:#6a7a95}
-    .chip{display:inline-flex;align-items:center;gap:8px;background:var(--chip);border:1px solid #e2e6ff;padding:6px 10px;border-radius:999px;font-weight:700;color:#3a4a66}
+    .btn{appearance:none;border:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .ghost{background:transparent;color:var(--ink)}
+    .pill{border-radius:999px}
 
-    footer{background:#fff;border-top:1px solid var(--line);margin-top:24px}
-    .foot{max-width:1100px;margin:0 auto;padding:22px 16px;color:#3a4a66}
-    .fine{margin-top:12px;font-size:12px;background:#f6f7fc;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .result{font-size:22px;font-weight:800;margin-top:6px}
+    .mini{font-size:12px;color:#8ea0c5}
+
+    footer{border-top:1px solid var(--line);margin-top:24px;background:var(--hero)}
+    .foot{max-width:1100px;margin:0 auto;padding:18px 16px;color:#9fb1db}
+    a{color:#cdd7ff}
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="wrap">
-      <a class="brand" href="/index.html" aria-label="LockHabit home">
-        <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
-          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
-          <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
-          <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-          <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-          <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
-        </svg>
-        <div class="word">LockHabit</div>
-      </a>
+<header>
+  <div class="wrap">
+    <div class="brand" onclick="location.href='/index.html'" role="button" aria-label="Home">
+      <svg class="logo" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6f7cff"/><stop offset="100%" stop-color="#9c78ff"/></linearGradient></defs>
+        <rect x="12" y="22" width="96" height="80" rx="18" fill="url(#lg)"/>
+        <path d="M40 50c0-16 12-28 28-28s28 12 28 28" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M40 90V58" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M40 90h26" stroke="#e7ecf8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="word">LockHabit</div>
+    </div>
 
-      <div class="nav">
-        <a class="btn ghost pill" href="/calculator.html">All calculators</a>
-        <div class="menu" id="moreMenu">
-          <button class="btn pill" type="button" id="moreBtn">More calculators ▾</button>
-          <div class="menu-panel" role="menu" aria-label="More calculators">
-            <a href="/income-tax.html">Paycheck & Income Tax</a>
-            <a href="/mortgage.html">Mortgage</a>
-            <a href="/loan.html">Loan Payoff</a>
-            <a href="/savings.html">Savings Goal</a>
-            <a href="/retirement.html">Retirement (Simple)</a>
-            <a href="/business-margin.html">Business Margin & Markup</a>
-          </div>
+    <div style="display:flex;gap:10px">
+      <button class="chip" onclick="location.href='/'">Home</button>
+      <div class="menu" id="toolsMenu">
+        <button class="chip" onclick="document.getElementById('toolsMenu').classList.toggle('open')">Tools ▾</button>
+        <div class="menu-panel">
+          <a href="/income-tax.html">Income & Taxes</a>
+          <a href="/mortgage.html">Mortgage</a>
+          <a href="/loan.html">Loan</a>
+          <a href="/savings.html">Savings</a>
+          <a href="/retirement.html">Retirement</a>
+          <a href="/currency.html">FX Converter</a>
+          <a href="/blog.html" title="Coming soon">Blog/Newsletter</a>
+          <a href="#" onclick="document.getElementById('toolsMenu').classList.remove('open')" style="text-align:right">Close ✕</a>
         </div>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="chip">Live FX • Global-ready</div>
-      <h1>Currency Converter</h1>
-      <p class="sub">Convert between 180+ currencies with live exchange rates. We auto-detect your likely currency and save your last inputs on this device.</p>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Currency Converter</h1>
+    <p class="sub">Live FX with swap/copy/email. We auto-detect your likely currency and save your last inputs on this device.</p>
+  </div>
+</section>
+
+<main class="grid" id="app">
+  <section class="panel" aria-labelledby="fx">
+    <h2 id="fx">Convert</h2>
+
+    <div class="row">
+      <div class="stack">
+        <label for="fromAmt">Amount</label>
+        <input id="fromAmt" inputmode="decimal" placeholder="e.g., 100"/>
+      </div>
+      <div class="stack">
+        <label for="fromCur">From currency</label>
+        <select id="fromCur" aria-label="From currency"></select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <label for="toAmt">Result</label>
+        <input id="toAmt" inputmode="decimal" placeholder="Result" readonly/>
+      </div>
+      <div class="stack">
+        <label for="toCur">To currency</label>
+        <select id="toCur" aria-label="To currency"></select>
+      </div>
+    </div>
+
+    <div class="tools">
+      <button class="btn pill" id="convertBtn">Convert</button>
+      <button class="btn pill ghost" id="swapBtn" title="Swap currencies">Swap ↔</button>
+      <button class="chip" id="copyBtn">Copy result</button>
+      <button class="chip" id="emailBtn">Email</button>
+      <span class="mini" id="asOf">Loading rates…</span>
+    </div>
+
+    <div class="result" id="resultLine">—</div>
+
+    <div style="margin-top:10px">
+      <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+           data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
+           data-ad-slot="4234567890"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
     </div>
   </section>
+</main>
 
-  <!-- Converter -->
-  <main class="card">
-    <div class="panel">
-      <div class="grid">
-        <div>
-          <label for="fromAmt">From</label>
-          <div class="row">
-            <input id="fromAmt" inputmode="decimal" placeholder="e.g., 100" />
-            <select id="fromCur" aria-label="From currency"></select>
-          </div>
-        </div>
-
-        <div>
-          <label for="toAmt">To</label>
-          <div class="row">
-            <input id="toAmt" inputmode="decimal" placeholder="Result" />
-            <select id="toCur" aria-label="To currency"></select>
-          </div>
-        </div>
-      </div>
-
-      <div class="tools">
-        <button class="btn pill acc" id="convertBtn">Convert</button>
-        <button class="btn pill" id="swapBtn" title="Swap currencies">Swap ↔</button>
-        <button class="btn pill ghost" id="copyBtn">Copy</button>
-        <button class="btn pill ghost" id="emailBtn">Email result</button>
-        <span class="mini" id="asOf"></span>
-      </div>
-
-      <div style="margin-top:10px">
-        <div class="result" id="resultLine">—</div>
-        <div class="mini" id="fxNote">Rates update several times daily. Results are estimates.</div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Ad slot (optional placement) -->
-  <div class="card" aria-hidden="true">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-8769734249298884"
-         data-ad-slot="auto"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+<footer>
+  <div class="foot">
+    <div>© <span id="yr"></span> LockHabit · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="/security.html">Security</a></div>
+    <div class="mini">Educational use only. Banks and card networks may use different FX and spreads.</div>
   </div>
+</footer>
 
-  <footer>
-    <div class="foot">
-      <div>© <span id="yr"></span> LockHabit — Financial calculators for everyone. Contact: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></div>
-      <div class="fine">Information here is educational and may differ from actual outcomes. Verify important numbers with your bank or advisor.</div>
-      <div style="margin-top:8px;font-size:12px">
-        <a href="/terms.html">Terms</a> • <a href="/privacy.html">Privacy</a> • <a href="/security.html">Security</a>
-      </div>
-    </div>
-  </footer>
+<script>
+(function(){
+  document.getElementById('yr').textContent = new Date().getFullYear();
 
-  <script>
-    // ---------- Utilities ----------
-    const $ = sel => document.querySelector(sel);
-    const store = (k,v)=> localStorage.setItem(k, JSON.stringify(v));
-    const load  = (k,d)=> { try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch{ return d; } };
+  // ==== Elements
+  const fromAmt = document.getElementById('fromAmt');
+  const toAmt   = document.getElementById('toAmt');
+  const fromCur = document.getElementById('fromCur');
+  const toCur   = document.getElementById('toCur');
+  const resultLine = document.getElementById('resultLine');
+  const asOf = document.getElementById('asOf');
+  const btnConvert = document.getElementById('convertBtn');
+  const btnSwap = document.getElementById('swapBtn');
+  const btnCopy = document.getElementById('copyBtn');
+  const btnEmail = document.getElementById('emailBtn');
 
-    // Currency list (ISO 4217) — trimmed to common + supports 180+ via live API fill-in.
-    const COMMONS = {
-      USD:"US Dollar", EUR:"Euro", GBP:"British Pound", CAD:"Canadian Dollar", AUD:"Australian Dollar",
-      NZD:"New Zealand Dollar", JPY:"Japanese Yen", CNY:"Chinese Yuan", INR:"Indian Rupee", BRL:"Brazilian Real",
-      CHF:"Swiss Franc", SEK:"Swedish Krona", NOK:"Norwegian Krone", DKK:"Danish Krone", PLN:"Polish Złoty",
-      MXN:"Mexican Peso", ZAR:"South African Rand", SGD:"Singapore Dollar", HKD:"Hong Kong Dollar",
-      AED:"UAE Dirham", SAR:"Saudi Riyal", KRW:"South Korean Won", TRY:"Turkish Lira"
-    };
+  // ==== Helpers
+  function guessCurrency(){
+    try{
+      const l = (navigator.language||'en-US').toLowerCase();
+      if(l.includes('us')) return 'USD';
+      if(l.includes('gb')) return 'GBP';
+      if(l.includes('ca')) return 'CAD';
+      if(l.includes('au')) return 'AUD';
+      if(l.includes('in')) return 'INR';
+      if(l.includes('eu')||l.match(/de|fr|es|it|nl/)) return 'EUR';
+    }catch(_){}
+    return 'USD';
+  }
+  function fmt(n,c){ try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:c,maximumFractionDigits:6}).format(n||0); }catch(_){ return (c+' '+(+n||0).toFixed(6)); } }
+  function save(){ localStorage.setItem('lh_fx_v1', JSON.stringify({fromAmt:fromAmt.value,fromCur:fromCur.value,toCur:toCur.value,toAmt:toAmt.value})); }
+  function load(){ try{ return JSON.parse(localStorage.getItem('lh_fx_v1')||'{}'); }catch(_){return {}} }
 
-    // Naive locale -> currency guess
-    const localeGuess = ()=>{
-      const l = (navigator.language || 'en-US').toLowerCase();
-      if (l.includes('us')) return 'USD';
-      if (l.includes('gb') || l.includes('en-gb')) return 'GBP';
-      if (l.includes('ca')) return 'CAD';
-      if (l.includes('au')) return 'AUD';
-      if (l.includes('in')) return 'INR';
-      if (l.includes('sg')) return 'SGD';
-      if (l.includes('za')) return 'ZAR';
-      if (l.includes('mx')) return 'MXN';
-      if (l.includes('br')) return 'BRL';
-      if (l.includes('jp')) return 'JPY';
-      if (l.includes('cn') || l.includes('zh')) return 'CNY';
-      if (l.includes('eu') || l.includes('de') || l.includes('fr') || l.includes('es') || l.includes('it') || l.includes('nl')) return 'EUR';
-      return 'USD';
-    };
-
-    const fmt = (v, cur)=> new Intl.NumberFormat(undefined, {style:'currency', currency:cur, maximumFractionDigits: 6}).format(v);
-
-    const fromAmt = $('#fromAmt'), toAmt = $('#toAmt');
-    const fromCur = $('#fromCur'), toCur = $('#toCur');
-    const resultLine = $('#resultLine'), asOf = $('#asOf');
-    const convertBtn = $('#convertBtn'), swapBtn = $('#swapBtn'), copyBtn = $('#copyBtn'), emailBtn = $('#emailBtn');
-
-    // Populate selects (COMMON first, then fetched list merged)
-    function populateOptions(list){
-      const make = (el, map)=>{
-        el.innerHTML = '';
-        Object.entries(map).forEach(([k,v])=>{
-          const o = document.createElement('option'); o.value = k; o.textContent = `${k} — ${v}`; el.appendChild(o);
-        });
-      };
-      make(fromCur, list); make(toCur, list);
+  // ==== Currency labels (seed common; API fills the rest)
+  const COMMONS = {
+    USD:"US Dollar", EUR:"Euro", GBP:"British Pound", CAD:"Canadian Dollar", AUD:"Australian Dollar",
+    NZD:"New Zealand Dollar", JPY:"Japanese Yen", CNY:"Chinese Yuan", INR:"Indian Rupee", BRL:"Brazilian Real",
+    CHF:"Swiss Franc", SEK:"Swedish Krona", NOK:"Norwegian Krone", DKK:"Danish Krone", PLN:"Polish Zloty",
+    MXN:"Mexican Peso", ZAR:"South African Rand", SGD:"Singapore Dollar", HKD:"Hong Kong Dollar",
+    AED:"UAE Dirham", SAR:"Saudi Riyal", KRW:"South Korean Won", TRY:"Turkish Lira"
+  };
+  function fillOptions(map){
+    function build(el){
+      el.innerHTML = '';
+      Object.entries(map).sort((a,b)=> a[0].localeCompare(b[0])).forEach(([k,v])=>{
+        const o=document.createElement('option'); o.value=k; o.textContent=`${k} — ${v||k}`; el.appendChild(o);
+      });
     }
+    build(fromCur); build(toCur);
+  }
+  fillOptions(COMMONS);
 
-    // Load saved state or defaults
-    const saved = load('fx:v1', null);
-    const defaults = { fromCur: localeGuess(), toCur: 'USD', fromAmt: 100, toAmt: '' };
+  // ==== Rates store (USD base)
+  let rates = {USD:1};
+  let lastDate = '';
 
-    populateOptions(COMMONS);
-    const init = Object.assign({}, defaults, saved || {});
-    fromCur.value = COMMONS[init.fromCur] ? init.fromCur : defaults.fromCur;
-    toCur.value   = COMMONS[init.toCur]   ? init.toCur   : defaults.toCur;
-    fromAmt.value = init.fromAmt; toAmt.value = init.toAmt;
-
-    // Fetch live rates (exchangerate.host; no key; HTTPS; CORS OK)
-    let rates = { base: 'USD', date: null, rates: { USD:1 }};
-    async function getRates(base='USD'){
+  // Fetch symbols (names) then latest rates once (USD base). Using exchangerate.host (no key).
+  async function initRates(){
+    try{
+      // symbols (names)
       try{
-        const res = await fetch(`https://api.exchangerate.host/latest?base=${encodeURIComponent(base)}`);
-        if(!res.ok) throw new Error('rate http');
-        const data = await res.json();
-        if(data && data.rates){
-          rates = { base: data.base, date: data.date, rates: data.rates };
-          asOf.textContent = `As of ${data.date} • base ${data.base}`;
-          // If API returns more symbols, merge names we don't have yet (simple label fallback)
-          const more = {};
-          Object.keys(data.rates).forEach(k => { more[k] = COMMONS[k] || k; });
-          populateOptions(more);
-          fromCur.value = init.fromCur; toCur.value = init.toCur;
-          return;
+        const sym = await fetch('https://api.exchangerate.host/symbols');
+        if(sym.ok){
+          const js = await sym.json();
+          if(js && js.symbols){
+            const map={};
+            Object.keys(js.symbols).forEach(k=> map[k] = js.symbols[k].description || k);
+            fillOptions(map);
+          }
         }
-      }catch(e){
-        asOf.textContent = 'Live rates unavailable — using fallback 1:1 (demo)';
+      }catch(_){}
+      // latest rates (USD base)
+      const res = await fetch('https://api.exchangerate.host/latest?base=USD');
+      if(!res.ok) throw new Error('http');
+      const data = await res.json();
+      if(data && data.rates){
+        rates = Object.assign({USD:1}, data.rates);
+        lastDate = data.date || '';
+        asOf.textContent = lastDate ? `As of ${lastDate}` : 'Live rates loaded';
+      }else{
+        asOf.textContent = 'Live rates unavailable — fallback used';
       }
+    }catch(_){
+      // minimal fallback (static)
+      rates = Object.assign({USD:1}, {EUR:0.92, GBP:0.78, CAD:1.35, AUD:1.48, JPY:155, INR:83, MXN:17, CNY:7.2});
+      asOf.textContent = 'Offline fallback rates (approx)';
     }
+  }
 
-    function convert(){
-      const a = parseFloat(fromAmt.value || '0');
-      const f = fromCur.value, t = toCur.value;
-      if (!a || !f || !t) return;
-      // If base not equal to from, convert via base: a * (t/base) / (f/base) = a * (t/f)
-      const rf = (f === rates.base) ? 1 : (1 / (rates.rates[f] || 1));
-      const rt = (t === rates.base) ? 1 : (rates.rates[t] || 1);
-      const out = a * rf * rt;
-      toAmt.value = out.toFixed(6);
-      resultLine.textContent = `${fmt(a, f)} = ${fmt(out, t)}`;
-      store('fx:v1', { fromCur:f, toCur:t, fromAmt:a, toAmt:out });
-    }
+  function convert(){
+    const amt = parseFloat((fromAmt.value||'').toString().replace(/,/g,''))||0;
+    const f = fromCur.value || 'USD';
+    const t = toCur.value || 'USD';
+    if(!amt){ toAmt.value=''; resultLine.textContent='—'; save(); return; }
+    const rf = rates[f]; const rt = rates[t];
+    if(!rf || !rt){ resultLine.textContent='Rates unavailable'; return; }
+    // Since rates are quoted as 1 USD -> X CUR, we do: amt_in_usd = amt / rf ; out = amt_in_usd * rt
+    const out = (amt / rf) * rt;
+    toAmt.value = out.toFixed(6);
+    resultLine.textContent = `${fmt(amt,f)} = ${fmt(out,t)}`;
+    save();
+  }
 
-    function swap(){
-      const f = fromCur.value, t = toCur.value;
-      toCur.value = f; fromCur.value = t;
-      const val = fromAmt.value; fromAmt.value = toAmt.value || val; toAmt.value = '';
-      convert();
-    }
+  function swap(){
+    const f = fromCur.value, t = toCur.value;
+    toCur.value = f; fromCur.value = t;
+    const v = fromAmt.value;
+    fromAmt.value = toAmt.value || v;
+    toAmt.value = '';
+    convert();
+  }
 
-    copyBtn.addEventListener('click', async ()=>{
-      const text = resultLine.textContent || '';
-      try{ await navigator.clipboard.writeText(text); copyBtn.textContent = 'Copied!'; setTimeout(()=>copyBtn.textContent='Copy',1200);}catch(_){}
-    });
+  // Restore defaults
+  const sv = load();
+  fromCur.value = sv.fromCur || guessCurrency();
+  toCur.value = sv.toCur || 'USD';
+  fromAmt.value = sv.fromAmt || '';
+  toAmt.value = sv.toAmt || '';
 
-    emailBtn.addEventListener('click', ()=>{
-      const subject = encodeURIComponent('FX Conversion from LockHabit');
-      const body = encodeURIComponent(`${resultLine.textContent}\n\nFrom: ${fromAmt.value} ${fromCur.value}\nTo: ${toCur.value}\n${asOf.textContent}\n\nhttps://lockhabit.com/fx-converter.html`);
-      window.location.href = `mailto:?subject=${subject}&body=${body}`;
-    });
+  // Events
+  btnConvert.addEventListener('click', convert);
+  btnSwap.addEventListener('click', swap);
+  [fromAmt,fromCur,toCur].forEach(el=> el.addEventListener('input', convert));
+  btnCopy.addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText(resultLine.textContent||''); btnCopy.textContent='Copied!'; setTimeout(()=>btnCopy.textContent='Copy result',1200);}catch(_){}
+  });
+  btnEmail.addEventListener('click', ()=>{
+    const subject = encodeURIComponent('FX Conversion — LockHabit');
+    const body = encodeURIComponent(`${resultLine.textContent||''}\nFrom: ${fromAmt.value||0} ${fromCur.value}\nTo: ${toCur.value}\n${asOf.textContent}`);
+    location.href = `mailto:?subject=${subject}&body=${body}`;
+  });
 
-    convertBtn.addEventListener('click', convert);
-    swapBtn.addEventListener('click', swap);
-    [fromAmt, fromCur, toCur].forEach(el=> el.addEventListener('change', convert));
-    window.addEventListener('load', ()=>{ getRates(init.fromCur).then(convert); $('#yr').textContent = new Date().getFullYear(); });
+  // Tools dropdown outside-click close
+  document.addEventListener('click', e=>{
+    const m=document.getElementById('toolsMenu');
+    if(m && !m.contains(e.target)) m.classList.remove('open');
+  });
 
-    // "More calculators" menu
-    const more = document.getElementById('moreMenu');
-    document.getElementById('moreBtn').addEventListener('click', ()=>{
-      more.classList.toggle('open');
-    });
-    document.addEventListener('click', (e)=>{
-      if(!more.contains(e.target)) more.classList.remove('open');
-    });
-  </script>
+  // Init
+  initRates().then(convert);
+})();
+</script>
 </body>
 </html>
