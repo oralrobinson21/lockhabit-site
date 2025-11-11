@@ -1,638 +1,152 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- =========================================================
-       LockHabit Blog — index.html
-       World-class, mobile-first, SEO-ready blog hub
-       Reads:   /blog/posts.json
-       Opens:   /blog/post.html?slug=...
-       Author:  LockHabit
-       ========================================================= -->
+  <!-- Google AdSense (kept minimal & compliant) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
 
-  <!-- Analytics (GA4) -->
+  <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-WMJ37PBW8H');
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-WMJ37PBW8H');
   </script>
-
-  <!-- AdSense (kept customer-first; polite placements) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
 
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit Blog — Clear money thinking</title>
-  <meta name="description" content="Actionable finance guides: income, taxes, budgeting, saving, loans, mortgages, investing, and smart money habits — written for speed and clarity."/>
-  <link rel="canonical" href="https://lockhabit.com/blog/"/>
+  <title>LockHabit Journal — Understand Money, Build Calm Wealth</title>
+  <meta name="description" content="The LockHabit Journal helps you understand money without noise: practical guides on budgeting, debt, saving, investing, and big life decisions."/>
+  <link rel="canonical" href="/blog/"/>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit Blog — Clear money thinking"/>
-  <meta property="og:description" content="Finance, simplified. Guides, breakdowns, calculators, and playbooks for real life money decisions."/>
+  <meta property="og:title" content="LockHabit Journal — Understand Money, Build Calm Wealth"/>
+  <meta property="og:description" content="Premium, practical money explanations. Learn budgeting, investing, debt payoff, and smarter decisions with calm clarity."/>
   <meta property="og:url" content="https://lockhabit.com/blog/"/>
-  <meta property="og:image" content="/assets/og-lockhabit-blog.png"/>
+  <meta property="og:image" content="/blog/images/hero-1.jpg"/>
 
-  <!-- Favicons (optional paths; safe to leave) -->
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"/>
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/public/favicon.ico">
+  <link rel="apple-touch-icon" href="/public/icon-192.png">
 
-  <style>
-  /* =========================================================
-     1) Reset + Tokens (premium blog look, distinct from app)
-     ========================================================= */
-  *,*::before,*::after{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
-    color:#0c1424;
-    background:
-      radial-gradient(1400px 800px at 20% -10%, rgba(133,154,255,.12), transparent 55%),
-      radial-gradient(1200px 800px at 100% 0%, rgba(51,193,177,.10), transparent 50%),
-      linear-gradient(#fcfdff, #f6f8ff);
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-  }
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  :focus-visible{outline:2px solid #4ad0ff; outline-offset:2px; border-radius:6px}
-
-  :root{
-    --ink:#0c1424;
-    --muted:#5a6a86;
-    --muter:#8a97ad;
-    --panel:#ffffff;
-    --panel2:#fbfcff;
-    --line:#e6ecf5;
-    --chip:#0e2036;
-    --brand:#1e2d6b;
-    --mint:#22c6a7;
-    --violet:#6377ff;
-    --shadow:0 14px 42px rgba(13,26,49,.12);
-    --radius:16px;
-    --radius-lg:22px;
-    --w:1180px;
-
-    --h1:clamp(28px,4.6vw,44px);
-    --h2:clamp(20px,3.0vw,28px);
-    --h3:clamp(16px,2.4vw,22px);
-  }
-
-  /* =========================================================
-     2) Header / Navigation
-     ========================================================= */
-  header{
-    position:sticky; top:0; z-index:60;
-    background:linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.68));
-    backdrop-filter:blur(10px) saturate(1.1);
-    border-bottom:1px solid var(--line);
-  }
-  .nav{
-    max-width:var(--w); margin:0 auto; padding:10px 16px;
-    display:flex; align-items:center; gap:10px;
-  }
-  .brand{
-    display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.1px;
-    color:#0d1a39;
-  }
-  .logo{width:26px; height:26px; border-radius:6px;
-    background:linear-gradient(145deg, #6377ff, #34c2b3); box-shadow:inset 0 0 0 2px rgba(255,255,255,.6)}
-  .spacer{flex:1}
-  .chip{
-    display:inline-flex; align-items:center; gap:10px;
-    padding:10px 14px; border-radius:999px; border:1px solid #d9e2f2;
-    background:#fff; color:#132349; font-weight:700;
-  }
-  .chip[data-variant="cta"]{
-    background:linear-gradient(135deg, #59e1cb, #7da3ff 70%); border:0; color:#052c26;
-    box-shadow:0 8px 22px rgba(9,32,58,.18);
-  }
-  .dd{position:relative}
-  .dd-btn{cursor:pointer}
-  .dd-menu{
-    position:absolute; right:0; top:44px; background:#fff; border:1px solid var(--line);
-    border-radius:14px; min-width:240px; box-shadow:var(--shadow); display:none; overflow:hidden;
-  }
-  .dd-menu a{display:block; padding:12px 14px; border-bottom:1px solid #eff3f9; color:#0f1f3c}
-  .dd-menu a:last-child{border-bottom:0}
-  .dd.show .dd-menu{display:block}
-
-  /* =========================================================
-     3) Hero
-     ========================================================= */
-  .hero{
-    max-width:var(--w); margin:0 auto; padding:22px 16px 6px;
-    display:grid; grid-template-columns:1.1fr .9fr; gap:16px;
-  }
-  @media (max-width:980px){ .hero{ grid-template-columns:1fr } }
-  .h-eyebrow{color:#6a7b96; font-weight:700; font-size:13px; letter-spacing:.25px}
-  .h-title{font-size:var(--h1); line-height:1.05; margin:6px 0 10px; color:#0b1834; font-weight:900}
-  .h-lede{color:#4b5c78; max-width:72ch}
-
-  .searchbar{
-    display:flex; gap:10px; margin:14px 0 6px; flex-wrap:wrap;
-  }
-  .searchbar .ctrl{
-    flex:1; min-width:220px; height:44px; border-radius:12px; border:1px solid #dbe5f3; background:#fff; padding:10px 12px;
-  }
-  .searchbar .chip{font-weight:800}
-  .toolbar{
-    display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 4px;
-  }
-  .toolbar .select{height:40px; border:1px solid #dbe5f3; border-radius:10px; background:#fff; padding:6px 10px}
-
-  /* =========================================================
-     4) Featured + Trending rail
-     ========================================================= */
-  .feature{
-    display:grid; grid-template-columns:1.1fr .9fr; gap:16px; margin-top:10px;
-  }
-  @media (max-width:980px){ .feature{ grid-template-columns:1fr } }
-
-  .card{
-    border:1px solid var(--line); border-radius:var(--radius); background:var(--panel); overflow:hidden;
-    box-shadow:var(--shadow);
-  }
-  .cover{
-    aspect-ratio:16/9; background:#e6ecf5; overflow:hidden;
-  }
-  .cover img{width:100%; height:100%; object-fit:cover; display:block}
-  .pad{padding:14px}
-  .meta{color:#6a7b96; font-size:13px}
-  .title{font-size:var(--h2); font-weight:900; color:#0d1a39; margin:6px 0 8px}
-  .excerpt{color:#5a6a86; margin:0 0 8px}
-  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
-  .tag{display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px; border:1px solid #dfe7f5; color:#1a2d52; background:#fff}
-
-  .rail{
-    border:1px solid var(--line); border-radius:var(--radius); background:var(--panel);
-    padding:12px;
-  }
-  .rail h3{margin:0 0 8px; font-size:18px}
-  .trend{display:grid; grid-template-columns:88px 1fr; gap:10px; padding:10px 8px; border-radius:12px}
-  .trend:hover{background:#f7faff}
-  .trend .thumb{width:100%; aspect-ratio:16/9; background:#e6ecf5; border-radius:10px; overflow:hidden}
-  .trend .thumb img{width:100%; height:100%; object-fit:cover}
-  .trend .t{font-weight:800; color:#0f1f3c; margin:0 0 4px}
-  .trend .m{color:#7484a1; font-size:13px}
-
-  /* =========================================================
-     5) Filters + Chips
-     ========================================================= */
-  .filters{
-    max-width:var(--w); margin:12px auto 0; padding:0 16px;
-    display:flex; gap:8px; flex-wrap:wrap;
-  }
-  .pill{
-    display:inline-flex; align-items:center; gap:10px;
-    padding:10px 14px; border-radius:999px; border:1px solid #dbe5f3;
-    background:#fff; color:#1a2d52; font-weight:700; cursor:pointer;
-  }
-  .pill[data-on="1"]{ background:#0e2036; color:#dff2ff; border-color:#0e2036 }
-
-  /* =========================================================
-     6) Main grid (paginated)
-     ========================================================= */
-  .wrap{max-width:var(--w); margin:0 auto; padding:10px 16px 24px}
-  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
-  @media (max-width:980px){ .grid{grid-template-columns:1fr 1fr} }
-  @media (max-width:620px){ .grid{grid-template-columns:1fr} }
-
-  .item{border:1px solid var(--line); border-radius:14px; background:#fff; overflow:hidden; box-shadow:0 8px 24px rgba(10,20,40,.06)}
-  .item .thumb{aspect-ratio:16/9; background:#e9eff8}
-  .item .thumb img{width:100%; height:100%; object-fit:cover}
-  .item .pad{padding:12px}
-  .item h4{margin:0 0 6px; font-size:18px; color:#0f1f3c}
-  .item .meta{display:flex; gap:10px; flex-wrap:wrap}
-  .item .excerpt{color:#617397; margin-top:6px}
-
-  .pagnav{
-    display:flex; align-items:center; justify-content:center; gap:10px; margin:14px 0 0;
-  }
-  .pagnav .btn{
-    appearance:none; border:1px solid #dbe5f3; background:#fff; padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:800;
-  }
-  .pagnav .btn[disabled]{opacity:.5; cursor:not-allowed}
-  .pageinfo{color:#60708c; font-weight:700}
-
-  /* =========================================================
-     7) Newsletter + Footer
-     ========================================================= */
-  .newsletter{
-    max-width:var(--w); margin:16px auto; padding:0 16px;
-  }
-  .nl-card{
-    background:linear-gradient(180deg, #0e2142, #0b1730); color:#dcedff;
-    border:1px solid #15305a; border-radius:var(--radius-lg); padding:16px;
-    box-shadow:0 14px 42px rgba(9,20,46,.26)
-  }
-  .nl-card h3{margin:0 0 6px; font-size:22px}
-  .nl-card p{margin:0 0 10px; color:#cbe0ff}
-  .nl-row{display:flex; gap:10px; flex-wrap:wrap}
-  .nl-card input{
-    flex:1; min-width:220px; height:44px; border-radius:12px; border:1px solid #2b4c81; background:#0d1f3e; color:#e8f2ff; padding:10px 12px;
-  }
-  .nl-card button{
-    height:44px; border-radius:12px; border:0; font-weight:900; padding:0 16px; cursor:pointer;
-    background:linear-gradient(135deg, #59e1cb, #7da3ff 70%); color:#052c26;
-  }
-
-  footer{
-    margin:26px 0 40px; color:#6e7d98; font-size:14px;
-  }
-  footer .links{display:flex; gap:14px; flex-wrap:wrap}
-
-  /* =========================================================
-     8) Utility
-     ========================================================= */
-  .hide{display:none !important}
-  .row{display:flex; gap:10px; flex-wrap:wrap}
-  .b{font-weight:900}
-  .sr{position:absolute; clip:rect(0,0,0,0); clip-path:inset(50%); width:1px; height:1px; overflow:hidden; white-space:nowrap}
-  </style>
+  <link rel="preload" href="/blog/assets/blog.css" as="style"/>
+  <link rel="stylesheet" href="/blog/assets/blog.css"/>
 </head>
-<body>
-  <!-- Header -->
-  <header>
-    <nav class="nav">
-      <a class="brand" href="/"><span class="logo" aria-hidden="true"></span> LockHabit</a>
-      <div class="spacer"></div>
+<body class="lhb">
+  <!-- Sticky Header -->
+  <header class="hdr">
+    <div class="wrap nav">
+      <a href="/index.html" class="brand" aria-label="LockHabit home">
+        <span class="logo"></span><strong>LockHabit</strong>
+        <span class="sep">/</span><span class="brand-sub">Journal</span>
+      </a>
 
-      <a class="chip" href="/"><span>Home</span></a>
-      <div class="dd" id="toolsDd">
-        <button class="chip dd-btn" aria-haspopup="menu" aria-expanded="false">Tools ▾</button>
-        <div class="dd-menu" role="menu" aria-label="LockHabit tools">
-          <a href="/income-tax.html" role="menuitem">Income & Taxes</a>
-          <a href="/mortgage.html" role="menuitem">Mortgage</a>
-          <a href="/loan.html" role="menuitem">Loan Payoff</a>
-          <a href="/savings.html" role="menuitem">Savings & Budget</a>
-          <a href="/fx-converter.html" role="menuitem">Currency Converter</a>
-          <a href="/business-margin.html" role="menuitem">Business: Margin</a>
-          <a href="/business-breakeven.html" role="menuitem">Business: Break-even</a>
-        </div>
-      </div>
+      <nav class="nav-links">
+        <!-- Suggestion Filters (toggle buttons) -->
+        <button class="chip" data-filter="all" aria-pressed="true">All</button>
+        <button class="chip" data-filter="Budgeting">Budgeting</button>
+        <button class="chip" data-filter="Debt">Debt</button>
+        <button class="chip" data-filter="Saving">Saving</button>
+        <button class="chip" data-filter="Investing">Investing</button>
+        <button class="chip" data-filter="Home">Home</button>
+        <button class="chip" data-filter="Credit">Credit</button>
+      </nav>
 
-      <a class="chip" data-variant="cta" href="/income-tax.html">Open Income & Taxes</a>
-    </nav>
+      <!-- Search disabled for now (placeholder only) -->
+      <div class="comingsoon" title="Search — coming soon">Search</div>
+    </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero" aria-label="Intro">
-    <div>
-      <div class="h-eyebrow">Clear money thinking • Actionable • No fluff</div>
-      <h1 class="h-title">LockHabit Blog</h1>
-      <p class="h-lede">
-        Guides and breakdowns that make financial decisions easier — with numbers you can trust and steps you can act on today.
-      </p>
-      <div class="searchbar" role="search">
-        <input id="q" class="ctrl" type="search" placeholder="Search topics (e.g., taxes, mortgage, 50/30/20)" aria-label="Search posts"/>
-        <button id="clearQ" class="chip" title="Clear search">Clear</button>
-      </div>
-      <div class="toolbar" aria-label="Filters">
-        <select id="catSel" class="select" aria-label="Filter by category">
-          <option value="all" selected>All categories</option>
-        </select>
-        <select id="sortSel" class="select" aria-label="Sort posts">
-          <option value="new" selected>Newest</option>
-          <option value="popular">Popular</option>
-          <option value="read">Shortest read</option>
-        </select>
-        <button id="tagToggle" class="chip">Tags ▾</button>
-      </div>
+  <!-- Hero Rail -->
+  <section class="hero">
+    <div class="wrap hero-grid" id="heroGrid">
+      <!-- Filled by JS from posts.json (top 3 featured/latest) -->
     </div>
+  </section>
 
-    <!-- Featured + Trending rail -->
-    <div class="feature">
-      <article class="card" id="featureCard" aria-labelledby="featureTitle">
-        <a id="featureLink" href="#">
-          <div class="cover"><img id="featureImg" alt="" loading="lazy"/></div>
-          <div class="pad">
-            <div class="meta" id="featureMeta"></div>
-            <h2 class="title" id="featureTitle"></h2>
-            <p class="excerpt" id="featureExcerpt"></p>
-            <div class="tags" id="featureTags"></div>
-          </div>
-        </a>
-      </article>
+  <!-- Inline Ad block (tasteful) -->
+  <section class="wrap adwrap" aria-label="Sponsored">
+    <ins class="adsbygoogle"
+         style="display:block" data-ad-format="auto" data-full-width-responsive="true"
+         data-ad-client="ca-pub-8769734249298884" data-ad-slot="8990001001"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </section>
 
+  <!-- Latest / Filtered Grid -->
+  <main class="wrap">
+    <div class="split">
+      <!-- Content grid -->
+      <section class="grid" id="postGrid" aria-live="polite">
+        <!-- Filled by JS -->
+      </section>
+
+      <!-- Right rail -->
       <aside class="rail">
-        <h3>Trending</h3>
-        <div id="trendingList" aria-live="polite">
-          <!-- Filled by JS -->
+        <div class="card about">
+          <h3>What is the LockHabit Journal?</h3>
+          <p class="muted">
+            A premium, calm space to understand money. No hype. No jargon.
+            We explain how money works so you can make confident decisions and
+            build wealth you can actually keep.
+          </p>
+        </div>
+
+        <div class="card nl">
+          <h3>Get 1 useful idea each week</h3>
+          <p class="muted">Short, practical insights. No spam. Unsubscribe anytime.</p>
+          <form class="nl-form" onsubmit="event.preventDefault(); window.location='mailto:lockhabit@outlook.com?subject=Subscribe to LockHabit Journal&body=Please subscribe me.';">
+            <input type="email" placeholder="you@email.com" required/>
+            <button type="submit" class="btn">Subscribe</button>
+          </form>
+          <div class="fine">By subscribing you agree to our <a href="/privacy.html">Privacy</a>.</div>
+        </div>
+
+        <div class="card picks" id="editorPicks">
+          <h3>Editor’s Picks</h3>
+          <div class="mini-list"><!-- JS --></div>
+        </div>
+
+        <div class="card tags" id="popularTags">
+          <h3>Popular Topics</h3>
+          <div class="tags-wrap"><!-- JS --></div>
         </div>
       </aside>
     </div>
-  </section>
-
-  <!-- Tag chips (collapsible) -->
-  <div class="filters">
-    <div id="tagChips" class="row hide" aria-label="All tags"></div>
-  </div>
-
-  <!-- Main grid -->
-  <main class="wrap">
-    <section aria-label="Articles">
-      <div id="grid" class="grid">
-        <!-- Filled by JS -->
-      </div>
-
-      <!-- Pagination -->
-      <div class="pagnav">
-        <button id="prevBtn" class="btn" disabled>◀ Prev</button>
-        <div class="pageinfo" id="pageInfo">Page 1</div>
-        <button id="nextBtn" class="btn" disabled>Next ▶</button>
-      </div>
-    </section>
   </main>
 
-  <!-- Newsletter -->
-  <section class="newsletter" aria-label="Newsletter">
-    <div class="nl-card">
-      <h3>Get the 5-minute money brief</h3>
-      <p>One practical tip, one chart, and one calculator — delivered weekly. No spam, unsubscribe anytime.</p>
-      <form class="nl-row" action="https://formspree.io/f/xbldnnna" method="POST">
-        <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" required>
-        <button type="submit">Subscribe</button>
-      </form>
-    </div>
-  </section>
-
   <!-- Footer -->
-  <footer class="wrap">
-    <div class="row links">
-      <div>© <span id="yr"></span> LockHabit — Clear money thinking.</div>
-      <a href="/terms.html">Terms</a>
-      <a href="/privacy.html">Privacy</a>
-      <a href="/security.html">Security</a>
-      <a href="mailto:lockhabit@outlook.com">Contact</a>
+  <footer class="foot">
+    <div class="wrap footgrid">
+      <div>
+        <div class="brandline">
+          <span class="logo"></span><strong>LockHabit</strong><span class="sep">/</span><span class="brand-sub">Journal</span>
+        </div>
+        <p class="muted">Understand money. Build calm wealth. Make better decisions with clear, practical guides.</p>
+      </div>
+
+      <div>
+        <h4>Explore</h4>
+        <ul class="links">
+          <li><a href="/index.html">Calculators</a></li>
+          <li><a href="/blog/">Latest Articles</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+          <li><a href="/privacy.html">Privacy</a></li>
+          <li><a href="/security.html">Security</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact</h4>
+        <ul class="links">
+          <li>Partnerships & media: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></li>
+          <li>General: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a></li>
+        </ul>
+      </div>
     </div>
-    <p style="margin-top:10px">Educational content only. Not financial advice. Results may differ from your situation.</p>
+    <div class="wrap fine">© <span id="yr"></span> LockHabit. Educational content; not financial advice.</div>
   </footer>
 
-  <script>
-  // =========================================================
-  //  LockHabit Blog Hub — Client-side controller
-  // =========================================================
-  const $ = (s,el=document)=>el.querySelector(s);
-  const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
-  const fmtDate = d=> new Date(d).toLocaleDateString(undefined,{month:'short', day:'numeric', year:'numeric'});
-  const toSlug = s=> String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-  const store = {
-    get(k, def=null){ try { return JSON.parse(localStorage.getItem(k)) ?? def } catch { return def } },
-    set(k,v){ localStorage.setItem(k, JSON.stringify(v)) }
-  };
-
-  // State
-  const state = {
-    posts: [],
-    filtered: [],
-    page: 1,
-    perPage: 9,
-    q: '',
-    cat: 'all',
-    tag: null,
-    sort: 'new'
-  };
-
-  // DOM refs
-  const grid = $('#grid');
-  const pageInfo = $('#pageInfo');
-  const prevBtn = $('#prevBtn');
-  const nextBtn = $('#nextBtn');
-  const q = $('#q');
-  const clearQ = $('#clearQ');
-  const catSel = $('#catSel');
-  const sortSel = $('#sortSel');
-  const tagToggle = $('#tagToggle');
-  const tagChips = $('#tagChips');
-
-  // Feature & trending refs
-  const fLink = $('#featureLink');
-  const fImg  = $('#featureImg');
-  const fMeta = $('#featureMeta');
-  const fTitle= $('#featureTitle');
-  const fEx   = $('#featureExcerpt');
-  const fTags = $('#featureTags');
-  const trendingList = $('#trendingList');
-
-  // Year
-  $('#yr').textContent = new Date().getFullYear();
-
-  // Tools dropdown
-  (function(){
-    const dd = $('#toolsDd'); const btn = dd.querySelector('.dd-btn');
-    btn.addEventListener('click', (e)=>{ e.stopPropagation(); dd.classList.toggle('show'); btn.setAttribute('aria-expanded', dd.classList.contains('show')?'true':'false'); });
-    document.addEventListener('click', ()=> dd.classList.remove('show'));
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') dd.classList.remove('show') });
-  })();
-
-  // Debounce helper
-  function debounce(fn, ms=200){
-    let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); };
-  }
-
-  // Fetch posts.json
-  async function load(){
-    try{
-      const res = await fetch('posts.json', {cache:'no-store'});
-      const data = await res.json();
-      // Normalize + sort desc by date
-      const posts = data.map(p=>({
-        slug: p.slug || toSlug(p.title),
-        title: p.title?.trim() || 'Untitled',
-        excerpt: p.excerpt || '',
-        date: p.date || new Date().toISOString().slice(0,10),
-        author: p.author || 'LockHabit',
-        category: p.category || 'General',
-        tags: p.tags || [],
-        read: p.read || '5 min',
-        views: Number(p.views||0),
-        hero: p.hero || '/assets/blog/hero-generic.jpg',
-        thumb: p.thumb || '/assets/blog/thumb-generic.jpg',
-        content: p.content || ''
-      })).sort((a,b)=> new Date(b.date)-new Date(a.date));
-
-      state.posts = posts;
-      buildCategories(posts);
-      buildTags(posts);
-      renderFeature(posts);
-      renderTrending(posts);
-
-      restoreFilters();
-      applyFilters();
-    }catch(e){
-      console.error('Failed to load posts.json', e);
-      grid.innerHTML = `<div class="item pad">Could not load posts. Check /blog/posts.json.</div>`;
-    }
-  }
-
-  // Build category select
-  function buildCategories(posts){
-    const cats = Array.from(new Set(posts.map(p=>p.category))).sort();
-    for(const c of cats){
-      const opt = document.createElement('option');
-      opt.value = c; opt.textContent = c;
-      catSel.appendChild(opt);
-    }
-  }
-
-  // Build tag chips (collapsed by default)
-  function buildTags(posts){
-    const count = {};
-    posts.forEach(p=> (p.tags||[]).forEach(t=> count[t]=(count[t]||0)+1 ));
-    const tags = Object.keys(count).sort((a,b)=> count[b]-count[a]);
-
-    tagChips.innerHTML = tags.map(t=>`
-      <button class="pill" data-tag="${t}" aria-pressed="false">
-        #${t} <span class="sr">(${count[t]} posts)</span>
-      </button>
-    `).join('');
-    tagChips.addEventListener('click', (e)=>{
-      const b = e.target.closest('button[data-tag]'); if(!b) return;
-      const t = b.dataset.tag;
-      if(state.tag===t){ state.tag=null; }
-      else { state.tag=t; }
-      // visual
-      $$('.pill[data-tag]').forEach(x=> x.removeAttribute('data-on'));
-      if(state.tag){ $(`.pill[data-tag="${state.tag}"]`)?.setAttribute('data-on','1'); }
-      state.page=1; applyFilters(true);
-    });
-
-    tagToggle.addEventListener('click', ()=>{
-      tagChips.classList.toggle('hide');
-    });
-  }
-
-  // Feature = newest (or highest views among top 5 newest)
-  function renderFeature(posts){
-    const top5 = posts.slice(0,5);
-    const best = top5.slice().sort((a,b)=> b.views-a.views)[0] || top5[0] || posts[0];
-    if(!best) return;
-
-    fLink.href = `post.html?slug=${encodeURIComponent(best.slug)}`;
-    fImg.src = best.hero; fImg.alt = best.title;
-    fMeta.textContent = `${fmtDate(best.date)} · ${best.read}`;
-    fTitle.textContent = best.title;
-    fEx.textContent = best.excerpt;
-    fTags.innerHTML = (best.tags||[]).slice(0,4).map(t=>`<span class="tag">#${t}</span>`).join('');
-  }
-
-  // Trending = top 6 by views
-  function renderTrending(posts){
-    const hot = posts.slice().sort((a,b)=> b.views-a.views).slice(0,6);
-    trendingList.innerHTML = hot.map(p=>`
-      <a class="trend" href="post.html?slug=${encodeURIComponent(p.slug)}">
-        <div class="thumb"><img src="${p.thumb}" alt="${p.title}" loading="lazy"/></div>
-        <div>
-          <div class="t">${p.title}</div>
-          <div class="m">${fmtDate(p.date)} · ${p.read}</div>
-        </div>
-      </a>
-    `).join('');
-  }
-
-  // Apply filters + search + sort
-  function applyFilters(save=false){
-    const qval = state.q.trim().toLowerCase();
-    let arr = state.posts.slice();
-
-    if(state.cat!=='all'){
-      arr = arr.filter(p=> (p.category||'').toLowerCase() === state.cat.toLowerCase());
-    }
-    if(state.tag){
-      arr = arr.filter(p=> (p.tags||[]).map(String).map(t=>t.toLowerCase()).includes(state.tag.toLowerCase()));
-    }
-    if(qval){
-      arr = arr.filter(p=>{
-        const hay = [p.title, p.excerpt, p.category, (p.tags||[]).join(' ')].join(' ').toLowerCase();
-        return hay.includes(qval);
-      });
-    }
-
-    if(state.sort==='new') arr.sort((a,b)=> new Date(b.date)-new Date(a.date));
-    if(state.sort==='popular') arr.sort((a,b)=> b.views-a.views);
-    if(state.sort==='read') arr.sort((a,b)=> parseInt(a.read)-parseInt(b.read));
-
-    state.filtered = arr;
-    if(save){ persistFilters(); }
-    renderPage();
-  }
-
-  function renderPage(){
-    const total = state.filtered.length;
-    const max = Math.max(1, Math.ceil(total / state.perPage));
-    if(state.page > max) state.page = max;
-
-    const start = (state.page-1)*state.perPage;
-    const pagePosts = state.filtered.slice(start, start+state.perPage);
-
-    // Build cards + polite ad insert (after 3rd item)
-    grid.innerHTML = pagePosts.map((p, idx)=>`
-      <article class="item">
-        <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${p.title}">
-          <img src="${p.thumb}" alt="${p.title}" loading="lazy">
-        </a>
-        <div class="pad">
-          <div class="meta">${p.category} · ${fmtDate(p.date)} · ${p.read}</div>
-          <h4><a href="post.html?slug=${encodeURIComponent(p.slug)}">${p.title}</a></h4>
-          <p class="excerpt">${p.excerpt}</p>
-          <div class="tags">${(p.tags||[]).slice(0,3).map(t=>`<span class="tag">#${t}</span>`).join('')}</div>
-        </div>
-      </article>
-
-      ${idx===2 ? `
-        <article class="item pad">
-          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8769734249298884"
-               data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        </article>
-        <script>(window.adsbygoogle=window.adsbygoogle||[]).push({});</script>
-      ` : ``}
-    `).join('');
-
-    pageInfo.textContent = `Page ${state.page} of ${max}`;
-    prevBtn.disabled = state.page<=1;
-    nextBtn.disabled = state.page>=max;
-  }
-
-  // Persist UI prefs
-  function persistFilters(){
-    store.set('lh.blog.filters', {
-      q: state.q, cat: state.cat, tag: state.tag, sort: state.sort, page: state.page
-    });
-  }
-  function restoreFilters(){
-    const s = store.get('lh.blog.filters', null);
-    if(!s) return;
-    state.q = String(s.q||''); q.value = state.q;
-    state.cat = s.cat || 'all'; catSel.value = state.cat;
-    state.tag = s.tag || null; if(state.tag){ tagChips.classList.remove('hide'); }
-    state.sort = s.sort || 'new'; sortSel.value = state.sort;
-    state.page = Number(s.page||1);
-    if(state.tag){ $(`.pill[data-tag="${state.tag}"]`)?.setAttribute('data-on','1'); }
-  }
-
-  // Events
-  q.addEventListener('input', debounce(()=>{
-    state.q = q.value; state.page = 1; applyFilters(true);
-  }, 220));
-  clearQ.addEventListener('click', ()=>{
-    q.value=''; state.q=''; state.page=1; applyFilters(true);
-  });
-
-  catSel.addEventListener('change', ()=>{
-    state.cat = catSel.value; state.page=1; applyFilters(true);
-  });
-  sortSel.addEventListener('change', ()=>{
-    state.sort = sortSel.value; state.page=1; applyFilters(true);
-  });
-
-  prevBtn.addEventListener('click', ()=>{ state.page=Math.max(1, state.page-1); persistFilters(); renderPage(); });
-  nextBtn.addEventListener('click', ()=>{ state.page=state.page+1; persistFilters(); renderPage(); });
-
-  // Boot
-  load();
-  </script>
+  <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+  <script type="module" src="/blog/assets/blog.js"></script>
 </body>
 </html>
