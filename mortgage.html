@@ -201,12 +201,14 @@
           <span class="note">Inputs save locally on this device.</span>
         </div>
 
-        <!-- Ad block -->
+        <!-- Ad block (Ezoic standalone) -->
         <div class="ad-spacer">
-          <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
-               data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
-               data-ad-slot="1234567892"></ins>
-          <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+          <div id="ezoic-pub-ad-placeholder-104"></div>
+          <script>
+            ezstandalone.cmd.push(function () {
+              ezstandalone.showAds(104);
+            });
+          </script>
         </div>
       </section>
 
@@ -335,10 +337,10 @@
       }
       function buildAmort(principal, apr, years, extra, lump){
         const r=(apr/100)/12, n=years*12, pmt=mPI(principal,apr,years)+extra;
-        let bal=principal, mon=0, totalInt=0, lumped=false, rows=[];
+        let bal=principal, mon=0, totalInt=0, rows=[];
         while(bal>0 && mon<n+360){
           mon++;
-          if(!lumped && lump>0){ bal=Math.max(0, bal-lump); lumped=true; }
+          if(lump>0 && mon===1){ bal=Math.max(0, bal-lump); }
           const interest=bal*r, prin=Math.min(bal, pmt-interest); bal-=prin; totalInt+=interest;
           if(mon<=12) rows.push({mon,pmt,prin,interest,bal});
         }
