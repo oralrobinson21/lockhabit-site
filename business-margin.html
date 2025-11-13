@@ -291,13 +291,6 @@
           </div>
         </details>
 
-        <!-- Ad -->
-        <div style="margin-top:12px">
-          <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
-               data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8769734249298884"
-               data-ad-slot="1234567890"></ins>
-          <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-        </div>
       </section>
 
       <!-- Outputs -->
@@ -487,14 +480,13 @@
       const wantM = +marginPct.value || 0;
       const wantK = +markupPct.value || 0;
 
-      // Price to hit margin% considering shipping+fees? By definition, margin is on revenue vs cost;
-      // here we show pure price target ignoring optional fees (classic definition), then you can add fees to see effect.
+      // Price to hit margin% (classic definition, ignoring optional fees)
       const priceForMargin = C / (1 - wantM/100);
       const priceForMarkup = C * (1 + wantK/100);
       solvePriceMargin.textContent = fmt(priceForMargin);
       solvePriceMarkup.textContent = fmt(priceForMarkup);
 
-      // Max allowable cost for target margin at current price:
+      // Max allowable cost for target margin% at current price:
       const costForMargin = P * (1 - wantM/100);
       solveCostMargin.textContent = fmt(costForMargin);
     }
