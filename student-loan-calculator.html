@@ -14,7 +14,7 @@
   
   
   <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8769734249298884" crossorigin="anonymous"></script>
+  <!-- (Removed AdSense JS in favor of Ezoic standalone) -->
 
   <!-- Google tag (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
@@ -149,6 +149,17 @@
           <button class="btn" id="reset">Reset</button>
           <button class="btn" id="emailBtn">Email me the results</button>
         </div>
+
+        <!-- Ezoic ad block (replacing in-page AdSense) -->
+        <div style="margin-top:10px">
+          <div id="ezoic-pub-ad-placeholder-107"></div>
+          <script>
+            ezstandalone.cmd.push(function () {
+              ezstandalone.showAds(107);
+            });
+          </script>
+        </div>
+
       </div>
       <p class="mini" style="margin-top:8px">Note: This is a general amortization model (standard/fixed payment). Country-specific student loan programs and income-driven plans vary.</p>
     </div>
