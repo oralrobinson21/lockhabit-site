@@ -13,10 +13,7 @@
   
   
   
-  <!-- AdSense -->
-
-
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) – analytics only, no ads -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -120,6 +117,16 @@
   </header>
 
   <main class="wrap">
+    <!-- Top-of-page Ezoic ad (under header, above H1) -->
+    <div class="ad-spacer">
+      <div id="ezoic-pub-ad-placeholder-101"></div>
+      <script>
+        ezstandalone.cmd.push(function () {
+          ezstandalone.showAds(101);
+        });
+      </script>
+    </div>
+
     <h1 class="title">Mortgage Payment & Affordability</h1>
     <p class="lead">Estimate PITI (principal, interest, taxes, insurance) + PMI & HOA. Import your monthly net from the Income & Taxes tool to check DTI and the max price you can target.</p>
 
@@ -201,12 +208,12 @@
           <span class="note">Inputs save locally on this device.</span>
         </div>
 
-        <!-- Ad block (Ezoic standalone) -->
+        <!-- Mid-page Ezoic ad (inside inputs card) -->
         <div class="ad-spacer">
-          <div id="ezoic-pub-ad-placeholder-104"></div>
+          <div id="ezoic-pub-ad-placeholder-102"></div>
           <script>
             ezstandalone.cmd.push(function () {
-              ezstandalone.showAds(104);
+              ezstandalone.showAds(102);
             });
           </script>
         </div>
@@ -285,6 +292,16 @@
       </section>
     </div>
   </main>
+
+  <!-- Bottom-of-page Ezoic ad (site-wide footer zone) -->
+  <div class="ad-spacer">
+    <div id="ezoic-pub-ad-placeholder-103"></div>
+    <script>
+      ezstandalone.cmd.push(function () {
+        ezstandalone.showAds(103);
+      });
+    </script>
+  </div>
 
   <script>
     // ---------- Tools menu (same UX as income page) ----------
@@ -428,7 +445,7 @@
       els.calc.addEventListener('click', calc);
       els.reset.addEventListener('click', ()=>{ localStorage.removeItem(KEY); location.reload(); });
 
-      // Live alignments without overlap
+      // Live alignments without overlap (placeholder hook)
       ['input','change'].forEach(ev=>{
         [els.hp,els.dp,els.r,els.t,els.pmi,els.hoa,els.tax,els.ins,els.esc,els.extra,els.lump]
           .forEach(x=>x.addEventListener(ev, ()=>{}));
