@@ -115,28 +115,38 @@
   }
 
   /* ======================= LAYOUT ========================== */
-  header{
-    position:sticky; top:0; z-index:40;
-    backdrop-filter:saturate(1.06) blur(10px);
-    background:linear-gradient(180deg, rgba(4,10,22,.78), rgba(4,10,22,.38));
-    border-bottom:1px solid rgba(28,40,66,.8);
-  }
-  .nav{
-    max-width:var(--w-max); margin:0 auto; padding:14px 16px;
-    display:flex; align-items:center; gap:12px;
-  }
-  .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px}
-  .logo{
-    width:28px; height:28px; border-radius:999px;
-    background-image:url("/assets/lockhabit-seal.png");
-    background-size:cover;
-    background-position:center;
-    box-shadow:0 2px 10px rgba(0,0,0,.4);
-  }
-  .logo::after{
-    content:none;
-  }
-  .spacer{flex:1}
+header{
+  position:sticky; top:0; z-index:40;
+  backdrop-filter:saturate(1.06) blur(10px);
+  background:linear-gradient(180deg, rgba(4,10,22,.78), rgba(4,10,22,.38));
+  border-bottom:1px solid rgba(28,40,66,.8);
+}
+
+.nav{
+  max-width:var(--w-max);
+  margin:0 auto;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* ⭐ Correct placement of the LOGO block */
+.logo{
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  background-image:url("/assets/IMG_5336.jpeg");
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+
+.logo::after{
+  content:none;
+}
+
+.spacer{flex:1}
 
   .pill{
     display:inline-flex; align-items:center; gap:10px;
