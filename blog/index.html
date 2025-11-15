@@ -373,8 +373,6 @@
   <!-- =========================================================
        JS — Data loading, hero mosaic, filters, trending, lanes
        Expects /blog/posts.json (same format as before).
-       Now has a built-in fallback so the page still works
-       even if posts.json is missing.
        ========================================================= -->
   <script>
   (function(){
@@ -382,88 +380,6 @@
     const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
     const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
     const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
-
-    /* --------- Built-in fallback posts so the blog isn’t blank --------- */
-    const FALLBACK_POSTS = [
-      {
-        slug: "tax-brackets-guide",
-        title: "Tax Brackets: How Your Income Actually Gets Taxed in Layers",
-        category: "Taxes",
-        date: "2025-09-20",
-        read: "15 min read",
-        excerpt: "Walk through how tax brackets really work, why your whole income is not taxed at your top rate, and how to estimate what you actually pay.",
-        hero: "/assets/blog/taxes/tax-brackets-hero.jpg",
-        thumb: "/assets/blog/taxes/tax-brackets-hero.jpg",
-        tags: ["Tax basics","Tax brackets","Income planning"],
-        featured: true,
-        views: 500
-      },
-      {
-        slug: "tax-filing-basics-for-beginners",
-        title: "Tax Filing Basics: A Beginner-Friendly Guide to Doing Your Own Taxes",
-        category: "Taxes",
-        date: "2025-09-27",
-        read: "11 min read",
-        excerpt: "First time filing taxes? This plain-English guide walks you through the process from gathering forms to hitting submit and tracking your refund.",
-        hero: "/assets/blog/taxes/tax-filing-basics-hero.jpg",
-        thumb: "/assets/blog/taxes/tax-filing-basics-hero.jpg",
-        tags: ["Tax basics","First-time filers","DIY filing"],
-        featured: false,
-        views: 420
-      },
-      {
-        slug: "side-hustle-taxes-beginners-guide",
-        title: "Side Hustle & Self-Employed Taxes: A Beginner’s Guide to Not Getting Crushed",
-        category: "Taxes",
-        date: "2025-10-02",
-        read: "18 min read",
-        excerpt: "If your side hustle or self-employed income is growing, this guide shows you how to track it, what to save for taxes, and which expenses may be deductible.",
-        hero: "/assets/blog/taxes/side-hustle-taxes-hero.jpg",
-        thumb: "/assets/blog/taxes/side-hustle-taxes-hero.jpg",
-        tags: ["Side hustle","Self-employed","Record-keeping"],
-        featured: false,
-        views: 380
-      },
-      {
-        slug: "tax-planning-life-changes",
-        title: "The Complete Guide to Tax Planning During Big Life Changes",
-        category: "Taxes",
-        date: "2025-10-30",
-        read: "19 min read",
-        excerpt: "New job, move, marriage, kids, or a growing side hustle? Learn how to adjust your tax setup when real life changes so you’re not surprised at tax time.",
-        hero: "/assets/blog/taxes/tax-planning-life-changes-hero.jpg",
-        thumb: "/assets/blog/taxes/tax-planning-life-changes-hero.jpg",
-        tags: ["Tax planning","Life changes","Withholding"],
-        featured: false,
-        views: 360
-      },
-      {
-        slug: "common-tax-mistakes-guide",
-        title: "The Most Common Tax Mistakes People Make (And How to Never Make Them)",
-        category: "Taxes",
-        date: "2025-11-05",
-        read: "17 min read",
-        excerpt: "A practical, story-driven guide to the small tax mistakes that delay refunds, trigger letters, and cost people money—and the habits that prevent them.",
-        hero: "/assets/blog/taxes/common-tax-mistakes-hero.jpg",
-        thumb: "/assets/blog/taxes/common-tax-mistakes-hero.jpg",
-        tags: ["Tax basics","Mistakes","Refund issues"],
-        featured: false,
-        views: 410
-      },
-      {
-        slug: "how-to-read-your-paycheck",
-        title: "How to Read Your Paycheck: A Complete Guide to Every Line, Code, and Deduction",
-        category: "Taxes",
-        date: "2025-11-10",
-        read: "20 min read",
-        excerpt: "Decode every line on your paystub—gross pay, net pay, FICA, pre-tax vs post-tax deductions, and how your paycheck connects directly to your tax refund.",
-        hero: "/assets/blog/taxes/how-to-read-your-paycheck-hero.jpg",
-        thumb: "/assets/blog/taxes/how-to-read-your-paycheck-hero.jpg",
-        tags: ["Paychecks","Withholding","Tax planning"],
-        featured: false,
-        views: 390
-      }
-    ];
 
     const S = {
       posts: [],
@@ -483,35 +399,31 @@
       pageInfo: $('#pageInfo')
     };
 
-    // ---------- Load posts (try posts.json, fall back to built-in) ----------
-    function initFromPosts(posts){
-      S.posts = (posts||[]).map(p => ({...p, dateNum: +new Date(p.date||0)}))
-                           .sort((a,b)=> b.dateNum - a.dateNum);
-
-      buildHeroMosaic();
-      buildTrending();
-      applyCat('all');      // initial
-      buildJourneyLanes();
-    }
-
+    // ---------- Load posts ----------
     fetch('posts.json', { cache:'no-cache' })
-      .then(r=>{
-        if (!r.ok) throw new Error('posts.json not found');
-        return r.json();
-      })
+      .then(r=>r.json())
       .then(data=>{
-        const arr = Array.isArray(data) ? data : [];
-        if (!arr.length){
-          console.warn('posts.json empty or invalid, using fallback posts.');
-          initFromPosts(FALLBACK_POSTS);
-        } else {
-          initFromPosts(arr);
-        }
+        S.posts = (data||[]).map(p=>({...p, dateNum: +new Date(p.date||0)}))
+                             .sort((a,b)=> b.dateNum - a.dateNum);
+
+        buildHeroMosaic();
+        buildTrending();
+        applyCat('all');      // initial
+        buildJourneyLanes();
       })
       .catch(err=>{
-        console.error('posts load error, using fallback posts instead:', err);
-        initFromPosts(FALLBACK_POSTS);
+        console.error('posts load error', err);
+        E.mosaic.innerHTML = `<div class="card pad"><b>We couldn’t load stories.</b> Please refresh.</div>`;
       });
+
+    // Helper: resolve URL for a post
+    function postUrl(p){
+      return esc(
+        p.url ||
+        p.href ||
+        (`/blog/posts/${(p.category||'').toLowerCase()}/${p.slug}.html`)
+      );
+    }
 
     // ---------- HERO MOSAIC (1 big + 2 supporting) ----------
     function buildHeroMosaic(){
@@ -531,13 +443,13 @@
     function heroCard(p, big=false){
       return `
         <article class="card heroCard fade" style="${big?'grid-column:1 / span 1':'grid-column:auto'}">
-          <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${esc(p.title)}">
+          <a class="thumb" href="${postUrl(p)}" aria-label="${esc(p.title)}">
             <img data-src="${esc(p.hero || p.thumb)}" alt="${esc(p.title)}"/>
           </a>
           <span class="ribbon">${esc(p.category||'')}</span>
           <div class="pad">
             <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
-            <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${esc(p.title)}</a></h3>
+            <h3 class="title"><a href="${postUrl(p)}">${esc(p.title)}</a></h3>
             <p class="excerpt">${esc(p.excerpt||'')}</p>
           </div>
         </article>`;
@@ -595,10 +507,10 @@
     function card(p){
       return `
         <article class="card fade">
-          <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}"><img data-src="${esc(p.thumb || p.hero)}" alt="${esc(p.title)}"/></a>
+          <a class="thumb" href="${postUrl(p)}"><img data-src="${esc(p.thumb || p.hero)}" alt="${esc(p.title)}"/></a>
           <div class="pad">
             <div class="meta">${esc(p.category||'')} • <time datetime="${p.date}">${fmtDate(p.date)}</time> • ${esc(p.read||'')}</div>
-            <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${esc(p.title)}</a></h3>
+            <h3 class="title"><a href="${postUrl(p)}">${esc(p.title)}</a></h3>
             <p class="excerpt">${esc(p.excerpt||'')}</p>
           </div>
         </article>`;
@@ -627,11 +539,11 @@
     function mini(p){
       return `
         <div style="display:grid; grid-template-columns:100px 1fr; gap:10px; align-items:center; margin:10px 0">
-          <a href="post.html?slug=${encodeURIComponent(p.slug)}" class="thumb" style="border-radius:12px; overflow:hidden">
+          <a href="${postUrl(p)}" class="thumb" style="border-radius:12px; overflow:hidden">
             <img data-src="${esc(p.thumb||p.hero)}" alt="${esc(p.title)}"/>
           </a>
           <div>
-            <a href="post.html?slug=${encodeURIComponent(p.slug)}" style="font-weight:900">${esc(p.title)}</a>
+            <a href="${postUrl(p)}" style="font-weight:900">${esc(p.title)}</a>
             <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
           </div>
         </div>`;
