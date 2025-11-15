@@ -376,292 +376,194 @@
        Now has a built-in fallback so the page still works
        even if posts.json is missing.
        ========================================================= -->
-  <script>
-  (function(){
-    const $ = (s,el=document)=>el.querySelector(s);
-    const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
-    const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
-    const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+<script>
+(function(){
+  const $ = (s,el=document)=>el.querySelector(s);
+  const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+  const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
+  const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
 
-    // ---- helper to decide where a card should link ----
-    function linkFor(p){
-      if (p.url) return esc(p.url);
-      const cat = (p.category || '').toLowerCase();
-      if (cat && p.slug){
-        return `/blog/posts/${cat}/${esc(p.slug)}.html`;
-      }
-      // last resort: old style
-      return `post.html?slug=${encodeURIComponent(p.slug || '')}`;
-    }
+  const FALLBACK_POSTS = [];
 
-    /* --------- Built-in fallback posts so the blog isn’t blank --------- */
-    const FALLBACK_POSTS = [
-      {
-        slug: "tax-brackets-guide",
-        title: "Tax Brackets: How Your Income Actually Gets Taxed in Layers",
-        category: "Taxes",
-        date: "2025-09-20",
-        read: "15 min read",
-        excerpt: "Walk through how tax brackets really work, why your whole income is not taxed at your top rate, and how to estimate what you actually pay.",
-        hero: "/assets/blog/taxes/tax-brackets-hero.jpg",
-        thumb: "/assets/blog/taxes/tax-brackets-hero.jpg",
-        tags: ["Tax basics","Tax brackets","Income planning"],
-        featured: true,
-        views: 500
-      },
-      {
-        slug: "tax-filing-basics-for-beginners",
-        title: "Tax Filing Basics: A Beginner-Friendly Guide to Doing Your Own Taxes",
-        category: "Taxes",
-        date: "2025-09-27",
-        read: "11 min read",
-        excerpt: "First time filing taxes? This plain-English guide walks you through the process from gathering forms to hitting submit and tracking your refund.",
-        hero: "/assets/blog/taxes/tax-filing-basics-hero.jpg",
-        thumb: "/assets/blog/taxes/tax-filing-basics-hero.jpg",
-        tags: ["Tax basics","First-time filers","DIY filing"],
-        featured: false,
-        views: 420
-      },
-      {
-        slug: "side-hustle-taxes-beginners-guide",
-        title: "Side Hustle & Self-Employed Taxes: A Beginner’s Guide to Not Getting Crushed",
-        category: "Taxes",
-        date: "2025-10-02",
-        read: "18 min read",
-        excerpt: "If your side hustle or self-employed income is growing, this guide shows you how to track it, what to save for taxes, and which expenses may be deductible.",
-        hero: "/assets/blog/taxes/side-hustle-taxes-hero.jpg",
-        thumb: "/assets/blog/taxes/side-hustle-taxes-hero.jpg",
-        tags: ["Side hustle","Self-employed","Record-keeping"],
-        featured: false,
-        views: 380
-      },
-      {
-        slug: "tax-planning-life-changes",
-        title: "The Complete Guide to Tax Planning During Big Life Changes",
-        category: "Taxes",
-        date: "2025-10-30",
-        read: "19 min read",
-        excerpt: "New job, move, marriage, kids, or a growing side hustle? Learn how to adjust your tax setup when real life changes so you’re not surprised at tax time.",
-        hero: "/assets/blog/taxes/tax-planning-life-changes-hero.jpg",
-        thumb: "/assets/blog/taxes/tax-planning-life-changes-hero.jpg",
-        tags: ["Tax planning","Life changes","Withholding"],
-        featured: false,
-        views: 360
-      },
-      {
-        slug: "common-tax-mistakes-guide",
-        title: "The Most Common Tax Mistakes People Make (And How to Never Make Them)",
-        category: "Taxes",
-        date: "2025-11-05",
-        read: "17 min read",
-        excerpt: "A practical, story-driven guide to the small tax mistakes that delay refunds, trigger letters, and cost people money—and the habits that prevent them.",
-        hero: "/assets/blog/taxes/common-tax-mistakes-hero.jpg",
-        thumb: "/assets/blog/taxes/common-tax-mistakes-hero.jpg",
-        tags: ["Tax basics","Mistakes","Refund issues"],
-        featured: false,
-        views: 410
-      },
-      {
-        slug: "how-to-read-your-paycheck",
-        title: "How to Read Your Paycheck: A Complete Guide to Every Line, Code, and Deduction",
-        category: "Taxes",
-        date: "2025-11-10",
-        read: "20 min read",
-        excerpt: "Decode every line on your paystub—gross pay, net pay, FICA, pre-tax vs post-tax deductions, and how your paycheck connects directly to your tax refund.",
-        hero: "/assets/blog/taxes/how-to-read-your-paycheck-hero.jpg",
-        thumb: "/assets/blog/taxes/how-to-read-your-paycheck-hero.jpg",
-        tags: ["Paychecks","Withholding","Tax planning"],
-        featured: false,
-        views: 390
-      }
-    ];
+  const S = {
+    posts: [],
+    filtered: [],
+    page: 1,
+    per: 9,
+    cat: 'all'
+  };
 
-    const S = {
-      posts: [],
-      filtered: [],
-      page: 1,
-      per: 9,
-      cat: 'all'
-    };
+  const E = {
+    mosaic: $('#heroMosaic'),
+    latest: $('#latest'),
+    journey: $('#journey'),
+    trend: $('#trendTags'),
+    prev: $('#prev'),
+    next: $('#next'),
+    pageInfo: $('#pageInfo')
+  };
 
-    const E = {
-      mosaic: $('#heroMosaic'),
-      latest: $('#latest'),
-      journey: $('#journey'),
-      trend: $('#trendTags'),
-      prev: $('#prev'),
-      next: $('#next'),
-      pageInfo: $('#pageInfo')
-    };
+  function initFromPosts(posts){
+    S.posts = (posts||[]).map(p => ({...p, dateNum:+new Date(p.date||0)}))
+                         .sort((a,b)=>b.dateNum - a.dateNum);
+    buildHeroMosaic();
+    buildTrending();
+    applyCat('all');
+    buildJourneyLanes();
+  }
 
-    // ---------- Load posts (try posts.json, fall back to built-in) ----------
-    function initFromPosts(posts){
-      S.posts = (posts||[]).map(p => ({...p, dateNum: +new Date(p.date||0)}))
-                           .sort((a,b)=> b.dateNum - a.dateNum);
-
-      buildHeroMosaic();
-      buildTrending();
-      applyCat('all');      // initial
-      buildJourneyLanes();
-    }
-
-    fetch('posts.json', { cache:'no-cache' })
-      .then(r=>{
-        if (!r.ok) throw new Error('posts.json not found');
-        return r.json();
-      })
-      .then(data=>{
-        const arr = Array.isArray(data) ? data : [];
-        if (!arr.length){
-          console.warn('posts.json empty or invalid, using fallback posts.');
-          initFromPosts(FALLBACK_POSTS);
-        } else {
-          initFromPosts(arr);
-        }
-      })
-      .catch(err=>{
-        console.error('posts load error, using fallback posts instead:', err);
+  fetch('posts.json', { cache:'no-cache' })
+    .then(r=>{
+      if(!r.ok) throw new Error("posts.json missing");
+      return r.json();
+    })
+    .then(data=>{
+      if(!Array.isArray(data) || !data.length){
         initFromPosts(FALLBACK_POSTS);
-      });
-
-    // ---------- HERO MOSAIC (1 big + 2 supporting) ----------
-    function buildHeroMosaic(){
-      if(!S.posts.length){ E.mosaic.innerHTML=''; return; }
-      const picks = [];
-
-      // 1) Prefer a featured, else top latest by views
-      const feat = S.posts.find(p=>p.featured);
-      if(feat) picks.push(feat);
-      const rest = S.posts.filter(p => p.slug !== (feat && feat.slug));
-      rest.sort((a,b)=>(b.views||0)-(a.views||0));
-      picks.push(...rest.slice(0,2));
-
-      E.mosaic.innerHTML = picks.map((p,i)=>heroCard(p, i===0)).join('');
-      lazyImgs(E.mosaic);
-    }
-    function heroCard(p, big=false){
-      return `
-        <article class="card heroCard fade" style="${big?'grid-column:1 / span 1':'grid-column:auto'}">
-          <a class="thumb" href="${linkFor(p)}" aria-label="${esc(p.title)}">
-            <img data-src="${esc(p.hero || p.thumb)}" alt="${esc(p.title)}"/>
-          </a>
-          <span class="ribbon">${esc(p.category||'')}</span>
-          <div class="pad">
-            <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
-            <h3 class="title"><a href="${linkFor(p)}">${esc(p.title)}</a></h3>
-            <p class="excerpt">${esc(p.excerpt||'')}</p>
-          </div>
-        </article>`;
-    }
-
-    // ---------- Trending tags ----------
-    function buildTrending(){
-      const count = {};
-      S.posts.forEach(p => (p.tags||[]).forEach(t => count[t] = (count[t]||0) + 1));
-      const top = Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,10);
-      E.trend.innerHTML = top.map(([t,n])=>`<a class="chip" href="#" data-tag="${esc(t)}" title="${n} posts">${esc(t)}</a>`).join('');
-      $$('#trendTags .chip').forEach(ch=>{
-        ch.addEventListener('click', e=>{
-          e.preventDefault();
-          const tag = ch.dataset.tag;
-          S.filtered = S.posts.filter(p=> (p.tags||[]).includes(tag) );
-          S.cat = 'tag:'+tag;
-          S.page = 1;
-          clearCatPills();
-          renderLatest();
-          window.scrollTo({ top: $('#latest').getBoundingClientRect().top + window.scrollY - 12, behavior:'smooth' });
-        });
-      });
-    }
-
-    // ---------- Category filters ----------
-    $$('.rail .pill').forEach(btn=>{
-      btn.addEventListener('click', ()=> applyCat(btn.dataset.cat));
+      } else {
+        initFromPosts(data);
+      }
+    })
+    .catch(()=>{
+      initFromPosts(FALLBACK_POSTS);
     });
 
-    function applyCat(cat){
-      S.cat = cat;
-      S.page = 1;
-      $$('.rail .pill').forEach(b => b.setAttribute('data-on', b.dataset.cat===cat ? '1' : '0'));
-      S.filtered = (cat==='all') ? S.posts : S.posts.filter(p=> p.category===cat );
-      renderLatest();
-    }
-    function clearCatPills(){ $$('.rail .pill').forEach(b => b.setAttribute('data-on','0')); }
+  /* ==============================
+     FIXED LINK VERSION (IMPORTANT)
+     ============================== */
 
-    // ---------- Latest grid + pagination ----------
-    function renderLatest(){
-      const start = (S.page-1) * S.per;
-      const slice = S.filtered.slice(start, start + S.per);
-      E.latest.innerHTML = slice.map(card).join('');
-      lazyImgs(E.latest);
+  function heroCard(p, big=false){
+    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
+    return `
+      <article class="card heroCard fade" style="${big?'grid-column:1/span 1':''}">
+        <a class="thumb" href="${url}">
+          <img data-src="${esc(p.hero || p.thumb)}" alt="${esc(p.title)}"/>
+        </a>
+        <span class="ribbon">${esc(p.category||'')}</span>
+        <div class="pad">
+          <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
+          <h3 class="title"><a href="${url}">${esc(p.title)}</a></h3>
+          <p class="excerpt">${esc(p.excerpt||'')}</p>
+        </div>
+      </article>`;
+  }
 
-      const max = Math.max(1, Math.ceil(S.filtered.length / S.per));
-      E.pageInfo.textContent = `Page ${S.page} of ${max}${S.cat && S.cat!=='all' ? ` • ${S.cat.replace('tag:','Tag: ')}`:''}`;
-      E.prev.disabled = S.page<=1;
-      E.next.disabled = S.page>=max;
-    }
-    E.prev.addEventListener('click', ()=>{ S.page = Math.max(1, S.page-1); renderLatest(); window.scrollTo({top:0,behavior:'smooth'}); });
-    E.next.addEventListener('click', ()=>{ S.page = S.page+1; renderLatest(); window.scrollTo({top:0,behavior:'smooth'}); });
+  function card(p){
+    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
+    return `
+      <article class="card fade">
+        <a class="thumb" href="${url}">
+          <img data-src="${esc(p.thumb||p.hero)}" alt="${esc(p.title)}"/>
+        </a>
+        <div class="pad">
+          <div class="meta">${esc(p.category)} • <time datetime="${p.date}">${fmtDate(p.date)}</time> • ${esc(p.read)}</div>
+          <h3 class="title"><a href="${url}">${esc(p.title)}</a></h3>
+          <p class="excerpt">${esc(p.excerpt)}</p>
+        </div>
+      </article>`;
+  }
 
-    function card(p){
-      return `
-        <article class="card fade">
-          <a class="thumb" href="${linkFor(p)}"><img data-src="${esc(p.thumb || p.hero)}" alt="${esc(p.title)}"/></a>
-          <div class="pad">
-            <div class="meta">${esc(p.category||'')} • <time datetime="${p.date}">${fmtDate(p.date)}</time> • ${esc(p.read||'')}</div>
-            <h3 class="title"><a href="${linkFor(p)}">${esc(p.title)}</a></h3>
-            <p class="excerpt">${esc(p.excerpt||'')}</p>
-          </div>
-        </article>`;
-    }
+  function mini(p){
+    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
+    return `
+      <div style="display:grid;grid-template-columns:100px 1fr;gap:10px;align-items:center;margin:10px 0">
+        <a href="${url}" class="thumb" style="border-radius:12px;overflow:hidden">
+          <img data-src="${esc(p.thumb||p.hero)}" alt="${esc(p.title)}"/>
+        </a>
+        <div>
+          <a href="${url}" style="font-weight:900">${esc(p.title)}</a>
+          <div class="meta">${fmtDate(p.date)} • ${esc(p.read)}</div>
+        </div>
+      </div>`;
+  }
 
-    // ---------- Journey lanes (category carousels rendered as grids) ----------
-    function buildJourneyLanes(){
-      const cats = ['Saving','Debt','Credit','Home','Investing','Taxes'];
-      const pools = cats.map(c => ({ cat:c, items: S.posts.filter(p=>p.category===c).slice(0,3) }))
-                        .filter(x => x.items.length);
-      E.journey.innerHTML = pools.map(pool => journey(pool.cat, pool.items)).join('');
-      lazyImgs(E.journey);
-    }
-    function journey(cat, items){
-      return `
-        <div class="card fade">
-          <div class="pad">
-            <div class="meta" style="margin-bottom:8px">${esc(cat)} • Starter pack</div>
-            <div class="hlist" style="margin-bottom:10px">
-              ${(items[0]?.tags||[]).slice(0,3).map(t=>`<span class="chip">${esc(t)}</span>`).join('')}
-            </div>
-            ${items.map(mini).join('')}
-          </div>
-        </div>`;
-    }
-    function mini(p){
-      return `
-        <div style="display:grid; grid-template-columns:100px 1fr; gap:10px; align-items:center; margin:10px 0">
-          <a href="${linkFor(p)}" class="thumb" style="border-radius:12px; overflow:hidden">
-            <img data-src="${esc(p.thumb||p.hero)}" alt="${esc(p.title)}"/>
-          </a>
-          <div>
-            <a href="${linkFor(p)}" style="font-weight:900">${esc(p.title)}</a>
-            <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
-          </div>
-        </div>`;
-    }
+  function buildHeroMosaic(){
+    if(!S.posts.length){ E.mosaic.innerHTML=''; return; }
+    const picks = [];
+    const feat = S.posts.find(p=>p.featured);
+    if(feat) picks.push(feat);
+    const rest = S.posts.filter(p=>p.slug !== (feat && feat.slug))
+                        .sort((a,b)=>(b.views||0)-(a.views||0));
+    picks.push(...rest.slice(0,2));
+    E.mosaic.innerHTML = picks.map((p,i)=>heroCard(p,i===0)).join('');
+    lazyImgs(E.mosaic);
+  }
 
-    // ---------- Lazy images ----------
-    function lazyImgs(scope=document){
-      $$('img[data-src]', scope).forEach(img=>{
-        const io = new IntersectionObserver(entries=>{
-          entries.forEach(e=>{
-            if(e.isIntersecting){
-              img.src = img.dataset.src; img.removeAttribute('data-src'); io.disconnect();
-            }
-          });
-        }, { rootMargin:'160px' });
-        io.observe(img);
+  function buildTrending(){
+    const count = {};
+    S.posts.forEach(p => (p.tags||[]).forEach(t => count[t]=(count[t]||0)+1));
+    const top = Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,10);
+    E.trend.innerHTML = top.map(([t])=>`<a class="chip" data-tag="${esc(t)}">${esc(t)}</a>`).join('');
+    $$('#trendTags .chip').forEach(ch=>{
+      ch.addEventListener('click', e=>{
+        e.preventDefault();
+        const tag = ch.dataset.tag;
+        S.filtered = S.posts.filter(p=> (p.tags||[]).includes(tag));
+        S.cat = 'tag:'+tag;
+        S.page = 1;
+        renderLatest();
       });
-    }
-  })();
-  </script>
+    });
+  }
+
+  $$('.rail .pill').forEach(btn=>{
+    btn.addEventListener('click', ()=> applyCat(btn.dataset.cat));
+  });
+
+  function applyCat(cat){
+    S.cat = cat;
+    S.page = 1;
+    $$('.rail .pill').forEach(b => b.setAttribute('data-on', b.dataset.cat===cat?'1':'0'));
+    S.filtered = (cat==='all') ? S.posts : S.posts.filter(p=> p.category===cat);
+    renderLatest();
+  }
+
+  function renderLatest(){
+    const start = (S.page-1)*S.per;
+    const pageItems = S.filtered.slice(start, start+S.per);
+    E.latest.innerHTML = pageItems.map(card).join('');
+    lazyImgs(E.latest);
+    const max = Math.max(1, Math.ceil(S.filtered.length/S.per));
+    E.pageInfo.textContent = `Page ${S.page} of ${max}`;
+    E.prev.disabled = S.page<=1;
+    E.next.disabled = S.page>=max;
+  }
+
+  E.prev.addEventListener('click',()=>{ S.page--; renderLatest(); });
+  E.next.addEventListener('click',()=>{ S.page++; renderLatest(); });
+
+  function buildJourneyLanes(){
+    const cats = ['Saving','Debt','Credit','Home','Investing','Taxes'];
+    const blocks = cats.map(c => ({
+      cat:c,
+      items:S.posts.filter(p=>p.category===c).slice(0,3)
+    })).filter(x=>x.items.length);
+
+    E.journey.innerHTML = blocks.map(b => `
+      <div class="card fade"><div class="pad">
+        <div class="meta">${esc(b.cat)} • Starter pack</div>
+        ${b.items.map(mini).join('')}
+      </div></div>`).join('');
+
+    lazyImgs(E.journey);
+  }
+
+  function lazyImgs(scope=document){
+    $$('img[data-src]',scope).forEach(img=>{
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+            io.disconnect();
+          }
+        });
+      },{rootMargin:'160px'});
+      io.observe(img);
+    });
+  }
+
+})();
+</script>
 </body>
 </html>
