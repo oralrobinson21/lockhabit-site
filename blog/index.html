@@ -383,6 +383,17 @@
     const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
     const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
 
+    // ---- helper to decide where a card should link ----
+    function linkFor(p){
+      if (p.url) return esc(p.url);
+      const cat = (p.category || '').toLowerCase();
+      if (cat && p.slug){
+        return `/blog/posts/${cat}/${esc(p.slug)}.html`;
+      }
+      // last resort: old style
+      return `post.html?slug=${encodeURIComponent(p.slug || '')}`;
+    }
+
     /* --------- Built-in fallback posts so the blog isn’t blank --------- */
     const FALLBACK_POSTS = [
       {
@@ -531,13 +542,13 @@
     function heroCard(p, big=false){
       return `
         <article class="card heroCard fade" style="${big?'grid-column:1 / span 1':'grid-column:auto'}">
-          <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${esc(p.title)}">
+          <a class="thumb" href="${linkFor(p)}" aria-label="${esc(p.title)}">
             <img data-src="${esc(p.hero || p.thumb)}" alt="${esc(p.title)}"/>
           </a>
           <span class="ribbon">${esc(p.category||'')}</span>
           <div class="pad">
             <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
-            <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${esc(p.title)}</a></h3>
+            <h3 class="title"><a href="${linkFor(p)}">${esc(p.title)}</a></h3>
             <p class="excerpt">${esc(p.excerpt||'')}</p>
           </div>
         </article>`;
@@ -595,10 +606,10 @@
     function card(p){
       return `
         <article class="card fade">
-          <a class="thumb" href="post.html?slug=${encodeURIComponent(p.slug)}"><img data-src="${esc(p.thumb || p.hero)}" alt="${esc(p.title)}"/></a>
+          <a class="thumb" href="${linkFor(p)}"><img data-src="${esc(p.thumb || p.hero)}" alt="${esc(p.title)}"/></a>
           <div class="pad">
             <div class="meta">${esc(p.category||'')} • <time datetime="${p.date}">${fmtDate(p.date)}</time> • ${esc(p.read||'')}</div>
-            <h3 class="title"><a href="post.html?slug=${encodeURIComponent(p.slug)}">${esc(p.title)}</a></h3>
+            <h3 class="title"><a href="${linkFor(p)}">${esc(p.title)}</a></h3>
             <p class="excerpt">${esc(p.excerpt||'')}</p>
           </div>
         </article>`;
@@ -627,11 +638,11 @@
     function mini(p){
       return `
         <div style="display:grid; grid-template-columns:100px 1fr; gap:10px; align-items:center; margin:10px 0">
-          <a href="post.html?slug=${encodeURIComponent(p.slug)}" class="thumb" style="border-radius:12px; overflow:hidden">
+          <a href="${linkFor(p)}" class="thumb" style="border-radius:12px; overflow:hidden">
             <img data-src="${esc(p.thumb||p.hero)}" alt="${esc(p.title)}"/>
           </a>
           <div>
-            <a href="post.html?slug=${encodeURIComponent(p.slug)}" style="font-weight:900">${esc(p.title)}</a>
+            <a href="${linkFor(p)}" style="font-weight:900">${esc(p.title)}</a>
             <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
           </div>
         </div>`;
