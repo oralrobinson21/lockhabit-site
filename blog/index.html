@@ -1,53 +1,43 @@
 <!doctype html>
 <html lang="en">
 <head>
-  
+  <!-- =========================================================
+       LockHabit — Calm Money Home (Paper Layout v1)
+       ========================================================= -->
+
+  <!-- CMP / Consent -->
   <script src="https://cmp.gatekeeperconsent.com/min.js" data-cfasync="false"></script>
   <script src="https://the.gatekeeperconsent.com/cmp.min.js" data-cfasync="false"></script>
-  
+
+  <!-- Ezoic Standalone Ads -->
   <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
   <script>
-      window.ezstandalone = window.ezstandalone || {};
-      ezstandalone.cmd = ezstandalone.cmd || [];
+    window.ezstandalone = window.ezstandalone || {};
+    ezstandalone.cmd = ezstandalone.cmd || [];
   </script>
 
-  <!-- =========================================================
-       LockHabit Journal — Editorial Blog Index (Bright v1)
-       Purpose: Unique, magazine-quality blog hub (not calculator UI)
-       ========================================================= -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>LockHabit Journal — Understand money, calmly. Premium guides, real decisions.</title>
-  <meta name="description" content="A bright, calm space to understand money. Taxes, saving, debt, credit, home, and investing—premium guides that help you decide and move forward confidently."/>
-  <link rel="canonical" href="https://lockhabit.com/blog/"/>
+
+  <title>LockHabit — Understand money calmly. Tools and guides that actually help.</title>
+  <meta name="description" content="LockHabit is a calm money space. Clean tools, paper-like layouts, and plain-English guides that help you actually see your income, taxes, and budget."/>
+  <link rel="canonical" href="https://lockhabit.com/"/>
   <meta name="theme-color" content="#ffffff"/>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="LockHabit Journal — Understand money, calmly."/>
-  <meta property="og:description" content="Premium, practical finance writing that reduces anxiety and increases clarity."/>
-  <meta property="og:url" content="https://lockhabit.com/blog/"/>
+  <meta property="og:title" content="LockHabit — Understand money calmly."/>
+  <meta property="og:description" content="Clean calculators and print-quality guides that make money feel simpler, not louder."/>
+  <meta property="og:url" content="https://lockhabit.com/"/>
   <meta property="og:image" content="/assets/og-lockhabit-journal-bright.png"/>
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="LockHabit Journal — Understand money, calmly."/>
-  <meta name="twitter:description" content="Premium, practical finance writing that reduces anxiety and increases clarity."/>
+  <meta name="twitter:title" content="LockHabit — Understand money calmly."/>
+  <meta name="twitter:description" content="A bright, paper-like space to see your income, taxes, and budget clearly."/>
   <meta name="twitter:image" content="/assets/og-lockhabit-journal-bright.png"/>
 
-  <!-- Schema -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Blog",
-    "name":"LockHabit Journal",
-    "url":"https://lockhabit.com/blog/",
-    "description":"Bright, calm finance writing. Taxes, saving, debt, credit, home, investing.",
-    "publisher":{"@type":"Organization","name":"LockHabit","logo":{"@type":"ImageObject","url":"https://lockhabit.com/assets/logo-512.png"}}
-  }
-  </script>
-
-  <!-- Google Analytics -->
+  <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -56,204 +46,609 @@
     gtag('config', 'G-WMJ37PBW8H');
   </script>
 
-  <!-- Google AdSense (none – removed) -->
-
   <style>
     /* =========================================================
-       DESIGN SYSTEM — Bright, editorial, optimistic
+       DESIGN: Paper + soft pastel gradients (matches blog)
        ========================================================= */
-
-    :root{
-      /* Color */
-      --bg: #ffffff;
-      --bg-tint: #fcfdfd;
-      --ink: #1b1f2a;
-      --ink-soft: #47506a;
-      --muted: #7c88a6;
-      --line: #e8edf6;
-      --card: #ffffff;
-      --chip: #f4f7ff;
-      --accent: #2457ff;             /* blue */
-      --accent-2: #2eccb3;           /* sea */
-      --accent-3: #ffb34d;           /* apricot */
-      --accent-4: #ff6e8d;           /* coral */
-
-      /* Radii & shadows */
-      --r-lg: 20px;
-      --r-md: 14px;
-      --r-sm: 10px;
-
-      --shadow-1: 0 6px 24px rgba(17, 29, 68, .06);
-      --shadow-2: 0 10px 38px rgba(17, 29, 68, .08);
-      --shadow-3: 0 18px 60px rgba(17, 29, 68, .10);
-
-      /* Type scale */
-      --h1: clamp(28px, 4.2vw, 48px);
-      --h2: clamp(20px, 3vw, 28px);
-      --h3: clamp(18px, 2.4vw, 22px);
-      --p: 16px;
-      --small: 13px;
+    :root {
+      --ink: #111827;
+      --ink-soft: #4b5563;
+      --muted: #9ca3af;
+      --line: #e5e7eb;
+      --accent: #2457ff;
+      --accent-mint: #28c2aa;
+      --accent-soft: #e0ebff;
+      --paper: #fcfcfb;
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --shadow-1: 0 18px 60px rgba(15, 23, 42, 0.10);
+      --shadow-soft: 0 2px 0 rgba(148, 163, 184, 0.45);
     }
 
-    html, body { height:100% }
-    * { box-sizing:border-box }
-    body{
-      margin:0;
-      color:var(--ink);
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                   "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
       background:
-        radial-gradient(70% 60% at 0% -10%, #e8f1ff60, transparent 60%),
-        radial-gradient(60% 60% at 100% -20%, #e7fff760, transparent 60%),
-        var(--bg);
-      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Inter, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+        radial-gradient(130% 120% at 0% 0%, #e6f0ff 0, transparent 55%),
+        radial-gradient(140% 130% at 100% 0%, #fef4df 0, transparent 60%),
+        #f5f5f4;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
     }
-    a{ color:inherit; text-decoration:none }
-    a:hover{ text-decoration:underline; text-decoration-thickness: 2px; text-underline-offset: 3px }
-    .wrap { max-width:1200px; margin:0 auto; padding:24px 18px 80px }
 
-    /* ---------------- NAV (clean, airy) ---------------- */
-    header{
-      position:sticky; top:0; z-index:50; background:rgba(255,255,255,.8);
-      backdrop-filter: blur(14px) saturate(1.2);
-      border-bottom:1px solid var(--line);
+    a {
+      color: inherit;
+      text-decoration: none;
     }
-    .nav{ max-width:1200px; margin:0 auto; padding:12px 18px; display:flex; gap:16px; align-items:center }
-    .brand{ display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.2px }
-    .logo{ width:28px; height:28px; border-radius:8px; background:
-      conic-gradient(from 210deg, #6ea8ff, #82ffd8, #ffd17a, #ff90a8, #6ea8ff); box-shadow: inset 0 0 0 2px #ffffffc0 }
-    .spacer{ flex:1 }
-    .link{ padding:8px 10px; border-radius:10px }
-    .cta{ padding:10px 14px; border-radius:999px; background:linear-gradient(135deg, #9fe6d7, #83a7ff); color:#0b2633; font-weight:900; box-shadow: var(--shadow-1); border:0 }
-    .cta:hover{ transform: translateY(-1px) }
-
-    /* ---------------- HERO MOSAIC ---------------- */
-    .hero{ padding:22px 0 10px }
-    .sub{ color:var(--muted); text-transform:uppercase; letter-spacing:.18em; font-size:12px; font-weight:800 }
-    .h1{ font-size:var(--h1); line-height:1.2; margin:10px 0 6px; font-weight:900; letter-spacing:-.015em }
-    .lede{ font-size:18px; color:var(--ink-soft); max-width:880px; }
-    .mosaic{ margin-top:18px; display:grid; gap:14px }
-    @media(min-width:980px){ .mosaic{ grid-template-columns:1.3fr 1fr 1fr } }
-
-    .card{
-      background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow-1); overflow:hidden;
-      transition: transform .15s ease, box-shadow .2s ease;
-    }
-    .card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-2) }
-
-    .thumb{ aspect-ratio: 16/9; background:#eef3ff; display:block; overflow:hidden }
-    .thumb img{ width:100%; height:100%; object-fit:cover; display:block }
-    .pad{ padding:14px 16px 16px }
-    .meta{ color:var(--muted); font-size:var(--small); display:flex; align-items:center; gap:8px; flex-wrap:wrap }
-    .title{ font-weight:900; font-size:var(--h3); line-height:1.25; margin:8px 0 6px; letter-spacing:-.01em }
-    .excerpt{ margin:0; color:var(--ink-soft) }
-
-    /* Accent ribbons for hero cards (emotional cues) */
-    .ribbon{
-      position:absolute; top:12px; left:12px; background:#fff; color:#0d264a; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:900;
-      border:1px solid var(--line); box-shadow:var(--shadow-1)
-    }
-    .heroCard{ position:relative }
-    .heroCard .title{ font-size:clamp(20px,2.8vw,28px) }
-
-    /* ---------------- CATEGORY RAIL (sticky on desktop) ---------------- */
-    .railWrap{ margin:22px 0 12px; display:grid; gap:16px }
-    @media(min-width:1100px){ .railWrap{ grid-template-columns: 240px 1fr } }
-
-    .rail{
-      position:relative; display:flex; gap:10px; flex-wrap:wrap;
-    }
-    @media(min-width:1100px){
-      .rail{ position:sticky; top:76px; align-content:flex-start; height: fit-content; }
-    }
-    .pill{
-      background:var(--chip); border:1px solid var(--line); border-radius:999px; padding:9px 12px; font-weight:800; color:#1e2a4d;
-      display:inline-flex; align-items:center; gap:10px; cursor:pointer; user-select:none;
-    }
-    .pill[data-on="1"]{ background:#162a62; color:#fff; border-color:#162a62; box-shadow:0 6px 20px rgba(22,42,98,.18) }
-    .pill .dot{ width:8px; height:8px; border-radius:50% }
-    .pTaxes .dot{ background:var(--accent) }
-    .pSaving .dot{ background:var(--accent-2) }
-    .pDebt .dot{ background:var(--accent-4) }
-    .pCredit .dot{ background:#8a6bff }
-    .pHome .dot{ background:#ffb34d }
-    .pInvesting .dot{ background:#28a2ff }
-    .pBudgeting .dot{ background:#00cc8f }
-
-    /* Coming-soon search (disabled but visible) */
-    .searchBox{
-      margin-top:8px; display:flex; align-items:center; gap:10px; width:100%;
-      border:1px dashed #cfd9ef; background:#fbfdff; padding:10px 12px; border-radius:14px; color:#7a8ab0;
-    }
-    .coming{ margin-left:auto; background:#162a62; color:#fff; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:900; letter-spacing:.06em; text-transform:uppercase }
-
-    /* ---------------- SECTION FEEDS ---------------- */
-    .section{ margin:8px 0 12px }
-    .section h2{ font-size:var(--h2); margin:0 0 8px; letter-spacing:.2px }
-    .grid{ display:grid; gap:14px; }
-    @media(min-width:760px){ .grid{ grid-template-columns: 1fr 1fr } }
-    @media(min-width:1100px){ .grid{ grid-template-columns: 1fr 1fr 1fr } }
-
-    .hlist{ display:flex; gap:10px; flex-wrap:wrap }
-    .chip{
-      padding:6px 10px; border-radius:999px; background:#f5f8ff; border:1px solid var(--line); font-size:var(--small); font-weight:800; color:#22325a
+    a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 2px;
     }
 
-    /* ---------------- NEWSLETTER (emotion: safety + momentum) ---------------- */
-    .nl{
-      margin-top:16px; border:1px solid var(--line); border-radius:var(--r-lg);
+    /* =========================================================
+       HEADER / NAV
+       ========================================================= */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(18px) saturate(1.1);
+      background: linear-gradient(
+        to bottom,
+        rgba(248, 250, 252, 0.96),
+        rgba(248, 250, 252, 0.86),
+        transparent
+      );
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 10px 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      background:
+        conic-gradient(from 210deg,
+          #6ea8ff,
+          #82ffd8,
+          #ffd17a,
+          #ff90a8,
+          #6ea8ff);
+      box-shadow:
+        inset 0 0 0 2px #ffffffcc,
+        0 6px 16px rgba(15, 23, 42, 0.22);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      margin-left: 6px;
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .nav-link {
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .nav-link--active {
+      background: #111827;
+      color: #f9fafb;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .nav-spacer {
+      flex: 1;
+    }
+
+    .nav-cta {
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      background: linear-gradient(135deg, #9fe6d7, #83a7ff);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.26);
+      color: #0b2531;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover { transform: translateY(-1px); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-cta { margin-left: auto; }
+    }
+
+    /* =========================================================
+       PAPER SHEET WRAPPER
+       ========================================================= */
+    .page {
+      max-width: 1120px;
+      margin: 18px auto 40px;
+      padding: 0 16px;
+    }
+
+    .sheet {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      box-shadow: var(--shadow-1);
+      padding: 18px 18px 28px;
+      overflow: hidden;
+    }
+
+    .sheet::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: calc(var(--radius-lg) - 8px);
+      border: 1px solid rgba(148, 163, 184, 0.20);
+      pointer-events: none;
+    }
+
+    .sheet-inner {
+      position: relative;
+      z-index: 1;
+      padding: 14px 14px 12px;
+    }
+
+    @media (min-width: 900px) {
+      .sheet-inner {
+        padding: 22px 28px 22px;
+      }
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+    .hero {
+      display: grid;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .hero-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .hero-title {
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin: 10px 0 6px;
+      font-weight: 900;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--ink-soft);
+      max-width: 34rem;
+      margin: 0 0 10px;
+    }
+
+    .hero-sub span {
+      background: linear-gradient(135deg, #fee2e2, #dbeafe);
+      padding: 0 4px;
+      border-radius: 999px;
+    }
+
+    .hero-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .hero-primary {
+      border-radius: 999px;
+      border: 0;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #111827;
+      color: #f9fafb;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-secondary {
+      font-size: 13px;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-secondary-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #f9fafb, #eef2ff);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      box-shadow:
+        0 12px 32px rgba(15, 23, 42, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.90) inset;
+      padding: 14px 14px 10px;
+    }
+
+    .panel-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .panel-main {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .panel-rows {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .panel-row {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 999px;
+      padding: 6px 9px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .panel-row-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #2563eb;
+    }
+
+    .panel-row-value {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    @media (min-width: 900px) {
+      .hero {
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: center;
+      }
+      .hero-grid {
+        margin-left: auto;
+        max-width: 360px;
+      }
+    }
+
+    /* =========================================================
+       QUICK BENEFITS STRIP
+       ========================================================= */
+    .benefits {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+    @media (min-width: 720px) {
+      .benefits {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
+    }
+    .benefit {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #f9fafb;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      box-shadow: 0 2px 0 rgba(148, 163, 184, 0.35);
+    }
+    .benefit strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 13px;
+      color: #111827;
+    }
+
+    /* =========================================================
+       TOOLS SECTION
+       ========================================================= */
+    .section-title {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin: 6px 0 10px;
+      font-weight: 700;
+    }
+
+    .tools {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 820px) {
+      .tools {
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+    }
+
+    .tool-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    @media (min-width: 540px) {
+      .tool-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .tool-card {
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      padding: 10px 12px 12px;
+      box-shadow: 0 4px 0 rgba(148, 163, 184, 0.35);
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 rgba(148, 163, 184, 0.4);
+      text-decoration: none;
+    }
+
+    .tool-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .tool-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .tool-desc {
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .tool-tagline {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-top: 6px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      background: #f3f4ff;
+      border: 1px solid #e0e7ff;
+      color: #1f2937;
+      font-weight: 600;
+    }
+
+    /* =========================================================
+       JOURNAL PREVIEW
+       ========================================================= */
+    .journal {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #f9fafb;
+      padding: 12px 12px 10px;
+      box-shadow: 0 3px 0 rgba(148, 163, 184, 0.35);
+    }
+
+    .journal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .journal-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .journal-link {
+      font-size: 12px;
+      color: #1d4ed8;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .journal-list {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .journal-item a {
+      font-weight: 600;
+    }
+
+    .journal-meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* =========================================================
+       NEWSLETTER
+       ========================================================= */
+    .newsletter {
+      border-radius: 18px;
+      border: 1px solid var(--line);
       background: linear-gradient(180deg, #f5fbff, #ffffff);
-      box-shadow: var(--shadow-1); padding:18px;
+      padding: 14px 14px 12px;
+      margin-top: 6px;
+      box-shadow: 0 3px 0 rgba(148, 163, 184, 0.35);
     }
-    .nl h3{ margin:0 0 6px; font-size:20px; font-weight:900 }
-    .nlp{ color:var(--ink-soft); margin:0 }
-    .nlrow{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap }
-    .nlinput{ flex:1; min-width:260px; border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff }
-    .nlbtn{ border:0; background:linear-gradient(135deg, #9fe6d7, #83a7ff); padding:12px 16px; border-radius:12px; font-weight:900; color:#0b2633 }
 
-    /* ---------------- PAGINATION ---------------- */
-    .pager{ display:flex; gap:8px; align-items:center; justify-content:center; margin:18px 0 0 }
-    .pbtn{ padding:9px 12px; border-radius:999px; border:1px solid var(--line); background:#fff; font-weight:900; min-width:92px; text-align:center; box-shadow:var(--shadow-1) }
-    .pbtn[disabled]{ opacity:.4; pointer-events:none }
+    .newsletter h2 {
+      margin: 0 0 4px;
+      font-size: 15px;
+      font-weight: 800;
+    }
 
-    /* ---------------- FOOTER ---------------- */
-    footer{ margin-top:24px; border-top:1px solid var(--line); background:var(--bg-tint) }
-    .foot{ max-width:1200px; margin:0 auto; padding:18px }
-    .muted{ color:var(--muted) }
+    .newsletter p {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
 
-    /* ---------------- ANIMATION ---------------- */
-    @keyframes rise { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
-    .fade{ animation: rise .35s ease both }
+    .newsletter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 5px;
+    }
 
-    /* Utility */
-    .hide{ display:none !important }
-    .nowrap{ white-space:nowrap }
+    .newsletter-input {
+      flex: 1;
+      min-width: 180px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    .newsletter-btn {
+      border-radius: 12px;
+      border: 0;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, #9fe6d7, #83a7ff);
+      color: #0b2633;
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    footer {
+      margin-top: 22px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .footer-chip {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #f9fafb;
+      font-size: 11px;
+    }
   </style>
 </head>
 <body>
-  <!-- ======================== NAV ======================== -->
+
 <header>
-  <nav class="nav" aria-label="Primary">
-    <!-- Brand now returns to the blog home -->
-    <a class="brand" href="/blog/">
-      <span class="logo" aria-hidden="true"></span>LockHabit
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>LockHabit</span>
     </a>
 
-    <span class="spacer"></span>
+    <div class="nav-links">
+      <a class="nav-link nav-link--active" href="/">Home</a>
+      <a class="nav-link" href="#tools">Calculators</a>
+      <a class="nav-link" href="/blog/">Journal</a>
+    </div>
 
-    <!-- Home = blog home -->
-    <a class="link" href="/blog/">Home</a>
+    <div class="nav-spacer"></div>
 
-    <!-- Easy jump to calculators on the main site -->
-    <a class="link" href="/#tools" title="Open LockHabit calculators">Calculators</a>
-
-    <!-- Keep the high-intent CTA -->
-    <a class="cta" href="/income-tax.html">Open Income &amp; Taxes</a>
+    <a href="/income-tax.html">
+      <button class="nav-cta" type="button">Open Income &amp; Taxes</button>
+    </a>
   </nav>
 </header>
 
-  <!-- Top-of-page Ezoic ad (under header) -->
-  <div class="wrap" style="margin-top:12px">
+<main class="page">
+  <!-- Top-of-page Ezoic ad under nav -->
+  <div style="margin-bottom: 14px;">
     <div id="ezoic-pub-ad-placeholder-101"></div>
     <script>
       ezstandalone.cmd.push(function () {
@@ -262,86 +657,213 @@
     </script>
   </div>
 
-  <main class="wrap">
-    <!-- ======================== HERO ======================== -->
-    <section class="hero fade">
-      <div class="sub">Journal</div>
-      <h1 class="h1">Understand money. Feel calmer. Act confidently.</h1>
-      <p class="lede">A bright, premium space to learn how money works—<span class="nowrap">no hype</span>, no jargon. We break down taxes, saving, debt, credit, home, and investing into clear steps you can take today.</p>
-
-      <!-- Mosaic (3 cards layout) -->
-      <div id="heroMosaic" class="mosaic"></div>
-    </section>
-
-    <!-- ======================== CATEGORY RAIL + FEEDS ======================== -->
-    <div class="railWrap">
-      <!-- Sticky category rail -->
-      <aside class="rail" aria-label="Categories">
-        <button class="pill" data-cat="all" data-on="1"><span class="dot" style="background:#0f2960"></span> All</button>
-        <button class="pill pTaxes" data-cat="Taxes"><span class="dot"></span> Taxes</button>
-        <button class="pill pBudgeting" data-cat="Budgeting"><span class="dot"></span> Budgeting</button>
-        <button class="pill pSaving" data-cat="Saving"><span class="dot"></span> Saving</button>
-        <button class="pill pDebt" data-cat="Debt"><span class="dot"></span> Debt</button>
-        <button class="pill pCredit" data-cat="Credit"><span class="dot"></span> Credit</button>
-        <button class="pill pHome" data-cat="Home"><span class="dot"></span> Home</button>
-        <button class="pill pInvesting" data-cat="Investing"><span class="dot"></span> Investing</button>
-
-        <div class="searchBox" role="search" aria-label="Search (coming soon)">
-          <span>Search</span><span class="muted">— Coming soon</span>
-          <span class="coming">Coming soon</span>
-        </div>
-      </aside>
-
-      <!-- Content side -->
-      <section>
-        <!-- Trending row -->
-        <div class="section">
-          <h2>Trending topics</h2>
-          <div id="trendTags" class="hlist"></div>
-        </div>
-
-        <!-- Latest grid -->
-        <div class="section">
-          <h2>Latest</h2>
-          <div id="latest" class="grid"></div>
-          <div class="pager">
-            <button id="prev" class="pbtn" disabled>◀ Prev</button>
-            <div id="pageInfo" class="muted">Page 1</div>
-            <button id="next" class="pbtn">Next ▶</button>
+  <section class="sheet" aria-label="LockHabit overview">
+    <div class="sheet-inner">
+      <!-- HERO -->
+      <section class="hero">
+        <div>
+          <div class="hero-kicker">Journal &amp; Tools</div>
+          <h1 class="hero-title">Understand money. Feel calmer. Act confidently.</h1>
+          <p class="hero-sub">
+            LockHabit is a quiet corner of the internet where you can
+            <span>actually see your numbers</span> — income, taxes, and budget —
+            without noise, hype, or shouting.
+          </p>
+          <div class="hero-row">
+            <a href="#tools">
+              <button class="hero-primary" type="button">Start with a calculator</button>
+            </a>
+            <a class="hero-secondary" href="/blog/">
+              <span class="hero-secondary-dot"></span>
+              <span>Or read a calm money guide</span>
+            </a>
           </div>
         </div>
 
-        <!-- Newsletter -->
-        <div class="nl section">
-          <h3>Get one useful money idea each week</h3>
-          <p class="nlp">Short, practical insights. Unsubscribe anytime.</p>
-          <form class="nlrow" onsubmit="event.preventDefault(); alert('Thanks! Email capture will be connected.');">
-            <input class="nlinput" type="email" placeholder="you@example.com" required/>
-            <button class="nlbtn" type="submit">Subscribe</button>
-          </form>
-        </div>
-
-        <!-- Ad block (polite, below primary content) -->
-        <div class="section" aria-label="Sponsored">
-          <div id="ezoic-pub-ad-placeholder-102"></div>
-          <script>
-            ezstandalone.cmd.push(function () {
-              ezstandalone.showAds(102);
-            });
-          </script>
-        </div>
-
-        <!-- Journey lanes: read next by category -->
-        <div class="section">
-          <h2>Continue your journey</h2>
-          <div id="journey" class="grid"></div>
+        <div class="hero-grid" aria-label="Example summary">
+          <div class="panel">
+            <div class="panel-title">Today’s snapshot</div>
+            <div class="panel-main">If this was your paycheck…</div>
+            <div class="panel-rows">
+              <div class="panel-row">
+                <div class="panel-row-label">
+                  <span class="pill-dot"></span>
+                  <span>Gross pay</span>
+                </div>
+                <div class="panel-row-value">$2,100</div>
+              </div>
+              <div class="panel-row">
+                <div class="panel-row-label">
+                  <span class="pill-dot" style="background:#f97316;"></span>
+                  <span>Estimated taxes</span>
+                </div>
+                <div class="panel-row-value">- $490</div>
+              </div>
+              <div class="panel-row">
+                <div class="panel-row-label">
+                  <span class="pill-dot" style="background:#22c55e;"></span>
+                  <span>Money you actually see</span>
+                </div>
+                <div class="panel-row-value">$1,610</div>
+              </div>
+            </div>
+            <p style="margin:8px 0 0;font-size:12px;color:var(--muted);">
+              LockHabit tools help you get from “I have no idea” to “Okay, I know what’s happening.”
+            </p>
+          </div>
         </div>
       </section>
-    </div>
-  </main>
 
-  <!-- Bottom-of-page Ezoic ad -->
-  <div class="wrap" style="margin:22px auto 0">
+      <!-- QUICK BENEFITS -->
+      <section class="benefits" aria-label="What LockHabit helps with">
+        <div class="benefit">
+          <strong>See your true take-home pay.</strong>
+          Turn your paycheck and tax bracket from a mystery into a simple, clean picture.
+        </div>
+        <div class="benefit">
+          <strong>Build a budget you can stick to.</strong>
+          No 37 categories. Just a realistic plan that fits rent, debt, and real life.
+        </div>
+        <div class="benefit">
+          <strong>Make decisions without panic.</strong>
+          Each tool and article ends with “What to do next” in plain language.
+        </div>
+      </section>
+
+      <!-- TOOLS SECTION -->
+      <section id="tools" aria-label="LockHabit calculators">
+        <h2 class="section-title">Core calculators</h2>
+        <div class="tools">
+          <!-- LEFT: grid of cards -->
+          <div class="tool-grid">
+            <a class="tool-card" href="/income-tax.html">
+              <div class="tool-label">Income · Taxes</div>
+              <div class="tool-name">Paycheck &amp; tax breakdown</div>
+              <p class="tool-desc">
+                Plug in what you make and where you live. See federal, state, and what actually lands in your account.
+              </p>
+            </a>
+
+            <a class="tool-card" href="/paycheck-planner.html">
+              <div class="tool-label">Paycheck planning</div>
+              <div class="tool-name">Monthly money map</div>
+              <p class="tool-desc">
+                Line up your pay dates with rent, bills, and goals so you know which check covers what.
+              </p>
+            </a>
+
+            <a class="tool-card" href="/budget-basics.html">
+              <div class="tool-label">Budgeting</div>
+              <div class="tool-name">Starter budget builder</div>
+              <p class="tool-desc">
+                Build a first-pass budget in a few sliders. Then tweak it until it feels realistic, not perfect.
+              </p>
+            </a>
+
+            <a class="tool-card" href="/debt-simple-plan.html">
+              <div class="tool-label">Debt</div>
+              <div class="tool-name">Simple debt payoff view</div>
+              <p class="tool-desc">
+                List your debts once. See pay-down options and how extra money really changes the timeline.
+              </p>
+            </a>
+          </div>
+
+          <!-- RIGHT: context + tags -->
+          <div>
+            <p class="tool-tagline">
+              Every calculator is designed to feel like a clean page from a notebook:
+              no ads in the way, no flashing numbers, just a clear story of what’s happening with your money.
+            </p>
+            <div class="pill-row">
+              <span class="pill">Plain English labels</span>
+              <span class="pill">No account required</span>
+              <span class="pill">Mobile-friendly</span>
+              <span class="pill">Export-friendly layouts</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- JOURNAL + NEWSLETTER -->
+      <section aria-label="LockHabit Journal">
+        <h2 class="section-title">From the journal</h2>
+
+        <div class="journal">
+          <div class="journal-head">
+            <div class="journal-title">Calm money articles</div>
+            <a class="journal-link" href="/blog/">Open full journal →</a>
+          </div>
+          <!-- You can replace these with live posts later -->
+          <div class="journal-list">
+            <div class="journal-item">
+              <a href="/blog/posts/taxes/common-tax-mistakes-guide.html">
+                The Most Common Tax Mistakes People Make (And How to Never Make Them)
+              </a>
+              <div class="journal-meta">Taxes · 17 min read</div>
+            </div>
+            <div class="journal-item">
+              <a href="/blog/posts/budgeting/budgeting-for-absolute-beginners.html">
+                Budgeting for Absolute Beginners: How to Stop Guessing and Start Knowing Where Your Money Goes
+              </a>
+              <div class="journal-meta">Budgeting · 19 min read</div>
+            </div>
+            <div class="journal-item">
+              <a href="/blog/posts/budgeting/how-budgeting-can-help-you-quit-gambling.html">
+                How Budgeting Can Help You Quit Gambling and Rebuild Your Money Life
+              </a>
+              <div class="journal-meta">Budgeting · 22 min read</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="newsletter">
+          <h2>Get one useful money idea each week</h2>
+          <p>Short, practical insights. No spam. Unsubscribe anytime.</p>
+          <form class="newsletter-row" onsubmit="event.preventDefault(); alert('Thanks! Email capture will be connected soon.');">
+            <input class="newsletter-input" type="email" placeholder="you@example.com" required/>
+            <button class="newsletter-btn" type="submit">Subscribe</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Bottom Ezoic ad inside sheet -->
+      <section aria-label="Sponsored" style="margin-top:18px;">
+        <div id="ezoic-pub-ad-placeholder-102"></div>
+        <script>
+          ezstandalone.cmd.push(function () {
+            ezstandalone.showAds(102);
+          });
+        </script>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="footer-row">
+          <strong>LockHabit</strong>
+          <span>/</span>
+          <span>Understand money. Build calm wealth.</span>
+        </div>
+        <div class="footer-links">
+          <a class="footer-chip" href="#tools">Calculators</a>
+          <a class="footer-chip" href="/blog/">Journal</a>
+          <a class="footer-chip" href="/terms.html">Terms</a>
+          <a class="footer-chip" href="/privacy.html">Privacy</a>
+          <a class="footer-chip" href="/security.html">Security</a>
+        </div>
+        <p style="margin:6px 0 4px;">
+          Partnerships &amp; media:
+          <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
+        </p>
+        <p style="margin:0;">
+          © 2025 LockHabit. Educational content; not financial advice.
+        </p>
+      </footer>
+    </div>
+  </section>
+
+  <!-- Bottom-of-page Ezoic ad under sheet -->
+  <div style="margin-top:18px;">
     <div id="ezoic-pub-ad-placeholder-103"></div>
     <script>
       ezstandalone.cmd.push(function () {
@@ -349,516 +871,7 @@
       });
     </script>
   </div>
+</main>
 
-  <!-- ======================== FOOTER ======================== -->
-  <footer>
-    <div class="foot">
-      <div style="font-weight:900">LockHabit <span class="muted">/ Journal</span></div>
-      <p class="muted" style="margin:6px 0 12px">Understand money. Build calm wealth. Make better decisions with clear, practical guides.</p>
-      <div class="hlist" style="margin-bottom:8px">
-        <a class="chip" href="/#tools">Calculators</a>
-        <a class="chip" href="/blog/">Latest Articles</a>
-        <a class="chip" href="/terms.html">Terms</a>
-        <a class="chip" href="/privacy.html">Privacy</a>
-        <a class="chip" href="/security.html">Security</a>
-      </div>
-      <div class="hlist">
-        <span class="muted">Partnerships & media:</span> <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
-        <span class="muted">• General:</span> <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a>
-      </div>
-      <div class="muted" style="margin-top:6px">© 2025 LockHabit. Educational content; not financial advice.</div>
-    </div>
-  </footer>
-
-  <!-- =========================================================
-       JS — Data loading, hero mosaic, filters, trending, lanes
-       Expects /blog/posts.json (same format as before).
-       Now has a built-in fallback so the page still works
-       even if posts.json is missing.
-       ========================================================= -->
-<script>
-(function(){
-  const $ = (s,el=document)=>el.querySelector(s);
-  const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
-  const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
-  const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
-
-//--------------------------------------
-const FALLBACK_POSTS = [
-  {
-    "slug": "common-tax-mistakes-guide",
-    "title": "The Most Common Tax Mistakes People Make (And How to Never Make Them)",
-    "category": "Taxes",
-    "date": "2025-11-04",
-    "read": "17 min read",
-    "excerpt": "A practical, story-driven guide to the small tax mistakes that delay refunds, trigger IRS letters, and cost people money—and the simple habits that prevent them.",
-    "tags": ["Tax basics", "Refunds", "IRS letters"],
-    "hero": "/assets/blog/taxes/common-tax-mistakes-hero.jpg",
-    "thumb": "/assets/blog/taxes/common-tax-mistakes-hero.jpg",
-    "url": "/blog/posts/taxes/common-tax-mistakes-guide.html",
-    "featured": true,
-    "views": 0
-  },
-  {
-    "slug": "tax-filing-basics-for-beginners",
-    "title": "Tax Filing Basics: A Beginner-Friendly Guide to Doing Your Own Taxes",
-    "category": "Taxes",
-    "date": "2025-09-26",
-    "read": "11 min read",
-    "excerpt": "First time filing taxes? This plain-English guide walks you through the process from gathering your forms to hitting submit and tracking your refund.",
-    "tags": ["Tax basics", "First-time filers"],
-    "hero": "/assets/blog/taxes/tax-filing-basics-hero.jpg",
-    "thumb": "/assets/blog/taxes/tax-filing-basics-hero.jpg",
-    "url": "/blog/posts/taxes/tax-filing-basics-for-beginners.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "filing-taxes-multiple-jobs-2025",
-    "title": "How to File Taxes When You Worked Multiple Jobs",
-    "category": "Taxes",
-    "date": "2025-09-20",
-    "read": "14 min read",
-    "excerpt": "If you juggled more than one job, this guide shows you how to combine your W-2s, avoid under-withholding, and keep your refund (or tax bill) from surprising you.",
-    "tags": ["Multiple jobs", "Withholding"],
-    "hero": "/assets/blog/taxes/filing-multiple-jobs-hero.jpg",
-    "thumb": "/assets/blog/taxes/filing-multiple-jobs-hero.jpg",
-    "url": "/blog/posts/taxes/filing-taxes-multiple-jobs-2025.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "how-the-irs-matches-your-income-2025",
-    "title": "How the IRS Matches Your Income (And What Happens When It Doesn’t)",
-    "category": "Taxes",
-    "date": "2025-09-15",
-    "read": "15 min read",
-    "excerpt": "Behind the scenes, the IRS matches every W-2 and 1099 you get. Here’s how that system works, what causes mismatch letters, and how to fix issues calmly.",
-    "tags": ["IRS matching", "Notices"],
-    "hero": "/assets/blog/taxes/irs-matching-hero.jpg",
-    "thumb": "/assets/blog/taxes/irs-matching-hero.jpg",
-    "url": "/blog/posts/taxes/how-the-irs-matches-your-income-2025.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "how-to-file-taxes-without-w2",
-    "title": "How to File Taxes If You Don’t Have Your W-2 Yet",
-    "category": "Taxes",
-    "date": "2025-09-10",
-    "read": "13 min read",
-    "excerpt": "Lost W-2? Employer dragging their feet? Here’s what to do, when to wait, and how to file accurately without panicking.",
-    "tags": ["Missing W-2", "Wage info"],
-    "hero": "/assets/blog/taxes/file-without-w2-hero.jpg",
-    "thumb": "/assets/blog/taxes/file-without-w2-hero.jpg",
-    "url": "/blog/posts/taxes/how-to-file-taxes-without-w2.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "how-to-read-your-paycheck",
-    "title": "How to Read Your Paycheck (So Tax Season Stops Being a Mystery)",
-    "category": "Taxes",
-    "date": "2025-09-05",
-    "read": "16 min read",
-    "excerpt": "A line-by-line walkthrough of your paycheck so you finally know what each code, deduction, and tax line really means.",
-    "tags": ["Paycheck", "Withholding"],
-    "hero": "/assets/blog/taxes/read-paycheck-hero.jpg",
-    "thumb": "/assets/blog/taxes/read-paycheck-hero.jpg",
-    "url": "/blog/posts/taxes/how-to-read-your-paycheck.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "irs-audit-red-flags-2025",
-    "title": "IRS Audit Red Flags: What Really Gets Returns Pulled for Review",
-    "category": "Taxes",
-    "date": "2025-08-30",
-    "read": "18 min read",
-    "excerpt": "Most people will never be audited—but some patterns make your return more likely to be reviewed. Here’s what those are and how to stay in the safe zone.",
-    "tags": ["Audit", "IRS"],
-    "hero": "/assets/blog/taxes/audit-red-flags-hero.jpg",
-    "thumb": "/assets/blog/taxes/audit-red-flags-hero.jpg",
-    "url": "/blog/posts/taxes/irs-audit-red-flags-2025.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "standard-vs-itemized-deductions-2025",
-    "title": "Standard vs. Itemized Deductions: How to Choose the One That Saves You More",
-    "category": "Taxes",
-    "date": "2025-08-24",
-    "read": "15 min read",
-    "excerpt": "Should you itemize or just take the standard deduction? This guide breaks it down in plain English with real-world examples.",
-    "tags": ["Deductions", "Itemizing"],
-    "hero": "/assets/blog/taxes/standard-vs-itemized-hero.jpg",
-    "thumb": "/assets/blog/taxes/standard-vs-itemized-hero.jpg",
-    "url": "/blog/posts/taxes/standard-vs-itemized-deductions-2025.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "tax-brackets-2025-explained",
-    "title": "Tax Brackets Explained: How Your Income Actually Gets Taxed",
-    "category": "Taxes",
-    "date": "2025-08-18",
-    "read": "14 min read",
-    "excerpt": "People think moving up a tax bracket means all their income is taxed at that higher rate. That’s not how it works—here’s the real story.",
-    "tags": ["Tax brackets", "Marginal tax"],
-    "hero": "/assets/blog/taxes/tax-brackets-explained-hero.jpg",
-    "thumb": "/assets/blog/taxes/tax-brackets-explained-hero.jpg",
-    "url": "/blog/posts/taxes/tax-brackets-2025-explained.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "tax-brackets-2025",
-    "title": "Tax Brackets: Current Rates and What They Mean for Your Paycheck",
-    "category": "Taxes",
-    "date": "2025-08-12",
-    "read": "12 min read",
-    "excerpt": "A simple, always-updating reference for the current federal tax brackets and how they connect to real-life paychecks.",
-    "tags": ["Tax brackets", "Paychecks"],
-    "hero": "/assets/blog/taxes/tax-brackets-table-hero.jpg",
-    "thumb": "/assets/blog/taxes/tax-brackets-table-hero.jpg",
-    "url": "/blog/posts/taxes/tax-brackets-2025.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "tax-credits-everyone-misses",
-    "title": "Tax Credits Everyone Misses (And How to See If You Qualify)",
-    "category": "Taxes",
-    "date": "2025-08-06",
-    "read": "16 min read",
-    "excerpt": "From education benefits to saver’s credits, here are the tax credits regular people overlook—and simple ways to check if you’re eligible.",
-    "tags": ["Tax credits", "Refunds"],
-    "hero": "/assets/blog/taxes/tax-credits-hero.jpg",
-    "thumb": "/assets/blog/taxes/tax-credits-hero.jpg",
-    "url": "/blog/posts/taxes/tax-credits-everyone-misses.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "tax-extensions-2025-complete-guide",
-    "title": "Should You File a Tax Extension? A Calm, Complete Guide",
-    "category": "Taxes",
-    "date": "2025-07-30",
-    "read": "14 min read",
-    "excerpt": "Running behind? An extension buys you time to file—but not time to pay. Here’s exactly how it works and how to avoid penalties.",
-    "tags": ["Extensions", "Deadlines"],
-    "hero": "/assets/blog/taxes/tax-extension-hero.jpg",
-    "thumb": "/assets/blog/taxes/tax-extension-hero.jpg",
-    "url": "/blog/posts/taxes/tax-extensions-2025-complete-guide.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "tax-filing-status-guide",
-    "title": "Choosing a Tax Filing Status: Single, Head of Household, and More Explained",
-    "category": "Taxes",
-    "date": "2025-07-22",
-    "read": "15 min read",
-    "excerpt": "Your filing status affects your tax brackets, credits, and even your refund. This guide walks through each option in normal language.",
-    "tags": ["Filing status", "Families"],
-    "hero": "/assets/blog/taxes/filing-status-hero.jpg",
-    "thumb": "/assets/blog/taxes/filing-status-hero.jpg",
-    "url": "/blog/posts/taxes/tax-filing-status-guide.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "tax-planning-life-changes",
-    "title": "Tax Planning After Big Life Changes: Marriage, Kids, Moving, and More",
-    "category": "Taxes",
-    "date": "2025-07-14",
-    "read": "18 min read",
-    "excerpt": "New job, move, baby, or marriage? This guide shows how those changes impact your taxes and what to update before next season.",
-    "tags": ["Planning", "Life changes"],
-    "hero": "/assets/blog/taxes/tax-planning-life-changes-hero.jpg",
-    "thumb": "/assets/blog/taxes/tax-planning-life-changes-hero.jpg",
-    "url": "/blog/posts/taxes/tax-planning-life-changes.html",
-    "featured": false,
-    "views": 0
-  },
-
-  /* =======================
-     BUDGETING ARTICLES
-     ======================= */
-
-  {
-    "slug": "budgeting-for-absolute-beginners",
-    "title": "Budgeting for Absolute Beginners: How to Stop Guessing and Start Knowing Where Your Money Goes",
-    "category": "Budgeting",
-    "date": "2025-11-16",
-    "read": "19 min read",
-    "excerpt": "New to budgeting—or starting over after a few failed attempts? This guide shows you, step by step, how to build a simple, realistic budget that actually fits your real life.",
-    "tags": ["Budgeting", "Beginners", "Money plan"],
-    "hero": "",
-    "thumb": "",
-    "url": "/blog/posts/budgeting/budgeting-for-absolute-beginners.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "zero-based-budgeting-step-by-step",
-    "title": "Zero-Based Budgeting: A Step-by-Step Guide to Giving Every Dollar a Job",
-    "category": "Budgeting",
-    "date": "2025-11-16",
-    "read": "18 min read",
-    "excerpt": "Zero-based budgeting sounds intense, but it’s just a method where every dollar has a job. Learn exactly how to set it up, tweak it, and keep it going month after month.",
-    "tags": ["Budgeting", "Zero-based budgeting"],
-    "hero": "",
-    "thumb": "",
-    "url": "/blog/posts/budgeting/zero-based-budgeting-step-by-step.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "envelope-and-digital-jars-budgeting",
-    "title": "Cash Envelopes and Digital Jars: How to Use Categories to Control Spending",
-    "category": "Budgeting",
-    "date": "2025-11-16",
-    "read": "17 min read",
-    "excerpt": "The classic envelope system still works—but now you can do it with bank spaces and digital ‘jars.’ Here’s how to set it up so your bills, fun money, and savings stay in balance.",
-    "tags": ["Budgeting", "Envelopes", "Digital jars"],
-    "hero": "",
-    "thumb": "",
-    "url": "/blog/posts/budgeting/envelope-and-digital-jars-budgeting.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "budgeting-with-irregular-income",
-    "title": "How to Budget with Irregular Income: For Servers, Gig Workers, and Shift-Based Jobs",
-    "category": "Budgeting",
-    "date": "2025-11-16",
-    "read": "21 min read",
-    "excerpt": "Tips and templates for anyone whose paychecks bounce up and down—servers, drivers, CNAs picking up shifts, and gig workers who need stability without a fixed salary.",
-    "tags": ["Budgeting", "Irregular income", "Gig workers"],
-    "hero": "",
-    "thumb": "",
-    "url": "/blog/posts/budgeting/budgeting-with-irregular-income.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "family-budgeting-cost-of-raising-kids",
-    "title": "Family Budgeting: The Real Cost of Raising Kids in the City vs. a Smaller Town",
-    "category": "Budgeting",
-    "date": "2025-11-16",
-    "read": "23 min read",
-    "excerpt": "From rent and childcare to food, transit, and activities—this guide walks through how the cost of raising kids changes between a big city and a smaller town, and how to build a budget that can handle it.",
-    "tags": ["Budgeting", "Families", "Cost of living"],
-    "hero": "",
-    "thumb": "",
-    "url": "/blog/posts/budgeting/family-budgeting-cost-of-raising-kids.html",
-    "featured": false,
-    "views": 0
-  },
-  {
-    "slug": "how-budgeting-can-help-you-quit-gambling",
-    "title": "How Budgeting Can Help You Quit Gambling and Rebuild Your Money Life",
-    "category": "Budgeting",
-    "date": "2025-11-16",
-    "read": "22 min read",
-    "excerpt": "Gambling can wreck a bank account quietly. This guide shows how a simple, honest budget can help you see the real impact, set limits, and slowly rebuild savings and stability.",
-    "tags": ["Budgeting", "Gambling", "Recovery"],
-    "hero": "",
-    "thumb": "",
-    "url": "/blog/posts/budgeting/how-budgeting-can-help-you-quit-gambling.html",
-    "featured": false,
-    "views": 0
-  }
-];
-//----------------------------------------
-
-  const S = {
-    posts: [],
-    filtered: [],
-    page: 1,
-    per: 9,
-    cat: 'all'
-  };
-
-  const E = {
-    mosaic: $('#heroMosaic'),
-    latest: $('#latest'),
-    journey: $('#journey'),
-    trend: $('#trendTags'),
-    prev: $('#prev'),
-    next: $('#next'),
-    pageInfo: $('#pageInfo')
-  };
-
-  function initFromPosts(posts){
-    S.posts = (posts||[]).map(p => ({...p, dateNum:+new Date(p.date||0)}))
-                         .sort((a,b)=>b.dateNum - a.dateNum);
-    buildHeroMosaic();
-    buildTrending();
-    applyCat('all');
-    buildJourneyLanes();
-  }
-
-  fetch('posts.json', { cache:'no-cache' })
-    .then(r=>{
-      if(!r.ok) throw new Error("posts.json missing");
-      return r.json();
-    })
-    .then(data=>{
-      if(!Array.isArray(data) || !data.length){
-        initFromPosts(FALLBACK_POSTS);
-      } else {
-        initFromPosts(data);
-      }
-    })
-    .catch(()=>{
-      initFromPosts(FALLBACK_POSTS);
-    });
-
-  /* ==============================
-     FIXED LINK VERSION (IMPORTANT)
-     ============================== */
-
-  /* ==============================
-     CARD RENDERERS — TEXT ONLY
-     ============================== */
-
-  function heroCard(p, big = false){
-    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
-
-    return `
-      <article class="card heroCard fade" style="${big ? 'grid-column:1/span 1' : ''}">
-        <div class="pad">
-          <div class="meta">
-            ${esc(p.category || '')}
-            ${p.date ? ` • <time datetime="${p.date}">${fmtDate(p.date)}</time>` : ''}
-            ${p.read ? ` • ${esc(p.read)}` : ''}
-          </div>
-          <h3 class="title"><a href="${url}">${esc(p.title)}</a></h3>
-          <p class="excerpt">${esc(p.excerpt || '')}</p>
-        </div>
-      </article>`;
-  }
-
-  function card(p){
-    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
-
-    return `
-      <article class="card fade">
-        <div class="pad">
-          <div class="meta">
-            ${esc(p.category || '')}
-            ${p.date ? ` • <time datetime="${p.date}">${fmtDate(p.date)}</time>` : ''}
-            ${p.read ? ` • ${esc(p.read)}` : ''}
-          </div>
-          <h3 class="title"><a href="${url}">${esc(p.title)}</a></h3>
-          <p class="excerpt">${esc(p.excerpt || '')}</p>
-        </div>
-      </article>`;
-  }
-
-  function mini(p){
-    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
-
-    return `
-      <div style="margin:10px 0">
-        <a href="${url}" style="font-weight:900; display:block; margin-bottom:2px;">
-          ${esc(p.title)}
-        </a>
-        <div class="meta">
-          ${p.date ? `${fmtDate(p.date)} • ` : ''}${esc(p.read || '')}
-        </div>
-      </div>`;
-  }
-
-  function buildHeroMosaic(){
-    if(!S.posts.length){ E.mosaic.innerHTML=''; return; }
-    const picks = [];
-    const feat = S.posts.find(p=>p.featured);
-    if(feat) picks.push(feat);
-    const rest = S.posts.filter(p=>p.slug !== (feat && feat.slug))
-                        .sort((a,b)=>(b.views||0)-(a.views||0));
-    picks.push(...rest.slice(0,2));
-    E.mosaic.innerHTML = picks.map((p,i)=>heroCard(p,i===0)).join('');
-    lazyImgs(E.mosaic);
-  }
-
-  function buildTrending(){
-    const count = {};
-    S.posts.forEach(p => (p.tags||[]).forEach(t => count[t]=(count[t]||0)+1));
-    const top = Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,10);
-    E.trend.innerHTML = top.map(([t])=>`<a class="chip" data-tag="${esc(t)}">${esc(t)}</a>`).join('');
-    $$('#trendTags .chip').forEach(ch=>{
-      ch.addEventListener('click', e=>{
-        e.preventDefault();
-        const tag = ch.dataset.tag;
-        S.filtered = S.posts.filter(p=> (p.tags||[]).includes(tag));
-        S.cat = 'tag:'+tag;
-        S.page = 1;
-        renderLatest();
-      });
-    });
-  }
-
-  $$('.rail .pill').forEach(btn=>{
-    btn.addEventListener('click', ()=> applyCat(btn.dataset.cat));
-  });
-
-  function applyCat(cat){
-    S.cat = cat;
-    S.page = 1;
-    $$('.rail .pill').forEach(b => b.setAttribute('data-on', b.dataset.cat===cat?'1':'0'));
-    S.filtered = (cat==='all') ? S.posts : S.posts.filter(p=> p.category===cat);
-    renderLatest();
-  }
-
-  function renderLatest(){
-    const start = (S.page-1)*S.per;
-    const pageItems = S.filtered.slice(start, start+S.per);
-    E.latest.innerHTML = pageItems.map(card).join('');
-    lazyImgs(E.latest);
-    const max = Math.max(1, Math.ceil(S.filtered.length/S.per));
-    E.pageInfo.textContent = `Page ${S.page} of ${max}`;
-    E.prev.disabled = S.page<=1;
-    E.next.disabled = S.page>=max;
-  }
-
-  E.prev.addEventListener('click',()=>{ S.page--; renderLatest(); });
-  E.next.addEventListener('click',()=>{ S.page++; renderLatest(); });
-
-  function buildJourneyLanes(){
-    const cats = ['Saving','Debt','Credit','Home','Investing','Taxes'];
-    const blocks = cats.map(c => ({
-      cat:c,
-      items:S.posts.filter(p=>p.category===c).slice(0,3)
-    })).filter(x=>x.items.length);
-
-    E.journey.innerHTML = blocks.map(b => `
-      <div class="card fade"><div class="pad">
-        <div class="meta">${esc(b.cat)} • Starter pack</div>
-        ${b.items.map(mini).join('')}
-      </div></div>`).join('');
-
-    lazyImgs(E.journey);
-  }
-
-  function lazyImgs(scope=document){
-    $$('img[data-src]',scope).forEach(img=>{
-      const io = new IntersectionObserver(entries=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-            io.disconnect();
-          }
-        });
-      },{rootMargin:'160px'});
-      io.observe(img);
-    });
-  }
-
-})();
-</script>
 </body>
 </html>
