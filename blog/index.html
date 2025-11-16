@@ -720,60 +720,57 @@ const FALLBACK_POSTS = [
      FIXED LINK VERSION (IMPORTANT)
      ============================== */
 
-  function heroCard(p, big=false){
+  /* ==============================
+     CARD RENDERERS — TEXT ONLY
+     ============================== */
+
+  function heroCard(p, big = false){
     const url = esc(p.url || `/blog/posts/${p.slug}.html`);
-    const imgSrc = p.hero || p.thumb;
 
     return `
-      <article class="card heroCard fade" style="${big?'grid-column:1/span 1':''}">
-        <a class="thumb" href="${url}">
-          ${imgSrc ? `<img data-src="${esc(imgSrc)}" alt="${esc(p.title)}"/>` : ``}
-        </a>
-        <span class="ribbon">${esc(p.category||'')}</span>
+      <article class="card heroCard fade" style="${big ? 'grid-column:1/span 1' : ''}">
         <div class="pad">
-          <div class="meta">${fmtDate(p.date)} • ${esc(p.read||'')}</div>
+          <div class="meta">
+            ${esc(p.category || '')}
+            ${p.date ? ` • <time datetime="${p.date}">${fmtDate(p.date)}</time>` : ''}
+            ${p.read ? ` • ${esc(p.read)}` : ''}
+          </div>
           <h3 class="title"><a href="${url}">${esc(p.title)}</a></h3>
-          <p class="excerpt">${esc(p.excerpt||'')}</p>
+          <p class="excerpt">${esc(p.excerpt || '')}</p>
         </div>
       </article>`;
-}
+  }
 
-function card(p){
+  function card(p){
     const url = esc(p.url || `/blog/posts/${p.slug}.html`);
-    const imgSrc = p.thumb || p.hero;
 
     return `
       <article class="card fade">
-        <a class="thumb" href="${url}">
-          ${imgSrc ? `<img data-src="${esc(imgSrc)}" alt="${esc(p.title)}"/>` : ``}
-        </a>
         <div class="pad">
           <div class="meta">
-            ${esc(p.category)} • 
-            <time datetime="${p.date}">${fmtDate(p.date)}</time> • 
-            ${esc(p.read)}
+            ${esc(p.category || '')}
+            ${p.date ? ` • <time datetime="${p.date}">${fmtDate(p.date)}</time>` : ''}
+            ${p.read ? ` • ${esc(p.read)}` : ''}
           </div>
           <h3 class="title"><a href="${url}">${esc(p.title)}</a></h3>
-          <p class="excerpt">${esc(p.excerpt)}</p>
+          <p class="excerpt">${esc(p.excerpt || '')}</p>
         </div>
       </article>`;
-}
+  }
 
-function mini(p){
+  function mini(p){
     const url = esc(p.url || `/blog/posts/${p.slug}.html`);
-    const imgSrc = p.thumb || p.hero;
 
     return `
-      <div style="display:grid;grid-template-columns:100px 1fr;gap:10px;align-items:center;margin:10px 0">
-        <a href="${url}" class="thumb" style="border-radius:12px;overflow:hidden">
-          ${imgSrc ? `<img data-src="${esc(imgSrc)}" alt="${esc(p.title)}"/>` : ``}
+      <div style="margin:10px 0">
+        <a href="${url}" style="font-weight:900; display:block; margin-bottom:2px;">
+          ${esc(p.title)}
         </a>
-        <div>
-          <a href="${url}" style="font-weight:900">${esc(p.title)}</a>
-          <div class="meta">${fmtDate(p.date)} • ${esc(p.read)}</div>
+        <div class="meta">
+          ${p.date ? `${fmtDate(p.date)} • ` : ''}${esc(p.read || '')}
         </div>
       </div>`;
-}
+  }
 
   function buildHeroMosaic(){
     if(!S.posts.length){ E.mosaic.innerHTML=''; return; }
