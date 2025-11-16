@@ -672,7 +672,7 @@
 </main>
 
 <!-- =========================================================
-     JS — Load posts.json, fall back to built-in list,
+     JS — Load posts/posts.json, fall back to built-in list,
      show ALL posts, allow filtering by category/tag.
      ========================================================= -->
 <script>
@@ -682,9 +682,35 @@
   const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
   const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
 
+  // Build URL that matches your /blog/posts/{category}/{file}.html structure
+  function buildUrl(p){
+    if (p.url) return esc(p.url);
+
+    const slug = p.slug || '';
+    const cat = (p.category || '').toLowerCase();
+    const folderMap = {
+      'taxes': 'taxes',
+      'budgeting': 'budgeting',
+      'saving': 'saving',
+      'savings': 'saving',
+      'debt': 'debt',
+      'credit': 'credit',
+      'home': 'home',
+      'loans': 'home',
+      'investing': 'investing'
+    };
+    const folder = folderMap[cat];
+
+    const raw = folder
+      ? `/blog/posts/${folder}/${slug}.html`
+      : `/blog/posts/${slug}.html`;
+
+    return esc(raw);
+  }
+
   // --------------------------------------
   // Minimal fallback posts list. You can expand this,
-  // but posts.json (if present) will override it.
+  // but posts/posts.json (if present) will override it.
   // --------------------------------------
   const FALLBACK_POSTS = [
     {
@@ -719,14 +745,14 @@
       "url": "/blog/posts/budgeting/budgeting-for-absolute-beginners.html"
     },
     {
-      "slug": "how-budgeting-can-help-you-quit-gambling",
+      "slug": "how-budgeting-can-help-stop-gambling",
       "title": "How Budgeting Can Help You Quit Gambling and Rebuild Your Money Life",
       "category": "Budgeting",
       "date": "2025-11-16",
       "read": "22 min read",
       "excerpt": "Gambling can drain accounts quietly. A simple, honest budget is one of the strongest tools for taking control back.",
       "tags": ["Budgeting", "Gambling", "Recovery"],
-      "url": "/blog/posts/budgeting/how-budgeting-can-help-you-quit-gambling.html"
+      "url": "/blog/posts/budgeting/how-budgeting-can-help-stop-gambling.html"
     }
   ];
 
@@ -752,8 +778,8 @@
     buildJourney();
   }
 
-  // Load posts.json if available, otherwise fall back
-  fetch('posts.json', { cache:'no-cache' })
+  // Load posts.json from /blog/posts/posts.json, otherwise fall back
+  fetch('posts/posts.json', { cache:'no-cache' })
     .then(r => {
       if(!r.ok) throw new Error('missing');
       return r.json();
@@ -772,7 +798,7 @@
   // =============== CARD RENDERERS (TEXT ONLY) ===============
 
   function card(p){
-    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
+    const url = buildUrl(p);
     return `
       <article class="card fade">
         <a href="${url}">
@@ -789,7 +815,7 @@
   }
 
   function mini(p){
-    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
+    const url = buildUrl(p);
     return `
       <div class="mini">
         <a href="${url}">${esc(p.title)}</a>
