@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>How to Build a Realistic Monthly Budget You Can Actually Stick To</title>
+  <meta name="description" content="Learn how to build a monthly budget that matches your real life, not a perfect spreadsheet. Simple steps, examples, and a system you can actually stick with." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="canonical" href="https://yourdomain.com/blog/posts/budgeting/budgeting-realistic-monthly-budget.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to Build a Realistic Monthly Budget You Can Actually Stick To" />
+  <meta property="og:description" content="A calm, practical guide to building a monthly budget that fits your real income, real bills, and real habits." />
+  <meta property="og:url" content="https://yourdomain.com/blog/posts/budgeting/budgeting-realistic-monthly-budget.html" />
+  <meta property="og:image" content="https://yourdomain.com/assets/og-lockhabit-journal-bright.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Build a Realistic Monthly Budget You Can Actually Stick To" />
+  <meta name="twitter:description" content="Step-by-step: build a budget you can live with, adjust, and keep going long-term." />
+  <meta name="twitter:image" content="https://yourdomain.com/assets/og-lockhabit-journal-bright.png" />
+
+  <meta name="author" content="LockHabit" />
+  <meta name="keywords" content="how to make a budget,realistic budget,monthly budget,beginner budgeting,how to stick to a budget" />
+
+  <!-- Paper-textured background + typography (no images in content) -->
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.7;
+      color: #222;
+      background-color: #f6f3ec;
+      background-image: url("/assets/textures/paper-light.jpg");
+      background-repeat: repeat;
+      background-size: 400px 400px;
+    }
+    a {
+      color: #1a4fd6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .page-wrap { padding: 1.5rem 1rem 3rem; }
+    .article {
+      max-width: 780px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 10px;
+      box-shadow: 0 18px 45px rgba(15, 15, 15, 0.08);
+      padding: 2.5rem 1.75rem 3rem;
+    }
+    header.article-header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .top-nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.85rem;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: #f3f1eb;
+      color: #555;
+      text-decoration: none;
+    }
+    .back-link span.icon {
+      font-size: 0.9rem;
+      line-height: 1;
+    }
+    .crumb {
+      color: #888;
+      font-size: 0.8rem;
+    }
+    .crumb a {
+      color: #666;
+      text-decoration: none;
+    }
+    .crumb a:hover { text-decoration: underline; }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      color: #888;
+      font-weight: 600;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 3vw, 2.3rem);
+      line-height: 1.2;
+      margin: 0.35rem 0 0.75rem;
+    }
+    .meta {
+      font-size: 0.85rem;
+      color: #777;
+    }
+    .meta span + span::before {
+      content: "•";
+      margin: 0 0.4rem;
+      color: #ccc;
+    }
+
+    .content p { margin: 0 0 1rem; font-size: 0.97rem; }
+    .content h2 {
+      margin-top: 1.75rem;
+      margin-bottom: 0.6rem;
+      font-size: 1.25rem;
+    }
+    .content h3 {
+      margin-top: 1.25rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.05rem;
+    }
+    .content ul, .content ol {
+      padding-left: 1.2rem;
+      margin: 0 0 1rem;
+      font-size: 0.97rem;
+    }
+    .content li { margin-bottom: 0.35rem; }
+
+    .note {
+      border-left: 3px solid #e0c27a;
+      padding: 0.8rem 1rem;
+      background: #fdf8ea;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      margin: 1.25rem 0;
+    }
+    .warning {
+      border-left: 3px solid #e26b5b;
+      padding: 0.8rem 1rem;
+      background: #fff2f0;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      margin: 1.25rem 0;
+    }
+    .inline-calculator {
+      margin: 1.75rem 0;
+      padding: 1rem 1.1rem;
+      border-radius: 10px;
+      background: #f2f5ff;
+      border: 1px solid #d7e0ff;
+      font-size: 0.92rem;
+    }
+    .inline-calculator strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.93rem;
+    }
+
+    .checklist {
+      margin: 1.4rem 0;
+      padding: 1rem 1.1rem;
+      border-radius: 10px;
+      background: #f5f5f5;
+      border: 1px solid #e0ded8;
+      font-size: 0.93rem;
+    }
+    .checklist-title {
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .qa-block {
+      margin: 1.8rem 0;
+      padding-top: 0.2rem;
+      border-top: 1px dashed #ddd0b8;
+    }
+    .qa-block h3 {
+      margin-top: 0.9rem;
+    }
+
+    footer.article-footer {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      font-size: 0.85rem;
+      color: #777;
+    }
+    .tag-pill {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: #f1f1f1;
+      font-size: 0.78rem;
+      margin-right: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .footer-nav {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .footer-nav a.btn-soft {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      background: #f3f1eb;
+      color: #555;
+      text-decoration: none;
+      font-size: 0.83rem;
+      border: 1px solid #e0dbd0;
+    }
+
+    @media (min-width: 800px) {
+      .page-wrap { padding: 2.5rem 1.5rem 4rem; }
+      .article { padding: 3rem 3rem 3.25rem; }
+    }
+  </style>
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <!-- Ezoic -->
+  <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+  <script>
+    window.ezstandalone = window.ezstandalone || {};
+    ezstandalone.cmd = ezstandalone.cmd || [];
+  </script>
+
+  <!-- Schema.org BlogPosting -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How to Build a Realistic Monthly Budget You Can Actually Stick To",
+    "description": "A calm, practical guide to building a monthly budget that fits your real income, real bills, and real habits—so you can actually stick with it.",
+    "image": "https://yourdomain.com/assets/og-lockhabit-journal-bright.png",
+    "author": { "@type": "Person", "name": "LockHabit" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "LockHabit",
+      "logo": { "@type": "ImageObject", "url": "https://yourdomain.com/assets/logo-512.png" }
+    },
+    "datePublished": "2025-11-20",
+    "dateModified": "2025-11-20",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://yourdomain.com/blog/posts/budgeting/budgeting-realistic-monthly-budget.html"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div class="page-wrap">
+    <article class="article">
+
+      <!-- Top ad -->
+      <div id="ezoic-pub-ad-placeholder-101"></div>
+      <script>
+        ezstandalone.cmd.push(function () { ezstandalone.showAds(101); });
+      </script>
+
+      <header class="article-header">
+        <div class="top-nav-row">
+          <a class="back-link" href="/blog/">
+            <span class="icon">←</span>
+            <span>Back to LockHabit Journal</span>
+          </a>
+          <div class="crumb">
+            <a href="/blog/">Journal</a> › <a href="/blog/?cat=Budgeting">Budgeting</a>
+          </div>
+        </div>
+
+        <div class="eyebrow">Budgeting · Monthly Planning</div>
+        <h1>How to Build a Realistic Monthly Budget You Can Actually Stick To</h1>
+        <div class="meta">
+          <span>Updated November 20, 2025</span>
+          <span>~18–22 min read</span>
+        </div>
+      </header>
+
+      <div class="content">
+        <p>
+          Most people don’t fail at budgeting because they’re “bad with money.” They fail because the
+          <strong>budget they tried to follow was never realistic for their actual life</strong>.
+        </p>
+
+        <p>
+          A realistic budget doesn’t look perfect on paper. It:
+        </p>
+
+        <ul>
+          <li>Matches your real take-home pay, not a made-up number</li>
+          <li>Includes things like haircuts, kids’ birthdays, oil changes, and holidays</li>
+          <li>Leaves room for some fun, so you don’t blow it up out of frustration</li>
+          <li>Can be adjusted when your income or bills change</li>
+        </ul>
+
+        <p>
+          This guide walks you step-by-step through building a monthly budget you can actually stick to,
+          even if you’ve tried and “failed” at budgeting before.
+        </p>
+
+        <div class="note">
+          The goal is not to control every dollar perfectly. The goal is to
+          <strong>know what’s happening, on purpose</strong>, and give your money a simple job each month.
+        </div>
+
+        <h2>Step 1: Start with your real monthly take-home pay</h2>
+
+        <p>
+          Budgets fall apart when they’re built on gross income (“I make $4,000 a month”) instead of
+          <strong>what actually hits your bank account</strong> after taxes, benefits, and other deductions.
+        </p>
+
+        <p>Here’s how to get your real number:</p>
+
+        <ol>
+          <li>Look at your last 1–2 months of paychecks.</li>
+          <li>Note the <strong>net pay</strong> (amount deposited) on each check.</li>
+          <li>Multiply by how many times you’re paid each month.</li>
+        </ol>
+
+        <p>Examples:</p>
+
+        <ul>
+          <li>If you’re paid weekly: net pay × 4.33 (average weeks per month)</li>
+          <li>If you’re paid every other week: net pay × 2.17</li>
+          <li>If you’re paid twice a month: add the two net deposits</li>
+        </ul>
+
+        <div class="inline-calculator">
+          <strong>Shortcut:</strong>
+          Use the
+          <a href="/income-tax.html#paycheck" target="_blank" rel="noopener">
+            Paycheck &amp; Take-Home Checkup Calculator
+          </a>
+          to estimate your monthly take-home after taxes and deductions. It opens in a new tab so you can plug in your numbers as you read.
+        </div>
+
+        <p>
+          This monthly take-home number is the <strong>ceiling</strong> for your budget. Everything else has
+          to live underneath it.
+        </p>
+
+        <h2>Step 2: List your fixed, flexible, and “quiet” expenses</h2>
+
+        <p>You don’t need a perfect list on day one, but you do need a clear starting point.</p>
+
+        <h3>1. Fixed expenses (same or almost the same every month)</h3>
+
+        <ul>
+          <li>Rent or mortgage</li>
+          <li>Car payment</li>
+          <li>Insurance (auto, renter, health premiums if you pay them)</li>
+          <li>Phone, internet, subscriptions that don’t change</li>
+        </ul>
+
+        <p>
+          These are the bills that show up every month whether you remember them or not. They’re the
+          backbone of your budget.
+        </p>
+
+        <h3>2. Flexible expenses (you spend every month, but the amount can move)</h3>
+
+        <ul>
+          <li>Groceries</li>
+          <li>Gas or transit</li>
+          <li>Eating out / takeout / coffee</li>
+          <li>Personal care (hair, nails, grooming)</li>
+          <li>Household supplies</li>
+          <li>Fun / entertainment</li>
+        </ul>
+
+        <p>
+          These are places you can adjust when you need extra room—<em>but</em> if you don’t give them
+          realistic amounts, they’re exactly where budgets blow up.
+        </p>
+
+        <h3>3. “Quiet” expenses (irregular but absolutely real)</h3>
+
+        <p>These are the ones that quietly wreck people’s budgets:</p>
+
+        <ul>
+          <li>Car maintenance (oil changes, tires, brakes)</li>
+          <li>Annual subscriptions (Amazon, Costco, etc.)</li>
+          <li>Back-to-school costs</li>
+          <li>Holidays and gifts</li>
+          <li>Travel to see family</li>
+          <li>Co-pays, prescriptions, or dental visits</li>
+        </ul>
+
+        <p>
+          You can’t predict these perfectly, but you can stop pretending they don’t exist. That’s where
+          <strong>sinking funds</strong> come in (we’ll use them in a minute).
+        </p>
+
+        <div class="note">
+          Don’t worry if your list feels messy. Real life is messy. You can refine your categories over the
+          first 1–3 months. The important thing is to stop guessing.
+        </div>
+
+        <h2>Step 3: Choose a simple structure for your money</h2>
+
+        <p>A realistic budget doesn’t need 37 categories. It needs a simple structure you understand.</p>
+
+        <p>Two easy starting points:</p>
+
+        <h3>Option A: The “Four Big Buckets” budget</h3>
+
+        <ul>
+          <li><strong>Essentials:</strong> Rent/mortgage, utilities, food, transportation, minimum debt payments</li>
+          <li><strong>Goals:</strong> Extra debt payoff, savings, emergency fund, big purchases</li>
+          <li><strong>True expenses:</strong> Sinking funds for car, holidays, annual fees, etc.</li>
+          <li><strong>Flexible / fun:</strong> Eating out, entertainment, little treats</li>
+        </ul>
+
+        <p>
+          You still track what you spend, but everything rolls up into these four buckets so it’s easy to
+          see where things are off.
+        </p>
+
+        <h3>Option B: The 50/30/20 budget (with flexibility)</h3>
+
+        <ul>
+          <li><strong>50% Needs:</strong> Non-negotiable bills and basic living costs</li>
+          <li><strong>30% Wants:</strong> Nice-to-have spending, subscriptions, fun</li>
+          <li><strong>20% Goals:</strong> Savings, debt payoff above the minimums</li>
+        </ul>
+
+        <p>
+          You don’t have to hit these exact percentages. The power is in checking:
+          <em>“Am I anywhere close to these numbers, or is something way off?”</em>
+        </p>
+
+        <div class="inline-calculator">
+          <strong>Try it quickly:</strong>
+          Take your monthly take-home and multiply by 0.5, 0.3, and 0.2. Compare those to what you <em>actually</em>
+          spend in each area. This tells you instantly where your budget feels tight.
+        </div>
+
+        <h2>Step 4: Put real numbers on paper (or screen)</h2>
+
+        <p>Now you’re going to build a first draft. It will not be perfect. That’s fine.</p>
+
+        <h3>Example: take-home pay $3,400/month</h3>
+
+        <p><strong>Essentials</strong></p>
+        <ul>
+          <li>Rent: $1,350</li>
+          <li>Utilities (electric, gas, water): $150</li>
+          <li>Phone + internet: $140</li>
+          <li>Groceries: $450</li>
+          <li>Gas / transit: $160</li>
+          <li>Minimum debt payments: $200</li>
+        </ul>
+        <p><em>Essentials total: $2,450</em></p>
+
+        <p><strong>True expenses (sinking funds)</strong></p>
+        <ul>
+          <li>Car maintenance: $50/month</li>
+          <li>Holidays &amp; gifts: $60/month</li>
+          <li>Annual subscriptions: $25/month</li>
+          <li>Medical &amp; dental: $40/month</li>
+        </ul>
+        <p><em>True expenses total: $175</em></p>
+
+        <p><strong>Goals</strong></p>
+        <ul>
+          <li>Emergency fund: $150/month</li>
+          <li>Extra debt payoff: $125/month</li>
+        </ul>
+        <p><em>Goals total: $275</em></p>
+
+        <p><strong>Flexible / fun</strong></p>
+        <ul>
+          <li>Eating out / takeout: $200</li>
+          <li>Entertainment / streaming / hobbies: $150</li>
+          <li>Personal spending: $150</li>
+        </ul>
+        <p><em>Flexible total: $500</em></p>
+
+        <p><strong>Total planned:</strong> $2,450 + $175 + $275 + $500 = $3,400 (exactly your take-home)</p>
+
+        <div class="warning">
+          If your total planned spending is <em>more</em> than your take-home, the budget isn’t realistic yet.
+          You haven’t failed— you just discovered the gap. This is where you adjust.
+        </div>
+
+        <h2>Step 5: Stress-test your budget with 3 quick questions</h2>
+
+        <p>Before you call it “done,” run it through these three checks:</p>
+
+        <h3>Question 1: Does this match the last 1–2 months of your real spending?</h3>
+
+        <p>
+          Look at your actual bank and card history. If you’ve been spending $650–$700 on groceries, a
+          $400 grocery budget will fall apart by Week 2.
+        </p>
+
+        <p>
+          Start close to your real behavior. You can squeeze categories down over time once you’ve seen
+          where the money actually goes.
+        </p>
+
+        <h3>Question 2: Is there <em>any</em> buffer for surprises?</h3>
+
+        <p>
+          Even $25–$50 labeled as “Buffer” or “Misc” can keep your budget from collapsing the first
+          time a small surprise hits.
+        </p>
+
+        <h3>Question 3: Would you honestly follow this for 30 days?</h3>
+
+        <p>
+          If your first reaction is “there’s no way I’m living on this,” believe that. Adjust the plan
+          until it feels tight but doable, not punishing.
+        </p>
+
+        <div class="checklist">
+          <div class="checklist-title">Realistic budget check-in:</div>
+          <ul>
+            <li>Your planned spending is not higher than your take-home pay</li>
+            <li>Groceries, gas, and fun money are close to what you’ve actually been spending</li>
+            <li>You’ve included at least a few “quiet” expenses via sinking funds</li>
+            <li>You have a tiny buffer for surprises</li>
+          </ul>
+        </div>
+
+        <h2>Step 6: Give your money a simple home (accounts + automation)</h2>
+
+        <p>Budgets fail when everything lives in one checking account with one big pile of money.</p>
+
+        <p>A simple structure that works for a lot of people:</p>
+
+        <ul>
+          <li><strong>Main checking:</strong> Income comes in; fixed bills and necessary spending go out</li>
+          <li><strong>Sinking fund account:</strong> Car, holidays, annual bills, medical</li>
+          <li><strong>Savings:</strong> Emergency fund and bigger future goals</li>
+        </ul>
+
+        <p>Then add automation:</p>
+
+        <ul>
+          <li>Automatic transfers to sinking funds the day after payday</li>
+          <li>Automatic transfer to savings (even if it’s $25)</li>
+          <li>Optional: a separate “fun money” account or card</li>
+        </ul>
+
+        <div class="note">
+          Automation doesn’t have to be fancy. Even setting up one recurring transfer—like $50 each
+          payday into a car/repairs space—puts your budget years ahead of “I’ll move the money later.”
+        </div>
+
+        <h2>Step 7: Create a 10-minute weekly budget check-in</h2>
+
+        <p>
+          A realistic budget is something you touch lightly every week, not something you panic-open
+          once a month when the card declines.
+        </p>
+
+        <p>Once a week (same day if possible), do this in 10 minutes:</p>
+
+        <ol>
+          <li>Open your budget and your bank app.</li>
+          <li>Update what you’ve spent in each bucket.</li>
+          <li>Check how much is left in groceries, gas, and fun.</li>
+          <li>Move any “extra” sitting in checking to where it belongs (sinking funds, savings, debt).</li>
+        </ol>
+
+        <p>
+          That’s it. No drama, no judgment. Just “where are we now?” and “do we need to adjust?” The
+          more often you check in, the less scary your money feels.
+        </p>
+
+        <h2>Two quick money moves you can make today</h2>
+
+        <p>
+          If your energy is low and your budget feels overwhelming, here are
+          <strong>two small wins</strong> you can grab today that still move you forward.
+        </p>
+
+        <h3>Small win #1: Pick one category to cap this month</h3>
+
+        <p>
+          Choose just one area to focus on—maybe eating out, delivery, or impulse Amazon purchases.
+          Set a limit slightly lower than what you’ve been spending (not drastically lower), and track only that.
+        </p>
+
+        <p>
+          Example: If you’ve been spending $300 on eating out, cap it at $240–$260 this month and
+          watch that one category. You’ll still feel progress without flipping your whole life upside down.
+        </p>
+
+        <h3>Small win #2: Start one sinking fund with a tiny automatic amount</h3>
+
+        <p>
+          Pick the one “quiet” expense that stresses you out the most—car repairs, holidays, or back-to-school.
+          Open a labeled savings space and move <strong>$10–$25</strong> there automatically every payday.
+        </p>
+
+        <p>
+          It won’t feel like a lot at first. But in 6 months, you’ll have a few hundred dollars waiting for
+          that thing that used to blow up your budget. That’s real progress.
+        </p>
+
+        <h2>How to plug all this into a calculator (and see if your plan works)</h2>
+
+        <p>
+          Once you have your rough numbers, it helps to see them laid out cleanly—especially if you
+          have multiple paychecks or irregular income.
+        </p>
+
+        <div class="inline-calculator">
+          <strong>Next step:</strong>
+          Open the
+          <a href="/calculators/monthly-budget-planner.html" target="_blank" rel="noopener">
+            Monthly Budget Planner Calculator
+          </a>
+          in a new tab and plug in:
+          <ul>
+            <li>Your monthly take-home pay</li>
+            <li>Your fixed bills (rent, car, insurance, etc.)</li>
+            <li>Realistic amounts for groceries, gas, and fun</li>
+            <li>Your sinking fund amounts (car, holidays, annual bills)</li>
+          </ul>
+          It will show you instantly if your plan is balanced, short, or has extra room you can send
+          toward savings or debt.
+        </div>
+
+        <h2>Common questions about “realistic” budgets</h2>
+
+        <div class="qa-block">
+          <h3>“What if my numbers don’t work at all?”</h3>
+          <p>
+            If your total basic expenses are already higher than your take-home pay, you’re not bad
+            at budgeting—you’re in a math problem that needs real adjustments. That usually means
+            one (or more) of:
+          </p>
+          <ul>
+            <li>Finding ways to increase income (extra shifts, side income, new role)</li>
+            <li>Reducing fixed expenses where possible (housing, car, subscriptions)</li>
+            <li>Getting temporary help (roommate, family, community resources)</li>
+          </ul>
+          <p>
+            A clear budget still helps here, because it shows exactly how big the gap is and which
+            levers would make the most difference.
+          </p>
+
+          <h3>“Do I have to track every single transaction?”</h3>
+          <p>
+            For the first 1–2 months, it <em>really</em> helps to track everything so you see where the leaks are.
+            After that, many people switch to tracking only the big categories that drift (like food,
+            gas, and fun) and let the rest run on autopilot.
+          </p>
+
+          <h3>“How long until this feels normal?”</h3>
+          <p>
+            Most people need 2–3 months to settle into a new budget. The first month is data collection.
+            The second month is adjustment. The third month starts to feel like “this is just what we do.”
+          </p>
+
+          <h3>“What if my income changes every month?”</h3>
+          <p>
+            Use a “base” budget built around the <strong>lowest income you can reasonably expect</strong>.
+            When you earn more, that extra money can go:
+          </p>
+          <ul>
+            <li>50% to goals (savings, debt)</li>
+            <li>25% to true expenses / sinking funds</li>
+            <li>25% to fun or upgrades</li>
+          </ul>
+          <p>
+            That way you’re never budgeting money you don’t actually have yet.
+          </p>
+        </div>
+
+        <h2>The bottom line: your first budget is allowed to be rough</h2>
+
+        <p>
+          A realistic budget is not a punishment or a contract you can never change. It’s a
+          <strong>living plan</strong> that keeps you in control as life happens.
+        </p>
+
+        <p>To recap your next steps:</p>
+
+        <ul>
+          <li>Find your real monthly take-home pay</li>
+          <li>List your fixed, flexible, and “quiet” expenses</li>
+          <li>Choose a simple structure (four buckets or 50/30/20)</li>
+          <li>Write a first draft that fits under your take-home</li>
+          <li>Stress-test it against your real spending and make adjustments</li>
+          <li>Set up simple accounts and automations so the system runs even on busy weeks</li>
+          <li>Do one 10-minute check-in each week</li>
+        </ul>
+
+        <p>
+          If you build this calmly and honestly—even if it takes a few tries—you’ll end up with a
+          monthly budget that fits your actual life and finally feels like something you can live with.
+        </p>
+      </div>
+
+      <!-- Mid-article ad -->
+      <div id="ezoic-pub-ad-placeholder-102"></div>
+      <script>
+        ezstandalone.cmd.push(function () { ezstandalone.showAds(102); });
+      </script>
+
+      <footer class="article-footer">
+        <div style="margin-bottom:0.75rem;">Filed under:</div>
+        <span class="tag-pill">Budgeting basics</span>
+        <span class="tag-pill">Monthly planning</span>
+        <span class="tag-pill">Money habits</span>
+
+        <div class="footer-nav">
+          <a class="btn-soft" href="/blog/">
+            <span>← Back to all articles</span>
+          </a>
+          <a class="btn-soft" href="/blog/?cat=Budgeting">
+            <span>View more budgeting guides</span>
+          </a>
+          <a class="btn-soft" href="/calculators/monthly-budget-planner.html" target="_blank" rel="noopener">
+            <span>Open Monthly Budget Calculator ↗</span>
+          </a>
+        </div>
+
+        <!-- Bottom ad -->
+        <div id="ezoic-pub-ad-placeholder-103" style="margin-top:1.5rem;"></div>
+        <script>
+          ezstandalone.cmd.push(function () { ezstandalone.showAds(103); });
+        </script>
+      </footer>
+    </article>
+  </div>
+</body>
+</html>
