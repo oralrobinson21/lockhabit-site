@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Budgeting for Absolute Beginners: A Calm, Step-by-Step Guide</title>
+  <meta name="description" content="New to budgeting? This plain-English guide walks you step-by-step through building your first budget, fixing common mistakes, and staying consistent—without feeling deprived." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="canonical" href="https://lockhabit.com/blog/posts/budgeting/budgeting-for-absolute-beginners.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Budgeting for Absolute Beginners: A Calm, Step-by-Step Guide" />
+  <meta property="og:description" content="A simple, honest guide to starting a budget that actually works in real life—without spreadsheets taking over your entire week." />
+  <meta property="og:url" content="https://lockhabit.com/blog/posts/budgeting/budgeting-for-absolute-beginners.html" />
+  <!-- You can use any neutral paper-style OG image here -->
+  <meta property="og:image" content="https://lockhabit.com/assets/og/lockhabit-budgeting-basics.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Budgeting for Absolute Beginners: A Calm, Step-by-Step Guide" />
+  <meta name="twitter:description" content="Finally understand budgeting in normal language. Learn how to set up your first budget, avoid common traps, and stick with it." />
+  <meta name="twitter:image" content="https://lockhabit.com/assets/og/lockhabit-budgeting-basics.jpg" />
+
+  <meta name="author" content="LockHabit" />
+  <meta name="keywords" content="how to start a budget,budgeting for beginners,zero based budget,50/30/20 rule,how to stick to a budget" />
+
+  <!-- Background / Layout – paper-like, no in-article photos -->
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.7;
+      color: #222222;
+      background-color: #f6f3ec;
+      /* you can swap this texture for another neutral one, just keep tone consistent */
+      background-image: url("/assets/textures/paper-light.jpg");
+      background-repeat: repeat;
+      background-size: 420px 420px;
+    }
+    .page-wrap {
+      padding: 1.5rem 1rem 3rem;
+    }
+    .article {
+      max-width: 780px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.94);
+      border-radius: 12px;
+      box-shadow: 0 18px 45px rgba(15,15,15,0.08);
+      padding: 2.5rem 1.75rem 3rem;
+    }
+    header.article-header {
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      color: #888;
+      font-weight: 600;
+    }
+    h1 {
+      font-size: clamp(1.85rem, 3vw, 2.4rem);
+      line-height: 1.2;
+      margin: 0.35rem 0 0.75rem;
+    }
+    .meta {
+      font-size: 0.85rem;
+      color: #777;
+    }
+    .meta span + span::before {
+      content: "•";
+      margin: 0 0.4rem;
+      color: #cccccc;
+    }
+
+    .back-link {
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .back-link a {
+      color: #1b4fd6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+
+    .content p {
+      margin: 0 0 1rem;
+      font-size: 0.97rem;
+    }
+    .content h2 {
+      margin-top: 1.9rem;
+      margin-bottom: 0.6rem;
+      font-size: 1.3rem;
+    }
+    .content h3 {
+      margin-top: 1.25rem;
+      margin-bottom: 0.45rem;
+      font-size: 1.05rem;
+    }
+    .content ul,
+    .content ol {
+      padding-left: 1.2rem;
+      margin: 0 0 1rem;
+      font-size: 0.97rem;
+    }
+    .content li {
+      margin-bottom: 0.35rem;
+    }
+
+    .note {
+      border-left: 3px solid #e0c27a;
+      padding: 0.8rem 1rem;
+      background: #fdf8ea;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      margin: 1.4rem 0;
+    }
+    .warning {
+      border-left: 3px solid #e26b5b;
+      padding: 0.8rem 1rem;
+      background: #fff2f0;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      margin: 1.4rem 0;
+    }
+    .inline-calculator {
+      margin: 1.6rem 0;
+      padding: 1rem 1.1rem;
+      border-radius: 10px;
+      background: #f1f4ff;
+      border: 1px solid #d9e0ff;
+      font-size: 0.92rem;
+    }
+    .inline-calculator a {
+      font-weight: 600;
+      color: #1a4fd6;
+      text-decoration: none;
+    }
+    .inline-calculator a:hover {
+      text-decoration: underline;
+    }
+
+    .checklist {
+      border-radius: 8px;
+      border: 1px dashed #d1d6e5;
+      padding: 0.9rem 1rem;
+      background: #fafbff;
+      font-size: 0.9rem;
+      margin: 1.4rem 0;
+    }
+
+    footer.article-footer {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      font-size: 0.85rem;
+      color: #777;
+    }
+    .tag-pill {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: #f1f1f1;
+      font-size: 0.78rem;
+      margin-right: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .footer-links {
+      margin-top: 1.1rem;
+    }
+    .footer-links a {
+      color: #1b4fd6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (min-width: 800px) {
+      .page-wrap {
+        padding: 2.5rem 1.5rem 4rem;
+      }
+      .article {
+        padding: 3rem 3rem 3.25rem;
+      }
+    }
+  </style>
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <!-- Ezoic -->
+  <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+  <script>
+    window.ezstandalone = window.ezstandalone || {};
+    ezstandalone.cmd = ezstandalone.cmd || [];
+  </script>
+
+  <!-- Schema.org BlogPosting -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Budgeting for Absolute Beginners: A Calm, Step-by-Step Guide",
+    "description": "New to budgeting? This plain-English guide walks you step-by-step through building your first budget, fixing common mistakes, and staying consistent—without feeling deprived.",
+    "image": "https://lockhabit.com/assets/og/lockhabit-budgeting-basics.jpg",
+    "author": { "@type": "Person", "name": "LockHabit" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "LockHabit",
+      "logo": { "@type": "ImageObject", "url": "https://lockhabit.com/assets/logo-512.png" }
+    },
+    "datePublished": "2025-11-20",
+    "dateModified": "2025-11-20",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lockhabit.com/blog/posts/budgeting/budgeting-for-absolute-beginners.html"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div class="page-wrap">
+    <article class="article">
+
+      <!-- Top Ad -->
+      <div id="ezoic-pub-ad-placeholder-101"></div>
+      <script>ezstandalone.cmd.push(function () { ezstandalone.showAds(101); });</script>
+
+      <!-- Back to Journal -->
+      <div class="back-link">
+        <a href="/blog/">&larr; Back to LockHabit Journal</a>
+      </div>
+
+      <header class="article-header">
+        <div class="eyebrow">Budgeting · Getting Started</div>
+        <h1>Budgeting for Absolute Beginners: A Calm, Step-by-Step Guide</h1>
+        <div class="meta">
+          <span>Updated November 20, 2025</span>
+          <span>~18–24 min read</span>
+        </div>
+      </header>
+
+      <div class="content">
+        <p>
+          Most people don’t avoid budgeting because they’re lazy. They avoid it because every time they’ve tried, it felt like:
+        </p>
+        <ul>
+          <li>A spreadsheet that doesn’t match real life</li>
+          <li>A list of “don’ts” and “you can’t” rules</li>
+          <li>A reminder that they’re already behind</li>
+        </ul>
+
+        <p>
+          This guide is for people who are starting from zero. Maybe you’ve never had a budget that lasted more than a week. Maybe you’re juggling rent, debt, groceries, subscriptions, and you’re tired of feeling like your money disappears the second you get paid.
+        </p>
+
+        <p>
+          We’ll walk through a calm, realistic way to build your first budget — one that fits
+          your actual life, not an ideal life on TikTok.
+        </p>
+
+        <div class="note">
+          The goal of a budget isn’t to make you feel bad. The goal is simple:
+          <strong>know where your money is going on purpose.</strong> Once you can see it, you can change it.
+        </div>
+
+        <h2>Step 1: Get honest about your monthly “money picture”</h2>
+
+        <p>
+          Before you decide how to spend better, you need a clear picture of what’s happening right now.
+          Most people skip this step — and that’s why their budgets never feel real.
+        </p>
+
+        <h3>1. List your <em>take-home</em> income</h3>
+        <p>
+          We care about the money that actually hits your account, not the big number on your offer letter.
+          Write down your <strong>net pay</strong> from:
+        </p>
+        <ul>
+          <li>Your main job (every paycheck after tax and deductions)</li>
+          <li>Any side jobs or gig work</li>
+          <li>Regular government benefits (if any)</li>
+        </ul>
+
+        <p>
+          If you’re paid weekly or every two weeks, convert it to a monthly number. You can do:
+        </p>
+        <ul>
+          <li>Weekly pay × 4.33</li>
+          <li>Every-two-weeks pay × 2.165</li>
+        </ul>
+
+        <div class="inline-calculator">
+          Want it done for you? Use the
+          <a href="/calculators/monthly-income-converter.html" target="_blank" rel="noopener">
+            Net Pay to Monthly Income Calculator
+          </a>
+          to convert weekly or bi-weekly paychecks into a realistic monthly income number.
+        </div>
+
+        <h3>2. List the bills you must pay to keep life running</h3>
+        <p>
+          These are your <strong>non-negotiables</strong>. Without them, life stops working:
+        </p>
+        <ul>
+          <li>Rent or mortgage</li>
+          <li>Utilities (electric, gas, water, basic internet)</li>
+          <li>Transportation (car payment, insurance, transit pass, gas average)</li>
+          <li>Minimum debt payments (credit cards, loans)</li>
+          <li>Basic phone plan</li>
+        </ul>
+
+        <p>
+          Don’t worry yet about “fixing” any of these. Just capture the real amounts.
+        </p>
+
+        <h3>3. Look at your real spending — not what you wish you spent</h3>
+        <p>
+          Open your banking app and your main credit card. Look at the last 30–60 days and roughly group transactions into:
+        </p>
+        <ul>
+          <li>Groceries</li>
+          <li>Eating out / delivery</li>
+          <li>Subscriptions & apps</li>
+          <li>Shopping (Amazon, clothes, random stuff)</li>
+          <li>Fun / entertainment</li>
+          <li>Other recurring charges</li>
+        </ul>
+
+        <p>
+          You’re not judging yourself here. You’re just creating a mirror. A budget that ignores your real behavior will never work.
+        </p>
+
+        <div class="checklist">
+          <strong>End of Step 1 checklist:</strong>
+          <ul>
+            <li>I know my total monthly take-home income.</li>
+            <li>I listed all my non-negotiable bills and minimum payments.</li>
+            <li>I have a rough idea what I actually spend on food, fun, shopping, and subscriptions each month.</li>
+          </ul>
+        </div>
+
+        <h2>Step 2: Choose a simple “shape” for your budget</h2>
+
+        <p>
+          There are a million budget systems. You need one that is simple enough to stick to, but structured enough to give you control.
+        </p>
+
+        <h3>Option 1: The 50 / 30 / 20 rule (easy starting point)</h3>
+        <p>
+          This rule breaks your after-tax income into:
+        </p>
+        <ul>
+          <li><strong>50%</strong> for needs (rent, utilities, groceries, minimum debt)</li>
+          <li><strong>30%</strong> for wants (eating out, fun, travel, subscriptions)</li>
+          <li><strong>20%</strong> for future you (debt payoff above minimums, savings, investing)</li>
+        </ul>
+
+        <p>
+          It’s not perfect math for every situation, but it gives you a quick way to see if something is off. If your “needs” are 70–80% of your income, you don’t have a spending problem — you have a cost-of-living problem, and the budget will highlight that.
+        </p>
+
+        <div class="inline-calculator">
+          Try plugging your income into the
+          <a href="/calculators/50-30-20-budget.html" target="_blank" rel="noopener">
+            50 / 30 / 20 Budget Calculator
+          </a>
+          to see what those buckets look like in real dollar amounts.
+        </div>
+
+        <h3>Option 2: The Zero-Based Budget (every dollar has a job)</h3>
+        <p>
+          With a zero-based budget, you start with your total income and assign every dollar to a job until you reach zero. That job might be:
+        </p>
+        <ul>
+          <li>Rent</li>
+          <li>Groceries</li>
+          <li>Gas</li>
+          <li>Debt payoff</li>
+          <li>Savings</li>
+          <li>Fun money</li>
+        </ul>
+
+        <p>
+          When it’s done, if you earn $3,200 this month, you should be able to say exactly where all $3,200 is supposed to go — on purpose.
+        </p>
+
+        <div class="note">
+          Zero-based doesn’t mean you <em>spend</em> everything.
+          It means every dollar is assigned — including savings and extra debt payments.
+        </div>
+
+        <h3>Which one should you pick as a beginner?</h3>
+        <p>
+          If you’ve never budgeted before, start simple:
+        </p>
+        <ul>
+          <li>Use the 50 / 30 / 20 buckets as a rough target.</li>
+          <li>Inside those buckets, list your actual categories and amounts like a light zero-based budget.</li>
+        </ul>
+
+        <p>
+          You can always get more detailed later. The most important thing right now is to <strong>practice seeing your whole month in one place.</strong>
+        </p>
+
+        <h2>Step 3: Build your first one-month “test budget”</h2>
+
+        <p>
+          Think of this first budget as a test run, not a permanent contract. You’re allowed to adjust it once you see how it feels.
+        </p>
+
+        <h3>1. Start with your income at the top</h3>
+        <p>
+          Write “Income” and list:
+        </p>
+        <ul>
+          <li>Paycheck #1</li>
+          <li>Paycheck #2</li>
+          <li>Side income (average)</li>
+        </ul>
+        <p>
+          Add them up. That’s your total for the month.
+        </p>
+
+        <h3>2. Add your non-negotiable bills</h3>
+        <p>
+          Under “Needs,” list every fixed bill and minimum payment you identified earlier. Subtract them from your total income.
+        </p>
+
+        <h3>3. Give yourself realistic amounts for food, gas, and basics</h3>
+        <p>
+          Look at what you actually spent last month and adjust slightly if needed. If you spent $650 on groceries, don’t pretend you’ll magically drop to $300. Try $600 or $580 and see if you can work toward it.
+        </p>
+
+        <h3>4. Decide how much “guilt-free” money you want</h3>
+        <p>
+          This is where most beginner budgets fail. They cut all fun spending to zero, feel miserable, and quit.
+        </p>
+
+        <p>
+          Instead, pick a realistic number you can stick to for:
+        </p>
+        <ul>
+          <li>Eating out / delivery</li>
+          <li>Coffee / snacks</li>
+          <li>Personal fun (games, hobbies, small treats)</li>
+        </ul>
+
+        <div class="note">
+          Give every adult in the household a small personal “no questions asked” amount, even if it’s $20 or $40. It keeps resentment out of the budget.
+        </div>
+
+        <h3>5. Whatever is left goes to your top priority</h3>
+        <p>
+          Once needs, basics, and reasonable fun are covered, the rest should go toward your highest priority:
+        </p>
+        <ul>
+          <li>Starter emergency fund (first $500–$1,000)</li>
+          <li>High-interest debt payoff</li>
+          <li>Saving for a move, car, or big goal</li>
+        </ul>
+
+        <div class="inline-calculator">
+          Use the
+          <a href="/calculators/simple-budget-planner.html" target="_blank" rel="noopener">
+            Simple Budget Planner
+          </a>
+          to plug in your income, bills, and goals and see how much room you realistically have each month.
+        </div>
+
+        <div class="checklist">
+          <strong>End of Step 3 checklist:</strong>
+          <ul>
+            <li>I assigned every dollar of my income to a category on purpose.</li>
+            <li>My budget includes realistic amounts for food, gas, and fun — not fantasy numbers.</li>
+            <li>I know where the “leftover” money is going (savings, debt, or a specific goal).</li>
+          </ul>
+        </div>
+
+        <h2>Step 4: Run your budget in “real life mode” for one month</h2>
+
+        <p>
+          A budget isn’t finished when it’s written. It becomes real when you live with it for a pay cycle or two.
+        </p>
+
+        <h3>Pick a tracking method that matches your personality</h3>
+        <p>You don’t need a fancy app. You just need one system you actually touch every week. Options:</p>
+        <ul>
+          <li>One budgeting app (YNAB, EveryDollar, a bank’s built-in tool)</li>
+          <li>A simple spreadsheet on your phone</li>
+          <li>Pen, paper, and a pocket calculator</li>
+        </ul>
+
+        <p>
+          Once a week, sit down for 10–15 minutes and:
+        </p>
+        <ul>
+          <li>Look at your bank and card transactions</li>
+          <li>Assign them to categories (groceries, gas, eating out, etc.)</li>
+          <li>Compare to what you planned for the month</li>
+        </ul>
+
+        <div class="warning">
+          If your method takes more than 15–20 minutes per week, it’s too complicated for a beginner. Simplify the categories or switch to something lighter.
+        </div>
+
+        <h3>How to handle “I already overspent” moments</h3>
+        <p>
+          Overspending doesn’t mean the budget failed. It means you need to move money on purpose.
+        </p>
+        <p>For example:</p>
+        <ul>
+          <li>You planned $250 for eating out but you’re at $290.</li>
+          <li>You still have $60 left in “shopping” and $40 in “fun.”</li>
+        </ul>
+        <p>
+          You can lower those categories and move the $40 where it’s needed. That’s called <strong>rolling with the punches</strong>, and it’s the difference between a real budget and an imaginary one.
+        </p>
+
+        <h2>Step 5: Tighten leaks without going into “punishment mode”</h2>
+
+        <p>
+          Once you’ve tracked a month or two, patterns will pop out. Some are harmless. Others are quiet money leaks.
+        </p>
+
+        <h3>Common leaks beginners find:</h3>
+        <ul>
+          <li>Subscriptions you forgot about (apps, streaming, “free trials”)</li>
+          <li>Small daily charges (coffee, snacks, vending machines)</li>
+          <li>Delivery fees and tips that double food costs</li>
+          <li>Fees: overdraft, late payments, account minimum fees</li>
+        </ul>
+
+        <p>
+          You don’t have to cut everything, but you should make each one a conscious choice:
+        </p>
+        <ul>
+          <li>“This streaming app is worth $15 a month to me.”</li>
+          <li>“I’d rather keep my gym membership than this random subscription.”</li>
+        </ul>
+
+        <div class="inline-calculator">
+          Want to see how small leaks add up? Use the
+          <a href="/calculators/spending-leak-analyzer.html" target="_blank" rel="noopener">
+            Spending Leak Analyzer
+          </a>
+          to total up a subscription or habit over a year.
+        </div>
+
+        <h3>Reduce, don’t erase, the things that matter to you</h3>
+        <p>
+          If you love eating out with friends, maybe you:
+        </p>
+        <ul>
+          <li>Cap it at a certain dollar amount per month, and</li>
+          <li>Shift some hangouts to coffee or home-cooked nights instead of cutting it to zero.</li>
+        </ul>
+
+        <p>
+          Budgets you hate don’t last. Budgets you respect — because they reflect your real priorities — can last for years.
+        </p>
+
+        <h2>Step 6: Add “future you” into the budget</h2>
+
+        <p>
+          Once the basics are under control, your budget should start protecting and growing your future, not just surviving the month.
+        </p>
+
+        <h3>1. Build a small emergency buffer</h3>
+        <p>
+          Aim first for $500–$1,000 in a separate savings account. This isn’t a forever number;
+          it’s a shock absorber so a flat tire doesn’t blow up your budget.
+        </p>
+
+        <h3>2. Set one short-term goal</h3>
+        <p>
+          Examples:
+        </p>
+        <ul>
+          <li>Pay off a specific credit card</li>
+          <li>Save $1,500 for moving costs</li>
+          <li>Save for a course or license that increases your income</li>
+        </ul>
+
+        <p>
+          Give that goal a line in your budget and send money to it every month, even if it’s small.
+        </p>
+
+        <h3>3. Slowly build a savings habit</h3>
+        <p>
+          Try automating a tiny transfer—$20 or $40—out of each paycheck into savings. The amount matters less than the habit at first.
+        </p>
+
+        <div class="inline-calculator">
+          Use the
+          <a href="/calculators/savings-growth-projection.html" target="_blank" rel="noopener">
+            Savings Growth Projection Calculator
+          </a>
+          to see how even $20 or $50 a paycheck adds up over 1–3 years.
+        </div>
+
+        <h2>Step 7: What if your budget “doesn’t work” on paper?</h2>
+
+        <p>
+          Sometimes you’ll run the numbers and realize there just isn’t enough income to cover a reasonable version of your expenses. That’s not a personal failure — that’s an honest diagnosis.
+        </p>
+
+        <h3>If your needs are more than 70–75% of your income:</h3>
+        <p>Focus on structural changes:</p>
+        <ul>
+          <li>Can you reduce housing cost by moving, getting a roommate, or renegotiating?</li>
+          <li>Can transportation be cheaper (different car, transit, carpool)?</li>
+          <li>Is there a realistic path to higher income in the next 6–12 months (overtime, a new role, certification)?</li>
+        </ul>
+
+        <p>
+          Budgeting can’t magically fix numbers that truly don’t work — but it can show you exactly what needs to change and how far off you are. That clarity is powerful.
+        </p>
+
+        <h2>Common beginner questions</h2>
+
+        <h3>“Do I need a budget if I already pay my bills on time?”</h3>
+        <p>
+          Paying bills on time means you’re not in chaos. A budget goes further — it shows you where the
+          <em>extra</em> money is going and whether it’s moving you toward your goals or just drifting away.
+        </p>
+
+        <h3>“How often should I update the budget?”</h3>
+        <p>
+          For most people:
+        </p>
+        <ul>
+          <li>Once a month: plan the next month’s categories and amounts.</li>
+          <li>Once a week: check in for 10–15 minutes and update what you’ve spent.</li>
+        </ul>
+
+        <h3>“What if my income changes every month?”</h3>
+        <p>
+          Use a “base budget” built on your average minimum income, then:
+        </p>
+        <ul>
+          <li>Cover fixed bills and basics first.</li>
+          <li>Prioritize debt and savings next.</li>
+          <li>Use extra income from better months for goals, not lifestyle creep.</li>
+        </ul>
+
+        <h3>“Should I budget with my partner?”</h3>
+        <p>
+          If your finances are connected (shared bills, shared goals), yes. Even if accounts are separate, you should:
+        </p>
+        <ul>
+          <li>Agree on who pays what</li>
+          <li>Share your big goals and timelines</li>
+          <li>Review the shared budget together once a month</li>
+        </ul>
+
+        <h2>The bottom line: a beginner budget is a learning tool, not a grade</h2>
+
+        <p>
+          Your first budget is not a test of whether you’re “good with money.” It’s a notebook where you finally tell the truth about what’s happening — and then start steering it.
+        </p>
+
+        <p>After reading this guide, you should be able to:</p>
+        <ul>
+          <li>Know your real monthly take-home income</li>
+          <li>See how much goes to needs, wants, and future you</li>
+          <li>Build a simple one-month budget and test it</li>
+          <li>Spot and plug the biggest leaks without going into deprivation mode</li>
+          <li>Use your budget to support savings, debt payoff, and big goals</li>
+        </ul>
+
+        <p>
+          Start with one month. Keep it simple. Adjust as you go. The goal isn’t perfection — it’s control.
+        </p>
+
+        <div class="inline-calculator">
+          Ready to turn this into your own plan?
+          Open the
+          <a href="/calculators/simple-budget-planner.html" target="_blank" rel="noopener">
+            Simple Budget Planner
+          </a>
+          and build a one-month test budget based on your real numbers today.
+        </div>
+      </div>
+
+      <!-- Mid-page Ad -->
+      <div id="ezoic-pub-ad-placeholder-102"></div>
+      <script>ezstandalone.cmd.push(function () { ezstandalone.showAds(102); });</script>
+
+      <footer class="article-footer">
+        <div style="margin-bottom:0.75rem;">Filed under:</div>
+        <span class="tag-pill">Budgeting basics</span>
+        <span class="tag-pill">Money planning</span>
+        <span class="tag-pill">Beginner guides</span>
+
+        <div class="footer-links">
+          Next: want to level up your budget after this?
+          Read
+          <a href="/blog/posts/budgeting/zero-based-budget-vs-50-30-20.html">
+            Zero-Based Budget vs. 50 / 30 / 20: Which System Fits Your Life?
+          </a>
+        </div>
+
+        <!-- Bottom Ad -->
+        <div id="ezoic-pub-ad-placeholder-103" style="margin-top:1.5rem;"></div>
+        <script>ezstandalone.cmd.push(function () { ezstandalone.showAds(103); });</script>
+      </footer>
+    </article>
+  </div>
+</body>
+</html>
