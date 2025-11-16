@@ -59,10 +59,10 @@
       --line: #e3e7f1;
       --card: #ffffff;
       --chip: #f4f7ff;
-      --accent: #2457ff;     /* blue */
-      --accent-2: #2eccb3;   /* sea */
-      --accent-3: #ffb34d;   /* apricot */
-      --accent-4: #ff6e8d;   /* coral */
+      --accent: #2457ff;
+      --accent-2: #2eccb3;
+      --accent-3: #ffb34d;
+      --accent-4: #ff6e8d;
 
       --r-lg: 22px;
       --r-md: 16px;
@@ -240,11 +240,9 @@
     .hero-dot{
       width:6px;height:6px;border-radius:999px;background:#22c55e;
     }
-
     @media(min-width:880px){
       .hero{grid-template-columns:1.2fr .9fr}
     }
-
     .panel{
       border-radius:16px;
       background:linear-gradient(135deg,#f9fafb,#eef2ff);
@@ -384,7 +382,6 @@
     @media(min-width:760px){
       .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
     }
-
     .card{
       background:var(--card);
       border-radius:var(--r-md);
@@ -672,87 +669,405 @@
 </main>
 
 <!-- =========================================================
-     JS — Load posts/posts.json, fall back to built-in list,
-     show ALL posts, allow filtering by category/tag.
+     JS — Static posts list, filter by category/tag.
      ========================================================= -->
 <script>
 (function(){
   const $ = (s,el=document)=>el.querySelector(s);
   const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
-  const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
-  const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+  const fmtDate = d => new Date(d).toLocaleDateString(undefined, {
+    month:'short', day:'numeric', year:'numeric'
+  });
+  const esc = s => (s||'').replace(/[&<>\"']/g, m=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
 
-  // Build URL that matches your /blog/posts/{category}/{file}.html structure
-  function buildUrl(p){
-    if (p.url) return esc(p.url);
-
-    const slug = p.slug || '';
-    const cat = (p.category || '').toLowerCase();
-    const folderMap = {
-      'taxes': 'taxes',
-      'budgeting': 'budgeting',
-      'saving': 'saving',
-      'savings': 'saving',
-      'debt': 'debt',
-      'credit': 'credit',
-      'home': 'home',
-      'loans': 'home',
-      'investing': 'investing'
-    };
-    const folder = folderMap[cat];
-
-    const raw = folder
-      ? `/blog/posts/${folder}/${slug}.html`
-      : `/blog/posts/${slug}.html`;
-
-    return esc(raw);
-  }
-
-  // --------------------------------------
-  // Minimal fallback posts list. You can expand this,
-  // but posts/posts.json (if present) will override it.
-  // --------------------------------------
-  const FALLBACK_POSTS = [
+  // ========= MASTER POSTS LIST (STATIC, ALL BLOGS) =========
+  // Taxes
+  const POSTS = [
     {
-      "slug": "common-tax-mistakes-guide",
-      "title": "The Most Common Tax Mistakes People Make (And How to Never Make Them)",
-      "category": "Taxes",
-      "date": "2025-11-04",
-      "read": "17 min read",
-      "excerpt": "Small tax mistakes delay refunds, trigger scary letters, and quietly cost money. This guide shows how to avoid them calmly.",
-      "tags": ["Tax basics", "Refunds", "IRS letters"],
-      "url": "/blog/posts/taxes/common-tax-mistakes-guide.html",
-      "featured": true
+      slug: "common-tax-mistakes-guide",
+      title: "The Most Common Tax Mistakes People Make (And How to Never Make Them)",
+      category: "Taxes",
+      date: "2025-11-03",
+      read: "17 min read",
+      excerpt: "Small, easy-to-miss mistakes that quietly shrink refunds and trigger letters—and how to avoid them.",
+      tags: ["Tax basics","Refunds","IRS letters"],
+      url: "/blog/posts/taxes/common-tax-mistakes-guide.html",
+      featured: true
     },
     {
-      "slug": "tax-filing-basics-for-beginners",
-      "title": "Tax Filing Basics: A Beginner-Friendly Guide to Doing Your Own Taxes",
-      "category": "Taxes",
-      "date": "2025-09-26",
-      "read": "11 min read",
-      "excerpt": "First time filing? This walks through forms, deadlines, and how to avoid simple errors that slow your refund.",
-      "tags": ["Tax basics", "First-time filers"],
-      "url": "/blog/posts/taxes/tax-filing-basics-for-beginners.html"
+      slug: "tax-filing-basics-for-beginners",
+      title: "Tax Filing Basics: A Beginner-Friendly Guide to Doing Your Own Taxes",
+      category: "Taxes",
+      date: "2025-09-25",
+      read: "11 min read",
+      excerpt: "First-time filer? This walks you from “what forms do I need?” to submitting calmly.",
+      tags: ["Tax basics","First-time filers"],
+      url: "/blog/posts/taxes/tax-filing-basics-for-beginners.html"
     },
     {
-      "slug": "budgeting-for-absolute-beginners",
-      "title": "Budgeting for Absolute Beginners: How to Stop Guessing and Start Knowing Where Your Money Goes",
-      "category": "Budgeting",
-      "date": "2025-11-16",
-      "read": "19 min read",
-      "excerpt": "New to budgeting, or starting over after a few failed apps? This guide builds a realistic plan step by step.",
-      "tags": ["Budgeting", "Beginners"],
-      "url": "/blog/posts/budgeting/budgeting-for-absolute-beginners.html"
+      slug: "how-to-read-your-paycheck",
+      title: "How to Read Your Paycheck (So Tax Season Stops Being a Mystery)",
+      category: "Taxes",
+      date: "2025-09-04",
+      read: "16 min read",
+      excerpt: "Line-by-line, what each code, deduction, and tax line actually means on your pay stub.",
+      tags: ["Paychecks","W-2"],
+      url: "/blog/posts/taxes/how-to-read-your-paycheck.html"
     },
     {
-      "slug": "how-budgeting-can-help-stop-gambling",
-      "title": "How Budgeting Can Help You Quit Gambling and Rebuild Your Money Life",
-      "category": "Budgeting",
-      "date": "2025-11-16",
-      "read": "22 min read",
-      "excerpt": "Gambling can drain accounts quietly. A simple, honest budget is one of the strongest tools for taking control back.",
-      "tags": ["Budgeting", "Gambling", "Recovery"],
-      "url": "/blog/posts/budgeting/how-budgeting-can-help-stop-gambling.html"
+      slug: "standard-vs-itemized-deductions-2025",
+      title: "Standard vs. Itemized Deductions for 2025",
+      category: "Taxes",
+      date: "2025-10-10",
+      read: "14 min read",
+      excerpt: "Which deduction strategy actually leaves more money in your pocket for 2025.",
+      tags: ["Deductions"],
+      url: "/blog/posts/taxes/standard-vs-itemized-deductions-2025.html"
+    },
+    {
+      slug: "tax-brackets-2025-explained",
+      title: "Tax Brackets 2025 Explained (Without the Jargon)",
+      category: "Taxes",
+      date: "2025-10-05",
+      read: "15 min read",
+      excerpt: "How marginal tax brackets really work, with simple examples.",
+      tags: ["Tax brackets"],
+      url: "/blog/posts/taxes/tax-brackets-2025-explained.html"
+    },
+    {
+      slug: "tax-brackets-2025",
+      title: "2025 Federal Tax Brackets: Quick Reference",
+      category: "Taxes",
+      date: "2025-10-05",
+      read: "9 min read",
+      excerpt: "A quick table of 2025 brackets plus what they mean for your paycheck.",
+      tags: ["Tax brackets"],
+      url: "/blog/posts/taxes/tax-brackets-2025.html"
+    },
+    {
+      slug: "tax-credits-everyone-misses",
+      title: "Tax Credits Everyone Misses (and How to Check If You Qualify)",
+      category: "Taxes",
+      date: "2025-10-08",
+      read: "13 min read",
+      excerpt: "Child tax credit, education credits, and other benefits many people leave unused.",
+      tags: ["Credits"],
+      url: "/blog/posts/taxes/tax-credits-everyone-misses.html"
+    },
+    {
+      slug: "tax-extensions-2025-complete-guide",
+      title: "Tax Extensions 2025: Complete Guide",
+      category: "Taxes",
+      date: "2025-03-05",
+      read: "12 min read",
+      excerpt: "How extensions really work, what they do and don’t protect you from, and how to file one.",
+      tags: ["Extensions"],
+      url: "/blog/posts/taxes/tax-extensions-2025-complete-guide.html"
+    },
+    {
+      slug: "tax-filing-status-guide",
+      title: "Tax Filing Status Guide: Single, Head of Household, and More",
+      category: "Taxes",
+      date: "2025-09-20",
+      read: "13 min read",
+      excerpt: "Which filing status actually fits your life — and how much it can change your refund.",
+      tags: ["Filing status"],
+      url: "/blog/posts/taxes/tax-filing-status-guide.html"
+    },
+    {
+      slug: "tax-refund-delays-2025",
+      title: "Tax Refund Delays in 2025: What’s Normal and What Isn’t",
+      category: "Taxes",
+      date: "2025-04-18",
+      read: "10 min read",
+      excerpt: "How long refunds typically take, reasons they get held up, and when to worry.",
+      tags: ["Refunds","IRS"],
+      url: "/blog/posts/taxes/tax-refund-delays-2025.html"
+    },
+    {
+      slug: "why-your-refund-is-smaller-in-2025",
+      title: "Why Your Refund Is Smaller in 2025 (and What You Can Do About It)",
+      category: "Taxes",
+      date: "2025-04-10",
+      read: "11 min read",
+      excerpt: "The quiet changes that shrink refunds and how to adjust your withholding.",
+      tags: ["Refunds"],
+      url: "/blog/posts/taxes/why-your-refund-is-smaller-in-2025.html"
+    },
+    {
+      slug: "what-happens-if-you-file-taxes-late-2025",
+      title: "What Happens If You File Your 2025 Taxes Late?",
+      category: "Taxes",
+      date: "2025-04-05",
+      read: "9 min read",
+      excerpt: "Penalties, interest, and realistic next steps if you’re running behind.",
+      tags: ["Late filing"],
+      url: "/blog/posts/taxes/what-happens-if-you-file-taxes-late-2025.html"
+    },
+    {
+      slug: "what-to-do-if-you-owe-the-irs",
+      title: "What to Do If You Owe the IRS (and Can’t Pay All at Once)",
+      category: "Taxes",
+      date: "2025-04-02",
+      read: "12 min read",
+      excerpt: "Installment plans, hardship options, and how to avoid making it worse.",
+      tags: ["IRS debt"],
+      url: "/blog/posts/taxes/what-to-do-if-you-owe-the-irs.html"
+    },
+    {
+      slug: "filing-taxes-multiple-jobs-2025",
+      title: "Filing Taxes with Multiple Jobs in 2025",
+      category: "Taxes",
+      date: "2025-03-22",
+      read: "14 min read",
+      excerpt: "Side hustles, second jobs, and how to avoid under-withholding surprises.",
+      tags: ["Multiple jobs"],
+      url: "/blog/posts/taxes/filing-taxes-multiple-jobs-2025.html"
+    },
+    {
+      slug: "how-the-irs-matches-your-income-2025",
+      title: "How the IRS Matches Your Income in 2025",
+      category: "Taxes",
+      date: "2025-03-15",
+      read: "10 min read",
+      excerpt: "Where the IRS gets its data and why unreported income is easy to spot.",
+      tags: ["IRS matching"],
+      url: "/blog/posts/taxes/how-the-irs-matches-your-income-2025.html"
+    },
+    {
+      slug: "how-to-file-taxes-without-w2",
+      title: "How to File Taxes Without a W-2",
+      category: "Taxes",
+      date: "2025-02-28",
+      read: "11 min read",
+      excerpt: "Lost paperwork, late employers, and other ways to reconstruct your income.",
+      tags: ["W-2","Missing forms"],
+      url: "/blog/posts/taxes/how-to-file-taxes-without-w2.html"
+    },
+    {
+      slug: "irs-audit-red-flags-2025",
+      title: "IRS Audit Red Flags in 2025 (and What’s Actually Normal)",
+      category: "Taxes",
+      date: "2025-02-20",
+      read: "13 min read",
+      excerpt: "Common patterns that increase audit risk and how to stay boring on paper.",
+      tags: ["Audits"],
+      url: "/blog/posts/taxes/irs-audit-red-flags-2025.html"
+    },
+
+    // ========= Budgeting =========
+    {
+      slug: "budgeting-for-absolute-beginners",
+      title: "Budgeting for Absolute Beginners: How to Stop Guessing and Start Knowing Where Your Money Goes",
+      category: "Budgeting",
+      date: "2025-11-16",
+      read: "19 min read",
+      excerpt: "New to budgeting, or starting over after a few failed apps? This guide builds a realistic plan step by step.",
+      tags: ["Budgeting","Beginners"],
+      url: "/blog/posts/budgeting/budgeting-for-absolute-beginners.html",
+      featured: true
+    },
+    {
+      slug: "how-budgeting-can-help-stop-gambling",
+      title: "How Budgeting Can Help You Quit Gambling and Rebuild Your Money Life",
+      category: "Budgeting",
+      date: "2025-11-16",
+      read: "22 min read",
+      excerpt: "A calm plan to see the real impact of gambling and rebuild savings step by step.",
+      tags: ["Gambling","Recovery"],
+      url: "/blog/posts/budgeting/how-budgeting-can-help-stop-gambling.html"
+    },
+    {
+      slug: "zero-based-budgeting-foundations",
+      title: "Zero-Based Budgeting Foundations: Give Every Dollar a Job",
+      category: "Budgeting",
+      date: "2025-10-15",
+      read: "18 min read",
+      excerpt: "What zero-based budgeting really is, how to set it up, and when it’s worth the effort.",
+      tags: ["Zero-based budgeting"],
+      url: "/blog/posts/budgeting/zero-based-budgeting-foundations.html"
+    },
+    {
+      slug: "budgeting-zero-based-vs-50-30-20",
+      title: "Zero-Based vs 50/30/20: Which Budget Style Fits Your Life?",
+      category: "Budgeting",
+      date: "2025-10-12",
+      read: "16 min read",
+      excerpt: "Two popular budget styles, side by side, with examples for different income levels.",
+      tags: ["Zero-based","50/30/20"],
+      url: "/blog/posts/budgeting/budgeting-zero-based-vs-50-30-20.html"
+    },
+    {
+      slug: "budgeting-stop-living-paycheck-to-paycheck",
+      title: "How to Stop Living Paycheck to Paycheck (Without a Perfect Income)",
+      category: "Budgeting",
+      date: "2025-09-28",
+      read: "20 min read",
+      excerpt: "Step-by-step moves to add breathing room even when rent and bills feel heavy.",
+      tags: ["Paycheck to paycheck"],
+      url: "/blog/posts/budgeting/budgeting-stop-living-paycheck-to-paycheck.html"
+    },
+    {
+      slug: "budgeting-realistic-monthly-budget",
+      title: "How to Build a Realistic Monthly Budget (That Survives Real Life)",
+      category: "Budgeting",
+      date: "2025-09-22",
+      read: "18 min read",
+      excerpt: "Budgets that ignore birthdays, takeout, and car repairs break. This one doesn’t.",
+      tags: ["Monthly budget"],
+      url: "/blog/posts/budgeting/budgeting-realistic-monthly-budget.html"
+    },
+    {
+      slug: "monthly-budget-that-actually-works",
+      title: "Monthly Budget That Actually Works: A One-Page Template",
+      category: "Budgeting",
+      date: "2025-09-10",
+      read: "15 min read",
+      excerpt: "A paper-style template you can reuse every month to stay on track.",
+      tags: ["Template"],
+      url: "/blog/posts/budgeting/monthly-budget-that-actually-works.html"
+    },
+    {
+      slug: "first-budget-step-by-step",
+      title: "Your First Budget: A Step-by-Step Walkthrough",
+      category: "Budgeting",
+      date: "2025-08-30",
+      read: "18 min read",
+      excerpt: "From blank page to finished plan in one calm session.",
+      tags: ["Beginners"],
+      url: "/blog/posts/budgeting/first-budget-step-by-step.html"
+    },
+    {
+      slug: "fix-broken-budget-mid-month",
+      title: "How to Fix a Broken Budget Mid-Month (Without Giving Up)",
+      category: "Budgeting",
+      date: "2025-08-20",
+      read: "14 min read",
+      excerpt: "What to do after you’ve already overspent — and how to reset without shame.",
+      tags: ["Budget resets"],
+      url: "/blog/posts/budgeting/fix-broken-budget-mid-month.html"
+    },
+    {
+      slug: "budget-when-income-changes",
+      title: "How to Adjust Your Budget When Income Changes",
+      category: "Budgeting",
+      date: "2025-08-10",
+      read: "13 min read",
+      excerpt: "Hours cut, new job, or overtime? Here’s how to reshape your plan fast.",
+      tags: ["Income changes"],
+      url: "/blog/posts/budgeting/budget-when-income-changes.html"
+    },
+    {
+      slug: "budgeting-irregular-income",
+      title: "Budgeting with Irregular Income (Gig, Tips, and Shift Work)",
+      category: "Budgeting",
+      date: "2025-07-28",
+      read: "19 min read",
+      excerpt: "A steady plan when paychecks aren’t steady at all.",
+      tags: ["Irregular income"],
+      url: "/blog/posts/budgeting/budgeting-irregular-income.html"
+    },
+    {
+      slug: "irregular-income-budget",
+      title: "Irregular Income Budget Template You Can Actually Use",
+      category: "Budgeting",
+      date: "2025-07-22",
+      read: "14 min read",
+      excerpt: "A simple way to set priorities when every month looks different.",
+      tags: ["Irregular income","Template"],
+      url: "/blog/posts/budgeting/irregular-income-budget.html"
+    },
+    {
+      slug: "cash-flow-calendar-method",
+      title: "The Cash-Flow Calendar: See Your Whole Month at a Glance",
+      category: "Budgeting",
+      date: "2025-07-10",
+      read: "15 min read",
+      excerpt: "Match paychecks to bills on a simple calendar so nothing sneaks up on you.",
+      tags: ["Cash flow"],
+      url: "/blog/posts/budgeting/cash-flow-calendar-method.html"
+    },
+    {
+      slug: "digital-envelope-system",
+      title: "Digital Envelope System: Envelope Budgeting Without the Envelopes",
+      category: "Budgeting",
+      date: "2025-07-02",
+      read: "16 min read",
+      excerpt: "Use bank accounts and apps to mimic the classic envelope system.",
+      tags: ["Envelope system"],
+      url: "/blog/posts/budgeting/digital-envelope-system.html"
+    },
+    {
+      slug: "couples-budgeting-guide",
+      title: "Couples Budgeting Guide: Money Talks Without Blowing Up",
+      category: "Budgeting",
+      date: "2025-06-25",
+      read: "21 min read",
+      excerpt: "A calm script for combining, splitting, or coordinating money as a team.",
+      tags: ["Couples","Communication"],
+      url: "/blog/posts/budgeting/couples-budgeting-guide.html"
+    },
+    {
+      slug: "split-bills-different-incomes",
+      title: "How to Split Bills Fairly When Incomes Are Different",
+      category: "Budgeting",
+      date: "2025-06-18",
+      read: "14 min read",
+      excerpt: "Several fair formulas plus scripts you can actually say out loud.",
+      tags: ["Couples","Fair splits"],
+      url: "/blog/posts/budgeting/split-bills-different-incomes.html"
+    },
+    {
+      slug: "raising-a-child-budget-guide",
+      title: "Raising a Child on a Budget: A Realistic Guide",
+      category: "Budgeting",
+      date: "2025-06-05",
+      read: "19 min read",
+      excerpt: "From diapers to daycare, a calm overview of what to expect and plan for.",
+      tags: ["Family","Kids"],
+      url: "/blog/posts/budgeting/raising-a-child-budget-guide.html"
+    },
+    {
+      slug: "seasonal-budgeting-guide",
+      title: "Seasonal Budgeting: Holidays, Back-to-School, and Other Spikes",
+      category: "Budgeting",
+      date: "2025-05-28",
+      read: "13 min read",
+      excerpt: "Plan for the expensive months so they don’t wreck the rest of the year.",
+      tags: ["Seasons","Holidays"],
+      url: "/blog/posts/budgeting/seasonal-budgeting-guide.html"
+    },
+    {
+      slug: "budgeting-lifestyle-creep-control",
+      title: "Lifestyle Creep: How to Enjoy Raises Without Losing Control",
+      category: "Budgeting",
+      date: "2025-05-10",
+      read: "15 min read",
+      excerpt: "Give yourself upgrades without letting every raise disappear.",
+      tags: ["Lifestyle creep"],
+      url: "/blog/posts/budgeting/budgeting-lifestyle-creep-control.html"
+    },
+    {
+      slug: "budgeting-big-purchases-strategy",
+      title: "Budgeting for Big Purchases Without Wrecking the Month",
+      category: "Budgeting",
+      date: "2025-04-30",
+      read: "14 min read",
+      excerpt: "How to handle vacations, furniture, and other big buys the calm way.",
+      tags: ["Big purchases"],
+      url: "/blog/posts/budgeting/budgeting-big-purchases-strategy.html"
+    },
+    {
+      slug: "paycheck-to-paycheck-plan",
+      title: "Paycheck-to-Paycheck Plan: 4 Moves to Slowly Get Ahead",
+      category: "Budgeting",
+      date: "2025-04-15",
+      read: "15 min read",
+      excerpt: "Micro-steps to build a tiny buffer and protect it.",
+      tags: ["Paycheck to paycheck"],
+      url: "/blog/posts/budgeting/paycheck-to-paycheck-plan.html"
     }
   ];
 
@@ -768,8 +1083,8 @@
     journey: $('#journey')
   };
 
-  function initFromPosts(posts){
-    S.posts = (posts || [])
+  function init() {
+    S.posts = POSTS
       .map(p => ({...p, dateNum:+new Date(p.date || 0)}))
       .sort((a,b)=>b.dateNum - a.dateNum);
 
@@ -778,34 +1093,15 @@
     buildJourney();
   }
 
-  // Load posts.json from /blog/posts/posts.json, otherwise fall back
-  fetch('posts/posts.json', { cache:'no-cache' })
-    .then(r => {
-      if(!r.ok) throw new Error('missing');
-      return r.json();
-    })
-    .then(data => {
-      if(!Array.isArray(data) || !data.length){
-        initFromPosts(FALLBACK_POSTS);
-      } else {
-        initFromPosts(data);
-      }
-    })
-    .catch(() => {
-      initFromPosts(FALLBACK_POSTS);
-    });
-
-  // =============== CARD RENDERERS (TEXT ONLY) ===============
-
   function card(p){
-    const url = buildUrl(p);
+    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
     return `
       <article class="card fade">
         <a href="${url}">
           <div class="meta">
             ${esc(p.category || '')}
             ${p.date ? `• <time datetime="${p.date}">${fmtDate(p.date)}</time>` : ''}
-            ${p.read ? `• ${esc(p.read)}` : ''}
+            ${p.read ? ` • ${esc(p.read)}` : ''}
           </div>
           <h3 class="title">${esc(p.title)}</h3>
           <p class="excerpt">${esc(p.excerpt || '')}</p>
@@ -815,7 +1111,7 @@
   }
 
   function mini(p){
-    const url = buildUrl(p);
+    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
     return `
       <div class="mini">
         <a href="${url}">${esc(p.title)}</a>
@@ -826,8 +1122,6 @@
     `;
   }
 
-  // =================== FILTERING / RENDER ===================
-
   function applyCat(cat){
     S.cat = cat;
     $$('.rail .pill').forEach(b => b.setAttribute('data-on', b.dataset.cat === cat ? '1' : '0'));
@@ -836,10 +1130,6 @@
       ? S.posts
       : S.posts.filter(p => p.category === cat);
 
-    renderLatest();
-  }
-
-  function renderLatest(){
     E.latest.innerHTML = S.filtered.map(card).join('');
   }
 
@@ -863,7 +1153,7 @@
         const tag = ch.dataset.tag;
         S.filtered = S.posts.filter(p => (p.tags || []).includes(tag));
         S.cat = 'tag:'+tag;
-        renderLatest();
+        E.latest.innerHTML = S.filtered.map(card).join('');
       });
     });
   }
@@ -882,6 +1172,8 @@
       </div>
     `).join('');
   }
+
+  init();
 })();
 </script>
 
