@@ -384,15 +384,293 @@
   const esc = s => (s||'').replace(/[&<>\"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
 
 //--------------------------------------
-//--------------------------------------
-/*  
-   CLEAN FALLBACK_POSTS  
-   — Allows the blog to still load 
-     even if posts.json is missing.  
-   — Keep empty because REAL posts come from /blog/posts.json.
-*/
-const FALLBACK_POSTS = [];
-//--------------------------------------
+const FALLBACK_POSTS = [
+  {
+    "slug": "common-tax-mistakes-guide",
+    "title": "The Most Common Tax Mistakes People Make (And How to Never Make Them)",
+    "category": "Taxes",
+    "date": "2025-11-04",
+    "read": "17 min read",
+    "excerpt": "A practical, story-driven guide to the small tax mistakes that delay refunds, trigger IRS letters, and cost people money—and the simple habits that prevent them.",
+    "tags": ["Tax basics", "Refunds", "IRS letters"],
+    "hero": "/assets/blog/taxes/common-tax-mistakes-hero.jpg",
+    "thumb": "/assets/blog/taxes/common-tax-mistakes-hero.jpg",
+    "url": "/blog/posts/taxes/common-tax-mistakes-guide.html",
+    "featured": true,
+    "views": 0
+  },
+  {
+    "slug": "tax-filing-basics-for-beginners",
+    "title": "Tax Filing Basics: A Beginner-Friendly Guide to Doing Your Own Taxes",
+    "category": "Taxes",
+    "date": "2025-09-26",
+    "read": "11 min read",
+    "excerpt": "First time filing taxes? This plain-English guide walks you through the process from gathering your forms to hitting submit and tracking your refund.",
+    "tags": ["Tax basics", "First-time filers"],
+    "hero": "/assets/blog/taxes/tax-filing-basics-hero.jpg",
+    "thumb": "/assets/blog/taxes/tax-filing-basics-hero.jpg",
+    "url": "/blog/posts/taxes/tax-filing-basics-for-beginners.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "filing-taxes-multiple-jobs-2025",
+    "title": "How to File Taxes When You Worked Multiple Jobs",
+    "category": "Taxes",
+    "date": "2025-09-20",
+    "read": "14 min read",
+    "excerpt": "If you juggled more than one job, this guide shows you how to combine your W-2s, avoid under-withholding, and keep your refund (or tax bill) from surprising you.",
+    "tags": ["Multiple jobs", "Withholding"],
+    "hero": "/assets/blog/taxes/filing-multiple-jobs-hero.jpg",
+    "thumb": "/assets/blog/taxes/filing-multiple-jobs-hero.jpg",
+    "url": "/blog/posts/taxes/filing-taxes-multiple-jobs-2025.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "how-the-irs-matches-your-income-2025",
+    "title": "How the IRS Matches Your Income (And What Happens When It Doesn’t)",
+    "category": "Taxes",
+    "date": "2025-09-15",
+    "read": "15 min read",
+    "excerpt": "Behind the scenes, the IRS matches every W-2 and 1099 you get. Here’s how that system works, what causes mismatch letters, and how to fix issues calmly.",
+    "tags": ["IRS matching", "Notices"],
+    "hero": "/assets/blog/taxes/irs-matching-hero.jpg",
+    "thumb": "/assets/blog/taxes/irs-matching-hero.jpg",
+    "url": "/blog/posts/taxes/how-the-irs-matches-your-income-2025.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "how-to-file-taxes-without-w2",
+    "title": "How to File Taxes If You Don’t Have Your W-2 Yet",
+    "category": "Taxes",
+    "date": "2025-09-10",
+    "read": "13 min read",
+    "excerpt": "Lost W-2? Employer dragging their feet? Here’s what to do, when to wait, and how to file accurately without panicking.",
+    "tags": ["Missing W-2", "Wage info"],
+    "hero": "/assets/blog/taxes/file-without-w2-hero.jpg",
+    "thumb": "/assets/blog/taxes/file-without-w2-hero.jpg",
+    "url": "/blog/posts/taxes/how-to-file-taxes-without-w2.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "how-to-read-your-paycheck",
+    "title": "How to Read Your Paycheck (So Tax Season Stops Being a Mystery)",
+    "category": "Taxes",
+    "date": "2025-09-05",
+    "read": "16 min read",
+    "excerpt": "A line-by-line walkthrough of your paycheck so you finally know what each code, deduction, and tax line really means.",
+    "tags": ["Paycheck", "Withholding"],
+    "hero": "/assets/blog/taxes/read-paycheck-hero.jpg",
+    "thumb": "/assets/blog/taxes/read-paycheck-hero.jpg",
+    "url": "/blog/posts/taxes/how-to-read-your-paycheck.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "irs-audit-red-flags-2025",
+    "title": "IRS Audit Red Flags: What Really Gets Returns Pulled for Review",
+    "category": "Taxes",
+    "date": "2025-08-30",
+    "read": "18 min read",
+    "excerpt": "Most people will never be audited—but some patterns make your return more likely to be reviewed. Here’s what those are and how to stay in the safe zone.",
+    "tags": ["Audit", "IRS"],
+    "hero": "/assets/blog/taxes/audit-red-flags-hero.jpg",
+    "thumb": "/assets/blog/taxes/audit-red-flags-hero.jpg",
+    "url": "/blog/posts/taxes/irs-audit-red-flags-2025.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "standard-vs-itemized-deductions-2025",
+    "title": "Standard vs. Itemized Deductions: How to Choose the One That Saves You More",
+    "category": "Taxes",
+    "date": "2025-08-24",
+    "read": "15 min read",
+    "excerpt": "Should you itemize or just take the standard deduction? This guide breaks it down in plain English with real-world examples.",
+    "tags": ["Deductions", "Itemizing"],
+    "hero": "/assets/blog/taxes/standard-vs-itemized-hero.jpg",
+    "thumb": "/assets/blog/taxes/standard-vs-itemized-hero.jpg",
+    "url": "/blog/posts/taxes/standard-vs-itemized-deductions-2025.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "tax-brackets-2025-explained",
+    "title": "Tax Brackets Explained: How Your Income Actually Gets Taxed",
+    "category": "Taxes",
+    "date": "2025-08-18",
+    "read": "14 min read",
+    "excerpt": "People think moving up a tax bracket means all their income is taxed at that higher rate. That’s not how it works—here’s the real story.",
+    "tags": ["Tax brackets", "Marginal tax"],
+    "hero": "/assets/blog/taxes/tax-brackets-explained-hero.jpg",
+    "thumb": "/assets/blog/taxes/tax-brackets-explained-hero.jpg",
+    "url": "/blog/posts/taxes/tax-brackets-2025-explained.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "tax-brackets-2025",
+    "title": "Tax Brackets: Current Rates and What They Mean for Your Paycheck",
+    "category": "Taxes",
+    "date": "2025-08-12",
+    "read": "12 min read",
+    "excerpt": "A simple, always-updating reference for the current federal tax brackets and how they connect to real-life paychecks.",
+    "tags": ["Tax brackets", "Paychecks"],
+    "hero": "/assets/blog/taxes/tax-brackets-table-hero.jpg",
+    "thumb": "/assets/blog/taxes/tax-brackets-table-hero.jpg",
+    "url": "/blog/posts/taxes/tax-brackets-2025.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "tax-credits-everyone-misses",
+    "title": "Tax Credits Everyone Misses (And How to See If You Qualify)",
+    "category": "Taxes",
+    "date": "2025-08-06",
+    "read": "16 min read",
+    "excerpt": "From education benefits to saver’s credits, here are the tax credits regular people overlook—and simple ways to check if you’re eligible.",
+    "tags": ["Tax credits", "Refunds"],
+    "hero": "/assets/blog/taxes/tax-credits-hero.jpg",
+    "thumb": "/assets/blog/taxes/tax-credits-hero.jpg",
+    "url": "/blog/posts/taxes/tax-credits-everyone-misses.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "tax-extensions-2025-complete-guide",
+    "title": "Should You File a Tax Extension? A Calm, Complete Guide",
+    "category": "Taxes",
+    "date": "2025-07-30",
+    "read": "14 min read",
+    "excerpt": "Running behind? An extension buys you time to file—but not time to pay. Here’s exactly how it works and how to avoid penalties.",
+    "tags": ["Extensions", "Deadlines"],
+    "hero": "/assets/blog/taxes/tax-extension-hero.jpg",
+    "thumb": "/assets/blog/taxes/tax-extension-hero.jpg",
+    "url": "/blog/posts/taxes/tax-extensions-2025-complete-guide.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "tax-filing-status-guide",
+    "title": "Choosing a Tax Filing Status: Single, Head of Household, and More Explained",
+    "category": "Taxes",
+    "date": "2025-07-22",
+    "read": "15 min read",
+    "excerpt": "Your filing status affects your tax brackets, credits, and even your refund. This guide walks through each option in normal language.",
+    "tags": ["Filing status", "Families"],
+    "hero": "/assets/blog/taxes/filing-status-hero.jpg",
+    "thumb": "/assets/blog/taxes/filing-status-hero.jpg",
+    "url": "/blog/posts/taxes/tax-filing-status-guide.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "tax-planning-life-changes",
+    "title": "Tax Planning After Big Life Changes: Marriage, Kids, Moving, and More",
+    "category": "Taxes",
+    "date": "2025-07-14",
+    "read": "18 min read",
+    "excerpt": "New job, move, baby, or marriage? This guide shows how those changes impact your taxes and what to update before next season.",
+    "tags": ["Planning", "Life changes"],
+    "hero": "/assets/blog/taxes/tax-planning-life-changes-hero.jpg",
+    "thumb": "/assets/blog/taxes/tax-planning-life-changes-hero.jpg",
+    "url": "/blog/posts/taxes/tax-planning-life-changes.html",
+    "featured": false,
+    "views": 0
+  },
+
+  /* =======================
+     BUDGETING ARTICLES
+     ======================= */
+
+  {
+    "slug": "budgeting-for-absolute-beginners",
+    "title": "Budgeting for Absolute Beginners: How to Stop Guessing and Start Knowing Where Your Money Goes",
+    "category": "Budgeting",
+    "date": "2025-11-16",
+    "read": "19 min read",
+    "excerpt": "New to budgeting—or starting over after a few failed attempts? This guide shows you, step by step, how to build a simple, realistic budget that actually fits your real life.",
+    "tags": ["Budgeting", "Beginners", "Money plan"],
+    "hero": "",
+    "thumb": "",
+    "url": "/blog/posts/budgeting/budgeting-for-absolute-beginners.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "zero-based-budgeting-step-by-step",
+    "title": "Zero-Based Budgeting: A Step-by-Step Guide to Giving Every Dollar a Job",
+    "category": "Budgeting",
+    "date": "2025-11-16",
+    "read": "18 min read",
+    "excerpt": "Zero-based budgeting sounds intense, but it’s just a method where every dollar has a job. Learn exactly how to set it up, tweak it, and keep it going month after month.",
+    "tags": ["Budgeting", "Zero-based budgeting"],
+    "hero": "",
+    "thumb": "",
+    "url": "/blog/posts/budgeting/zero-based-budgeting-step-by-step.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "envelope-and-digital-jars-budgeting",
+    "title": "Cash Envelopes and Digital Jars: How to Use Categories to Control Spending",
+    "category": "Budgeting",
+    "date": "2025-11-16",
+    "read": "17 min read",
+    "excerpt": "The classic envelope system still works—but now you can do it with bank spaces and digital ‘jars.’ Here’s how to set it up so your bills, fun money, and savings stay in balance.",
+    "tags": ["Budgeting", "Envelopes", "Digital jars"],
+    "hero": "",
+    "thumb": "",
+    "url": "/blog/posts/budgeting/envelope-and-digital-jars-budgeting.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "budgeting-with-irregular-income",
+    "title": "How to Budget with Irregular Income: For Servers, Gig Workers, and Shift-Based Jobs",
+    "category": "Budgeting",
+    "date": "2025-11-16",
+    "read": "21 min read",
+    "excerpt": "Tips and templates for anyone whose paychecks bounce up and down—servers, drivers, CNAs picking up shifts, and gig workers who need stability without a fixed salary.",
+    "tags": ["Budgeting", "Irregular income", "Gig workers"],
+    "hero": "",
+    "thumb": "",
+    "url": "/blog/posts/budgeting/budgeting-with-irregular-income.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "family-budgeting-cost-of-raising-kids",
+    "title": "Family Budgeting: The Real Cost of Raising Kids in the City vs. a Smaller Town",
+    "category": "Budgeting",
+    "date": "2025-11-16",
+    "read": "23 min read",
+    "excerpt": "From rent and childcare to food, transit, and activities—this guide walks through how the cost of raising kids changes between a big city and a smaller town, and how to build a budget that can handle it.",
+    "tags": ["Budgeting", "Families", "Cost of living"],
+    "hero": "",
+    "thumb": "",
+    "url": "/blog/posts/budgeting/family-budgeting-cost-of-raising-kids.html",
+    "featured": false,
+    "views": 0
+  },
+  {
+    "slug": "how-budgeting-can-help-you-quit-gambling",
+    "title": "How Budgeting Can Help You Quit Gambling and Rebuild Your Money Life",
+    "category": "Budgeting",
+    "date": "2025-11-16",
+    "read": "22 min read",
+    "excerpt": "Gambling can wreck a bank account quietly. This guide shows how a simple, honest budget can help you see the real impact, set limits, and slowly rebuild savings and stability.",
+    "tags": ["Budgeting", "Gambling", "Recovery"],
+    "hero": "",
+    "thumb": "",
+    "url": "/blog/posts/budgeting/how-budgeting-can-help-you-quit-gambling.html",
+    "featured": false,
+    "views": 0
+  }
+];
 //----------------------------------------
 
   const S = {
