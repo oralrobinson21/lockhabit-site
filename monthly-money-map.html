@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Consent + Ezoic -->
+  <script src="https://cmp.gatekeeperconsent.com/min.js" data-cfasync="false"></script>
+  <script src="https://the.gatekeeperconsent.com/cmp.min.js" data-cfasync="false"></script>
+
+  <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+  <script>
+    window.ezstandalone = window.ezstandalone || {};
+    ezstandalone.cmd = ezstandalone.cmd || [];
+  </script>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+
+  <title>Monthly Money Map — Paycheck Planning Tool | LockHabit</title>
+  <meta name="description" content="Line up your pay dates with rent, bills, and goals so you know exactly which check covers what. A calm, visual paycheck planning map."/>
+  <link rel="canonical" href="https://lockhabit.com/monthly-money-map.html"/>
+  <meta name="theme-color" content="#f9fafc"/>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Monthly Money Map — Paycheck Planning Tool | LockHabit"/>
+  <meta property="og:description" content="Line up your pay dates with rent, bills, and goals so you know which check covers what."/>
+  <meta property="og:url" content="https://lockhabit.com/monthly-money-map.html"/>
+  <meta property="og:image" content="/assets/og-lockhabit-journal-bright.png"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Monthly Money Map — Paycheck Planning Tool | LockHabit"/>
+  <meta name="twitter:description" content="A calm, visual paycheck planning map."/>
+  <meta name="twitter:image" content="/assets/og-lockhabit-journal-bright.png"/>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMJ37PBW8H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WMJ37PBW8H');
+  </script>
+
+  <style>
+    :root{
+      --bg: #f7f8fb;
+      --paper: #ffffff;
+      --ink: #141726;
+      --ink-soft:#4b5470;
+      --muted:#8a93ad;
+      --line:#e1e6f2;
+      --accent:#3253ff;
+      --accent-soft:#f2f5ff;
+      --accent-2:#31c6a4;
+      --r-lg:20px;
+      --r-md:16px;
+      --shadow-1:0 10px 35px rgba(20,23,38,.06);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "SF Pro Text", BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(120% 160% at -10% -10%, #e9f0ff 0, transparent 60%),
+        radial-gradient(150% 160% at 110% -20%, #e7fff7 0, transparent 60%),
+        #f4f6fb;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; text-underline-offset:3px; }
+
+    .wrap{ max-width:960px; margin:0 auto; padding:20px 16px 64px; }
+
+    /* NAV */
+    header{
+      position:sticky;
+      top:0;
+      z-index:40;
+      background:rgba(247,248,251,.94);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(204,213,235,.7);
+    }
+    .nav{
+      max-width:960px;
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-weight:800;
+      letter-spacing:.03em;
+    }
+    .logo{
+      width:26px; height:26px; border-radius:9px;
+      background:conic-gradient(from 210deg, #6ea8ff, #83ffd6, #ffd47a, #ff8fa8, #6ea8ff);
+      box-shadow:0 0 0 2px #ffffffd0;
+    }
+    .nav-links{ display:flex; gap:10px; margin-left:12px; font-size:14px; }
+    .nav-links a{ padding:6px 9px; border-radius:999px; }
+    .nav-links a[data-active="1"]{
+      background:#0e1a40;
+      color:#f7f8ff;
+    }
+    .spacer{ flex:1; }
+    .pill-cta{
+      border-radius:999px;
+      padding:8px 14px;
+      font-size:13px;
+      font-weight:700;
+      border:0;
+      background:linear-gradient(135deg,#9fe6d7,#83a7ff);
+      color:#062437;
+      box-shadow:0 8px 24px rgba(40,92,153,.25);
+    }
+
+    /* MAIN LAYOUT */
+    main{ margin-top:10px; }
+    .paper{
+      background:var(--paper);
+      border-radius:24px;
+      box-shadow: var(--shadow-1);
+      border:1px solid var(--line);
+      padding:22px 18px 26px;
+      position:relative;
+      overflow:hidden;
+    }
+    .paper::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:
+        linear-gradient(180deg, rgba(0,0,0,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.015) 1px, transparent 1px);
+      background-size:100% 40px, 40px 100%;
+      mix-blend-mode:multiply;
+      opacity:.35;
+      pointer-events:none;
+    }
+    .paper-inner{ position:relative; z-index:1; }
+
+    .label{
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    h1{
+      margin:6px 0 8px;
+      font-size: clamp(24px, 4vw, 32px);
+      line-height:1.2;
+      letter-spacing:-.02em;
+    }
+    .lede{
+      margin:0 0 16px;
+      font-size:15px;
+      color:var(--ink-soft);
+      max-width:640px;
+    }
+    .meta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    .meta-tag{
+      padding:4px 9px;
+      border-radius:999px;
+      background:var(--accent-soft);
+      color:#1a2c6f;
+      font-weight:700;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .layout{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      margin-top:14px;
+    }
+    @media(min-width:840px){
+      .layout{ flex-direction:row; align-items:flex-start; }
+      .main-column{ flex:3; }
+      .side-column{ flex:2; }
+    }
+
+    .panel{
+      background:#f9fbff;
+      border-radius:var(--r-md);
+      border:1px dashed #ccd5ea;
+      padding:14px 14px 16px;
+    }
+
+    .panel h2{
+      margin:0 0 6px;
+      font-size:16px;
+      letter-spacing:.03em;
+      text-transform:uppercase;
+      color:#202b50;
+    }
+    .panel p{ margin:0 0 10px; font-size:14px; color:var(--ink-soft); }
+
+    .step-list{ list-style:none; padding:0; margin:8px 0 0; font-size:14px; }
+    .step-list li{ margin:4px 0; padding-left:18px; position:relative; }
+    .step-list li::before{
+      content:"•";
+      position:absolute;
+      left:4px;
+      color:var(--accent);
+    }
+
+    .tagline{
+      margin-top:10px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .note{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* SIDEBAR */
+    .side-card{
+      background:#ffffffee;
+      border-radius:var(--r-md);
+      border:1px solid var(--line);
+      padding:14px 14px 15px;
+      margin-bottom:12px;
+    }
+    .side-card h3{
+      margin:0 0 6px;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:#70789a;
+    }
+    .side-card p{
+      margin:0 0 8px;
+      font-size:13px;
+      color:var(--ink-soft);
+    }
+    .side-links{ list-style:none; padding:0; margin:8px 0 0; font-size:13px; }
+    .side-links li{ margin:2px 0; }
+    .side-links a{ text-decoration:underline; text-underline-offset:3px; }
+
+    /* FOOTER */
+    footer{
+      margin-top:24px;
+      border-top:1px solid var(--line);
+      padding:16px 16px 40px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .foot-top{
+      max-width:960px;
+      margin:0 auto 6px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .foot-tags{ display:flex; flex-wrap:wrap; gap:8px; font-size:12px; }
+    .chip{ padding:5px 10px; border-radius:999px; border:1px solid var(--line); background:#fff; }
+
+  </style>
+</head>
+<body>
+<header>
+  <nav class="nav" aria-label="Primary">
+    <a href="/" class="brand">
+      <span class="logo" aria-hidden="true"></span>
+      LockHabit
+    </a>
+    <div class="nav-links">
+      <a href="/" >Home</a>
+      <a href="#top" data-active="1">Calculators</a>
+      <a href="/blog/">Journal</a>
+    </div>
+    <span class="spacer"></span>
+    <a href="/income-tax.html" class="pill-cta">Open Income &amp; Taxes</a>
+  </nav>
+</header>
+
+<!-- Top ad -->
+<div class="wrap" id="top" style="margin-top:10px;">
+  <div id="ezoic-pub-ad-placeholder-201"></div>
+  <script>
+    ezstandalone.cmd.push(function () {
+      ezstandalone.showAds(201);
+    });
+  </script>
+</div>
+
+<main class="wrap">
+  <section class="paper">
+    <div class="paper-inner">
+      <div class="label">PAYCHECK PLANNING</div>
+      <h1>Monthly money map</h1>
+      <p class="lede">
+        Line up your pay dates with rent, bills, debt payments, and savings goals so you always
+        know which check covers what—before the month starts.
+      </p>
+
+      <div class="meta-row">
+        <span class="meta-tag">Tool • Coming soon</span>
+        <span>Designed for: people paid every week, every 2 weeks, or twice a month.</span>
+      </div>
+
+      <div class="layout">
+        <!-- MAIN COLUMN -->
+        <div class="main-column">
+          <div class="panel">
+            <h2>What this tool will do</h2>
+            <p>Instead of guessing “Can I afford this?” each week, you’ll see a calm, visual map of:</p>
+            <ul class="step-list">
+              <li>Your pay dates for the month</li>
+              <li>Major bills (rent, car, phone, childcare, debt)</li>
+              <li>Everyday categories like groceries, gas, and fun</li>
+              <li>How much is left each check for savings or catching up</li>
+            </ul>
+            <p class="tagline">Think of it like a GPS for your paychecks.</p>
+          </div>
+
+          <div class="panel" style="margin-top:14px;">
+            <h2>Tool status</h2>
+            <p>
+              We’re building a simple, slider-based version of this calculator. You’ll be able to:
+            </p>
+            <ul class="step-list">
+              <li>Pick how often you’re paid</li>
+              <li>Enter your take-home pay per check</li>
+              <li>Add your main bills and their due dates</li>
+              <li>See a line-by-line map of each paycheck and what it covers</li>
+            </ul>
+            <p class="note">
+              Until the interactive version is ready, you can still sketch a quick money map using
+              paper or notes—one row per paycheck, one column per bill. The tool will automate that.
+            </p>
+          </div>
+        </div>
+
+        <!-- SIDE COLUMN -->
+        <aside class="side-column">
+          <div class="side-card">
+            <h3>While we finish the tool</h3>
+            <p>We’ll quietly email you when this calculator goes live.</p>
+            <form onsubmit="event.preventDefault(); alert('Thanks! We’ll email you when Monthly money map is ready.');">
+              <input type="email" required placeholder="you@example.com"
+                     style="width:100%; padding:10px 11px; border-radius:10px; border:1px solid var(--line); margin-bottom:8px; font-size:13px;">
+              <button type="submit"
+                      style="width:100%; border:0; border-radius:999px; padding:10px 12px; font-size:13px; font-weight:700;
+                             background:linear-gradient(135deg,#9fe6d7,#83a7ff); color:#062437;">
+                Notify me when it launches
+              </button>
+            </form>
+          </div>
+
+          <div class="side-card">
+            <h3>Other tools</h3>
+            <ul class="side-links">
+              <li><a href="/income-tax.html">Income &amp; Taxes (effective take-home)</a></li>
+              <li><a href="/starter-budget-builder.html">Starter budget builder</a></li>
+              <li><a href="/simple-debt-payoff.html">Simple debt payoff view</a></li>
+            </ul>
+          </div>
+
+          <div class="side-card">
+            <h3>From the journal</h3>
+            <ul class="side-links">
+              <li><a href="/blog/posts/budgeting/budgeting-for-absolute-beginners.html">
+                Budgeting for absolute beginners
+              </a></li>
+              <li><a href="/blog/posts/budgeting/zero-based-budgeting-step-by-step.html">
+                Zero-based budgeting: step by step
+              </a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom ad -->
+  <div style="margin-top:18px;">
+    <div id="ezoic-pub-ad-placeholder-202"></div>
+    <script>
+      ezstandalone.cmd.push(function () {
+        ezstandalone.showAds(202);
+      });
+    </script>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-top">
+    <div><strong>LockHabit</strong> <span style="color:var(--muted)">/ Tools</span></div>
+    <div class="foot-tags">
+      <a class="chip" href="/">Home</a>
+      <a class="chip" href="/#tools">All calculators</a>
+      <a class="chip" href="/blog/">Journal</a>
+    </div>
+  </div>
+  <div style="max-width:960px; margin:0 auto; font-size:12px;">
+    Partnerships &amp; media: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a> •
+    General: <a href="mailto:lockhabit@outlook.com">lockhabit@outlook.com</a><br/>
+    © 2025 LockHabit. Educational content; not financial advice.
+  </div>
+</footer>
+</body>
+</html>
