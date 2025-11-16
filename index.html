@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-       LockHabit — Unified Home (Calculators + Journal, Paper Layout)
+       LockHabit — Journal + Calculators Home (Paper Layout)
        ========================================================= -->
 
   <!-- CMP / Consent -->
@@ -19,8 +19,9 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 
-  <title>LockHabit — Understand money calmly. Calculators and journal that actually help.</title>
-  <meta name="description" content="LockHabit is a calm money space. Clean calculators and paper-like guides that help you actually see your income, taxes, budget, debt payoff, and savings."/>
+  <title>LockHabit — Understand money calmly. Tools and guides that actually help.</title>
+  <meta name="description" content="LockHabit is a calm money space. Clean tools, paper-like layouts, and plain-English guides that help you actually see your income, taxes, budget, debt, and savings."/>
+
   <link rel="canonical" href="https://lockhabit.com/"/>
   <meta name="theme-color" content="#ffffff"/>
 
@@ -48,7 +49,7 @@
 
   <style>
     /* =========================================================
-       DESIGN: Paper + soft pastel gradients (matches journal)
+       DESIGN: Paper + soft pastel gradients (matches blog)
        ========================================================= */
     :root {
       --ink: #111827;
@@ -56,8 +57,8 @@
       --muted: #9ca3af;
       --line: #e5e7eb;
       --accent: #2457ff;
+      --accent-mint: #28c2aa;
       --accent-soft: #e0ebff;
-      --accent-chip: #edf2ff;
       --paper: #fcfcfb;
       --radius-lg: 26px;
       --radius-md: 18px;
@@ -105,6 +106,11 @@
         rgba(248, 250, 252, 0.86),
         transparent
       );
+      transition: box-shadow 0.2s ease, transform 0.2s ease, padding-bottom 0.2s ease;
+    }
+    header.is-scrolled {
+      box-shadow: 0 1px 0 rgba(148, 163, 184, 0.55);
+      transform: translateY(-2px);
     }
 
     .nav {
@@ -114,6 +120,12 @@
       display: flex;
       align-items: center;
       gap: 18px;
+      transition: padding-bottom 0.2s ease, padding-top 0.2s ease;
+    }
+
+    header.is-scrolled .nav {
+      padding-top: 6px;
+      padding-bottom: 10px;
     }
 
     .brand {
@@ -142,21 +154,31 @@
 
     .nav-links {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       margin-left: 6px;
-      font-size: 14px;
+      font-size: 13px;
       color: #4b5563;
     }
 
-    .nav-link {
+    .nav-chip {
       padding: 6px 10px;
       border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
     }
 
-    .nav-link--active {
+    .nav-chip[data-active="1"] {
       background: #111827;
       color: #f9fafb;
       box-shadow: var(--shadow-soft);
+      border-color: transparent;
+    }
+
+    .nav-chip--link {
+      border-radius: 999px;
     }
 
     .nav-spacer {
@@ -184,7 +206,7 @@
     }
 
     /* =========================================================
-       PAPER SHEET WRAPPER
+       PAGE WRAPPER / PAPER SHEET
        ========================================================= */
     .page {
       max-width: 1120px;
@@ -213,7 +235,7 @@
     .sheet-inner {
       position: relative;
       z-index: 1;
-      padding: 14px 14px 12px;
+      padding: 16px 14px 14px;
     }
 
     @media (min-width: 900px) {
@@ -240,7 +262,7 @@
     }
 
     .hero-title {
-      font-size: clamp(26px, 4vw, 42px);
+      font-size: clamp(26px, 4.3vw, 40px);
       line-height: 1.15;
       letter-spacing: -0.03em;
       margin: 10px 0 6px;
@@ -250,7 +272,7 @@
     .hero-sub {
       font-size: 15px;
       color: var(--ink-soft);
-      max-width: 34rem;
+      max-width: 36rem;
       margin: 0 0 10px;
     }
 
@@ -265,13 +287,13 @@
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .hero-primary {
       border-radius: 999px;
       border: 0;
-      padding: 10px 18px;
+      padding: 11px 20px;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
@@ -295,6 +317,12 @@
       background: #22c55e;
     }
 
+    .hero-note {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
     .hero-grid {
       display: grid;
       gap: 16px;
@@ -311,7 +339,7 @@
     }
 
     .panel-title {
-      font-size: 13px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.18em;
       color: var(--muted);
@@ -360,7 +388,7 @@
 
     @media (min-width: 900px) {
       .hero {
-        grid-template-columns: 1.05fr 0.95fr;
+        grid-template-columns: 1.1fr 0.9fr;
         align-items: center;
       }
       .hero-grid {
@@ -370,245 +398,193 @@
     }
 
     /* =========================================================
-       QUICK BENEFITS STRIP
-       ========================================================= */
-    .benefits {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 24px;
-      font-size: 13px;
-      color: var(--ink-soft);
-    }
-    @media (min-width: 720px) {
-      .benefits {
-        grid-template-columns: repeat(3, minmax(0,1fr));
-      }
-    }
-    .benefit {
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: #f9fafb;
-      border: 1px solid rgba(209, 213, 219, 0.9);
-      box-shadow: 0 2px 0 rgba(148, 163, 184, 0.35);
-    }
-    .benefit strong {
-      display: block;
-      margin-bottom: 3px;
-      font-size: 13px;
-      color: #111827;
-    }
-
-    /* =========================================================
-       CALCULATORS
+       FEATURED GUIDES
        ========================================================= */
     .section-title {
-      font-size: 15px;
+      font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.18em;
       color: var(--muted);
-      margin: 16px 0 8px;
+      margin: 6px 0 6px;
       font-weight: 700;
     }
 
-    .calc-section-label {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--ink-soft);
-    }
-
-    .calc-grid {
+    .featured {
       display: grid;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
     }
 
     @media (min-width: 720px) {
-      .calc-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    @media (min-width: 980px) {
-      .calc-grid {
+      .featured {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
-    .calc-card {
+    .feat-card {
       border-radius: 16px;
       border: 1px solid var(--line);
       background: #ffffff;
-      padding: 10px 12px 12px;
-      box-shadow: 0 4px 0 rgba(148, 163, 184, 0.35);
+      padding: 10px 11px 9px;
+      box-shadow: 0 3px 0 rgba(148, 163, 184, 0.35);
+      font-size: 13px;
       cursor: pointer;
       transition: transform 0.08s ease, box-shadow 0.08s ease;
     }
 
-    .calc-card--primary {
-      border-width: 2px;
-      border-color: #1d4ed8;
-      box-shadow: 0 5px 0 rgba(129, 140, 248, 0.35);
-    }
-
-    .calc-card:hover {
+    .feat-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 7px 0 rgba(148, 163, 184, 0.4);
+      box-shadow: 0 6px 0 rgba(148, 163, 184, 0.4);
       text-decoration: none;
     }
 
-    .calc-label {
+    .feat-cat {
       font-size: 11px;
-      letter-spacing: 0.18em;
       text-transform: uppercase;
+      letter-spacing: 0.16em;
       color: var(--muted);
       margin-bottom: 4px;
-      font-weight: 700;
+      font-weight: 600;
     }
 
-    .calc-name {
+    .feat-title {
       font-size: 14px;
       font-weight: 700;
       margin-bottom: 3px;
     }
 
-    .calc-desc {
+    .feat-excerpt {
       font-size: 13px;
       color: var(--ink-soft);
+      margin-bottom: 4px;
+    }
+
+    .feat-meta {
+      font-size: 11px;
+      color: var(--muted);
     }
 
     /* =========================================================
-       JOURNAL (blog) AREA
+       TOPIC FILTER / ARTICLE LIST
        ========================================================= */
-    .journal-wrap {
-      margin-top: 22px;
+    .topic-wrap {
+      margin-bottom: 22px;
     }
 
-    .rail {
+    .chip-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 10px;
+      margin: 2px 0 10px;
     }
 
-    .rail-pill {
-      font-size: 12px;
-      padding: 6px 10px;
+    .chip {
       border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 11px;
       border: 1px solid var(--line);
       background: #f9fafb;
       color: #374151;
       cursor: pointer;
     }
 
-    .rail-pill[data-on="1"] {
+    .chip[data-on="1"] {
       background: #111827;
       color: #f9fafb;
-      box-shadow: var(--shadow-soft);
       border-color: #111827;
     }
 
-    .trend-chips {
-      display: flex;
-      flex-wrap: wrap;
+    .topic-list {
+      display: grid;
       gap: 6px;
-      margin: 6px 0 12px;
+      font-size: 13px;
     }
 
-    .chip {
-      font-size: 11px;
-      padding: 5px 9px;
-      border-radius: 999px;
-      background: var(--accent-chip);
-      border: 1px solid #c7d2fe;
-      color: #1f2937;
-      cursor: pointer;
-    }
-
-    .layout-main {
-      display: grid;
-      gap: 18px;
-    }
-
-    @media (min-width: 900px) {
-      .layout-main {
-        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      }
-    }
-
-    #heroMosaic {
-      display: grid;
-      gap: 12px;
-    }
-
-    #latest {
-      display: grid;
-      gap: 10px;
-    }
-
-    .card {
-      border-radius: 16px;
-      border: 1px solid var(--line);
+    .topic-item {
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid #edeff2;
       background: #ffffff;
-      box-shadow: 0 3px 0 rgba(148, 163, 184, 0.35);
     }
 
-    .card .pad {
-      padding: 10px 12px 12px;
+    .topic-item a {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
     }
 
-    .card.heroCard {
-      background: linear-gradient(135deg, #eff6ff, #fef9c3);
-    }
-
-    .card.heroCard .title a {
-      text-decoration: none;
-    }
-
-    .meta {
-      font-size: 12px;
+    .topic-meta {
       color: var(--muted);
-      margin-bottom: 4px;
+      font-size: 11px;
+      margin-bottom: 2px;
     }
 
-    .title {
-      font-size: 15px;
-      margin: 0 0 4px;
-    }
-
-    .excerpt {
+    .topic-excerpt {
       font-size: 13px;
       color: var(--ink-soft);
-      margin: 0;
     }
 
-    #journey {
+    .topic-footer-link {
       margin-top: 8px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .pager {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 10px;
       font-size: 12px;
-      color: var(--muted);
+      color: #1d4ed8;
+      font-weight: 600;
     }
 
-    .pager button {
-      border-radius: 999px;
+    /* =========================================================
+       TOOLS SECTION (SHORT, WITH DROPDOWN)
+       ========================================================= */
+    .tools-section {
+      margin-top: 6px;
+      margin-bottom: 22px;
+    }
+
+    .tools-card {
+      border-radius: 18px;
       border: 1px solid var(--line);
-      padding: 4px 8px;
-      font-size: 12px;
       background: #f9fafb;
-      cursor: pointer;
+      padding: 12px 12px 10px;
+      box-shadow: 0 3px 0 rgba(148, 163, 184, 0.35);
+      font-size: 13px;
+      color: var(--ink-soft);
     }
 
-    .pager button:disabled {
-      opacity: 0.4;
-      cursor: default;
+    .tools-card h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .tools-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+      align-items: center;
+    }
+
+    .tools-open-btn {
+      border-radius: 999px;
+      border: 0;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #111827;
+      color: #f9fafb;
+      box-shadow: var(--shadow-soft);
+      white-space: nowrap;
+    }
+
+    .tools-pill {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      background: #eef2ff;
+      border: 1px solid #e0e7ff;
+      color: #1f2937;
+      font-weight: 600;
     }
 
     /* =========================================================
@@ -619,7 +595,7 @@
       border: 1px solid var(--line);
       background: linear-gradient(180deg, #f5fbff, #ffffff);
       padding: 14px 14px 12px;
-      margin-top: 18px;
+      margin-top: 6px;
       box-shadow: 0 3px 0 rgba(148, 163, 184, 0.35);
     }
 
@@ -691,33 +667,148 @@
       background: #f9fafb;
       font-size: 11px;
     }
+
+    /* =========================================================
+       CALCULATOR SHEET (DROPDOWN OVERLAY)
+       ========================================================= */
+    .calc-sheet {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 60;
+    }
+
+    .calc-sheet[data-open="1"] {
+      display: flex;
+    }
+
+    .calc-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+    }
+
+    .calc-panel {
+      position: relative;
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      background: linear-gradient(180deg, #f9fafb, #ffffff);
+      box-shadow: 0 -12px 36px rgba(15, 23, 42, 0.42);
+      border-top: 1px solid #e5e7eb;
+      padding: 14px 16px 18px;
+      max-height: 78vh;
+      overflow: auto;
+    }
+
+    .calc-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .calc-title-row h2 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .calc-close-btn {
+      border-radius: 999px;
+      border: 0;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    .calc-grid {
+      display: grid;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    @media (min-width: 540px) {
+      .calc-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .calc-link {
+      padding: 7px 10px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      font-size: 13px;
+      display: block;
+    }
+
+    .calc-link strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 13px;
+    }
+
+    .calc-link span {
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    /* Sticky helper on mobile */
+    .sticky-helper {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 50;
+    }
+
+    .sticky-helper button {
+      border-radius: 999px;
+      border: 0;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      background: #111827;
+      color: #f9fafb;
+      box-shadow: 0 10px 20px rgba(15,23,42,0.4);
+      cursor: pointer;
+    }
+
+    @media (min-width: 880px) {
+      .sticky-helper { display: none; }
+    }
   </style>
 </head>
 <body>
 
-<header>
+<header id="header">
   <nav class="nav" aria-label="Main">
-    <a class="brand" href="/">
+    <a class="brand" href="/" aria-label="LockHabit home">
       <span class="brand-mark" aria-hidden="true"></span>
       <span>LockHabit</span>
     </a>
 
     <div class="nav-links">
-      <a class="nav-link nav-link--active" href="#top">Home</a>
-      <a class="nav-link" href="#calculators">Calculators</a>
-      <a class="nav-link" href="#journal">Journal</a>
+      <a href="/blog/" class="nav-chip nav-chip--link" data-active="1">Journal</a>
+      <button class="nav-chip" type="button" id="navCalcBtn">Calculators ▾</button>
     </div>
 
     <div class="nav-spacer"></div>
 
-    <!-- CTA: keep Income & Taxes at the top -->
+    <!-- Keep Income & Taxes at top of screen -->
     <a href="/income-tax.html">
       <button class="nav-cta" type="button">Open Income &amp; Taxes</button>
     </a>
   </nav>
 </header>
 
-<main id="top" class="page">
+<main class="page">
   <!-- Top-of-page Ezoic ad under nav -->
   <div style="margin-bottom: 14px;">
     <div id="ezoic-pub-ad-placeholder-101"></div>
@@ -737,23 +828,25 @@
           <h1 class="hero-title">Understand money. Feel calmer. Act confidently.</h1>
           <p class="hero-sub">
             LockHabit is a quiet corner of the internet where you can
-            <span>actually see your numbers</span> — income, taxes, budget, debt, and savings —
-            without noise, hype, or shouting.
+            <span>actually see your numbers</span> — income, taxes, budget, debt, and savings — without noise, hype, or shouting.
           </p>
           <div class="hero-row">
             <a href="/income-tax.html">
               <button class="hero-primary" type="button">Start with Income &amp; Taxes</button>
             </a>
-            <a class="hero-secondary" href="#journal">
+            <button class="hero-secondary" type="button" id="heroCalcBtn">
               <span class="hero-secondary-dot"></span>
-              <span>Or read a calm money guide</span>
-            </a>
+              <span>Or open all calculators</span>
+            </button>
           </div>
+          <p class="hero-note">
+            Today’s topic: <a href="/blog/posts/taxes/common-tax-mistakes-guide.html">Why small tax mistakes quietly shrink refunds →</a>
+          </p>
         </div>
 
-        <div class="hero-grid" aria-label="Example snapshot">
+        <div class="hero-grid" aria-label="Example summary">
           <div class="panel">
-            <div class="panel-title">Today’s paycheck snapshot</div>
+            <div class="panel-title">Today’s snapshot</div>
             <div class="panel-main">If this was your paycheck…</div>
             <div class="panel-rows">
               <div class="panel-row">
@@ -779,171 +872,14 @@
               </div>
             </div>
             <p style="margin:8px 0 0;font-size:12px;color:var(--muted);">
-              The Income &amp; Taxes calculator turns “I have no idea” into a clean picture of what’s really landing in your account.
+              LockHabit tools help you get from “I have no idea” to “Okay, I know exactly what’s happening with this paycheck.”
             </p>
           </div>
         </div>
       </section>
 
-      <!-- QUICK BENEFITS -->
-      <section class="benefits" aria-label="What LockHabit helps with">
-        <div class="benefit">
-          <strong>See your true take-home pay.</strong>
-          Turn your paycheck and tax bracket from a mystery into a simple, clean picture.
-        </div>
-        <div class="benefit">
-          <strong>Build a budget you can stick to.</strong>
-          No 37 categories. Just a realistic plan that fits rent, debt, and real life.
-        </div>
-        <div class="benefit">
-          <strong>Make decisions without panic.</strong>
-          Each tool and article ends with “What to do next” in plain language.
-        </div>
-      </section>
-
-      <!-- CALCULATORS -->
-      <section id="calculators" aria-label="LockHabit calculators">
-        <h2 class="section-title">Core calculators</h2>
-
-        <!-- Essentials -->
-        <div class="calc-section-label">Essentials</div>
-        <div class="calc-grid">
-          <a class="calc-card calc-card--primary" href="/income-tax.html">
-            <div class="calc-label">Income · Taxes</div>
-            <div class="calc-name">Paycheck &amp; tax breakdown</div>
-            <p class="calc-desc">
-              Plug in what you make and where you live. See federal, state, and what actually lands in your account.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/mortgage.html">
-            <div class="calc-label">Home</div>
-            <div class="calc-name">Mortgage</div>
-            <p class="calc-desc">
-              Payment, amortization, and simple estimates for taxes, insurance, and PMI.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/loan.html">
-            <div class="calc-label">Debt</div>
-            <div class="calc-name">Loan payoff</div>
-            <p class="calc-desc">
-              APR, extra payments, payoff date, and a clear amortization table.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/savings.html#budget">
-            <div class="calc-label">Budgeting</div>
-            <div class="calc-name">Budget planner</div>
-            <p class="calc-desc">
-              50/30/20 and custom categories. Build a budget that works with your real life.
-            </p>
-          </a>
-        </div>
-
-        <!-- Savings & goals -->
-        <div class="calc-section-label">Savings &amp; goals</div>
-        <div class="calc-grid">
-          <a class="calc-card" href="/savings.html">
-            <div class="calc-label">Saving</div>
-            <div class="calc-name">Savings goal</div>
-            <p class="calc-desc">
-              Lump sums plus recurring deposits toward a target balance with a simple timeline.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/retirement.html">
-            <div class="calc-label">Retirement</div>
-            <div class="calc-name">Retirement (simple)</div>
-            <p class="calc-desc">
-              Contributions, growth, and a quick view of what your future balance might look like.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/emergency-fund.html">
-            <div class="calc-label">Saving</div>
-            <div class="calc-name">Emergency fund</div>
-            <p class="calc-desc">
-              Months of expenses, target size, and a build plan that doesn’t feel impossible.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/fx-converter.html">
-            <div class="calc-label">FX</div>
-            <div class="calc-name">Currency converter</div>
-            <p class="calc-desc">
-              Live FX conversions to see what your money looks like in another currency.
-            </p>
-          </a>
-        </div>
-
-        <!-- Credit & debt -->
-        <div class="calc-section-label">Credit &amp; debt</div>
-        <div class="calc-grid">
-          <a class="calc-card" href="/credit-card.html">
-            <div class="calc-label">Credit</div>
-            <div class="calc-name">Credit card cost</div>
-            <p class="calc-desc">
-              Monthly interest and total costs at different APRs and payment levels.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/credit-card-payoff.html">
-            <div class="calc-label">Credit</div>
-            <div class="calc-name">Credit card payoff</div>
-            <p class="calc-desc">
-              Payoff timelines, strategies, and what happens if you pay a bit extra.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/car-loan-calculator.html">
-            <div class="calc-label">Auto</div>
-            <div class="calc-name">Car loan</div>
-            <p class="calc-desc">
-              Car payment and amortization with taxes and common dealer fees.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/rent-vs-buy.htm">
-            <div class="calc-label">Home</div>
-            <div class="calc-name">Rent vs buy</div>
-            <p class="calc-desc">
-              Compare long-term costs of renting versus owning over 5–30 years.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/student-loan-calculator.html">
-            <div class="calc-label">Debt</div>
-            <div class="calc-name">Student loan</div>
-            <p class="calc-desc">
-              Payments, extra contributions, and payoff horizon in one simple view.
-            </p>
-          </a>
-        </div>
-
-        <!-- Business -->
-        <div class="calc-section-label">Business</div>
-        <div class="calc-grid">
-          <a class="calc-card" href="/business-margin.html">
-            <div class="calc-label">Business</div>
-            <div class="calc-name">Margin &amp; markup</div>
-            <p class="calc-desc">
-              COGS, margin, markup, and quick unit economics for products or services.
-            </p>
-          </a>
-
-          <a class="calc-card" href="/business-breakeven.html">
-            <div class="calc-label">Business</div>
-            <div class="calc-name">Break-even &amp; ROI</div>
-            <p class="calc-desc">
-              Fixed and variable costs, targets, and break-even points in plain English.
-            </p>
-          </a>
-        </div>
-      </section>
-
-      <!-- Mid-sheet Ezoic ad -->
-      <section aria-label="Sponsored" style="margin-top:16px;">
+      <!-- Mid-sheet Ad -->
+      <section aria-label="Sponsored" style="margin-bottom:18px;">
         <div id="ezoic-pub-ad-placeholder-102"></div>
         <script>
           ezstandalone.cmd.push(function () {
@@ -952,56 +888,57 @@
         </script>
       </section>
 
-      <!-- JOURNAL AREA -->
-      <section id="journal" class="journal-wrap" aria-label="LockHabit journal">
-        <h2 class="section-title">Journal</h2>
-
-        <!-- Category rail -->
-        <div class="rail">
-          <button class="rail-pill" data-cat="all" data-on="1">All</button>
-          <button class="rail-pill" data-cat="Taxes">Taxes</button>
-          <button class="rail-pill" data-cat="Budgeting">Budgeting</button>
-          <button class="rail-pill" data-cat="Saving">Saving</button>
-          <button class="rail-pill" data-cat="Debt">Debt</button>
-          <button class="rail-pill" data-cat="Credit">Credit</button>
-          <button class="rail-pill" data-cat="Home">Home</button>
-          <button class="rail-pill" data-cat="Investing">Investing</button>
+      <!-- FEATURED GUIDES -->
+      <section aria-label="Featured guides">
+        <h2 class="section-title">Featured money guides</h2>
+        <div class="featured" id="featuredList">
+          <!-- JS will fill from posts.json / fallback -->
         </div>
+      </section>
 
-        <!-- Trending tags -->
-        <div id="trendTags" class="trend-chips">
-          <!-- JS fills -->
+      <!-- TOPIC FILTER -->
+      <section class="topic-wrap" aria-label="Browse by topic">
+        <h2 class="section-title">Browse by topic</h2>
+        <div class="chip-row" id="topicChips">
+          <!-- JS chips -->
         </div>
+        <div class="topic-list" id="topicList">
+          <!-- JS list -->
+        </div>
+        <div class="topic-footer-link">
+          <a href="/blog/">See all articles in the journal →</a>
+        </div>
+      </section>
 
-        <div class="layout-main">
-          <!-- Left: hero mosaic + latest list -->
-          <div>
-            <div id="heroMosaic"><!-- JS fills --></div>
-            <h3 class="calc-section-label" style="margin-top:14px;">Latest</h3>
-            <div id="latest"><!-- JS fills --></div>
-            <div class="pager">
-              <button id="prev" type="button">◀ Prev</button>
-              <span id="pageInfo">Page 1 of 1</span>
-              <button id="next" type="button">Next ▶</button>
-            </div>
-          </div>
-
-          <!-- Right: journey lanes -->
-          <div>
-            <div class="calc-section-label">Continue your journey</div>
-            <div id="journey"><!-- JS fills --></div>
+      <!-- TOOLS CALLOUT -->
+      <section class="tools-section" aria-label="LockHabit calculators">
+        <h2 class="section-title">Tools &amp; calculators</h2>
+        <div class="tools-card">
+          <h3>Use calculators when you want numbers, not noise.</h3>
+          <p>
+            Every tool is designed to feel like a clean page from a notebook:
+            no log-in required, no cluttered charts — just a clear story of what’s happening with your money.
+          </p>
+          <div class="tools-row">
+            <button class="tools-open-btn" type="button" id="toolsOpenBtn">Open all calculators</button>
+            <span class="tools-pill">Income &amp; taxes</span>
+            <span class="tools-pill">Budget &amp; saving</span>
+            <span class="tools-pill">Debt payoff</span>
+            <span class="tools-pill">Home &amp; loans</span>
           </div>
         </div>
       </section>
 
       <!-- NEWSLETTER -->
-      <section class="newsletter" aria-label="Email signup">
-        <h2>Get one useful money idea each week</h2>
-        <p>Short, practical insights. No spam. Unsubscribe anytime.</p>
-        <form class="newsletter-row" onsubmit="event.preventDefault(); alert('Thanks! Email capture will be connected soon.');">
-          <input class="newsletter-input" type="email" placeholder="you@example.com" required/>
-          <button class="newsletter-btn" type="submit">Subscribe</button>
-        </form>
+      <section aria-label="Newsletter">
+        <div class="newsletter">
+          <h2>Get one useful money idea each week</h2>
+          <p>Short, practical insights. No spam. Unsubscribe anytime.</p>
+          <form class="newsletter-row" onsubmit="event.preventDefault(); alert('Thanks! Email capture will be connected soon.');">
+            <input class="newsletter-input" type="email" placeholder="you@example.com" required/>
+            <button class="newsletter-btn" type="submit">Subscribe</button>
+          </form>
+        </div>
       </section>
 
       <!-- FOOTER -->
@@ -1012,8 +949,9 @@
           <span>Understand money. Build calm wealth.</span>
         </div>
         <div class="footer-links">
-          <a class="footer-chip" href="#calculators">Calculators</a>
-          <a class="footer-chip" href="#journal">Journal</a>
+          <a class="footer-chip" href="/income-tax.html">Income &amp; Taxes</a>
+          <a class="footer-chip" href="/blog/">Journal</a>
+          <a class="footer-chip" href="/calculator.html">All calculators</a>
           <a class="footer-chip" href="/terms.html">Terms</a>
           <a class="footer-chip" href="/privacy.html">Privacy</a>
           <a class="footer-chip" href="/security.html">Security</a>
@@ -1040,215 +978,278 @@
   </div>
 </main>
 
-<!-- ======================
-     JOURNAL JS (uses /blog/posts.json)
-     ====================== -->
-<script>
-(function(){
-  const $ = (s,el=document)=>el.querySelector(s);
-  const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
-  const fmtDate = d => new Date(d).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
-  const esc = s => (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+<!-- Sticky open-calculators helper on mobile -->
+<div class="sticky-helper">
+  <button type="button" id="stickyCalcBtn">Open calculators ▾</button>
+</div>
 
-  // Fallback posts (you can expand this, but real data should live in /blog/posts.json)
+<!-- CALCULATOR SHEET -->
+<div class="calc-sheet" id="calcSheet" aria-modal="true" role="dialog" aria-labelledby="calcTitle">
+  <div class="calc-backdrop" id="calcBackdrop"></div>
+  <div class="calc-panel">
+    <div class="calc-title-row">
+      <h2 id="calcTitle">All calculators</h2>
+      <button class="calc-close-btn" type="button" id="calcCloseBtn">Close</button>
+    </div>
+    <p style="margin:0 0 6px;font-size:13px;color:var(--ink-soft);">
+      Pick a tool, plug in your numbers, and get a clean, readable answer.
+    </p>
+
+    <h3 class="section-title" style="margin-top:10px;margin-bottom:4px;">Essentials</h3>
+    <div class="calc-grid">
+      <a class="calc-link" href="/income-tax.html"><strong>Income &amp; Taxes</strong><span>Take-home pay and tax breakdown.</span></a>
+      <a class="calc-link" href="/mortgage.html"><strong>Mortgage</strong><span>Payment, amortization, PMI, taxes &amp; insurance.</span></a>
+      <a class="calc-link" href="/loan.html"><strong>Loan payoff</strong><span>APR, extra payments, payoff date.</span></a>
+      <a class="calc-link" href="/savings.html#budget"><strong>Budget planner</strong><span>50/30/20 and custom categories.</span></a>
+    </div>
+
+    <h3 class="section-title" style="margin-top:14px;margin-bottom:4px;">Saving &amp; goals</h3>
+    <div class="calc-grid">
+      <a class="calc-link" href="/savings.html"><strong>Savings goal</strong><span>Grow a target balance over time.</span></a>
+      <a class="calc-link" href="/retirement.html"><strong>Retirement (simple)</strong><span>Contributions, growth, and horizon.</span></a>
+      <a class="calc-link" href="/emergency-fund.html"><strong>Emergency fund</strong><span>Months of expenses &amp; target size.</span></a>
+      <a class="calc-link" href="/fx-converter.html"><strong>Currency converter</strong><span>Live FX conversions.</span></a>
+    </div>
+
+    <h3 class="section-title" style="margin-top:14px;margin-bottom:4px;">Credit &amp; debt</h3>
+    <div class="calc-grid">
+      <a class="calc-link" href="/credit-card.html"><strong>Credit card</strong><span>Monthly interest &amp; total cost.</span></a>
+      <a class="calc-link" href="/credit-card-payoff.html"><strong>Credit card payoff</strong><span>Timeline &amp; strategies.</span></a>
+      <a class="calc-link" href="/car-loan-calculator.html"><strong>Car loan</strong><span>Auto payment &amp; amortization.</span></a>
+      <a class="calc-link" href="/rent-vs-buy.htm"><strong>Rent vs buy</strong><span>Compare long-term housing cost.</span></a>
+      <a class="calc-link" href="/student-loan-calculator.html"><strong>Student loan</strong><span>Payments and payoff horizon.</span></a>
+    </div>
+
+    <h3 class="section-title" style="margin-top:14px;margin-bottom:4px;">Business</h3>
+    <div class="calc-grid">
+      <a class="calc-link" href="/business-margin.html"><strong>Margin &amp; markup</strong><span>COGS, margin, markup, unit economics.</span></a>
+      <a class="calc-link" href="/business-breakeven.html"><strong>Break-even &amp; ROI</strong><span>Fixed/variable costs and ROI.</span></a>
+    </div>
+  </div>
+</div>
+<script>
+  // Small helpers
+  const $ = (s, el=document) => el.querySelector(s);
+  const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+  const fmtDate = d => new Date(d).toLocaleDateString(undefined,{
+    month:'short', day:'numeric', year:'numeric'
+  });
+  const esc = s => (s || '').replace(/[&<>\"']/g, m => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+
+  // ===================== HEADER SHRINK ======================
+  (function headerShrink(){
+    const header = $('#header');
+    const onScroll = () => {
+      if(window.scrollY > 10) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, {passive:true});
+  })();
+
+  // ===================== CALC SHEET =========================
+  (function calcSheet(){
+    const sheet   = $('#calcSheet');
+    const backdrop = $('#calcBackdrop');
+    const closeBtn = $('#calcCloseBtn');
+    const openButtons = ['#navCalcBtn','#heroCalcBtn','#toolsOpenBtn','#stickyCalcBtn']
+      .map(sel => $(sel)).filter(Boolean);
+
+    const open = () => { sheet.setAttribute('data-open','1'); };
+    const close = () => { sheet.setAttribute('data-open','0'); };
+
+    openButtons.forEach(btn => btn.addEventListener('click', open));
+    backdrop.addEventListener('click', close);
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape') close();
+    });
+  })();
+
+  // ===================== POSTS DATA =========================
   const FALLBACK_POSTS = [
     {
-      "slug": "common-tax-mistakes-guide",
-      "title": "The Most Common Tax Mistakes People Make (And How to Never Make Them)",
-      "category": "Taxes",
-      "date": "2025-11-03",
-      "read": "17 min read",
-      "excerpt": "A practical, story-driven guide to the small tax mistakes that delay refunds, trigger IRS letters, and cost people money—and the simple habits that prevent them.",
-      "tags": ["Tax basics", "Refunds", "IRS letters"],
-      "url": "/blog/posts/taxes/common-tax-mistakes-guide.html",
-      "featured": true,
-      "views": 0
+      slug: "common-tax-mistakes-guide",
+      title: "The Most Common Tax Mistakes People Make (And How to Never Make Them)",
+      category: "Taxes",
+      date: "2025-11-04",
+      read: "17 min read",
+      excerpt: "Small, easy-to-miss mistakes that quietly shrink refunds and trigger letters—and how to avoid them.",
+      url: "/blog/posts/taxes/common-tax-mistakes-guide.html",
+      featured: true
     },
     {
-      "slug": "budgeting-for-absolute-beginners",
-      "title": "Budgeting for Absolute Beginners: How to Stop Guessing and Start Knowing Where Your Money Goes",
-      "category": "Budgeting",
-      "date": "2025-11-15",
-      "read": "19 min read",
-      "excerpt": "New to budgeting—or starting over after a few failed attempts? This guide shows you, step by step, how to build a simple, realistic budget that actually fits your real life.",
-      "tags": ["Budgeting", "Beginners", "Money plan"],
-      "url": "/blog/posts/budgeting/budgeting-for-absolute-beginners.html",
-      "featured": false,
-      "views": 0
+      slug: "tax-filing-basics-for-beginners",
+      title: "Tax Filing Basics: A Beginner-Friendly Guide to Doing Your Own Taxes",
+      category: "Taxes",
+      date: "2025-09-26",
+      read: "11 min read",
+      excerpt: "First time filing? This walks you from “what forms do I need?” to hitting submit calmly.",
+      url: "/blog/posts/taxes/tax-filing-basics-for-beginners.html",
+      featured: true
     },
     {
-      "slug": "how-budgeting-can-help-you-quit-gambling",
-      "title": "How Budgeting Can Help You Quit Gambling and Rebuild Your Money Life",
-      "category": "Budgeting",
-      "date": "2025-11-16",
-      "read": "22 min read",
-      "excerpt": "Gambling can quietly wreck a bank account. This guide shows how a simple, honest budget can help you see the real impact, set limits, and slowly rebuild savings and stability.",
-      "tags": ["Budgeting", "Gambling", "Recovery"],
-      "url": "/blog/posts/budgeting/how-budgeting-can-help-you-quit-gambling.html",
-      "featured": false,
-      "views": 0
+      slug: "how-to-read-your-paycheck",
+      title: "How to Read Your Paycheck (So Tax Season Stops Being a Mystery)",
+      category: "Taxes",
+      date: "2025-09-05",
+      read: "16 min read",
+      excerpt: "Line-by-line, what each code, deduction, and tax line actually means on your pay stub.",
+      url: "/blog/posts/taxes/how-to-read-your-paycheck.html",
+      featured: false
+    },
+    {
+      slug: "budgeting-for-absolute-beginners",
+      title: "Budgeting for Absolute Beginners: How to Stop Guessing and Start Knowing Where Your Money Goes",
+      category: "Budgeting",
+      date: "2025-11-16",
+      read: "19 min read",
+      excerpt: "A simple, realistic way to build a budget that respects rent, debt, and real life.",
+      url: "/blog/posts/budgeting/budgeting-for-absolute-beginners.html",
+      featured: true
+    },
+    {
+      slug: "zero-based-budgeting-step-by-step",
+      title: "Zero-Based Budgeting: A Step-by-Step Guide to Giving Every Dollar a Job",
+      category: "Budgeting",
+      date: "2025-11-16",
+      read: "18 min read",
+      excerpt: "Every dollar gets a job. Here’s how to set up that system without burning out.",
+      url: "/blog/posts/budgeting/zero-based-budgeting-step-by-step.html",
+      featured: false
+    },
+    {
+      slug: "how-budgeting-can-help-you-quit-gambling",
+      title: "How Budgeting Can Help You Quit Gambling and Rebuild Your Money Life",
+      category: "Budgeting",
+      date: "2025-11-16",
+      read: "22 min read",
+      excerpt: "A calm plan to see the real impact of gambling and rebuild savings step by step.",
+      url: "/blog/posts/budgeting/how-budgeting-can-help-you-quit-gambling.html",
+      featured: false
+    },
+    {
+      slug: "budgeting-irregular-income",
+      title: "How to Budget with Irregular Income",
+      category: "Budgeting",
+      date: "2025-10-02",
+      read: "21 min read",
+      excerpt: "Servers, gig workers, shift-based jobs—how to build stability when paychecks bounce.",
+      url: "/blog/posts/budgeting/irregular-income-budget.html",
+      featured: false
     }
   ];
 
   const S = {
     posts: [],
-    filtered: [],
-    page: 1,
-    per: 5,
-    cat: 'all'
+    byCat: {},
+    currentCat: 'all'
   };
 
   const E = {
-    mosaic: $('#heroMosaic'),
-    latest: $('#latest'),
-    journey: $('#journey'),
-    trend: $('#trendTags'),
-    prev: $('#prev'),
-    next: $('#next'),
-    pageInfo: $('#pageInfo')
+    featured: $('#featuredList'),
+    chips: $('#topicChips'),
+    topicList: $('#topicList')
   };
 
-  function heroCard(p, big = false){
-    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
+  function initFromPosts(posts) {
+    S.posts = (posts || []).map(p => ({
+      ...p,
+      dateNum: +new Date(p.date || 0)
+    })).sort((a,b)=>b.dateNum - a.dateNum);
 
-    return `
-      <article class="card heroCard">
-        <div class="pad">
-          <div class="meta">
-            ${esc(p.category || '')}
-            ${p.date ? ` • <time datetime="${p.date}">${fmtDate(p.date)}</time>` : ''}
-            ${p.read ? ` • ${esc(p.read)}` : ''}
-          </div>
-          <h3 class="title"><a href="${url}">${esc(p.title)}</a></h3>
-          <p class="excerpt">${esc(p.excerpt || '')}</p>
-        </div>
-      </article>`;
-  }
+    // Build category map
+    S.byCat = {};
+    S.posts.forEach(p => {
+      const c = p.category || 'Other';
+      (S.byCat[c] = S.byCat[c] || []).push(p);
+    });
 
-  function card(p){
-    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
-
-    return `
-      <article class="card">
-        <div class="pad">
-          <div class="meta">
-            ${esc(p.category || '')}
-            ${p.date ? ` • <time datetime="${p.date}">${fmtDate(p.date)}</time>` : ''}
-            ${p.read ? ` • ${esc(p.read)}` : ''}
-          </div>
-          <h3 class="title"><a href="${url}">${esc(p.title)}</a></h3>
-          <p class="excerpt">${esc(p.excerpt || '')}</p>
-        </div>
-      </article>`;
-  }
-
-  function mini(p){
-    const url = esc(p.url || `/blog/posts/${p.slug}.html`);
-
-    return `
-      <div style="margin:10px 0">
-        <a href="${url}" style="font-weight:900; display:block; margin-bottom:2px;">
-          ${esc(p.title)}
-        </a>
-        <div class="meta">
-          ${p.date ? `${fmtDate(p.date)} • ` : ''}${esc(p.read || '')}
-        </div>
-      </div>`;
-  }
-
-  function initFromPosts(posts){
-    S.posts = (posts||[]).map(p => ({...p, dateNum:+new Date(p.date||0)}))
-                         .sort((a,b)=>b.dateNum - a.dateNum);
-    buildHeroMosaic();
-    buildTrending();
+    buildFeatured();
+    buildTopicChips();
     applyCat('all');
-    buildJourneyLanes();
   }
 
-  function buildHeroMosaic(){
-    if(!S.posts.length){ E.mosaic.innerHTML=''; return; }
+  function heroCardExcerpt(text, max=96) {
+    if(!text) return '';
+    const clean = text.trim();
+    if(clean.length <= max) return clean;
+    return clean.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
+  }
+
+  function buildFeatured() {
+    if(!S.posts.length) { E.featured.innerHTML = ''; return; }
     const picks = [];
-    const feat = S.posts.find(p=>p.featured);
-    if(feat) picks.push(feat);
-    const rest = S.posts.filter(p=>p.slug !== (feat && feat.slug))
-                        .sort((a,b)=>(b.views||0)-(a.views||0));
-    picks.push(...rest.slice(0,2));
-    E.mosaic.innerHTML = picks.map((p)=>heroCard(p)).join('');
+    const featured = S.posts.filter(p => p.featured);
+    if(featured.length) picks.push(...featured.slice(0,3));
+    if(picks.length < 3) {
+      const rest = S.posts.filter(p => !picks.includes(p));
+      picks.push(...rest.slice(0, 3 - picks.length));
+    }
+    E.featured.innerHTML = picks.map(p => `
+      <a class="feat-card" href="${esc(p.url || `/blog/posts/${p.slug}.html`)}">
+        <div class="feat-cat">${esc(p.category || '')}</div>
+        <div class="feat-title">${esc(p.title)}</div>
+        <div class="feat-excerpt">${esc(heroCardExcerpt(p.excerpt || ''))}</div>
+        <div class="feat-meta">
+          ${p.date ? esc(fmtDate(p.date)) : ''}${p.read ? ` • ${esc(p.read)}` : ''}
+        </div>
+      </a>
+    `).join('');
   }
 
-  function buildTrending(){
-    const count = {};
-    S.posts.forEach(p => (p.tags||[]).forEach(t => count[t]=(count[t]||0)+1));
-    const top = Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,10);
-    E.trend.innerHTML = top.map(([t])=>`<button class="chip" data-tag="${esc(t)}">${esc(t)}</button>`).join('');
-    $$('#trendTags .chip').forEach(ch=>{
-      ch.addEventListener('click', e=>{
-        e.preventDefault();
-        const tag = ch.dataset.tag;
-        S.filtered = S.posts.filter(p=> (p.tags||[]).includes(tag));
-        S.cat = 'tag:'+tag;
-        S.page = 1;
-        renderLatest();
+  function buildTopicChips() {
+    const wanted = ['all','Taxes','Budgeting','Saving','Debt','Credit','Home','Investing'];
+    const cats = Array.from(new Set(S.posts.map(p=>p.category).filter(Boolean)));
+    const activeCats = wanted.filter(c => c === 'all' || cats.includes(c));
+    E.chips.innerHTML = activeCats.map(cat => {
+      const label = cat === 'all' ? 'All topics' : cat;
+      return `<button class="chip" data-cat="${esc(cat)}"${cat==='all'?' data-on="1"':''}>${esc(label)}</button>`;
+    }).join('');
+
+    $$('.chip', E.chips).forEach(ch => {
+      ch.addEventListener('click', () => {
+        applyCat(ch.dataset.cat);
       });
     });
   }
 
-  function applyCat(cat){
-    S.cat = cat;
-    S.page = 1;
-    $$('.rail-pill').forEach(b => b.setAttribute('data-on', b.dataset.cat===cat?'1':'0'));
-    S.filtered = (cat==='all') ? S.posts : S.posts.filter(p=> p.category===cat);
-    renderLatest();
+  function applyCat(cat) {
+    S.currentCat = cat;
+    $$('.chip', E.chips).forEach(ch => {
+      ch.setAttribute('data-on', ch.dataset.cat === cat ? '1' : '0');
+    });
+
+    let list = [];
+    if(cat === 'all') list = S.posts.slice(0, 6);
+    else list = (S.byCat[cat] || []).slice(0, 6);
+
+    E.topicList.innerHTML = list.map(p => `
+      <article class="topic-item">
+        <a href="${esc(p.url || `/blog/posts/${p.slug}.html`)}">${esc(p.title)}</a>
+        <div class="topic-meta">
+          ${esc(p.category || '')}
+          ${p.date ? ` • ${esc(fmtDate(p.date))}` : ''}
+          ${p.read ? ` • ${esc(p.read)}` : ''}
+        </div>
+        <div class="topic-excerpt">${esc(heroCardExcerpt(p.excerpt || '', 110))}</div>
+      </article>
+    `).join('');
   }
 
-  function renderLatest(){
-    const start = (S.page-1)*S.per;
-    const pageItems = S.filtered.slice(start, start+S.per);
-    E.latest.innerHTML = pageItems.map(card).join('');
-    const max = Math.max(1, Math.ceil(S.filtered.length/S.per));
-    E.pageInfo.textContent = `Page ${S.page} of ${max}`;
-    E.prev.disabled = S.page<=1;
-    E.next.disabled = S.page>=max;
-  }
-
-  function buildJourneyLanes(){
-    const cats = ['Saving','Debt','Credit','Home','Investing','Taxes','Budgeting'];
-    const blocks = cats.map(c => ({
-      cat:c,
-      items:S.posts.filter(p=>p.category===c).slice(0,3)
-    })).filter(x=>x.items.length);
-
-    E.journey.innerHTML = blocks.map(b => `
-      <div class="card"><div class="pad">
-        <div class="meta">${esc(b.cat)} • Starter pack</div>
-        ${b.items.map(mini).join('')}
-      </div></div>`).join('');
-  }
-
-  E.prev.addEventListener('click',()=>{ S.page--; renderLatest(); });
-  E.next.addEventListener('click',()=>{ S.page++; renderLatest(); });
-
-  $$('.rail-pill').forEach(btn=>{
-    btn.addEventListener('click', ()=> applyCat(btn.dataset.cat));
-  });
-
-  // Fetch unified posts list from /blog/posts.json
+  // Try to load full posts.json from /blog; if that fails, use fallback
   fetch('/blog/posts.json', { cache:'no-cache' })
-    .then(r=>{
-      if(!r.ok) throw new Error("posts.json missing");
+    .then(r => {
+      if(!r.ok) throw new Error('posts.json missing');
       return r.json();
     })
-    .then(data=>{
-      if(!Array.isArray(data) || !data.length){
-        initFromPosts(FALLBACK_POSTS);
-      } else {
-        initFromPosts(data);
-      }
+    .then(data => {
+      if(Array.isArray(data) && data.length) initFromPosts(data);
+      else initFromPosts(FALLBACK_POSTS);
     })
-    .catch(()=>{
-      initFromPosts(FALLBACK_POSTS);
-    });
-})();
+    .catch(() => initFromPosts(FALLBACK_POSTS));
 </script>
 
 </body>
