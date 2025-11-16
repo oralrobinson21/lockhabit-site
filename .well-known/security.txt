@@ -1,5 +1,0 @@
-Contact: mailto:security@lockhabit.com
-Encryption: https://lockhabit.com/.well-known/pgp.txt
-Acknowledgments: https://lockhabit.com/security
-Policy: https://lockhabit.com/security
-Preferred-Languages: en
