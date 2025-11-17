@@ -172,11 +172,18 @@
       white-space: nowrap;
     }
 
+    .nav-cta-secondary {
+      background: #e5edff;
+      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.6);
+      margin-right: 6px;
+    }
+
     .nav-cta:hover { transform: translateY(-1px); }
 
     @media (max-width: 640px) {
       .nav-simple-links { display: none; }
-      .nav-cta { margin-left: auto; }
+      .nav-cta,
+      .nav-cta-secondary { margin-left: 0; }
     }
 
     /* =========================================================
@@ -542,12 +549,15 @@
     <!-- CLEAR path to blog + calculators -->
     <div class="nav-simple-links">
       <a href="/blog/">Journal</a>
-      <a href="/calculator.html">All calculators</a>
+      <a href="/calculator/">All calculators</a>
     </div>
 
     <div class="nav-spacer"></div>
 
-    <a href="/income-tax.html">
+    <a href="/blog/">
+      <button class="nav-cta nav-cta-secondary" type="button">Open Journal</button>
+    </a>
+    <a href="/calculator/income-tax.html">
       <button class="nav-cta" type="button">Open Income &amp; Taxes</button>
     </a>
   </nav>
@@ -576,7 +586,7 @@
           without noise, hype, or shouting.
         </p>
         <div class="hero-row">
-          <a href="/income-tax.html">
+          <a href="/calculator/income-tax.html">
             <button class="hero-primary" type="button">Start with Income &amp; Taxes</button>
           </a>
           <a class="hero-secondary" href="/blog/">
@@ -644,11 +654,11 @@
             no log-in required, no cluttered charts — just a clear story of what’s happening with your money.
           </p>
           <div class="tools-row">
-            <a href="/calculator.html" class="tools-pill primary">Open all calculators</a>
-            <a href="/income-tax.html" class="tools-pill">Income &amp; taxes</a>
-            <a href="/savings.html#budget" class="tools-pill">Budget &amp; saving</a>
-            <a href="/credit-card-payoff.html" class="tools-pill">Debt payoff</a>
-            <a href="/mortgage.html" class="tools-pill">Home &amp; loans</a>
+            <a href="/calculator/" class="tools-pill primary">Open all calculators</a>
+            <a href="/calculator/income-tax.html" class="tools-pill">Income &amp; taxes</a>
+            <a href="/calculator/savings.html#budget" class="tools-pill">Budget &amp; saving</a>
+            <a href="/calculator/credit-card-payoff.html" class="tools-pill">Debt payoff</a>
+            <a href="/calculator/mortgage.html" class="tools-pill">Home &amp; loans</a>
           </div>
           <div class="tools-chip-row">
             <span class="tools-chip">Plain English labels</span>
@@ -690,11 +700,11 @@
         </div>
 
         <div class="footer-links">
-          <a class="footer-chip" href="/income-tax.html">Income &amp; Taxes</a>
-          <a class="footer-chip" href="/calculator.html">All calculators</a>
+          <a class="footer-chip" href="/calculator/income-tax.html">Income &amp; Taxes</a>
+          <a class="footer-chip" href="/calculator/">All calculators</a>
           <a class="footer-chip" href="/blog/">Journal</a>
           <a class="footer-chip" href="/terms.html">Terms</a>
-          <a class="footer-chip" href="/privacy.html">Privacy</a>
+          <a class="footer-chip" href="/calculator/privacy-policy.html">Privacy</a>
           <a class="footer-chip" href="/security.html">Security</a>
         </div>
 
@@ -737,21 +747,21 @@
   <div class="calc-sheet">
     <h2 id="calcSheetTitle">All calculators</h2>
     <div class="calc-grid">
-      <a class="calc-link" href="/income-tax.html"><strong>Income &amp; Taxes</strong></a>
-      <a class="calc-link" href="/mortgage.html"><strong>Mortgage</strong></a>
-      <a class="calc-link" href="/loan.html"><strong>Loan payoff</strong></a>
-      <a class="calc-link" href="/savings.html#budget"><strong>Budget planner</strong></a>
-      <a class="calc-link" href="/savings.html"><strong>Savings goal</strong></a>
-      <a class="calc-link" href="/retirement.html"><strong>Retirement (simple)</strong></a>
-      <a class="calc-link" href="/emergency-fund.html"><strong>Emergency fund</strong></a>
-      <a class="calc-link" href="/fx-converter.html"><strong>Currency converter</strong></a>
-      <a class="calc-link" href="/credit-card.html"><strong>Credit card cost</strong></a>
-      <a class="calc-link" href="/credit-card-payoff.html"><strong>Credit card payoff</strong></a>
-      <a class="calc-link" href="/car-loan-calculator.html"><strong>Car loan</strong></a>
-      <a class="calc-link" href="/rent-vs-buy.htm"><strong>Rent vs buy</strong></a>
-      <a class="calc-link" href="/student-loan-calculator.html"><strong>Student loan</strong></a>
-      <a class="calc-link" href="/business-margin.html"><strong>Margin &amp; markup</strong></a>
-      <a class="calc-link" href="/business-breakeven.html"><strong>Break-even &amp; ROI</strong></a>
+      <a class="calc-link" href="/calculator/income-tax.html"><strong>Income &amp; Taxes</strong></a>
+      <a class="calc-link" href="/calculator/mortgage.html"><strong>Mortgage</strong></a>
+      <a class="calc-link" href="/calculator/simple-debt-payoff.html"><strong>Loan payoff</strong></a>
+      <a class="calc-link" href="/calculator/savings.html#budget"><strong>Budget planner</strong></a>
+      <a class="calc-link" href="/calculator/savings.html"><strong>Savings goal</strong></a>
+      <a class="calc-link" href="/calculator/retirement.html"><strong>Retirement (simple)</strong></a>
+      <a class="calc-link" href="/calculator/emergency-fund.html"><strong>Emergency fund</strong></a>
+      <a class="calc-link" href="/calculator/fx-converter.html"><strong>Currency converter</strong></a>
+      <a class="calc-link" href="/calculator/credit-card.html"><strong>Credit card cost</strong></a>
+      <a class="calc-link" href="/calculator/credit-card-payoff.html"><strong>Credit card payoff</strong></a>
+      <a class="calc-link" href="/calculator/car-loan-calculator.html"><strong>Car loan</strong></a>
+      <a class="calc-link" href="/calculator/rent-vs-buy.html"><strong>Rent vs buy</strong></a>
+      <a class="calc-link" href="/calculator/student-loan-calculator.html"><strong>Student loan</strong></a>
+      <a class="calc-link" href="/calculator/business-margin.html"><strong>Margin &amp; markup</strong></a>
+      <a class="calc-link" href="/calculator/business-breakeven.html"><strong>Break-even &amp; ROI</strong></a>
     </div>
   </div>
 </div>
