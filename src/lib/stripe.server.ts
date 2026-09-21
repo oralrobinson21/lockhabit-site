@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { parseStripeMode, validatePublishableKey, validateServerKey } from "@/lib/stripe-config";
 
 const getEnv = (key: string): string => {
   const value = process.env[key];
@@ -21,6 +22,18 @@ export function createStripeClient(env: StripeEnv): Stripe {
       : (process.env["STRIPE_RESTRICTED_KEY_LIVE"] ?? process.env["STRIPE_SECRET_KEY_LIVE"]);
 
   if (directKey) {
+    const mode = env === "sandbox" ? "test" : "live";
+    validateServerKey(mode, directKey);
+    const buildMode = parseStripeMode(process.env["VITE_STRIPE_MODE"], "VITE_STRIPE_MODE");
+    if (buildMode !== mode) {
+      throw new Error(`STRIPE_MODE=${mode} does not match VITE_STRIPE_MODE=${buildMode}`);
+    }
+    validatePublishableKey(
+      mode,
+      mode === "test"
+        ? process.env["VITE_PAYMENTS_CLIENT_TOKEN"]
+        : process.env["VITE_PAYMENTS_CLIENT_TOKEN_LIVE"],
+    );
     return new Stripe(directKey, {
       httpClient: Stripe.createFetchHttpClient(),
     });
