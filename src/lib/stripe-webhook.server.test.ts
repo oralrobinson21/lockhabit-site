@@ -208,3 +208,38 @@ test("confirmation transport uses Resend with a stable per-order idempotency key
     else process.env["LOCKHABIT_ORDER_FROM_EMAIL"] = originalFrom;
   }
 });
+
+test("confirmation transport preserves a safe Resend rejection message", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalApiKey = process.env["RESEND_API_KEY"];
+  const originalFrom = process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
+  process.env["RESEND_API_KEY"] = "re_test_redacted";
+  process.env["LOCKHABIT_ORDER_FROM_EMAIL"] = "LockHabit <orders@example.com>";
+  globalThis.fetch = async () =>
+    Response.json({ message: "from domain is not verified" }, { status: 422 });
+
+  try {
+    await assert.rejects(
+      sendOrderConfirmation({
+        checkoutSessionId: "cs_test_rejected",
+        orderNumber: 43,
+        customerEmail: "buyer@example.com",
+        customerName: "Maya Rivera",
+        currency: "usd",
+        subtotal: 3500,
+        shipping: 795,
+        tax: 0,
+        total: 4295,
+        shippingAddress: null,
+        items: [{ name: "Coconut Beach Soap", quantity: 1, amountTotal: 3500 }],
+      }),
+      /422.*from domain is not verified/,
+    );
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalApiKey === undefined) delete process.env["RESEND_API_KEY"];
+    else process.env["RESEND_API_KEY"] = originalApiKey;
+    if (originalFrom === undefined) delete process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
+    else process.env["LOCKHABIT_ORDER_FROM_EMAIL"] = originalFrom;
+  }
+});

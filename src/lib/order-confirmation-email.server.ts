@@ -134,7 +134,10 @@ export async function sendOrderConfirmation(order: OrderConfirmation): Promise<s
 
   const payload = (await response.json().catch(() => ({}))) as { id?: string; message?: string };
   if (!response.ok || !payload.id) {
-    throw new Error(`Confirmation provider rejected the request (${response.status})`);
+    const detail = payload.message?.trim();
+    throw new Error(
+      `Confirmation provider rejected the request (${response.status})${detail ? `: ${detail}` : ""}`,
+    );
   }
   return payload.id;
 }
