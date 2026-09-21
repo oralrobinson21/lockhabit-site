@@ -5,6 +5,10 @@ import {
   sendOrderConfirmation,
   type OrderConfirmation,
 } from "@/lib/order-confirmation-email.server";
+import {
+  parseSelectedProductIds,
+  summarizeSelectedProducts,
+} from "@/lib/product-selection";
 
 type SupportedEvent =
   | "checkout.session.completed"
@@ -45,12 +49,16 @@ function checkoutOrder(session: Stripe.Checkout.Session): Omit<OrderConfirmation
   const email = session.customer_details?.email;
   if (!email) throw new Error("Paid Checkout Session is missing customer email");
   const shipping = session.collected_information?.shipping_details;
-  const items =
-    session.line_items?.data.map((item) => ({
-      name: item.description ?? "LockHabit item",
-      quantity: item.quantity ?? 1,
-      amountTotal: item.amount_total ?? 0,
-    })) ?? [];
+  const selectedProductIds = parseSelectedProductIds(session.metadata?.selected_product_ids);
+  const lineItems = session.line_items?.data ?? [];
+  const selectedTotal = lineItems.reduce((sum, item) => sum + (item.amount_total ?? 0), 0);
+  const items = selectedProductIds.length
+    ? summarizeSelectedProducts(selectedProductIds, selectedTotal)
+    : lineItems.map((item) => ({
+        name: item.description ?? "LockHabit item",
+        quantity: item.quantity ?? 1,
+        amountTotal: item.amount_total ?? 0,
+      }));
   if (!items.length) throw new Error("Paid Checkout Session is missing line items");
 
   return {
