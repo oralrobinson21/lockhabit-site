@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as SoapsSlugRouteImport } from './routes/soaps.$slug'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api/stripe/webhook'
@@ -17,6 +18,11 @@ import { Route as ApiStripeWebhookRouteImport } from './routes/api/stripe/webhoo
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
@@ -37,12 +43,14 @@ const ApiStripeWebhookRoute = ApiStripeWebhookRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
@@ -50,18 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/checkout/return' | '/soaps/$slug' | '/api/stripe/webhook'
+  fullPaths:
+    '/' | '/about' | '/checkout/return' | '/soaps/$slug' | '/api/stripe/webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checkout/return' | '/soaps/$slug' | '/api/stripe/webhook'
+  to:
+    '/' | '/about' | '/checkout/return' | '/soaps/$slug' | '/api/stripe/webhook'
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/checkout/return'
     | '/soaps/$slug'
     | '/api/stripe/webhook'
@@ -69,6 +81,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   SoapsSlugRoute: typeof SoapsSlugRoute
   ApiStripeWebhookRoute: typeof ApiStripeWebhookRoute
@@ -81,6 +94,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout/return': {
@@ -109,6 +129,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   SoapsSlugRoute: SoapsSlugRoute,
   ApiStripeWebhookRoute: ApiStripeWebhookRoute,

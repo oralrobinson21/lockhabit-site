@@ -15,8 +15,6 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
-
-# Local environment configuration (never commit secrets)
 .env
 .env.*
 !.env.example

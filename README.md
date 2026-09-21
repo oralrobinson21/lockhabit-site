@@ -1,46 +1,28 @@
 # LockHabit Soap & Body Care
 
-The official LockHabit storefront for botanical soaps and body care. This TanStack Start application includes the product catalog, product detail routes, cart, Stripe checkout entry, Supabase order persistence, responsive storefront styling, and repository-owned media assets.
+The official LockHabit tropical soap storefront, including the Sunny Splash design, catalog, cart, Stripe Checkout, Supabase order persistence, and Resend order confirmations.
 
-## Local development
+## Development
 
-Use Node.js 22 and copy `.env.example` to a local `.env` with the required environment-specific values.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/43c49e20-277d-4b8e-a5d8-fc5fa094e43c).
+
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+
+Requires Node.js and npm.
 
 ```sh
-npm install
+git clone <this-repository-url>
+cd <repository-name>
+npm i
 npm run dev
 ```
 
-## Verification
+## Payments
 
-```sh
-npm test
-npm run lint
-npx tsc --noEmit
-npm run build
-```
-
-## Payments and order confirmations
-
-Checkout uses Stripe Checkout in `STRIPE_MODE=test` by default. Configure the matching
-test publishable key, a server-only Stripe restricted/secret key, and the test webhook
-signing secret from `.env.example`. The webhook endpoint is:
-
-```text
-POST /api/stripe/webhook
-```
-
-Subscribe that endpoint to `checkout.session.completed`,
-`checkout.session.async_payment_succeeded`, and
-`checkout.session.async_payment_failed`. Successful payment is recorded only by the
-signed webhook; the checkout return page is informational and never creates an order or
-sends email.
-
-Order persistence requires the Supabase server secret/service-role variable and the
-included migration. Custom LockHabit confirmations use Resend and require
-`RESEND_API_KEY`, `LOCKHABIT_ORDER_FROM_EMAIL`, and `LOCKHABIT_SUPPORT_EMAIL`. Stripe's
-own customer receipt setting remains separate and should be enabled in the Stripe
-Dashboard for the appropriate mode.
-
-Never commit populated environment files or expose any server-only variable through a
-`VITE_` name.
+Checkout runs in Stripe TEST mode by default. Copy `.env.example` to a local
+environment file and configure the server-only Stripe, Supabase, and Resend
+variables before exercising checkout. Never expose or commit populated `.env`
+files. Stripe webhook requests must target `/api/stripe/webhook` and include a
+valid signature from the configured TEST webhook secret.

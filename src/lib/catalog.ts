@@ -1,51 +1,51 @@
-import coconutImage from "@/assets/soap-coconut.jpg";
-import coconutPoolImage from "@/assets/coconut-gallery-pool.jpg";
-import coconutDetailImage from "@/assets/coconut-gallery-detail.jpg";
-import coconut2 from "@/assets/gallery/coconut-2.jpg";
-import breatheImage from "@/assets/soap-breathe.jpg";
-import breathe2 from "@/assets/gallery/breathe-2.jpg";
-import breathe3 from "@/assets/gallery/breathe-3.jpg";
-import breathe4 from "@/assets/gallery/breathe-4.jpg";
-import aloeImage from "@/assets/soap-aloe-cucumber.jpg";
-import aloe2 from "@/assets/gallery/aloe-2.jpg";
-import aloe3 from "@/assets/gallery/aloe-3.jpg";
-import aloe4 from "@/assets/gallery/aloe-4.jpg";
-import slumberImage from "@/assets/soap-slumber.jpg";
-import slumber2 from "@/assets/gallery/slumber-2.jpg";
-import slumber3 from "@/assets/gallery/slumber-3.jpg";
-import slumber4 from "@/assets/gallery/slumber-4.jpg";
-import loofahImage from "@/assets/soap-loofah.jpg";
-import luffa2 from "@/assets/gallery/luffa-2.jpg";
-import luffa3 from "@/assets/gallery/luffa-3.jpg";
-import luffa4 from "@/assets/gallery/luffa-4.jpg";
-import lemongrassImage from "@/assets/soap-lemongrass.jpg";
-import lemongrass2 from "@/assets/gallery/lemongrass-2.jpg";
-import lemongrass3 from "@/assets/gallery/lemongrass-3.jpg";
-import lemongrass4 from "@/assets/gallery/lemongrass-4.jpg";
-import sandalwoodImage from "@/assets/soap-sandalwood.jpg";
-import sandalwood2 from "@/assets/gallery/sandalwood-2.jpg";
-import sandalwood3 from "@/assets/gallery/sandalwood-3.jpg";
-import sandalwood4 from "@/assets/gallery/sandalwood-4.jpg";
-import oatHoneyImage from "@/assets/soap-oat-honey.jpg";
-import oatHoney2 from "@/assets/gallery/oat-honey-2.jpg";
-import oatHoney3 from "@/assets/gallery/oat-honey-3.jpg";
-import oatHoney4 from "@/assets/gallery/oat-honey-4.jpg";
-import lavenderImage from "@/assets/soap-lavender.jpg";
-import lavender2 from "@/assets/gallery/lavender-2.jpg";
-import lavender3 from "@/assets/gallery/lavender-3.jpg";
-import lavender4 from "@/assets/gallery/lavender-4.jpg";
-import charcoalImage from "@/assets/soap-charcoal.jpg";
-import charcoal2 from "@/assets/gallery/charcoal-2.jpg";
-import charcoal3 from "@/assets/gallery/charcoal-3.jpg";
-import charcoal4 from "@/assets/gallery/charcoal-4.jpg";
-import sheaImage from "@/assets/shea-butter.jpg";
-import shea2 from "@/assets/gallery/shea-2.jpg";
-import shea3 from "@/assets/gallery/shea-3.jpg";
-import shea4 from "@/assets/gallery/shea-4.jpg";
-import turmericImage from "@/assets/soap-turmeric.jpg";
-import turmeric2 from "@/assets/gallery/turmeric-2.jpg";
-import turmeric3 from "@/assets/gallery/turmeric-3.jpg";
-import turmeric4 from "@/assets/gallery/turmeric-4.jpg";
+import coconutReal1 from "@/assets/real-products/coconut-beach-1.jpg";
+import coconutReal2 from "@/assets/real-products/coconut-beach-2.jpg";
+import coconutReal3 from "@/assets/real-products/coconut-beach-3.jpg";
+import coconutReal4 from "@/assets/real-products/coconut-beach-4.jpg";
+import breatheReal1 from "@/assets/real-products/breathe-clear-1.jpg";
+import breatheReal2 from "@/assets/real-products/breathe-clear-2.jpg";
+import breatheReal3 from "@/assets/real-products/breathe-clear-3.jpg";
+import breatheReal4 from "@/assets/real-products/breathe-clear-4.jpg";
+import aloeReal1 from "@/assets/real-products/aloe-cucumber-1.jpg";
+import aloeReal2 from "@/assets/real-products/aloe-cucumber-2.jpg";
+import aloeReal3 from "@/assets/real-products/aloe-cucumber-3.jpg";
+import aloeReal4 from "@/assets/real-products/aloe-cucumber-4.jpg";
+import slumberReal1 from "@/assets/real-products/slumber-1.jpg";
+import slumberReal2 from "@/assets/real-products/slumber-2.jpg";
+import slumberReal3 from "@/assets/real-products/slumber-3.jpg";
+import slumberReal4 from "@/assets/real-products/slumber-4.jpg";
+import luffaReal1 from "@/assets/real-products/exfoliating-luffa-1.jpg";
+import luffaReal2 from "@/assets/real-products/exfoliating-luffa-2.jpg";
+import luffaReal3 from "@/assets/real-products/exfoliating-luffa-3.jpg";
+import luffaReal4 from "@/assets/real-products/exfoliating-luffa-4.jpg";
+import lemongrassReal1 from "@/assets/real-products/lemongrass-sage-1.jpg";
+import lemongrassReal2 from "@/assets/real-products/lemongrass-sage-2.jpg";
+import lemongrassReal3 from "@/assets/real-products/lemongrass-sage-3.jpg";
+import lemongrassReal4 from "@/assets/real-products/lemongrass-sage-4.jpg";
+import sandalwoodReal1 from "@/assets/real-products/rich-sandalwood-1.jpg";
+import sandalwoodReal2 from "@/assets/real-products/rich-sandalwood-2.jpg";
+import sandalwoodReal3 from "@/assets/real-products/rich-sandalwood-3.jpg";
+import sandalwoodReal4 from "@/assets/real-products/rich-sandalwood-4.jpg";
+import oatHoneyReal1 from "@/assets/real-products/oat-honey-1.jpg";
+import oatHoneyReal2 from "@/assets/real-products/oat-honey-2.jpg";
+import oatHoneyReal3 from "@/assets/real-products/oat-honey-3.jpg";
+import oatHoneyReal4 from "@/assets/real-products/oat-honey-4.jpg";
+import lavenderReal1 from "@/assets/real-products/calming-lavender-1.jpg";
+import lavenderReal2 from "@/assets/real-products/calming-lavender-2.jpg";
+import lavenderReal3 from "@/assets/real-products/calming-lavender-3.jpg";
+import lavenderReal4 from "@/assets/real-products/calming-lavender-4.jpg";
+import charcoalReal1 from "@/assets/real-products/charcoal-1.jpg";
+import charcoalReal2 from "@/assets/real-products/charcoal-2.jpg";
+import charcoalReal3 from "@/assets/real-products/charcoal-3.jpg";
+import charcoalReal4 from "@/assets/real-products/charcoal-4.jpg";
+import sheaReal1 from "@/assets/real-products/raw-shea-1.jpg";
+import sheaReal2 from "@/assets/real-products/raw-shea-2.jpg";
+import sheaReal3 from "@/assets/real-products/raw-shea-3.jpg";
+import sheaReal4 from "@/assets/real-products/raw-shea-4.jpg";
+import turmericReal1 from "@/assets/real-products/kojic-turmeric-1.jpg";
+import turmericReal2 from "@/assets/real-products/kojic-turmeric-2.jpg";
+import turmericReal3 from "@/assets/real-products/kojic-turmeric-3.jpg";
+import turmericReal4 from "@/assets/real-products/kojic-turmeric-4.jpg";
 
 export type GalleryImage = { src: string; alt: string };
 
@@ -101,13 +101,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#8ed7dd", to: "#f6d36b", motes: "#fffaf0" },
     images: [
-      { src: coconutImage, alt: "LOCKHABIT Coconut Beach Soap on tropical rock by the ocean" },
-      { src: coconut2, alt: "Coconut Beach Soap on wet volcanic rock with coconut and plumeria" },
-      { src: coconutPoolImage, alt: "Coconut Beach Soap with unwrapped bar poolside by the ocean" },
-      {
-        src: coconutDetailImage,
-        alt: "Close detail of LOCKHABIT Coconut Beach Soap label and texture",
-      },
+      { src: coconutReal1, alt: "Real LOCKHABIT coconut beach front view" },
+      { src: coconutReal2, alt: "Real LOCKHABIT coconut beach three-quarter view" },
+      { src: coconutReal3, alt: "Real LOCKHABIT coconut beach unwrapped bar view" },
+      { src: coconutReal4, alt: "Real LOCKHABIT coconut beach paired bar view" },
     ],
   },
   {
@@ -137,10 +134,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#bfe6dd", to: "#eaf3c9", motes: "#ffffff" },
     images: [
-      { src: breatheImage, alt: "LOCKHABIT Breathe Clear Soap" },
-      { src: breathe2, alt: "Breathe Clear Soap angled studio view showing label wrap" },
-      { src: breathe3, alt: "Breathe Clear Soap with unwrapped cream bar beside labeled bar" },
-      { src: breathe4, alt: "Breathe Clear Soap stacked with unwrapped bar in studio light" },
+      { src: breatheReal1, alt: "Real LOCKHABIT breathe clear front view" },
+      { src: breatheReal2, alt: "Real LOCKHABIT breathe clear three-quarter view" },
+      { src: breatheReal3, alt: "Real LOCKHABIT breathe clear unwrapped bar view" },
+      { src: breatheReal4, alt: "Real LOCKHABIT breathe clear stacked bar view" },
     ],
   },
   {
@@ -170,10 +167,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#a9e2c8", to: "#d9f0f6", motes: "#f2fff6" },
     images: [
-      { src: aloeImage, alt: "LOCKHABIT Aloe & Cool Cucumber Soap" },
-      { src: aloe2, alt: "Aloe & Cool Cucumber Soap angled studio view of green-cream bar" },
-      { src: aloe3, alt: "Aloe & Cool Cucumber Soap with second bar showing two-tone top" },
-      { src: aloe4, alt: "Aloe & Cool Cucumber Soap standing with flat bar in studio light" },
+      { src: aloeReal1, alt: "Real LOCKHABIT aloe cucumber front view" },
+      { src: aloeReal2, alt: "Real LOCKHABIT aloe cucumber three-quarter view" },
+      { src: aloeReal3, alt: "Real LOCKHABIT aloe cucumber unwrapped bar view" },
+      { src: aloeReal4, alt: "Real LOCKHABIT aloe cucumber paired bar view" },
     ],
   },
   {
@@ -203,10 +200,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#9aa8a1", to: "#cfc3d8", motes: "#f6f2ff" },
     images: [
-      { src: slumberImage, alt: "LOCKHABIT Slumber Soap" },
-      { src: slumber2, alt: "Slumber Soap angled studio view showing two-tone cream and purple" },
-      { src: slumber3, alt: "Slumber Soap with unwrapped two-tone bar beside labeled bar" },
-      { src: slumber4, alt: "Slumber Soap stacked over unwrapped bar in studio light" },
+      { src: slumberReal1, alt: "Real LOCKHABIT slumber front view" },
+      { src: slumberReal2, alt: "Real LOCKHABIT slumber three-quarter view" },
+      { src: slumberReal3, alt: "Real LOCKHABIT slumber unwrapped bar view" },
+      { src: slumberReal4, alt: "Real LOCKHABIT slumber stacked bar view" },
     ],
   },
   {
@@ -238,10 +235,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#f0dcae", to: "#8ed7dd", motes: "#fffdf4" },
     images: [
-      { src: loofahImage, alt: "LOCKHABIT Exfoliating Luffa Bar" },
-      { src: luffa2, alt: "Exfoliating Luffa Bar box beside stacked bars showing luffa mesh" },
-      { src: luffa3, alt: "Exfoliating Luffa Bar with box and round bar from above" },
-      { src: luffa4, alt: "Close view of natural luffa embedded in LOCKHABIT soap bars" },
+      { src: luffaReal1, alt: "Real LOCKHABIT exfoliating luffa boxed front view" },
+      { src: luffaReal2, alt: "Real LOCKHABIT exfoliating luffa box and round bars" },
+      { src: luffaReal3, alt: "Real LOCKHABIT exfoliating luffa box and round bar view" },
+      { src: luffaReal4, alt: "Real LOCKHABIT exfoliating luffa cut luffa texture view" },
     ],
   },
   {
@@ -270,13 +267,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#d9e88f", to: "#f6d36b", motes: "#ffffff" },
     images: [
-      { src: lemongrassImage, alt: "LOCKHABIT Lemongrass & Sage Soap" },
-      {
-        src: lemongrass2,
-        alt: "Lemongrass & Sage Soap angled studio view showing pale yellow bar",
-      },
-      { src: lemongrass3, alt: "Lemongrass & Sage Soap with unwrapped bar beside labeled bar" },
-      { src: lemongrass4, alt: "Lemongrass & Sage Soap leaning on unwrapped bar in studio light" },
+      { src: lemongrassReal1, alt: "Real LOCKHABIT lemongrass sage front view" },
+      { src: lemongrassReal2, alt: "Real LOCKHABIT lemongrass sage three-quarter view" },
+      { src: lemongrassReal3, alt: "Real LOCKHABIT lemongrass sage unwrapped bar view" },
+      { src: lemongrassReal4, alt: "Real LOCKHABIT lemongrass sage paired bar view" },
     ],
   },
   {
@@ -305,10 +299,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#c68a5a", to: "#f0c98a", motes: "#ffeccd" },
     images: [
-      { src: sandalwoodImage, alt: "LOCKHABIT Rich Sandalwood Soap" },
-      { src: sandalwood2, alt: "Rich Sandalwood Soap angled studio view of cream bar and label" },
-      { src: sandalwood3, alt: "Rich Sandalwood Soap with unwrapped bar beside labeled bar" },
-      { src: sandalwood4, alt: "Rich Sandalwood Soap lying angled over unwrapped bar" },
+      { src: sandalwoodReal1, alt: "Real LOCKHABIT rich sandalwood front view" },
+      { src: sandalwoodReal2, alt: "Real LOCKHABIT rich sandalwood three-quarter view" },
+      { src: sandalwoodReal3, alt: "Real LOCKHABIT rich sandalwood unwrapped bar view" },
+      { src: sandalwoodReal4, alt: "Real LOCKHABIT rich sandalwood paired bar view" },
     ],
   },
   {
@@ -338,10 +332,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#f3dcae", to: "#fff3d2", motes: "#fffdf6" },
     images: [
-      { src: oatHoneyImage, alt: "LOCKHABIT Oat Milk Honey Soap" },
-      { src: oatHoney2, alt: "Oat Milk Honey Soap unwrapped bars showing oat texture" },
-      { src: oatHoney3, alt: "Oat Milk Honey Soap bars in clear wrap leaning together" },
-      { src: oatHoney4, alt: "Oat Milk Honey Soap angled studio view of wrapped bar" },
+      { src: oatHoneyReal1, alt: "Real LOCKHABIT oat honey front view" },
+      { src: oatHoneyReal2, alt: "Real LOCKHABIT oat honey bar and packaging view" },
+      { src: oatHoneyReal3, alt: "Real LOCKHABIT oat honey paired bar view" },
+      { src: oatHoneyReal4, alt: "Real LOCKHABIT oat honey three-quarter view" },
     ],
   },
   {
@@ -371,10 +365,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#b9a6dd", to: "#e8def7", motes: "#fdfbff" },
     images: [
-      { src: lavenderImage, alt: "LOCKHABIT Calming Lavender Soap" },
-      { src: lavender2, alt: "Calming Lavender Soap angled studio view of flecked cream bar" },
-      { src: lavender3, alt: "Calming Lavender Soap with unwrapped bar beside labeled bar" },
-      { src: lavender4, alt: "Calming Lavender Soap stacked over unwrapped bar in studio light" },
+      { src: lavenderReal1, alt: "Real LOCKHABIT calming lavender front view" },
+      { src: lavenderReal2, alt: "Real LOCKHABIT calming lavender three-quarter view" },
+      { src: lavenderReal3, alt: "Real LOCKHABIT calming lavender unwrapped bar view" },
+      { src: lavenderReal4, alt: "Real LOCKHABIT calming lavender paired bar view" },
     ],
   },
   {
@@ -404,10 +398,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#5c6169", to: "#b8c1c8", motes: "#ffffff" },
     images: [
-      { src: charcoalImage, alt: "LOCKHABIT Charcoal Soap" },
-      { src: charcoal2, alt: "Charcoal Soap angled studio view of black bar and label" },
-      { src: charcoal3, alt: "Charcoal Soap in clear wrap leaning on second bar" },
-      { src: charcoal4, alt: "Charcoal Soap snapped open showing dense black interior" },
+      { src: charcoalReal1, alt: "Real LOCKHABIT charcoal front view" },
+      { src: charcoalReal2, alt: "Real LOCKHABIT charcoal three-quarter view" },
+      { src: charcoalReal3, alt: "Real LOCKHABIT charcoal paired bar view" },
+      { src: charcoalReal4, alt: "Real LOCKHABIT charcoal broken bar texture view" },
     ],
   },
   {
@@ -429,13 +423,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#e8d3a8", to: "#fff6e2", motes: "#fffdf7" },
     images: [
-      { src: sheaImage, alt: "LOCKHABIT Raw Shea Butter" },
-      {
-        src: shea2,
-        alt: "Raw Shea Butter jar balanced on a fist in studio light",
-      },
-      { src: shea3, alt: "Hand holding tilted LOCKHABIT Raw Shea Butter jar" },
-      { src: shea4, alt: "Open jar of creamy LOCKHABIT Raw Shea Butter held in hand" },
+      { src: sheaReal1, alt: "Real LOCKHABIT raw shea jar front view" },
+      { src: sheaReal2, alt: "Real LOCKHABIT raw shea jar held upright" },
+      { src: sheaReal3, alt: "Real LOCKHABIT raw shea jar held at an angle" },
+      { src: sheaReal4, alt: "Real LOCKHABIT raw shea open jar view" },
     ],
   },
   {
@@ -465,10 +456,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#f2b13c", to: "#ffe08a", motes: "#fff8e3" },
     images: [
-      { src: turmericImage, alt: "LOCKHABIT Kojic Acid & Turmeric Soap" },
-      { src: turmeric2, alt: "Turmeric soap with broken bar showing speckled golden texture" },
-      { src: turmeric3, alt: "Kojic Acid & Turmeric Soap with unwrapped bar in studio light" },
-      { src: turmeric4, alt: "Two LOCKHABIT Turmeric Soap bars angled in studio light" },
+      { src: turmericReal1, alt: "Real LOCKHABIT kojic turmeric front view" },
+      { src: turmericReal2, alt: "Real LOCKHABIT kojic turmeric packaged and unwrapped view" },
+      { src: turmericReal3, alt: "Real LOCKHABIT kojic turmeric three-bar view" },
+      { src: turmericReal4, alt: "Real LOCKHABIT kojic turmeric stacked bar view" },
     ],
   },
 ];

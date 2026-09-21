@@ -5,9 +5,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { useCart } from "@/lib/cart";
 
-import heroImage from "@/assets/lockhabit-hero.jpg";
-import heroVideo from "@/assets/lockhabit-hero-loop.mp4";
-import coconutImage from "@/assets/soap-coconut.jpg";
+import heroImage from "@/assets/lockhabit-hero-real-product.jpg";
+import heroVideo from "@/assets/lockhabit-hero-real-loop.mp4";
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 import { products } from "@/lib/catalog";
 
@@ -201,18 +200,20 @@ function Index() {
         aria-label="Product qualities"
       >
         <div className="marquee-track memo">
-          {[
-            "TOWEL INCLUDED (MENTALLY)",
-            "PLANT POWERED",
-            "TOWEL INCLUDED (MENTALLY)",
-            "PLANT POWERED",
-            "TOWEL INCLUDED (MENTALLY)",
-            "PLANT POWERED",
-          ].map((item, index) => (
-            <span key={`${item}-${index}`} className="flex shrink-0 items-center gap-12">
-              <span>{item}</span>
-              <span className="text-sun">✦</span>
-            </span>
+          {[false, true].map((hidden) => (
+            <div className="marquee-group" aria-hidden={hidden || undefined} key={String(hidden)}>
+              {[
+                "TOWEL INCLUDED (MENTALLY)",
+                "PLANT POWERED",
+                "TOWEL INCLUDED (MENTALLY)",
+                "PLANT POWERED",
+              ].map((item, index) => (
+                <span key={`${item}-${index}`} className="flex shrink-0 items-center gap-12">
+                  <span>{item}</span>
+                  <span className="text-sun">✦</span>
+                </span>
+              ))}
+            </div>
           ))}
         </div>
       </section>
@@ -465,8 +466,8 @@ function Index() {
           <Reveal className="relative mx-auto max-w-md">
             <div className="retro-frame">
               <img
-                src={coconutImage}
-                alt="LOCKHABIT Coconut Beach Soap on tropical rock by the ocean"
+                src={featured.images[2]?.src ?? featured.images[0]?.src}
+                alt="Real Coconut Beach soap made with botanical ingredients"
                 loading="lazy"
                 width={1024}
                 height={1024}
@@ -601,7 +602,7 @@ function Index() {
             <div>
               <p className="memo text-sun">The company</p>
               <div className="mt-4 flex flex-col gap-2.5 text-sm text-background/75">
-                <a href="#story">Our story</a>
+                <Link to="/about">About us</Link>
                 <a href="#desk">Front desk</a>
                 <a href="#top">Lobby</a>
               </div>

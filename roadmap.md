@@ -15,7 +15,7 @@
 - [x] "You may also like" suggestions on each product page
 - [x] Clicking a product (image/name/card) opens its page; Add to bag opens the bag directly
 - [x] Shared cart drawer across home + product pages
-- [ ] Replace generated soap photos with the owner's real photos when supplied
+- [x] Replace generated soap photos with the owner's real photos when supplied
 - [ ] Optional: per-product cinematic video loops (one at a time, user action per clip)
 - [x] Add all twelve label-priced products to payments and replace the demo bag action with real checkout
 - [x] Reprice soap bars to $35 and Raw Shea Butter to $42; add 3-bar, 6-bar, curated, and monthly 15%-off plans
@@ -27,4 +27,9 @@
 - [x] Record paid orders for packing, collect worldwide shipping details, and use payment confirmation emails; monthly subscription changes apply to the next shipment
 - [ ] Owner links their existing Stripe account and completes live-payment verification in the secure Payments dashboard
 - [x] Wait for the owner to say “all uploaded” before implementing the new image-dependent work
-- [ ] Present the completed preview for approval before connecting or syncing to GitHub
+- [x] Present the completed preview for approval before connecting or syncing to GitHub
+
+- [x] Repair the top notices so they never expose an empty gap
+- [x] Replace the hero ocean source with a complete two-cycle shoreline loop
+- [x] Add the standalone About Us management memo with Daisy and Oral
+- [x] Replace the final homepage hero mock with the real wrapped Coconut Beach product

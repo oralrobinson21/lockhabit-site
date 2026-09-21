@@ -22,6 +22,18 @@ const menuLinks: Array<[string, string]> = [
   ["Story", "story"],
 ];
 
+function TickerGroup({ hidden = false }: { hidden?: boolean }) {
+  return (
+    <div className="ticker-group" aria-hidden={hidden || undefined}>
+      {tickerItems.map((item) => (
+        <span key={item} className="flex shrink-0 items-center gap-2.5">
+          <Sun size={11} /> {item}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function SiteHeader() {
   const { cartCount, setCartOpen } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,11 +45,8 @@ export function SiteHeader() {
         aria-label="Lobby notices"
       >
         <div className="ticker-track memo">
-          {[...tickerItems, ...tickerItems].map((item, index) => (
-            <span key={`${item}-${index}`} className="flex shrink-0 items-center gap-2.5">
-              <Sun size={11} /> {item}
-            </span>
-          ))}
+          <TickerGroup />
+          <TickerGroup hidden />
         </div>
       </div>
 
@@ -57,6 +66,9 @@ export function SiteHeader() {
                 {label}
               </Link>
             ))}
+            <Link className="nav-link" to="/about">
+              About
+            </Link>
           </nav>
 
           <Link
@@ -91,6 +103,13 @@ export function SiteHeader() {
                 {label}
               </Link>
             ))}
+            <Link
+              to="/about"
+              className="memo block border-b border-foreground/20 py-3.5 last:border-0"
+              onClick={() => setMenuOpen(false)}
+            >
+              About
+            </Link>
           </nav>
         )}
       </header>
