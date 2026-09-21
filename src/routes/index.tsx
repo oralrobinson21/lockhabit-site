@@ -595,7 +595,7 @@ function Index() {
           </div>
           <div className="mt-12 flex flex-col gap-2 border-t border-background/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
             <p className="memo text-background/60">© 2026 LOCKHABIT Soap Co.</p>
-            <p className="memo text-background/60">Checkout connection coming next</p>
+            <p className="memo text-background/60">Secure checkout powered by Stripe</p>
           </div>
         </div>
       </footer>
