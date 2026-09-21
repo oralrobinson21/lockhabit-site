@@ -12,7 +12,7 @@ export const Route = createFileRoute("/api/email-test")({
         }
 
         const result = await sendOrderConfirmation({
-          checkoutSessionId: "email-template-test-2026-09-21-2",
+          checkoutSessionId: "email-template-test-2026-09-21-3",
           orderNumber: 999999,
           customerEmail: "oralrobinson21@outlook.com",
           customerName: "Oral",
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/api/email-test")({
             postal_code: "10468",
             country: "US",
           },
-          items: [{ name: "Coconut Beach Soap", quantity: 3, amountTotal: 100 }],
+          items: [{ name: "Coconut Beach Soap", quantity: 3, amountTotal: 8900 }],
         });
 
         return Response.json({ sent: true, id: result.id ?? null });
