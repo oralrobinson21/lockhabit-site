@@ -37,7 +37,7 @@ const checkoutInput = z.object({
   returnUrl: z.string().url(),
 });
 
-type CheckoutResult = { clientSecret: string } | { error: string };
+type CheckoutResult = { url: string } | { error: string };
 
 export const createCartCheckout = createServerFn({ method: "POST" })
   .validator((data: z.infer<typeof checkoutInput>) => checkoutInput.parse(data))
@@ -104,8 +104,8 @@ export const createCartCheckout = createServerFn({ method: "POST" })
       const checkoutParams: Stripe.Checkout.SessionCreateParams = {
         line_items: lineItems,
         mode: isSubscription ? "subscription" : "payment",
-        ui_mode: "embedded_page",
-        return_url: data.returnUrl,
+        success_url: data.returnUrl,
+        cancel_url: data.returnUrl.replace("/checkout/return?session_id={CHECKOUT_SESSION_ID}", "/"),
         ...(!isSubscription && { customer_creation: "always" as const, allow_promotion_codes: true }),
         billing_address_collection: "required",
         shipping_address_collection: {
@@ -204,7 +204,7 @@ export const createCartCheckout = createServerFn({ method: "POST" })
       };
       const session = await stripe.checkout.sessions.create(checkoutParams);
 
-      return { clientSecret: session.client_secret ?? "" };
+      return { url: session.url ?? "" };
     } catch (error) {
       return { error: getStripeErrorMessage(error) };
     }
