@@ -5,8 +5,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { useCart } from "@/lib/cart";
 
-import heroImage from "@/assets/lockhabit-hero-real-product.jpg";
-import heroVideo from "@/assets/lockhabit-hero-real-loop.mp4";
+import heroImage from "@/assets/lockhabit-hero.jpg";
+import heroVideo from "@/assets/lockhabit-hero-loop.mp4";
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 import { products } from "@/lib/catalog";
 
@@ -142,9 +142,31 @@ function Index() {
           <source src={heroVideo} type="video/mp4" />
         </video>
         <div className="hero-water-motion" aria-hidden="true">
-          <span className="hero-wave-surge" />
-          <span className="hero-foam-crown" />
-          <span className="hero-suds-fall" />
+          <span className="hero-water-pass hero-water-pass-1">
+            <i className="hero-wave-surge" />
+            <i className="hero-foam-crown" />
+            <i className="hero-suds-fall" />
+          </span>
+          <span className="hero-water-pass hero-water-pass-2">
+            <i className="hero-wave-surge" />
+            <i className="hero-foam-crown" />
+            <i className="hero-suds-fall" />
+          </span>
+          <span className="hero-water-pass hero-water-pass-3">
+            <i className="hero-wave-surge" />
+            <i className="hero-foam-crown" />
+            <i className="hero-suds-fall" />
+          </span>
+          <span className="hero-water-pass hero-water-pass-4">
+            <i className="hero-wave-surge" />
+            <i className="hero-foam-crown" />
+            <i className="hero-suds-fall" />
+          </span>
+          <span className="hero-water-pass hero-water-pass-5">
+            <i className="hero-wave-surge" />
+            <i className="hero-foam-crown" />
+            <i className="hero-suds-fall" />
+          </span>
         </div>
         <div className="hero-shade absolute inset-0" />
         <div className="fishing-lines" aria-hidden="true">
