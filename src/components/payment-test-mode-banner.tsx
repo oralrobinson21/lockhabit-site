@@ -3,7 +3,10 @@ import { resolveClientStripeConfig } from "@/lib/stripe-config";
 export function PaymentTestModeBanner() {
   let mode: "test" | "live";
   try {
-    mode = resolveClientStripeConfig(import.meta.env).mode;
+    mode = resolveClientStripeConfig({
+      ...import.meta.env,
+      VITE_STRIPE_MODE: import.meta.env.PROD ? "live" : import.meta.env.VITE_STRIPE_MODE,
+    }).mode;
   } catch {
     return (
       <div className="w-full border-b border-destructive bg-destructive/10 px-4 py-2 text-center text-sm text-destructive">
