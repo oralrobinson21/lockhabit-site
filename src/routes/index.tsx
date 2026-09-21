@@ -141,6 +141,11 @@ function Index() {
         >
           <source src={heroVideo} type="video/mp4" />
         </video>
+        <div className="hero-water-motion" aria-hidden="true">
+          <span className="hero-wave-surge" />
+          <span className="hero-foam-crown" />
+          <span className="hero-suds-fall" />
+        </div>
         <div className="hero-shade absolute inset-0" />
         <div className="fishing-lines" aria-hidden="true">
           <span />
