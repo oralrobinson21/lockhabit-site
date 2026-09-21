@@ -466,7 +466,7 @@ function Index() {
             <div className="retro-frame">
               <img
                 src={coconutImage}
-                alt="Creamy coconut soap made with botanical ingredients"
+                alt="LOCKHABIT Coconut Beach Soap on tropical rock by the ocean"
                 loading="lazy"
                 width={1024}
                 height={1024}
