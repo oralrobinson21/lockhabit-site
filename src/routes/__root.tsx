@@ -132,6 +132,7 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+// Track each TanStack Router navigation exactly once; gtag config disables its automatic page view.
 function GoogleAnalyticsPageView() {
   const location = useLocation();
 
