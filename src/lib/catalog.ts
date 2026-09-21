@@ -101,10 +101,10 @@ export const products: Product[] = [
     warning: externalWarning,
     scene: { from: "#8ed7dd", to: "#f6d36b", motes: "#fffaf0" },
     images: [
-      { src: coconutImage, alt: "LOCKHABIT Coconut Beach Soap" },
-      { src: coconut2, alt: "Coconut Beach soap on aqua stone beside a cracked coconut" },
-      { src: coconutPoolImage, alt: "Coconut Beach soap beside coconut on aqua pool tiles" },
-      { src: coconutDetailImage, alt: "Close detail of creamy Coconut Beach soap texture" },
+      { src: coconutImage, alt: "LOCKHABIT Coconut Beach Soap on tropical rock by the ocean" },
+      { src: coconut2, alt: "Coconut Beach Soap on wet volcanic rock with coconut and plumeria" },
+      { src: coconutPoolImage, alt: "Coconut Beach Soap with unwrapped bar poolside by the ocean" },
+      { src: coconutDetailImage, alt: "Close detail of LOCKHABIT Coconut Beach Soap label and texture" },
     ],
   },
   {
@@ -135,9 +135,9 @@ export const products: Product[] = [
     scene: { from: "#bfe6dd", to: "#eaf3c9", motes: "#ffffff" },
     images: [
       { src: breatheImage, alt: "LOCKHABIT Breathe Clear Soap" },
-      { src: breathe2, alt: "Breathe Clear soap surrounded by eucalyptus sprigs and mint leaves" },
-      { src: breathe3, alt: "Close texture of Breathe Clear soap with cool water droplets" },
-      { src: breathe4, alt: "Breathe Clear soap on a steamy stone shower ledge" },
+      { src: breathe2, alt: "Breathe Clear Soap angled studio view showing label wrap" },
+      { src: breathe3, alt: "Breathe Clear Soap with unwrapped cream bar beside labeled bar" },
+      { src: breathe4, alt: "Breathe Clear Soap stacked with unwrapped bar in studio light" },
     ],
   },
   {
@@ -168,9 +168,9 @@ export const products: Product[] = [
     scene: { from: "#a9e2c8", to: "#d9f0f6", motes: "#f2fff6" },
     images: [
       { src: aloeImage, alt: "LOCKHABIT Aloe & Cool Cucumber Soap" },
-      { src: aloe2, alt: "Green and cream aloe cucumber soap with cucumber slices and aloe leaf" },
-      { src: aloe3, alt: "Close detail of aloe cucumber soap with cool water beads" },
-      { src: aloe4, alt: "Aloe cucumber soap on a white dish beside a glass of cool water" },
+      { src: aloe2, alt: "Aloe & Cool Cucumber Soap angled studio view of green-cream bar" },
+      { src: aloe3, alt: "Aloe & Cool Cucumber Soap with second bar showing two-tone top" },
+      { src: aloe4, alt: "Aloe & Cool Cucumber Soap standing with flat bar in studio light" },
     ],
   },
   {
@@ -201,9 +201,9 @@ export const products: Product[] = [
     scene: { from: "#9aa8a1", to: "#cfc3d8", motes: "#f6f2ff" },
     images: [
       { src: slumberImage, alt: "LOCKHABIT Slumber Soap" },
-      { src: slumber2, alt: "Slumber soap on weathered wood with fir branches and dried lavender" },
-      { src: slumber3, alt: "Close texture of Slumber soap with fir needles and lavender buds" },
-      { src: slumber4, alt: "Slumber soap on a dark tray beside linen and a vase of lavender" },
+      { src: slumber2, alt: "Slumber Soap angled studio view showing two-tone cream and purple" },
+      { src: slumber3, alt: "Slumber Soap with unwrapped two-tone bar beside labeled bar" },
+      { src: slumber4, alt: "Slumber Soap stacked over unwrapped bar in studio light" },
     ],
   },
   {
@@ -236,9 +236,9 @@ export const products: Product[] = [
     scene: { from: "#f0dcae", to: "#8ed7dd", motes: "#fffdf4" },
     images: [
       { src: loofahImage, alt: "LOCKHABIT Exfoliating Luffa Bar" },
-      { src: luffa2, alt: "Luffa soap bar beside a dry loofah sponge on sandy stone" },
-      { src: luffa3, alt: "Close texture of the loofah mesh set inside the soap" },
-      { src: luffa4, alt: "Luffa soap lathering in a wet stone shower niche" },
+      { src: luffa2, alt: "Exfoliating Luffa Bar box beside stacked bars showing luffa mesh" },
+      { src: luffa3, alt: "Exfoliating Luffa Bar with box and round bar from above" },
+      { src: luffa4, alt: "Close view of natural luffa embedded in LOCKHABIT soap bars" },
     ],
   },
   {
@@ -270,10 +270,10 @@ export const products: Product[] = [
       { src: lemongrassImage, alt: "LOCKHABIT Lemongrass & Sage Soap" },
       {
         src: lemongrass2,
-        alt: "Lemongrass sage soap on terracotta tile with lemongrass stalks and sage",
+        alt: "Lemongrass & Sage Soap angled studio view showing pale yellow bar",
       },
-      { src: lemongrass3, alt: "Close texture of lemongrass soap with chopped lemongrass flecks" },
-      { src: lemongrass4, alt: "Lemongrass soap on a sunlit stone sink ledge" },
+      { src: lemongrass3, alt: "Lemongrass & Sage Soap with unwrapped bar beside labeled bar" },
+      { src: lemongrass4, alt: "Lemongrass & Sage Soap leaning on unwrapped bar in studio light" },
     ],
   },
   {
@@ -303,9 +303,9 @@ export const products: Product[] = [
     scene: { from: "#c68a5a", to: "#f0c98a", motes: "#ffeccd" },
     images: [
       { src: sandalwoodImage, alt: "LOCKHABIT Rich Sandalwood Soap" },
-      { src: sandalwood2, alt: "Sandalwood soap on walnut wood with sandalwood chips and oil" },
-      { src: sandalwood3, alt: "Close texture of rich brown sandalwood soap" },
-      { src: sandalwood4, alt: "Sandalwood soap on a dark stone dish in warm low light" },
+      { src: sandalwood2, alt: "Rich Sandalwood Soap angled studio view of cream bar and label" },
+      { src: sandalwood3, alt: "Rich Sandalwood Soap with unwrapped bar beside labeled bar" },
+      { src: sandalwood4, alt: "Rich Sandalwood Soap lying angled over unwrapped bar" },
     ],
   },
   {
@@ -336,9 +336,9 @@ export const products: Product[] = [
     scene: { from: "#f3dcae", to: "#fff3d2", motes: "#fffdf6" },
     images: [
       { src: oatHoneyImage, alt: "LOCKHABIT Oat Milk Honey Soap" },
-      { src: oatHoney2, alt: "Oat honey soap on linen with a honey dipper and scattered oats" },
-      { src: oatHoney3, alt: "Close texture of oat honey soap with oat flakes and honey drip" },
-      { src: oatHoney4, alt: "Oat honey soap beside a jar of honey on a sunlit shelf" },
+      { src: oatHoney2, alt: "Oat Milk Honey Soap unwrapped bars showing oat texture" },
+      { src: oatHoney3, alt: "Oat Milk Honey Soap bars in clear wrap leaning together" },
+      { src: oatHoney4, alt: "Oat Milk Honey Soap angled studio view of wrapped bar" },
     ],
   },
   {
@@ -369,9 +369,9 @@ export const products: Product[] = [
     scene: { from: "#b9a6dd", to: "#e8def7", motes: "#fdfbff" },
     images: [
       { src: lavenderImage, alt: "LOCKHABIT Calming Lavender Soap" },
-      { src: lavender2, alt: "Lavender soap with dried buds on pale stone beside fresh lavender" },
-      { src: lavender3, alt: "Close texture of lavender soap with buds pressed into the surface" },
-      { src: lavender4, alt: "Lavender soap on a white dish on a sunlit windowsill" },
+      { src: lavender2, alt: "Calming Lavender Soap angled studio view of flecked cream bar" },
+      { src: lavender3, alt: "Calming Lavender Soap with unwrapped bar beside labeled bar" },
+      { src: lavender4, alt: "Calming Lavender Soap stacked over unwrapped bar in studio light" },
     ],
   },
   {
@@ -402,9 +402,9 @@ export const products: Product[] = [
     scene: { from: "#5c6169", to: "#b8c1c8", motes: "#ffffff" },
     images: [
       { src: charcoalImage, alt: "LOCKHABIT Charcoal Soap" },
-      { src: charcoal2, alt: "Charcoal soap beside chunks of activated charcoal on grey stone" },
-      { src: charcoal3, alt: "Close texture of black charcoal soap with white lather" },
-      { src: charcoal4, alt: "Charcoal soap on a white dish in a bright bathroom" },
+      { src: charcoal2, alt: "Charcoal Soap angled studio view of black bar and label" },
+      { src: charcoal3, alt: "Charcoal Soap in clear wrap leaning on second bar" },
+      { src: charcoal4, alt: "Charcoal Soap snapped open showing dense black interior" },
     ],
   },
   {
@@ -429,10 +429,10 @@ export const products: Product[] = [
       { src: sheaImage, alt: "LOCKHABIT Raw Shea Butter" },
       {
         src: shea2,
-        alt: "Raw shea butter bar with shea nuts and a scoop of shea butter on raffia",
+        alt: "Raw Shea Butter jar balanced on a fist in studio light",
       },
-      { src: shea3, alt: "Close texture of creamy raw shea butter" },
-      { src: shea4, alt: "Shea butter on a raffia mat beside a cream linen towel" },
+      { src: shea3, alt: "Hand holding tilted LOCKHABIT Raw Shea Butter jar" },
+      { src: shea4, alt: "Open jar of creamy LOCKHABIT Raw Shea Butter held in hand" },
     ],
   },
   {
@@ -463,9 +463,9 @@ export const products: Product[] = [
     scene: { from: "#f2b13c", to: "#ffe08a", motes: "#fff8e3" },
     images: [
       { src: turmericImage, alt: "LOCKHABIT Kojic Acid & Turmeric Soap" },
-      { src: turmeric2, alt: "Turmeric soap with fresh turmeric root and powder on cream stone" },
-      { src: turmeric3, alt: "Close texture of golden turmeric soap with water droplets" },
-      { src: turmeric4, alt: "Turmeric soap on a brass dish beside turmeric root" },
+      { src: turmeric2, alt: "Turmeric soap with broken bar showing speckled golden texture" },
+      { src: turmeric3, alt: "Kojic Acid & Turmeric Soap with unwrapped bar in studio light" },
+      { src: turmeric4, alt: "Two LOCKHABIT Turmeric Soap bars angled in studio light" },
     ],
   },
 ];
