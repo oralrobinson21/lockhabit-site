@@ -89,7 +89,12 @@ export async function processCheckoutWebhook(
 
   const order = checkoutOrder(session);
   const record = await dependencies.recordPaidOrder(event, session, order);
-  await dependencies.sendConfirmationIfPending({ ...order, ...record });
+  try {
+    await dependencies.sendConfirmationIfPending({ ...order, ...record });
+  } catch {
+    // Payment persistence is authoritative. Email delivery is tracked separately and
+    // must never make Stripe retry an already-recorded paid event.
+  }
   return "paid";
 }
 

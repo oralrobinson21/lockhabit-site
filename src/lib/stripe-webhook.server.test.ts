@@ -79,6 +79,21 @@ test("paid webhook replay creates one order and sends one confirmation", async (
   assert.equal(state.emailCount, 1);
 });
 
+test("paid webhook succeeds when confirmation delivery is unavailable", async () => {
+  const state = harness(session("paid"));
+  state.dependencies.sendConfirmationIfPending = async () => {
+    throw new Error("Order confirmation email is not configured");
+  };
+  assert.equal(
+    await processCheckoutWebhook(
+      event("checkout.session.completed", "evt_email_unconfigured"),
+      state.dependencies,
+    ),
+    "paid",
+  );
+  assert.equal(state.orders.size, 1);
+});
+
 test("failed asynchronous payment never creates an order or sends confirmation", async () => {
   const state = harness(session("unpaid"));
   assert.equal(
