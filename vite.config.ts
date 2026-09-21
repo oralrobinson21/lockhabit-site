@@ -7,6 +7,9 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Outside Lovable (e.g. Railway) emit a Node server instead of the default Cloudflare
+  // Worker bundle. Lovable builds pin their own preset via LOVABLE_NITRO_PRESET and ignore this.
+  nitro: { preset: "node-server" },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
