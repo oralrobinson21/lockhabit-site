@@ -7,6 +7,11 @@ import {
   getStripeEnvironment,
   getStripeErrorMessage,
 } from "@/lib/stripe.server";
+import {
+  parseSelectedProductIds,
+  summarizeSelectedProducts,
+  type SelectedOrderItem,
+} from "@/lib/product-selection";
 
 const priceIds: Record<number, string> = {
   1: "coconut_beach_soap_usd",
@@ -223,8 +228,55 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
         expand: ["line_items.data.price.product"],
       });
       const paid = session.payment_status === "paid";
+      const selectedIds = parseSelectedProductIds(session.metadata?.selected_product_ids);
+      const lineItems = session.line_items?.data ?? [];
+      const lineItemsTotal = lineItems.reduce((sum, item) => sum + (item.amount_total ?? 0), 0);
+      let items: SelectedOrderItem[] = selectedIds.length
+        ? summarizeSelectedProducts(selectedIds, lineItemsTotal)
+        : lineItems.map((item) => ({
+            name: item.description ?? "LockHabit item",
+            quantity: item.quantity ?? 1,
+            amountTotal: item.amount_total ?? 0,
+          }));
+      let orderNumber: number | null = null;
+      let paymentIntentId =
+        typeof session.payment_intent === "string" ? session.payment_intent : null;
+      let confirmationSent = false;
 
-      return { paid, email: session.customer_details?.email ?? null };
+      if (paid) {
+        try {
+          const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+          const { data: order } = await supabaseAdmin
+            .from("orders")
+            .select(
+              "order_number,payment_intent_id,items,confirmation_sent_at",
+            )
+            .eq("checkout_session_id", session.id)
+            .maybeSingle();
+
+          if (order) {
+            orderNumber = order.order_number;
+            paymentIntentId = order.payment_intent_id ?? paymentIntentId;
+            confirmationSent = Boolean(order.confirmation_sent_at);
+            if (Array.isArray(order.items) && order.items.length) {
+              items = order.items as unknown as SelectedOrderItem[];
+            }
+          }
+        } catch {
+          // Stripe remains the source of truth for the paid return page if persistence lookup lags.
+        }
+      }
+
+      return {
+        paid,
+        email: session.customer_details?.email ?? null,
+        orderNumber,
+        paymentIntentId,
+        items,
+        total: session.amount_total ?? 0,
+        currency: session.currency ?? "usd",
+        confirmationSent,
+      };
     } catch (error) {
       return { paid: false, error: getStripeErrorMessage(error) };
     }
