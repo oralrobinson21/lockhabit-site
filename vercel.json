@@ -1,7 +1,0 @@
-{
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    { "source": "/demo", "destination": "/demo.html", "permanent": false }
-  ]
-}

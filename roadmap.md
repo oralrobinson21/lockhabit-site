@@ -1,0 +1,30 @@
+# LOCKHABIT roadmap
+
+- [x] Tropical soap storefront
+- [x] Vacation.inc-style rebuild
+- [x] Real logo with transparent background
+- [x] First animated hero scene
+- [x] Replace the ping-pong hero with a natural continuous ocean cycle: advance, splash, drain, and recede without reversed footage or a visible restart
+- [x] Restore only the exact previous mobile top shown in the new screenshots: moving coral banner, cream logo header, Coconut Beach palm-and-mountain opening
+- [x] Match every uploaded label to its product and use it as that product page's main image
+- [x] Correct each product page from its label: type, net weight, ingredients, suggested use, and warning
+- [x] Give every product a unique ingredient-matched opening motion with no broken loop or rewind
+- [x] Twelve product pages with real descriptions + ingredients (`src/routes/soaps.$slug.tsx`, `src/lib/catalog.ts`)
+- [x] 4–5 images per product (generated from uploaded labels; replace with real photos later)
+- [x] Upgrade each product's ingredient-matched animated scene beyond the current gradient and drifting light motes
+- [x] "You may also like" suggestions on each product page
+- [x] Clicking a product (image/name/card) opens its page; Add to bag opens the bag directly
+- [x] Shared cart drawer across home + product pages
+- [ ] Replace generated soap photos with the owner's real photos when supplied
+- [ ] Optional: per-product cinematic video loops (one at a time, user action per clip)
+- [x] Add all twelve label-priced products to payments and replace the demo bag action with real checkout
+- [x] Reprice soap bars to $35 and Raw Shea Butter to $42; add 3-bar, 6-bar, curated, and monthly 15%-off plans
+- [x] Add the tackle-shop fishing-line bundle sign, launch free-bar offer, and free-shipping threshold messaging
+- [x] Lift the bundle sign clear of the hero soap and suspend it from two lines
+- [x] Put the mobile menu on the left and use a sun cart counter on the right
+- [x] Give all twelve product pages distinct ingredient-inspired backgrounds
+- [x] Charge $7.95 shipping below $75 and free shipping at $75 or more
+- [x] Record paid orders for packing, collect worldwide shipping details, and use payment confirmation emails; monthly subscription changes apply to the next shipment
+- [ ] Owner links their existing Stripe account and completes live-payment verification in the secure Payments dashboard
+- [x] Wait for the owner to say “all uploaded” before implementing the new image-dependent work
+- [ ] Present the completed preview for approval before connecting or syncing to GitHub
