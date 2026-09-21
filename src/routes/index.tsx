@@ -6,7 +6,6 @@ import { SiteHeader } from "@/components/site-header";
 import { useCart } from "@/lib/cart";
 
 import heroImage from "@/assets/lockhabit-hero.jpg";
-import heroVideo from "@/assets/lockhabit-hero-loop.mp4";
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 import { products } from "@/lib/catalog";
 
@@ -95,29 +94,11 @@ function Reveal({
 }
 
 function Index() {
-  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
   const { addToCart, addBundle } = useCart();
   const [activeGalleryImage, setActiveGalleryImage] = useState(0);
   const [postcardSent, setPostcardSent] = useState(false);
   const featured = products[0]!;
   const featuredGallery = featured.images;
-
-  useEffect(() => {
-    const video = heroVideoRef.current;
-    if (!video) return;
-    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePlayback = () => {
-      if (motionPreference.matches) {
-        video.pause();
-        video.currentTime = 0;
-      } else {
-        void video.play().catch(() => undefined);
-      }
-    };
-    updatePlayback();
-    motionPreference.addEventListener("change", updatePlayback);
-    return () => motionPreference.removeEventListener("change", updatePlayback);
-  }, []);
 
   const scrollToShop = () =>
     document.getElementById("shop")?.scrollIntoView({ behavior: "smooth" });
@@ -129,45 +110,12 @@ function Index() {
         id="top"
         className="grain relative flex min-h-[86vh] items-end overflow-hidden text-hero-foreground"
       >
-        <video
-          ref={heroVideoRef}
+        <img
+          src={heroImage}
+          alt="LOCKHABIT botanical bar soap on wet tropical volcanic rock by the ocean"
           className="absolute inset-0 h-full w-full object-cover object-[68%_center]"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster={heroImage}
-          aria-label="LOCKHABIT coconut soap beside a gently moving tropical lagoon"
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
-        <div className="hero-water-motion" aria-hidden="true">
-          <span className="hero-water-pass hero-water-pass-1">
-            <i className="hero-wave-surge" />
-            <i className="hero-foam-crown" />
-            <i className="hero-suds-fall" />
-          </span>
-          <span className="hero-water-pass hero-water-pass-2">
-            <i className="hero-wave-surge" />
-            <i className="hero-foam-crown" />
-            <i className="hero-suds-fall" />
-          </span>
-          <span className="hero-water-pass hero-water-pass-3">
-            <i className="hero-wave-surge" />
-            <i className="hero-foam-crown" />
-            <i className="hero-suds-fall" />
-          </span>
-          <span className="hero-water-pass hero-water-pass-4">
-            <i className="hero-wave-surge" />
-            <i className="hero-foam-crown" />
-            <i className="hero-suds-fall" />
-          </span>
-          <span className="hero-water-pass hero-water-pass-5">
-            <i className="hero-wave-surge" />
-            <i className="hero-foam-crown" />
-            <i className="hero-suds-fall" />
-          </span>
-        </div>
+          fetchPriority="high"
+        />
         <div className="hero-shade absolute inset-0" />
         <div className="fishing-lines" aria-hidden="true">
           <span />
