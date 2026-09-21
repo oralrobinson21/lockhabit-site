@@ -106,7 +106,7 @@ export const createCartCheckout = createServerFn({ method: "POST" })
         mode: isSubscription ? "subscription" : "payment",
         ui_mode: "embedded_page",
         return_url: data.returnUrl,
-        ...(!isSubscription && { customer_creation: "always" as const }),
+        ...(!isSubscription && { customer_creation: "always" as const, allow_promotion_codes: true }),
         billing_address_collection: "required",
         shipping_address_collection: {
           allowed_countries: [
