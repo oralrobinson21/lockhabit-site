@@ -14,9 +14,33 @@ npm run dev
 ## Verification
 
 ```sh
+npm test
 npm run lint
 npx tsc --noEmit
 npm run build
 ```
 
-Checkout requires the Stripe/Lovable connector variables, and order persistence requires the Supabase server variables documented in `.env.example`. Never commit populated environment files.
+## Payments and order confirmations
+
+Checkout uses Stripe Checkout in `STRIPE_MODE=test` by default. Configure the matching
+test publishable key, a server-only Stripe restricted/secret key, and the test webhook
+signing secret from `.env.example`. The webhook endpoint is:
+
+```text
+POST /api/stripe/webhook
+```
+
+Subscribe that endpoint to `checkout.session.completed`,
+`checkout.session.async_payment_succeeded`, and
+`checkout.session.async_payment_failed`. Successful payment is recorded only by the
+signed webhook; the checkout return page is informational and never creates an order or
+sends email.
+
+Order persistence requires the Supabase server secret/service-role variable and the
+included migration. Custom LockHabit confirmations use Resend and require
+`RESEND_API_KEY`, `LOCKHABIT_ORDER_FROM_EMAIL`, and `LOCKHABIT_SUPPORT_EMAIL`. Stripe's
+own customer receipt setting remains separate and should be enabled in the Stripe
+Dashboard for the appropriate mode.
+
+Never commit populated environment files or expose any server-only variable through a
+`VITE_` name.

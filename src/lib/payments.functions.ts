@@ -2,7 +2,11 @@ import { createServerFn } from "@tanstack/react-start";
 import type Stripe from "stripe";
 import { z } from "zod";
 
-import { createStripeClient, getStripeErrorMessage, type StripeEnv } from "@/lib/stripe.server";
+import {
+  createStripeClient,
+  getStripeEnvironment,
+  getStripeErrorMessage,
+} from "@/lib/stripe.server";
 
 const priceIds: Record<number, string> = {
   1: "coconut_beach_soap_usd",
@@ -31,16 +35,16 @@ const checkoutInput = z.object({
     .max(12),
   subscribe: z.boolean().default(false),
   returnUrl: z.string().url(),
-  environment: z.enum(["sandbox", "live"]),
 });
 
 type CheckoutResult = { clientSecret: string } | { error: string };
 
 export const createCartCheckout = createServerFn({ method: "POST" })
-  .inputValidator((data: z.infer<typeof checkoutInput>) => checkoutInput.parse(data))
+  .validator((data: z.infer<typeof checkoutInput>) => checkoutInput.parse(data))
   .handler(async ({ data }): Promise<CheckoutResult> => {
     try {
-      const stripe = createStripeClient(data.environment as StripeEnv);
+      const environment = getStripeEnvironment();
+      const stripe = createStripeClient(environment);
       const expandedItems = data.items.flatMap((item) =>
         Array.from({ length: item.quantity }, () => item.productId),
       );
@@ -174,7 +178,8 @@ export const createCartCheckout = createServerFn({ method: "POST" })
         ],
         // Stripe test mode requires a head office address for automatic tax;
         // enable it only for live payments.
-        ...(data.environment === "live" && { automatic_tax: { enabled: true } as const }),
+        ...(environment === "live" && { automatic_tax: { enabled: true } as const }),
+        integration_identifier: "lockhabit_zqkmwpxa",
         metadata: {
           selected_product_ids: expandedItems.join(","),
           launch_gift: soapIds.length === 3 ? "surprise_bar" : "none",
@@ -207,47 +212,17 @@ export const createCartCheckout = createServerFn({ method: "POST" })
 
 const statusInput = z.object({
   sessionId: z.string().startsWith("cs_"),
-  environment: z.enum(["sandbox", "live"]),
 });
 
 export const getCheckoutStatus = createServerFn({ method: "POST" })
-  .inputValidator((data: z.infer<typeof statusInput>) => statusInput.parse(data))
+  .validator((data: z.infer<typeof statusInput>) => statusInput.parse(data))
   .handler(async ({ data }) => {
     try {
-      const stripe = createStripeClient(data.environment as StripeEnv);
+      const stripe = createStripeClient(getStripeEnvironment());
       const session = await stripe.checkout.sessions.retrieve(data.sessionId, {
         expand: ["line_items.data.price.product"],
       });
       const paid = session.payment_status === "paid";
-
-      if (paid) {
-        const items =
-          session.line_items?.data.map((item) => ({
-            name: item.description,
-            quantity: item.quantity,
-            amountTotal: item.amount_total,
-          })) ?? [];
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { error } = await supabaseAdmin.from("orders").upsert(
-          {
-            checkout_session_id: session.id,
-            payment_intent_id:
-              typeof session.payment_intent === "string"
-                ? session.payment_intent
-                : (session.payment_intent?.id ?? null),
-            customer_email: session.customer_details?.email ?? null,
-            amount_total: session.amount_total ?? 0,
-            currency: session.currency ?? "usd",
-            payment_status: session.payment_status,
-            shipping_details: session.collected_information?.shipping_details
-              ? JSON.parse(JSON.stringify(session.collected_information.shipping_details))
-              : null,
-            items,
-          },
-          { onConflict: "checkout_session_id" },
-        );
-        if (error) throw error;
-      }
 
       return { paid, email: session.customer_details?.email ?? null };
     } catch (error) {

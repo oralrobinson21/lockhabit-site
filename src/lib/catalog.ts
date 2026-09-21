@@ -104,7 +104,10 @@ export const products: Product[] = [
       { src: coconutImage, alt: "LOCKHABIT Coconut Beach Soap on tropical rock by the ocean" },
       { src: coconut2, alt: "Coconut Beach Soap on wet volcanic rock with coconut and plumeria" },
       { src: coconutPoolImage, alt: "Coconut Beach Soap with unwrapped bar poolside by the ocean" },
-      { src: coconutDetailImage, alt: "Close detail of LOCKHABIT Coconut Beach Soap label and texture" },
+      {
+        src: coconutDetailImage,
+        alt: "Close detail of LOCKHABIT Coconut Beach Soap label and texture",
+      },
     ],
   },
   {

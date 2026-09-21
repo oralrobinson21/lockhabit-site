@@ -10,45 +10,132 @@ export type Database = {
     Tables: {
       orders: {
         Row: {
+          amount_shipping: number;
+          amount_subtotal: number;
+          amount_tax: number;
           amount_total: number;
           checkout_session_id: string;
+          confirmation_sent_at: string | null;
           created_at: string;
           currency: string;
           customer_email: string | null;
+          customer_name: string | null;
           fulfillment_status: string;
           id: string;
           items: Json;
+          order_number: number;
           payment_intent_id: string | null;
           payment_status: string;
           shipping_details: Json | null;
+          stripe_event_id: string | null;
           updated_at: string;
         };
         Insert: {
+          amount_shipping?: number;
+          amount_subtotal?: number;
+          amount_tax?: number;
           amount_total: number;
           checkout_session_id: string;
+          confirmation_sent_at?: string | null;
           created_at?: string;
           currency: string;
           customer_email?: string | null;
+          customer_name?: string | null;
           fulfillment_status?: string;
           id?: string;
           items?: Json;
+          order_number?: number;
           payment_intent_id?: string | null;
           payment_status: string;
           shipping_details?: Json | null;
+          stripe_event_id?: string | null;
           updated_at?: string;
         };
         Update: {
+          amount_shipping?: number;
+          amount_subtotal?: number;
+          amount_tax?: number;
           amount_total?: number;
           checkout_session_id?: string;
+          confirmation_sent_at?: string | null;
           created_at?: string;
           currency?: string;
           customer_email?: string | null;
+          customer_name?: string | null;
           fulfillment_status?: string;
           id?: string;
           items?: Json;
+          order_number?: number;
           payment_intent_id?: string | null;
           payment_status?: string;
           shipping_details?: Json | null;
+          stripe_event_id?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      order_confirmation_deliveries: {
+        Row: {
+          attempts: number;
+          checkout_session_id: string;
+          claimed_at: string | null;
+          created_at: string;
+          last_error: string | null;
+          order_id: string;
+          provider_message_id: string | null;
+          sent_at: string | null;
+          status: string;
+          updated_at: string;
+        };
+        Insert: {
+          attempts?: number;
+          checkout_session_id: string;
+          claimed_at?: string | null;
+          created_at?: string;
+          last_error?: string | null;
+          order_id: string;
+          provider_message_id?: string | null;
+          sent_at?: string | null;
+          status?: string;
+          updated_at?: string;
+        };
+        Update: {
+          attempts?: number;
+          checkout_session_id?: string;
+          claimed_at?: string | null;
+          created_at?: string;
+          last_error?: string | null;
+          order_id?: string;
+          provider_message_id?: string | null;
+          sent_at?: string | null;
+          status?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      stripe_webhook_events: {
+        Row: {
+          checkout_session_id: string;
+          created_at: string;
+          event_id: string;
+          event_type: string;
+          outcome: string;
+          updated_at: string;
+        };
+        Insert: {
+          checkout_session_id: string;
+          created_at?: string;
+          event_id: string;
+          event_type: string;
+          outcome: string;
+          updated_at?: string;
+        };
+        Update: {
+          checkout_session_id?: string;
+          created_at?: string;
+          event_id?: string;
+          event_type?: string;
+          outcome?: string;
           updated_at?: string;
         };
         Relationships: [];
@@ -58,7 +145,37 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      claim_order_confirmation: {
+        Args: { p_checkout_session_id: string };
+        Returns: { order_id: string }[];
+      };
+      record_paid_checkout: {
+        Args: {
+          p_amount_shipping: number;
+          p_amount_subtotal: number;
+          p_amount_tax: number;
+          p_amount_total: number;
+          p_checkout_session_id: string;
+          p_currency: string;
+          p_customer_email: string;
+          p_customer_name: string | null;
+          p_event_id: string;
+          p_event_type: string;
+          p_items: Json;
+          p_payment_intent_id: string | null;
+          p_shipping_details: Json | null;
+        };
+        Returns: { order_id: string; order_number: number }[];
+      };
+      record_stripe_checkout_event: {
+        Args: {
+          p_checkout_session_id: string;
+          p_event_id: string;
+          p_event_type: string;
+          p_outcome: string;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;

@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+
 const getEnv = (key: string): string => {
   const value = process.env[key];
   if (!value) throw new Error(`${key} is not configured`);
@@ -14,6 +15,17 @@ export function getConnectionApiKey(env: StripeEnv): string {
 }
 
 export function createStripeClient(env: StripeEnv): Stripe {
+  const directKey =
+    env === "sandbox"
+      ? (process.env["STRIPE_RESTRICTED_KEY_TEST"] ?? process.env["STRIPE_SECRET_KEY_TEST"])
+      : (process.env["STRIPE_RESTRICTED_KEY_LIVE"] ?? process.env["STRIPE_SECRET_KEY_LIVE"]);
+
+  if (directKey) {
+    return new Stripe(directKey, {
+      httpClient: Stripe.createFetchHttpClient(),
+    });
+  }
+
   const connectionApiKey = getConnectionApiKey(env);
   const lovableApiKey = getEnv("LOVABLE_API_KEY");
 
@@ -36,6 +48,19 @@ export function createStripeClient(env: StripeEnv): Stripe {
       });
     }),
   });
+}
+
+export function getStripeEnvironment(): StripeEnv {
+  const mode = process.env["STRIPE_MODE"]?.trim().toLowerCase() ?? "test";
+  if (mode === "test" || mode === "sandbox") return "sandbox";
+  if (mode === "live") return "live";
+  throw new Error("STRIPE_MODE must be test or live");
+}
+
+export function getStripeWebhookSecret(env = getStripeEnvironment()): string {
+  return env === "sandbox"
+    ? getEnv("STRIPE_WEBHOOK_SECRET_TEST")
+    : getEnv("STRIPE_WEBHOOK_SECRET_LIVE");
 }
 
 export function getStripeErrorMessage(error: unknown): string {

@@ -3,7 +3,6 @@ import { CheckCircle2, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { getCheckoutStatus } from "@/lib/payments.functions";
-import { getStripeEnvironment } from "@/lib/stripe";
 
 export const Route = createFileRoute("/checkout/return")({
   validateSearch: (search: Record<string, unknown>): { session_id?: string } =>
@@ -31,12 +30,10 @@ function CheckoutReturn() {
       setStatus("unpaid");
       return;
     }
-    void getCheckoutStatus({ data: { sessionId, environment: getStripeEnvironment() } }).then(
-      (result) => {
-        setStatus(result.paid ? "paid" : "unpaid");
-        if ("email" in result) setEmail(result.email ?? null);
-      },
-    );
+    void getCheckoutStatus({ data: { sessionId } }).then((result) => {
+      setStatus(result.paid ? "paid" : "unpaid");
+      if ("email" in result) setEmail(result.email ?? null);
+    });
   }, [sessionId]);
 
   return (
@@ -56,7 +53,7 @@ function CheckoutReturn() {
         </h1>
         <p className="mt-4 text-muted-foreground">
           {status === "paid"
-            ? `Your order is recorded for packing${email ? ` and a confirmation will be sent to ${email}` : ""}.`
+            ? `Stripe confirmed your payment${email ? ` for ${email}` : ""}. Your order confirmation is sent only after our secure payment webhook records the order.`
             : status === "unpaid"
               ? "Your bag has not been charged. You can return to the shop and try again."
               : "Please keep this page open for a moment."}

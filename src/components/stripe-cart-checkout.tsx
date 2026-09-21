@@ -2,7 +2,7 @@ import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe
 import { useMemo } from "react";
 
 import { createCartCheckout } from "@/lib/payments.functions";
-import { getStripe, getStripeEnvironment } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 
 export function StripeCartCheckout({
   items,
@@ -18,7 +18,6 @@ export function StripeCartCheckout({
           data: {
             items,
             subscribe,
-            environment: getStripeEnvironment(),
             returnUrl: `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
           },
         });
