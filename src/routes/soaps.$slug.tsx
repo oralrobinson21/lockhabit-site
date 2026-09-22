@@ -476,7 +476,7 @@ function ProductView({ slug }: { slug: string }) {
 
                 {product.productStory ? (
                   <div className="paper-card mt-10 overflow-hidden">
-                    <details className="group border-b-2 border-foreground/15 p-6" open>
+                    <details className="group border-b-2 border-foreground/15 p-6">
                       <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
                         <span className="memo">Meet {product.name.replace(" Soap", "")}</span>
                         <Plus size={16} className="transition-transform group-open:rotate-45" />
@@ -505,25 +505,7 @@ function ProductView({ slug }: { slug: string }) {
                       <p className="mt-4 text-sm leading-7">{product.suggestedUse}</p>
                     </details>
 
-                    <details className="group border-b-2 border-foreground/15 p-6">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                        <span className="memo">More product attributes</span>
-                        <Plus size={16} className="transition-transform group-open:rotate-45" />
-                      </summary>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {product.allAttributes?.map((attribute) => (
-                          <span
-                            key={attribute}
-                            className="memo rounded-full border-2 border-foreground/20 bg-background px-3 py-1.5 normal-case tracking-normal"
-                          >
-                            {attribute}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="mt-4 text-xs leading-5 text-muted-foreground">
-                        Supplier-listed attributes for this formula.
-                      </p>
-                    </details>
+                    
 
                     <details className="group p-6">
                       <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
