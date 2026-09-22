@@ -73,8 +73,10 @@ export function SiteHeader() {
 
           <Link
             to="/"
-            className="brand-logo absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-            aria-label="LOCKHABIT home"
+            onClick={() => setMenuOpen(false)}
+            className="brand-logo pointer-events-auto absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+            aria-label="Return to LOCKHABIT home"
+            title="Return to LOCKHABIT home"
           >
             <img src={logoTransparent} alt="LOCKHABIT Soap and Body Care" />
           </Link>
