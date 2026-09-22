@@ -50,7 +50,7 @@ function Shipping() {
           body: (
             <p>
               Please check your shipping address before paying. If something is wrong, email
-              support@lockhabit.com immediately. Once an order is already processing or in carrier
+              oralrobinson21@outlook.com immediately. Once an order is already processing or in carrier
               hands, an address change may no longer be possible.
             </p>
           ),
@@ -69,7 +69,7 @@ function Shipping() {
           title: "Lost, damaged, or incorrect packages",
           body: (
             <p>
-              Email support@lockhabit.com with your order number and, for damaged or incorrect
+              Email oralrobinson21@outlook.com with your order number and, for damaged or incorrect
               items, clear photos of the package and product. We’ll review the issue and work with
               you on the appropriate replacement or refund.
             </p>
