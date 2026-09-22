@@ -1,4 +1,4 @@
-import { inkImageUrl, type InkStyle } from "@/lib/email-ink.server";
+import { inkImageUrl, renderInkPng, type InkStyle } from "@/lib/email-ink.server";
 
 export type ConfirmationItem = {
   name: string;
@@ -26,6 +26,38 @@ export type OrderConfirmation = {
   discountAmount: number;
   /** Short order descriptor shown under "Order Summary", e.g. "3-Bar Bundle". */
   orderKind: string;
+};
+
+/** How dynamic ink PNGs are referenced in the HTML. */
+export type DynamicInkMode =
+  /** Inline CID attachments — preferred for Outlook iOS (no remote fetch). */
+  | "cid"
+  /** data: URLs — for browser HTML preview where CID has no MIME context. */
+  | "data"
+  /** Signed remote /api/email-ink URLs — debug / fallback only. */
+  | "remote";
+
+export type EmailInkAttachment = {
+  filename: string;
+  content: string;
+  contentType: "image/png";
+  contentId: string;
+};
+
+export type OrderConfirmationMessage = {
+  subject: string;
+  html: string;
+  text: string;
+  /** Present when dynamicInk mode is "cid"; empty for data/remote. */
+  attachments: EmailInkAttachment[];
+};
+
+type PendingInk = {
+  contentId: string;
+  style: InkStyle;
+  text: string;
+  width: number;
+  extraStyle: string;
 };
 
 const DEFAULT_ASSET_BASE = "https://lockhabit.com/email/receipt";
@@ -109,23 +141,78 @@ const sans = "font-family:Arial,Helvetica,sans-serif;";
 const staticInk = (asset: (file: string) => string, file: string, alt: string, width: number) =>
   `<img src="${asset(file)}" width="${width}" alt="${escapeHtml(alt)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;">`;
 
-/** Dynamic ink via signed /api/email-ink PNG (same anti-invert guarantee). */
-const dynamicInk = (
-  siteUrl: string,
-  style: InkStyle,
-  text: string,
-  width: number,
-  extraStyle = "",
-) =>
-  `<img src="${escapeHtml(inkImageUrl(siteUrl, style, text))}" width="${width}" alt="${escapeHtml(text)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;${extraStyle}">`;
+const inkImgTag = (src: string, text: string, width: number, extraStyle = "") =>
+  `<img src="${src}" width="${width}" alt="${escapeHtml(text)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;${extraStyle}">`;
 
-export function renderOrderConfirmation(order: OrderConfirmation) {
+/**
+ * Collects dynamic ink slots, then materializes them as CID attachments,
+ * data: URLs, or remote signed URLs.
+ *
+ * Outlook iOS often fails to fetch many unique remote /api/email-ink?sig=
+ * URLs (empty “tofu” boxes). CID inline attachments travel with the MIME
+ * message and do not require a second network fetch.
+ */
+const createInkBag = (mode: DynamicInkMode, siteUrl: string) => {
+  const pending: PendingInk[] = [];
+
+  const slot = (style: InkStyle, text: string, width: number, extraStyle = "") => {
+    if (mode === "remote") {
+      return inkImgTag(escapeHtml(inkImageUrl(siteUrl, style, text)), text, width, extraStyle);
+    }
+    const contentId = `lh-ink-${pending.length + 1}`;
+    pending.push({ contentId, style, text, width, extraStyle });
+    return `%%LH_INK:${contentId}%%`;
+  };
+
+  const materialize = async (html: string) => {
+    if (mode === "remote" || pending.length === 0) {
+      return { html, attachments: [] as EmailInkAttachment[] };
+    }
+
+    const pngs = await Promise.all(pending.map((item) => renderInkPng(item.style, item.text)));
+    const attachments: EmailInkAttachment[] = [];
+    let out = html;
+
+    for (let i = 0; i < pending.length; i += 1) {
+      const item = pending[i]!;
+      const png = pngs[i]!;
+      const src =
+        mode === "cid"
+          ? `cid:${item.contentId}`
+          : `data:image/png;base64,${png.toString("base64")}`;
+
+      if (mode === "cid") {
+        attachments.push({
+          filename: `${item.contentId}.png`,
+          content: png.toString("base64"),
+          contentType: "image/png",
+          contentId: item.contentId,
+        });
+      }
+
+      out = out
+        .split(`%%LH_INK:${item.contentId}%%`)
+        .join(inkImgTag(src, item.text, item.width, item.extraStyle));
+    }
+
+    return { html: out, attachments };
+  };
+
+  return { slot, materialize, pending };
+};
+
+export async function renderOrderConfirmation(
+  order: OrderConfirmation,
+  options?: { dynamicInk?: DynamicInkMode },
+): Promise<OrderConfirmationMessage> {
+  const dynamicInkMode = options?.dynamicInk ?? "cid";
   const assetBase = (process.env["LOCKHABIT_EMAIL_ASSET_BASE"] ?? DEFAULT_ASSET_BASE).replace(
     /\/+$/,
     "",
   );
   const siteUrl = (process.env["LOCKHABIT_SITE_URL"] ?? DEFAULT_SITE_URL).replace(/\/+$/, "");
   const asset = (file: string) => `${assetBase}/${file}`;
+  const inkBag = createInkBag(dynamicInkMode, siteUrl);
   // Attribute + inline-style pair that paints a paper surface with its tile.
   const paper = (surface: Surface) =>
     `bgcolor="${C[surface]}" background="${asset(TILES[surface])}"`;
@@ -154,10 +241,10 @@ export function renderOrderConfirmation(order: OrderConfirmation) {
       return `
         <tr>
           <td class="cell" style="padding:${index === 0 ? 16 : 6}px 20px 6px;vertical-align:top;">
-            ${dynamicInk(siteUrl, "cell", label, 300)}
+            ${inkBag.slot("cell", label, 300)}
           </td>
           <td class="cell" align="right" style="padding:${index === 0 ? 16 : 6}px 20px 6px;text-align:right;vertical-align:top;white-space:nowrap;">
-            ${dynamicInk(siteUrl, "cell-right", price, 90, "margin-left:auto;")}
+            ${inkBag.slot("cell-right", price, 90, "margin-left:auto;")}
           </td>
         </tr>`;
     })
@@ -198,7 +285,7 @@ export function renderOrderConfirmation(order: OrderConfirmation) {
             ${staticInk(asset, row.labelFile, row.labelAlt, row.labelAlt === "Discount code" ? 95 : row.labelAlt === "Subtotal" ? 55 : row.labelAlt === "Shipping" ? 58 : 40)}
           </td>
           <td ${index === 0 ? 'width="66%" ' : ""}class="cell" align="right" style="padding:${index === 0 ? 14 : 3}px 20px 3px;text-align:right;vertical-align:middle;white-space:nowrap;${index === 0 ? "width:66%;" : ""}">
-            ${dynamicInk(siteUrl, "cell-right", row.value, Math.min(280, Math.max(90, row.value.length * 9)), "margin-left:auto;")}
+            ${inkBag.slot("cell-right", row.value, Math.min(280, Math.max(90, row.value.length * 9)), "margin-left:auto;")}
           </td>
         </tr>`,
     )
@@ -208,7 +295,7 @@ export function renderOrderConfirmation(order: OrderConfirmation) {
     .map((item) => `${item.name} × ${item.quantity} — ${money(item.amountTotal, order.currency)}`)
     .join("\n");
 
-  const html = `<!DOCTYPE html>
+  const htmlDraft = `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
 <meta charset="utf-8">
@@ -294,15 +381,15 @@ u + #body a{color:inherit;text-decoration:none}
                     <tr>
                       <td class="stat" width="35%" valign="top" style="padding:10px 8px 12px 10px;border-right:1px solid ${C.brown};">
                         ${staticInk(asset, "ink-label-receipt-number.png", "RECEIPT NUMBER", 118)}
-                        <div style="margin-top:5px;line-height:0;font-size:0;">${dynamicInk(siteUrl, "stat-num", orderLabel, 120)}</div>
+                        <div style="margin-top:5px;line-height:0;font-size:0;">${inkBag.slot("stat-num", orderLabel, 120)}</div>
                       </td>
                       <td class="stat" width="29%" valign="top" style="padding:10px 8px 12px 14px;border-right:1px solid ${C.brown};">
                         ${staticInk(asset, "ink-label-amount-paid.png", "AMOUNT PAID", 92)}
-                        <div style="margin-top:3px;line-height:0;font-size:0;">${dynamicInk(siteUrl, "stat-amt", money(order.total, order.currency), 90)}</div>
+                        <div style="margin-top:3px;line-height:0;font-size:0;">${inkBag.slot("stat-amt", money(order.total, order.currency), 90)}</div>
                       </td>
                       <td class="stat stat-last" valign="top" style="padding:10px 0 12px 14px;">
                         ${staticInk(asset, "ink-label-date-paid.png", "DATE PAID", 71)}
-                        <div style="margin-top:5px;line-height:0;font-size:0;">${dynamicInk(siteUrl, "stat-date", datePaidText, 160)}</div>
+                        <div style="margin-top:5px;line-height:0;font-size:0;">${inkBag.slot("stat-date", datePaidText, 160)}</div>
                       </td>
                     </tr>
                   </table>
@@ -310,7 +397,7 @@ u + #body a{color:inherit;text-decoration:none}
                     <tr>
                       <td valign="bottom" style="padding:6px 0 0;">
                         <img src="${asset("receipt-order-summary.png")}" width="228" alt="Order Summary" style="display:block;width:228px;max-width:100%;height:auto;border:0;">
-                        <div style="padding:4px 0 0 30px;line-height:0;font-size:0;">${dynamicInk(siteUrl, "kind", orderKindLabel, 280)}</div>
+                        <div style="padding:4px 0 0 30px;line-height:0;font-size:0;">${inkBag.slot("kind", orderKindLabel, 280)}</div>
                       </td>
                       <!--[if !mso]><!-->
                       <td class="stamp-mobile" width="0" valign="bottom" align="right" style="display:none;max-height:0;overflow:hidden;width:0;padding:0;line-height:0;font-size:0;">
@@ -354,7 +441,7 @@ u + #body a{color:inherit;text-decoration:none}
                         ${staticInk(asset, "ink-label-amount-paid-total.png", "Amount paid", 134)}
                       </td>
                       <td class="cell" align="right" style="padding:14px 20px 18px;text-align:right;white-space:nowrap;vertical-align:middle;">
-                        ${dynamicInk(siteUrl, "total-value", money(order.total, order.currency), 110, "margin-left:auto;")}
+                        ${inkBag.slot("total-value", money(order.total, order.currency), 110, "margin-left:auto;")}
                       </td>
                     </tr>
                   </table>
@@ -372,7 +459,7 @@ u + #body a{color:inherit;text-decoration:none}
             <table role="presentation" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td valign="middle" style="padding:0 8px 0 8px;line-height:0;font-size:0;">${staticInk(asset, "ink-label-shipping-to.png", "SHIPPING TO", 93)}</td>
-                <td valign="middle" style="padding:0 8px 0 0;line-height:0;font-size:0;">${dynamicInk(siteUrl, "ship", shipToText, 480)}</td>
+                <td valign="middle" style="padding:0 8px 0 0;line-height:0;font-size:0;">${inkBag.slot("ship", shipToText, 480)}</td>
               </tr>
             </table>
           </td>
@@ -415,7 +502,7 @@ u + #body a{color:inherit;text-decoration:none}
   <!-- Support -->
   <tr>
     <td align="center" class="bg-sand" ${paper("sand")} style="padding:2px 24px 22px;${bg("sand")}">
-      ${dynamicInk(siteUrl, "support", "Questions about your order?", 280)}
+      ${inkBag.slot("support", "Questions about your order?", 280)}
       <div style="height:4px;line-height:4px;font-size:4px;">&nbsp;</div>
       <div style="${sans}font-size:12px;line-height:18px;${ink(C.ink)}">
         Reply to this email or contact <a href="mailto:${escapeHtml(supportEmail)}" class="t-teal" style="${ink(C.teal)}font-weight:700;text-decoration:underline;">${escapeHtml(supportEmail)}</a>
@@ -448,10 +535,13 @@ Keep going: ${siteUrl}/
 
 Questions about your order? Reply to this email or contact ${supportEmail}`;
 
+  const { html, attachments } = await inkBag.materialize(htmlDraft);
+
   return {
     subject: `Your LockHabit receipt • ${orderLabel}`,
     html,
     text,
+    attachments,
   };
 }
 
@@ -460,7 +550,8 @@ export async function sendOrderConfirmation(order: OrderConfirmation): Promise<s
   const from = process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
   if (!apiKey || !from) throw new Error("Order confirmation email is not configured");
 
-  const message = renderOrderConfirmation(order);
+  // CID inline attachments so Outlook iOS does not need to fetch /api/email-ink.
+  const message = await renderOrderConfirmation(order, { dynamicInk: "cid" });
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -475,6 +566,16 @@ export async function sendOrderConfirmation(order: OrderConfirmation): Promise<s
       subject: message.subject,
       html: message.html,
       text: message.text,
+      ...(message.attachments.length
+        ? {
+            attachments: message.attachments.map((attachment) => ({
+              filename: attachment.filename,
+              content: attachment.content,
+              content_type: attachment.contentType,
+              content_id: attachment.contentId,
+            })),
+          }
+        : {}),
     }),
   });
 

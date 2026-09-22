@@ -132,8 +132,8 @@ test("delayed payment confirms only after async success", async () => {
   assert.equal(state.emailCount, 1);
 });
 
-test("confirmation includes the required order and payment details", () => {
-  const message = renderOrderConfirmation({
+test("confirmation includes the required order and payment details", async () => {
+  const message = await renderOrderConfirmation({
     checkoutSessionId: "cs_test_lockhabit",
     orderNumber: 42,
     customerEmail: "buyer@example.com",
@@ -174,18 +174,26 @@ test("confirmation includes the required order and payment details", () => {
     'name="color-scheme" content="light only"',
     "receipt-header.jpg",
     "ink-title.png",
-    "/api/email-ink\\?",
+    "cid:lh-ink-",
     "data-ogsb",
   ]) {
     assert.match(message.html, new RegExp(expected));
+  }
+  assert.doesNotMatch(message.html, /\/api\/email-ink\?/);
+  assert.ok(message.attachments.length >= 8, "dynamic values should be CID attachments");
+  for (const attachment of message.attachments) {
+    assert.equal(attachment.contentType, "image/png");
+    assert.match(attachment.contentId, /^lh-ink-\d+$/);
+    assert.ok(attachment.content.length > 80, `empty PNG for ${attachment.contentId}`);
+    assert.match(message.html, new RegExp(`cid:${attachment.contentId}`));
   }
   assert.doesNotMatch(message.html, /Discount/);
   assert.doesNotMatch(message.html, /Tax/);
   assert.equal(message.subject, "Your LockHabit receipt • LH-000042");
 });
 
-test("confirmation shows the applied promotion code and hides empty rows", () => {
-  const message = renderOrderConfirmation({
+test("confirmation shows the applied promotion code and hides empty rows", async () => {
+  const message = await renderOrderConfirmation({
     checkoutSessionId: "cs_test_promo",
     orderNumber: 7,
     customerEmail: "buyer@example.com",
@@ -214,6 +222,64 @@ test("confirmation shows the applied promotion code and hides empty rows", () =>
   assert.match(message.html, /ink-label-discount\.png/);
   assert.doesNotMatch(message.html, /SHIPPING TO/);
   assert.match(message.text, /Discount code: LOCKHABIT3FOR1B \(\$88\.00 off\)/);
+});
+
+test("synthetic LH-999999 proof embeds CID ink for Outlook (no remote email-ink)", async () => {
+  const message = await renderOrderConfirmation(
+    {
+      checkoutSessionId: "email-template-proof-cid",
+      orderNumber: 999999,
+      customerEmail: "buyer@example.com",
+      customerName: "Oral Robinson",
+      currency: "usd",
+      subtotal: 8900,
+      shipping: 0,
+      tax: 0,
+      total: 100,
+      shippingAddress: {
+        line1: "40 W Mosholu Pkwy S",
+        city: "Bronx",
+        state: "NY",
+        postal_code: "10468",
+        country: "US",
+      },
+      items: [{ name: "Build Your Own 3-Bar Bundle", quantity: 1, amountTotal: 8900 }],
+      paidAt: "2026-09-21T20:04:46.000Z",
+      discountCode: "LOCKHABIT3FOR1B",
+      discountAmount: 8800,
+      orderKind: "3-Bar Bundle",
+    },
+    { dynamicInk: "cid" },
+  );
+  assert.match(message.html, /Build Your Own 3-Bar Bundle × 1/);
+  assert.match(message.html, /\$89\.00/);
+  assert.match(message.html, /LH-999999/);
+  assert.match(message.html, /cid:lh-ink-/);
+  assert.doesNotMatch(message.html, /\/api\/email-ink\?/);
+  assert.ok(message.attachments.some((a) => a.contentId === "lh-ink-1"));
+  const preview = await renderOrderConfirmation(
+    {
+      checkoutSessionId: "email-template-proof-preview",
+      orderNumber: 999999,
+      customerEmail: "buyer@example.com",
+      customerName: "Oral Robinson",
+      currency: "usd",
+      subtotal: 8900,
+      shipping: 0,
+      tax: 0,
+      total: 100,
+      shippingAddress: null,
+      items: [{ name: "Build Your Own 3-Bar Bundle", quantity: 1, amountTotal: 8900 }],
+      paidAt: "2026-09-21T20:04:46.000Z",
+      discountCode: "LOCKHABIT3FOR1B",
+      discountAmount: 8800,
+      orderKind: "3-Bar Bundle",
+    },
+    { dynamicInk: "data" },
+  );
+  assert.match(preview.html, /src="data:image\/png;base64,/);
+  assert.equal(preview.attachments.length, 0);
+  assert.doesNotMatch(preview.html, /\/api\/email-ink\?/);
 });
 
 test("webhook exposes payment time, promotion code and bundle kind to the confirmation", async () => {
@@ -291,6 +357,16 @@ test("confirmation transport uses Resend with a stable per-order idempotency key
       new Headers(requests[0]?.init?.headers).get("Idempotency-Key"),
       "lockhabit-order-cs_test_lockhabit",
     );
+    const body = JSON.parse(String(requests[0]?.init?.body)) as {
+      html: string;
+      attachments?: Array<{ content_id: string; content: string; content_type: string }>;
+    };
+    assert.match(body.html, /cid:lh-ink-/);
+    assert.doesNotMatch(body.html, /\/api\/email-ink\?/);
+    assert.ok(body.attachments && body.attachments.length >= 8);
+    assert.equal(body.attachments[0]?.content_type, "image/png");
+    assert.ok(body.attachments[0]?.content.length > 80);
+    assert.match(body.html, new RegExp(`cid:${body.attachments[0]?.content_id}`));
   } finally {
     globalThis.fetch = originalFetch;
     if (originalApiKey === undefined) delete process.env["RESEND_API_KEY"];
