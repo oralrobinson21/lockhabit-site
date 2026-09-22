@@ -55,6 +55,47 @@ function GalleryMedia({
   );
 }
 
+
+const positiveAttributePattern = /^(vegan|vegetarian|100% natural|cruelty free)$/i;
+
+function AttributeSeal({
+  attribute,
+  compact = false,
+}: {
+  attribute: string;
+  compact?: boolean;
+}) {
+  const isPositive = positiveAttributePattern.test(attribute);
+  const Icon = isPositive ? Leaf : Minus;
+
+  return (
+    <div className="flex min-w-0 flex-col items-center gap-2 text-center">
+      <div
+        className={
+          compact
+            ? "relative flex size-14 items-center justify-center rounded-full border-2 border-foreground bg-paper shadow-[2px_2px_0_var(--color-sun)]"
+            : "relative flex size-16 items-center justify-center rounded-full border-2 border-foreground bg-paper shadow-[3px_3px_0_var(--color-sun)] sm:size-[4.5rem]"
+        }
+        aria-hidden="true"
+      >
+        <Icon size={compact ? 22 : 26} strokeWidth={2} />
+        {!isPositive ? (
+          <span className="absolute h-0.5 w-[72%] -rotate-45 rounded-full bg-foreground" />
+        ) : null}
+      </div>
+      <span
+        className={
+          compact
+            ? "max-w-[4.5rem] text-[9px] font-black uppercase leading-[1.05] tracking-[0.04em]"
+            : "max-w-[5rem] text-[10px] font-black uppercase leading-[1.05] tracking-[0.05em]"
+        }
+      >
+        {attribute}
+      </span>
+    </div>
+  );
+}
+
 export const Route = createFileRoute("/soaps/$slug")({
   head: ({ params }) => {
     const product = productBySlug(params.slug);
@@ -227,22 +268,41 @@ function ProductView({ slug }: { slug: string }) {
 
                 {product.attributes?.length ? (
                   <section className="mt-10" aria-label={`${product.name} product attributes`}>
-                    <p className="memo text-muted-foreground">Product details</p>
-                    <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    <p className="memo text-muted-foreground">Good clean details</p>
+
+                    <div className="mt-5 grid grid-cols-4 gap-x-3 gap-y-5">
                       {product.attributes.map((attribute) => (
-                        <div
-                          key={attribute}
-                          className="flex min-h-11 items-center justify-center rounded-full border-2 border-foreground/25 bg-paper px-3 py-2 text-center shadow-[2px_2px_0_var(--color-sun)]"
-                        >
-                          <span className="text-[11px] font-black uppercase leading-tight tracking-wide">
-                            {attribute}
-                          </span>
-                        </div>
+                        <AttributeSeal key={attribute} attribute={attribute} />
                       ))}
                     </div>
-                    <p className="mt-4 text-xs leading-5 text-muted-foreground">
-                      Supplier-listed attributes for this formula.
-                    </p>
+
+                    {product.allAttributes?.length ? (
+                      <details className="group mt-6 rounded-2xl border-2 border-foreground/20 bg-secondary/45 p-4 sm:p-5">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                          <div>
+                            <span className="memo">See all product attributes</span>
+                            <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                              The full supplier-listed set for this formula.
+                            </p>
+                          </div>
+                          <Plus
+                            size={18}
+                            className="shrink-0 transition-transform group-open:rotate-45"
+                          />
+                        </summary>
+
+                        <div className="mt-6 grid grid-cols-4 gap-x-3 gap-y-5 sm:grid-cols-6">
+                          {product.allAttributes.map((attribute) => (
+                            <AttributeSeal key={attribute} attribute={attribute} compact />
+                          ))}
+                        </div>
+
+                        <p className="mt-5 text-xs leading-5 text-muted-foreground">
+                          Supplier-listed product attributes. Ingredient lists remain the source of
+                          truth for what is inside each formula.
+                        </p>
+                      </details>
+                    ) : null}
                   </section>
                 ) : null}
 
