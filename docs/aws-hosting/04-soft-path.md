@@ -46,7 +46,7 @@ attach `lockhabit.com` / `www.lockhabit.com` to any distribution or service.
 
 ```bash
 cd infra/aws-soft-preview
-cp terraform.tfvars.example terraform.tfvars   # edit project_name / region only
+cp terraform.tfvars.example terraform.tfvars   # set app/env (defaults Soft-safe)
 terraform init
 
 # Phase A — Soft registry only (App Runner needs an image before healthy Soft URL)

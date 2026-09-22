@@ -1,8 +1,35 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  name_prefix       = var.project_name
-  forbidden_domains = ["lockhabit.com", "www.lockhabit.com"]
+  name_prefix = var.name_prefix != "" ? var.name_prefix : "${var.app}-${var.env}-web"
+
+  # Soft HOLD: never attach these as custom domains in this stack.
+  forbidden_domains = [
+    "lockhabit.com",
+    "www.lockhabit.com",
+    "halenor.com",
+    "www.halenor.com",
+  ]
+
+  resource_tags = merge(
+    {
+      app         = var.app
+      env         = var.env
+      SoftSafe    = "true"
+      SoftHoldDns = "true"
+      ManagedBy   = "terraform"
+      Purpose     = "ssr-preview"
+      Project     = local.name_prefix
+    },
+    var.extra_tags
+  )
+}
+
+check "soft_hold_no_prod_env_without_notice" {
+  assert {
+    condition     = var.env != "prod"
+    error_message = "Soft preview stack: set env=preview (or test). env=prod is for a future Oral GO cutover stack, not this Soft module as-is."
+  }
 }
 
 resource "aws_ecr_repository" "soft" {
@@ -12,6 +39,10 @@ resource "aws_ecr_repository" "soft" {
 
   image_scanning_configuration {
     scan_on_push = true
+  }
+
+  tags = {
+    SoftPreviewUrlOnly = "true"
   }
 }
 
@@ -107,7 +138,7 @@ resource "aws_cloudfront_distribution" "soft" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "LockHabit Soft preview ONLY — no custom domain"
+  comment             = "${local.name_prefix} Soft preview ONLY — no custom domain"
   default_root_object = ""
   price_class         = "PriceClass_100"
 
@@ -146,6 +177,7 @@ resource "aws_cloudfront_distribution" "soft" {
   }
 
   tags = {
-    SoftHoldDns = "true"
+    SoftHoldDns        = "true"
+    SoftPreviewUrlOnly = "true"
   }
 }

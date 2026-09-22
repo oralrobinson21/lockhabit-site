@@ -24,12 +24,12 @@ dist-ssr
 .dev.vars
 
 # Soft AWS Terraform (never commit state / local tfvars with secrets)
-infra/aws-soft-preview/.terraform/
-infra/aws-soft-preview/.terraform.lock.hcl
-infra/aws-soft-preview/*.tfstate
-infra/aws-soft-preview/*.tfstate.*
-infra/aws-soft-preview/terraform.tfvars
-infra/aws-soft-preview/crash.log
+infra/**/.terraform/
+infra/**/*.tfstate
+infra/**/*.tfstate.*
+infra/**/terraform.tfvars
+infra/**/crash.log
+# Keep lock files for reproducible Soft provider pins (commit *.lock.hcl)
 
 # Editor directories and files
 .vscode/*

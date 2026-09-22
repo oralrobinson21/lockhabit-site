@@ -31,7 +31,15 @@ the LockHabit adapter and Soft-import patterns rather than rewriting history.
   **email**, not site hosting. Soft HOLD: leave alone.
 - No CloudFront / ACM / Route 53 Soft website stack observed on `lockhabit.com`.
 
+## Broader Oral21 Soft assets (platform pack)
+
+Account Soft inventory (SES email-test LIVE, Identity Center, Halenor #632 Soft
+merged-but-undeployed, Railway) lives in
+[`docs/aws-platform/01-what-exists.md`](../aws-platform/01-what-exists.md).
+
 ## Conclusion
 
-LockHabit AWS website hosting does **not** Soft-exist yet. This PR is the Soft
-bootstrap (docs + Soft preview IaC), not a follow-up on an existing Soft stack.
+LockHabit AWS website hosting does **not** Soft-exist yet as a live Soft URL.
+This repo Soft-bootstraps Soft preview IaC + the multi-app platform checklist.
+Prefer Halenor #632 Soft patterns when that private repo is ACL-accessible;
+do not Soft-duplicate a second Soft design.

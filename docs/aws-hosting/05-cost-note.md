@@ -51,3 +51,6 @@ Railway website hosting for LockHabit can be reduced when:
 - Soft (then custom-domain) AWS SSR is serving production traffic, and
 - Stripe live webhook + Resend paths are verified on AWS, and
 - Oral explicitly approves Railway teardown Soft HOLD lift.
+
+Platform dual-run + Cost Explorer tag recipe:
+[`docs/aws-platform/08-cost-note.md`](../aws-platform/08-cost-note.md).

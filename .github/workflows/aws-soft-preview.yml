@@ -4,7 +4,7 @@
 # Requires Oral-configured repo secrets before first Soft push:
 #   AWS_ROLE_TO_ASSUME (preferred OIDC) OR AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY
 #   AWS_REGION (optional, default us-east-1)
-#   SOFT_ECR_REPOSITORY (optional, default lockhabit-soft)
+#   SOFT_ECR_REPOSITORY (optional, default lockhabit-preview-web)
 #   Soft TEST Vite build secrets as needed
 #
 # Does NOT auto-apply Terraform (Oral reviews Soft plan first).
@@ -64,7 +64,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.ecr.outputs.registry }}
           IMAGE_TAG: ${{ inputs.image_tag }}
-          REPO: ${{ secrets.SOFT_ECR_REPOSITORY || 'lockhabit-soft' }}
+          REPO: ${{ secrets.SOFT_ECR_REPOSITORY || 'lockhabit-preview-web' }}
         run: |
           IMAGE="$ECR_REGISTRY/$REPO:$IMAGE_TAG"
           docker build \

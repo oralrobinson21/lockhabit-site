@@ -1,6 +1,10 @@
 # Soft preview only — no secrets, no custom domains.
+# Oral21 021067821343 / us-east-1
+
 aws_region             = "us-east-1"
-project_name           = "lockhabit-soft"
+app                    = "lockhabit"
+env                    = "preview"
+# name_prefix defaults to "lockhabit-preview-web"
 image_tag              = "soft"
 enable_cloudfront_soft = true
 

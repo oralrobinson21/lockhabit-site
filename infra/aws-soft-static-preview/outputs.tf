@@ -13,19 +13,19 @@ output "resource_tags" {
   value       = local.resource_tags
 }
 
-output "ecr_repository_url" {
-  description = "Soft ECR repository URL for docker push."
-  value       = aws_ecr_repository.soft.repository_url
-}
-
-output "apprunner_soft_url" {
-  description = "App Runner Soft URL."
-  value       = "https://${aws_apprunner_service.soft.service_url}"
+output "bucket_name" {
+  description = "Soft S3 bucket for static sync."
+  value       = aws_s3_bucket.soft.bucket
 }
 
 output "cloudfront_soft_url" {
-  description = "Optional CloudFront Soft URL."
-  value       = var.enable_cloudfront_soft ? "https://${aws_cloudfront_distribution.soft[0].domain_name}" : null
+  description = "CloudFront Soft URL (*.cloudfront.net)."
+  value       = "https://${aws_cloudfront_distribution.soft.domain_name}"
+}
+
+output "cloudfront_distribution_id" {
+  description = "Soft distribution id for invalidations."
+  value       = aws_cloudfront_distribution.soft.id
 }
 
 output "forbidden_custom_domains" {

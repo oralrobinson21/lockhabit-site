@@ -1,0 +1,7 @@
+# Soft static preview only — no secrets, no custom domains.
+# Oral21 021067821343 / us-east-1
+
+aws_region = "us-east-1"
+app        = "halenor"
+env        = "preview"
+# name_prefix defaults to "halenor-preview-static"
