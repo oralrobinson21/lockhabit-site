@@ -526,105 +526,209 @@ export const products: Product[] = [
     id: 5,
     slug: "exfoliating-luffa-bar",
     name: "Exfoliating Luffa Bar",
-    note: "Polishing · Fresh · Spa-like",
+    note: "Luffa · Tea Tree · Grapefruit",
     price: 35,
     kind: "Soap bar",
     tagline: "Scrub and soap in one piece.",
     description:
-      "A natural loofah is set right into the bar, so you lather and buff in one motion. Great on elbows, knees, feet, and anywhere that likes a little friction.",
-    highlights: ["Built-in natural loofah", "Buffs while it cleans", "Long-lasting bar"],
-    ingredients: [
-      "Saponified organic extra virgin olive oil",
-      "Organic coconut oil",
-      "Organic palm oil",
-      "Natural luffa",
-      "Grapefruit essential oil",
-      "Tea tree essential oil",
-      "Cocoa butter",
-      "Shea butter",
-      "Mango butter",
-      "Fragrance",
+      "A handmade exfoliating bar with natural luffa, tea tree and grapefruit essential oils, plus shea, cocoa and mango butters.",
+    productStory:
+      "The Exfoliating Luffa Bar is the one that earns its spot by doing two jobs at once. Natural luffa is built right into the bar for physical exfoliation, while tea tree and grapefruit essential oils keep the scent fresh and clean. Shea, cocoa and mango butters round out the formula. It is the bar for elbows, knees, feet, pre-tan prep, or any shower where a plain washcloth feels a little underqualified.",
+    seoTitle: "Exfoliating Luffa Bar – Tea Tree & Grapefruit | LOCKHABIT",
+    seoDescription:
+      "A handmade 4 oz exfoliating luffa bar with natural luffa, tea tree and grapefruit essential oils plus shea, cocoa and mango butters. Made in the USA.",
+    ingredientStatement:
+      "Sorbitol, Coconut Oil, Propylene Glycol, Natural Luffa, Stearic Acid, Water, Sodium Hydroxide, Glycerin, Tea Tree Essential Oil, Shea Butter, Grapefruit Essential Oil, Cocoa Butter, Mango Butter, Hemp Extract, Titanium Dioxide.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What makes the Exfoliating Luffa Bar exfoliating?",
+        answer:
+          "Natural luffa is built into the bar, giving it a physical scrubbing texture while you wash.",
+      },
+      {
+        question: "What does the Exfoliating Luffa Bar smell like?",
+        answer:
+          "Tea tree and grapefruit essential oils give the bar a fresh, clean and lightly citrusy aroma.",
+      },
+      {
+        question: "Is the luffa exfoliation biodegradable?",
+        answer:
+          "Yes. The supplier specifically describes the natural luffa exfoliation in this bar as biodegradable.",
+      },
+      {
+        question: "How should I use the bar?",
+        answer:
+          "Add warm water for a thick lather and use gentle circular motions where you want exfoliation. Rinse thoroughly and keep the bar dry between uses.",
+      },
+      {
+        question: "Where is the Exfoliating Luffa Bar made?",
+        answer: "The Exfoliating Luffa Bar is made in the USA and weighs 4 oz (113 g).",
+      },
     ],
-    productType: "Exfoliating Botanical Bar",
+    highlights: ["Built-in natural luffa", "Tea tree + grapefruit", "Three rich butters"],
+    attributes: ["Natural luffa", "Biodegradable exfoliation", "Essential oils", "Made in USA"],
+    allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "No fillers"],
+    ingredients: [
+      "Sorbitol",
+      "Coconut oil",
+      "Propylene glycol",
+      "Natural luffa",
+      "Stearic acid",
+      "Water",
+      "Sodium hydroxide",
+      "Glycerin",
+      "Tea tree essential oil",
+      "Shea butter",
+      "Grapefruit essential oil",
+      "Cocoa butter",
+      "Mango butter",
+      "Hemp extract",
+      "Titanium dioxide",
+    ],
+    productType: "Exfoliating Bar Soap",
     netWeight: "4 oz (113 g)",
-    suggestedUse: exfoliatingUse,
+    suggestedUse:
+      "Add warm water for a thick lather. Massage gently over skin in circular motions where exfoliation is wanted, rinse thoroughly, and keep dry between uses.",
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: luffaSupplierAttributes,
-    scene: { from: "#f0dcae", to: "#8ed7dd", motes: "#fffdf4" },
+    scene: { from: "#f7edda", to: "#e4f3ef", motes: "#fffdf7" },
     images: [
-      { src: luffaReal1, alt: "Real LOCKHABIT exfoliating luffa boxed front view" },
-      { src: luffaReal2, alt: "Real LOCKHABIT exfoliating luffa box and round bars" },
-      { src: luffaReal3, alt: "Real LOCKHABIT exfoliating luffa box and round bar view" },
-      { src: luffaReal4, alt: "Real LOCKHABIT exfoliating luffa cut luffa texture view" },
+      { src: luffaReal1, alt: "LOCKHABIT Exfoliating Luffa Bar boxed front view" },
+      { src: luffaReal2, alt: "LOCKHABIT Exfoliating Luffa Bar box and round bars" },
+      { src: luffaReal3, alt: "LOCKHABIT Exfoliating Luffa Bar package and bar view" },
+      { src: luffaReal4, alt: "LOCKHABIT Exfoliating Luffa Bar natural luffa texture view" },
     ],
   },
   {
     id: 6,
     slug: "lemongrass-sage-soap",
     name: "Lemongrass & Sage Soap",
-    note: "Citrusy · Herbal · Fresh",
+    note: "Lemongrass · Sage · Green",
     price: 35,
     kind: "Soap bar",
     tagline: "A bright herbal wake-up call.",
     description:
-      "Citrusy lemongrass with a dry, green sage finish. This is the morning bar — sharp enough to start the day, soft enough to use every day.",
-    highlights: ["Bright citrus lift", "Herbal sage finish", "Great morning bar"],
+      "A citrus-herbal bar made with organic palm, coconut, sunflower and extra virgin olive oils plus lemongrass and sage essential oils.",
+    productStory:
+      "Lemongrass & Sage is the front-desk wake-up call, only much nicer. Lemongrass brings the bright citrus edge, sage keeps it green and grounded, and the base is made from saponified organic palm, coconut, sunflower and extra virgin olive oils. There is no added fragrance listed in the formula — just the two essential oils doing the aromatic work. Morning shower strongly encouraged; alarm clock still unfortunately required.",
+    seoTitle: "Lemongrass & Sage Soap – Herbal Citrus Bar | LOCKHABIT",
+    seoDescription:
+      "A 4 oz lemongrass and sage soap bar made with organic palm, coconut, sunflower and extra virgin olive oils plus essential oils. Made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Organic Palm Oil, Organic Coconut Oil, Organic Sunflower Oil, Organic Extra Virgin Olive Oil), Lemongrass Essential Oil, Sage Essential Oil.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What does Lemongrass & Sage Soap smell like?",
+        answer:
+          "Lemongrass gives it a bright citrus character while sage adds a dry, green herbal finish.",
+      },
+      {
+        question: "Does Lemongrass & Sage Soap contain added fragrance?",
+        answer:
+          "No added fragrance is listed in the supplier ingredient statement; the aromatic ingredients are lemongrass and sage essential oils.",
+      },
+      {
+        question: "What oils are in the soap base?",
+        answer:
+          "The base contains organic palm oil, organic coconut oil, organic sunflower oil and organic extra virgin olive oil.",
+      },
+      {
+        question: "How should I use and store the bar?",
+        answer:
+          "Add warm water for a thick lather, rinse thoroughly, and keep the bar dry between uses to help extend its longevity.",
+      },
+      {
+        question: "Where is Lemongrass & Sage Soap made?",
+        answer: "Lemongrass & Sage Soap is made in the USA and weighs 4 oz (113 g).",
+      },
+    ],
+    highlights: ["Lemongrass essential oil", "Sage essential oil", "No added fragrance listed"],
+    attributes: ["Lemongrass essential oil", "Sage essential oil", "Organic oil base", "Made in USA"],
+    allAttributes: ["Fair trade palm oil", "Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
     ingredients: [
-      "Saponified organic extra virgin olive oil",
-      "Organic coconut oil",
       "Organic palm oil",
-      "Organic shea butter",
+      "Organic coconut oil",
+      "Organic sunflower oil",
+      "Organic extra virgin olive oil",
       "Lemongrass essential oil",
       "Sage essential oil",
-      "Natural fragrance",
     ],
     productType: "Botanical Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: fullSoapSupplierAttributes,
-    scene: { from: "#d9e88f", to: "#f6d36b", motes: "#ffffff" },
+    scene: { from: "#eef6d9", to: "#fff1c8", motes: "#ffffff" },
     images: [
-      { src: lemongrassReal1, alt: "Real LOCKHABIT lemongrass sage front view" },
-      { src: lemongrassReal2, alt: "Real LOCKHABIT lemongrass sage three-quarter view" },
-      { src: lemongrassReal3, alt: "Real LOCKHABIT lemongrass sage unwrapped bar view" },
-      { src: lemongrassReal4, alt: "Real LOCKHABIT lemongrass sage paired bar view" },
+      { src: lemongrassReal1, alt: "LOCKHABIT Lemongrass & Sage Soap front view" },
+      { src: lemongrassReal2, alt: "LOCKHABIT Lemongrass & Sage Soap three-quarter view" },
+      { src: lemongrassReal3, alt: "LOCKHABIT Lemongrass & Sage Soap unwrapped bar view" },
+      { src: lemongrassReal4, alt: "LOCKHABIT Lemongrass & Sage Soap paired bar view" },
     ],
   },
   {
     id: 7,
     slug: "rich-sandalwood-soap",
     name: "Rich Sandalwood Soap",
-    note: "Warm · Earthy · Luxurious",
+    note: "Sandalwood · Oak · Spice",
     price: 35,
     kind: "Soap bar",
     tagline: "Warm wood, low light, no rush.",
     description:
-      "Deep and grounding, with the soft warmth of sandalwood. The bar to reach for when you want your shower to feel like a quiet room.",
-    highlights: ["Warm woody scent", "Grounding and smooth", "Unisex favorite"],
+      "A warm sandalwood-fragranced bar with charred-oak and light-spice notes over organic olive, palm and coconut oils plus organic shea butter.",
+    productStory:
+      "Rich Sandalwood is the lobby-after-dark bar: warm sandalwood fragrance, a little charred oak, and just enough light spice to keep it from feeling flat. Underneath is a simple saponified base of organic extra virgin olive, palm and coconut oils with organic shea butter. The result is warm, polished and quietly luxurious — less beach party, more old hotel bar with the good lighting.",
+    seoTitle: "Rich Sandalwood Soap – Warm Woody Bar Soap | LOCKHABIT",
+    seoDescription:
+      "A 4 oz sandalwood-fragranced soap bar with charred-oak and light-spice notes, organic olive, palm and coconut oils, and organic shea butter. Made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Organic Extra Virgin Olive Oil, Organic Palm Oil, Organic Coconut Oil, Organic Shea Butter), Fragrance.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What does Rich Sandalwood Soap smell like?",
+        answer:
+          "The supplier describes the fragrance as sandalwood with smoky charred-oak notes and a touch of light spice.",
+      },
+      {
+        question: "Does Rich Sandalwood Soap contain fragrance?",
+        answer: "Yes. Fragrance is explicitly listed in the ingredient statement.",
+      },
+      {
+        question: "What oils are in the soap base?",
+        answer:
+          "The base contains organic extra virgin olive oil, organic palm oil, organic coconut oil and organic shea butter.",
+      },
+      {
+        question: "How should I use and store the bar?",
+        answer:
+          "Add warm water for a thick lather, rinse thoroughly, and keep the bar dry between uses to help extend its longevity.",
+      },
+      {
+        question: "Where is Rich Sandalwood Soap made?",
+        answer: "Rich Sandalwood Soap is made in the USA and weighs 4 oz (113 g).",
+      },
+    ],
+    highlights: ["Warm sandalwood fragrance", "Charred oak + light spice", "Organic oils + shea"],
+    attributes: ["Organic olive oil", "Organic coconut oil", "Organic shea butter", "Made in USA"],
+    allAttributes: ["Fair trade palm oil", "Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
     ingredients: [
-      "Saponified organic extra virgin olive oil",
+      "Organic extra virgin olive oil",
       "Organic palm oil",
       "Organic coconut oil",
       "Organic shea butter",
-      "Sandalwood essential oil",
-      "Botanical extracts",
       "Fragrance",
     ],
     productType: "Botanical Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: fullSoapSupplierAttributes,
-    scene: { from: "#c68a5a", to: "#f0c98a", motes: "#ffeccd" },
+    scene: { from: "#f3e4d5", to: "#f8edda", motes: "#fff7ec" },
     images: [
-      { src: sandalwoodReal1, alt: "Real LOCKHABIT rich sandalwood front view" },
-      { src: sandalwoodReal2, alt: "Real LOCKHABIT rich sandalwood three-quarter view" },
-      { src: sandalwoodReal3, alt: "Real LOCKHABIT rich sandalwood unwrapped bar view" },
-      { src: sandalwoodReal4, alt: "Real LOCKHABIT rich sandalwood paired bar view" },
+      { src: sandalwoodReal1, alt: "LOCKHABIT Rich Sandalwood Soap front view" },
+      { src: sandalwoodReal2, alt: "LOCKHABIT Rich Sandalwood Soap three-quarter view" },
+      { src: sandalwoodReal3, alt: "LOCKHABIT Rich Sandalwood Soap unwrapped bar view" },
+      { src: sandalwoodReal4, alt: "LOCKHABIT Rich Sandalwood Soap paired bar view" },
     ],
   },
   {
