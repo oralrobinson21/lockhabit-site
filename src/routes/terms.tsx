@@ -88,7 +88,7 @@ function Terms() {
           body: (
             <p>
               These terms are governed by applicable New York law, without limiting consumer rights
-              that apply in your location. Questions can be sent to support@lockhabit.com.
+              that apply in your location. Questions can be sent to oralrobinson21@outlook.com.
             </p>
           ),
         },
