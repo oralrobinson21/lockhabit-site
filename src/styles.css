@@ -291,4 +291,269 @@
   .bundle-catch { top: 2.1rem; right: 1rem; width: 14rem; font-size: 0.78rem; }
 }
 
+
+/* ==== Homepage island footer: paper-cut vacation postcard with gently moving waves ==== */
+.island-footer {
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid var(--color-foreground);
+  background: var(--color-paper);
+  color: var(--color-foreground);
+}
+.island-footer-scene {
+  --island-sky: oklch(0.79 0.12 220);
+  --island-sea: oklch(0.64 0.14 213);
+  --island-deep: oklch(0.42 0.12 218);
+  --island-dark: oklch(0.31 0.105 215);
+  --island-mountain: oklch(0.38 0.105 155);
+  --island-mountain-light: oklch(0.53 0.11 139);
+  position: relative;
+  min-height: clamp(38rem, 66vw, 55rem);
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 66% 10%, color-mix(in oklab, var(--color-paper) 38%, transparent), transparent 24%),
+    linear-gradient(180deg, var(--island-sky) 0 62%, var(--island-sea) 62% 100%);
+}
+.island-footer-paper-noise {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  pointer-events: none;
+  opacity: .2;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(color-mix(in oklab, var(--color-foreground) 42%, transparent) .55px, transparent .7px),
+    radial-gradient(color-mix(in oklab, var(--color-paper) 75%, transparent) .6px, transparent .8px);
+  background-position: 0 0, 2px 2px;
+  background-size: 4px 4px, 5px 5px;
+}
+.island-footer-copy {
+  position: absolute;
+  z-index: 8;
+  top: 12%;
+  left: 50%;
+  width: min(36rem, 72vw);
+  transform: translateX(-50%);
+  text-align: center;
+}
+.island-footer-script {
+  color: var(--color-foreground);
+  font-family: var(--font-display);
+  font-size: clamp(3.1rem, 7vw, 6.6rem);
+  font-style: italic;
+  font-weight: 600;
+  line-height: .88;
+  letter-spacing: -.045em;
+  transform: rotate(-3deg);
+  text-shadow: 1px 1px 0 color-mix(in oklab, var(--color-paper) 55%, transparent);
+}
+.island-footer-script span { color: var(--color-sun); }
+.island-footer-memo {
+  margin-top: 2rem;
+  font-size: clamp(.65rem, 1.2vw, .82rem);
+  font-weight: 900;
+  line-height: 1.9;
+  letter-spacing: .28em;
+}
+.island-sun {
+  position: absolute;
+  z-index: 7;
+  top: 7%;
+  right: clamp(2rem, 9vw, 9rem);
+  width: clamp(8.5rem, 17vw, 13.5rem);
+  color: var(--color-sun);
+  filter: drop-shadow(0 4px 0 color-mix(in oklab, var(--color-foreground) 12%, transparent));
+  animation: island-sun-breathe 7s ease-in-out infinite;
+}
+.island-sun-rays { transform-origin: 110px 110px; animation: island-sun-rays 26s linear infinite; }
+.island-footer-sun-note {
+  position: absolute;
+  z-index: 8;
+  top: 43%;
+  right: clamp(2rem, 10vw, 10rem);
+  max-width: 12rem;
+  color: var(--color-foreground);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.8vw, 2.2rem);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.05;
+  text-align: center;
+  transform: rotate(-4deg);
+}
+.island-palm {
+  position: absolute;
+  z-index: 9;
+  color: oklch(0.35 0.105 153);
+  filter: drop-shadow(0 5px 0 color-mix(in oklab, var(--color-foreground) 10%, transparent));
+}
+.island-palm-left { top: -2rem; left: -2rem; width: clamp(12rem, 28vw, 24rem); transform: rotate(-4deg); }
+.island-palm-right { right: -3rem; bottom: 7.5rem; width: clamp(11rem, 23vw, 21rem); transform: rotate(9deg); }
+.island-mountains {
+  position: absolute;
+  z-index: 2;
+  left: -3%;
+  bottom: 26%;
+  width: 74%;
+  height: 28%;
+  color: var(--island-mountain);
+  filter: drop-shadow(0 5px 0 color-mix(in oklab, var(--color-foreground) 10%, transparent));
+}
+.island-boat {
+  position: absolute;
+  z-index: 12;
+  right: clamp(13%, 23vw, 28%);
+  bottom: 22%;
+  width: clamp(5.6rem, 11vw, 9rem);
+  transform-origin: 50% 88%;
+  animation: island-boat-bob 5.5s ease-in-out infinite;
+  filter: drop-shadow(0 6px 0 color-mix(in oklab, var(--color-foreground) 12%, transparent));
+}
+.island-waves {
+  position: absolute;
+  z-index: 10;
+  inset: auto 0 0;
+  height: 35%;
+  overflow: hidden;
+}
+.island-wave {
+  position: absolute;
+  left: -5%;
+  width: 110%;
+  height: 58%;
+  will-change: transform;
+  filter: drop-shadow(0 -3px 0 var(--color-paper));
+}
+.island-wave svg { display: block; width: 100%; height: 100%; }
+.island-wave path { stroke: var(--color-paper); stroke-width: 8; vector-effect: non-scaling-stroke; }
+.island-wave-one { bottom: 42%; color: var(--island-sea); animation: island-wave-left 8s ease-in-out infinite; }
+.island-wave-one path { fill: var(--island-sea); }
+.island-wave-two { bottom: 27%; animation: island-wave-right 9.5s ease-in-out infinite; }
+.island-wave-two path { fill: oklch(0.59 0.14 213); }
+.island-wave-three { bottom: 12%; animation: island-wave-left 11s ease-in-out infinite reverse; }
+.island-wave-three path { fill: var(--island-deep); }
+.island-wave-four { bottom: -4%; animation: island-wave-right 12.5s ease-in-out infinite reverse; }
+.island-wave-four path { fill: var(--island-dark); }
+
+.island-footer-links {
+  position: relative;
+  z-index: 30;
+  margin-top: -1px;
+  background:
+    radial-gradient(color-mix(in oklab, var(--color-foreground) 18%, transparent) .55px, transparent .7px),
+    var(--color-paper);
+  background-size: 4px 4px;
+  padding: clamp(3.25rem, 7vw, 6rem) clamp(1.25rem, 5vw, 5rem) 2rem;
+}
+.island-footer-links::before {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  top: -2.4rem;
+  height: 3.2rem;
+  background: var(--color-paper);
+  clip-path: polygon(0 55%, 7% 34%, 15% 61%, 23% 31%, 31% 57%, 39% 29%, 48% 58%, 57% 33%, 66% 61%, 75% 30%, 84% 56%, 92% 34%, 100% 55%, 100% 100%, 0 100%);
+}
+.island-footer-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.15fr .8fr 1fr 1.15fr;
+  gap: clamp(2rem, 4vw, 4.5rem);
+  max-width: 78rem;
+  margin: 0 auto;
+}
+.island-footer-brand img { width: min(11rem, 100%); height: auto; }
+.island-footer-brand p { margin-top: .85rem; max-width: 13rem; color: var(--color-muted-foreground); font-size: .9rem; line-height: 1.55; }
+.island-footer-heading {
+  color: var(--color-foreground);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .19em;
+  text-transform: uppercase;
+}
+.island-footer-list { display: flex; flex-direction: column; gap: .65rem; margin-top: 1rem; font-size: .92rem; color: color-mix(in oklab, var(--color-foreground) 78%, transparent); }
+.island-footer-list a { width: fit-content; transition: color 160ms ease, transform 160ms ease; }
+.island-footer-list a:hover { color: var(--color-primary); transform: translateX(2px); }
+.island-footer-hours { margin-top: 1rem; color: color-mix(in oklab, var(--color-foreground) 78%, transparent); font-size: .92rem; line-height: 1.7; }
+.island-footer-legal { margin-top: 1.2rem; }
+.island-footer-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 78rem;
+  margin: 4rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid color-mix(in oklab, var(--color-foreground) 20%, transparent);
+}
+.island-footer-script-small {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-style: italic;
+  font-weight: 600;
+  transform: rotate(-3deg);
+}
+.island-footer-rule {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 78rem;
+  margin: 2rem auto 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid color-mix(in oklab, var(--color-foreground) 20%, transparent);
+  color: var(--color-muted-foreground);
+}
+
+@keyframes island-wave-left {
+  0%, 100% { transform: translate3d(-1.5%, 0, 0); }
+  50% { transform: translate3d(1.5%, 5px, 0); }
+}
+@keyframes island-wave-right {
+  0%, 100% { transform: translate3d(1.3%, 2px, 0); }
+  50% { transform: translate3d(-1.3%, -3px, 0); }
+}
+@keyframes island-boat-bob {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(8px) rotate(1.5deg); }
+}
+@keyframes island-sun-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(3px) scale(1.015); }
+}
+@keyframes island-sun-rays { to { transform: rotate(360deg); } }
+
+@media (max-width: 900px) {
+  .island-footer-scene { min-height: 43rem; }
+  .island-footer-copy { top: 16%; left: 43%; width: 64vw; }
+  .island-footer-sun { right: 4vw; top: 8%; }
+  .island-footer-sun-note { right: 5vw; top: 45%; }
+  .island-mountains { width: 82%; bottom: 27%; }
+  .island-footer-grid { grid-template-columns: 1fr 1fr; }
+  .island-footer-brand { grid-column: 1 / -1; }
+  .island-footer-brand p { max-width: 22rem; }
+}
+@media (max-width: 639px) {
+  .island-footer-scene { min-height: 37rem; }
+  .island-palm-left { left: -4.5rem; top: -1rem; width: 14rem; opacity: .94; }
+  .island-palm-right { right: -4.5rem; bottom: 7rem; width: 13rem; }
+  .island-footer-copy { top: 17%; left: 47%; width: 74vw; }
+  .island-footer-script { font-size: clamp(2.75rem, 13vw, 4.4rem); }
+  .island-footer-memo { margin-top: 1.2rem; font-size: .56rem; line-height: 1.75; }
+  .island-sun { top: 7%; right: -1.1rem; width: 8.8rem; }
+  .island-footer-sun-note { top: 46%; right: 1rem; font-size: 1.25rem; }
+  .island-mountains { left: -16%; bottom: 28%; width: 104%; height: 24%; }
+  .island-boat { right: 23%; bottom: 22%; width: 5.6rem; }
+  .island-waves { height: 35%; }
+  .island-footer-links { padding: 3rem 1.5rem 1.75rem; }
+  .island-footer-grid { grid-template-columns: 1fr 1fr; gap: 2.6rem 1.5rem; }
+  .island-footer-brand { grid-column: 1 / -1; }
+  .island-footer-brand img { width: 9.5rem; }
+  .island-footer-list, .island-footer-hours { font-size: .88rem; }
+  .island-footer-bottom { align-items: flex-start; flex-direction: column; margin-top: 3rem; }
+  .island-footer-rule { flex-direction: column; }
+}
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } .reveal { opacity: 1 !important; transform: none !important; } .product-scene-motes::before, .product-scene-motes::after, .about-water, .about-foam, .hero-wave-surge, .hero-foam-crown, .hero-suds-fall { animation: none; } .product-mote { display: none; } .ticker-track, .marquee-track { transform: none !important; } .ticker-group[aria-hidden="true"], .marquee-group[aria-hidden="true"] { display: none; } }
