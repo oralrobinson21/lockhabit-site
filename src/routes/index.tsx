@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowDown, Leaf, Plus, Send, Sparkles, Waves } from "lucide-react";
+import { ArrowRight, ArrowDown, Leaf, Plus, Sparkles, Waves } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { SiteHeader } from "@/components/site-header";
@@ -16,13 +16,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "LOCKHABIT Soap Co. — a sun-soaked soap company with twelve botanical bars, one concierge desk, and zero plans to go back to work.",
+          "LOCKHABIT Soap Co. — sun-soaked soap and body care, one concierge desk, and zero plans to go back to boring showers.",
       },
       { property: "og:title", content: "LOCKHABIT SOAP CO. | Permanent Vacation for Your Skin" },
       {
         property: "og:description",
         content:
-          "Twelve tropical botanical bars from the sunniest soap company in the business. Now open, always warm.",
+          "Tropical soap and body care from the sunniest front desk in the business. Now open, always warm.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -45,8 +45,8 @@ const services = [
     tone: "bg-sun",
   },
   {
-    title: "Gift Notes",
-    text: "Hand-written, slightly sandy, always sincere. Tucked in with your order.",
+    title: "The Gift Department",
+    text: "Pick the right bar, add it to the bag, and take all the credit. We won’t tell.",
     label: "Dept. 03",
     tone: "bg-coral text-coral-foreground",
   },
@@ -96,7 +96,6 @@ function Reveal({
 function Index() {
   const { addToCart, addBundle } = useCart();
   const [activeGalleryImage, setActiveGalleryImage] = useState(0);
-  const [postcardSent, setPostcardSent] = useState(false);
   const featured = products[0]!;
   const featuredGallery = featured.images;
 
@@ -122,8 +121,8 @@ function Index() {
           <span />
         </div>
         <button className="bundle-catch" onClick={() => scrollToShop()}>
-          <span>THE BUNDLE CATCH</span>3 BARS $89 · 6 BARS $169
-          <small>+ FREE BAR WITH EVERY 3-PACK</small>
+          <span>THE BUNDLE CATCH</span>3 CHOSEN $89 · 6 CHOSEN $169
+          <small>+ SURPRISE 4TH BAR WITH THE 3-PACK</small>
         </button>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-24 lg:px-10 lg:pb-20">
           <div className="max-w-2xl animate-rise">
@@ -138,8 +137,8 @@ function Index() {
               FOR YOUR SKIN.
             </h1>
             <p className="mt-6 max-w-md text-base leading-7 text-hero-muted sm:text-lg">
-              Twelve botanical bars made for slow mornings, warm tile, and the kind of day where
-              nothing is urgent. Check in whenever.
+              Twelve soap and body-care essentials made for slow mornings, warm tile, and the kind of
+              day where nothing is urgent. Check in whenever.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
               <button onClick={scrollToShop} className="primary-button">
@@ -179,9 +178,9 @@ function Index() {
             <div className="marquee-group" aria-hidden={hidden || undefined} key={String(hidden)}>
               {[
                 "TOWEL INCLUDED (MENTALLY)",
-                "PLANT POWERED",
+                "VACATION POWERED",
                 "TOWEL INCLUDED (MENTALLY)",
-                "PLANT POWERED",
+                "VACATION POWERED",
               ].map((item, index) => (
                 <span key={`${item}-${index}`} className="flex shrink-0 items-center gap-12">
                   <span>{item}</span>
@@ -238,7 +237,7 @@ function Index() {
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <p className="eyebrow">Room service favorite</p>
+            <p className="eyebrow">Room service pick</p>
             <h2 className="section-title">
               Coconut
               <br />
@@ -246,7 +245,7 @@ function Index() {
             </h2>
             <div className="mt-6 flex items-center gap-4">
               <span className="sticker h-auto rotate-[-3deg] bg-coral px-3 py-1.5 text-coral-foreground">
-                Best seller
+                Front desk pick
               </span>
               <span className="price-tag">$35.00</span>
             </div>
@@ -256,7 +255,7 @@ function Index() {
             </p>
             <ul className="mt-8 grid gap-3 border-y-2 border-foreground/15 py-6 text-sm font-bold sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
               <li className="flex items-center gap-2">
-                <Leaf size={17} className="text-primary" /> PLANT POWERED
+                <Leaf size={17} className="text-primary" /> PLANT-BASED OILS
               </li>
               <li className="flex items-center gap-2">
                 <Sparkles size={17} className="text-primary" /> Creamy lather
@@ -290,8 +289,8 @@ function Index() {
               <em>Save the haul.</em>
             </h2>
             <p className="max-w-md text-sm font-semibold leading-6">
-              Build your own 3 for $89 or 6 for $169. Every launch-week 3-pack gets one surprise bar
-              free. Subscribe monthly and save another 15%.
+              Pick any 3 bars for $89 and we add a surprise 4th bar. Pick any 6 for $169. Buying a
+              single bar on repeat? Monthly subscriptions save 15%.
             </p>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -312,7 +311,7 @@ function Index() {
                 key={bundle.name}
                 className="paper-card flex flex-col bg-paper p-6 text-foreground"
               >
-                <p className="memo text-primary">3 bars + 1 surprise bar</p>
+                <p className="memo text-primary">3 chosen bars + surprise 4th</p>
                 <h3 className="mt-3 font-display text-3xl font-semibold">{bundle.name}</h3>
                 <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">
                   {bundle.copy}
@@ -332,7 +331,7 @@ function Index() {
           </div>
           <p className="memo mt-8 text-center">
             Build your own: add any 3 or 6 soap bars and the discount lands in your bag
-            automatically · Free shipping $75+
+            automatically · 3-bar orders get a surprise 4th · Free shipping $75+
           </p>
         </div>
       </section>
@@ -376,8 +375,8 @@ function Index() {
               </h2>
             </div>
             <p className="max-w-sm text-sm leading-6 text-muted-foreground">
-              Every bar in the collection, from bright and citrusy to warm and deeply soothing. No
-              wrong choices here.
+              Every soap and body-care essential in the collection, from bright and citrusy to warm
+              and deeply cozy. No wrong choices here.
             </p>
           </Reveal>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -403,9 +402,9 @@ function Index() {
                     </span>
                     {index === 0 && (
                       <span className="sticker absolute bottom-3 right-3 h-16 w-16 -rotate-12 bg-sun text-sun-foreground">
-                        Best
+                        Front
                         <br />
-                        seller
+                        desk pick
                       </span>
                     )}
                   </Link>
@@ -421,6 +420,7 @@ function Index() {
                       <span className="price-tag shrink-0">${product.price.toFixed(2)}</span>
                     </div>
                     <p className="memo mt-2 text-muted-foreground">{product.note}</p>
+                    <p className="memo mt-1 text-muted-foreground/75">{product.netWeight}</p>
                     <div className="min-h-5 flex-1" />
                     <button
                       className="secondary-button w-full"
@@ -451,7 +451,7 @@ function Index() {
             </div>
             <div className="seal absolute -right-6 -bottom-6">
               <Leaf size={22} />
-              <span>GOOD FOR SKIN · GOOD FOR EARTH ·</span>
+              <span>GOOD HABITS · BRIGHTER DAYS ·</span>
             </div>
           </Reveal>
           <Reveal delay={120}>
@@ -462,14 +462,15 @@ function Index() {
               <em>bottled sunshine.</em>
             </h2>
             <p className="mt-6 max-w-xl leading-7 text-muted-foreground">
-              Every bar starts with a nourishing blend of coconut, olive, and sunflower oils. Then
-              we add bright botanicals, beautiful scents, and absolutely no unnecessary stuff.
+              Formulas vary by bar. Across the collection you’ll find saponified oils, shea butter,
+              botanicals, and scent blends chosen for each formula. The exact ingredient list lives
+              on every product page — no mystery luggage.
             </p>
             <div className="mt-10 grid gap-5 sm:grid-cols-3">
               {[
-                { icon: Sparkles, title: "Coconut oil", text: "A rich, bubbly cleanse" },
-                { icon: Leaf, title: "Botanicals", text: "Color from the earth" },
-                { icon: Waves, title: "Ocean kind", text: "Plastic-free by nature" },
+                { icon: Sparkles, title: "Soap-making oils", text: "The exact blend varies by bar" },
+                { icon: Leaf, title: "Botanicals", text: "Selected for each formula" },
+                { icon: Waves, title: "Read the label", text: "Every product page lists what’s inside" },
               ].map(({ icon: Icon, title, text }, index) => (
                 <div key={title} className={`paper-card p-5 ${index === 1 ? "bg-sun" : ""}`}>
                   <Icon size={22} className="mb-4" />
@@ -501,8 +502,8 @@ function Index() {
               <p className="memo text-muted-foreground">Internal note · Natural Rituals Dept.</p>
               <p className="mt-5 text-lg leading-8">
                 LOCKHABIT started with one stubborn idea: the things you use every single day should
-                feel like a small holiday. So we make soap the slow way, in small batches, with
-                color and scent that act like sunshine in a bar.
+                feel like a small holiday. So we built a collection around good formulas, bright
+                color, and scent that acts like sunshine in a bar.
               </p>
               <p className="mt-6 font-display text-2xl italic">Beauty in a kinder routine.</p>
               <p className="memo mt-2 text-muted-foreground">— The Management</p>
@@ -514,44 +515,24 @@ function Index() {
       <section className="grain relative overflow-hidden bg-sun px-5 py-20 text-center text-sun-foreground sm:py-28">
         <div className="sunburst" />
         <Reveal className="relative mx-auto max-w-3xl">
-          <p className="eyebrow text-sun-foreground">Postcards, not newsletters</p>
+          <p className="eyebrow text-sun-foreground">The front desk is still open</p>
           <h2 className="slab-title">
-            Send me
-            <br />a postcard.
+            Need a
+            <br />second opinion?
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-base leading-7">
-            New bars, sunny notes, and the occasional weather report from wherever we are. Roughly
-            once a month.
+            Choosing between three bars is a perfectly respectable use of your evening. Ask the
+            front desk, or take another lap through the catalog. We support indecision.
           </p>
-          <form
-            className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setPostcardSent(true);
-            }}
-          >
-            <label className="sr-only" htmlFor="postcard-email">
-              Email address
-            </label>
-            <input
-              id="postcard-email"
-              type="email"
-              required
-              placeholder="you@somewhere.warm"
-              className="min-h-[3.3rem] flex-1 rounded-full border-2 border-foreground bg-paper px-5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            <button type="submit" className="dark-button justify-center">
-              Sign me up <Send size={16} />
+          <div className="mx-auto mt-8 flex max-w-lg flex-col justify-center gap-3 sm:flex-row">
+            <Link to="/contact" className="dark-button justify-center">
+              Ask the front desk <ArrowRight size={16} />
+            </Link>
+            <button onClick={scrollToShop} className="primary-button justify-center">
+              Back to the catalog <ArrowRight size={18} />
             </button>
-          </form>
-          <p className="memo mt-4" aria-live="polite">
-            {postcardSent
-              ? "Thanks! This signup is part of the demo — nothing was sent."
-              : "Demo form · no emails are collected"}
-          </p>
-          <button onClick={scrollToShop} className="primary-button mt-10">
-            Back to the catalog <ArrowRight size={18} />
-          </button>
+          </div>
+          <p className="memo mt-4">Real humans · real support · no tiny lobby bell required</p>
         </Reveal>
       </section>
 
@@ -578,8 +559,9 @@ function Index() {
               <p className="memo text-sun">The company</p>
               <div className="mt-4 flex flex-col gap-2.5 text-sm text-background/75">
                 <Link to="/about">About us</Link>
-                <a href="#desk">Front desk</a>
-                <a href="#top">Lobby</a>
+                <Link to="/contact">Contact the front desk</Link>
+                <Link to="/shipping">Shipping</Link>
+                <Link to="/returns">Returns & refunds</Link>
               </div>
             </div>
             <div>
@@ -591,6 +573,11 @@ function Index() {
                 <br />
                 Air 84°F, water 79°F.
               </p>
+              <div className="mt-4 flex flex-col gap-2.5 text-sm text-background/75">
+                <a href="mailto:support@lockhabit.com">support@lockhabit.com</a>
+                <Link to="/privacy">Privacy policy</Link>
+                <Link to="/terms">Terms of service</Link>
+              </div>
             </div>
           </div>
           <div className="mt-12 flex flex-col gap-2 border-t border-background/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
