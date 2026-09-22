@@ -220,6 +220,13 @@ test("confirmation shows the applied promotion code and hides empty rows", async
   assert.match(message.html, /LOCKHABIT 3-BAR BUNDLE/);
   assert.match(message.html, /Oat Milk Honey Soap/);
   assert.match(message.html, /ink-label-discount\.png/);
+  // Outlook iOS lightbox: Free shipping (and other ink) must be fragment-linked,
+  // not a bare <img>, so taps stay on the receipt.
+  assert.match(message.html, /id="lh-receipt"/);
+  assert.match(
+    message.html,
+    /<a href="#lh-receipt" class="lh-inert"[^>]*>[\s\S]*?alt="Free shipping"/,
+  );
   assert.doesNotMatch(message.html, /SHIPPING TO/);
   assert.match(message.text, /Discount code: LOCKHABIT3FOR1B \(\$88\.00 off\)/);
 });
