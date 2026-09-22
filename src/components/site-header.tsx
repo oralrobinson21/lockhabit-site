@@ -6,8 +6,7 @@ import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 import { useCart } from "@/lib/cart";
 
 const tickerItems = [
-  "LAUNCH CATCH · PICK 3, GET A SURPRISE 4TH",
-  "3 CHOSEN BARS $89 · SURPRISE 4TH INCLUDED",
+  "BUILD 3 FOR $89 · SAVE $16",
   "6 CHOSEN BARS $169 · SAVE $41",
   "SUBSCRIBE MONTHLY · SAVE 15%",
   "FREE SHIPPING $75+",
