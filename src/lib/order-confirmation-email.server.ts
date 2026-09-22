@@ -515,7 +515,7 @@ u + #body a{color:inherit;text-decoration:none}
         <!-- Turquoise wave footer -->
         <tr>
           <td class="bg-cream footer-art" ${paper("cream")} style="padding:0;line-height:0;font-size:0;overflow:visible;${bg("cream")}">
-            <img src="${asset("receipt-footer.jpg")}" width="612" alt="LOCKHABIT — Good Habits · Brighter Days" style="display:block;width:100%;max-width:100%;height:auto;border:0;border-radius:0 0 16px 16px;">
+            <img src="${asset("receipt-footer.jpg")}" width="612" alt="LOCKHABIT — Good Habits · Brighter Days" style="display:block;width:100%;max-width:100%;height:auto;border:0;">
           </td>
         </tr>
 
