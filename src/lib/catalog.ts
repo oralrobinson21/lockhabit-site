@@ -939,64 +939,140 @@ export const products: Product[] = [
     id: 11,
     slug: "raw-shea-butter",
     name: "Raw Shea Butter",
-    note: "Nourishing · Velvety · Rich",
+    note: "Raw · Unrefined · One Ingredient",
     price: 42,
     kind: "Body care",
-    tagline: "Straight from the nut, nothing added.",
+    tagline: "One ingredient. No tiny print required.",
     description:
-      "Unrefined, deeply rich shea butter for dry patches, elbows, ends of hair, and everything the weather has been unkind to. A little goes a long way.",
-    highlights: ["Unrefined and rich", "Melts on contact", "One ingredient, many uses"],
-    ingredients: ["100% pure, unrefined raw shea butter (Butyrospermum Parkii)", "Nothing else"],
-    productType: "Ultra-Rich Body Butter",
-    netWeight: "8 oz (226 g)",
+      "100% raw, unrefined organic shea butter with no added fragrance — responsibly sourced, vegan and cruelty-free.",
+    productStory:
+      "Raw Shea Butter is the quiet overachiever at the front desk: one ingredient, no perfume cloud, no whipped-lotion disguise. It is 100% raw and unrefined organic shea butter, responsibly sourced and naturally nutty in scent. Warm a little between your hands and use it on skin, dry areas or hair. A small amount goes a long way, which is exactly how a one-ingredient product should behave.",
+    seoTitle: "Raw Shea Butter – Organic, Unrefined & Vegan | LOCKHABIT",
+    seoDescription:
+      "Shop 4 oz raw unrefined organic shea butter. One ingredient, responsibly sourced, vegan, cruelty-free and free from added fragrance. Made in the USA.",
+    ingredientStatement: "Butyrospermum Parkii (Shea) Butter (Organic).",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What is in LOCKHABIT Raw Shea Butter?",
+        answer: "One ingredient: organic Butyrospermum Parkii (Shea) Butter.",
+      },
+      {
+        question: "Is Raw Shea Butter vegan and cruelty-free?",
+        answer:
+          "Yes. The supplier explicitly describes this raw shea butter as 100% vegan and cruelty-free.",
+      },
+      {
+        question: "Does Raw Shea Butter contain added fragrance?",
+        answer:
+          "No. It is unscented in the sense that no fragrance is added; raw shea naturally has a mild nutty scent.",
+      },
+      {
+        question: "How should I use and store Raw Shea Butter?",
+        answer:
+          "Apply a thin layer where skin or hair needs moisture. Store it in a cool, dry place around 60–70°F (15–21°C), away from direct sunlight.",
+      },
+      {
+        question: "Is this a whipped body butter?",
+        answer:
+          "No. This is pure raw, unrefined shea butter rather than a whipped body butter or lotion.",
+      },
+    ],
+    highlights: ["100% raw + unrefined", "Organic shea butter", "Vegan + cruelty-free"],
+    attributes: ["100% raw shea", "Organic", "Vegan", "Cruelty free"],
+    allAttributes: ["Responsibly sourced", "Non-GMO", "No fillers", "No added fragrance", "Made in USA"],
+    ingredients: ["Organic Butyrospermum Parkii (Shea) Butter"],
+    productType: "Raw Shea Butter",
+    netWeight: "4 oz (113 g)",
     suggestedUse:
-      "Scoop a small amount and warm between hands. Massage onto skin, focusing on dry areas. Use daily for soft, nourished skin.",
+      "Apply a thin layer wherever skin or hair needs moisture. Store in a cool, dry place between 60–70°F (15–21°C), away from direct sunlight.",
     warning: externalWarning,
-    attributes: rawSheaFeaturedAttributes,
-    allAttributes: rawSheaSupplierAttributes,
-    scene: { from: "#e8d3a8", to: "#fff6e2", motes: "#fffdf7" },
+    scene: { from: "#f7eddc", to: "#fff8ea", motes: "#fffdf8" },
     images: [
-      { src: sheaReal1, alt: "Real LOCKHABIT raw shea jar front view" },
-      { src: sheaReal2, alt: "Real LOCKHABIT raw shea jar held upright" },
-      { src: sheaReal3, alt: "Real LOCKHABIT raw shea jar held at an angle" },
-      { src: sheaReal4, alt: "Real LOCKHABIT raw shea open jar view" },
+      { src: sheaReal1, alt: "LOCKHABIT Raw Shea Butter jar front view" },
+      { src: sheaReal2, alt: "LOCKHABIT Raw Shea Butter jar held upright" },
+      { src: sheaReal3, alt: "LOCKHABIT Raw Shea Butter jar held at an angle" },
+      { src: sheaReal4, alt: "LOCKHABIT Raw Shea Butter open jar view" },
     ],
   },
   {
     id: 12,
     slug: "kojic-acid-turmeric-soap",
     name: "Kojic Acid & Turmeric Soap",
-    note: "Golden · Citrus · Radiant",
+    note: "Turmeric · Kojic Acid · Citrus",
     price: 35,
     kind: "Soap bar",
-    tagline: "Golden, bright, and a little bit glowy.",
+    tagline: "Golden hour, now available in the shower.",
     description:
-      "Turmeric and kojic acid in a golden bar made for an even, fresh-looking finish. Use it a few times a week and follow with moisturiser.",
-    highlights: ["Golden turmeric bar", "Brightening routine", "Citrus-warm scent"],
-    ingredients: [
-      "Saponified organic extra virgin olive oil",
-      "Organic palm oil",
-      "Organic coconut oil",
-      "Organic shea butter",
-      "Kojic acid",
-      "Turmeric",
-      "Lemon extract",
-      "Fragrance",
+      "A 3.5 oz kojic-acid and turmeric bar with organic coconut, shea, sustainable palm, lemon and cocoa ingredients plus mango butter.",
+    productStory:
+      "Kojic Acid & Turmeric is the golden-hour bar: turmeric powder and kojic acid headline the formula, with organic coconut oil, shea butter, sustainable palm oil, lemon oil and cocoa butter plus mango butter underneath. The supplier positions the combination as a radiance-focused cleanser for a more even-looking finish; we keep the promise cosmetic and simple — cleanse, rinse, moisturize, repeat as your skin tolerates it. Bright bar, no miracle language.",
+    seoTitle: "Kojic Acid & Turmeric Soap – Radiance Bar | LOCKHABIT",
+    seoDescription:
+      "A 3.5 oz kojic acid and turmeric soap with organic coconut oil, shea butter, sustainable palm oil, lemon oil, cocoa butter and mango butter. Made in the USA.",
+    ingredientStatement:
+      "Sorbitol, Organic Coconut Oil, Propylene Glycol, Stearic Acid, Water, Sodium Hydroxide, Kosher Glycerin, Organic Shea Butter, Organic Sustainable Palm Oil, Organic Lemon Oil, Organic Cocoa Butter, Mango Butter, Organic Turmeric Powder, Kojic Acid.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What are the key ingredients in Kojic Acid & Turmeric Soap?",
+        answer:
+          "The formula includes kojic acid and organic turmeric powder along with organic coconut oil, organic shea butter, organic sustainable palm oil, organic lemon oil, organic cocoa butter and mango butter.",
+      },
+      {
+        question: "Does Kojic Acid & Turmeric Soap contain added fragrance?",
+        answer:
+          "No fragrance is listed in the supplier ingredient statement, and the supplier lists this product as fragrance-free.",
+      },
+      {
+        question: "Is Kojic Acid & Turmeric Soap non-GMO?",
+        answer: "Yes. Non-GMO is one of the attributes listed by the supplier for this product.",
+      },
+      {
+        question: "How should I use Kojic Acid & Turmeric Soap?",
+        answer:
+          "Wet skin with warm water and lather in a circular motion. The supplier suggests leaving the lather on for 30–60 seconds, then rinsing thoroughly with cool water and patting dry. Stop use if irritation occurs.",
+      },
+      {
+        question: "How big is the bar and where is it made?",
+        answer:
+          "Kojic Acid & Turmeric Soap is made in the USA and has a net weight of 3.5 oz (99 g).",
+      },
     ],
-    productType: "Botanical Bar Soap",
-    netWeight: "4 oz (113 g)",
-    suggestedUse: soapUse,
-    warning: externalWarning,
-    attributes: kojicFeaturedAttributes,
-    allAttributes: kojicSupplierAttributes,
-    scene: { from: "#f2b13c", to: "#ffe08a", motes: "#fff8e3" },
+    highlights: ["Kojic acid + turmeric", "Organic oils + rich butters", "Fragrance-free formula"],
+    attributes: ["Non-GMO", "Cruelty free", "Fragrance free", "Paraben free"],
+    allAttributes: ["Vegetarian", "No fillers", "Phthalate free", "Sustainable palm oil", "Made in USA"],
+    ingredients: [
+      "Sorbitol",
+      "Organic coconut oil",
+      "Propylene glycol",
+      "Stearic acid",
+      "Water",
+      "Sodium hydroxide",
+      "Kosher glycerin",
+      "Organic shea butter",
+      "Organic sustainable palm oil",
+      "Organic lemon oil",
+      "Organic cocoa butter",
+      "Mango butter",
+      "Organic turmeric powder",
+      "Kojic acid",
+    ],
+    productType: "Kojic Acid & Turmeric Bar Soap",
+    netWeight: "3.5 oz (99 g)",
+    suggestedUse:
+      "Wet skin with warm water and lather in a circular motion. Leave on for 30–60 seconds, rinse thoroughly with cool water, and pat dry. Keep the bar dry between uses.",
+    warning:
+      "For topical use only. Not for internal consumption. Avoid contact with eyes. Discontinue use if irritation occurs; rinse eyes thoroughly with clean water after accidental contact.",
+    scene: { from: "#fff0cf", to: "#fff6df", motes: "#fffaf0" },
     images: [
-      { src: turmericReal1, alt: "Real LOCKHABIT kojic turmeric front view" },
-      { src: turmericReal2, alt: "Real LOCKHABIT kojic turmeric packaged and unwrapped view" },
-      { src: turmericReal3, alt: "Real LOCKHABIT kojic turmeric three-bar view" },
-      { src: turmericReal4, alt: "Real LOCKHABIT kojic turmeric stacked bar view" },
+      { src: turmericReal1, alt: "LOCKHABIT Kojic Acid & Turmeric Soap front view" },
+      { src: turmericReal2, alt: "LOCKHABIT Kojic Acid & Turmeric Soap packaged and unwrapped view" },
+      { src: turmericReal3, alt: "LOCKHABIT Kojic Acid & Turmeric Soap three-bar view" },
+      { src: turmericReal4, alt: "LOCKHABIT Kojic Acid & Turmeric Soap stacked bar view" },
     ],
   },
+
 ];
 
 export const productBySlug = (slug: string) => products.find((product) => product.slug === slug);
