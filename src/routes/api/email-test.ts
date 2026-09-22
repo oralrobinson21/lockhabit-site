@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   renderOrderConfirmation,
   sendOrderConfirmation,
+  type ConfirmationItem,
   type OrderConfirmation,
 } from "@/lib/order-confirmation-email.server";
 
@@ -22,16 +23,33 @@ const MAX_SENDS_PER_HOUR = 6;
 
 const sendLog: number[] = [];
 
-const singleItem = [{ name: "Build Your Own 3-Bar Bundle", quantity: 1, amountTotal: 8900 }];
-const multiItems = [
+/** Catalog used to expand `?items=N` into real line rows (mirrors product-selection). */
+const PROOF_CATALOG: ConfirmationItem[] = [
   { name: "Coconut Beach Soap", quantity: 1, amountTotal: 2967 },
   { name: "Oat Milk Honey Soap", quantity: 1, amountTotal: 2967 },
   { name: "Calming Lavender Soap", quantity: 1, amountTotal: 2966 },
+  { name: "Breathe Clear Soap", quantity: 1, amountTotal: 2967 },
+  { name: "Charcoal Soap", quantity: 1, amountTotal: 2967 },
+  { name: "Slumber Soap", quantity: 1, amountTotal: 2966 },
 ];
 
+const buildItems = (itemCount: number): ConfirmationItem[] => {
+  if (itemCount <= 1) {
+    return [{ name: "Build Your Own 3-Bar Bundle", quantity: 1, amountTotal: 8900 }];
+  }
+  const picked = PROOF_CATALOG.slice(0, Math.min(itemCount, PROOF_CATALOG.length));
+  // If caller asks for more rows than the catalog, repeat with bumped qty on the last.
+  while (picked.length < itemCount) {
+    const base = PROOF_CATALOG[picked.length % PROOF_CATALOG.length]!;
+    picked.push({ ...base, quantity: 1, amountTotal: base.amountTotal });
+  }
+  return picked;
+};
+
 const syntheticOrder = (run: string, itemCount: number): OrderConfirmation => {
-  const items = itemCount >= 3 ? multiItems : singleItem;
+  const items = buildItems(itemCount);
   const subtotal = items.reduce((sum, item) => sum + item.amountTotal, 0);
+  const discountAmount = Math.max(0, subtotal - 100);
   return {
     checkoutSessionId: `email-template-proof-${run}`,
     orderNumber: 999999,
@@ -53,8 +71,8 @@ const syntheticOrder = (run: string, itemCount: number): OrderConfirmation => {
     items,
     paidAt: new Date().toISOString(),
     discountCode: "LOCKHABIT3FOR1B",
-    discountAmount: 8800,
-    orderKind: itemCount >= 3 ? "3-Bar Mix" : "3-Bar Bundle",
+    discountAmount,
+    orderKind: itemCount >= 3 ? `${itemCount}-Bar Mix` : itemCount === 1 ? "3-Bar Bundle" : "Order",
   };
 };
 
@@ -93,7 +111,13 @@ export const Route = createFileRoute("/api/email-test")({
         sendLog.push(now);
 
         const id = await sendOrderConfirmation(order);
-        return Response.json({ sent: true, id, to: order.customerEmail, run });
+        return Response.json({
+          sent: true,
+          id,
+          to: order.customerEmail,
+          run,
+          itemCount: order.items.length,
+        });
       },
     },
   },

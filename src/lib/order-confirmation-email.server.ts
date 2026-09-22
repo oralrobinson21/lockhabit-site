@@ -253,12 +253,17 @@ export async function renderOrderConfirmation(
     .map((item, index) => {
       const label = `${item.name} × ${item.quantity}`;
       const price = money(item.amountTotal, order.currency);
-      return `
+      const topPad = index === 0 ? 16 : 10;
+      const rule =
+        index > 0
+          ? `<tr><td colspan="2" style="padding:0 20px;"><div style="height:1px;line-height:1px;font-size:1px;background-color:${C.rule};">&nbsp;</div></td></tr>`
+          : "";
+      return `${rule}
         <tr>
-          <td class="cell" style="padding:${index === 0 ? 16 : 6}px 20px 6px;vertical-align:top;">
+          <td class="cell" style="padding:${topPad}px 20px 6px;vertical-align:top;">
             ${inkBag.slot("cell", label, 300)}
           </td>
-          <td class="cell" align="right" style="padding:${index === 0 ? 16 : 6}px 20px 6px;text-align:right;vertical-align:top;white-space:nowrap;">
+          <td class="cell" align="right" style="padding:${topPad}px 20px 6px;text-align:right;vertical-align:top;white-space:nowrap;">
             ${inkBag.slot("cell-right", price, 90, "margin-left:auto;")}
           </td>
         </tr>`;
@@ -346,14 +351,16 @@ u + #body a{color:inherit;text-decoration:none}
   .stamp-mobile{display:table-cell!important;width:96px!important;max-height:none!important;overflow:visible!important;padding-left:6px!important}
   .stamp-mobile img{display:block!important;width:92px!important;height:auto!important}
   .cell{padding-left:12px!important;padding-right:12px!important}
-  .foliage{display:none!important}
+  /* Keep left foliage on mobile as a small bottom-left palm (was fully hidden). */
+  .foliage{display:block!important;width:100%!important;max-width:100%!important;text-align:left!important;padding:0 0 4px 8px!important;line-height:0!important;font-size:0!important}
+  .foliage img{display:inline-block!important;width:40px!important;height:auto!important}
   .stack{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important;text-align:center!important}
-  .stack-copy{text-align:center!important;padding:0 16px 14px!important;overflow:visible!important}
+  .stack-copy{text-align:center!important;padding:0 12px 14px!important;overflow:visible!important}
   .thanks-img{width:92%!important;max-width:300px!important;margin-left:auto!important;margin-right:auto!important}
   .thanks-body{width:92%!important;max-width:268px!important;margin:10px auto 0!important}
   .cta-cell{text-align:center!important;padding-bottom:16px!important;overflow:visible!important}
   .vacation{margin:6px auto 0!important;max-width:128px!important;height:auto!important}
-  .footer-art{overflow:visible!important}
+  .footer-art{overflow:visible!important;padding:0!important}
   .cream-card{overflow:visible!important}
 }
 @media (prefers-color-scheme:dark){
@@ -491,9 +498,10 @@ u + #body a{color:inherit;text-decoration:none}
             : ""
         }
 
-        <!-- Thank-you + CTA -->
+        <!-- Thank-you + CTA (cream card ends here — footer stays outside so Outlook
+             cannot clip palm fronds / GOOD HABITS · BRIGHTER DAYS via border-radius) -->
         <tr>
-          <td class="bg-cream" ${paper("cream")} style="padding:18px 0 0;${bg("cream")}">
+          <td class="bg-cream" ${paper("cream")} style="padding:18px 0 8px;${bg("cream")}border-radius:0 0 22px 22px;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td class="foliage" width="56" valign="bottom" style="padding:0;line-height:0;font-size:0;">
@@ -512,20 +520,20 @@ u + #body a{color:inherit;text-decoration:none}
           </td>
         </tr>
 
-        <!-- Turquoise wave footer -->
-        <tr>
-          <td class="bg-cream footer-art" ${paper("cream")} style="padding:0;line-height:0;font-size:0;overflow:visible;${bg("cream")}">
-            <img src="${asset("receipt-footer.jpg")}" width="612" alt="LOCKHABIT — Good Habits · Brighter Days" style="display:block;width:100%;max-width:100%;height:auto;border:0;border-radius:0 0 16px 16px;">
-          </td>
-        </tr>
-
       </table>
+    </td>
+  </tr>
+
+  <!-- Turquoise wave footer — outside cream card so palms + tagline are not clipped -->
+  <tr>
+    <td class="bg-sand footer-art" ${paper("sand")} style="padding:0;line-height:0;font-size:0;overflow:visible;${bg("sand")}">
+      <img src="${asset("receipt-footer.jpg")}" width="640" alt="LOCKHABIT — Good Habits · Brighter Days" style="display:block;width:100%;max-width:640px;height:auto;border:0;">
     </td>
   </tr>
 
   <!-- Support -->
   <tr>
-    <td align="center" class="bg-sand" ${paper("sand")} style="padding:2px 24px 22px;${bg("sand")}">
+    <td align="center" class="bg-sand" ${paper("sand")} style="padding:10px 24px 28px;${bg("sand")}">
       ${inkBag.slot("support", "Questions about your order?", 280)}
       <div style="height:4px;line-height:4px;font-size:4px;">&nbsp;</div>
       <div style="${sans}font-size:12px;line-height:18px;${ink(C.ink)}">
