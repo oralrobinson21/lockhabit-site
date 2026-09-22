@@ -11,7 +11,6 @@ type CartContextValue = {
   cartSavings: number;
   qualifiesForFreeShipping: boolean;
   canSubscribe: boolean;
-  hasLaunchGift: boolean;
   subscribe: boolean;
   setSubscribe: (subscribe: boolean) => void;
   setCartOpen: (open: boolean) => void;
@@ -45,7 +44,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       qualifiesForFreeShipping:
         (subscribe && pricing.canSubscribe ? pricing.subtotal * 0.85 : pricing.subtotal) >= 75,
       canSubscribe: pricing.canSubscribe,
-      hasLaunchGift: pricing.hasLaunchGift,
       subscribe,
       setSubscribe,
       setCartOpen,
