@@ -558,6 +558,7 @@ function ProductView({ slug }: { slug: string }) {
                 ) : null}
 
                 {product.productStory ? (
+                  <>
                   <div className="paper-card mt-10 overflow-hidden">
                     <details className="group border-b-2 border-foreground/15 p-6">
                       <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
@@ -651,6 +652,7 @@ function ProductView({ slug }: { slug: string }) {
                       </details>
                     </section>
                   ) : null}
+                  </>
                 ) : (
                 <div className="paper-card mt-10 p-6">
                   <p className="memo text-muted-foreground">What's inside</p>
