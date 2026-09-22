@@ -556,6 +556,9 @@ function Index() {
             <path d="M136 100C174 72 209 64 248 72C214 88 181 101 139 113Z" fill="currentColor" />
           </svg>
 
+          <div className="island-cloud island-cloud-one" aria-hidden="true"><i /><i /><i /></div>
+          <div className="island-cloud island-cloud-two" aria-hidden="true"><i /><i /><i /></div>
+
           <div className="island-footer-copy">
             <p className="island-footer-script">Thanks for<br />being here <span>♡</span></p>
             <p className="island-footer-memo">SLOWER DAYS<br />BRIGHTER SKIN<br />A KINDER WORLD.</p>
