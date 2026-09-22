@@ -33,6 +33,5 @@ export function getCartPricing(lines: CartLine[]) {
     savings: regularSoapTotal - soapTotal,
     qualifiesForFreeShipping: subtotal >= FREE_SHIPPING_THRESHOLD,
     canSubscribe: soapCount > 0 && soapCount !== 3 && soapCount !== 6 && bodyCareTotal === 0,
-    hasLaunchGift: soapCount === 3,
   };
 }
