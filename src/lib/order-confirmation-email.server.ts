@@ -89,6 +89,11 @@ const C = {
 const bg = (hex: string) =>
   `background-color:${hex};background:${hex};background-image:linear-gradient(${hex},${hex});`;
 const ink = (hex: string) => `color:${hex};-webkit-text-fill-color:${hex};`;
+// Same declarations with !important on each, for the dark-mode / Outlook override rules.
+const bgForce = (hex: string) =>
+  `background-color:${hex}!important;background:${hex}!important;background-image:linear-gradient(${hex},${hex})!important;`;
+const inkForce = (hex: string) =>
+  `color:${hex}!important;-webkit-text-fill-color:${hex}!important;`;
 const sans = "font-family:Arial,Helvetica,sans-serif;";
 const serif = "font-family:Georgia,'Times New Roman',Times,serif;";
 
@@ -193,23 +198,23 @@ u + #body a{color:inherit;text-decoration:none}
   .kind{font-size:11px!important;letter-spacing:3px!important}
 }
 @media (prefers-color-scheme:dark){
-  .bg-page{${bg(C.page)}!important}
-  .bg-sand{${bg(C.sand)}!important}
-  .bg-cream{${bg(C.cream)}!important}
-  .bg-table{${bg(C.tableBg)}!important}
-  .bg-thead{${bg(C.tableHead)}!important}
-  .bg-yellow{${bg(C.yellow)}!important}
-  .t-brown{${ink(C.ink)}!important}
-  .t-teal{${ink(C.teal)}!important}
+  .bg-page{${bgForce(C.page)}}
+  .bg-sand{${bgForce(C.sand)}}
+  .bg-cream{${bgForce(C.cream)}}
+  .bg-table{${bgForce(C.tableBg)}}
+  .bg-thead{${bgForce(C.tableHead)}}
+  .bg-yellow{${bgForce(C.yellow)}}
+  .t-brown{${inkForce(C.ink)}}
+  .t-teal{${inkForce(C.teal)}}
 }
-[data-ogsb] .bg-page,[data-ogsc] .bg-page{${bg(C.page)}!important}
-[data-ogsb] .bg-sand,[data-ogsc] .bg-sand{${bg(C.sand)}!important}
-[data-ogsb] .bg-cream,[data-ogsc] .bg-cream{${bg(C.cream)}!important}
-[data-ogsb] .bg-table,[data-ogsc] .bg-table{${bg(C.tableBg)}!important}
-[data-ogsb] .bg-thead,[data-ogsc] .bg-thead{${bg(C.tableHead)}!important}
-[data-ogsb] .bg-yellow,[data-ogsc] .bg-yellow{${bg(C.yellow)}!important}
-[data-ogsc] .t-brown{${ink(C.ink)}!important}
-[data-ogsc] .t-teal{${ink(C.teal)}!important}
+[data-ogsb] .bg-page,[data-ogsc] .bg-page{${bgForce(C.page)}}
+[data-ogsb] .bg-sand,[data-ogsc] .bg-sand{${bgForce(C.sand)}}
+[data-ogsb] .bg-cream,[data-ogsc] .bg-cream{${bgForce(C.cream)}}
+[data-ogsb] .bg-table,[data-ogsc] .bg-table{${bgForce(C.tableBg)}}
+[data-ogsb] .bg-thead,[data-ogsc] .bg-thead{${bgForce(C.tableHead)}}
+[data-ogsb] .bg-yellow,[data-ogsc] .bg-yellow{${bgForce(C.yellow)}}
+[data-ogsc] .t-brown{${inkForce(C.ink)}}
+[data-ogsc] .t-teal{${inkForce(C.teal)}}
 </style>
 </head>
 <body id="body" class="bg-page" bgcolor="${C.page}" style="margin:0;padding:0;${bg(C.page)}">
