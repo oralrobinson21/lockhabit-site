@@ -14,7 +14,7 @@ type CartContextValue = {
   subscribe: boolean;
   setSubscribe: (subscribe: boolean) => void;
   setCartOpen: (open: boolean) => void;
-  addToCart: (id: number) => void;
+  addToCart: (id: number, quantity?: number) => void;
   addBundle: (ids: number[]) => void;
   changeQuantity: (id: number, amount: number) => void;
 };
@@ -47,8 +47,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       subscribe,
       setSubscribe,
       setCartOpen,
-      addToCart: (id: number) => {
-        setCart((current) => ({ ...current, [id]: (current[id] ?? 0) + 1 }));
+      addToCart: (id: number, quantity = 1) => {
+        const count = Math.max(1, Math.floor(quantity));
+        setCart((current) => ({ ...current, [id]: (current[id] ?? 0) + count }));
         setCartOpen(true);
       },
       addBundle: (ids: number[]) => {

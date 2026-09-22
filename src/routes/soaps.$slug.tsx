@@ -28,6 +28,7 @@ import { SiteHeader } from "@/components/site-header";
 import { IslandFooter } from "@/components/island-footer";
 import { useCart } from "@/lib/cart";
 import { productBySlug, products, relatedProducts, type GalleryImage } from "@/lib/catalog";
+import { productMeta, productStructuredData, threeBarOffer } from "@/lib/product-seo";
 
 type ProductRouteSearch = {
   slug: string;
@@ -78,14 +79,7 @@ function GalleryMedia({
   );
 }
 
-
-function BadgeDrawing({
-  size,
-  children,
-}: {
-  size: number;
-  children: ReactNode;
-}) {
+function BadgeDrawing({ size, children }: { size: number; children: ReactNode }) {
   return (
     <svg
       width={size}
@@ -267,58 +261,37 @@ function AttributeSeal({
 export const Route = createFileRoute("/soaps/$slug")({
   head: ({ params }) => {
     const product = productBySlug(params.slug);
-    const isCoconut = product?.slug === "coconut-beach-soap";
-    const canonical = product ? `https://lockhabit.com/soaps/${product.slug}` : "https://lockhabit.com/";
-    const image = product?.images[0]?.src
-      ? new URL(product.images[0].src, "https://lockhabit.com").href
-      : "https://lockhabit.com/favicon.png";
+    const meta = product ? productMeta(product) : null;
 
     return {
-      meta: product
-        ? [
-            {
-              title: isCoconut
-                ? "Coconut Beach Soap – Coconut & Shea Butter Bar | LOCKHABIT"
-                : `${product.name} | LOCKHABIT SOAP CO.`,
-            },
-            {
-              name: "description",
-              content: isCoconut
-                ? "A creamy 4 oz coconut soap bar made with organic coconut, olive and palm oils plus organic shea butter. Warm tropical scent. Made in the USA."
-                : `${product.name} — ${product.note}. ${product.tagline}`,
-            },
-            { property: "og:title", content: isCoconut ? "Coconut Beach Soap – Coconut & Shea Butter Bar | LOCKHABIT" : `${product.name} | LOCKHABIT SOAP CO.` },
-            {
-              property: "og:description",
-              content: isCoconut
-                ? "Creamy coconut soap with organic coconut, olive and palm oils plus organic shea butter."
-                : `${product.tagline} From the LOCKHABIT Soap Co. catalog.`,
-            },
-            { property: "og:type", content: isCoconut ? "product" : "website" },
-            { property: "og:url", content: canonical },
-            { property: "og:image", content: image },
-            { property: "og:image:alt", content: product.images[0]?.alt ?? product.name },
-            ...(isCoconut
-              ? [
-                  { property: "product:price:amount", content: product.price.toFixed(2) },
-                  { property: "product:price:currency", content: "USD" },
-                ]
-              : []),
-            { name: "twitter:card", content: "summary_large_image" },
-            { name: "twitter:title", content: product.name },
-            { name: "twitter:description", content: product.description },
-            { name: "twitter:image", content: image },
-          ]
-        : [
-            { title: "Soap not found | LOCKHABIT SOAP CO." },
-            {
-              name: "description",
-              content: "This bar has checked out. Browse the full LOCKHABIT catalog instead.",
-            },
-            { property: "og:type", content: "website" },
-            { name: "twitter:card", content: "summary_large_image" },
-          ],
-      links: product ? [{ rel: "canonical", href: canonical }] : [],
+      meta:
+        product && meta
+          ? [
+              { title: meta.title },
+              { name: "description", content: meta.description },
+              { property: "og:title", content: meta.title },
+              { property: "og:description", content: meta.description },
+              { property: "og:type", content: "product" },
+              { property: "og:url", content: meta.canonical },
+              { property: "og:image", content: meta.image },
+              { property: "og:image:alt", content: product.images[0]?.alt ?? product.name },
+              { property: "product:price:amount", content: product.price.toFixed(2) },
+              { property: "product:price:currency", content: "USD" },
+              { name: "twitter:card", content: "summary_large_image" },
+              { name: "twitter:title", content: meta.title },
+              { name: "twitter:description", content: meta.description },
+              { name: "twitter:image", content: meta.image },
+            ]
+          : [
+              { title: "Soap not found | LOCKHABIT SOAP CO." },
+              {
+                name: "description",
+                content: "This bar has checked out. Browse the full LOCKHABIT catalog instead.",
+              },
+              { property: "og:type", content: "website" },
+              { name: "twitter:card", content: "summary_large_image" },
+            ],
+      links: meta ? [{ rel: "canonical", href: meta.canonical }] : [],
     };
   },
   component: ProductPage,
@@ -339,40 +312,12 @@ function ProductView({ slug }: { slug: string }) {
   const related = relatedProducts(product);
   const catalogIndex = products.findIndex((candidate) => candidate.id === product.id);
   const sceneRef = useRef<HTMLDivElement | null>(null);
-  const isCoconut = product.slug === "coconut-beach-soap";
-  const canonicalUrl = `https://lockhabit.com/soaps/${product.slug}`;
-  const coconutStructuredData = isCoconut
-    ? {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "Product",
-            "@id": `${canonicalUrl}#product`,
-            name: product.name,
-            description: product.description,
-            image: product.images.map((image) => new URL(image.src, "https://lockhabit.com").href),
-            brand: { "@type": "Brand", name: "LOCKHABIT" },
-            sku: "LOCKHABIT-COCONUT-BEACH",
-            category: "Bar Soap",
-            offers: {
-              "@type": "Offer",
-              url: canonicalUrl,
-              priceCurrency: "USD",
-              price: product.price.toFixed(2),
-              availability: "https://schema.org/InStock",
-              itemCondition: "https://schema.org/NewCondition",
-            },
-          },
-          {
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://lockhabit.com/" },
-              { "@type": "ListItem", position: 2, name: product.name, item: canonicalUrl },
-            ],
-          },
-        ],
-      }
-    : null;
+  const structuredData = productStructuredData(product);
+  const ingredientLine =
+    product.ingredientStatement ??
+    product.ingredients
+      .map((ingredient) => ingredient.charAt(0).toUpperCase() + ingredient.slice(1))
+      .join(", ") + ".";
 
   useEffect(() => {
     const node = sceneRef.current;
@@ -389,12 +334,10 @@ function ProductView({ slug }: { slug: string }) {
 
   return (
     <main className="overflow-x-hidden bg-background text-foreground">
-      {coconutStructuredData ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(coconutStructuredData) }}
-        />
-      ) : null}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <div className="grain relative overflow-hidden" ref={sceneRef}>
         <div
           className={`product-scene-sky scene-bg-${product.id} absolute inset-0`}
@@ -422,22 +365,16 @@ function ProductView({ slug }: { slug: string }) {
           <SiteHeader />
 
           <section className="mx-auto max-w-7xl px-5 pt-10 pb-16 lg:px-10 lg:pt-14">
-            {isCoconut ? (
-              <nav aria-label="Breadcrumb" className="memo flex flex-wrap items-center gap-2 text-foreground/70">
-                <Link to="/" className="inline-flex items-center gap-2 hover:text-foreground">
-                  <ArrowLeft size={14} /> Home
-                </Link>
-                <span aria-hidden="true">/</span>
-                <span aria-current="page">{product.name}</span>
-              </nav>
-            ) : (
-              <Link
-                to="/"
-                className="memo inline-flex items-center gap-2 text-foreground/70 hover:text-foreground"
-              >
-                <ArrowLeft size={14} /> Back to the lobby
+            <nav
+              aria-label="Breadcrumb"
+              className="memo flex flex-wrap items-center gap-2 text-foreground/70"
+            >
+              <Link to="/" className="inline-flex items-center gap-2 hover:text-foreground">
+                <ArrowLeft size={14} /> Home
               </Link>
-            )}
+              <span aria-hidden="true">/</span>
+              <span aria-current="page">{product.name}</span>
+            </nav>
 
             <div className="mt-8 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
               <div>
@@ -510,10 +447,32 @@ function ProductView({ slug }: { slug: string }) {
                     See all twelve <ArrowRight size={16} />
                   </Link>
                 </div>
-                {isCoconut ? (
-                  <p className="memo mt-4 text-muted-foreground">
-                    Free shipping on orders $75+ · <Link to="/shipping" className="underline underline-offset-4 hover:text-foreground">Shipping details</Link>
-                  </p>
+                <p className="memo mt-4 text-muted-foreground">
+                  Orders under ${threeBarOffer.freeShippingAt} ship for $7.95.{" "}
+                  <Link
+                    to="/shipping"
+                    className="underline underline-offset-4 hover:text-foreground"
+                  >
+                    Shipping details
+                  </Link>
+                </p>
+                {product.kind === "Soap bar" ? (
+                  <div className="paper-card mt-5 p-5">
+                    <p className="memo text-muted-foreground">The longer stay</p>
+                    <p className="mt-2 font-display text-2xl font-semibold leading-tight">
+                      3 bars for ${threeBarOffer.price}
+                    </p>
+                    <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+                      ${threeBarOffer.savings} off three single bars, and the order ships free. Same
+                      bar, stocked for the month.
+                    </p>
+                    <button
+                      className="primary-button mt-4"
+                      onClick={() => addToCart(product.id, 3)}
+                    >
+                      Add 3 bars <Plus size={18} />
+                    </button>
+                  </div>
                 ) : null}
 
                 {product.attributes?.length ? (
@@ -559,127 +518,121 @@ function ProductView({ slug }: { slug: string }) {
 
                 {product.productStory ? (
                   <>
-                  <div className="paper-card mt-10 overflow-hidden">
-                    <details className="group border-b-2 border-foreground/15 p-6">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                        <h2 className="memo">Meet {product.name.replace(" Soap", "")}</h2>
-                        <Plus size={16} className="transition-transform group-open:rotate-45" />
-                      </summary>
-                      <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                        {product.productStory}
-                      </p>
-                    </details>
+                    <div className="paper-card mt-10 overflow-hidden">
+                      <details className="group border-b-2 border-foreground/15 p-6" open>
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                          <h2 className="memo">Meet {product.name.replace(/ Soap$/, "")}</h2>
+                          <Plus size={16} className="transition-transform group-open:rotate-45" />
+                        </summary>
+                        <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                          {product.productStory}
+                        </p>
+                      </details>
 
-                    <details className="group border-b-2 border-foreground/15 p-6">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                        <h2 className="memo">What's inside</h2>
-                        <Plus size={16} className="transition-transform group-open:rotate-45" />
-                      </summary>
-                      <p className="mt-4 text-sm leading-7">
-                        Saponified Oils (Organic Extra Virgin Olive Oil, Organic Palm Oil, Organic
-                        Coconut Oil, Organic Shea Butter), Fragrance.
-                      </p>
-                    </details>
+                      <details className="group border-b-2 border-foreground/15 p-6">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                          <h2 className="memo">What's inside</h2>
+                          <Plus size={16} className="transition-transform group-open:rotate-45" />
+                        </summary>
+                        <p className="mt-4 text-sm leading-7">{ingredientLine}</p>
+                      </details>
 
-                    <details className="group border-b-2 border-foreground/15 p-6">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                        <h2 className="memo">How to use it</h2>
-                        <Plus size={16} className="transition-transform group-open:rotate-45" />
-                      </summary>
-                      <p className="mt-4 text-sm leading-7">{product.suggestedUse}</p>
-                    </details>
+                      <details className="group border-b-2 border-foreground/15 p-6">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                          <h2 className="memo">How to use it</h2>
+                          <Plus size={16} className="transition-transform group-open:rotate-45" />
+                        </summary>
+                        <p className="mt-4 text-sm leading-7">{product.suggestedUse}</p>
+                      </details>
 
-                    
-
-                    <details className="group p-6">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                        <h2 className="memo">The fine print</h2>
-                        <Plus size={16} className="transition-transform group-open:rotate-45" />
-                      </summary>
-                      <div className="mt-4 grid gap-4 text-sm leading-6 sm:grid-cols-2">
-                        <div>
-                          <p className="memo text-muted-foreground">Net weight</p>
-                          <p className="mt-1">{product.netWeight}</p>
+                      <details className="group p-6">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                          <h2 className="memo">The fine print</h2>
+                          <Plus size={16} className="transition-transform group-open:rotate-45" />
+                        </summary>
+                        <div className="mt-4 grid gap-4 text-sm leading-6 sm:grid-cols-2">
+                          <div>
+                            <p className="memo text-muted-foreground">Net weight</p>
+                            <p className="mt-1">{product.netWeight}</p>
+                          </div>
+                          {product.madeIn ? (
+                            <div>
+                              <p className="memo text-muted-foreground">Country of manufacture</p>
+                              <p className="mt-1">{product.madeIn}</p>
+                            </div>
+                          ) : null}
                         </div>
-                        <div>
-                          <p className="memo text-muted-foreground">Country of manufacture</p>
-                          <p className="mt-1">USA</p>
+                        <div className="mt-5 border-t-2 border-foreground/15 pt-5">
+                          <p className="memo text-muted-foreground">Warning</p>
+                          <p className="mt-2 text-sm leading-6">{product.warning}</p>
                         </div>
+                        <p className="memo mt-5 text-muted-foreground">
+                          Manufactured for and distributed by LOCKHABIT · Bronx, New York
+                        </p>
+                      </details>
+                    </div>
+
+                    {product.faqs?.length ? (
+                      <section
+                        className="paper-card mt-6 overflow-hidden"
+                        aria-labelledby={`${product.slug}-faq-title`}
+                      >
+                        <div className="border-b-2 border-foreground/15 p-6">
+                          <p className="eyebrow">Before you check in</p>
+                          <h2
+                            id={`${product.slug}-faq-title`}
+                            className="font-display text-2xl font-semibold"
+                          >
+                            {product.name.replace(/ Soap$/, "")} questions
+                          </h2>
+                        </div>
+                        {product.faqs.map((faq, index) => (
+                          <details
+                            key={faq.question}
+                            className={`group p-6 ${index === product.faqs!.length - 1 ? "" : "border-b-2 border-foreground/15"}`}
+                          >
+                            <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                              <h3 className="memo">{faq.question}</h3>
+                              <Plus
+                                size={16}
+                                className="transition-transform group-open:rotate-45"
+                              />
+                            </summary>
+                            <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                              {faq.answer}
+                            </p>
+                          </details>
+                        ))}
+                      </section>
+                    ) : null}
+                  </>
+                ) : (
+                  <div className="paper-card mt-10 p-6">
+                    <p className="memo text-muted-foreground">What's inside</p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {product.ingredients.map((ingredient) => (
+                        <span
+                          key={ingredient}
+                          className="memo inline-flex items-center gap-2 rounded-full border-2 border-foreground/20 px-3 py-1.5 normal-case tracking-normal"
+                        >
+                          <Leaf size={12} className="text-primary" /> {ingredient}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-7 grid gap-5 border-t-2 border-foreground/15 pt-6 sm:grid-cols-2">
+                      <div>
+                        <p className="memo text-muted-foreground">Suggested use</p>
+                        <p className="mt-2 text-sm leading-6">{product.suggestedUse}</p>
                       </div>
-                      <div className="mt-5 border-t-2 border-foreground/15 pt-5">
+                      <div>
                         <p className="memo text-muted-foreground">Warning</p>
                         <p className="mt-2 text-sm leading-6">{product.warning}</p>
                       </div>
-                      <p className="memo mt-5 text-muted-foreground">
-                        Manufactured for and distributed by LOCKHABIT · Bronx, New York
-                      </p>
-                    </details>
-                  </div>
-
-                  {isCoconut ? (
-                    <section className="paper-card mt-6 overflow-hidden" aria-labelledby="coconut-faq-title">
-                      <div className="border-b-2 border-foreground/15 p-6">
-                        <p className="eyebrow">Before you check in</p>
-                        <h2 id="coconut-faq-title" className="font-display text-2xl font-semibold">Coconut Beach questions</h2>
-                      </div>
-                      <details className="group border-b-2 border-foreground/15 p-6">
-                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                          <h3 className="memo">Is Coconut Beach Soap vegan?</h3>
-                          <Plus size={16} className="transition-transform group-open:rotate-45" />
-                        </summary>
-                        <p className="mt-4 text-sm leading-7 text-muted-foreground">Yes. Vegan is one of the supplier-listed attributes for this formula.</p>
-                      </details>
-                      <details className="group border-b-2 border-foreground/15 p-6">
-                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                          <h3 className="memo">What is Coconut Beach Soap made with?</h3>
-                          <Plus size={16} className="transition-transform group-open:rotate-45" />
-                        </summary>
-                        <p className="mt-4 text-sm leading-7 text-muted-foreground">Saponified organic extra virgin olive oil, organic palm oil, organic coconut oil, organic shea butter, and fragrance.</p>
-                      </details>
-                      <details className="group border-b-2 border-foreground/15 p-6">
-                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                          <h3 className="memo">How should I use and store the bar?</h3>
-                          <Plus size={16} className="transition-transform group-open:rotate-45" />
-                        </summary>
-                        <p className="mt-4 text-sm leading-7 text-muted-foreground">Add warm water for a thick lather, wash, and rinse thoroughly. Keep the bar dry between uses to help extend its longevity.</p>
-                      </details>
-                      <details className="group p-6">
-                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                          <h3 className="memo">Where is it made and how big is the bar?</h3>
-                          <Plus size={16} className="transition-transform group-open:rotate-45" />
-                        </summary>
-                        <p className="mt-4 text-sm leading-7 text-muted-foreground">Coconut Beach Soap is made in the USA and has a net weight of 4 oz (113 g).</p>
-                      </details>
-                    </section>
-                  ) : null}
-                  </>
-                ) : (
-                <div className="paper-card mt-10 p-6">
-                  <p className="memo text-muted-foreground">What's inside</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {product.ingredients.map((ingredient) => (
-                      <span
-                        key={ingredient}
-                        className="memo inline-flex items-center gap-2 rounded-full border-2 border-foreground/20 px-3 py-1.5 normal-case tracking-normal"
-                      >
-                        <Leaf size={12} className="text-primary" /> {ingredient}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-7 grid gap-5 border-t-2 border-foreground/15 pt-6 sm:grid-cols-2">
-                    <div>
-                      <p className="memo text-muted-foreground">Suggested use</p>
-                      <p className="mt-2 text-sm leading-6">{product.suggestedUse}</p>
                     </div>
-                    <div>
-                      <p className="memo text-muted-foreground">Warning</p>
-                      <p className="mt-2 text-sm leading-6">{product.warning}</p>
-                    </div>
+                    <p className="memo mt-6 text-muted-foreground">
+                      Manufactured for and distributed by LOCKHABIT · Bronx, New York
+                    </p>
                   </div>
-                  <p className="memo mt-6 text-muted-foreground">
-                    Manufactured for and distributed by LOCKHABIT · Bronx, New York
-                  </p>
-                </div>
                 )}
               </div>
             </div>
@@ -765,7 +718,7 @@ function ProductView({ slug }: { slug: string }) {
           </div>
         </div>
       </section>
-      {isCoconut ? <IslandFooter /> : null}
+      <IslandFooter />
     </main>
   );
 }

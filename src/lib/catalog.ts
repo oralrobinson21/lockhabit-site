@@ -72,6 +72,14 @@ export type Product = {
   attributes?: string[];
   allAttributes?: string[];
   productStory?: string;
+  /** Search title. Falls back to the product name when a bar has not been written yet. */
+  seoTitle?: string;
+  /** Search description. Falls back to the on-page description. */
+  seoDescription?: string;
+  /** Label-style ingredient line, when it differs from the ingredient list. */
+  ingredientStatement?: string;
+  madeIn?: string;
+  faqs?: { question: string; answer: string }[];
   /** Drives the colour of the animated scene on the product page. */
   scene: { from: string; to: string; motes: string };
   images: GalleryImage[];
@@ -84,19 +92,9 @@ const exfoliatingUse =
 const externalWarning =
   "For external use only. Avoid contact with eyes and open wounds. Discontinue use if irritation occurs.";
 
-const standardFeaturedAttributes = [
-  "Cruelty free",
-  "Vegan",
-  "100% natural",
-  "Paraben free",
-];
+const standardFeaturedAttributes = ["Cruelty free", "Vegan", "100% natural", "Paraben free"];
 
-const coconutFeaturedAttributes = [
-  "Vegan",
-  "100% natural",
-  "Non-GMO",
-  "Sulfate free",
-];
+const coconutFeaturedAttributes = ["Vegan", "100% natural", "Non-GMO", "Sulfate free"];
 
 const coconutSupplierAttributes = [
   "Gluten free",
@@ -207,12 +205,7 @@ const luffaSupplierAttributes = [
   "Sulfate free",
 ];
 
-const oatHoneyFeaturedAttributes = [
-  "Cruelty free",
-  "100% natural",
-  "Paraben free",
-  "Sulfate free",
-];
+const oatHoneyFeaturedAttributes = ["Cruelty free", "100% natural", "Paraben free", "Sulfate free"];
 
 const oatHoneySupplierAttributes = [
   "Gluten free",
@@ -228,12 +221,7 @@ const oatHoneySupplierAttributes = [
   "Sulfate free",
 ];
 
-const rawSheaFeaturedAttributes = [
-  "Cruelty free",
-  "Vegan",
-  "100% natural",
-  "Fragrance free",
-];
+const rawSheaFeaturedAttributes = ["Cruelty free", "Vegan", "100% natural", "Fragrance free"];
 
 const rawSheaSupplierAttributes = [
   "Gluten free",
@@ -255,12 +243,7 @@ const rawSheaSupplierAttributes = [
   "Sulfate free",
 ];
 
-const kojicFeaturedAttributes = [
-  "Cruelty free",
-  "100% natural",
-  "Non-GMO",
-  "Paraben free",
-];
+const kojicFeaturedAttributes = ["Cruelty free", "100% natural", "Non-GMO", "Paraben free"];
 
 const kojicSupplierAttributes = [
   "Vegetarian",
@@ -287,6 +270,37 @@ export const products: Product[] = [
       "A creamy coconut-scented soap with a warm tropical finish and a rich everyday lather.",
     productStory:
       "Coconut Beach is a 4 oz coconut soap bar built on saponified organic extra virgin olive, palm and coconut oils with organic shea butter. It works into a creamy lather with a warm coconut fragrance — the closest your shower is getting to checking into a beach hotel on a Tuesday. The supplier states that the organic palm and coconut oils are sourced through fair-trade and sustainable practices. Made in the USA.",
+    seoTitle: "Coconut Beach Soap – Coconut & Shea Butter Bar | LOCKHABIT",
+    seoDescription:
+      "A creamy 4 oz vegan coconut soap bar made with organic coconut, olive and palm oils plus organic shea butter. Warm tropical scent. Made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Organic Extra Virgin Olive Oil, Organic Palm Oil, Organic Coconut Oil, Organic Shea Butter), Fragrance.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "Is Coconut Beach Soap vegan?",
+        answer: "Yes. Vegan is one of the supplier-listed attributes for this formula.",
+      },
+      {
+        question: "What is Coconut Beach Soap made with?",
+        answer:
+          "Saponified organic extra virgin olive oil, organic palm oil, organic coconut oil, organic shea butter, and fragrance.",
+      },
+      {
+        question: "How should I use and store Coconut Beach Soap?",
+        answer:
+          "Add warm water for a thick lather, wash, and rinse thoroughly. Keep the bar dry between uses to help it last longer.",
+      },
+      {
+        question: "Where is Coconut Beach Soap made?",
+        answer: "Coconut Beach Soap is made in the USA and has a net weight of 4 oz (113 g).",
+      },
+      {
+        question: "Does Coconut Beach Soap ship free?",
+        answer:
+          "One bar is $35, and orders under $75 ship for a flat $7.95. Three bars are $89, which is $16 off the single-bar price and qualifies for free shipping.",
+      },
+    ],
     highlights: ["Warm coconut scent", "Creamy lather", "4 oz bar"],
     attributes: coconutFeaturedAttributes,
     allAttributes: coconutSupplierAttributes,
@@ -305,7 +319,10 @@ export const products: Product[] = [
       "In case of accidental contact with eyes, rinse thoroughly with clean water. If irritation occurs, discontinue use.",
     scene: { from: "#8ed7dd", to: "#f6d36b", motes: "#fffaf0" },
     images: [
-      { src: coconutReal1, alt: "LOCKHABIT Coconut Beach Soap front view" },
+      {
+        src: coconutReal1,
+        alt: "LOCKHABIT Coconut Beach Soap bar, front view, coconut and shea butter",
+      },
       { src: coconutReal2, alt: "LOCKHABIT Coconut Beach Soap three-quarter view" },
       { src: coconutReal3, alt: "LOCKHABIT Coconut Beach Soap unwrapped bar view" },
       { src: coconutReal4, alt: "LOCKHABIT Coconut Beach Soap paired bar view" },
