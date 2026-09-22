@@ -31,9 +31,9 @@ function Contact() {
                 Email{" "}
                 <a
                   className="font-bold text-primary underline"
-                  href="mailto:support@lockhabit.com"
+                  href="mailto:oralrobinson21@outlook.com"
                 >
-                  support@lockhabit.com
+                  oralrobinson21@outlook.com
                 </a>
                 .
               </p>
