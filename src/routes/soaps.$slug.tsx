@@ -182,6 +182,104 @@ function ProductView({ slug }: { slug: string }) {
                   </Link>
                 </div>
 
+                {product.attributes?.length ? (
+                  <section className="mt-10" aria-label={`${product.name} product attributes`}>
+                    <p className="memo text-muted-foreground">What it's not packing</p>
+                    <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-8 lg:grid-cols-4 xl:grid-cols-8">
+                      {product.attributes.map((attribute) => (
+                        <div key={attribute} className="flex flex-col items-center gap-2 text-center">
+                          <div className="flex aspect-square w-full max-w-16 items-center justify-center rounded-full border-2 border-foreground bg-paper px-1 shadow-[2px_2px_0_var(--color-sun)]">
+                            <span className="text-[9px] font-black uppercase leading-tight tracking-tight">
+                              {attribute}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-4 text-xs leading-5 text-muted-foreground">
+                      Product attributes shown from the supplier's current specifications for this
+                      formula.
+                    </p>
+                  </section>
+                ) : null}
+
+                {product.productStory ? (
+                  <div className="paper-card mt-10 overflow-hidden">
+                    <details className="group border-b-2 border-foreground/15 p-6" open>
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                        <span className="memo">Meet {product.name.replace(" Soap", "")}</span>
+                        <Plus size={16} className="transition-transform group-open:rotate-45" />
+                      </summary>
+                      <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                        {product.productStory}
+                      </p>
+                    </details>
+
+                    <details className="group border-b-2 border-foreground/15 p-6">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                        <span className="memo">What's inside</span>
+                        <Plus size={16} className="transition-transform group-open:rotate-45" />
+                      </summary>
+                      <p className="mt-4 text-sm leading-7">
+                        Saponified Oils (Organic Extra Virgin Olive Oil, Organic Palm Oil, Organic
+                        Coconut Oil, Organic Shea Butter), Fragrance.
+                      </p>
+                    </details>
+
+                    <details className="group border-b-2 border-foreground/15 p-6">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                        <span className="memo">How to use it</span>
+                        <Plus size={16} className="transition-transform group-open:rotate-45" />
+                      </summary>
+                      <p className="mt-4 text-sm leading-7">{product.suggestedUse}</p>
+                    </details>
+
+                    <details className="group border-b-2 border-foreground/15 p-6">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                        <span className="memo">The full badge board</span>
+                        <Plus size={16} className="transition-transform group-open:rotate-45" />
+                      </summary>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {product.allAttributes?.map((attribute) => (
+                          <span
+                            key={attribute}
+                            className="memo rounded-full border-2 border-foreground/20 bg-background px-3 py-1.5 normal-case tracking-normal"
+                          >
+                            {attribute}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="mt-4 text-xs leading-5 text-muted-foreground">
+                        These are supplier-provided product attributes. They describe this formula;
+                        they are not a blanket environmental or medical claim.
+                      </p>
+                    </details>
+
+                    <details className="group p-6">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                        <span className="memo">The fine print</span>
+                        <Plus size={16} className="transition-transform group-open:rotate-45" />
+                      </summary>
+                      <div className="mt-4 grid gap-4 text-sm leading-6 sm:grid-cols-2">
+                        <div>
+                          <p className="memo text-muted-foreground">Net weight</p>
+                          <p className="mt-1">{product.netWeight}</p>
+                        </div>
+                        <div>
+                          <p className="memo text-muted-foreground">Country of manufacture</p>
+                          <p className="mt-1">USA</p>
+                        </div>
+                      </div>
+                      <div className="mt-5 border-t-2 border-foreground/15 pt-5">
+                        <p className="memo text-muted-foreground">Warning</p>
+                        <p className="mt-2 text-sm leading-6">{product.warning}</p>
+                      </div>
+                      <p className="memo mt-5 text-muted-foreground">
+                        Manufactured for and distributed by LOCKHABIT · Bronx, New York
+                      </p>
+                    </details>
+                  </div>
+                ) : (
                 <div className="paper-card mt-10 p-6">
                   <p className="memo text-muted-foreground">What's inside</p>
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -208,6 +306,7 @@ function ProductView({ slug }: { slug: string }) {
                     Manufactured for and distributed by LOCKHABIT · Bronx, New York
                   </p>
                 </div>
+                )}
               </div>
             </div>
           </section>
