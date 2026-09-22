@@ -58,7 +58,7 @@ export function CartDrawer() {
         </div>
         <div className={`flex-1 overflow-y-auto ${checkingOut ? "p-2" : "p-5"}`}>
           {checkingOut ? (
-            <StripeCartCheckout items={checkoutItems} subscribe={subscribe} />
+            <StripeCartCheckout items={checkoutItems} subscribe={subscribe && canSubscribe} />
           ) : cartCount === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
               <ShoppingBag size={34} className="text-primary" />
