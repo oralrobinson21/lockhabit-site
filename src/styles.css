@@ -295,6 +295,8 @@
 /* ==== Homepage island footer: paper-cut vacation postcard with gently moving waves ==== */
 .island-footer {
   position: relative;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
   border-top: 2px solid var(--color-foreground);
   background: var(--color-paper);
@@ -328,6 +330,22 @@
   background-position: 0 0, 2px 2px;
   background-size: 4px 4px, 5px 5px;
 }
+.island-cloud {
+  position: absolute;
+  z-index: 5;
+  width: 9rem;
+  height: 3.3rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-paper) 94%, transparent);
+  filter: drop-shadow(0 3px 0 color-mix(in oklab, var(--color-foreground) 8%, transparent));
+}
+.island-cloud i { position: absolute; bottom: 0; display: block; border-radius: 999px 999px 0 0; background: inherit; }
+.island-cloud i:nth-child(1) { left: 12%; width: 3.7rem; height: 4.4rem; }
+.island-cloud i:nth-child(2) { left: 42%; width: 4.5rem; height: 5.5rem; }
+.island-cloud i:nth-child(3) { right: 8%; width: 3rem; height: 3.7rem; }
+.island-cloud-one { top: 31%; left: 18%; transform: scale(.78); }
+.island-cloud-two { top: 38%; right: 22%; transform: scale(.52); opacity: .9; }
+
 .island-footer-copy {
   position: absolute;
   z-index: 8;
@@ -439,6 +457,9 @@
 .island-footer-links {
   position: relative;
   z-index: 30;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
   margin-top: -1px;
   background:
     radial-gradient(color-mix(in oklab, var(--color-foreground) 18%, transparent) .55px, transparent .7px),
@@ -539,11 +560,13 @@
   .island-footer-scene { min-height: 37rem; }
   .island-palm-left { left: -4.5rem; top: -1rem; width: 14rem; opacity: .94; }
   .island-palm-right { right: -4.5rem; bottom: 7rem; width: 13rem; }
-  .island-footer-copy { top: 17%; left: 47%; width: 74vw; }
-  .island-footer-script { font-size: clamp(2.75rem, 13vw, 4.4rem); }
-  .island-footer-memo { margin-top: 1.2rem; font-size: .56rem; line-height: 1.75; }
-  .island-sun { top: 7%; right: -1.1rem; width: 8.8rem; }
-  .island-footer-sun-note { top: 46%; right: 1rem; font-size: 1.25rem; }
+  .island-footer-copy { top: 18%; left: 44%; width: 66vw; }
+  .island-footer-script { font-size: clamp(2.45rem, 11.5vw, 3.85rem); }
+  .island-footer-memo { margin-top: 1.1rem; font-size: .54rem; line-height: 1.75; }
+  .island-sun { top: 5%; right: .35rem; width: 7.25rem; }
+  .island-footer-sun-note { top: 44%; right: 1rem; font-size: 1.18rem; }
+  .island-cloud-one { top: 34%; left: 6%; transform: scale(.48); }
+  .island-cloud-two { top: 40%; right: 25%; transform: scale(.34); }
   .island-mountains { left: -16%; bottom: 28%; width: 104%; height: 24%; }
   .island-boat { right: 23%; bottom: 22%; width: 5.6rem; }
   .island-waves { height: 35%; }
