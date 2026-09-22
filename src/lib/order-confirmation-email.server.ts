@@ -382,7 +382,7 @@ u + #body a{color:inherit;text-decoration:none}
   .thanks-img{width:92%!important;max-width:300px!important;margin-left:auto!important;margin-right:auto!important}
   .thanks-body{width:92%!important;max-width:268px!important;margin:10px auto 0!important}
   .cta-cell{text-align:center!important;padding-bottom:16px!important;overflow:visible!important}
-  .vacation{margin:6px auto 0!important;max-width:152px!important;height:auto!important}
+  .vacation{margin:6px auto 0!important;max-width:128px!important;height:auto!important}
   .footer-art{overflow:visible!important}
   .cream-card{overflow:visible!important}
 }
@@ -535,7 +535,7 @@ u + #body a{color:inherit;text-decoration:none}
                 </td>
                 <td class="stack cta-cell" width="236" valign="top" align="right" style="padding:0 16px 18px 0;text-align:right;">
                   <a href="${siteUrl}/" class="cta" style="display:inline-block;text-decoration:none;${ink(C.brown)}${sans}font-size:16px;font-weight:700;letter-spacing:2px;line-height:0;"><img src="${asset("receipt-cta.png")}" width="220" height="80" alt="KEEP GOING →" style="display:block;width:220px;height:80px;border:0;"></a>
-                  ${assetImg(asset, "receipt-vacation.png", "Vacation Mode For A Better You", 152, "margin:2px 18px 0 auto;", "vacation")}
+                  ${assetImg(asset, "receipt-vacation.png", "Vacation Mode For A Better You", 128, "margin:2px 24px 0 auto;", "vacation")}
                 </td>
               </tr>
             </table>
