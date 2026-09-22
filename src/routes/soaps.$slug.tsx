@@ -307,7 +307,7 @@ function ProductPage() {
 function ProductView({ slug }: { slug: string }) {
   const product = productBySlug(slug);
   if (!product) throw notFound();
-  const { addToCart } = useCart();
+  const { addToCart, setSubscribe } = useCart();
   const [activeImage, setActiveImage] = useState(0);
   const related = relatedProducts(product);
   const catalogIndex = products.findIndex((candidate) => candidate.id === product.id);
@@ -423,6 +423,9 @@ function ProductView({ slug }: { slug: string }) {
                 <div className="mt-6 flex flex-wrap items-center gap-4">
                   <span className="price-tag">${product.price.toFixed(2)}</span>
                   <span className="memo text-muted-foreground">{product.netWeight}</span>
+                  {product.kind === "Soap bar" && product.netWeight.startsWith("4 oz") ? (
+                    <span className="memo text-muted-foreground">$8.75 / oz</span>
+                  ) : null}
                 </div>
                 <p className="mt-7 max-w-lg font-display text-2xl italic leading-snug">
                   {product.tagline}
@@ -448,7 +451,8 @@ function ProductView({ slug }: { slug: string }) {
                   </Link>
                 </div>
                 <p className="memo mt-4 text-muted-foreground">
-                  Orders under ${threeBarOffer.freeShippingAt} ship for $7.95.{" "}
+                  Orders under ${threeBarOffer.freeShippingAt} ship for $7.95. Typical U.S. orders
+                  take 2–5 business days to fulfill, then 2–4 business days in transit.{" "}
                   <Link
                     to="/shipping"
                     className="underline underline-offset-4 hover:text-foreground"
@@ -456,6 +460,18 @@ function ProductView({ slug }: { slug: string }) {
                     Shipping details
                   </Link>
                 </p>
+                {product.kind === "Soap bar" ? (
+                  <button
+                    type="button"
+                    className="secondary-button mt-4"
+                    onClick={() => {
+                      setSubscribe(true);
+                      addToCart(product.id);
+                    }}
+                  >
+                    Subscribe monthly · save 15% <ArrowRight size={16} />
+                  </button>
+                ) : null}
                 {product.kind === "Soap bar" ? (
                   <div className="paper-card mt-5 p-5">
                     <p className="memo text-muted-foreground">The longer stay</p>
@@ -468,7 +484,10 @@ function ProductView({ slug }: { slug: string }) {
                     </p>
                     <button
                       className="primary-button mt-4"
-                      onClick={() => addToCart(product.id, 3)}
+                      onClick={() => {
+                        setSubscribe(false);
+                        addToCart(product.id, 3);
+                      }}
                     >
                       Add 3 bars <Plus size={18} />
                     </button>
