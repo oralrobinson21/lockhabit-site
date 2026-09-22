@@ -735,105 +735,204 @@ export const products: Product[] = [
     id: 8,
     slug: "oat-milk-honey-soap",
     name: "Oat Milk Honey Soap",
-    note: "Oat · Honey · Nourishing",
+    note: "Oatmeal · Goat Milk · Honey",
     price: 35,
     kind: "Soap bar",
-    tagline: "The softest bar in the drawer.",
+    tagline: "The comfort-food bar of the shower.",
     description:
-      "Oats and honey make a mild, creamy lather that suits sensitive and dry skin. Comforting, barely scented, and very hard to put down.",
-    highlights: ["Gentle oat lather", "Soft honey sweetness", "Kind to dry skin"],
+      "A creamy oat, goat-milk and honey soap with a soft summery fragrance and a base of olive, organic palm and coconut oils plus organic shea butter.",
+    productStory:
+      "Oat Milk Honey is the soft-sweater bar of the lineup. Oatmeal, goat milk and honey sit in a creamy soap base with olive oil, organic palm and coconut oils, and organic shea butter, finished with a light summery fragrance. The name says Oat Milk Honey, but we would rather be clear than cute: this formula contains goat milk, so it is not vegan or dairy-free. Cozy shower energy, full ingredient honesty.",
+    seoTitle: "Oat Milk Honey Soap – Goat Milk, Oatmeal & Honey | LOCKHABIT",
+    seoDescription:
+      "A 4 oz oat, goat-milk and honey soap bar with olive oil, organic palm and coconut oils, organic shea butter and a soft fragrance. Made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Olive Oil, Organic Palm Oil, Organic Coconut Oil, Organic Shea Butter), Goat Milk, Fragrance, Oatmeal, Honey.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "Does Oat Milk Honey Soap contain dairy?",
+        answer:
+          "Yes. The formula contains goat milk. It is not vegan or dairy-free, despite the product name beginning with Oat Milk.",
+      },
+      {
+        question: "What is in Oat Milk Honey Soap?",
+        answer:
+          "The formula contains olive oil, organic palm oil, organic coconut oil, organic shea butter, goat milk, fragrance, oatmeal and honey.",
+      },
+      {
+        question: "What does Oat Milk Honey Soap smell like?",
+        answer:
+          "The supplier describes it as a gentle, sweet, summery fragrance rather than an unscented bar.",
+      },
+      {
+        question: "How should I use and store the bar?",
+        answer:
+          "Add warm water for a thick lather, rinse thoroughly, and keep the bar dry between uses to help extend its longevity.",
+      },
+      {
+        question: "Where is Oat Milk Honey Soap made?",
+        answer: "Oat Milk Honey Soap is made in the USA and weighs 4 oz (113 g).",
+      },
+    ],
+    highlights: ["Oatmeal + honey", "Contains goat milk", "Creamy organic-oil base"],
+    attributes: ["Goat milk", "Oatmeal", "Honey", "Made in USA"],
+    allAttributes: ["Cruelty free", "Paraben free", "Alcohol free", "Mineral oil free", "No fillers"],
     ingredients: [
-      "Saponified organic extra virgin olive oil",
-      "Organic coconut oil",
+      "Olive oil",
       "Organic palm oil",
+      "Organic coconut oil",
       "Organic shea butter",
-      "Oat milk powder",
-      "Honey",
-      "Colloidal oats",
+      "Goat milk",
       "Fragrance",
+      "Oatmeal",
+      "Honey",
     ],
     productType: "Botanical Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: oatHoneyFeaturedAttributes,
-    allAttributes: oatHoneySupplierAttributes,
-    scene: { from: "#f3dcae", to: "#fff3d2", motes: "#fffdf6" },
+    scene: { from: "#f7eedf", to: "#fff7e8", motes: "#fffdf8" },
     images: [
-      { src: oatHoneyReal1, alt: "Real LOCKHABIT oat honey front view" },
-      { src: oatHoneyReal2, alt: "Real LOCKHABIT oat honey bar and packaging view" },
-      { src: oatHoneyReal3, alt: "Real LOCKHABIT oat honey paired bar view" },
-      { src: oatHoneyReal4, alt: "Real LOCKHABIT oat honey three-quarter view" },
+      { src: oatHoneyReal1, alt: "LOCKHABIT Oat Milk Honey Soap front view" },
+      { src: oatHoneyReal2, alt: "LOCKHABIT Oat Milk Honey Soap bar and packaging view" },
+      { src: oatHoneyReal3, alt: "LOCKHABIT Oat Milk Honey Soap paired bar view" },
+      { src: oatHoneyReal4, alt: "LOCKHABIT Oat Milk Honey Soap three-quarter view" },
     ],
   },
   {
     id: 9,
     slug: "calming-lavender-soap",
     name: "Calming Lavender Soap",
-    note: "Soft · Floral · Calming",
+    note: "Lavender · Floral · Soft",
     price: 35,
     kind: "Soap bar",
-    tagline: "Classic lavender, done properly.",
+    tagline: "Classic lavender, checked into a nicer room.",
     description:
-      "Real lavender buds and a soft floral scent make this the calmest bar in the catalog. Lovely at night, still lovely at 7am.",
-    highlights: ["True lavender scent", "Real lavender buds", "Calming and familiar"],
+      "A lavender essential-oil bar with real lavender buds, organic olive, palm and coconut oils, and organic shea butter.",
+    productStory:
+      "Calming Lavender keeps the formula pleasantly straightforward: lavender essential oil, real lavender buds, and a saponified base of organic extra virgin olive, palm and coconut oils with organic shea butter. No added fragrance is listed in the formula. It is floral without needing to shout about it — the kind of bar that makes an ordinary night shower feel a little more like room service for your routine.",
+    seoTitle: "Calming Lavender Soap – Lavender Essential Oil Bar | LOCKHABIT",
+    seoDescription:
+      "A 4 oz lavender soap bar with lavender essential oil and buds, organic olive, palm and coconut oils, and organic shea butter. Made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Organic Extra Virgin Olive Oil, Organic Palm Oil, Organic Coconut Oil, Organic Shea Butter), Lavender Essential Oil, Lavender Buds.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What gives Calming Lavender Soap its scent?",
+        answer:
+          "Lavender essential oil is listed in the formula, along with real lavender buds.",
+      },
+      {
+        question: "Does Calming Lavender Soap contain added fragrance?",
+        answer:
+          "No added fragrance is listed in the supplier ingredient statement. Lavender essential oil provides the aroma.",
+      },
+      {
+        question: "What oils are in the soap base?",
+        answer:
+          "The base contains organic extra virgin olive oil, organic palm oil, organic coconut oil and organic shea butter.",
+      },
+      {
+        question: "How should I use and store the bar?",
+        answer:
+          "Add warm water for a thick lather, rinse thoroughly, and keep the bar dry between uses to help extend its longevity.",
+      },
+      {
+        question: "Where is Calming Lavender Soap made?",
+        answer: "Calming Lavender Soap is made in the USA and weighs 4 oz (113 g).",
+      },
+    ],
+    highlights: ["Lavender essential oil", "Real lavender buds", "No added fragrance listed"],
+    attributes: ["Lavender essential oil", "Lavender buds", "No added fragrance", "Made in USA"],
+    allAttributes: ["Fair trade palm oil", "Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
     ingredients: [
-      "Saponified organic extra virgin olive oil",
-      "Organic coconut oil",
+      "Organic extra virgin olive oil",
       "Organic palm oil",
+      "Organic coconut oil",
       "Organic shea butter",
-      "Colloidal oatmeal",
       "Lavender essential oil",
-      "Botanical extracts",
-      "Fragrance",
+      "Lavender buds",
     ],
     productType: "Botanical Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: fullSoapFragranceFreeSupplierAttributes,
-    scene: { from: "#b9a6dd", to: "#e8def7", motes: "#fdfbff" },
+    scene: { from: "#eee8f7", to: "#f6f0fb", motes: "#fdfbff" },
     images: [
-      { src: lavenderReal1, alt: "Real LOCKHABIT calming lavender front view" },
-      { src: lavenderReal2, alt: "Real LOCKHABIT calming lavender three-quarter view" },
-      { src: lavenderReal3, alt: "Real LOCKHABIT calming lavender unwrapped bar view" },
-      { src: lavenderReal4, alt: "Real LOCKHABIT calming lavender paired bar view" },
+      { src: lavenderReal1, alt: "LOCKHABIT Calming Lavender Soap front view" },
+      { src: lavenderReal2, alt: "LOCKHABIT Calming Lavender Soap three-quarter view" },
+      { src: lavenderReal3, alt: "LOCKHABIT Calming Lavender Soap unwrapped bar view" },
+      { src: lavenderReal4, alt: "LOCKHABIT Calming Lavender Soap paired bar view" },
     ],
   },
   {
     id: 10,
     slug: "charcoal-soap",
     name: "Charcoal Soap",
-    note: "Purifying · Bold · Spa Clean",
+    note: "Charcoal · Peppermint · Tea Tree",
     price: 35,
     kind: "Soap bar",
-    tagline: "The reset button for your skin.",
+    tagline: "The dark bar with the bright finish.",
     description:
-      "Activated charcoal gives a deep, fresh-feeling cleanse. A good choice for oily skin, gym days, and faces that need a proper rinse.",
-    highlights: ["Deep charcoal cleanse", "Fresh mineral finish", "Good for oily skin"],
+      "An activated-charcoal bar with peppermint and tea tree essential oils over organic palm, coconut, sunflower and extra virgin olive oils.",
+    productStory:
+      "Charcoal is the clean-slate bar without the detox theater. Activated charcoal gives the bar its deep color and cleansing identity, while peppermint and tea tree essential oils bring a bright, fresh aroma. The base uses organic palm, coconut, sunflower and extra virgin olive oils, and the supplier specifically describes the charcoal level as non-staining in normal use. Dark suit, crisp shirt, shower edition.",
+    seoTitle: "Charcoal Soap – Peppermint & Tea Tree Bar | LOCKHABIT",
+    seoDescription:
+      "A 4 oz activated-charcoal soap bar with peppermint and tea tree essential oils plus organic palm, coconut, sunflower and olive oils. Made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Organic Palm Oil, Organic Coconut Oil, Organic Sunflower Oil, Organic Extra Virgin Olive Oil), Peppermint Essential Oil, Tea Tree Essential Oil, Activated Charcoal.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What is in LOCKHABIT Charcoal Soap?",
+        answer:
+          "The formula contains organic palm, coconut, sunflower and extra virgin olive oils, peppermint essential oil, tea tree essential oil and activated charcoal.",
+      },
+      {
+        question: "Does Charcoal Soap contain added fragrance?",
+        answer:
+          "No added fragrance is listed in the supplier ingredient statement. Peppermint and tea tree essential oils provide the aroma.",
+      },
+      {
+        question: "Will the activated charcoal stain?",
+        answer:
+          "The supplier describes this formula as using a charcoal level designed to cleanse without staining during normal use.",
+      },
+      {
+        question: "How should I use and store the bar?",
+        answer:
+          "Add warm water for a thick lather, rinse thoroughly, and keep the bar dry between uses to help extend its longevity.",
+      },
+      {
+        question: "Where is Charcoal Soap made?",
+        answer: "Charcoal Soap is made in the USA and weighs 4 oz (113 g).",
+      },
+    ],
+    highlights: ["Activated charcoal", "Peppermint + tea tree", "No added fragrance listed"],
+    attributes: ["Activated charcoal", "Peppermint essential oil", "Tea tree essential oil", "Made in USA"],
+    allAttributes: ["Fair trade palm oil", "Fair trade coconut oil", "Gluten free", "Vegetarian", "No fillers"],
     ingredients: [
-      "Saponified organic extra virgin olive oil",
       "Organic palm oil",
       "Organic coconut oil",
-      "Organic shea butter",
-      "Activated charcoal",
+      "Organic sunflower oil",
+      "Organic extra virgin olive oil",
+      "Peppermint essential oil",
       "Tea tree essential oil",
-      "Botanical oils",
-      "Fragrance",
+      "Activated charcoal",
     ],
-    productType: "Botanical Bar Soap",
+    productType: "Charcoal Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: fullSoapFragranceFreeSupplierAttributes,
-    scene: { from: "#5c6169", to: "#b8c1c8", motes: "#ffffff" },
+    scene: { from: "#e4e6e8", to: "#f1f2f0", motes: "#ffffff" },
     images: [
-      { src: charcoalReal1, alt: "Real LOCKHABIT charcoal front view" },
-      { src: charcoalReal2, alt: "Real LOCKHABIT charcoal three-quarter view" },
-      { src: charcoalReal3, alt: "Real LOCKHABIT charcoal paired bar view" },
-      { src: charcoalReal4, alt: "Real LOCKHABIT charcoal broken bar texture view" },
+      { src: charcoalReal1, alt: "LOCKHABIT Charcoal Soap front view" },
+      { src: charcoalReal2, alt: "LOCKHABIT Charcoal Soap three-quarter view" },
+      { src: charcoalReal3, alt: "LOCKHABIT Charcoal Soap paired bar view" },
+      { src: charcoalReal4, alt: "LOCKHABIT Charcoal Soap broken bar texture view" },
     ],
   },
   {
