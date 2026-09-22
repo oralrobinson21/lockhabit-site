@@ -320,6 +320,94 @@ test("webhook exposes payment time, promotion code and bundle kind to the confir
   );
 });
 
+
+test("webhook puts a single purchased product on the confirmation receipt", async () => {
+  const singleSession = {
+    ...session("paid"),
+    mode: "payment",
+    amount_subtotal: 3500,
+    amount_total: 4295,
+    total_details: { amount_shipping: 795, amount_tax: 0, amount_discount: 0 },
+    metadata: { selected_product_ids: "1" },
+    line_items: {
+      data: [{ description: 'Coconut Beach Soap', quantity: 1, amount_total: 3500 }],
+    },
+  } as unknown as Stripe.Checkout.Session;
+  let captured: Parameters<WebhookDependencies["sendConfirmationIfPending"]>[0] | undefined;
+  const state = harness(singleSession);
+  state.dependencies.sendConfirmationIfPending = async (order) => {
+    captured = order;
+  };
+  assert.equal(
+    await processCheckoutWebhook(event("checkout.session.completed", "evt_single_item"), state.dependencies),
+    "paid",
+  );
+  assert.ok(captured);
+  assert.equal(captured.orderKind, "Order");
+  assert.deepEqual(
+    captured.items.map((item) => item.name),
+    ['Coconut Beach Soap'],
+  );
+  assert.equal(captured.items[0]?.amountTotal, 3500);
+  const message = await renderOrderConfirmation(
+    { ...captured, orderNumber: captured.order_number },
+    { dynamicInk: "data" },
+  );
+  assert.match(message.html, /Coconut\ Beach\ Soap/);
+  assert.match(message.text, /Coconut\ Beach\ Soap/);
+});
+
+test("webhook puts all twelve purchased products on the confirmation receipt", async () => {
+  const catalogNames = ['Coconut Beach Soap', 'Breathe Clear Soap', 'Aloe & Cool Cucumber Soap', 'Slumber Soap', 'Exfoliating Luffa Bar', 'Lemongrass & Sage Soap', 'Rich Sandalwood Soap', 'Oat Milk Honey Soap', 'Calming Lavender Soap', 'Charcoal Soap', 'Raw Shea Butter', 'Kojic Acid & Turmeric Soap'];
+  const merchandiseTotal = 11 * 3500 + 4200;
+  const twelveSession = {
+    ...session("paid"),
+    mode: "payment",
+    amount_subtotal: merchandiseTotal,
+    amount_total: merchandiseTotal,
+    total_details: { amount_shipping: 0, amount_tax: 0, amount_discount: 0 },
+    metadata: { selected_product_ids: "1,2,3,4,5,6,7,8,9,10,11,12" },
+    line_items: {
+      data: catalogNames.map((name, index) => ({
+        description: name,
+        quantity: 1,
+        amount_total: index === 10 ? 4200 : 3500,
+      })),
+    },
+  } as unknown as Stripe.Checkout.Session;
+  let captured: Parameters<WebhookDependencies["sendConfirmationIfPending"]>[0] | undefined;
+  const state = harness(twelveSession);
+  state.dependencies.sendConfirmationIfPending = async (order) => {
+    captured = order;
+  };
+  assert.equal(
+    await processCheckoutWebhook(event("checkout.session.completed", "evt_twelve_items"), state.dependencies),
+    "paid",
+  );
+  assert.ok(captured);
+  assert.equal(captured.orderKind, "Order");
+  assert.deepEqual(
+    captured.items.map((item) => item.name),
+    catalogNames,
+  );
+  assert.equal(
+    captured.items.reduce((sum, item) => sum + item.amountTotal, 0),
+    merchandiseTotal,
+  );
+  const message = await renderOrderConfirmation(
+    { ...captured, orderNumber: captured.order_number },
+    { dynamicInk: "data" },
+  );
+  for (const name of catalogNames) {
+    // HTML escapes ampersands; plain-text body keeps the catalog spelling.
+    assert.match(message.text, new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(
+      message.html,
+      new RegExp(name.replace(/&/g, "&amp;").replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
+    );
+  }
+});
+
 test("confirmation transport uses Resend with a stable per-order idempotency key", async () => {
   const originalFetch = globalThis.fetch;
   const originalApiKey = process.env["RESEND_API_KEY"];

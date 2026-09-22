@@ -5,6 +5,7 @@ import {
   sendOrderConfirmation,
   type OrderConfirmation,
 } from "@/lib/order-confirmation-email.server";
+import { summarizeSelectedProducts } from "@/lib/product-selection";
 
 /**
  * Temporary owner-only endpoint for proofing the production receipt template.
@@ -15,23 +16,24 @@ import {
  * - requires a shared token; disabled entirely when the token is unset
  * - rate-limited per process so a leaked token cannot be used to flood the inbox
  * - payload is obviously synthetic (receipt LH-999999)
+ *
+ * `items` (1–12) builds the same line items the Stripe webhook would derive from
+ * `metadata.selected_product_ids` via summarizeSelectedProducts.
  */
 const FALLBACK_TOKEN = "tropical-receipt-proof-7c1e9b";
 const FALLBACK_RECIPIENT = "oralrobinson21@outlook.com";
 const MAX_SENDS_PER_HOUR = 6;
+const ALL_PRODUCT_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const;
 
 const sendLog: number[] = [];
 
-const singleItem = [{ name: "Build Your Own 3-Bar Bundle", quantity: 1, amountTotal: 8900 }];
-const multiItems = [
-  { name: "Coconut Beach Soap", quantity: 1, amountTotal: 2967 },
-  { name: "Oat Milk Honey Soap", quantity: 1, amountTotal: 2967 },
-  { name: "Calming Lavender Soap", quantity: 1, amountTotal: 2966 },
-];
+const unitPriceCents = (productId: number): number => (productId === 11 ? 4200 : 3500);
 
 const syntheticOrder = (run: string, itemCount: number): OrderConfirmation => {
-  const items = itemCount >= 3 ? multiItems : singleItem;
-  const subtotal = items.reduce((sum, item) => sum + item.amountTotal, 0);
+  const selectedIds = ALL_PRODUCT_IDS.slice(0, itemCount);
+  const subtotal = selectedIds.reduce((sum, id) => sum + unitPriceCents(id), 0);
+  const items = summarizeSelectedProducts([...selectedIds], subtotal);
+  const discountAmount = Math.max(0, subtotal - 100);
   return {
     checkoutSessionId: `email-template-proof-${run}`,
     orderNumber: 999999,
@@ -52,9 +54,10 @@ const syntheticOrder = (run: string, itemCount: number): OrderConfirmation => {
     },
     items,
     paidAt: new Date().toISOString(),
-    discountCode: "LOCKHABIT3FOR1B",
-    discountAmount: 8800,
-    orderKind: itemCount >= 3 ? "3-Bar Mix" : "3-Bar Bundle",
+    discountCode: itemCount === 1 ? "LOCKHABITPROOF" : "LOCKHABIT3FOR1B",
+    discountAmount,
+    orderKind:
+      itemCount === 12 ? "Order" : itemCount === 3 ? "3-Bar Bundle" : itemCount === 6 ? "6-Bar Bundle" : "Order",
   };
 };
 
@@ -93,7 +96,14 @@ export const Route = createFileRoute("/api/email-test")({
         sendLog.push(now);
 
         const id = await sendOrderConfirmation(order);
-        return Response.json({ sent: true, id, to: order.customerEmail, run });
+        return Response.json({
+          sent: true,
+          id,
+          to: order.customerEmail,
+          run,
+          itemCount,
+          itemNames: order.items.map((item) => item.name),
+        });
       },
     },
   },
