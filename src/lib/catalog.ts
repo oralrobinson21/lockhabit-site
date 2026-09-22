@@ -633,8 +633,8 @@ export const products: Product[] = [
       },
     ],
     highlights: ["Oatmeal + honey", "Contains goat milk", "Creamy organic-oil base"],
-    attributes: ["Goat milk", "Oatmeal", "Honey", "Made in USA"],
-    allAttributes: ["Cruelty free", "Paraben free", "Alcohol free", "Mineral oil free", "No fillers"],
+    attributes: ["Cruelty free", "Paraben free", "Alcohol free", "Mineral oil free"],
+    allAttributes: ["Gluten free", "No fillers", "Goat milk", "Oatmeal", "Honey", "Made in USA"],
     ingredients: [
       "Olive oil",
       "Organic palm oil",
@@ -649,7 +649,7 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    scene: { from: "#f7eedf", to: "#fff7e8", motes: "#fffdf8" },
+    scene: { from: "#f4e7d2", to: "#fff4dc", motes: "#fffaf0" },
     images: [
       { src: oatHoneyReal1, alt: "LOCKHABIT Oat Milk Honey Soap front view" },
       { src: oatHoneyReal2, alt: "LOCKHABIT Oat Milk Honey Soap bar and packaging view" },
@@ -702,8 +702,8 @@ export const products: Product[] = [
       },
     ],
     highlights: ["Lavender essential oil", "Real lavender buds", "No added fragrance listed"],
-    attributes: ["Lavender essential oil", "Lavender buds", "No added fragrance", "Made in USA"],
-    allAttributes: ["Fair trade palm oil", "Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
+    attributes: ["Gluten free", "Vegetarian", "No added fragrance", "Made in USA"],
+    allAttributes: ["Lactose free", "No fillers", "Lavender essential oil", "Lavender buds", "Fair trade palm oil", "Fair trade coconut oil"],
     ingredients: [
       "Organic extra virgin olive oil",
       "Organic palm oil",
@@ -716,7 +716,7 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    scene: { from: "#eee8f7", to: "#f6f0fb", motes: "#fdfbff" },
+    scene: { from: "#e9e0f5", to: "#f8effa", motes: "#fff9ff" },
     images: [
       { src: lavenderReal1, alt: "LOCKHABIT Calming Lavender Soap front view" },
       { src: lavenderReal2, alt: "LOCKHABIT Calming Lavender Soap three-quarter view" },
@@ -769,8 +769,8 @@ export const products: Product[] = [
       },
     ],
     highlights: ["Activated charcoal", "Peppermint + tea tree", "No added fragrance listed"],
-    attributes: ["Activated charcoal", "Peppermint essential oil", "Tea tree essential oil", "Made in USA"],
-    allAttributes: ["Fair trade palm oil", "Fair trade coconut oil", "Gluten free", "Vegetarian", "No fillers"],
+    attributes: ["Gluten free", "Vegetarian", "No added fragrance", "Made in USA"],
+    allAttributes: ["Lactose free", "No fillers", "Activated charcoal", "Peppermint essential oil", "Tea tree essential oil", "Fair trade palm oil", "Fair trade coconut oil"],
     ingredients: [
       "Organic palm oil",
       "Organic coconut oil",
@@ -784,7 +784,7 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    scene: { from: "#e4e6e8", to: "#f1f2f0", motes: "#ffffff" },
+    scene: { from: "#d9dddc", to: "#f2f3ef", motes: "#fbfffd" },
     images: [
       { src: charcoalReal1, alt: "LOCKHABIT Charcoal Soap front view" },
       { src: charcoalReal2, alt: "LOCKHABIT Charcoal Soap three-quarter view" },
