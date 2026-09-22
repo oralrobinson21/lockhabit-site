@@ -166,12 +166,16 @@ test("confirmation includes the required order and payment details", () => {
     "\\$42\\.95",
     "Amount paid",
     "123 Palm Way",
-    "Sep 21, 2026,<br>4:04:46 PM ET",
+    "Sep 21, 2026",
+    "4:04:46 PM ET",
     "LOCKHABIT ORDER",
     'href="https://lockhabit.com/"',
     "oralrobinson21@outlook.com",
     'name="color-scheme" content="light only"',
     "receipt-header.jpg",
+    "ink-title.png",
+    "/api/email-ink\\?",
+    "data-ogsb",
   ]) {
     assert.match(message.html, new RegExp(expected));
   }
@@ -206,7 +210,8 @@ test("confirmation shows the applied promotion code and hides empty rows", () =>
   assert.match(message.html, /LOCKHABIT3FOR1B \(\$88\.00 off\)/);
   assert.match(message.html, /Free shipping/);
   assert.match(message.html, /LOCKHABIT 3-BAR BUNDLE/);
-  assert.match(message.html, /Oat Milk Honey Soap&nbsp;&times;&nbsp;1/);
+  assert.match(message.html, /Oat Milk Honey Soap/);
+  assert.match(message.html, /ink-label-discount\.png/);
   assert.doesNotMatch(message.html, /SHIPPING TO/);
   assert.match(message.text, /Discount code: LOCKHABIT3FOR1B \(\$88\.00 off\)/);
 });
