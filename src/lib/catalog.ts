@@ -64,6 +64,9 @@ export type Product = {
   netWeight: string;
   suggestedUse: string;
   warning: string;
+  attributes?: string[];
+  allAttributes?: string[];
+  productStory?: string;
   /** Drives the colour of the animated scene on the product page. */
   scene: { from: string; to: string; motes: string };
   images: GalleryImage[];
@@ -84,10 +87,41 @@ export const products: Product[] = [
     note: "Coconut · Creamy · Tropical",
     price: 35,
     kind: "Soap bar",
-    tagline: "A slow morning by the water, in a bar.",
+    tagline: "Coconut without the boarding pass.",
     description:
-      "A creamy, sunlit cleanse inspired by slow mornings near the water. Coconut-rich lather leaves skin soft, fresh, and entirely unbothered by your calendar.",
-    highlights: ["Creamy coconut lather", "Soft tropical scent", "Everyday gentle clean"],
+      "A creamy coconut-scented bar made with saponified organic olive, palm and coconut oils plus shea butter. Add warm water, work up a good lather, and give yourself five quiet minutes — ocean view optional.",
+    highlights: ["Creamy coconut scent", "Olive, coconut + shea base", "4 oz everyday bar"],
+    productStory:
+      "Coconut Beach is the shower version of putting your phone on Do Not Disturb. The formula keeps things straightforward: a saponified blend of organic extra virgin olive oil, organic palm oil, organic coconut oil and organic shea butter, finished with fragrance for that warm coconut-beach mood.",
+    attributes: [
+      "Vegan",
+      "Non-GMO",
+      "Paraben free",
+      "Sulfate free",
+      "Silicone free",
+      "Phthalate free",
+      "Mineral oil free",
+      "Alcohol free",
+    ],
+    allAttributes: [
+      "Gluten free",
+      "Vegetarian",
+      "Lactose free",
+      "Allergen free",
+      "Hormone free",
+      "100% natural",
+      "Antibiotic free",
+      "No fillers",
+      "Non-GMO",
+      "Corn free",
+      "Vegan",
+      "Alcohol free",
+      "Mineral oil free",
+      "Paraben free",
+      "Phthalate free",
+      "Silicone free",
+      "Sulfate free",
+    ],
     ingredients: [
       "Saponified organic extra virgin olive oil",
       "Organic palm oil",
@@ -97,8 +131,10 @@ export const products: Product[] = [
     ],
     productType: "Botanical Bar Soap",
     netWeight: "4 oz (113 g)",
-    suggestedUse: soapUse,
-    warning: externalWarning,
+    suggestedUse:
+      "Add warm water for a thick lather. Keep the bar dry between uses to help it last longer.",
+    warning:
+      "In case of accidental contact with eyes, rinse thoroughly with clean water. If irritation occurs, discontinue use.",
     scene: { from: "#8ed7dd", to: "#f6d36b", motes: "#fffaf0" },
     images: [
       { src: coconutReal1, alt: "Real LOCKHABIT coconut beach front view" },
