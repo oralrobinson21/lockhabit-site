@@ -216,7 +216,8 @@ function AttributeGlyph({ attribute, size }: { attribute: string; size: number }
   return <Ban size={size} strokeWidth={1.8} />;
 }
 
-const positiveAttributePattern = /^(vegan|vegetarian|100% natural|cruelty free)$/i;
+const crossedAttributePattern =
+  /^(non-gmo|gluten free|hormone free|alcohol free|no fillers|phthalate free|silicone free|mineral oil free|antibiotic free)$/i;
 
 function AttributeSeal({
   attribute,
@@ -227,32 +228,32 @@ function AttributeSeal({
   compact?: boolean;
   featuredIndex?: number;
 }) {
-  const isPositive = positiveAttributePattern.test(attribute);
-  const size = compact ? 25 : 31;
+  const isCrossed = crossedAttributePattern.test(attribute);
+  const size = compact ? 23 : 34;
   const featuredTint =
     featuredIndex === undefined
-      ? "bg-paper"
-      : featuredIndex % 3 === 1
-        ? "bg-[#fff0b8]"
-        : "bg-[#d9f5ee]";
+      ? "border-[#3d2a20] bg-[#fffdf7]"
+      : featuredIndex === 1
+        ? "border-[#4a2b20] bg-[#fff0b8]"
+        : "border-[#167e6b] bg-[#d9f5ee]";
 
   return (
     <div className="flex min-w-0 flex-col items-center gap-2 text-center">
       <div
-        className={`relative flex items-center justify-center rounded-full border-2 border-foreground ${featuredTint} ${
-          compact ? "size-[3.8rem]" : "size-[4.6rem] sm:size-20"
+        className={`relative flex items-center justify-center rounded-full border-2 ${featuredTint} ${
+          compact ? "size-[3.15rem] sm:size-[3.7rem]" : "size-[4.65rem] sm:size-20"
         }`}
         aria-hidden="true"
       >
         <AttributeGlyph attribute={attribute} size={size} />
-        {!isPositive ? (
-          <span className="absolute h-[2px] w-[72%] -rotate-45 rounded-full bg-foreground" />
+        {isCrossed ? (
+          <span className="absolute h-[2px] w-[74%] -rotate-45 rounded-full bg-foreground" />
         ) : null}
       </div>
       <span
         className={`font-black uppercase leading-[1.02] tracking-[0.025em] ${
           compact
-            ? "max-w-[4.7rem] text-[9px]"
+            ? "max-w-[4rem] text-[8px] sm:max-w-[4.7rem] sm:text-[9px]"
             : "max-w-[5.6rem] text-[10px] sm:text-[11px]"
         }`}
       >
@@ -445,8 +446,8 @@ function ProductView({ slug }: { slug: string }) {
                     </div>
 
                     {product.allAttributes?.length ? (
-                      <details className="group mt-7 overflow-hidden rounded-[1.35rem] border border-foreground/20 bg-paper">
-                        <summary className="flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r from-[#c7f2eb] via-[#dff7ef] to-[#c9f2ef] px-4 py-4 sm:px-5">
+                      <details className="group mt-7 overflow-hidden rounded-[1.35rem] border border-[#bfe9e2] bg-[#fffdf7]">
+                        <summary className="flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r from-[#c9f3ed] via-[#e2f8f3] to-[#cff3ee] px-4 py-4 sm:px-5">
                           <Sparkles size={25} className="shrink-0" fill="currentColor" />
                           <div className="min-w-0 flex-1">
                             <span className="block font-display text-[1.05rem] font-bold leading-tight">
@@ -463,7 +464,7 @@ function ProductView({ slug }: { slug: string }) {
                           />
                         </summary>
 
-                        <div className="grid grid-cols-4 gap-x-3 gap-y-6 px-4 py-6 sm:grid-cols-5 sm:px-5">
+                        <div className="grid grid-cols-5 gap-x-1.5 gap-y-6 px-3 py-6 sm:gap-x-3 sm:px-5">
                           {product.allAttributes.map((attribute) => (
                             <AttributeSeal key={attribute} attribute={attribute} compact />
                           ))}
