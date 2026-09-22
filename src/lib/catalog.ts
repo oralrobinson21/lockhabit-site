@@ -84,6 +84,88 @@ const exfoliatingUse =
 const externalWarning =
   "For external use only. Avoid contact with eyes and open wounds. Discontinue use if irritation occurs.";
 
+const standardFeaturedAttributes = [
+  "Cruelty free",
+  "Vegan",
+  "Vegetarian",
+  "100% natural",
+];
+
+const standardSupplierAttributes = [
+  "Gluten free",
+  "Vegetarian",
+  "Lactose free",
+  "Allergen free",
+  "Hormone free",
+  "100% natural",
+  "Antibiotic free",
+  "Vegan",
+  "Alcohol free",
+  "Cruelty free",
+  "Mineral oil free",
+  "Paraben free",
+  "Phthalate free",
+  "Silicone free",
+  "Sulfate free",
+];
+
+const coconutFeaturedAttributes = [
+  "Vegan",
+  "Vegetarian",
+  "100% natural",
+  "Non-GMO",
+];
+
+const oatHoneyFeaturedAttributes = [
+  "Cruelty free",
+  "100% natural",
+  "Paraben free",
+  "Sulfate free",
+];
+
+const oatHoneySupplierAttributes = [
+  "Gluten free",
+  "100% natural",
+  "Antibiotic free",
+  "No fillers",
+  "Alcohol free",
+  "Cruelty free",
+  "Mineral oil free",
+  "Paraben free",
+  "Phthalate free",
+  "Silicone free",
+  "Sulfate free",
+];
+
+const rawSheaFeaturedAttributes = [
+  "Cruelty free",
+  "Vegan",
+  "100% natural",
+  "Fragrance free",
+];
+
+const rawSheaSupplierAttributes = [
+  "Gluten free",
+  "Vegetarian",
+  "Lactose free",
+  "Allergen free",
+  "Hormone free",
+  "100% natural",
+  "Antibiotic free",
+  "No fillers",
+  "Non-GMO",
+  "Corn free",
+  "Vegan",
+  "Alcohol free",
+  "Cruelty free",
+  "Fragrance free",
+  "Mineral oil free",
+  "Paraben free",
+  "Phthalate free",
+  "Silicone free",
+  "Sulfate free",
+];
+
 export const products: Product[] = [
   {
     id: 1,
@@ -96,16 +178,7 @@ export const products: Product[] = [
     description:
       "A creamy coconut-scented soap with a warm tropical finish and a rich everyday lather.",
     highlights: ["Warm coconut scent", "Creamy lather", "4 oz bar"],
-    attributes: [
-      "Vegan",
-      "Non-GMO",
-      "Paraben free",
-      "Sulfate free",
-      "Silicone free",
-      "Phthalate free",
-      "Mineral oil free",
-      "Alcohol free",
-    ],
+    attributes: coconutFeaturedAttributes,
     allAttributes: [
       "Gluten free",
       "Vegetarian",
@@ -171,6 +244,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#bfe6dd", to: "#eaf3c9", motes: "#ffffff" },
     images: [
       { src: breatheReal1, alt: "Real LOCKHABIT breathe clear front view" },
@@ -204,6 +279,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#a9e2c8", to: "#d9f0f6", motes: "#f2fff6" },
     images: [
       { src: aloeReal1, alt: "Real LOCKHABIT aloe cucumber front view" },
@@ -237,6 +314,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#9aa8a1", to: "#cfc3d8", motes: "#f6f2ff" },
     images: [
       { src: slumberReal1, alt: "Real LOCKHABIT slumber front view" },
@@ -272,6 +351,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: exfoliatingUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#f0dcae", to: "#8ed7dd", motes: "#fffdf4" },
     images: [
       { src: luffaReal1, alt: "Real LOCKHABIT exfoliating luffa boxed front view" },
@@ -304,6 +385,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#d9e88f", to: "#f6d36b", motes: "#ffffff" },
     images: [
       { src: lemongrassReal1, alt: "Real LOCKHABIT lemongrass sage front view" },
@@ -336,6 +419,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#c68a5a", to: "#f0c98a", motes: "#ffeccd" },
     images: [
       { src: sandalwoodReal1, alt: "Real LOCKHABIT rich sandalwood front view" },
@@ -369,6 +454,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: oatHoneyFeaturedAttributes,
+    allAttributes: oatHoneySupplierAttributes,
     scene: { from: "#f3dcae", to: "#fff3d2", motes: "#fffdf6" },
     images: [
       { src: oatHoneyReal1, alt: "Real LOCKHABIT oat honey front view" },
@@ -402,6 +489,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#b9a6dd", to: "#e8def7", motes: "#fdfbff" },
     images: [
       { src: lavenderReal1, alt: "Real LOCKHABIT calming lavender front view" },
@@ -435,6 +524,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#5c6169", to: "#b8c1c8", motes: "#ffffff" },
     images: [
       { src: charcoalReal1, alt: "Real LOCKHABIT charcoal front view" },
@@ -460,6 +551,8 @@ export const products: Product[] = [
     suggestedUse:
       "Scoop a small amount and warm between hands. Massage onto skin, focusing on dry areas. Use daily for soft, nourished skin.",
     warning: externalWarning,
+    attributes: rawSheaFeaturedAttributes,
+    allAttributes: rawSheaSupplierAttributes,
     scene: { from: "#e8d3a8", to: "#fff6e2", motes: "#fffdf7" },
     images: [
       { src: sheaReal1, alt: "Real LOCKHABIT raw shea jar front view" },
@@ -493,6 +586,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
+    attributes: standardFeaturedAttributes,
+    allAttributes: standardSupplierAttributes,
     scene: { from: "#f2b13c", to: "#ffe08a", motes: "#fff8e3" },
     images: [
       { src: turmericReal1, alt: "Real LOCKHABIT kojic turmeric front view" },
