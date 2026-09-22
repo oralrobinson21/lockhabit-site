@@ -1,3 +1,5 @@
+import { inkImageUrl, type InkStyle } from "@/lib/email-ink.server";
+
 export type ConfirmationItem = {
   name: string;
   quantity: number;
@@ -27,7 +29,7 @@ export type OrderConfirmation = {
 };
 
 const DEFAULT_ASSET_BASE = "https://lockhabit.com/email/receipt";
-const SITE_URL = "https://lockhabit.com/";
+const DEFAULT_SITE_URL = "https://lockhabit.com";
 
 const escapeHtml = (value: string) =>
   value.replace(/[&<>'"]/g, (character) => {
@@ -102,13 +104,27 @@ const ink = (hex: string) => `color:${hex};-webkit-text-fill-color:${hex};`;
 const inkForce = (hex: string) =>
   `color:${hex}!important;-webkit-text-fill-color:${hex}!important;`;
 const sans = "font-family:Arial,Helvetica,sans-serif;";
-const serif = "font-family:Georgia,'Times New Roman',Times,serif;";
+
+/** Hosted static ink slice (Outlook cannot invert raster text). */
+const staticInk = (asset: (file: string) => string, file: string, alt: string, width: number) =>
+  `<img src="${asset(file)}" width="${width}" alt="${escapeHtml(alt)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;">`;
+
+/** Dynamic ink via signed /api/email-ink PNG (same anti-invert guarantee). */
+const dynamicInk = (
+  siteUrl: string,
+  style: InkStyle,
+  text: string,
+  width: number,
+  extraStyle = "",
+) =>
+  `<img src="${escapeHtml(inkImageUrl(siteUrl, style, text))}" width="${width}" alt="${escapeHtml(text)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;${extraStyle}">`;
 
 export function renderOrderConfirmation(order: OrderConfirmation) {
   const assetBase = (process.env["LOCKHABIT_EMAIL_ASSET_BASE"] ?? DEFAULT_ASSET_BASE).replace(
     /\/+$/,
     "",
   );
+  const siteUrl = (process.env["LOCKHABIT_SITE_URL"] ?? DEFAULT_SITE_URL).replace(/\/+$/, "");
   const asset = (file: string) => `${assetBase}/${file}`;
   // Attribute + inline-style pair that paints a paper surface with its tile.
   const paper = (surface: Surface) =>
@@ -121,41 +137,69 @@ export function renderOrderConfirmation(order: OrderConfirmation) {
   const paidAtLabel = paidAt?.label ?? null;
   const discount = Math.max(0, order.discountAmount);
   const discountLabel = order.discountCode
-    ? `${escapeHtml(order.discountCode)} (${money(discount, order.currency)} off)`
+    ? `${order.discountCode} (${money(discount, order.currency)} off)`
     : `${money(discount, order.currency)} off`;
   const orderKindLabel = `LOCKHABIT ${order.orderKind}`.toUpperCase();
   const address = addressLine(order);
-  const shipTo = address
-    ? [order.customerName, address].filter((part): part is string => Boolean(part)).map(escapeHtml)
+  const shipToParts = address
+    ? [order.customerName, address].filter((part): part is string => Boolean(part))
     : [];
-
-  const cell = (extra = "") =>
-    `class="t-brown cell" style="padding:9px 20px;${sans}font-size:15px;line-height:22px;${ink(C.ink)}${extra}"`;
-  const cellRight = (extra = "") => cell(`text-align:right;${extra}`);
+  const shipToText = shipToParts.join(" · ");
+  const datePaidText = paidAt ? `${paidAt.day},\n${paidAt.time}` : "Confirmed by Stripe";
 
   const itemRows = order.items
-    .map(
-      (item, index) => `
+    .map((item, index) => {
+      const label = `${item.name} × ${item.quantity}`;
+      const price = money(item.amountTotal, order.currency);
+      return `
         <tr>
-          <td ${cell(`padding-top:${index === 0 ? 16 : 6}px;`)}>${escapeHtml(item.name)}&nbsp;&times;&nbsp;${item.quantity}</td>
-          <td ${cellRight(`padding-top:${index === 0 ? 16 : 6}px;white-space:nowrap;`)}>${money(item.amountTotal, order.currency)}</td>
-        </tr>`,
-    )
+          <td class="cell" style="padding:${index === 0 ? 16 : 6}px 20px 6px;vertical-align:top;">
+            ${dynamicInk(siteUrl, "cell", label, 300)}
+          </td>
+          <td class="cell" align="right" style="padding:${index === 0 ? 16 : 6}px 20px 6px;text-align:right;vertical-align:top;white-space:nowrap;">
+            ${dynamicInk(siteUrl, "cell-right", price, 90, "margin-left:auto;")}
+          </td>
+        </tr>`;
+    })
     .join("");
 
-  const totalsRows = [
-    ["Subtotal", money(order.subtotal, order.currency)],
-    ["Shipping", order.shipping === 0 ? "Free shipping" : money(order.shipping, order.currency)],
-    ...(discount > 0
-      ? [[order.discountCode ? "Discount code" : "Discount", discountLabel] as const]
-      : []),
-    ...(order.tax > 0 ? [["Tax", money(order.tax, order.currency)] as const] : []),
-  ]
+  const totalRows: Array<{ labelFile: string; labelAlt: string; value: string }> = [
+    {
+      labelFile: "ink-label-subtotal.png",
+      labelAlt: "Subtotal",
+      value: money(order.subtotal, order.currency),
+    },
+    {
+      labelFile: "ink-label-shipping.png",
+      labelAlt: "Shipping",
+      value: order.shipping === 0 ? "Free shipping" : money(order.shipping, order.currency),
+    },
+  ];
+  if (discount > 0) {
+    totalRows.push({
+      labelFile: order.discountCode ? "ink-label-discount.png" : "ink-label-discount-plain.png",
+      labelAlt: order.discountCode ? "Discount code" : "Discount",
+      value: discountLabel,
+    });
+  }
+  if (order.tax > 0) {
+    totalRows.push({
+      labelFile: "ink-label-tax.png",
+      labelAlt: "Tax",
+      value: money(order.tax, order.currency),
+    });
+  }
+
+  const totalsRows = totalRows
     .map(
-      ([label, value], index) => `
+      (row, index) => `
         <tr>
-          <td ${index === 0 ? 'width="34%" ' : ""}${cell(`padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;white-space:nowrap;${index === 0 ? "width:34%;" : ""}`)}>${label}</td>
-          <td ${index === 0 ? 'width="66%" ' : ""}${cellRight(`padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;white-space:nowrap;${index === 0 ? "width:66%;" : ""}`)}>${value}</td>
+          <td ${index === 0 ? 'width="34%" ' : ""}class="cell" style="padding:${index === 0 ? 14 : 3}px 20px 3px;vertical-align:middle;white-space:nowrap;${index === 0 ? "width:34%;" : ""}">
+            ${staticInk(asset, row.labelFile, row.labelAlt, row.labelAlt === "Discount code" ? 95 : row.labelAlt === "Subtotal" ? 55 : row.labelAlt === "Shipping" ? 58 : 40)}
+          </td>
+          <td ${index === 0 ? 'width="66%" ' : ""}class="cell" align="right" style="padding:${index === 0 ? 14 : 3}px 20px 3px;text-align:right;vertical-align:middle;white-space:nowrap;${index === 0 ? "width:66%;" : ""}">
+            ${dynamicInk(siteUrl, "cell-right", row.value, Math.min(280, Math.max(90, row.value.length * 9)), "margin-left:auto;")}
+          </td>
         </tr>`,
     )
     .join("");
@@ -187,32 +231,26 @@ u + #body a{color:inherit;text-decoration:none}
   .shell{width:100%!important;max-width:100%!important}
   .card-pad{padding-left:6px!important;padding-right:6px!important}
   .inner-pad{padding-left:14px!important;padding-right:14px!important}
-  .title{font-size:30px!important;line-height:34px!important;padding-top:24px!important}
+  .title-img{width:92%!important;max-width:360px!important}
   .stat{padding:8px 4px 10px 6px!important}
-  .stat-label{font-size:9px!important;line-height:13px!important;letter-spacing:0.8px!important}
-  .stat-num{font-size:14px!important;line-height:18px!important;margin-top:4px!important}
-  .stat-amt{font-size:19px!important;line-height:22px!important;margin-top:2px!important}
-  .stat-date{font-size:12px!important;line-height:16px!important;margin-top:4px!important}
   .stamp-cell{display:none!important;width:0!important}
   .stamp-mobile{display:table-cell!important;width:96px!important;max-height:none!important;overflow:visible!important;padding-left:6px!important}
   .stamp-mobile img{display:block!important;width:92px!important;height:auto!important}
-  .cell{padding-left:12px!important;padding-right:12px!important;font-size:14px!important}
-  .total-label{font-size:19px!important}
-  .total-value{font-size:26px!important}
+  .cell{padding-left:12px!important;padding-right:12px!important}
   .foliage{display:none!important}
   .stack{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important;text-align:center!important}
   .stack-copy{text-align:left!important;padding-bottom:14px!important}
   .thanks-img{width:100%!important;max-width:320px!important}
+  .thanks-body{width:100%!important;max-width:320px!important}
   .cta-cell{text-align:center!important;padding-bottom:16px!important}
   .vacation{margin:6px auto 0!important}
-  .kind{font-size:10.5px!important;letter-spacing:2.4px!important;padding-left:18px!important}
 }
 @media (prefers-color-scheme:dark){
   .t-brown{${inkForce(C.ink)}}
   .t-teal{${inkForce(C.teal)}}
 }
-[data-ogsc] .t-brown{${inkForce(C.ink)}}
-[data-ogsc] .t-teal{${inkForce(C.teal)}}
+[data-ogsc] .t-brown,[data-ogsb] .t-brown{${inkForce(C.ink)}}
+[data-ogsc] .t-teal,[data-ogsb] .t-teal{${inkForce(C.teal)}}
 </style>
 </head>
 <body id="body" class="bg-page" ${paper("page")} style="margin:0;padding:0;${bg("page")}">
@@ -236,7 +274,9 @@ u + #body a{color:inherit;text-decoration:none}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-cream" ${paper("cream")} style="width:100%;${bg("cream")}border:3px solid ${C.brown};border-radius:26px;">
 
         <tr>
-          <td align="center" class="bg-cream title t-brown" ${paper("cream")} style="padding:32px 24px 8px;${bg("cream")}${serif}font-size:46px;line-height:50px;font-weight:700;letter-spacing:-0.5px;${ink(C.ink)}">Receipt from lockhabit</td>
+          <td align="center" class="bg-cream" ${paper("cream")} style="padding:32px 24px 8px;${bg("cream")}">
+            <img src="${asset("ink-title.png")}" width="444" alt="Receipt from lockhabit" class="title-img" style="display:block;width:444px;max-width:92%;height:auto;border:0;margin:0 auto;">
+          </td>
         </tr>
         <tr>
           <td align="center" class="bg-cream" ${paper("cream")} style="padding:0 24px 12px;line-height:0;font-size:0;${bg("cream")}">
@@ -253,16 +293,16 @@ u + #body a{color:inherit;text-decoration:none}
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                       <td class="stat" width="35%" valign="top" style="padding:10px 8px 12px 10px;border-right:1px solid ${C.brown};">
-                        <div class="t-brown stat-label" style="${sans}font-size:11px;line-height:15px;font-weight:700;letter-spacing:1.4px;${ink(C.ink)}">RECEIPT NUMBER</div>
-                        <div class="t-brown stat-num" style="margin-top:5px;${sans}font-size:19px;line-height:24px;font-weight:500;${ink(C.ink)}">${orderLabel}</div>
+                        ${staticInk(asset, "ink-label-receipt-number.png", "RECEIPT NUMBER", 118)}
+                        <div style="margin-top:5px;line-height:0;font-size:0;">${dynamicInk(siteUrl, "stat-num", orderLabel, 120)}</div>
                       </td>
                       <td class="stat" width="29%" valign="top" style="padding:10px 8px 12px 14px;border-right:1px solid ${C.brown};">
-                        <div class="t-brown stat-label" style="${sans}font-size:11px;line-height:15px;font-weight:700;letter-spacing:1.4px;${ink(C.ink)}">AMOUNT PAID</div>
-                        <div class="t-brown stat-amt" style="margin-top:3px;${serif}font-size:26px;line-height:28px;font-weight:700;${ink(C.ink)}">${money(order.total, order.currency)}</div>
+                        ${staticInk(asset, "ink-label-amount-paid.png", "AMOUNT PAID", 92)}
+                        <div style="margin-top:3px;line-height:0;font-size:0;">${dynamicInk(siteUrl, "stat-amt", money(order.total, order.currency), 90)}</div>
                       </td>
                       <td class="stat stat-last" valign="top" style="padding:10px 0 12px 14px;">
-                        <div class="t-brown stat-label" style="${sans}font-size:11px;line-height:15px;font-weight:700;letter-spacing:1.4px;${ink(C.ink)}">DATE PAID</div>
-                        <div class="t-brown stat-date" style="margin-top:5px;${sans}font-size:18px;line-height:23px;font-weight:500;white-space:nowrap;${ink(C.ink)}">${paidAt ? `${escapeHtml(paidAt.day)},<br>${escapeHtml(paidAt.time)}` : "Confirmed by Stripe"}</div>
+                        ${staticInk(asset, "ink-label-date-paid.png", "DATE PAID", 71)}
+                        <div style="margin-top:5px;line-height:0;font-size:0;">${dynamicInk(siteUrl, "stat-date", datePaidText, 160)}</div>
                       </td>
                     </tr>
                   </table>
@@ -270,7 +310,7 @@ u + #body a{color:inherit;text-decoration:none}
                     <tr>
                       <td valign="bottom" style="padding:6px 0 0;">
                         <img src="${asset("receipt-order-summary.png")}" width="228" alt="Order Summary" style="display:block;width:228px;max-width:100%;height:auto;border:0;">
-                        <div class="t-brown kind" style="padding:4px 0 0 30px;${sans}font-size:13px;line-height:18px;font-weight:700;letter-spacing:4px;${ink(C.ink)}">${escapeHtml(orderKindLabel)}</div>
+                        <div style="padding:4px 0 0 30px;line-height:0;font-size:0;">${dynamicInk(siteUrl, "kind", orderKindLabel, 280)}</div>
                       </td>
                       <!--[if !mso]><!-->
                       <td class="stamp-mobile" width="0" valign="bottom" align="right" style="display:none;max-height:0;overflow:hidden;width:0;padding:0;line-height:0;font-size:0;">
@@ -296,8 +336,12 @@ u + #body a{color:inherit;text-decoration:none}
                 <td style="padding:0;">
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;table-layout:fixed;">
                     <tr>
-                      <td class="bg-thead t-brown th-item" ${paper("tableHead")} width="60%" style="width:60%;padding:13px 20px;${bg("tableHead")}border-radius:13px 0 0 0;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">ITEM</td>
-                      <td class="bg-thead t-brown th-price" ${paper("tableHead")} width="40%" align="right" style="width:40%;padding:13px 20px;${bg("tableHead")}border-radius:0 13px 0 0;text-align:right;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">PRICE</td>
+                      <td class="bg-thead th-item" ${paper("tableHead")} width="60%" style="width:60%;padding:13px 20px;${bg("tableHead")}border-radius:13px 0 0 0;">
+                        ${staticInk(asset, "ink-th-item.png", "ITEM", 39)}
+                      </td>
+                      <td class="bg-thead th-price" ${paper("tableHead")} width="40%" align="right" style="width:40%;padding:13px 20px;${bg("tableHead")}border-radius:0 13px 0 0;text-align:right;">
+                        <div style="display:inline-block;">${staticInk(asset, "ink-th-price.png", "PRICE", 48)}</div>
+                      </td>
                     </tr>
                     ${itemRows}
                     <tr><td colspan="2" style="padding:10px 20px 0;"><div style="height:1px;line-height:1px;font-size:1px;background-color:${C.rule};">&nbsp;</div></td></tr>
@@ -306,8 +350,12 @@ u + #body a{color:inherit;text-decoration:none}
                     ${totalsRows}
                     <tr><td colspan="2" style="padding:12px 20px 0;"><div style="height:2px;line-height:2px;font-size:2px;background-color:${C.brown};">&nbsp;</div></td></tr>
                     <tr>
-                      <td class="t-teal cell total-label" style="padding:14px 20px 18px;white-space:nowrap;${sans}font-size:22px;line-height:28px;font-weight:700;${ink(C.teal)}">Amount paid</td>
-                      <td class="t-teal cell total-value" align="right" style="padding:14px 20px 18px;text-align:right;white-space:nowrap;${sans}font-size:30px;line-height:32px;font-weight:700;${ink(C.teal)}">${money(order.total, order.currency)}</td>
+                      <td class="cell" style="padding:14px 20px 18px;white-space:nowrap;vertical-align:middle;">
+                        ${staticInk(asset, "ink-label-amount-paid-total.png", "Amount paid", 134)}
+                      </td>
+                      <td class="cell" align="right" style="padding:14px 20px 18px;text-align:right;white-space:nowrap;vertical-align:middle;">
+                        ${dynamicInk(siteUrl, "total-value", money(order.total, order.currency), 110, "margin-left:auto;")}
+                      </td>
                     </tr>
                   </table>
                 </td>
@@ -317,11 +365,16 @@ u + #body a{color:inherit;text-decoration:none}
         </tr>
 
         ${
-          shipTo.length
+          shipToText
             ? `<!-- Compact shipping line -->
         <tr>
           <td class="bg-cream inner-pad" ${paper("cream")} style="padding:2px 22px 0;${bg("cream")}">
-            <div class="t-brown" style="padding:0 8px;${sans}font-size:12px;line-height:18px;${ink(C.ink)}"><span style="font-weight:700;letter-spacing:1.5px;">SHIPPING TO</span>&nbsp;&nbsp;${shipTo.join(" · ")}</div>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td valign="middle" style="padding:0 8px 0 8px;line-height:0;font-size:0;">${staticInk(asset, "ink-label-shipping-to.png", "SHIPPING TO", 93)}</td>
+                <td valign="middle" style="padding:0 8px 0 0;line-height:0;font-size:0;">${dynamicInk(siteUrl, "ship", shipToText, 480)}</td>
+              </tr>
+            </table>
           </td>
         </tr>`
             : ""
@@ -337,10 +390,10 @@ u + #body a{color:inherit;text-decoration:none}
                 </td>
                 <td class="stack stack-copy inner-pad" valign="top" style="padding:0 10px 18px 8px;">
                   <img src="${asset("receipt-thanks.png")}" width="300" alt="Thanks for being here" class="thanks-img" style="display:block;width:300px;max-width:100%;height:auto;border:0;">
-                  <div class="t-brown" style="padding:10px 0 0 30px;${sans}font-size:14px;line-height:21px;${ink(C.ink)}">You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days.</div>
+                  <img src="${asset("ink-thanks-body.png")}" width="314" alt="You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days." class="thanks-body" style="display:block;width:314px;max-width:100%;height:auto;border:0;margin:10px 0 0 30px;">
                 </td>
                 <td class="stack cta-cell" width="236" valign="top" align="right" style="padding:0 16px 18px 0;text-align:right;">
-                  <a href="${SITE_URL}" class="cta" style="display:inline-block;text-decoration:none;${ink(C.brown)}${sans}font-size:16px;font-weight:700;letter-spacing:2px;line-height:0;"><img src="${asset("receipt-cta.png")}" width="220" height="80" alt="KEEP GOING →" style="display:block;width:220px;height:80px;border:0;"></a>
+                  <a href="${siteUrl}/" class="cta" style="display:inline-block;text-decoration:none;${ink(C.brown)}${sans}font-size:16px;font-weight:700;letter-spacing:2px;line-height:0;"><img src="${asset("receipt-cta.png")}" width="220" height="80" alt="KEEP GOING →" style="display:block;width:220px;height:80px;border:0;"></a>
                   <img src="${asset("receipt-vacation.png")}" width="128" alt="Vacation Mode For A Better You" class="vacation" style="display:block;width:128px;height:auto;border:0;margin:2px 24px 0 auto;">
                 </td>
               </tr>
@@ -361,8 +414,12 @@ u + #body a{color:inherit;text-decoration:none}
 
   <!-- Support -->
   <tr>
-    <td align="center" class="bg-sand t-brown" ${paper("sand")} style="padding:2px 24px 22px;${bg("sand")}${sans}font-size:12px;line-height:18px;${ink(C.ink)}">
-      Questions about your order?<br>Reply to this email or contact <a href="mailto:${escapeHtml(supportEmail)}" style="${ink(C.teal)}font-weight:700;text-decoration:underline;">${escapeHtml(supportEmail)}</a>
+    <td align="center" class="bg-sand" ${paper("sand")} style="padding:2px 24px 22px;${bg("sand")}">
+      ${dynamicInk(siteUrl, "support", "Questions about your order?", 280)}
+      <div style="height:4px;line-height:4px;font-size:4px;">&nbsp;</div>
+      <div style="${sans}font-size:12px;line-height:18px;${ink(C.ink)}">
+        Reply to this email or contact <a href="mailto:${escapeHtml(supportEmail)}" class="t-teal" style="${ink(C.teal)}font-weight:700;text-decoration:underline;">${escapeHtml(supportEmail)}</a>
+      </div>
     </td>
   </tr>
 
@@ -384,10 +441,10 @@ ${textItems}
 Subtotal: ${money(order.subtotal, order.currency)}
 Shipping: ${order.shipping === 0 ? "Free shipping" : money(order.shipping, order.currency)}
 ${discount > 0 ? `${order.discountCode ? "Discount code" : "Discount"}: ${order.discountCode ? `${order.discountCode} ` : ""}(${money(discount, order.currency)} off)\n` : ""}${order.tax > 0 ? `Tax: ${money(order.tax, order.currency)}\n` : ""}Amount paid: ${money(order.total, order.currency)}
-${shipTo.length ? `\nShipping to: ${[order.customerName, address].filter(Boolean).join(" · ")}\n` : ""}
+${shipToText ? `\nShipping to: ${shipToText}\n` : ""}
 Thanks for being here. You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days.
 
-Keep going: ${SITE_URL}
+Keep going: ${siteUrl}/
 
 Questions about your order? Reply to this email or contact ${supportEmail}`;
 

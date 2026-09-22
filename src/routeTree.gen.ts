@@ -11,6 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ReturnsRouteImport } from './routes/returns'
+import { Route as ShippingRouteImport } from './routes/shipping'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ApiEmailInkRouteImport } from './routes/api/email-ink'
 import { Route as ApiEmailTestRouteImport } from './routes/api/email-test'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as SoapsSlugRouteImport } from './routes/soaps.$slug'
@@ -24,6 +30,36 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReturnsRoute = ReturnsRouteImport.update({
+  id: '/returns',
+  path: '/returns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShippingRoute = ShippingRouteImport.update({
+  id: '/shipping',
+  path: '/shipping',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEmailInkRoute = ApiEmailInkRouteImport.update({
+  id: '/api/email-ink',
+  path: '/api/email-ink',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiEmailTestRoute = ApiEmailTestRouteImport.update({
@@ -50,6 +86,12 @@ const ApiStripeWebhookRoute = ApiStripeWebhookRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/privacy': typeof PrivacyRoute
+  '/returns': typeof ReturnsRoute
+  '/shipping': typeof ShippingRoute
+  '/terms': typeof TermsRoute
+  '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
@@ -58,6 +100,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/privacy': typeof PrivacyRoute
+  '/returns': typeof ReturnsRoute
+  '/shipping': typeof ShippingRoute
+  '/terms': typeof TermsRoute
+  '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
@@ -67,6 +115,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/privacy': typeof PrivacyRoute
+  '/returns': typeof ReturnsRoute
+  '/shipping': typeof ShippingRoute
+  '/terms': typeof TermsRoute
+  '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
@@ -77,6 +131,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/contact'
+    | '/privacy'
+    | '/returns'
+    | '/shipping'
+    | '/terms'
+    | '/api/email-ink'
     | '/api/email-test'
     | '/checkout/return'
     | '/soaps/$slug'
@@ -85,6 +145,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/contact'
+    | '/privacy'
+    | '/returns'
+    | '/shipping'
+    | '/terms'
+    | '/api/email-ink'
     | '/api/email-test'
     | '/checkout/return'
     | '/soaps/$slug'
@@ -93,6 +159,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/contact'
+    | '/privacy'
+    | '/returns'
+    | '/shipping'
+    | '/terms'
+    | '/api/email-ink'
     | '/api/email-test'
     | '/checkout/return'
     | '/soaps/$slug'
@@ -102,6 +174,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  PrivacyRoute: typeof PrivacyRoute
+  ReturnsRoute: typeof ReturnsRoute
+  ShippingRoute: typeof ShippingRoute
+  TermsRoute: typeof TermsRoute
+  ApiEmailInkRoute: typeof ApiEmailInkRoute
   ApiEmailTestRoute: typeof ApiEmailTestRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   SoapsSlugRoute: typeof SoapsSlugRoute
@@ -122,6 +200,48 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/returns': {
+      id: '/returns'
+      path: '/returns'
+      fullPath: '/returns'
+      preLoaderRoute: typeof ReturnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shipping': {
+      id: '/shipping'
+      path: '/shipping'
+      fullPath: '/shipping'
+      preLoaderRoute: typeof ShippingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/email-ink': {
+      id: '/api/email-ink'
+      path: '/api/email-ink'
+      fullPath: '/api/email-ink'
+      preLoaderRoute: typeof ApiEmailInkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/email-test': {
@@ -158,6 +278,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  PrivacyRoute: PrivacyRoute,
+  ReturnsRoute: ReturnsRoute,
+  ShippingRoute: ShippingRoute,
+  TermsRoute: TermsRoute,
+  ApiEmailInkRoute: ApiEmailInkRoute,
   ApiEmailTestRoute: ApiEmailTestRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   SoapsSlugRoute: SoapsSlugRoute,
@@ -166,13 +292,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
