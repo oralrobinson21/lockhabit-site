@@ -199,9 +199,7 @@ function ProductView({ slug }: { slug: string }) {
                 <p className="memo mt-3 text-muted-foreground">{product.note}</p>
                 <div className="mt-6 flex flex-wrap items-center gap-4">
                   <span className="price-tag">${product.price.toFixed(2)}</span>
-                  <span className="memo text-muted-foreground">
-                    {product.netWeight} · small batch
-                  </span>
+                  <span className="memo text-muted-foreground">{product.netWeight}</span>
                 </div>
                 <p className="mt-7 max-w-lg font-display text-2xl italic leading-snug">
                   {product.tagline}
@@ -229,7 +227,7 @@ function ProductView({ slug }: { slug: string }) {
 
                 {product.attributes?.length ? (
                   <section className="mt-10" aria-label={`${product.name} product attributes`}>
-                    <p className="memo text-muted-foreground">What it's not packing</p>
+                    <p className="memo text-muted-foreground">Product details</p>
                     <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-8 lg:grid-cols-4 xl:grid-cols-8">
                       {product.attributes.map((attribute) => (
                         <div key={attribute} className="flex flex-col items-center gap-2 text-center">
@@ -242,8 +240,7 @@ function ProductView({ slug }: { slug: string }) {
                       ))}
                     </div>
                     <p className="mt-4 text-xs leading-5 text-muted-foreground">
-                      Product attributes shown from the supplier's current specifications for this
-                      formula.
+                      Supplier-listed attributes for this formula.
                     </p>
                   </section>
                 ) : null}
@@ -281,7 +278,7 @@ function ProductView({ slug }: { slug: string }) {
 
                     <details className="group border-b-2 border-foreground/15 p-6">
                       <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                        <span className="memo">The full badge board</span>
+                        <span className="memo">More product attributes</span>
                         <Plus size={16} className="transition-transform group-open:rotate-45" />
                       </summary>
                       <div className="mt-4 flex flex-wrap gap-2">
@@ -295,8 +292,7 @@ function ProductView({ slug }: { slug: string }) {
                         ))}
                       </div>
                       <p className="mt-4 text-xs leading-5 text-muted-foreground">
-                        These are supplier-provided product attributes. They describe this formula;
-                        they are not a blanket environmental or medical claim.
+                        Supplier-listed attributes for this formula.
                       </p>
                     </details>
 
@@ -360,15 +356,15 @@ function ProductView({ slug }: { slug: string }) {
             <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6">
               <div className="flex items-center gap-3">
                 <Waves size={20} className="text-primary" />
-                <p className="memo">Every bar is cut by hand and cured for four weeks</p>
+                <p className="memo">4 oz bar · easy everyday ritual</p>
               </div>
               <div className="flex items-center gap-3">
                 <Sun size={20} className="text-primary" />
-                <p className="memo">Ships from the sunny side of the building</p>
+                <p className="memo">Warm scents · brighter showers</p>
               </div>
               <div className="flex items-center gap-3">
                 <Minus size={20} className="text-primary" />
-                <p className="memo">Zero plastic, zero rush, zero worries</p>
+                <p className="memo">Exact ingredients listed on every product page</p>
               </div>
             </div>
           </section>
