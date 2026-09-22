@@ -187,7 +187,6 @@ export const createCartCheckout = createServerFn({ method: "POST" })
         integration_identifier: "lockhabit_zqkmwpxa",
         metadata: {
           selected_product_ids: expandedItems.join(","),
-          launch_gift: soapIds.length === 3 ? "surprise_bar" : "none",
           delivery: isSubscription ? "monthly" : "one_time",
           shipping_rate: shippingAmount === 0 ? "free" : "795",
         },
