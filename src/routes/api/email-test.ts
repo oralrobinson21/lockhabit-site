@@ -62,7 +62,9 @@ export const Route = createFileRoute("/api/email-test")({
         const order = syntheticOrder(run);
 
         if (url.searchParams.get("preview") === "1") {
-          const { html } = renderOrderConfirmation(order);
+          // Browser preview has no MIME context for cid:; use data: URLs so
+          // dynamic ink is readable without hitting /api/email-ink.
+          const { html } = await renderOrderConfirmation(order, { dynamicInk: "data" });
           return new Response(html, {
             headers: { "Content-Type": "text/html; charset=utf-8", "X-Robots-Tag": "noindex" },
           });

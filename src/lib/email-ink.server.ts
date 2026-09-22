@@ -10,7 +10,9 @@ import { Resvg } from "@resvg/resvg-js";
  * invert cannot wash dark brown text into pale pink on cream paper.
  *
  * Static slices live under /email/receipt/ink-*.png.
- * Dynamic values (totals, line items, dates) are signed URLs to /api/email-ink.
+ * Dynamic values are rendered with renderInkPng and embedded as CID inline
+ * attachments on send (Outlook iOS often fails to fetch many remote
+ * /api/email-ink?sig= URLs). The /api/email-ink route remains for debug/remote mode.
  *
  * Fonts: Liberation TTFs are bundled in-repo and registered with resvg via
  * fontFiles (not system fontconfig). Railway images often lack fonts; sharp’s
