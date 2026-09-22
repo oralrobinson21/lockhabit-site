@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Sun, X } from "lucide-react";
-import { useState } from "react";
+import { Grid2X2, Menu, Sun, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 import { useCart } from "@/lib/cart";
@@ -36,6 +36,23 @@ function TickerGroup({ hidden = false }: { hidden?: boolean }) {
 export function SiteHeader() {
   const { cartCount, setCartOpen } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [pinned, setPinned] = useState(false);
+
+  useEffect(() => {
+    const updatePinned = () => setPinned(window.scrollY > 44);
+    updatePinned();
+    window.addEventListener("scroll", updatePinned, { passive: true });
+    return () => window.removeEventListener("scroll", updatePinned);
+  }, []);
+
+  const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    setMenuOpen(false);
+    if (window.location.pathname === "/") {
+      event.preventDefault();
+      window.history.replaceState(null, "", "/");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <>
@@ -49,7 +66,10 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <header className="sticky top-0 z-30 border-b-2 border-foreground bg-background/95 backdrop-blur">
+      <div className="h-24">
+        <header
+          className={`${pinned ? "fixed inset-x-0 top-0 shadow-lg" : "relative"} z-30 border-b-2 border-foreground bg-background/95 backdrop-blur transition-shadow`}
+        >
         <div className="relative mx-auto flex h-24 max-w-7xl items-center justify-between px-5 lg:px-10">
           <button
             className="icon-button z-10 bg-background hover:bg-sun md:hidden"
@@ -72,7 +92,7 @@ export function SiteHeader() {
 
           <Link
             to="/"
-            onClick={() => setMenuOpen(false)}
+            onClick={handleLogoClick}
             className="brand-logo pointer-events-auto absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
             aria-label="Return to LOCKHABIT home"
             title="Return to LOCKHABIT home"
@@ -81,6 +101,16 @@ export function SiteHeader() {
           </Link>
 
           <div className="z-10 flex flex-1 items-center justify-end gap-2">
+            <Link
+              to="/"
+              hash="shop"
+              className="icon-button bg-background hover:bg-sun"
+              aria-label="See all products"
+              title="See all products"
+              onClick={() => setMenuOpen(false)}
+            >
+              <Grid2X2 size={19} />
+            </Link>
             <button
               className="icon-button hover:bg-sun bg-background"
               onClick={() => setCartOpen(true)}
@@ -113,7 +143,8 @@ export function SiteHeader() {
             </Link>
           </nav>
         )}
-      </header>
+        </header>
+      </div>
     </>
   );
 }
