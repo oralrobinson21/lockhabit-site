@@ -97,14 +97,10 @@ const standardFeaturedAttributes = ["Cruelty free", "Vegan", "100% natural", "Pa
 const coconutFeaturedAttributes = ["Vegan", "Non-GMO", "Paraben free", "Sulfate free"];
 
 const coconutSupplierAttributes = [
-  "Vegan",
-  "Non-GMO",
   "Alcohol free",
   "Mineral oil free",
-  "Paraben free",
   "Phthalate free",
   "Silicone free",
-  "Sulfate free",
 ];
 
 const breatheSupplierAttributes = [
