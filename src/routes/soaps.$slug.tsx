@@ -4,11 +4,56 @@ import { useEffect, useRef, useState } from "react";
 
 import { SiteHeader } from "@/components/site-header";
 import { useCart } from "@/lib/cart";
-import { productBySlug, products, relatedProducts } from "@/lib/catalog";
+import { productBySlug, products, relatedProducts, type GalleryImage } from "@/lib/catalog";
 
 type ProductRouteSearch = {
   slug: string;
 };
+
+const cropPosition: Record<NonNullable<GalleryImage["crop"]>, string> = {
+  "top-left": "0% 0%",
+  "top-right": "100% 0%",
+  "bottom-left": "0% 100%",
+  "bottom-right": "100% 100%",
+};
+
+function GalleryMedia({
+  image,
+  className,
+  decorative = false,
+}: {
+  image: GalleryImage;
+  className: string;
+  decorative?: boolean;
+}) {
+  if (image.crop) {
+    return (
+      <div
+        role={decorative ? undefined : "img"}
+        aria-label={decorative ? undefined : image.alt}
+        aria-hidden={decorative || undefined}
+        className={className}
+        style={{
+          backgroundImage: `url(${image.src})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "200% 200%",
+          backgroundPosition: cropPosition[image.crop],
+        }}
+      />
+    );
+  }
+
+  return (
+    <img
+      src={image.src}
+      alt={decorative ? "" : image.alt}
+      loading={decorative ? "lazy" : undefined}
+      width={1024}
+      height={1024}
+      className={className}
+    />
+  );
+}
 
 export const Route = createFileRoute("/soaps/$slug")({
   head: ({ params }) => {
@@ -111,13 +156,10 @@ function ProductView({ slug }: { slug: string }) {
             <div className="mt-8 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
               <div>
                 <div className="retro-frame aspect-square bg-muted">
-                  <img
-                    key={product.images[activeImage]?.src}
-                    src={product.images[activeImage]?.src}
-                    alt={product.images[activeImage]?.alt ?? product.name}
-                    width={1024}
-                    height={1024}
-                    className={`h-full w-full animate-gallery-in ${activeImage === 0 ? "bg-paper object-contain p-3 sm:p-6" : "object-cover"}`}
+                  <GalleryMedia
+                    key={`${product.images[activeImage]?.src}-${product.images[activeImage]?.crop ?? "full"}`}
+                    image={product.images[activeImage]}
+                    className={`h-full w-full animate-gallery-in ${activeImage === 0 ? "bg-paper object-contain p-3 sm:p-6" : "bg-center object-cover"}`}
                   />
                 </div>
                 <div
@@ -126,24 +168,27 @@ function ProductView({ slug }: { slug: string }) {
                 >
                   {product.images.map((image, index) => (
                     <button
-                      key={image.src}
+                      key={`${image.src}-${image.crop ?? index}`}
                       type="button"
                       onClick={() => setActiveImage(index)}
                       className={`aspect-square overflow-hidden rounded-xl border-2 transition ${activeImage === index ? "border-foreground shadow-[3px_3px_0_var(--color-foreground)]" : "border-foreground/25 opacity-70 hover:opacity-100"}`}
                       aria-label={`View ${product.name} image ${index + 1}`}
                       aria-pressed={activeImage === index}
                     >
-                      <img
-                        src={image.src}
-                        alt=""
-                        loading="lazy"
-                        width={220}
-                        height={220}
-                        className="h-full w-full object-cover"
+                      <GalleryMedia
+                        image={image}
+                        decorative
+                        className="h-full w-full bg-center object-cover"
                       />
                     </button>
                   ))}
                 </div>
+                {product.images.some((image) => image.illustrative) ? (
+                  <p className="mt-3 text-xs leading-5 text-muted-foreground">
+                    Lifestyle scenes are illustrative. The original product photos remain in the
+                    gallery so you can see the actual item you'll receive.
+                  </p>
+                ) : null}
               </div>
 
               <div>
