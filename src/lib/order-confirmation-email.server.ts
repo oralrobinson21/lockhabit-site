@@ -137,12 +137,41 @@ const inkForce = (hex: string) =>
   `color:${hex}!important;-webkit-text-fill-color:${hex}!important;`;
 const sans = "font-family:Arial,Helvetica,sans-serif;";
 
+/**
+ * Outlook iOS treats bare &lt;img&gt; as media: tap opens a full-screen black
+ * lightbox (X / …). Wrapping the image in an in-message fragment link keeps
+ * the tap on the receipt instead of launching Quick Look. The CTA already
+ * links to the store and must not use this helper.
+ */
+const RECEIPT_ANCHOR = "#lh-receipt";
+
+const inertReceiptImg = (imgTag: string) =>
+  `<a href="${RECEIPT_ANCHOR}" class="lh-inert" style="display:inline-block;text-decoration:none;border:0;outline:none;color:inherit;cursor:default;line-height:0;font-size:0;-webkit-tap-highlight-color:transparent;" tabindex="-1">${imgTag}</a>`;
+
 /** Hosted static ink slice (Outlook cannot invert raster text). */
 const staticInk = (asset: (file: string) => string, file: string, alt: string, width: number) =>
-  `<img src="${asset(file)}" width="${width}" alt="${escapeHtml(alt)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;">`;
+  inertReceiptImg(
+    `<img src="${asset(file)}" width="${width}" alt="${escapeHtml(alt)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;">`,
+  );
 
 const inkImgTag = (src: string, text: string, width: number, extraStyle = "") =>
-  `<img src="${src}" width="${width}" alt="${escapeHtml(text)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;${extraStyle}">`;
+  inertReceiptImg(
+    `<img src="${src}" width="${width}" alt="${escapeHtml(text)}" style="display:block;width:${width}px;max-width:100%;height:auto;border:0;${extraStyle}">`,
+  );
+
+const assetImg = (
+  asset: (file: string) => string,
+  file: string,
+  alt: string,
+  width: number,
+  extraStyle = "",
+  className = "",
+) => {
+  const classAttr = className ? ` class="${className}"` : "";
+  return inertReceiptImg(
+    `<img src="${asset(file)}" width="${width}" alt="${escapeHtml(alt)}"${classAttr} style="display:block;width:${width}px;max-width:100%;height:auto;border:0;${extraStyle}">`,
+  );
+};
 
 /**
  * Collects dynamic ink slots, then materializes them as CID attachments,
@@ -333,7 +362,8 @@ export async function renderOrderConfirmation(
 html,body{margin:0!important;padding:0!important;width:100%!important}
 body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
 table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse}
-img{-ms-interpolation-mode:bicubic;border:0;outline:none;text-decoration:none;display:block}
+img{-ms-interpolation-mode:bicubic;border:0;outline:none;text-decoration:none;display:block;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+a.lh-inert{text-decoration:none!important;border:0!important;outline:none!important;color:inherit!important;-webkit-tap-highlight-color:transparent}
 a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important}
 u + #body a{color:inherit;text-decoration:none}
 @media only screen and (max-width:640px){
@@ -375,23 +405,23 @@ u + #body a{color:inherit;text-decoration:none}
   <!-- Tropical postcard header -->
   <tr>
     <td class="bg-sand" ${paper("sand")} style="padding:0;line-height:0;font-size:0;${bg("sand")}">
-      <img src="${asset("receipt-header.jpg")}" width="640" alt="LockHabit — Good Habits, Brighter Days" style="display:block;width:100%;max-width:640px;height:auto;border:0;">
+      ${assetImg(asset, "receipt-header.jpg", "LockHabit — Good Habits, Brighter Days", 640, "width:100%;max-width:640px;")}
     </td>
   </tr>
 
-  <!-- Receipt card -->
+  <!-- Receipt card (id anchors inert ink taps so Outlook iOS does not open a lightbox) -->
   <tr>
     <td class="bg-sand card-pad" ${paper("sand")} style="padding:0 8px 14px;${bg("sand")}">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-cream cream-card" ${paper("cream")} style="width:100%;${bg("cream")}border:3px solid ${C.brown};border-radius:26px;overflow:visible;">
+      <table role="presentation" id="lh-receipt" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-cream cream-card" ${paper("cream")} style="width:100%;${bg("cream")}border:3px solid ${C.brown};border-radius:26px;overflow:visible;">
 
         <tr>
           <td align="center" class="bg-cream" ${paper("cream")} style="padding:32px 24px 8px;${bg("cream")}">
-            <img src="${asset("ink-title.png")}" width="444" alt="Receipt from lockhabit" class="title-img" style="display:block;width:444px;max-width:92%;height:auto;border:0;margin:0 auto;">
+            ${assetImg(asset, "ink-title.png", "Receipt from lockhabit", 444, "max-width:92%;margin:0 auto;", "title-img")}
           </td>
         </tr>
         <tr>
           <td align="center" class="bg-cream" ${paper("cream")} style="padding:0 24px 12px;line-height:0;font-size:0;${bg("cream")}">
-            <img src="${asset("receipt-squiggle.png")}" width="140" height="30" alt="" style="display:inline-block;width:140px;height:30px;border:0;">
+            ${assetImg(asset, "receipt-squiggle.png", "", 140, "display:inline-block;width:140px;height:30px;")}
           </td>
         </tr>
 
@@ -420,19 +450,19 @@ u + #body a{color:inherit;text-decoration:none}
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                       <td valign="bottom" style="padding:6px 0 0;">
-                        <img src="${asset("receipt-order-summary.png")}" width="228" alt="Order Summary" style="display:block;width:228px;max-width:100%;height:auto;border:0;">
+                        ${assetImg(asset, "receipt-order-summary.png", "Order Summary", 228)}
                         <div style="padding:4px 0 0 30px;line-height:0;font-size:0;">${inkBag.slot("kind", orderKindLabel, 280)}</div>
                       </td>
                       <!--[if !mso]><!-->
                       <td class="stamp-mobile" width="0" valign="bottom" align="right" style="display:none;max-height:0;overflow:hidden;width:0;padding:0;line-height:0;font-size:0;">
-                        <img src="${asset("receipt-stamp.png")}" width="0" alt="" style="display:none;width:0;height:auto;border:0;">
+                        ${assetImg(asset, "receipt-stamp.png", "", 0, "display:none;width:0;")}
                       </td>
                       <!--<![endif]-->
                     </tr>
                   </table>
                 </td>
                 <td class="stamp-cell" width="138" valign="middle" align="right" style="padding:0 0 0 6px;line-height:0;font-size:0;">
-                  <img src="${asset("receipt-stamp.png")}" width="132" alt="Good Habits · Brighter Days" style="display:block;width:132px;height:auto;border:0;">
+                  ${assetImg(asset, "receipt-stamp.png", "Good Habits · Brighter Days", 132)}
                 </td>
               </tr>
             </table>
@@ -497,15 +527,15 @@ u + #body a{color:inherit;text-decoration:none}
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td class="foliage" width="56" valign="bottom" style="padding:0;line-height:0;font-size:0;">
-                  <img src="${asset("receipt-foliage-left.png")}" width="56" alt="" style="display:block;width:56px;height:auto;border:0;">
+                  ${assetImg(asset, "receipt-foliage-left.png", "", 56)}
                 </td>
                 <td class="stack stack-copy inner-pad" valign="top" align="center" style="padding:0 16px 18px;text-align:center;overflow:visible;">
-                  <img src="${asset("receipt-thanks.png")}" width="300" alt="Thanks for being here" class="thanks-img" style="display:block;width:300px;max-width:100%;height:auto;border:0;margin:0 auto;">
-                  <img src="${asset("ink-thanks-body.png")}" width="268" alt="You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days." class="thanks-body" style="display:block;width:268px;max-width:100%;height:auto;border:0;margin:10px auto 0;">
+                  ${assetImg(asset, "receipt-thanks.png", "Thanks for being here", 300, "max-width:100%;margin:0 auto;", "thanks-img")}
+                  ${assetImg(asset, "ink-thanks-body.png", "You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days.", 268, "max-width:100%;margin:10px auto 0;", "thanks-body")}
                 </td>
                 <td class="stack cta-cell" width="236" valign="top" align="right" style="padding:0 16px 18px 0;text-align:right;">
                   <a href="${siteUrl}/" class="cta" style="display:inline-block;text-decoration:none;${ink(C.brown)}${sans}font-size:16px;font-weight:700;letter-spacing:2px;line-height:0;"><img src="${asset("receipt-cta.png")}" width="220" height="80" alt="KEEP GOING →" style="display:block;width:220px;height:80px;border:0;"></a>
-                  <img src="${asset("receipt-vacation.png")}" width="128" alt="Vacation Mode For A Better You" class="vacation" style="display:block;width:128px;height:auto;border:0;margin:2px 24px 0 auto;">
+                  ${assetImg(asset, "receipt-vacation.png", "Vacation Mode For A Better You", 128, "margin:2px 24px 0 auto;", "vacation")}
                 </td>
               </tr>
             </table>
@@ -515,7 +545,7 @@ u + #body a{color:inherit;text-decoration:none}
         <!-- Turquoise wave footer -->
         <tr>
           <td class="bg-cream footer-art" ${paper("cream")} style="padding:0;line-height:0;font-size:0;overflow:visible;${bg("cream")}">
-            <img src="${asset("receipt-footer.jpg")}" width="612" alt="LOCKHABIT — Good Habits · Brighter Days" style="display:block;width:100%;max-width:100%;height:auto;border:0;border-radius:0 0 16px 16px;">
+            ${assetImg(asset, "receipt-footer.jpg", "LOCKHABIT — Good Habits · Brighter Days", 612, "width:100%;max-width:100%;border-radius:0 0 16px 16px;")}
           </td>
         </tr>
 
