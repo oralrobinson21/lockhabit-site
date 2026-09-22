@@ -87,11 +87,18 @@ const externalWarning =
 const standardFeaturedAttributes = [
   "Cruelty free",
   "Vegan",
-  "Vegetarian",
   "100% natural",
+  "Paraben free",
 ];
 
-const standardSupplierAttributes = [
+const coconutFeaturedAttributes = [
+  "Vegan",
+  "100% natural",
+  "Non-GMO",
+  "Sulfate free",
+];
+
+const coconutSupplierAttributes = [
   "Gluten free",
   "Vegetarian",
   "Lactose free",
@@ -99,6 +106,50 @@ const standardSupplierAttributes = [
   "Hormone free",
   "100% natural",
   "Antibiotic free",
+  "No fillers",
+  "Non-GMO",
+  "Corn free",
+  "Vegan",
+  "Alcohol free",
+  "Mineral oil free",
+  "Paraben free",
+  "Phthalate free",
+  "Silicone free",
+  "Sulfate free",
+];
+
+const breatheSupplierAttributes = [
+  "Gluten free",
+  "Vegetarian",
+  "Lactose free",
+  "Allergen free",
+  "Hormone free",
+  "100% natural",
+  "Antibiotic free",
+  "No fillers",
+  "Corn free",
+  "Vegan",
+  "Alcohol free",
+  "Cruelty free",
+  "Fragrance free",
+  "Mineral oil free",
+  "Paraben free",
+  "Phthalate free",
+  "Silicone free",
+  "Sulfate free",
+];
+
+const fullSoapSupplierAttributes = [
+  "Gluten free",
+  "Vegetarian",
+  "Lactose free",
+  "Allergen free",
+  "Hormone free",
+  "100% natural",
+  "Antibiotic free",
+  "No fillers",
+  "Non-GMO",
+  "Corn free",
   "Vegan",
   "Alcohol free",
   "Cruelty free",
@@ -109,11 +160,51 @@ const standardSupplierAttributes = [
   "Sulfate free",
 ];
 
-const coconutFeaturedAttributes = [
-  "Vegan",
+const fullSoapFragranceFreeSupplierAttributes = [
+  ...fullSoapSupplierAttributes.slice(0, 13),
+  "Fragrance free",
+  ...fullSoapSupplierAttributes.slice(13),
+];
+
+const slumberSupplierAttributes = [
+  "Gluten free",
   "Vegetarian",
+  "Lactose free",
+  "Allergen free",
+  "Hormone free",
   "100% natural",
+  "Antibiotic free",
   "Non-GMO",
+  "Vegan",
+  "Alcohol free",
+  "Cruelty free",
+  "Fragrance free",
+  "Mineral oil free",
+  "Paraben free",
+  "Phthalate free",
+  "Silicone free",
+  "Sulfate free",
+];
+
+const luffaSupplierAttributes = [
+  "Gluten free",
+  "Vegetarian",
+  "Lactose free",
+  "Allergen free",
+  "Hormone free",
+  "100% natural",
+  "Antibiotic free",
+  "No fillers",
+  "Non-GMO",
+  "Vegan",
+  "Alcohol free",
+  "Cruelty free",
+  "Fragrance free",
+  "Mineral oil free",
+  "Paraben free",
+  "Phthalate free",
+  "Silicone free",
+  "Sulfate free",
 ];
 
 const oatHoneyFeaturedAttributes = [
@@ -148,13 +239,11 @@ const rawSheaSupplierAttributes = [
   "Gluten free",
   "Vegetarian",
   "Lactose free",
-  "Allergen free",
   "Hormone free",
   "100% natural",
   "Antibiotic free",
   "No fillers",
   "Non-GMO",
-  "Corn free",
   "Vegan",
   "Alcohol free",
   "Cruelty free",
@@ -164,6 +253,25 @@ const rawSheaSupplierAttributes = [
   "Phthalate free",
   "Silicone free",
   "Sulfate free",
+];
+
+const kojicFeaturedAttributes = [
+  "Cruelty free",
+  "100% natural",
+  "Non-GMO",
+  "Paraben free",
+];
+
+const kojicSupplierAttributes = [
+  "Vegetarian",
+  "100% natural",
+  "No fillers",
+  "Non-GMO",
+  "Cruelty free",
+  "Fragrance free",
+  "Paraben free",
+  "Phthalate free",
+  "Silicone free",
 ];
 
 export const products: Product[] = [
@@ -179,25 +287,7 @@ export const products: Product[] = [
       "A creamy coconut-scented soap with a warm tropical finish and a rich everyday lather.",
     highlights: ["Warm coconut scent", "Creamy lather", "4 oz bar"],
     attributes: coconutFeaturedAttributes,
-    allAttributes: [
-      "Gluten free",
-      "Vegetarian",
-      "Lactose free",
-      "Allergen free",
-      "Hormone free",
-      "100% natural",
-      "Antibiotic free",
-      "No fillers",
-      "Non-GMO",
-      "Corn free",
-      "Vegan",
-      "Alcohol free",
-      "Mineral oil free",
-      "Paraben free",
-      "Phthalate free",
-      "Silicone free",
-      "Sulfate free",
-    ],
+    allAttributes: coconutSupplierAttributes,
     ingredients: [
       "Saponified organic extra virgin olive oil",
       "Organic palm oil",
@@ -245,7 +335,7 @@ export const products: Product[] = [
     suggestedUse: soapUse,
     warning: externalWarning,
     attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    allAttributes: breatheSupplierAttributes,
     scene: { from: "#bfe6dd", to: "#eaf3c9", motes: "#ffffff" },
     images: [
       { src: breatheReal1, alt: "Real LOCKHABIT breathe clear front view" },
@@ -280,7 +370,7 @@ export const products: Product[] = [
     suggestedUse: soapUse,
     warning: externalWarning,
     attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    allAttributes: fullSoapSupplierAttributes,
     scene: { from: "#a9e2c8", to: "#d9f0f6", motes: "#f2fff6" },
     images: [
       { src: aloeReal1, alt: "Real LOCKHABIT aloe cucumber front view" },
@@ -315,7 +405,7 @@ export const products: Product[] = [
     suggestedUse: soapUse,
     warning: externalWarning,
     attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    allAttributes: slumberSupplierAttributes,
     scene: { from: "#9aa8a1", to: "#cfc3d8", motes: "#f6f2ff" },
     images: [
       { src: slumberReal1, alt: "Real LOCKHABIT slumber front view" },
@@ -352,7 +442,7 @@ export const products: Product[] = [
     suggestedUse: exfoliatingUse,
     warning: externalWarning,
     attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    allAttributes: luffaSupplierAttributes,
     scene: { from: "#f0dcae", to: "#8ed7dd", motes: "#fffdf4" },
     images: [
       { src: luffaReal1, alt: "Real LOCKHABIT exfoliating luffa boxed front view" },
@@ -386,7 +476,7 @@ export const products: Product[] = [
     suggestedUse: soapUse,
     warning: externalWarning,
     attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    allAttributes: fullSoapSupplierAttributes,
     scene: { from: "#d9e88f", to: "#f6d36b", motes: "#ffffff" },
     images: [
       { src: lemongrassReal1, alt: "Real LOCKHABIT lemongrass sage front view" },
@@ -420,7 +510,7 @@ export const products: Product[] = [
     suggestedUse: soapUse,
     warning: externalWarning,
     attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    allAttributes: fullSoapSupplierAttributes,
     scene: { from: "#c68a5a", to: "#f0c98a", motes: "#ffeccd" },
     images: [
       { src: sandalwoodReal1, alt: "Real LOCKHABIT rich sandalwood front view" },
@@ -490,7 +580,7 @@ export const products: Product[] = [
     suggestedUse: soapUse,
     warning: externalWarning,
     attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    allAttributes: fullSoapFragranceFreeSupplierAttributes,
     scene: { from: "#b9a6dd", to: "#e8def7", motes: "#fdfbff" },
     images: [
       { src: lavenderReal1, alt: "Real LOCKHABIT calming lavender front view" },
@@ -525,7 +615,7 @@ export const products: Product[] = [
     suggestedUse: soapUse,
     warning: externalWarning,
     attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    allAttributes: fullSoapFragranceFreeSupplierAttributes,
     scene: { from: "#5c6169", to: "#b8c1c8", motes: "#ffffff" },
     images: [
       { src: charcoalReal1, alt: "Real LOCKHABIT charcoal front view" },
@@ -586,8 +676,8 @@ export const products: Product[] = [
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: standardSupplierAttributes,
+    attributes: kojicFeaturedAttributes,
+    allAttributes: kojicSupplierAttributes,
     scene: { from: "#f2b13c", to: "#ffe08a", motes: "#fff8e3" },
     images: [
       { src: turmericReal1, alt: "Real LOCKHABIT kojic turmeric front view" },
