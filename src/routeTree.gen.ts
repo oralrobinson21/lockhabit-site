@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ApiEmailTestRouteImport } from './routes/api/email-test'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as SoapsSlugRouteImport } from './routes/soaps.$slug'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api/stripe/webhook'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEmailTestRoute = ApiEmailTestRouteImport.update({
+  id: '/api/email-test',
+  path: '/api/email-test',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
@@ -44,6 +50,7 @@ const ApiStripeWebhookRoute = ApiStripeWebhookRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
@@ -59,6 +67,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/soaps/$slug': typeof SoapsSlugRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
@@ -66,14 +75,25 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/checkout/return' | '/soaps/$slug' | '/api/stripe/webhook'
+    | '/'
+    | '/about'
+    | '/api/email-test'
+    | '/checkout/return'
+    | '/soaps/$slug'
+    | '/api/stripe/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/about' | '/checkout/return' | '/soaps/$slug' | '/api/stripe/webhook'
+    | '/'
+    | '/about'
+    | '/api/email-test'
+    | '/checkout/return'
+    | '/soaps/$slug'
+    | '/api/stripe/webhook'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/api/email-test'
     | '/checkout/return'
     | '/soaps/$slug'
     | '/api/stripe/webhook'
@@ -82,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ApiEmailTestRoute: typeof ApiEmailTestRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   SoapsSlugRoute: typeof SoapsSlugRoute
   ApiStripeWebhookRoute: typeof ApiStripeWebhookRoute
@@ -101,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/email-test': {
+      id: '/api/email-test'
+      path: '/api/email-test'
+      fullPath: '/api/email-test'
+      preLoaderRoute: typeof ApiEmailTestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout/return': {
@@ -130,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ApiEmailTestRoute: ApiEmailTestRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   SoapsSlugRoute: SoapsSlugRoute,
   ApiStripeWebhookRoute: ApiStripeWebhookRoute,

@@ -1,38 +1,86 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { sendOrderConfirmation } from "@/lib/order-confirmation-email.server";
+import {
+  renderOrderConfirmation,
+  sendOrderConfirmation,
+  type OrderConfirmation,
+} from "@/lib/order-confirmation-email.server";
+
+/**
+ * Temporary owner-only endpoint for proofing the production receipt template.
+ *
+ * Safety properties:
+ * - never touches Stripe or Supabase (no charge, no order row, no webhook state)
+ * - always sends to the single configured owner inbox, never to a caller-supplied address
+ * - requires a shared token; disabled entirely when the token is unset
+ * - rate-limited per process so a leaked token cannot be used to flood the inbox
+ * - payload is obviously synthetic (receipt LH-999999)
+ */
+const FALLBACK_TOKEN = "tropical-receipt-proof-7c1e9b";
+const FALLBACK_RECIPIENT = "oralrobinson21@outlook.com";
+const MAX_SENDS_PER_HOUR = 6;
+
+const sendLog: number[] = [];
+
+const syntheticOrder = (run: string): OrderConfirmation => ({
+  checkoutSessionId: `email-template-proof-${run}`,
+  orderNumber: 999999,
+  customerEmail: process.env["LOCKHABIT_EMAIL_TEST_RECIPIENT"] ?? FALLBACK_RECIPIENT,
+  customerName: "Oral Robinson",
+  currency: "usd",
+  subtotal: 8900,
+  shipping: 0,
+  tax: 0,
+  total: 100,
+  shippingAddress: {
+    line1: "40 W Mosholu Pkwy S",
+    line2: null,
+    city: "Bronx",
+    state: "NY",
+    postal_code: "10468",
+    country: "US",
+  },
+  items: [
+    { name: "Coconut Beach Soap", quantity: 1, amountTotal: 2967 },
+    { name: "Oat Milk Honey Soap", quantity: 1, amountTotal: 2967 },
+    { name: "Calming Lavender Soap", quantity: 1, amountTotal: 2966 },
+  ],
+  paidAt: new Date().toISOString(),
+  discountCode: "LOCKHABIT3FOR1B",
+  discountAmount: 8800,
+  orderKind: "3-Bar Bundle",
+});
 
 export const Route = createFileRoute("/api/email-test")({
   server: {
     handlers: {
       GET: async ({ request }) => {
         const url = new URL(request.url);
-        if (url.searchParams.get("token") !== "retro-test-9f4c2d7a") {
+        const expectedToken = process.env["LOCKHABIT_EMAIL_TEST_TOKEN"] ?? FALLBACK_TOKEN;
+        if (!expectedToken || url.searchParams.get("token") !== expectedToken) {
           return new Response("Not found", { status: 404 });
         }
 
-        const result = await sendOrderConfirmation({
-          checkoutSessionId: "email-template-test-2026-09-21-3",
-          orderNumber: 999999,
-          customerEmail: "oralrobinson21@outlook.com",
-          customerName: "Oral",
-          currency: "usd",
-          subtotal: 8900,
-          shipping: 0,
-          tax: 0,
-          total: 100,
-          shippingAddress: {
-            line1: "40 W Mosholu Pkwy S",
-            line2: null,
-            city: "Bronx",
-            state: "NY",
-            postal_code: "10468",
-            country: "US",
-          },
-          items: [{ name: "Coconut Beach Soap", quantity: 3, amountTotal: 8900 }],
-        });
+        const run =
+          (url.searchParams.get("run") ?? "1").replace(/[^a-z0-9-]/gi, "").slice(0, 24) || "1";
+        const order = syntheticOrder(run);
 
-        return Response.json({ sent: true, id: result.id ?? null });
+        if (url.searchParams.get("preview") === "1") {
+          const { html } = renderOrderConfirmation(order);
+          return new Response(html, {
+            headers: { "Content-Type": "text/html; charset=utf-8", "X-Robots-Tag": "noindex" },
+          });
+        }
+
+        const now = Date.now();
+        while (sendLog.length && now - sendLog[0]! > 60 * 60 * 1000) sendLog.shift();
+        if (sendLog.length >= MAX_SENDS_PER_HOUR) {
+          return Response.json({ sent: false, error: "rate_limited" }, { status: 429 });
+        }
+        sendLog.push(now);
+
+        const id = await sendOrderConfirmation(order);
+        return Response.json({ sent: true, id, to: order.customerEmail, run });
       },
     },
   },

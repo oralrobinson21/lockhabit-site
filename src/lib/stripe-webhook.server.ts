@@ -5,10 +5,7 @@ import {
   sendOrderConfirmation,
   type OrderConfirmation,
 } from "@/lib/order-confirmation-email.server";
-import {
-  parseSelectedProductIds,
-  summarizeSelectedProducts,
-} from "@/lib/product-selection";
+import { parseSelectedProductIds, summarizeSelectedProducts } from "@/lib/product-selection";
 
 type SupportedEvent =
   | "checkout.session.completed"
@@ -46,11 +43,36 @@ const supportedEvents = new Set<SupportedEvent>([
   "checkout.session.async_payment_failed",
 ]);
 
-function checkoutOrder(session: Stripe.Checkout.Session): Omit<OrderConfirmation, "orderNumber"> {
+const BODY_CARE_PRODUCT_ID = 11;
+
+/** Promotion code the customer typed at checkout (requires `discounts.promotion_code` expanded). */
+function appliedDiscountCode(session: Stripe.Checkout.Session): string | null {
+  for (const discount of session.discounts ?? []) {
+    const promotion = discount.promotion_code;
+    if (promotion && typeof promotion === "object" && promotion.code) return promotion.code;
+    const coupon = discount.coupon;
+    if (coupon && typeof coupon === "object" && coupon.name) return coupon.name;
+  }
+  return null;
+}
+
+function describeOrderKind(session: Stripe.Checkout.Session, selectedProductIds: number[]): string {
+  const soapCount = selectedProductIds.filter((id) => id !== BODY_CARE_PRODUCT_ID).length;
+  const monthly = session.metadata?.["delivery"] === "monthly" || session.mode === "subscription";
+  if (soapCount === 3) return monthly ? "3-Bar Monthly Bundle" : "3-Bar Bundle";
+  if (soapCount === 6) return monthly ? "6-Bar Monthly Bundle" : "6-Bar Bundle";
+  if (monthly) return "Monthly Delivery";
+  return "Order";
+}
+
+function checkoutOrder(
+  session: Stripe.Checkout.Session,
+  paidAtUnixSeconds: number | null,
+): Omit<OrderConfirmation, "orderNumber"> {
   const email = session.customer_details?.email;
   if (!email) throw new Error("Paid Checkout Session is missing customer email");
   const shipping = session.collected_information?.shipping_details;
-  const selectedProductIds = parseSelectedProductIds(session.metadata?.selected_product_ids);
+  const selectedProductIds = parseSelectedProductIds(session.metadata?.["selected_product_ids"]);
   const lineItems = session.line_items?.data ?? [];
   const selectedTotal = lineItems.reduce((sum, item) => sum + (item.amount_total ?? 0), 0);
   const items = selectedProductIds.length
@@ -75,6 +97,10 @@ function checkoutOrder(session: Stripe.Checkout.Session): Omit<OrderConfirmation
       ? (JSON.parse(JSON.stringify(shipping.address)) as Record<string, string | null>)
       : null,
     items,
+    paidAt: paidAtUnixSeconds ? new Date(paidAtUnixSeconds * 1000).toISOString() : null,
+    discountCode: appliedDiscountCode(session),
+    discountAmount: session.total_details?.amount_discount ?? 0,
+    orderKind: describeOrderKind(session, selectedProductIds),
   };
 }
 
@@ -96,7 +122,7 @@ export async function processCheckoutWebhook(
     return "payment_pending";
   }
 
-  const order = checkoutOrder(session);
+  const order = checkoutOrder(session, typeof event.created === "number" ? event.created : null);
   const record = await dependencies.recordPaidOrder(event, session, order);
   try {
     await dependencies.sendStripeReceipt(session, order.customerEmail);
@@ -116,7 +142,7 @@ export function createWebhookDependencies(stripe: Stripe): WebhookDependencies {
   return {
     retrieveSession: (id) =>
       stripe.checkout.sessions.retrieve(id, {
-        expand: ["line_items.data.price.product", "payment_intent"],
+        expand: ["line_items.data.price.product", "payment_intent", "discounts.promotion_code"],
       }),
     recordPaidOrder: async (event, session, order) => {
       const paymentIntentId =

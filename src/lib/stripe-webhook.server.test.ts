@@ -57,6 +57,7 @@ function harness(currentSession: Stripe.Checkout.Session) {
       claimed.add(order.checkoutSessionId);
       emailCount += 1;
     },
+    sendStripeReceipt: async () => {},
   };
   return {
     dependencies,
@@ -151,20 +152,101 @@ test("confirmation includes the required order and payment details", () => {
       country: "US",
     },
     items: [{ name: "Coconut Beach Soap", quantity: 1, amountTotal: 3500 }],
+    paidAt: "2026-09-21T20:04:46.000Z",
+    discountCode: null,
+    discountAmount: 0,
+    orderKind: "Order",
   });
   for (const expected of [
-    "Maya",
+    "Maya Rivera",
     "LH-000042",
     "Coconut Beach Soap",
     "Subtotal",
     "Shipping",
-    "Tax",
-    "Total paid",
+    "\\$42\\.95",
+    "Amount paid",
     "123 Palm Way",
-    "Payment confirmed by Stripe",
+    "Sep 21, 2026,<br>4:04:46 PM ET",
+    "LOCKHABIT ORDER",
+    'href="https://lockhabit.com/"',
+    "support@lockhabit.com",
+    'name="color-scheme" content="light only"',
+    "receipt-header.jpg",
   ]) {
     assert.match(message.html, new RegExp(expected));
   }
+  assert.doesNotMatch(message.html, /Discount/);
+  assert.doesNotMatch(message.html, /Tax/);
+  assert.equal(message.subject, "Your LockHabit receipt • LH-000042");
+});
+
+test("confirmation shows the applied promotion code and hides empty rows", () => {
+  const message = renderOrderConfirmation({
+    checkoutSessionId: "cs_test_promo",
+    orderNumber: 7,
+    customerEmail: "buyer@example.com",
+    customerName: "Oral",
+    currency: "usd",
+    subtotal: 8900,
+    shipping: 0,
+    tax: 0,
+    total: 100,
+    shippingAddress: null,
+    items: [
+      { name: "Coconut Beach Soap", quantity: 1, amountTotal: 2967 },
+      { name: "Oat Milk Honey Soap", quantity: 1, amountTotal: 2967 },
+      { name: "Calming Lavender Soap", quantity: 1, amountTotal: 2966 },
+    ],
+    paidAt: null,
+    discountCode: "LOCKHABIT3FOR1B",
+    discountAmount: 8800,
+    orderKind: "3-Bar Bundle",
+  });
+  assert.match(message.html, /Discount code/);
+  assert.match(message.html, /LOCKHABIT3FOR1B \(\$88\.00 off\)/);
+  assert.match(message.html, /Free shipping/);
+  assert.match(message.html, /LOCKHABIT 3-BAR BUNDLE/);
+  assert.match(message.html, /Oat Milk Honey Soap&nbsp;&times;&nbsp;1/);
+  assert.doesNotMatch(message.html, /SHIPPING TO/);
+  assert.match(message.text, /Discount code: LOCKHABIT3FOR1B \(\$88\.00 off\)/);
+});
+
+test("webhook exposes payment time, promotion code and bundle kind to the confirmation", async () => {
+  const promoSession = {
+    ...session("paid"),
+    mode: "payment",
+    amount_subtotal: 8900,
+    amount_total: 100,
+    total_details: { amount_shipping: 0, amount_tax: 0, amount_discount: 8800 },
+    discounts: [{ coupon: "coupon_x", promotion_code: { id: "promo_x", code: "LOCKHABIT3FOR1B" } }],
+    metadata: { selected_product_ids: "1,8,9" },
+    line_items: {
+      data: [{ description: "Build Your Own 3-Bar Bundle", quantity: 1, amount_total: 8900 }],
+    },
+  } as unknown as Stripe.Checkout.Session;
+  let captured: Parameters<WebhookDependencies["sendConfirmationIfPending"]>[0] | undefined;
+  const state = harness(promoSession);
+  state.dependencies.sendConfirmationIfPending = async (order) => {
+    captured = order;
+  };
+  const paidEvent = {
+    ...event("checkout.session.completed", "evt_promo"),
+    created: Date.UTC(2026, 8, 21, 20, 4, 46) / 1000,
+  } as Stripe.Event;
+  assert.equal(await processCheckoutWebhook(paidEvent, state.dependencies), "paid");
+  assert.ok(captured);
+  assert.equal(captured.paidAt, "2026-09-21T20:04:46.000Z");
+  assert.equal(captured.discountCode, "LOCKHABIT3FOR1B");
+  assert.equal(captured.discountAmount, 8800);
+  assert.equal(captured.orderKind, "3-Bar Bundle");
+  assert.deepEqual(
+    captured.items.map((item) => item.name),
+    ["Coconut Beach Soap", "Oat Milk Honey Soap", "Calming Lavender Soap"],
+  );
+  assert.equal(
+    captured.items.reduce((sum, item) => sum + item.amountTotal, 0),
+    8900,
+  );
 });
 
 test("confirmation transport uses Resend with a stable per-order idempotency key", async () => {
@@ -192,6 +274,10 @@ test("confirmation transport uses Resend with a stable per-order idempotency key
       total: 4295,
       shippingAddress: { line1: "123 Palm Way", city: "Bronx", state: "NY" },
       items: [{ name: "Coconut Beach Soap", quantity: 1, amountTotal: 3500 }],
+      paidAt: "2026-09-21T20:04:46.000Z",
+      discountCode: null,
+      discountAmount: 0,
+      orderKind: "Order",
     });
     assert.equal(providerId, "email_test_1");
     assert.equal(requests.length, 1);
@@ -232,6 +318,10 @@ test("confirmation transport preserves a safe Resend rejection message", async (
         total: 4295,
         shippingAddress: null,
         items: [{ name: "Coconut Beach Soap", quantity: 1, amountTotal: 3500 }],
+        paidAt: "2026-09-21T20:04:46.000Z",
+        discountCode: null,
+        discountAmount: 0,
+        orderKind: "Order",
       }),
       /422.*from domain is not verified/,
     );
