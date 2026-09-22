@@ -78,28 +78,140 @@ function GalleryMedia({
 }
 
 
+function BadgeDrawing({
+  size,
+  children,
+}: {
+  size: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 48 48"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {children}
+    </svg>
+  );
+}
+
 function AttributeGlyph({ attribute, size }: { attribute: string; size: number }) {
   const key = attribute.toLowerCase();
 
   if (key === "cruelty free") return <Rabbit size={size} strokeWidth={1.8} />;
   if (key === "vegan") return <Leaf size={size} strokeWidth={1.8} />;
-  if (key === "vegetarian" || key === "100% natural")
-    return <Sprout size={size} strokeWidth={1.8} />;
+  if (key === "vegetarian") return <Sprout size={size} strokeWidth={1.8} />;
+
+  if (key === "100% natural")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="M24 39V22" />
+        <path d="M24 25C17 24 12 19 12 12c7 0 12 4 12 11" />
+        <path d="M25 27c2-8 8-13 16-14-1 8-6 13-16 14Z" />
+        <path d="M23 31c-5-1-9-4-11-9" />
+      </BadgeDrawing>
+    );
+
   if (key === "non-gmo")
     return <span className="text-[13px] font-black tracking-[-0.05em]">GMO</span>;
-  if (key === "gluten free" || key === "corn free")
-    return <WheatOff size={size} strokeWidth={1.8} />;
+
+  if (key === "gluten free") return <WheatOff size={size} strokeWidth={1.8} />;
+
+  if (key === "corn free")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="M25 8c7 5 9 15 5 24-3 7-9 9-14 5-5-4-4-11 0-18 3-6 6-9 9-11Z" />
+        <path d="M20 15l9 15M18 21l11-5M17 28l13-5" />
+        <path d="M14 38c-2-8 0-14 5-18M32 36c4-7 4-13 0-18" />
+      </BadgeDrawing>
+    );
+
   if (key === "lactose free") return <MilkOff size={size} strokeWidth={1.8} />;
   if (key === "hormone free") return <DnaOff size={size} strokeWidth={1.8} />;
-  if (key === "alcohol free") return <DropletOff size={size} strokeWidth={1.8} />;
+
+  if (key === "alcohol free")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="M19 7h10v7l5 7v17c0 2-2 3-4 3H18c-2 0-4-1-4-3V21l5-7V7Z" />
+        <path d="M18 27h12" />
+        <path d="M24 31c-2 2-3 4-3 5a3 3 0 0 0 6 0c0-1-1-3-3-5Z" />
+      </BadgeDrawing>
+    );
+
   if (key === "sulfate free") return <Atom size={size} strokeWidth={1.8} />;
-  if (key === "no fillers") return <CircleOff size={size} strokeWidth={1.8} />;
-  if (key === "paraben free") return <Leaf size={size} strokeWidth={1.8} />;
-  if (key === "phthalate free") return <Beaker size={size} strokeWidth={1.8} />;
+
+  if (key === "no fillers")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="M11 31 24 18a6 6 0 0 1 9 9L20 40a6 6 0 0 1-9-9Z" />
+        <path d="m17 25 9 9" />
+        <circle cx="14" cy="13" r="3" />
+        <circle cx="24" cy="9" r="2.5" />
+      </BadgeDrawing>
+    );
+
+  if (key === "paraben free")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="M15 15h18l-2 25H17l-2-25Z" />
+        <path d="M18 9h12v6H18V9Z" />
+        <path d="M24 34v-8" />
+        <path d="M24 28c-5 0-7-3-7-7 5 0 7 2 7 7Z" />
+        <path d="M25 29c1-5 4-7 8-7-1 5-3 7-8 7Z" />
+      </BadgeDrawing>
+    );
+
+  if (key === "phthalate free")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="m12 31 19-19 5 5-19 19-7 2 2-7Z" />
+        <path d="m27 16 5 5" />
+        <path d="M15 35c3 1 5 3 5 5" />
+      </BadgeDrawing>
+    );
+
   if (key === "silicone free") return <FlaskConical size={size} strokeWidth={1.8} />;
-  if (key === "mineral oil free") return <DropletOff size={size} strokeWidth={1.8} />;
-  if (key === "antibiotic free") return <PackageX size={size} strokeWidth={1.8} />;
-  if (key === "allergen free") return <Sparkles size={size} strokeWidth={1.8} />;
+
+  if (key === "mineral oil free")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="M17 9h14v8l4 5v16c0 2-2 3-4 3H17c-2 0-4-1-4-3V22l4-5V9Z" />
+        <path d="M17 16h14" />
+        <path d="M24 25c-4 5-5 7-5 9a5 5 0 0 0 10 0c0-2-1-4-5-9Z" />
+      </BadgeDrawing>
+    );
+
+  if (key === "antibiotic free")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="M13 31 30 14a7 7 0 0 1 10 10L23 41a7 7 0 0 1-10-10Z" />
+        <path d="m21 23 10 10" />
+        <path d="M9 11h10M14 6v10" />
+      </BadgeDrawing>
+    );
+
+  if (key === "allergen free")
+    return (
+      <BadgeDrawing size={size}>
+        <circle cx="24" cy="24" r="4" />
+        <path d="M24 8c4 4 4 8 0 12-4-4-4-8 0-12ZM40 24c-4 4-8 4-12 0 4-4 8-4 12 0ZM24 40c-4-4-4-8 0-12 4 4 4 8 0 12ZM8 24c4-4 8-4 12 0-4 4-8 4-12 0Z" />
+      </BadgeDrawing>
+    );
+
+  if (key === "fragrance free")
+    return (
+      <BadgeDrawing size={size}>
+        <path d="M20 8h8v7l5 7v17H15V22l5-7V8Z" />
+        <path d="M19 29c3-3 7-3 10 0" />
+      </BadgeDrawing>
+    );
 
   return <Ban size={size} strokeWidth={1.8} />;
 }
