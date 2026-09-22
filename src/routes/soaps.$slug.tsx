@@ -319,6 +319,9 @@ function ProductView({ slug }: { slug: string }) {
     product.ingredients
       .map((ingredient) => ingredient.charAt(0).toUpperCase() + ingredient.slice(1))
       .join(", ") + ".";
+  const ounceMatch = product.netWeight.match(/^([\d.]+)\s*oz/i);
+  const ounceCount = ounceMatch ? Number(ounceMatch[1]) : null;
+  const pricePerOunce = ounceCount && Number.isFinite(ounceCount) ? product.price / ounceCount : null;
 
   useEffect(() => {
     const node = sceneRef.current;
@@ -424,8 +427,10 @@ function ProductView({ slug }: { slug: string }) {
                 <div className="mt-6 flex flex-wrap items-center gap-4">
                   <span className="price-tag">${product.price.toFixed(2)}</span>
                   <span className="memo text-muted-foreground">{product.netWeight}</span>
-                  {product.kind === "Soap bar" && product.netWeight.startsWith("4 oz") ? (
-                    <span className="memo text-muted-foreground">$8.75 / oz</span>
+                  {pricePerOunce ? (
+                    <span className="memo text-muted-foreground">
+                      ${pricePerOunce.toFixed(2)} / oz
+                    </span>
                   ) : null}
                 </div>
                 <p className="mt-7 max-w-lg font-display text-2xl italic leading-snug">
@@ -662,7 +667,9 @@ function ProductView({ slug }: { slug: string }) {
             <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6">
               <div className="flex items-center gap-3">
                 <Waves size={20} className="text-primary" />
-                <p className="memo">4 oz bar · easy everyday ritual</p>
+                <p className="memo">
+                  {product.netWeight} · {product.kind === "Soap bar" ? "easy everyday ritual" : "pure body care ritual"}
+                </p>
               </div>
               <div className="flex items-center gap-3">
                 <Sun size={20} className="text-primary" />
