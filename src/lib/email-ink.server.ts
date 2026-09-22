@@ -84,6 +84,7 @@ export type InkStyle =
   | "kind"
   | "cell"
   | "cell-right"
+  | "totals-right"
   | "total-value"
   | "ship"
   | "support";
@@ -169,9 +170,22 @@ const STYLES: Record<InkStyle, StyleSpec> = {
     background: INK.table,
     align: "right",
     lineHeight: 22,
-    padX: 0,
+    padX: 6,
     padY: 2,
-    maxWidth: 160,
+    maxWidth: 180,
+  },
+  /** Compact right-column totals (discount codes, free shipping, etc.). */
+  "totals-right": {
+    fontSize: 12,
+    fontWeight: 400,
+    fontFamily: "sans",
+    color: INK.brown,
+    background: INK.table,
+    align: "right",
+    lineHeight: 17,
+    padX: 8,
+    padY: 3,
+    maxWidth: 200,
   },
   "total-value": {
     fontSize: 30,
@@ -281,7 +295,9 @@ const wrapLines = (text: string, maxChars: number): string[] => {
 
 /** Approximate average glyph width as a fraction of font-size (sans ~0.55). */
 const avgGlyph = (family: StyleSpec["fontFamily"], tracking: number) =>
-  (family === "serif" ? 0.52 : 0.56) + tracking / 16;
+  // Slightly generous vs true Liberation metrics so right/center-aligned
+  // glyphs never clip the SVG canvas on Outlook iOS.
+  (family === "serif" ? 0.58 : 0.62) + tracking / 16;
 
 export async function renderInkPng(style: InkStyle, rawText: string): Promise<Buffer> {
   const text = rawText.replace(/\r/g, "").slice(0, MAX_TEXT_CHARS);
@@ -302,7 +318,8 @@ export async function renderInkPng(style: InkStyle, rawText: string): Promise<Bu
     }),
     8,
   );
-  const width = Math.ceil(Math.min(640, Math.max(widest + spec.padX * 2, 24)));
+  // +12px safety so Liberation glyphs never kiss the SVG clip edge.
+  const width = Math.ceil(Math.min(640, Math.max(widest + spec.padX * 2 + 12, 24)));
   const height = Math.ceil(lines.length * spec.lineHeight + spec.padY * 2);
 
   const textAnchor = spec.align === "right" ? "end" : spec.align === "center" ? "middle" : "start";
