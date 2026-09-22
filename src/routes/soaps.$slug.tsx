@@ -22,7 +22,7 @@ import {
   Waves,
   WheatOff,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { SiteHeader } from "@/components/site-header";
 import { useCart } from "@/lib/cart";
@@ -83,7 +83,7 @@ function BadgeDrawing({
   children,
 }: {
   size: number;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <svg
