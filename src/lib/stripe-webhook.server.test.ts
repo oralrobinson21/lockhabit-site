@@ -218,10 +218,19 @@ test("confirmation shows the applied promotion code and hides empty rows", async
   assert.match(message.html, /LOCKHABIT3FOR1B[\s\S]*\(\$88\.00 off\)/);
   assert.match(message.html, /Free shipping/);
   assert.match(message.html, /LOCKHABIT 3-BAR BUNDLE/);
-  assert.match(message.html, /Oat Milk Honey Soap/);
+  assert.match(message.html, /Coconut Beach Soap × 1/);
+  assert.match(message.html, /Oat Milk Honey Soap × 1/);
+  assert.match(message.html, /Calming Lavender Soap × 1/);
   assert.match(message.html, /ink-label-discount\.png/);
   assert.doesNotMatch(message.html, /SHIPPING TO/);
   assert.match(message.text, /Discount code: LOCKHABIT3FOR1B \(\$88\.00 off\)/);
+  // Footer wave must sit outside the cream card so Outlook cannot clip palms/tagline.
+  assert.match(
+    message.html,
+    /border-radius:0 0 22px 22px[\s\S]*?<\/table>\s*<\/td>\s*<\/tr>\s*<!-- Turquoise wave footer/,
+  );
+  assert.match(message.html, /class="bg-sand footer-art"[\s\S]*receipt-footer\.jpg/);
+  assert.match(message.html, /Questions about your order\?/);
 });
 
 test("synthetic LH-999999 proof embeds CID ink for Outlook (no remote email-ink)", async () => {
