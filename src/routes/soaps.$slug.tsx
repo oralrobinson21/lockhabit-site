@@ -273,6 +273,7 @@ export const Route = createFileRoute("/soaps/$slug")({
               { property: "og:description", content: meta.description },
               { property: "og:type", content: "product" },
               { property: "og:url", content: meta.canonical },
+              { property: "og:site_name", content: "LOCKHABIT" },
               { property: "og:image", content: meta.image },
               { property: "og:image:alt", content: product.images[0]?.alt ?? product.name },
               { property: "product:price:amount", content: product.price.toFixed(2) },
