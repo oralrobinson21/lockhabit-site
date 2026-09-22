@@ -1,8 +1,9 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-import sharp from "sharp";
+import { Resvg } from "@resvg/resvg-js";
 
 /**
  * Rasterize receipt “ink” copy to PNG so Outlook iOS / Apple Mail dark-mode
@@ -10,6 +11,10 @@ import sharp from "sharp";
  *
  * Static slices live under /email/receipt/ink-*.png.
  * Dynamic values (totals, line items, dates) are signed URLs to /api/email-ink.
+ *
+ * Fonts: Liberation TTFs are bundled in-repo and registered with resvg via
+ * fontFiles (not system fontconfig). Railway images often lack fonts; sharp’s
+ * librsvg path then emits .notdef “tofu” boxes for dynamic text.
  */
 
 const FONT_FILES = {
@@ -19,9 +24,15 @@ const FONT_FILES = {
 } as const;
 
 const resolveFontsDir = () => {
+  const here = dirname(fileURLToPath(import.meta.url));
   const candidates = [
     join(process.cwd(), "public/email/receipt/fonts"),
     join(process.cwd(), ".output/public/email/receipt/fonts"),
+    // Dev / tsx: src/lib → ../../public/...
+    join(here, "../../public/email/receipt/fonts"),
+    // Nitro server bundle layouts vary; walk a couple relatives.
+    join(here, "../public/email/receipt/fonts"),
+    join(here, "../../../public/email/receipt/fonts"),
   ];
   for (const dir of candidates) {
     if (existsSync(join(dir, FONT_FILES.sansRegular))) return dir;
@@ -29,33 +40,31 @@ const resolveFontsDir = () => {
   throw new Error("LockHabit email ink fonts are missing from the deploy");
 };
 
-let cachedFontFaceCss: string | null = null;
-const fontFaceCss = () => {
-  if (cachedFontFaceCss) return cachedFontFaceCss;
-  const dir = resolveFontsDir();
-  const fileUrl = (file: string) => `file://${join(dir, file)}`;
-  cachedFontFaceCss = `
-@font-face {
-  font-family: "InkSans";
-  src: url("${fileUrl(FONT_FILES.sansRegular)}") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "InkSans";
-  src: url("${fileUrl(FONT_FILES.sansBold)}") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: "InkSerif";
-  src: url("${fileUrl(FONT_FILES.serifBold)}") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-`;
-  return cachedFontFaceCss;
+type LoadedFonts = {
+  dir: string;
+  files: string[];
 };
+
+let cachedFonts: LoadedFonts | null = null;
+const loadFonts = (): LoadedFonts => {
+  if (cachedFonts) return cachedFonts;
+  const dir = resolveFontsDir();
+  const files = [
+    join(dir, FONT_FILES.sansRegular),
+    join(dir, FONT_FILES.sansBold),
+    join(dir, FONT_FILES.serifBold),
+  ];
+  for (const file of files) {
+    // Touch each file so a missing bold/serif fails loudly at first render,
+    // not as silent tofu boxes.
+    readFileSync(file);
+  }
+  cachedFonts = { dir, files };
+  return cachedFonts;
+};
+
+/** Exposed for smoke tests — proves the bundled TTFs resolve on this host. */
+export const resolveInkFontFiles = (): string[] => loadFonts().files;
 
 export const INK = {
   brown: "#2d0802",
@@ -234,10 +243,10 @@ const escapeXml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
 
+/** Family names must match the name tables inside the bundled Liberation TTFs. */
 const fontStack = (family: StyleSpec["fontFamily"], weight: number) => {
-  if (family === "serif") return "InkSerif, Georgia, serif";
-  // Medium weights fall back to regular InkSans face.
-  return weight >= 600 ? "InkSans, Arial, sans-serif" : "InkSans, Arial, sans-serif";
+  if (family === "serif") return "Liberation Serif";
+  return weight >= 600 ? "Liberation Sans" : "Liberation Sans";
 };
 
 const wrapLines = (text: string, maxChars: number): string[] => {
@@ -311,7 +320,6 @@ export async function renderInkPng(style: InkStyle, rawText: string): Promise<Bu
 
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-  <defs><style type="text/css"><![CDATA[${fontFaceCss()}]]></style></defs>
   <rect width="100%" height="100%" fill="${spec.background}"/>
   <text x="${x}" y="${firstBaseline}" text-anchor="${textAnchor}"
     font-family="${fontStack(spec.fontFamily, spec.fontWeight)}"
@@ -320,7 +328,16 @@ export async function renderInkPng(style: InkStyle, rawText: string): Promise<Bu
     fill="${spec.color}">${tspans}</text>
 </svg>`;
 
-  return sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer();
+  const fonts = loadFonts();
+  const resvg = new Resvg(svg, {
+    font: {
+      fontFiles: fonts.files,
+      loadSystemFonts: false,
+      defaultFontFamily: "Liberation Sans",
+    },
+    fitTo: { mode: "original" },
+  });
+  return Buffer.from(resvg.render().asPng());
 }
 
 export function inkImageUrl(siteUrl: string, style: InkStyle, text: string): string {

@@ -40,11 +40,7 @@ const syntheticOrder = (run: string): OrderConfirmation => ({
     postal_code: "10468",
     country: "US",
   },
-  items: [
-    { name: "Coconut Beach Soap", quantity: 1, amountTotal: 2967 },
-    { name: "Oat Milk Honey Soap", quantity: 1, amountTotal: 2967 },
-    { name: "Calming Lavender Soap", quantity: 1, amountTotal: 2966 },
-  ],
+  items: [{ name: "Build Your Own 3-Bar Bundle", quantity: 1, amountTotal: 8900 }],
   paidAt: new Date().toISOString(),
   discountCode: "LOCKHABIT3FOR1B",
   discountAmount: 8800,
