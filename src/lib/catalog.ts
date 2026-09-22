@@ -319,105 +319,207 @@ export const products: Product[] = [
     id: 2,
     slug: "breathe-clear-soap",
     name: "Breathe Clear Soap",
-    note: "Minty · Crisp · Uplifting",
+    note: "Eucalyptus · Peppermint · Crisp",
     price: 35,
     kind: "Soap bar",
-    tagline: "A cool, wide-open breath in the shower.",
+    tagline: "Steam, mint, and a wide-open shower.",
     description:
-      "Eucalyptus and mint make this one feel like opening a window. Best used in a steamy shower, when you want your head to clear as fast as your skin.",
-    highlights: ["Cooling eucalyptus", "Fresh mint finish", "Made for steamy showers"],
+      "A crisp eucalyptus-and-peppermint aromatic bar with organic coconut oil, organic shea butter, and a fresh essential-oil blend.",
+    productStory:
+      "Breathe Clear is the bar for showers that need a little more fresh air. Eucalyptus and peppermint lead the scent, with rosemary, lemon and thyme rounding out the natural fragrance blend. The soap base pairs olive oil with organic palm, coconut and shea butter for a creamy everyday lather. Think steamy bathroom, cool mint in the air, and five quiet minutes before the day gets loud.",
+    seoTitle: "Breathe Clear Soap – Eucalyptus & Peppermint Bar | LOCKHABIT",
+    seoDescription:
+      "Shop Breathe Clear Soap, a 4 oz eucalyptus and peppermint bar with organic coconut oil, organic shea butter and an essential-oil fragrance blend. Made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Olive Oil, Organic Palm Oil, Organic Coconut Oil, Organic Shea Butter), Natural Fragrance Oil Blend (Eucalyptus Essential Oil, Peppermint Essential Oil, Rosemary Essential Oil, Lemon Essential Oil, Thyme Essential Oil, Natural Fragrance).",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What does Breathe Clear Soap smell like?",
+        answer:
+          "The fragrance is crisp and herbal, led by eucalyptus and peppermint with rosemary, lemon and thyme in the blend.",
+      },
+      {
+        question: "Does Breathe Clear Soap contain fragrance?",
+        answer:
+          "Yes. The ingredient list includes a natural fragrance oil blend along with eucalyptus, peppermint, rosemary, lemon and thyme essential oils.",
+      },
+      {
+        question: "What oils are in Breathe Clear Soap?",
+        answer:
+          "The soap base contains olive oil, organic palm oil, organic coconut oil and organic shea butter.",
+      },
+      {
+        question: "How should I use and store the bar?",
+        answer:
+          "Add warm water for a thick lather, rinse thoroughly, and keep the bar dry between uses to help extend its longevity.",
+      },
+      {
+        question: "Where is Breathe Clear Soap made?",
+        answer: "Breathe Clear Soap is made in the USA and has a net weight of 4 oz (113 g).",
+      },
+    ],
+    highlights: ["Eucalyptus + peppermint", "Organic coconut + shea", "Crisp herbal aroma"],
+    attributes: ["Essential oil blend", "Organic coconut oil", "Organic shea butter", "Made in USA"],
+    allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "No fillers"],
     ingredients: [
-      "Saponified organic extra virgin olive oil",
+      "Olive oil",
+      "Organic palm oil",
       "Organic coconut oil",
       "Organic shea butter",
       "Eucalyptus essential oil",
       "Peppermint essential oil",
+      "Rosemary essential oil",
       "Lemon essential oil",
       "Thyme essential oil",
-      "Fragrance",
+      "Natural fragrance",
     ],
     productType: "Botanical Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: breatheSupplierAttributes,
-    scene: { from: "#bfe6dd", to: "#eaf3c9", motes: "#ffffff" },
+    scene: { from: "#dff5ef", to: "#edf8df", motes: "#ffffff" },
     images: [
-      { src: breatheReal1, alt: "Real LOCKHABIT breathe clear front view" },
-      { src: breatheReal2, alt: "Real LOCKHABIT breathe clear three-quarter view" },
-      { src: breatheReal3, alt: "Real LOCKHABIT breathe clear unwrapped bar view" },
-      { src: breatheReal4, alt: "Real LOCKHABIT breathe clear stacked bar view" },
+      { src: breatheReal1, alt: "LOCKHABIT Breathe Clear Soap front view" },
+      { src: breatheReal2, alt: "LOCKHABIT Breathe Clear Soap three-quarter view" },
+      { src: breatheReal3, alt: "LOCKHABIT Breathe Clear Soap unwrapped bar view" },
+      { src: breatheReal4, alt: "LOCKHABIT Breathe Clear Soap stacked bar view" },
     ],
   },
   {
     id: 3,
     slug: "aloe-cool-cucumber-soap",
     name: "Aloe & Cool Cucumber Soap",
-    note: "Cool · Hydrating · Fresh",
+    note: "Cucumber · Aloe · Fresh",
     price: 35,
     kind: "Soap bar",
     tagline: "Cold-drink freshness for warm skin.",
     description:
-      "Aloe and cucumber team up for a calm, cooling wash. A good pick after sun, after sport, or after any day that ran a little hot.",
-    highlights: ["Cooling cucumber", "Soothing aloe", "Light, clean scent"],
+      "A fresh cucumber-scented bar with aloe vera, organic olive, palm and coconut oils, and organic shea butter.",
+    productStory:
+      "Aloe & Cool Cucumber is the poolside bar of the lineup: crisp cucumber fragrance, aloe vera, and a creamy base of saponified organic olive, palm and coconut oils with organic shea butter. It smells clean and bright without turning the shower into a fruit stand. Reach for it when you want the bathroom to feel a few degrees cooler, even when the city absolutely is not.",
+    seoTitle: "Aloe & Cool Cucumber Soap – Aloe Bar Soap | LOCKHABIT",
+    seoDescription:
+      "A 4 oz aloe and cucumber-scented soap bar with organic olive, palm and coconut oils plus organic shea butter. Fresh, crisp and made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Organic Extra Virgin Olive Oil, Organic Palm Oil, Organic Coconut Oil, Organic Shea Butter), Fragrance, Chromium Oxide, Aloe Vera.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What does Aloe & Cool Cucumber Soap smell like?",
+        answer:
+          "It has a crisp fresh-cut cucumber style fragrance paired with the clean, green feel of aloe.",
+      },
+      {
+        question: "Does the formula contain aloe vera?",
+        answer: "Yes. Aloe vera is listed in the product's ingredient statement.",
+      },
+      {
+        question: "What oils are in the soap base?",
+        answer:
+          "The base uses organic extra virgin olive oil, organic palm oil, organic coconut oil and organic shea butter.",
+      },
+      {
+        question: "How should I use and store the bar?",
+        answer:
+          "Add warm water for a thick lather, rinse thoroughly, and keep the bar dry between uses to help extend its longevity.",
+      },
+      {
+        question: "Where is Aloe & Cool Cucumber Soap made?",
+        answer:
+          "Aloe & Cool Cucumber Soap is made in the USA and has a net weight of 4 oz (113 g).",
+      },
+    ],
+    highlights: ["Fresh cucumber aroma", "Aloe vera", "Organic oils + shea"],
+    attributes: ["Aloe vera", "Organic oil base", "Organic shea butter", "Made in USA"],
+    allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "Fair trade palm oil", "Fair trade coconut oil"],
     ingredients: [
-      "Saponified organic extra virgin olive oil",
-      "Organic coconut oil",
+      "Organic extra virgin olive oil",
       "Organic palm oil",
+      "Organic coconut oil",
       "Organic shea butter",
-      "Aloe vera",
-      "Cucumber extract",
-      "Botanical oils",
       "Fragrance",
+      "Chromium oxide",
+      "Aloe vera",
     ],
     productType: "Botanical Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: fullSoapSupplierAttributes,
-    scene: { from: "#a9e2c8", to: "#d9f0f6", motes: "#f2fff6" },
+    scene: { from: "#e0f6ea", to: "#e3f5f7", motes: "#f8fffb" },
     images: [
-      { src: aloeReal1, alt: "Real LOCKHABIT aloe cucumber front view" },
-      { src: aloeReal2, alt: "Real LOCKHABIT aloe cucumber three-quarter view" },
-      { src: aloeReal3, alt: "Real LOCKHABIT aloe cucumber unwrapped bar view" },
-      { src: aloeReal4, alt: "Real LOCKHABIT aloe cucumber paired bar view" },
+      { src: aloeReal1, alt: "LOCKHABIT Aloe & Cool Cucumber Soap front view" },
+      { src: aloeReal2, alt: "LOCKHABIT Aloe & Cool Cucumber Soap three-quarter view" },
+      { src: aloeReal3, alt: "LOCKHABIT Aloe & Cool Cucumber Soap unwrapped bar view" },
+      { src: aloeReal4, alt: "LOCKHABIT Aloe & Cool Cucumber Soap paired bar view" },
     ],
   },
   {
     id: 4,
     slug: "slumber-soap",
     name: "Slumber Soap",
-    note: "Soothing · Restful · Woodsy",
+    note: "Fir · Lavender · Quiet",
     price: 35,
     kind: "Soap bar",
     tagline: "The last warm thing before bed.",
     description:
-      "A quiet, woody-floral bar for the end of the day. Made for long night showers, dim bathrooms, and the part of the evening where nothing else is urgent.",
-    highlights: ["Calm evening scent", "Soft, low lather", "Part of a wind-down routine"],
+      "A fir-needle and lavender bar with organic palm, coconut and shea butter, built for a quiet end-of-day shower ritual.",
+    productStory:
+      "Slumber is what happens when the shower lights go low. Fir needle brings the clean, woodsy side; lavender softens the edges; and a base of olive oil with organic palm, coconut and shea butter keeps the ritual simple. It is not a sleep treatment and it does not need to be. It is just a warm shower, a forest-leaning scent, and permission for the day to be finished.",
+    seoTitle: "Slumber Soap – Fir Needle & Lavender Bar | LOCKHABIT",
+    seoDescription:
+      "A 4 oz fir needle and lavender soap bar with olive oil, organic palm and coconut oils, and organic shea butter. A quiet woodsy-floral ritual made in the USA.",
+    ingredientStatement:
+      "Saponified Oils (Olive Oil, Organic Palm Oil, Organic Coconut Oil, Organic Shea Butter), Fir Needle Essential Oil, Lavender Essential Oil, Parsley Powder, Ultramarines.",
+    madeIn: "USA",
+    faqs: [
+      {
+        question: "What does Slumber Soap smell like?",
+        answer:
+          "Fir needle gives it a clean forest-like aroma while lavender adds a softer floral finish.",
+      },
+      {
+        question: "Does Slumber Soap contain added fragrance?",
+        answer:
+          "No added fragrance is listed in the supplier ingredient statement; the scent comes from fir needle and lavender essential oils.",
+      },
+      {
+        question: "Is Slumber Soap non-GMO?",
+        answer: "Yes. Non-GMO is one of the attributes listed by the supplier for this product.",
+      },
+      {
+        question: "How should I use and store the bar?",
+        answer:
+          "Add warm water for a thick lather, rinse thoroughly, and keep the bar dry between uses to help extend its longevity.",
+      },
+      {
+        question: "Where is Slumber Soap made?",
+        answer: "Slumber Soap is made in the USA and has a net weight of 4 oz (113 g).",
+      },
+    ],
+    highlights: ["Fir needle + lavender", "No added fragrance listed", "Quiet evening ritual"],
+    attributes: ["Non-GMO", "No added fragrance", "Essential oils", "Made in USA"],
+    allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "Organic coconut oil", "Organic shea butter"],
     ingredients: [
-      "Saponified organic extra virgin olive oil",
-      "Organic coconut oil",
+      "Olive oil",
       "Organic palm oil",
+      "Organic coconut oil",
       "Organic shea butter",
-      "Pine needle essential oil",
+      "Fir needle essential oil",
       "Lavender essential oil",
-      "Botanical extracts",
-      "Fragrance",
+      "Parsley powder",
+      "Ultramarines",
     ],
     productType: "Botanical Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse: soapUse,
     warning: externalWarning,
-    attributes: standardFeaturedAttributes,
-    allAttributes: slumberSupplierAttributes,
-    scene: { from: "#9aa8a1", to: "#cfc3d8", motes: "#f6f2ff" },
+    scene: { from: "#e4e7f1", to: "#eee6f4", motes: "#fbf8ff" },
     images: [
-      { src: slumberReal1, alt: "Real LOCKHABIT slumber front view" },
-      { src: slumberReal2, alt: "Real LOCKHABIT slumber three-quarter view" },
-      { src: slumberReal3, alt: "Real LOCKHABIT slumber unwrapped bar view" },
-      { src: slumberReal4, alt: "Real LOCKHABIT slumber stacked bar view" },
+      { src: slumberReal1, alt: "LOCKHABIT Slumber Soap front view" },
+      { src: slumberReal2, alt: "LOCKHABIT Slumber Soap three-quarter view" },
+      { src: slumberReal3, alt: "LOCKHABIT Slumber Soap unwrapped bar view" },
+      { src: slumberReal4, alt: "LOCKHABIT Slumber Soap stacked bar view" },
     ],
   },
   {
