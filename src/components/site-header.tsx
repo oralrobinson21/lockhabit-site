@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Grid2X2, Menu, Sun, X } from "lucide-react";
+import { Menu, ShoppingBag, Sun, X } from "lucide-react";
 import { useEffect, useState, type MouseEvent } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
@@ -101,22 +101,12 @@ export function SiteHeader() {
           </Link>
 
           <div className="z-10 flex flex-1 items-center justify-end gap-2">
-            <Link
-              to="/"
-              hash="shop"
-              className="icon-button bg-background hover:bg-sun"
-              aria-label="See all products"
-              title="See all products"
-              onClick={() => setMenuOpen(false)}
-            >
-              <Grid2X2 size={19} />
-            </Link>
             <button
               className="icon-button hover:bg-sun bg-background"
               onClick={() => setCartOpen(true)}
               aria-label={`Open bag with ${cartCount} items`}
             >
-              <Sun size={21} />
+              <ShoppingBag size={20} />
               {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
             </button>
           </div>
