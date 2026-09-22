@@ -22,30 +22,41 @@ const MAX_SENDS_PER_HOUR = 6;
 
 const sendLog: number[] = [];
 
-const syntheticOrder = (run: string): OrderConfirmation => ({
-  checkoutSessionId: `email-template-proof-${run}`,
-  orderNumber: 999999,
-  customerEmail: process.env["LOCKHABIT_EMAIL_TEST_RECIPIENT"] ?? FALLBACK_RECIPIENT,
-  customerName: "Oral Robinson",
-  currency: "usd",
-  subtotal: 8900,
-  shipping: 0,
-  tax: 0,
-  total: 100,
-  shippingAddress: {
-    line1: "40 W Mosholu Pkwy S",
-    line2: null,
-    city: "Bronx",
-    state: "NY",
-    postal_code: "10468",
-    country: "US",
-  },
-  items: [{ name: "Build Your Own 3-Bar Bundle", quantity: 1, amountTotal: 8900 }],
-  paidAt: new Date().toISOString(),
-  discountCode: "LOCKHABIT3FOR1B",
-  discountAmount: 8800,
-  orderKind: "3-Bar Bundle",
-});
+const singleItem = [{ name: "Build Your Own 3-Bar Bundle", quantity: 1, amountTotal: 8900 }];
+const multiItems = [
+  { name: "Coconut Beach Soap", quantity: 1, amountTotal: 2967 },
+  { name: "Oat Milk Honey Soap", quantity: 1, amountTotal: 2967 },
+  { name: "Calming Lavender Soap", quantity: 1, amountTotal: 2966 },
+];
+
+const syntheticOrder = (run: string, itemCount: number): OrderConfirmation => {
+  const items = itemCount >= 3 ? multiItems : singleItem;
+  const subtotal = items.reduce((sum, item) => sum + item.amountTotal, 0);
+  return {
+    checkoutSessionId: `email-template-proof-${run}`,
+    orderNumber: 999999,
+    customerEmail: process.env["LOCKHABIT_EMAIL_TEST_RECIPIENT"] ?? FALLBACK_RECIPIENT,
+    customerName: "Oral Robinson",
+    currency: "usd",
+    subtotal,
+    shipping: 0,
+    tax: 0,
+    total: 100,
+    shippingAddress: {
+      line1: "40 W Mosholu Pkwy S",
+      line2: null,
+      city: "Bronx",
+      state: "NY",
+      postal_code: "10468",
+      country: "US",
+    },
+    items,
+    paidAt: new Date().toISOString(),
+    discountCode: "LOCKHABIT3FOR1B",
+    discountAmount: 8800,
+    orderKind: itemCount >= 3 ? "3-Bar Mix" : "3-Bar Bundle",
+  };
+};
 
 export const Route = createFileRoute("/api/email-test")({
   server: {
@@ -59,7 +70,11 @@ export const Route = createFileRoute("/api/email-test")({
 
         const run =
           (url.searchParams.get("run") ?? "1").replace(/[^a-z0-9-]/gi, "").slice(0, 24) || "1";
-        const order = syntheticOrder(run);
+        const itemCount = Math.min(
+          12,
+          Math.max(1, Number.parseInt(url.searchParams.get("items") ?? "1", 10) || 1),
+        );
+        const order = syntheticOrder(run, itemCount);
 
         if (url.searchParams.get("preview") === "1") {
           // Browser preview has no MIME context for cid:; use data: URLs so

@@ -152,6 +152,14 @@ const inkImgTag = (src: string, text: string, width: number, extraStyle = "") =>
  * URLs (empty “tofu” boxes). CID inline attachments travel with the MIME
  * message and do not require a second network fetch.
  */
+
+/** Read PNG IHDR width so we never upscale ink (Outlook stretches width= attr). */
+const pngIntrinsicWidth = (png: Buffer): number => {
+  if (png.length < 24) return 0;
+  // Bytes 16..19 are IHDR width (big-endian) after 8-byte signature + 8-byte chunk header.
+  return png.readUInt32BE(16);
+};
+
 const createInkBag = (mode: DynamicInkMode, siteUrl: string) => {
   const pending: PendingInk[] = [];
 
@@ -192,7 +200,14 @@ const createInkBag = (mode: DynamicInkMode, siteUrl: string) => {
 
       out = out
         .split(`%%LH_INK:${item.contentId}%%`)
-        .join(inkImgTag(src, item.text, item.width, item.extraStyle));
+        .join(
+        inkImgTag(
+          src,
+          item.text,
+          Math.min(item.width, pngIntrinsicWidth(png) || item.width),
+          item.extraStyle,
+        ),
+      );
     }
 
     return { html: out, attachments };
@@ -224,7 +239,7 @@ export async function renderOrderConfirmation(
   const paidAtLabel = paidAt?.label ?? null;
   const discount = Math.max(0, order.discountAmount);
   const discountLabel = order.discountCode
-    ? `${order.discountCode} (${money(discount, order.currency)} off)`
+    ? `${order.discountCode}\n(${money(discount, order.currency)} off)`
     : `${money(discount, order.currency)} off`;
   const orderKindLabel = `LOCKHABIT ${order.orderKind}`.toUpperCase();
   const address = addressLine(order);
@@ -284,8 +299,15 @@ export async function renderOrderConfirmation(
           <td ${index === 0 ? 'width="34%" ' : ""}class="cell" style="padding:${index === 0 ? 14 : 3}px 20px 3px;vertical-align:middle;white-space:nowrap;${index === 0 ? "width:34%;" : ""}">
             ${staticInk(asset, row.labelFile, row.labelAlt, row.labelAlt === "Discount code" ? 95 : row.labelAlt === "Subtotal" ? 55 : row.labelAlt === "Shipping" ? 58 : 40)}
           </td>
-          <td ${index === 0 ? 'width="66%" ' : ""}class="cell" align="right" style="padding:${index === 0 ? 14 : 3}px 20px 3px;text-align:right;vertical-align:middle;white-space:nowrap;${index === 0 ? "width:66%;" : ""}">
-            ${inkBag.slot("cell-right", row.value, Math.min(280, Math.max(90, row.value.length * 9)), "margin-left:auto;")}
+          <td ${index === 0 ? 'width="66%" ' : ""}class="cell" align="right" style="padding:${index === 0 ? 14 : 3}px 20px 3px;text-align:right;vertical-align:middle;${index === 0 ? "width:66%;" : ""}">
+            ${inkBag.slot(
+              row.value.includes("\n") || row.value.length > 18 ? "totals-right" : "cell-right",
+              row.value,
+              row.value.includes("\n") || row.value.length > 18
+                ? Math.min(200, Math.max(100, Math.ceil(row.value.replace(/\n/g, "").length * 7)))
+                : Math.min(160, Math.max(90, row.value.length * 9)),
+              "margin-left:auto;",
+            )}
           </td>
         </tr>`,
     )
@@ -326,11 +348,13 @@ u + #body a{color:inherit;text-decoration:none}
   .cell{padding-left:12px!important;padding-right:12px!important}
   .foliage{display:none!important}
   .stack{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important;text-align:center!important}
-  .stack-copy{text-align:left!important;padding-bottom:14px!important}
-  .thanks-img{width:100%!important;max-width:320px!important}
-  .thanks-body{width:100%!important;max-width:320px!important}
-  .cta-cell{text-align:center!important;padding-bottom:16px!important}
-  .vacation{margin:6px auto 0!important}
+  .stack-copy{text-align:center!important;padding:0 16px 14px!important;overflow:visible!important}
+  .thanks-img{width:92%!important;max-width:300px!important;margin-left:auto!important;margin-right:auto!important}
+  .thanks-body{width:92%!important;max-width:268px!important;margin:10px auto 0!important}
+  .cta-cell{text-align:center!important;padding-bottom:16px!important;overflow:visible!important}
+  .vacation{margin:6px auto 0!important;max-width:128px!important;height:auto!important}
+  .footer-art{overflow:visible!important}
+  .cream-card{overflow:visible!important}
 }
 @media (prefers-color-scheme:dark){
   .t-brown{${inkForce(C.ink)}}
@@ -358,7 +382,7 @@ u + #body a{color:inherit;text-decoration:none}
   <!-- Receipt card -->
   <tr>
     <td class="bg-sand card-pad" ${paper("sand")} style="padding:0 8px 14px;${bg("sand")}">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-cream" ${paper("cream")} style="width:100%;${bg("cream")}border:3px solid ${C.brown};border-radius:26px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-cream cream-card" ${paper("cream")} style="width:100%;${bg("cream")}border:3px solid ${C.brown};border-radius:26px;overflow:visible;">
 
         <tr>
           <td align="center" class="bg-cream" ${paper("cream")} style="padding:32px 24px 8px;${bg("cream")}">
@@ -475,9 +499,9 @@ u + #body a{color:inherit;text-decoration:none}
                 <td class="foliage" width="56" valign="bottom" style="padding:0;line-height:0;font-size:0;">
                   <img src="${asset("receipt-foliage-left.png")}" width="56" alt="" style="display:block;width:56px;height:auto;border:0;">
                 </td>
-                <td class="stack stack-copy inner-pad" valign="top" style="padding:0 10px 18px 8px;">
-                  <img src="${asset("receipt-thanks.png")}" width="300" alt="Thanks for being here" class="thanks-img" style="display:block;width:300px;max-width:100%;height:auto;border:0;">
-                  <img src="${asset("ink-thanks-body.png")}" width="314" alt="You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days." class="thanks-body" style="display:block;width:314px;max-width:100%;height:auto;border:0;margin:10px 0 0 30px;">
+                <td class="stack stack-copy inner-pad" valign="top" align="center" style="padding:0 16px 18px;text-align:center;overflow:visible;">
+                  <img src="${asset("receipt-thanks.png")}" width="300" alt="Thanks for being here" class="thanks-img" style="display:block;width:300px;max-width:100%;height:auto;border:0;margin:0 auto;">
+                  <img src="${asset("ink-thanks-body.png")}" width="268" alt="You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days." class="thanks-body" style="display:block;width:268px;max-width:100%;height:auto;border:0;margin:10px auto 0;">
                 </td>
                 <td class="stack cta-cell" width="236" valign="top" align="right" style="padding:0 16px 18px 0;text-align:right;">
                   <a href="${siteUrl}/" class="cta" style="display:inline-block;text-decoration:none;${ink(C.brown)}${sans}font-size:16px;font-weight:700;letter-spacing:2px;line-height:0;"><img src="${asset("receipt-cta.png")}" width="220" height="80" alt="KEEP GOING →" style="display:block;width:220px;height:80px;border:0;"></a>
@@ -490,8 +514,8 @@ u + #body a{color:inherit;text-decoration:none}
 
         <!-- Turquoise wave footer -->
         <tr>
-          <td class="bg-cream" ${paper("cream")} style="padding:0;line-height:0;font-size:0;${bg("cream")}">
-            <img src="${asset("receipt-footer.jpg")}" width="612" alt="LOCKHABIT — Good Habits · Brighter Days" style="display:block;width:100%;height:auto;border:0;border-radius:0 0 22px 22px;">
+          <td class="bg-cream footer-art" ${paper("cream")} style="padding:0;line-height:0;font-size:0;overflow:visible;${bg("cream")}">
+            <img src="${asset("receipt-footer.jpg")}" width="612" alt="LOCKHABIT — Good Habits · Brighter Days" style="display:block;width:100%;max-width:100%;height:auto;border:0;border-radius:0 0 16px 16px;">
           </td>
         </tr>
 

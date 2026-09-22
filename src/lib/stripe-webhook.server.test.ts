@@ -215,7 +215,7 @@ test("confirmation shows the applied promotion code and hides empty rows", async
     orderKind: "3-Bar Bundle",
   });
   assert.match(message.html, /Discount code/);
-  assert.match(message.html, /LOCKHABIT3FOR1B \(\$88\.00 off\)/);
+  assert.match(message.html, /LOCKHABIT3FOR1B[\s\S]*\(\$88\.00 off\)/);
   assert.match(message.html, /Free shipping/);
   assert.match(message.html, /LOCKHABIT 3-BAR BUNDLE/);
   assert.match(message.html, /Oat Milk Honey Soap/);
