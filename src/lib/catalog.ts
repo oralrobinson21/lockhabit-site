@@ -94,20 +94,11 @@ const externalWarning =
 
 const standardFeaturedAttributes = ["Cruelty free", "Vegan", "100% natural", "Paraben free"];
 
-const coconutFeaturedAttributes = ["Vegan", "100% natural", "Non-GMO", "Sulfate free"];
+const coconutFeaturedAttributes = ["Vegan", "Non-GMO", "Paraben free", "Sulfate free"];
 
 const coconutSupplierAttributes = [
-  "Gluten free",
-  "Vegetarian",
-  "Lactose free",
-  "Allergen free",
-  "Hormone free",
-  "100% natural",
-  "Antibiotic free",
-  "No fillers",
-  "Non-GMO",
-  "Corn free",
   "Vegan",
+  "Non-GMO",
   "Alcohol free",
   "Mineral oil free",
   "Paraben free",
@@ -269,7 +260,7 @@ export const products: Product[] = [
     description:
       "A creamy coconut-scented soap with a warm tropical finish and a rich everyday lather.",
     productStory:
-      "Coconut Beach is a 4 oz coconut soap bar built on saponified organic extra virgin olive, palm and coconut oils with organic shea butter. It works into a creamy lather with a warm coconut fragrance — the closest your shower is getting to checking into a beach hotel on a Tuesday. The supplier states that the organic palm and coconut oils are sourced through fair-trade and sustainable practices. Made in the USA.",
+      "Coconut Beach is a 4 oz coconut soap bar built on saponified organic extra virgin olive, palm and coconut oils with organic shea butter. It works into a creamy lather with a warm coconut fragrance — the closest your shower is getting to checking into a beach hotel on a Tuesday. Made in the USA.",
     seoTitle: "Coconut Beach Soap – Coconut & Shea Butter Bar | LOCKHABIT",
     seoDescription:
       "A creamy 4 oz vegan coconut soap bar made with organic coconut, olive and palm oils plus organic shea butter. Warm tropical scent. Made in the USA.",
@@ -301,7 +292,7 @@ export const products: Product[] = [
           "One bar is $35, and orders under $75 ship for a flat $7.95. Three bars are $89, which is $16 off the single-bar price and qualifies for free shipping.",
       },
     ],
-    highlights: ["Warm coconut scent", "Creamy lather", "4 oz bar"],
+    highlights: ["Warm coconut fragrance", "Organic oils + shea butter", "Vegan · sulfate-free"],
     attributes: coconutFeaturedAttributes,
     allAttributes: coconutSupplierAttributes,
     ingredients: [
