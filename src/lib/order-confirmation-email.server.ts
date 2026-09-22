@@ -84,14 +84,21 @@ const C = {
   yellow: "#f5ca3a",
 };
 
-// Every coloured cell repeats its colour three ways (bgcolor attribute, background-color,
-// and a solid gradient) so Outlook mobile / Gmail dark mode cannot swap it for a dark tone.
-const bg = (hex: string) =>
-  `background-color:${hex};background:${hex};background-image:linear-gradient(${hex},${hex});`;
+// Solid 64x64 PNG tiles, one per paper colour. Outlook (com / new Windows / iOS / Android)
+// force-darkens every light HTML background in dark mode and ignores all CSS overrides, but
+// never recolours images, so each surface is painted by a repeating tile with bgcolor as the
+// images-off fallback.
+const TILES = {
+  page: "tile-page.png",
+  sand: "tile-sand.png",
+  cream: "tile-cream.png",
+  tableBg: "tile-table.png",
+  tableHead: "tile-thead.png",
+  yellow: "tile-yellow.png",
+} as const satisfies Partial<Record<keyof typeof C, string>>;
+type Surface = keyof typeof TILES;
+
 const ink = (hex: string) => `color:${hex};-webkit-text-fill-color:${hex};`;
-// Same declarations with !important on each, for the dark-mode / Outlook override rules.
-const bgForce = (hex: string) =>
-  `background-color:${hex}!important;background:${hex}!important;background-image:linear-gradient(${hex},${hex})!important;`;
 const inkForce = (hex: string) =>
   `color:${hex}!important;-webkit-text-fill-color:${hex}!important;`;
 const sans = "font-family:Arial,Helvetica,sans-serif;";
@@ -103,6 +110,11 @@ export function renderOrderConfirmation(order: OrderConfirmation) {
     "",
   );
   const asset = (file: string) => `${assetBase}/${file}`;
+  // Attribute + inline-style pair that paints a paper surface with its tile.
+  const paper = (surface: Surface) =>
+    `bgcolor="${C[surface]}" background="${asset(TILES[surface])}"`;
+  const bg = (surface: Surface) =>
+    `background-color:${C[surface]};background-image:url('${asset(TILES[surface])}');background-repeat:repeat;`;
   const supportEmail = process.env["LOCKHABIT_SUPPORT_EMAIL"] ?? "support@lockhabit.com";
   const orderLabel = `LH-${String(order.orderNumber).padStart(6, "0")}`;
   const paidAt = formatPaidAt(order.paidAt);
@@ -132,29 +144,18 @@ export function renderOrderConfirmation(order: OrderConfirmation) {
     .join("");
 
   const totalsRows = [
-    ["Subtotal", money(order.subtotal, order.currency), true],
-    [
-      "Shipping",
-      order.shipping === 0 ? "Free shipping" : money(order.shipping, order.currency),
-      true,
-    ],
+    ["Subtotal", money(order.subtotal, order.currency)],
+    ["Shipping", order.shipping === 0 ? "Free shipping" : money(order.shipping, order.currency)],
     ...(discount > 0
-      ? [[order.discountCode ? "Discount code" : "Discount", discountLabel, false] as const]
+      ? [[order.discountCode ? "Discount code" : "Discount", discountLabel] as const]
       : []),
-    ...(order.tax > 0 ? [["Tax", money(order.tax, order.currency), true] as const] : []),
+    ...(order.tax > 0 ? [["Tax", money(order.tax, order.currency)] as const] : []),
   ]
     .map(
-      ([label, value, nowrap], index) => `
+      ([label, value], index) => `
         <tr>
-          <td ${cell(`padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;white-space:nowrap;`)}>${label}</td>
-          <td ${cellRight(
-            `padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;${nowrap ? "white-space:nowrap;" : ""}`,
-          )
-            .replace(
-              'class="t-brown cell"',
-              nowrap ? 'class="t-brown cell"' : 'class="t-brown cell code"',
-            )
-            .replace("font-size:15px", nowrap ? "font-size:15px" : "font-size:14px")}>${value}</td>
+          <td ${index === 0 ? 'width="34%" ' : ""}${cell(`padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;white-space:nowrap;${index === 0 ? "width:34%;" : ""}`)}>${label}</td>
+          <td ${index === 0 ? 'width="66%" ' : ""}${cellRight(`padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;white-space:nowrap;${index === 0 ? "width:66%;" : ""}`)}>${value}</td>
         </tr>`,
     )
     .join("");
@@ -186,128 +187,130 @@ u + #body a{color:inherit;text-decoration:none}
   .shell{width:100%!important;max-width:100%!important}
   .card-pad{padding-left:6px!important;padding-right:6px!important}
   .inner-pad{padding-left:14px!important;padding-right:14px!important}
-  .title{font-size:34px!important;line-height:38px!important;padding-top:24px!important}
-  .stat{display:block!important;width:100%!important;border-right:0!important;border-bottom:1px solid ${C.rule}!important;padding:8px 0 10px!important;text-align:center!important}
-  .stat-last{border-bottom:0!important}
+  .title{font-size:30px!important;line-height:34px!important;padding-top:24px!important}
+  .stat{padding:8px 4px 10px 6px!important}
+  .stat-label{font-size:9px!important;line-height:13px!important;letter-spacing:0.8px!important}
+  .stat-num{font-size:14px!important;line-height:18px!important;margin-top:4px!important}
+  .stat-amt{font-size:19px!important;line-height:22px!important;margin-top:2px!important}
+  .stat-date{font-size:12px!important;line-height:16px!important;margin-top:4px!important}
+  .stamp-cell{display:none!important;width:0!important}
+  .stamp-mobile{display:table-cell!important;width:96px!important;max-height:none!important;overflow:visible!important;padding-left:6px!important}
+  .stamp-mobile img{display:block!important;width:92px!important;height:auto!important}
   .cell{padding-left:12px!important;padding-right:12px!important;font-size:14px!important}
-  .code{font-size:13px!important}
-  .th-item{width:60%!important}
-  .th-price{width:40%!important}
   .total-label{font-size:19px!important}
   .total-value{font-size:26px!important}
-  .stamp-cell{display:none!important}
-  .stamp-mobile{display:block!important;max-height:none!important;overflow:visible!important}
   .foliage{display:none!important}
   .stack{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important;text-align:center!important}
-  .stack-copy{text-align:left!important;padding-bottom:18px!important}
+  .stack-copy{text-align:left!important;padding-bottom:14px!important}
   .thanks-img{width:100%!important;max-width:320px!important}
-  .cta-cell{text-align:center!important}
-  .cta{display:block!important;width:auto!important;text-align:center!important}
-  .vacation{margin:12px auto 0!important}
-  .kind{font-size:11px!important;letter-spacing:3px!important}
+  .cta-cell{text-align:center!important;padding-bottom:16px!important}
+  .vacation{margin:6px auto 0!important}
+  .kind{font-size:10.5px!important;letter-spacing:2.4px!important;padding-left:18px!important}
 }
 @media (prefers-color-scheme:dark){
-  .bg-page{${bgForce(C.page)}}
-  .bg-sand{${bgForce(C.sand)}}
-  .bg-cream{${bgForce(C.cream)}}
-  .bg-table{${bgForce(C.tableBg)}}
-  .bg-thead{${bgForce(C.tableHead)}}
-  .bg-yellow{${bgForce(C.yellow)}}
   .t-brown{${inkForce(C.ink)}}
   .t-teal{${inkForce(C.teal)}}
 }
-[data-ogsb] .bg-page,[data-ogsc] .bg-page{${bgForce(C.page)}}
-[data-ogsb] .bg-sand,[data-ogsc] .bg-sand{${bgForce(C.sand)}}
-[data-ogsb] .bg-cream,[data-ogsc] .bg-cream{${bgForce(C.cream)}}
-[data-ogsb] .bg-table,[data-ogsc] .bg-table{${bgForce(C.tableBg)}}
-[data-ogsb] .bg-thead,[data-ogsc] .bg-thead{${bgForce(C.tableHead)}}
-[data-ogsb] .bg-yellow,[data-ogsc] .bg-yellow{${bgForce(C.yellow)}}
 [data-ogsc] .t-brown{${inkForce(C.ink)}}
 [data-ogsc] .t-teal{${inkForce(C.teal)}}
 </style>
 </head>
-<body id="body" class="bg-page" bgcolor="${C.page}" style="margin:0;padding:0;${bg(C.page)}">
+<body id="body" class="bg-page" ${paper("page")} style="margin:0;padding:0;${bg("page")}">
 <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">Receipt ${orderLabel} — ${money(order.total, order.currency)} paid. Good habits, brighter days.</div>
 
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-page" bgcolor="${C.page}" style="width:100%;${bg(C.page)}">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-page" ${paper("page")} style="width:100%;${bg("page")}">
 <tr><td align="center" valign="top" style="padding:0;">
 <!--[if mso]><table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td><![endif]-->
-<table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" align="center" class="shell bg-sand" bgcolor="${C.sand}" style="width:640px;max-width:640px;margin:0 auto;${bg(C.sand)}">
+<table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" align="center" class="shell bg-sand" ${paper("sand")} style="width:640px;max-width:640px;margin:0 auto;${bg("sand")}">
 
   <!-- Tropical postcard header -->
   <tr>
-    <td class="bg-sand" bgcolor="${C.sand}" style="padding:0;line-height:0;font-size:0;${bg(C.sand)}">
+    <td class="bg-sand" ${paper("sand")} style="padding:0;line-height:0;font-size:0;${bg("sand")}">
       <img src="${asset("receipt-header.jpg")}" width="640" alt="LockHabit — Good Habits, Brighter Days" style="display:block;width:100%;max-width:640px;height:auto;border:0;">
     </td>
   </tr>
 
   <!-- Receipt card -->
   <tr>
-    <td class="bg-sand card-pad" bgcolor="${C.sand}" style="padding:0 8px 14px;${bg(C.sand)}">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-cream" bgcolor="${C.cream}" style="width:100%;${bg(C.cream)}border:3px solid ${C.brown};border-radius:26px;">
+    <td class="bg-sand card-pad" ${paper("sand")} style="padding:0 8px 14px;${bg("sand")}">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-cream" ${paper("cream")} style="width:100%;${bg("cream")}border:3px solid ${C.brown};border-radius:26px;">
 
         <tr>
-          <td align="center" class="bg-cream title t-brown" bgcolor="${C.cream}" style="padding:32px 24px 8px;${bg(C.cream)}${serif}font-size:46px;line-height:50px;font-weight:700;letter-spacing:-0.5px;${ink(C.ink)}">Receipt from lockhabit</td>
+          <td align="center" class="bg-cream title t-brown" ${paper("cream")} style="padding:32px 24px 8px;${bg("cream")}${serif}font-size:46px;line-height:50px;font-weight:700;letter-spacing:-0.5px;${ink(C.ink)}">Receipt from lockhabit</td>
         </tr>
         <tr>
-          <td align="center" class="bg-cream" bgcolor="${C.cream}" style="padding:0 24px 12px;line-height:0;font-size:0;${bg(C.cream)}">
+          <td align="center" class="bg-cream" ${paper("cream")} style="padding:0 24px 12px;line-height:0;font-size:0;${bg("cream")}">
             <img src="${asset("receipt-squiggle.png")}" width="140" height="30" alt="" style="display:inline-block;width:140px;height:30px;border:0;">
           </td>
         </tr>
 
-        <!-- Payment summary -->
+        <!-- Payment summary + order summary heading, with the stamp spanning both -->
         <tr>
-          <td class="bg-cream inner-pad" bgcolor="${C.cream}" style="padding:6px 22px 4px;${bg(C.cream)}">
+          <td class="bg-cream inner-pad" ${paper("cream")} style="padding:8px 22px 0;${bg("cream")}">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
-                <td class="stat" width="31%" align="center" valign="top" style="padding:10px 6px 12px;border-right:1px solid ${C.brown};">
-                  <div class="t-brown" style="${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:1.6px;${ink(C.ink)}">RECEIPT NUMBER</div>
-                  <div class="t-brown" style="margin-top:6px;${serif}font-size:22px;line-height:26px;font-weight:700;${ink(C.ink)}">${orderLabel}</div>
+                <td valign="top" style="padding:0;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td class="stat" width="35%" valign="top" style="padding:10px 8px 12px 10px;border-right:1px solid ${C.brown};">
+                        <div class="t-brown stat-label" style="${sans}font-size:11px;line-height:15px;font-weight:700;letter-spacing:1.4px;${ink(C.ink)}">RECEIPT NUMBER</div>
+                        <div class="t-brown stat-num" style="margin-top:5px;${sans}font-size:19px;line-height:24px;font-weight:500;${ink(C.ink)}">${orderLabel}</div>
+                      </td>
+                      <td class="stat" width="29%" valign="top" style="padding:10px 8px 12px 14px;border-right:1px solid ${C.brown};">
+                        <div class="t-brown stat-label" style="${sans}font-size:11px;line-height:15px;font-weight:700;letter-spacing:1.4px;${ink(C.ink)}">AMOUNT PAID</div>
+                        <div class="t-brown stat-amt" style="margin-top:3px;${serif}font-size:26px;line-height:28px;font-weight:700;${ink(C.ink)}">${money(order.total, order.currency)}</div>
+                      </td>
+                      <td class="stat stat-last" valign="top" style="padding:10px 0 12px 14px;">
+                        <div class="t-brown stat-label" style="${sans}font-size:11px;line-height:15px;font-weight:700;letter-spacing:1.4px;${ink(C.ink)}">DATE PAID</div>
+                        <div class="t-brown stat-date" style="margin-top:5px;${sans}font-size:18px;line-height:23px;font-weight:500;white-space:nowrap;${ink(C.ink)}">${paidAt ? `${escapeHtml(paidAt.day)},<br>${escapeHtml(paidAt.time)}` : "Confirmed by Stripe"}</div>
+                      </td>
+                    </tr>
+                  </table>
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td valign="bottom" style="padding:6px 0 0;">
+                        <img src="${asset("receipt-order-summary.png")}" width="228" alt="Order Summary" style="display:block;width:228px;max-width:100%;height:auto;border:0;">
+                        <div class="t-brown kind" style="padding:4px 0 0 30px;${sans}font-size:13px;line-height:18px;font-weight:700;letter-spacing:4px;${ink(C.ink)}">${escapeHtml(orderKindLabel)}</div>
+                      </td>
+                      <!--[if !mso]><!-->
+                      <td class="stamp-mobile" width="0" valign="bottom" align="right" style="display:none;max-height:0;overflow:hidden;width:0;padding:0;line-height:0;font-size:0;">
+                        <img src="${asset("receipt-stamp.png")}" width="0" alt="" style="display:none;width:0;height:auto;border:0;">
+                      </td>
+                      <!--<![endif]-->
+                    </tr>
+                  </table>
                 </td>
-                <td class="stat" width="24%" align="center" valign="top" style="padding:10px 6px 12px;border-right:1px solid ${C.brown};">
-                  <div class="t-brown" style="${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:1.6px;${ink(C.ink)}">AMOUNT PAID</div>
-                  <div class="t-brown" style="margin-top:6px;${serif}font-size:26px;line-height:28px;font-weight:700;${ink(C.ink)}">${money(order.total, order.currency)}</div>
-                </td>
-                <td class="stat stat-last" align="center" valign="top" style="padding:10px 6px 12px;white-space:nowrap;">
-                  <div class="t-brown" style="${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:1.6px;${ink(C.ink)}">DATE PAID</div>
-                  <div class="t-brown" style="margin-top:6px;${sans}font-size:18px;line-height:24px;font-weight:500;${ink(C.ink)}">${paidAt ? `${escapeHtml(paidAt.day)},<br>${escapeHtml(paidAt.time)}` : "Confirmed by Stripe"}</div>
-                </td>
-                <td class="stamp-cell" width="104" align="right" valign="top" style="padding:0 0 0 4px;line-height:0;font-size:0;">
-                  <img src="${asset("receipt-stamp.png")}" width="100" alt="Good Habits · Brighter Days" style="display:block;width:100px;height:auto;border:0;">
+                <td class="stamp-cell" width="138" valign="middle" align="right" style="padding:0 0 0 6px;line-height:0;font-size:0;">
+                  <img src="${asset("receipt-stamp.png")}" width="132" alt="Good Habits · Brighter Days" style="display:block;width:132px;height:auto;border:0;">
                 </td>
               </tr>
             </table>
-            <!--[if !mso]><!-->
-            <div class="stamp-mobile" style="display:none;max-height:0;overflow:hidden;text-align:center;padding-top:10px;">
-              <img src="${asset("receipt-stamp.png")}" width="96" alt="" style="display:inline-block;width:96px;height:auto;border:0;">
-            </div>
-            <!--<![endif]-->
-          </td>
-        </tr>
-
-        <!-- Order summary heading -->
-        <tr>
-          <td class="bg-cream inner-pad" bgcolor="${C.cream}" style="padding:10px 22px 0;${bg(C.cream)}">
-            <img src="${asset("receipt-order-summary.png")}" width="228" alt="Order Summary" style="display:block;width:228px;max-width:100%;height:auto;border:0;">
-            <div class="t-brown kind" style="padding:4px 0 0 30px;${sans}font-size:13px;line-height:18px;font-weight:700;letter-spacing:4px;${ink(C.ink)}">${escapeHtml(orderKindLabel)}</div>
           </td>
         </tr>
 
         <!-- Order table -->
         <tr>
-          <td class="bg-cream inner-pad" bgcolor="${C.cream}" style="padding:16px 22px 10px;${bg(C.cream)}">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-table" bgcolor="${C.tableBg}" style="width:100%;table-layout:fixed;${bg(C.tableBg)}border:1px solid #e6d7bb;border-radius:14px;">
+          <td class="bg-cream inner-pad" ${paper("cream")} style="padding:16px 22px 10px;${bg("cream")}">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-table" ${paper("tableBg")} style="width:100%;${bg("tableBg")}border:1px solid #e6d7bb;border-radius:14px;">
               <tr>
-                <td class="bg-thead t-brown th-item" bgcolor="${C.tableHead}" width="55%" style="width:55%;padding:13px 20px;${bg(C.tableHead)}border-radius:13px 0 0 0;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">ITEM</td>
-                <td class="bg-thead t-brown th-price" bgcolor="${C.tableHead}" width="45%" align="right" style="width:45%;padding:13px 20px;${bg(C.tableHead)}border-radius:0 13px 0 0;text-align:right;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">PRICE</td>
-              </tr>
-              ${itemRows}
-              <tr><td colspan="2" style="padding:10px 20px 0;"><div style="height:1px;line-height:1px;font-size:1px;${bg(C.rule)}">&nbsp;</div></td></tr>
-              ${totalsRows}
-              <tr><td colspan="2" style="padding:12px 20px 0;"><div style="height:2px;line-height:2px;font-size:2px;${bg(C.brown)}">&nbsp;</div></td></tr>
-              <tr>
-                <td class="t-teal cell total-label" style="padding:14px 20px 18px;white-space:nowrap;${sans}font-size:22px;line-height:28px;font-weight:700;${ink(C.teal)}">Amount paid</td>
-                <td class="t-teal cell total-value" align="right" style="padding:14px 20px 18px;text-align:right;white-space:nowrap;${sans}font-size:30px;line-height:32px;font-weight:700;${ink(C.teal)}">${money(order.total, order.currency)}</td>
+                <td style="padding:0;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;table-layout:fixed;">
+                    <tr>
+                      <td class="bg-thead t-brown th-item" ${paper("tableHead")} width="60%" style="width:60%;padding:13px 20px;${bg("tableHead")}border-radius:13px 0 0 0;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">ITEM</td>
+                      <td class="bg-thead t-brown th-price" ${paper("tableHead")} width="40%" align="right" style="width:40%;padding:13px 20px;${bg("tableHead")}border-radius:0 13px 0 0;text-align:right;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">PRICE</td>
+                    </tr>
+                    ${itemRows}
+                    <tr><td colspan="2" style="padding:10px 20px 0;"><div style="height:1px;line-height:1px;font-size:1px;background-color:${C.rule};">&nbsp;</div></td></tr>
+                  </table>
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;table-layout:fixed;">
+                    ${totalsRows}
+                    <tr><td colspan="2" style="padding:12px 20px 0;"><div style="height:2px;line-height:2px;font-size:2px;background-color:${C.brown};">&nbsp;</div></td></tr>
+                    <tr>
+                      <td class="t-teal cell total-label" style="padding:14px 20px 18px;white-space:nowrap;${sans}font-size:22px;line-height:28px;font-weight:700;${ink(C.teal)}">Amount paid</td>
+                      <td class="t-teal cell total-value" align="right" style="padding:14px 20px 18px;text-align:right;white-space:nowrap;${sans}font-size:30px;line-height:32px;font-weight:700;${ink(C.teal)}">${money(order.total, order.currency)}</td>
+                    </tr>
+                  </table>
+                </td>
               </tr>
             </table>
           </td>
@@ -317,7 +320,7 @@ u + #body a{color:inherit;text-decoration:none}
           shipTo.length
             ? `<!-- Compact shipping line -->
         <tr>
-          <td class="bg-cream inner-pad" bgcolor="${C.cream}" style="padding:2px 22px 0;${bg(C.cream)}">
+          <td class="bg-cream inner-pad" ${paper("cream")} style="padding:2px 22px 0;${bg("cream")}">
             <div class="t-brown" style="padding:0 8px;${sans}font-size:12px;line-height:18px;${ink(C.ink)}"><span style="font-weight:700;letter-spacing:1.5px;">SHIPPING TO</span>&nbsp;&nbsp;${shipTo.join(" · ")}</div>
           </td>
         </tr>`
@@ -326,7 +329,7 @@ u + #body a{color:inherit;text-decoration:none}
 
         <!-- Thank-you + CTA -->
         <tr>
-          <td class="bg-cream" bgcolor="${C.cream}" style="padding:18px 0 0;${bg(C.cream)}">
+          <td class="bg-cream" ${paper("cream")} style="padding:18px 0 0;${bg("cream")}">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td class="foliage" width="56" valign="bottom" style="padding:0;line-height:0;font-size:0;">
@@ -336,12 +339,9 @@ u + #body a{color:inherit;text-decoration:none}
                   <img src="${asset("receipt-thanks.png")}" width="300" alt="Thanks for being here" class="thanks-img" style="display:block;width:300px;max-width:100%;height:auto;border:0;">
                   <div class="t-brown" style="padding:10px 0 0 30px;${sans}font-size:14px;line-height:21px;${ink(C.ink)}">You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days.</div>
                 </td>
-                <td class="stack cta-cell inner-pad" width="200" valign="top" align="right" style="padding:6px 22px 18px 0;text-align:right;">
-                  <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${SITE_URL}" style="height:48px;v-text-anchor:middle;width:178px;" arcsize="8%" strokecolor="${C.yellow}" fillcolor="${C.yellow}"><w:anchorlock/><center style="color:${C.brown};font-family:Arial,sans-serif;font-size:16px;font-weight:bold;letter-spacing:2px;">KEEP GOING &rarr;</center></v:roundrect><![endif]-->
-                  <!--[if !mso]><!-->
-                  <a href="${SITE_URL}" class="cta bg-yellow" style="display:inline-block;white-space:nowrap;${bg(C.yellow)}${ink(C.brown)}text-decoration:none;${sans}font-size:16px;line-height:24px;font-weight:700;letter-spacing:2px;padding:12px 20px;border-radius:4px 10px 4px 12px;mso-hide:all;">KEEP GOING &rarr;</a>
-                  <!--<![endif]-->
-                  <img src="${asset("receipt-vacation.png")}" width="128" alt="Vacation Mode For A Better You" class="vacation" style="display:block;width:128px;height:auto;border:0;margin:10px 0 0 auto;">
+                <td class="stack cta-cell" width="236" valign="top" align="right" style="padding:0 16px 18px 0;text-align:right;">
+                  <a href="${SITE_URL}" class="cta" style="display:inline-block;text-decoration:none;${ink(C.brown)}${sans}font-size:16px;font-weight:700;letter-spacing:2px;line-height:0;"><img src="${asset("receipt-cta.png")}" width="220" height="80" alt="KEEP GOING →" style="display:block;width:220px;height:80px;border:0;"></a>
+                  <img src="${asset("receipt-vacation.png")}" width="128" alt="Vacation Mode For A Better You" class="vacation" style="display:block;width:128px;height:auto;border:0;margin:2px 24px 0 auto;">
                 </td>
               </tr>
             </table>
@@ -350,7 +350,7 @@ u + #body a{color:inherit;text-decoration:none}
 
         <!-- Turquoise wave footer -->
         <tr>
-          <td class="bg-cream" bgcolor="${C.cream}" style="padding:0;line-height:0;font-size:0;${bg(C.cream)}">
+          <td class="bg-cream" ${paper("cream")} style="padding:0;line-height:0;font-size:0;${bg("cream")}">
             <img src="${asset("receipt-footer.jpg")}" width="612" alt="LOCKHABIT — Good Habits · Brighter Days" style="display:block;width:100%;height:auto;border:0;border-radius:0 0 22px 22px;">
           </td>
         </tr>
@@ -361,7 +361,7 @@ u + #body a{color:inherit;text-decoration:none}
 
   <!-- Support -->
   <tr>
-    <td align="center" class="bg-sand t-brown" bgcolor="${C.sand}" style="padding:2px 24px 22px;${bg(C.sand)}${sans}font-size:12px;line-height:18px;${ink(C.ink)}">
+    <td align="center" class="bg-sand t-brown" ${paper("sand")} style="padding:2px 24px 22px;${bg("sand")}${sans}font-size:12px;line-height:18px;${ink(C.ink)}">
       Questions about your order?<br>Reply to this email or contact <a href="mailto:${escapeHtml(supportEmail)}" style="${ink(C.teal)}font-weight:700;text-decoration:underline;">${escapeHtml(supportEmail)}</a>
     </td>
   </tr>
