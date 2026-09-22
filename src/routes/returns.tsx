@@ -45,7 +45,7 @@ function Returns() {
           body: (
             <p>
               If we sent the wrong item or your order arrived damaged or defective, contact
-              support@lockhabit.com within 7 days of delivery with your order number and photos.
+              oralrobinson21@outlook.com within 7 days of delivery with your order number and photos.
               We’ll review it and make the appropriate replacement or refund.
             </p>
           ),
@@ -64,9 +64,8 @@ function Returns() {
           title: "Promotions",
           body: (
             <p>
-              Refunds are based on the amount actually paid after discounts. Free or promotional
-              items may need to be returned with the qualifying order when applicable. The surprise
-              bar is welcome to the vacation, but it still counts as part of the promotion.
+              Refunds are based on the amount actually paid after discounts. Promotional items or
+              discounts may be adjusted when a qualifying order is partially returned.
             </p>
           ),
         },
