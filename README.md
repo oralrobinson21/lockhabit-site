@@ -26,3 +26,11 @@ environment file and configure the server-only Stripe, Supabase, and Resend
 variables before exercising checkout. Never expose or commit populated `.env`
 files. Stripe webhook requests must target `/api/stripe/webhook` and include a
 valid signature from the configured TEST webhook secret.
+
+## Hosting (Soft AWS path)
+
+Production today is Railway (`railway.json` + Nitro `node-server`). Soft-safe
+AWS next steps (App Runner Soft preview IaC, Soft HOLD on DNS/MX/Railway
+cutover, inventory + cost note) live under
+[`docs/aws-hosting/`](./docs/aws-hosting/README.md). Do not cut over
+`lockhabit.com` until Oral explicit GO.
