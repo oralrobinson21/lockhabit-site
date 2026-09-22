@@ -163,7 +163,7 @@ function ProductView({ slug }: { slug: string }) {
                   />
                 </div>
                 <div
-                  className="mt-4 grid grid-cols-5 gap-3"
+                  className="mt-4 grid grid-cols-4 gap-3"
                   aria-label={`${product.name} image gallery`}
                 >
                   {product.images.map((image, index) => (
@@ -228,14 +228,15 @@ function ProductView({ slug }: { slug: string }) {
                 {product.attributes?.length ? (
                   <section className="mt-10" aria-label={`${product.name} product attributes`}>
                     <p className="memo text-muted-foreground">Product details</p>
-                    <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-8 lg:grid-cols-4 xl:grid-cols-8">
+                    <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                       {product.attributes.map((attribute) => (
-                        <div key={attribute} className="flex flex-col items-center gap-2 text-center">
-                          <div className="flex aspect-square w-full max-w-16 items-center justify-center rounded-full border-2 border-foreground bg-paper px-1 shadow-[2px_2px_0_var(--color-sun)]">
-                            <span className="text-[9px] font-black uppercase leading-tight tracking-tight">
-                              {attribute}
-                            </span>
-                          </div>
+                        <div
+                          key={attribute}
+                          className="flex min-h-11 items-center justify-center rounded-full border-2 border-foreground/25 bg-paper px-3 py-2 text-center shadow-[2px_2px_0_var(--color-sun)]"
+                        >
+                          <span className="text-[11px] font-black uppercase leading-tight tracking-wide">
+                            {attribute}
+                          </span>
                         </div>
                       ))}
                     </div>
