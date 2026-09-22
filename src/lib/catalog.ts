@@ -844,7 +844,7 @@ export const products: Product[] = [
     suggestedUse:
       "Apply a thin layer wherever skin or hair needs moisture. Store in a cool, dry place between 60–70°F (15–21°C), away from direct sunlight.",
     warning: externalWarning,
-    scene: { from: "#f7eddc", to: "#fff8ea", motes: "#fffdf8" },
+    scene: { from: "#f2e4ca", to: "#fff7e7", motes: "#fffaf0" },
     images: [
       { src: sheaReal1, alt: "LOCKHABIT Raw Shea Butter jar front view" },
       { src: sheaReal2, alt: "LOCKHABIT Raw Shea Butter jar held upright" },
@@ -921,7 +921,7 @@ export const products: Product[] = [
       "Wet skin with warm water and lather in a circular motion. Leave on for 30–60 seconds, rinse thoroughly with cool water, and pat dry. Keep the bar dry between uses.",
     warning:
       "For topical use only. Not for internal consumption. Avoid contact with eyes. Discontinue use if irritation occurs; rinse eyes thoroughly with clean water after accidental contact.",
-    scene: { from: "#fff0cf", to: "#fff6df", motes: "#fffaf0" },
+    scene: { from: "#f8df9b", to: "#fff4d2", motes: "#fff8df" },
     images: [
       { src: turmericReal1, alt: "LOCKHABIT Kojic Acid & Turmeric Soap front view" },
       { src: turmericReal2, alt: "LOCKHABIT Kojic Acid & Turmeric Soap packaged and unwrapped view" },
