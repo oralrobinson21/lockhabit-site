@@ -2,6 +2,7 @@ import coconutReal1 from "@/assets/real-products/coconut-beach-1.jpg";
 import coconutReal2 from "@/assets/real-products/coconut-beach-2.jpg";
 import coconutReal3 from "@/assets/real-products/coconut-beach-3.jpg";
 import coconutReal4 from "@/assets/real-products/coconut-beach-4.jpg";
+import coconutLifestyle from "@/assets/generated-products/coconut-beach-lifestyle.webp";
 import breatheReal1 from "@/assets/real-products/breathe-clear-1.jpg";
 import breatheReal2 from "@/assets/real-products/breathe-clear-2.jpg";
 import breatheReal3 from "@/assets/real-products/breathe-clear-3.jpg";
@@ -47,7 +48,12 @@ import turmericReal2 from "@/assets/real-products/kojic-turmeric-2.jpg";
 import turmericReal3 from "@/assets/real-products/kojic-turmeric-3.jpg";
 import turmericReal4 from "@/assets/real-products/kojic-turmeric-4.jpg";
 
-export type GalleryImage = { src: string; alt: string };
+export type GalleryImage = {
+  src: string;
+  alt: string;
+  crop?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  illustrative?: boolean;
+};
 
 export type Product = {
   id: number;
@@ -137,10 +143,34 @@ export const products: Product[] = [
       "In case of accidental contact with eyes, rinse thoroughly with clean water. If irritation occurs, discontinue use.",
     scene: { from: "#8ed7dd", to: "#f6d36b", motes: "#fffaf0" },
     images: [
-      { src: coconutReal1, alt: "Real LOCKHABIT coconut beach front view" },
-      { src: coconutReal2, alt: "Real LOCKHABIT coconut beach three-quarter view" },
-      { src: coconutReal3, alt: "Real LOCKHABIT coconut beach unwrapped bar view" },
-      { src: coconutReal4, alt: "Real LOCKHABIT coconut beach paired bar view" },
+      { src: coconutReal1, alt: "Real LOCKHABIT Coconut Beach Soap front view" },
+      {
+        src: coconutLifestyle,
+        crop: "top-left",
+        illustrative: true,
+        alt: "Illustrative Coconut Beach tropical product scene by the ocean",
+      },
+      {
+        src: coconutLifestyle,
+        crop: "top-right",
+        illustrative: true,
+        alt: "Illustrative Coconut Beach soap scene beside a tropical shower",
+      },
+      {
+        src: coconutLifestyle,
+        crop: "bottom-left",
+        illustrative: true,
+        alt: "Illustrative Coconut Beach shower ritual with a lathered soap bar",
+      },
+      {
+        src: coconutLifestyle,
+        crop: "bottom-right",
+        illustrative: true,
+        alt: "Illustrative Coconut Beach wrapped and unwrapped soap ritual scene",
+      },
+      { src: coconutReal2, alt: "Real LOCKHABIT Coconut Beach Soap three-quarter view" },
+      { src: coconutReal3, alt: "Real LOCKHABIT Coconut Beach Soap unwrapped bar view" },
+      { src: coconutReal4, alt: "Real LOCKHABIT Coconut Beach Soap paired bar view" },
     ],
   },
   {
