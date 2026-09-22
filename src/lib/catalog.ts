@@ -2,7 +2,6 @@ import coconutReal1 from "@/assets/real-products/coconut-beach-1.jpg";
 import coconutReal2 from "@/assets/real-products/coconut-beach-2.jpg";
 import coconutReal3 from "@/assets/real-products/coconut-beach-3.jpg";
 import coconutReal4 from "@/assets/real-products/coconut-beach-4.jpg";
-import coconutLifestyle from "@/assets/generated-products/coconut-beach-lifestyle.webp";
 import breatheReal1 from "@/assets/real-products/breathe-clear-1.jpg";
 import breatheReal2 from "@/assets/real-products/breathe-clear-2.jpg";
 import breatheReal3 from "@/assets/real-products/breathe-clear-3.jpg";
@@ -93,12 +92,10 @@ export const products: Product[] = [
     note: "Coconut · Creamy · Tropical",
     price: 35,
     kind: "Soap bar",
-    tagline: "Coconut without the boarding pass.",
+    tagline: "A little vacation in every shower.",
     description:
-      "A creamy coconut-scented bar made with saponified organic olive, palm and coconut oils plus shea butter. Add warm water, work up a good lather, and give yourself five quiet minutes — ocean view optional.",
-    highlights: ["Creamy coconut scent", "Olive, coconut + shea base", "4 oz everyday bar"],
-    productStory:
-      "Coconut Beach is the shower version of putting your phone on Do Not Disturb. The formula keeps things straightforward: a saponified blend of organic extra virgin olive oil, organic palm oil, organic coconut oil and organic shea butter, finished with fragrance for that warm coconut-beach mood.",
+      "A creamy coconut-scented soap with a warm tropical finish and a rich everyday lather.",
+    highlights: ["Warm coconut scent", "Creamy lather", "4 oz bar"],
     attributes: [
       "Vegan",
       "Non-GMO",
@@ -143,34 +140,10 @@ export const products: Product[] = [
       "In case of accidental contact with eyes, rinse thoroughly with clean water. If irritation occurs, discontinue use.",
     scene: { from: "#8ed7dd", to: "#f6d36b", motes: "#fffaf0" },
     images: [
-      { src: coconutReal1, alt: "Real LOCKHABIT Coconut Beach Soap front view" },
-      {
-        src: coconutLifestyle,
-        crop: "top-left",
-        illustrative: true,
-        alt: "Illustrative Coconut Beach tropical product scene by the ocean",
-      },
-      {
-        src: coconutLifestyle,
-        crop: "top-right",
-        illustrative: true,
-        alt: "Illustrative Coconut Beach soap scene beside a tropical shower",
-      },
-      {
-        src: coconutLifestyle,
-        crop: "bottom-left",
-        illustrative: true,
-        alt: "Illustrative Coconut Beach shower ritual with a lathered soap bar",
-      },
-      {
-        src: coconutLifestyle,
-        crop: "bottom-right",
-        illustrative: true,
-        alt: "Illustrative Coconut Beach wrapped and unwrapped soap ritual scene",
-      },
-      { src: coconutReal2, alt: "Real LOCKHABIT Coconut Beach Soap three-quarter view" },
-      { src: coconutReal3, alt: "Real LOCKHABIT Coconut Beach Soap unwrapped bar view" },
-      { src: coconutReal4, alt: "Real LOCKHABIT Coconut Beach Soap paired bar view" },
+      { src: coconutReal1, alt: "LOCKHABIT Coconut Beach Soap front view" },
+      { src: coconutReal2, alt: "LOCKHABIT Coconut Beach Soap three-quarter view" },
+      { src: coconutReal3, alt: "LOCKHABIT Coconut Beach Soap unwrapped bar view" },
+      { src: coconutReal4, alt: "LOCKHABIT Coconut Beach Soap paired bar view" },
     ],
   },
   {
