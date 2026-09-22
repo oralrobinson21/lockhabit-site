@@ -122,7 +122,6 @@ function Index() {
         </div>
         <button className="bundle-catch" onClick={() => scrollToShop()}>
           <span>THE BUNDLE CATCH</span>3 CHOSEN $89 · 6 CHOSEN $169
-          <small>+ SURPRISE 4TH BAR WITH THE 3-PACK</small>
         </button>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-24 lg:px-10 lg:pb-20">
           <div className="max-w-2xl animate-rise">
@@ -289,8 +288,8 @@ function Index() {
               <em>Save the haul.</em>
             </h2>
             <p className="max-w-md text-sm font-semibold leading-6">
-              Pick any 3 bars for $89 and we add a surprise 4th bar. Pick any 6 for $169. Buying a
-              single bar on repeat? Monthly subscriptions save 15%.
+              Pick any 3 bars for $89 or any 6 for $169. Buying a single bar on repeat? Monthly
+              subscriptions save 15%.
             </p>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -311,7 +310,7 @@ function Index() {
                 key={bundle.name}
                 className="paper-card flex flex-col bg-paper p-6 text-foreground"
               >
-                <p className="memo text-primary">3 chosen bars + surprise 4th</p>
+                <p className="memo text-primary">3 chosen bars · $89</p>
                 <h3 className="mt-3 font-display text-3xl font-semibold">{bundle.name}</h3>
                 <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">
                   {bundle.copy}
@@ -331,7 +330,7 @@ function Index() {
           </div>
           <p className="memo mt-8 text-center">
             Build your own: add any 3 or 6 soap bars and the discount lands in your bag
-            automatically · 3-bar orders get a surprise 4th · Free shipping $75+
+            automatically · Free shipping $75+
           </p>
         </div>
       </section>
@@ -574,7 +573,7 @@ function Index() {
                 Air 84°F, water 79°F.
               </p>
               <div className="mt-4 flex flex-col gap-2.5 text-sm text-background/75">
-                <a href="mailto:support@lockhabit.com">support@lockhabit.com</a>
+                <a href="mailto:oralrobinson21@outlook.com">oralrobinson21@outlook.com</a>
                 <Link to="/privacy">Privacy policy</Link>
                 <Link to="/terms">Terms of service</Link>
               </div>
