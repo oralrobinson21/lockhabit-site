@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Grid2X2, Menu, Sun, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 import { useCart } from "@/lib/cart";
@@ -45,7 +45,7 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", updatePinned);
   }, []);
 
-  const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
     setMenuOpen(false);
     if (window.location.pathname === "/") {
       event.preventDefault();
