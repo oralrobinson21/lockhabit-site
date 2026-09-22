@@ -285,6 +285,8 @@ export const products: Product[] = [
     tagline: "A little vacation in every shower.",
     description:
       "A creamy coconut-scented soap with a warm tropical finish and a rich everyday lather.",
+    productStory:
+      "Coconut Beach Soap is a 4 oz coconut-scented bar made with saponified organic extra virgin olive oil, organic palm oil, organic coconut oil, and organic shea butter. The plant-oil soap base creates a creamy everyday lather, while coconut fragrance gives the bar its warm, tropical finish. Made in the USA, it is an easy choice when you want a coconut soap bar that turns an ordinary shower into a simple beach-inspired ritual.",
     highlights: ["Warm coconut scent", "Creamy lather", "4 oz bar"],
     attributes: coconutFeaturedAttributes,
     allAttributes: coconutSupplierAttributes,
