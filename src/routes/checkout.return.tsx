@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { SiteHeader } from "@/components/site-header";
 import { getCheckoutStatus } from "@/lib/payments.functions";
 
 export const Route = createFileRoute("/checkout/return")({
@@ -49,8 +50,10 @@ function CheckoutReturn() {
   }, [sessionId]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background px-5 py-16 text-foreground">
-      <div className="w-full max-w-xl border-2 border-foreground bg-card p-8 text-center shadow-xl sm:p-12">
+    <main className="min-h-screen bg-background text-foreground">
+      <SiteHeader />
+      <section className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-5 py-16">
+        <div className="w-full max-w-xl border-2 border-foreground bg-card p-8 text-center shadow-xl sm:p-12">
         {status === "checking" ? (
           <LoaderCircle className="mx-auto animate-spin text-primary" size={42} />
         ) : (
@@ -121,10 +124,11 @@ function CheckoutReturn() {
           </div>
         )}
 
-        <Link to="/" className="primary-button mt-8 inline-flex">
-          Return to the soap shop
-        </Link>
-      </div>
+          <Link to="/" className="primary-button mt-8 inline-flex">
+            Return to the soap shop
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }
