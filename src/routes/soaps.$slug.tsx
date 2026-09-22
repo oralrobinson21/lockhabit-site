@@ -12,6 +12,7 @@ import {
   FlaskConical,
   Leaf,
   MilkOff,
+  Minus,
   PackageX,
   Plus,
   Rabbit,
