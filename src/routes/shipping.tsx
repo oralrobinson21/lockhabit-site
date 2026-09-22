@@ -38,10 +38,11 @@ function Shipping() {
           title: "Processing & tracking",
           body: (
             <p>
-              We send an order confirmation after successful payment. Tracking is emailed when it
-              becomes available from the fulfillment or shipping carrier. Processing and delivery
-              times vary by destination and carrier, so we do not promise a beach-chair-level exact
-              arrival time.
+              We send an order confirmation after successful payment. For typical U.S. orders,
+              fulfillment usually takes 2–5 business days before shipment, followed by about 2–4
+              business days in transit with standard domestic shipping. Tracking is emailed when it
+              becomes available. These are estimates rather than guaranteed arrival dates; carrier,
+              inventory, label-review, holiday, and destination delays can extend the timeline.
             </p>
           ),
         },
