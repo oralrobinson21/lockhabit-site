@@ -15,7 +15,6 @@ export function CartDrawer() {
     cartSavings,
     qualifiesForFreeShipping,
     canSubscribe,
-    hasLaunchGift,
     subscribe,
     setSubscribe,
     setCartOpen,
@@ -122,11 +121,6 @@ export function CartDrawer() {
                 <span>Bundle savings</span>
                 <span>−${cartSavings.toFixed(2)}</span>
               </div>
-            )}
-            {hasLaunchGift && (
-              <p className="mb-3 border-2 border-foreground bg-sun px-3 py-2 text-center text-xs font-extrabold uppercase">
-                Launch catch: one surprise bar included free
-              </p>
             )}
             <div className="mb-4 flex justify-between font-bold">
               <span>Subtotal</span>
