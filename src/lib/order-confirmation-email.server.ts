@@ -147,7 +147,14 @@ export function renderOrderConfirmation(order: OrderConfirmation) {
       ([label, value, nowrap], index) => `
         <tr>
           <td ${cell(`padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;white-space:nowrap;`)}>${label}</td>
-          <td ${cellRight(`padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;${nowrap ? "white-space:nowrap;" : ""}`).replace('class="t-brown cell"', nowrap ? 'class="t-brown cell"' : 'class="t-brown cell code"')}>${value}</td>
+          <td ${cellRight(
+            `padding-top:${index === 0 ? 14 : 3}px;padding-bottom:3px;${nowrap ? "white-space:nowrap;" : ""}`,
+          )
+            .replace(
+              'class="t-brown cell"',
+              nowrap ? 'class="t-brown cell"' : 'class="t-brown cell code"',
+            )
+            .replace("font-size:15px", nowrap ? "font-size:15px" : "font-size:14px")}>${value}</td>
         </tr>`,
     )
     .join("");
@@ -184,6 +191,8 @@ u + #body a{color:inherit;text-decoration:none}
   .stat-last{border-bottom:0!important}
   .cell{padding-left:12px!important;padding-right:12px!important;font-size:14px!important}
   .code{font-size:13px!important}
+  .th-item{width:60%!important}
+  .th-price{width:40%!important}
   .total-label{font-size:19px!important}
   .total-value{font-size:26px!important}
   .stamp-cell{display:none!important}
@@ -289,8 +298,8 @@ u + #body a{color:inherit;text-decoration:none}
           <td class="bg-cream inner-pad" bgcolor="${C.cream}" style="padding:16px 22px 10px;${bg(C.cream)}">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-table" bgcolor="${C.tableBg}" style="width:100%;table-layout:fixed;${bg(C.tableBg)}border:1px solid #e6d7bb;border-radius:14px;">
               <tr>
-                <td class="bg-thead t-brown" bgcolor="${C.tableHead}" width="60%" style="padding:13px 20px;${bg(C.tableHead)}border-radius:13px 0 0 0;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">ITEM</td>
-                <td class="bg-thead t-brown" bgcolor="${C.tableHead}" width="40%" align="right" style="padding:13px 20px;${bg(C.tableHead)}border-radius:0 13px 0 0;text-align:right;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">PRICE</td>
+                <td class="bg-thead t-brown th-item" bgcolor="${C.tableHead}" width="55%" style="width:55%;padding:13px 20px;${bg(C.tableHead)}border-radius:13px 0 0 0;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">ITEM</td>
+                <td class="bg-thead t-brown th-price" bgcolor="${C.tableHead}" width="45%" align="right" style="width:45%;padding:13px 20px;${bg(C.tableHead)}border-radius:0 13px 0 0;text-align:right;${sans}font-size:12px;line-height:16px;font-weight:700;letter-spacing:2px;${ink(C.ink)}">PRICE</td>
               </tr>
               ${itemRows}
               <tr><td colspan="2" style="padding:10px 20px 0;"><div style="height:1px;line-height:1px;font-size:1px;${bg(C.rule)}">&nbsp;</div></td></tr>
