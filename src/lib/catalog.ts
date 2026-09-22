@@ -132,10 +132,10 @@ export const products: Product[] = [
       "Organic shea butter",
       "Fragrance",
     ],
-    productType: "Botanical Bar Soap",
+    productType: "Bar Soap",
     netWeight: "4 oz (113 g)",
     suggestedUse:
-      "Add warm water for a thick lather. Keep the bar dry between uses to help it last longer.",
+      "Lather with warm water, wash, and rinse thoroughly. Keep the bar dry between uses to help it last longer.",
     warning:
       "In case of accidental contact with eyes, rinse thoroughly with clean water. If irritation occurs, discontinue use.",
     scene: { from: "#8ed7dd", to: "#f6d36b", motes: "#fffaf0" },
