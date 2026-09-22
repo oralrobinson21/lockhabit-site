@@ -10,24 +10,32 @@ import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 import { products } from "@/lib/catalog";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "LOCKHABIT SOAP CO. | Permanent Vacation for Your Skin" },
-      {
-        name: "description",
-        content:
-          "LOCKHABIT Soap Co. — sun-soaked soap and body care, one concierge desk, and zero plans to go back to boring showers.",
-      },
-      { property: "og:title", content: "LOCKHABIT SOAP CO. | Permanent Vacation for Your Skin" },
-      {
-        property: "og:description",
-        content:
-          "Tropical soap and body care from the sunniest front desk in the business. Now open, always warm.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => {
+    const title = "Bar Soap & Body Care | LOCKHABIT Soap Co.";
+    const description =
+      "Shop LOCKHABIT bar soap and body care: tropical scents, botanical oils, shea butter, build-your-own soap bundles, and monthly delivery.";
+    const canonical = "https://lockhabit.com/";
+    const image = new URL(heroImage, canonical).href;
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: canonical },
+        { property: "og:site_name", content: "LOCKHABIT" },
+        { property: "og:image", content: image },
+        { property: "og:image:alt", content: "LOCKHABIT botanical bar soap by the ocean" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: image },
+      ],
+      links: [{ rel: "canonical", href: canonical }],
+    };
+  },
   component: Index,
 });
 
