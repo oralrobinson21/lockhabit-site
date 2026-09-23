@@ -84,8 +84,9 @@ function CheckoutReturn() {
       if ("confirmationSent" in result) setConfirmationSent(Boolean(result.confirmationSent));
       if (result.paid) {
         clearCart();
-        // Paid Stripe test checkouts must never be attributed as live ad purchases.
-        if (!("livemode" in result && result.livemode)) return;
+        // Only genuine paid storefront checkouts may train advertising conversions.
+        // Stripe test-mode and manual live-mode test charges are intentionally excluded.
+        if (!("marketingEligible" in result && result.marketingEligible)) return;
         trackGa4PurchaseOnce(
           sessionId,
           buildGa4PurchasePayload({
