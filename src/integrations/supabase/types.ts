@@ -102,6 +102,11 @@ export type Database = {
           customer_email: string | null
           customer_name: string | null
           fulfillment_status: string
+          tracking_carrier: string | null
+          tracking_number: string | null
+          tracking_url: string | null
+          shipped_at: string | null
+          tracking_notified_at: string | null
           id: string
           items: Json
           order_number: number
@@ -123,6 +128,11 @@ export type Database = {
           customer_email?: string | null
           customer_name?: string | null
           fulfillment_status?: string
+          tracking_carrier?: string | null
+          tracking_number?: string | null
+          tracking_url?: string | null
+          shipped_at?: string | null
+          tracking_notified_at?: string | null
           id?: string
           items?: Json
           order_number?: number
@@ -144,6 +154,11 @@ export type Database = {
           customer_email?: string | null
           customer_name?: string | null
           fulfillment_status?: string
+          tracking_carrier?: string | null
+          tracking_number?: string | null
+          tracking_url?: string | null
+          shipped_at?: string | null
+          tracking_notified_at?: string | null
           id?: string
           items?: Json
           order_number?: number
