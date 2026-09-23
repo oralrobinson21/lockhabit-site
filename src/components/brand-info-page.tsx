@@ -54,16 +54,18 @@ export function BrandInfoPage({
           <Link to="/" className="primary-button justify-center">
             <ArrowLeft size={17} /> Back to the lobby
           </Link>
-          <a href="mailto:oralrobinson21@outlook.com" className="secondary-button justify-center">
-            Email the front desk <ArrowRight size={17} />
-          </a>
+          <Link to="/contact" className="secondary-button justify-center">
+            Contact the front desk <ArrowRight size={17} />
+          </Link>
         </div>
       </section>
 
       <footer className="border-t-2 border-foreground bg-foreground px-5 py-8 text-background lg:px-10">
         <div className="mx-auto flex max-w-5xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="memo text-background/60">© 2026 LOCKHABIT Soap Co.</p>
-          <p className="memo text-background/60">Questions? oralrobinson21@outlook.com</p>
+          <Link to="/contact" className="memo text-background/60 underline underline-offset-4">
+            Questions? Visit the front desk.
+          </Link>
         </div>
       </footer>
     </main>
