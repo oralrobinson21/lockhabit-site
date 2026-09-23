@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { getCheckoutStatus } from "@/lib/payments.functions";
 import { trackMetaEventOnce } from "@/lib/meta-analytics";
+import { buildGa4PurchasePayload, trackGa4PurchaseOnce } from "@/lib/ga4-purchase";
 import { useCart } from "@/lib/cart";
 
 const googleAdsPurchaseSendTo = "AW-18469044137/OFR-CNHI8IEdEKn_30ZE";
@@ -83,6 +84,19 @@ function CheckoutReturn() {
       if ("confirmationSent" in result) setConfirmationSent(Boolean(result.confirmationSent));
       if (result.paid) {
         clearCart();
+        // Paid Stripe test checkouts must never be attributed as live ad purchases.
+        if (!("livemode" in result && result.livemode)) return;
+        trackGa4PurchaseOnce(
+          sessionId,
+          buildGa4PurchasePayload({
+            transactionId: result.paymentIntentId ?? sessionId,
+            totalCents: result.total ?? 0,
+            shippingCents: result.shippingTotal ?? 0,
+            taxCents: result.taxTotal ?? 0,
+            currency: result.currency ?? "usd",
+            items: result.items ?? [],
+          }),
+        );
         trackMetaEventOnce(`purchase:${sessionId}`, "Purchase", {
           value: "total" in result ? (result.total ?? 0) / 100 : 0,
           currency: ("currency" in result ? result.currency : "usd").toUpperCase(),
