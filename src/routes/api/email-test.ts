@@ -16,7 +16,6 @@ import {
  * - rate-limited per process so a leaked token cannot be used to flood the inbox
  * - payload is obviously synthetic (receipt LH-999999)
  */
-const FALLBACK_TOKEN = "tropical-receipt-proof-7c1e9b";
 const FALLBACK_RECIPIENT = "oralrobinson21@outlook.com";
 const MAX_SENDS_PER_HOUR = 6;
 
@@ -63,7 +62,7 @@ export const Route = createFileRoute("/api/email-test")({
     handlers: {
       GET: async ({ request }) => {
         const url = new URL(request.url);
-        const expectedToken = process.env["LOCKHABIT_EMAIL_TEST_TOKEN"] ?? FALLBACK_TOKEN;
+        const expectedToken = process.env["LOCKHABIT_EMAIL_TEST_TOKEN"];
         if (!expectedToken || url.searchParams.get("token") !== expectedToken) {
           return new Response("Not found", { status: 404 });
         }
