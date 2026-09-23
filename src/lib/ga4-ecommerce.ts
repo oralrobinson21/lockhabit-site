@@ -92,6 +92,23 @@ export function buildGa4CheckoutPayload(lines: Ga4CheckoutLine[]) {
   };
 }
 
+/**
+ * Price only the units actually added, using the cart's new bundle tier.
+ * GA4 item price is the discounted unit price; the event value is their sum.
+ */
+export function buildGa4AddedCartItems(
+  projectedCart: Ga4CheckoutLine[],
+  additions: Array<{ id: number; quantity: number }>,
+): Ga4EcommerceItem[] {
+  const itemPrices = new Map(
+    buildGa4CheckoutPayload(projectedCart).items.map((item) => [item.item_id, item]),
+  );
+  return additions.flatMap(({ id, quantity }) => {
+    const item = itemPrices.get(String(id));
+    return item && quantity > 0 ? [{ ...item, quantity: Math.floor(quantity) }] : [];
+  });
+}
+
 /** Call only after Stripe has created a real Checkout Session. */
 export function trackBeginCheckout(lines: Ga4CheckoutLine[]) {
   if (!lines.length) return;
