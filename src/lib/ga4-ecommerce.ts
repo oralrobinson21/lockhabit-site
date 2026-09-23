@@ -23,7 +23,7 @@ export function ga4Item(
   return {
     item_id: String(id),
     item_name: name,
-    price: dollars(price),
+    // GA4 item price is the actual paid unit price, retaining sub-cent precision\n    // for 3/6-bar bundles (e.g. $89 / 3) so item totals match event value.\n    price: Number(Math.max(0, price).toFixed(4)),
     quantity: Math.max(1, Math.floor(quantity)),
   };
 }
@@ -77,12 +77,16 @@ export function buildGa4CheckoutPayload(lines: Ga4CheckoutLine[]) {
     value: dollars(subtotal),
     items: lines
       .filter((line) => line.quantity > 0)
-      .map((line) => ({
-        ...ga4Item(line.id, line.name, line.price, line.quantity),
-        ...(line.kind === "Soap bar" && discountPerSoap > 0
-          ? { discount: discountPerSoap }
-          : {}),
-      })),
+      .map((line) => {
+        const isDiscountedSoap = line.kind === "Soap bar" && discountPerSoap > 0;
+        // Google does NOT deduct item.discount from item.price; report the
+        // discounted price itself and the unit discount separately.
+        const unitPrice = isDiscountedSoap ? line.price - discountPerSoap : line.price;
+        return {
+          ...ga4Item(line.id, line.name, unitPrice, line.quantity),
+          ...(isDiscountedSoap ? { discount: discountPerSoap } : {}),
+        };
+      }),
   };
 }
 
