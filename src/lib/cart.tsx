@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { products } from "@/lib/catalog";
 import { getCartPricing } from "@/lib/pricing";
@@ -26,13 +26,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cartOpen, setCartOpen] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
 
+  const currentPricing = useMemo(
+    () =>
+      getCartPricing(
+        products
+          .filter((product) => (cart[product.id] ?? 0) > 0)
+          .map((product) => ({ ...product, quantity: cart[product.id] ?? 0 })),
+      ),
+    [cart],
+  );
+
+  useEffect(() => {
+    if (subscribe && !currentPricing.canSubscribe) setSubscribe(false);
+  }, [currentPricing.canSubscribe, subscribe]);
+
   const value = useMemo<CartContextValue>(() => {
     const cartCount = Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
-    const pricing = getCartPricing(
-      products
-        .filter((product) => (cart[product.id] ?? 0) > 0)
-        .map((product) => ({ ...product, quantity: cart[product.id] ?? 0 })),
-    );
+    const pricing = currentPricing;
 
     return {
       cart,
@@ -53,6 +63,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setCartOpen(true);
       },
       addBundle: (ids: number[]) => {
+        setSubscribe(false);
         setCart((current) =>
           ids.reduce((next, id) => ({ ...next, [id]: (next[id] ?? 0) + 1 }), current),
         );
@@ -67,7 +78,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         });
       },
     };
-  }, [cart, cartOpen, subscribe]);
+  }, [cart, cartOpen, subscribe, currentPricing]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
