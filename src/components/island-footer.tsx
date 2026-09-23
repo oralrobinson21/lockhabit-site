@@ -68,7 +68,7 @@ export function IslandFooter() {
             <Link to="/about">About us</Link><Link to="/contact">Contact the front desk</Link><Link to="/shipping">Shipping</Link><Link to="/returns">Returns & refunds</Link>
           </div></div>
           <div><p className="island-footer-heading">Hours</p><p className="island-footer-hours">Open always.<br />Closed never.<br />Air 84°F, water 79°F.</p>
-            <div className="island-footer-list island-footer-legal"><a href="mailto:oralrobinson21@outlook.com">oralrobinson21@outlook.com</a><Link to="/privacy">Privacy policy</Link><Link to="/terms">Terms of service</Link></div>
+            <div className="island-footer-list island-footer-legal"><Link to="/contact">Contact the front desk</Link><Link to="/privacy">Privacy policy</Link><Link to="/terms">Terms of service</Link></div>
           </div>
         </div>
         <div className="island-footer-bottom"><p className="memo">LOCKHABIT SOAP CO. · EST. IN THE SUN</p><p className="island-footer-script-small">More good days ahead. ♡</p></div>
