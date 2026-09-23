@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { createCartCheckout } from "@/lib/payments.functions";
+import { trackMetaEventOnce } from "@/lib/meta-analytics";
 
 export function StripeCartCheckout({
   items,
@@ -16,6 +17,16 @@ export function StripeCartCheckout({
 
     void (async () => {
       try {
+        const checkoutKey = `${subscribe ? "sub" : "once"}:${items
+          .map((item) => `${item.productId}x${item.quantity}`)
+          .join(",")}`;
+        trackMetaEventOnce(checkoutKey, "InitiateCheckout", {
+          content_ids: items.map((item) => String(item.productId)),
+          content_type: "product",
+          num_items: items.reduce((sum, item) => sum + item.quantity, 0),
+          currency: "USD",
+        });
+
         const result = await createCartCheckout({
           data: {
             items,
