@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { getCheckoutStatus } from "@/lib/payments.functions";
 import { trackMetaEventOnce } from "@/lib/meta-analytics";
+import { useCart } from "@/lib/cart";
 
 const googleAdsPurchaseSendTo = "AW-18469044137/OFR-CNHI8IEdEKn_30ZE";
 
@@ -56,6 +57,7 @@ export const Route = createFileRoute("/checkout/return")({
 
 function CheckoutReturn() {
   const { session_id: sessionId } = Route.useSearch();
+  const { clearCart } = useCart();
   const [status, setStatus] = useState<"checking" | "paid" | "unpaid">("checking");
   const [email, setEmail] = useState<string | null>(null);
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
@@ -80,6 +82,7 @@ function CheckoutReturn() {
       if ("currency" in result) setCurrency(result.currency ?? "usd");
       if ("confirmationSent" in result) setConfirmationSent(Boolean(result.confirmationSent));
       if (result.paid) {
+        clearCart();
         trackMetaEventOnce(`purchase:${sessionId}`, "Purchase", {
           value: "total" in result ? (result.total ?? 0) / 100 : 0,
           currency: ("currency" in result ? result.currency : "usd").toUpperCase(),
@@ -99,7 +102,7 @@ function CheckoutReturn() {
         );
       }
     });
-  }, [sessionId]);
+  }, [sessionId, clearCart]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
