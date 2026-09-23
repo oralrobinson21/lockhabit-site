@@ -648,7 +648,7 @@ function Index() {
                 Air 84°F, water 79°F.
               </p>
               <div className="island-footer-list island-footer-legal">
-                <a href="mailto:oralrobinson21@outlook.com">oralrobinson21@outlook.com</a>
+                <Link to="/contact">Contact the front desk</Link>
                 <Link to="/privacy">Privacy policy</Link>
                 <Link to="/terms">Terms of service</Link>
               </div>
