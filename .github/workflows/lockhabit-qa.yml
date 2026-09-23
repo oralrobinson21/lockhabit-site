@@ -27,5 +27,7 @@ jobs:
       - name: Semantic lint (existing repository formatting is handled separately)
         run: |
           npx eslint . --rule "prettier/prettier: off"
+      - name: Build and regenerate typed product/FAQ routes
+        run: npm run build
       - name: Typecheck
         run: npx tsc --noEmit
