@@ -213,7 +213,7 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
         expand: ["line_items.data.price.product"],
       });
       const paid = session.payment_status === "paid";
-      const selectedIds = parseSelectedProductIds(session.metadata?.selected_product_ids);
+      const selectedIds = parseSelectedProductIds(session.metadata?.["selected_product_ids"]);
       const lineItems = session.line_items?.data ?? [];
       const lineItemsTotal = lineItems.reduce((sum, item) => sum + (item.amount_total ?? 0), 0);
       let items: SelectedOrderItem[] = selectedIds.length
