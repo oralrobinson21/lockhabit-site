@@ -20,12 +20,6 @@ export function StripeCartCheckout({
         const checkoutKey = `once:${items
           .map((item) => `${item.productId}x${item.quantity}`)
           .join(",")}`;
-        trackMetaEventOnce(checkoutKey, "InitiateCheckout", {
-          content_ids: items.map((item) => String(item.productId)),
-          content_type: "product",
-          num_items: items.reduce((sum, item) => sum + item.quantity, 0),
-          currency: "USD",
-        });
 
         const result = await createCartCheckout({
           data: {
@@ -42,6 +36,12 @@ export function StripeCartCheckout({
             return product ? [{ ...product, quantity }] : [];
           });
           trackBeginCheckout(checkoutLines);
+          trackMetaEventOnce(checkoutKey, "InitiateCheckout", {
+            content_ids: items.map((item) => String(item.productId)),
+            content_type: "product",
+            num_items: items.reduce((sum, item) => sum + item.quantity, 0),
+            currency: "USD",
+          });
           window.location.assign(result.url);
         }
       } catch (checkoutError) {
