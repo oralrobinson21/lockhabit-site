@@ -31,7 +31,7 @@ export type PaymentReference = {
 
 type LoginEmail = {
   to: string;
-  link: string;
+  code: string;
   idempotencyKey: string;
 };
 
@@ -49,7 +49,7 @@ export type OrderAdminDependencies<TOrder> = {
   now: () => Date;
   getUser: (accessToken: string) => Promise<OrderAdminIdentity | null>;
   claimLogin: (email: string) => Promise<boolean>;
-  createMagicLinkHash: (email: string) => Promise<string>;
+  createEmailOtp: (email: string) => Promise<string>;
   sendLoginEmail: (message: LoginEmail) => Promise<void>;
   listOrders: () => Promise<TOrder[]>;
   findTrackingOrder: (orderId: string) => Promise<TrackingOrder | null>;
@@ -81,9 +81,10 @@ function normalizedAdminEmail(value: string | undefined): string {
   return address;
 }
 
-function ownerSignInLink(tokenHash: string): string {
-  if (!tokenHash || tokenHash.length > 5000) throw new Error("Sign-in link could not be created.");
-  return `https://lockhabit.com/admin/orders#token_hash=${encodeURIComponent(tokenHash)}`;
+function ownerSignInCode(value: string): string {
+  const code = value.trim();
+  if (!/^\d{6}$/.test(code)) throw new Error("Sign-in code could not be created.");
+  return code;
 }
 
 export function createOrderAdminService<TOrder>(dependencies: OrderAdminDependencies<TOrder>) {
@@ -101,16 +102,16 @@ export function createOrderAdminService<TOrder>(dependencies: OrderAdminDependen
     return user;
   }
 
-  async function emailOrderAdminLink(email: string): Promise<void> {
+  async function emailOrderAdminCode(email: string): Promise<void> {
     const ownerEmail = expectedAdminEmail();
     if (email.trim().toLowerCase() !== ownerEmail) return;
     if (!(await dependencies.claimLogin(ownerEmail))) return;
 
-    const tokenHash = await dependencies.createMagicLinkHash(ownerEmail);
+    const code = ownerSignInCode(await dependencies.createEmailOtp(ownerEmail));
     const bucket = Math.floor(dependencies.now().getTime() / 90_000) * 90_000;
     await dependencies.sendLoginEmail({
       to: ownerEmail,
-      link: ownerSignInLink(tokenHash),
+      code,
       idempotencyKey: `lockhabit-admin-login-${bucket}`,
     });
   }
@@ -202,7 +203,7 @@ export function createOrderAdminService<TOrder>(dependencies: OrderAdminDependen
 
   return {
     requireOrderAdmin,
-    emailOrderAdminLink,
+    emailOrderAdminCode,
     readAdminOrders,
     saveAdminTracking,
     readAdminRefunds,

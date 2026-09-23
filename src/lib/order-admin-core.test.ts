@@ -12,7 +12,7 @@ type OrderView = { id: string };
 function testDependencies(overrides: Partial<OrderAdminDependencies<OrderView>> = {}) {
   const calls = {
     claims: [] as string[],
-    loginEmails: [] as Array<{ to: string; link: string; idempotencyKey: string }>,
+    loginEmails: [] as Array<{ to: string; code: string; idempotencyKey: string }>,
     persistedTracking: [] as Array<{
       orderId: string;
       carrier: "USPS" | "UPS" | "FedEx" | "DHL";
@@ -60,7 +60,7 @@ function testDependencies(overrides: Partial<OrderAdminDependencies<OrderView>> 
       calls.claims.push(email);
       return true;
     },
-    createMagicLinkHash: async () => "hash/value?one-time",
+    createEmailOtp: async () => "482731",
     sendLoginEmail: async (message) => {
       calls.loginEmails.push(message);
     },
@@ -126,27 +126,29 @@ test("owner authorization requires the exact confirmed configured email", async 
 
 test("sign-in requests do not reveal or email non-owner addresses", async () => {
   const { service, calls } = testDependencies();
-  await service.emailOrderAdminLink("not-the-owner@example.com");
+  await service.emailOrderAdminCode("not-the-owner@example.com");
   assert.deepEqual(calls.claims, []);
   assert.deepEqual(calls.loginEmails, []);
 });
 
-test("owner sign-in uses a throttled one-time token in the URL fragment", async () => {
+test("owner sign-in uses a throttled six-digit email code", async () => {
   const { service, calls } = testDependencies();
-  await service.emailOrderAdminLink(" OWNER@example.com ");
+  await service.emailOrderAdminCode(" OWNER@example.com ");
   assert.deepEqual(calls.claims, ["owner@example.com"]);
   assert.equal(calls.loginEmails.length, 1);
   assert.equal(calls.loginEmails[0]?.to, "owner@example.com");
-  assert.equal(
-    calls.loginEmails[0]?.link,
-    "https://lockhabit.com/admin/orders#token_hash=hash%2Fvalue%3Fone-time",
-  );
-  assert.ok(!calls.loginEmails[0]?.link.includes("?token_hash="));
+  assert.equal(calls.loginEmails[0]?.code, "482731");
   assert.match(calls.loginEmails[0]?.idempotencyKey ?? "", /^lockhabit-admin-login-\d+$/);
 
   const throttled = testDependencies({ claimLogin: async () => false });
-  await throttled.service.emailOrderAdminLink("owner@example.com");
+  await throttled.service.emailOrderAdminCode("owner@example.com");
   assert.equal(throttled.calls.loginEmails.length, 0);
+});
+
+test("owner sign-in rejects an invalid generated code before sending email", async () => {
+  const { service, calls } = testDependencies({ createEmailOtp: async () => "not-a-code" });
+  await assert.rejects(service.emailOrderAdminCode("owner@example.com"), /could not be created/);
+  assert.equal(calls.loginEmails.length, 0);
 });
 
 test("tracking is persisted, sent once, and marked against the same carrier and number", async () => {

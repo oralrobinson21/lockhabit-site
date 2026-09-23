@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   listOwnerOrders,
   listOwnerRefunds,
-  requestOrderAdminLink,
+  requestOrderAdminCode,
   saveOwnerTracking,
 } from "@/lib/order-admin.functions";
 import { SiteHeader } from "@/components/site-header";
@@ -58,6 +58,8 @@ function orderItems(value: unknown): Array<{ name: string; quantity: number }> {
 
 function OrderAdminPage() {
   const [email, setEmail] = useState("");
+  const [otpEmail, setOtpEmail] = useState<string | null>(null);
+  const [code, setCode] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [authStatus, setAuthStatus] = useState("Checking your sign-in…");
   const [orders, setOrders] = useState<OrderRow[]>([]);
@@ -73,7 +75,7 @@ function OrderAdminPage() {
       const hash = new URLSearchParams(url.hash.replace(/^#/, "")).get("token_hash");
       if (hash) {
         window.history.replaceState(null, "", url.pathname + url.search);
-        const { error } = await supabase.auth.verifyOtp({ token_hash: hash, type: "magiclink" });
+        const { error } = await supabase.auth.verifyOtp({ token_hash: hash, type: "email" });
         if (error && active)
           setAuthStatus(
             "This sign-in link has expired or was already used. Request another below.",
@@ -121,19 +123,51 @@ function OrderAdminPage() {
     };
   }, [accessToken]);
 
-  async function login(event: FormEvent<HTMLFormElement>) {
+  async function requestCode(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setBusy("login");
+    setBusy("request-code");
     setNotice("");
     try {
-      const response = await requestOrderAdminLink({ data: { email } });
-      setNotice(
-        response.ok
-          ? "If that address is the owner inbox, a one-time sign-in link is on its way."
-          : response.error,
-      );
+      const response = await requestOrderAdminCode({ data: { email } });
+      if (response.ok) {
+        setOtpEmail(email.trim().toLowerCase());
+        setCode("");
+        setNotice("If that address is the owner inbox, a six-digit code is on its way.");
+      } else {
+        setNotice(response.error);
+      }
     } catch {
-      setNotice("Sign-in email could not be requested.");
+      setNotice("Sign-in code could not be requested.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function verifyCode(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!otpEmail) return;
+    const token = code.replace(/\s+/g, "");
+    if (!/^\d{6}$/.test(token)) {
+      setNotice("Enter the six-digit code from your email.");
+      return;
+    }
+
+    setBusy("verify-code");
+    setNotice("");
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email: otpEmail,
+        token,
+        type: "email",
+      });
+      if (error || !data.session) {
+        setNotice("That code is incorrect or expired. Request a new code and try again.");
+        return;
+      }
+      setAccessToken(data.session.access_token);
+      setAuthStatus("");
+    } catch {
+      setNotice("The code could not be verified. Try again.");
     } finally {
       setBusy(null);
     }
@@ -198,23 +232,67 @@ function OrderAdminPage() {
         </p>
 
         {!accessToken ? (
-          <form onSubmit={login} className="paper-card mt-10 grid max-w-xl gap-4 p-5 sm:p-8">
-            <p className="text-sm text-muted-foreground">{authStatus}</p>
-            <label className="grid gap-2 text-sm font-semibold">
-              Owner email
-              <input
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your owner email"
-                className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3"
-              />
-            </label>
-            <button type="submit" disabled={busy === "login"} className="primary-button">
-              {busy === "login" ? "Sending sign-in link…" : "Email me a sign-in link"}
-            </button>
+          <div className="paper-card mt-10 grid max-w-xl gap-4 p-5 sm:p-8">
+            {!otpEmail ? (
+              <form onSubmit={requestCode} className="grid gap-4">
+                <p className="text-sm text-muted-foreground">{authStatus}</p>
+                <label className="grid gap-2 text-sm font-semibold">
+                  Owner email
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Your owner email"
+                    className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3"
+                  />
+                </label>
+                <button type="submit" disabled={busy === "request-code"} className="primary-button">
+                  {busy === "request-code" ? "Sending code…" : "Email me a code"}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={verifyCode} className="grid gap-4">
+                <div>
+                  <p className="font-display text-xl font-semibold">Enter your sign-in code</p>
+                  <p className="mt-2 break-all text-sm text-muted-foreground">
+                    Enter the six-digit code sent to {otpEmail}.
+                  </p>
+                </div>
+                <label className="grid gap-2 text-sm font-semibold">
+                  Six-digit code
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    required
+                    minLength={6}
+                    maxLength={6}
+                    pattern="[0-9]{6}"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                    placeholder="000000"
+                    className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3 text-center font-mono text-2xl tracking-[0.45em]"
+                  />
+                </label>
+                <button type="submit" disabled={busy === "verify-code"} className="primary-button">
+                  {busy === "verify-code" ? "Verifying code…" : "Verify code & open orders"}
+                </button>
+                <button
+                  type="button"
+                  className="text-left text-sm font-bold underline underline-offset-4"
+                  onClick={() => {
+                    setOtpEmail(null);
+                    setCode("");
+                    setNotice("");
+                    setAuthStatus("Sign in to manage your orders.");
+                  }}
+                >
+                  Use a different email or request a new code
+                </button>
+              </form>
+            )}
             {notice ? (
               <p role="status" className="text-sm">
                 {notice}
@@ -224,7 +302,7 @@ function OrderAdminPage() {
               Access is restricted to the configured owner inbox. Order data is never publicly
               listed.
             </p>
-          </form>
+          </div>
         ) : (
           <div className="mt-8">
             <div className="flex flex-wrap items-center justify-between gap-4">
