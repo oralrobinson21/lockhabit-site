@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
   head: () => {
     const title = "Bar Soap & Body Care | LOCKHABIT Soap Co.";
     const description =
-      "Shop LOCKHABIT bar soap and body care: tropical scents, botanical oils, shea butter, build-your-own soap bundles, and monthly delivery.";
+      "Shop LOCKHABIT bar soap and body care: tropical scents, botanical oils, shea butter, and build-your-own soap bundles.";
     const canonical = "https://lockhabit.com/";
     const image = new URL(heroImage, canonical).href;
 
@@ -230,9 +230,9 @@ function Index() {
               the soul
             </div>
             <div className="sticker pointer-events-auto mt-12 h-24 w-24 rotate-[8deg] bg-secondary text-secondary-foreground">
-              Sun
+              Sunny
               <br />
-              tested
+              days
             </div>
           </div>
           <a
@@ -353,7 +353,8 @@ function Index() {
       </section>
 
       <section
-        className="border-y-2 border-foreground bg-sun px-5 py-16 text-sun-foreground lg:px-10"
+        id="bundles"
+        className="scroll-mt-24 border-y-2 border-foreground bg-sun px-5 py-16 text-sun-foreground lg:px-10"
         aria-labelledby="bundle-heading"
       >
         <div className="mx-auto max-w-7xl">
@@ -365,8 +366,7 @@ function Index() {
               <em>Save the haul.</em>
             </h2>
             <p className="max-w-md text-sm font-semibold leading-6">
-              Pick any 3 bars for $89 or any 6 for $169. Buying a single bar on repeat? Monthly
-              subscriptions save 15%.
+              Pick any 3 bars for $89 or any 6 for $169. Bundle savings update automatically in your bag.
             </p>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -752,6 +752,7 @@ function Index() {
                 <Link to="/contact">Contact the front desk</Link>
                 <Link to="/shipping">Shipping</Link>
                 <Link to="/returns">Returns & refunds</Link>
+                <Link to="/faq">FAQ</Link>
               </div>
             </div>
             <div>
