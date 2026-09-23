@@ -36,7 +36,8 @@ export async function emailOrderAdminLink(email: string) {
   const from = process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
   const apiKey = process.env["RESEND_API_KEY"];
   if (!from || !apiKey) throw new Error("Sign-in email is not configured.");
-  const link = `https://lockhabit.com/admin/orders?token_hash=${encodeURIComponent(hash)}`;
+  // Use the URL fragment so the one-time token is not sent in HTTP requests or Referer headers.
+  const link = `https://lockhabit.com/admin/orders#token_hash=${encodeURIComponent(hash)}`;
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -112,7 +113,7 @@ export async function saveAdminTracking(
     headers: {
       Authorization: `Bearer ${process.env["RESEND_API_KEY"]}`,
       "Content-Type": "application/json",
-      "Idempotency-Key": `lockhabit-shipping-${orderId}-${number}`,
+      "Idempotency-Key": `lockhabit-shipping-${orderId}-${carrier}-${number}`,
     },
     body: JSON.stringify({
       from: process.env["LOCKHABIT_ORDER_FROM_EMAIL"],
