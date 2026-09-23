@@ -14,9 +14,6 @@ export function CartDrawer() {
     cartTotal,
     cartSavings,
     qualifiesForFreeShipping,
-    canSubscribe,
-    subscribe,
-    setSubscribe,
     setCartOpen,
     changeQuantity,
   } = useCart();
@@ -58,7 +55,7 @@ export function CartDrawer() {
         </div>
         <div className={`flex-1 overflow-y-auto ${checkingOut ? "p-2" : "p-5"}`}>
           {checkingOut ? (
-            <StripeCartCheckout items={checkoutItems} subscribe={subscribe && canSubscribe} />
+            <StripeCartCheckout items={checkoutItems} />
           ) : cartCount === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
               <ShoppingBag size={34} className="text-primary" />
@@ -126,22 +123,6 @@ export function CartDrawer() {
               <span>Subtotal</span>
               <span>${cartTotal.toFixed(2)}</span>
             </div>
-            {canSubscribe && (
-              <label className="mb-4 flex cursor-pointer items-center justify-between gap-3 border-y border-border py-3 text-sm font-bold">
-                <span>
-                  <span className="block">Subscribe monthly & save 15%</span>
-                  <span className="memo mt-1 block text-muted-foreground">
-                    Changes apply next shipment
-                  </span>
-                </span>
-                <input
-                  type="checkbox"
-                  checked={subscribe}
-                  onChange={(event) => setSubscribe(event.target.checked)}
-                  className="h-5 w-5 accent-primary"
-                />
-              </label>
-            )}
             <button
               className="primary-button w-full justify-center"
               onClick={() => setCheckingOut(true)}
