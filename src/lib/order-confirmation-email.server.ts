@@ -233,7 +233,7 @@ export async function renderOrderConfirmation(
     `bgcolor="${C[surface]}" background="${asset(TILES[surface])}"`;
   const bg = (surface: Surface) =>
     `background-color:${C[surface]};background-image:url('${asset(TILES[surface])}');background-repeat:repeat;`;
-  const supportEmail = process.env["LOCKHABIT_SUPPORT_EMAIL"] ?? "oralrobinson21@outlook.com";
+  const supportEmail = process.env["LOCKHABIT_SUPPORT_EMAIL"] ?? "support@lockhabit.com";
   const orderLabel = `LH-${String(order.orderNumber).padStart(6, "0")}`;
   const paidAt = formatPaidAt(order.paidAt);
   const paidAtLabel = paidAt?.label ?? null;
