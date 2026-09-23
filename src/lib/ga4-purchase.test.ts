@@ -44,7 +44,8 @@ test("GA4 purchase uses the discounted actual order value, not catalog list pric
 test("GA4 purchase is queued once per session and absent without gtag", () => {
   const calls: unknown[][] = [];
   const stored = new Map<string, string>();
-  const previous = (globalThis as typeof globalThis & { window?: unknown }).window;
+  const globalWithWindow = globalThis as unknown as { window?: unknown };
+  const previous = globalWithWindow.window;
   const mockWindow = {
     localStorage: {
       getItem: (key: string) => stored.get(key) ?? null,
@@ -52,7 +53,7 @@ test("GA4 purchase is queued once per session and absent without gtag", () => {
     },
     gtag: (...args: unknown[]) => calls.push(args),
   };
-  (globalThis as typeof globalThis & { window?: unknown }).window = mockWindow;
+  globalWithWindow.window = mockWindow;
   try {
     const payload = buildGa4PurchasePayload({
       transactionId: "pi_test",
@@ -71,6 +72,7 @@ test("GA4 purchase is queued once per session and absent without gtag", () => {
     trackGa4PurchaseOnce("cs_paid_2", payload);
     assert.equal(calls.length, 1);
   } finally {
-    (globalThis as typeof globalThis & { window?: unknown }).window = previous;
+    if (previous === undefined) delete globalWithWindow.window;
+    else globalWithWindow.window = previous;
   }
 });
