@@ -16,6 +16,7 @@ import { CartProvider } from "@/lib/cart";
 import { CartDrawer } from "@/components/cart-drawer";
 import { PaymentTestModeBanner } from "@/components/payment-test-mode-banner";
 import { Toaster } from "@/components/ui/sonner";
+import { trackMetaEvent } from "@/lib/meta-analytics";
 
 function NotFoundComponent() {
   return (
@@ -112,6 +113,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const metaPixelId = import.meta.env["VITE_META_PIXEL_ID"] as string | undefined;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
@@ -123,6 +126,13 @@ function RootShell({ children }: { children: ReactNode }) {
             __html: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-84PSP4TCE2', { send_page_view: false });`,
           }}
         />
+        {metaPixelId ? (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${metaPixelId}');`,
+            }}
+          />
+        ) : null}
       </head>
       <body>
         {children}
@@ -150,12 +160,24 @@ function GoogleAnalyticsPageView() {
   return null;
 }
 
+function MetaPageView() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!metaPixelId) return;
+    trackMetaEvent("PageView");
+  }, [location.href]);
+
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
       <GoogleAnalyticsPageView />
+      <MetaPageView />
       <CartProvider>
         <PaymentTestModeBanner />
         <Outlet />
