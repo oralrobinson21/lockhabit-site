@@ -26,6 +26,25 @@ type ShipInput = { carrier: Carrier; trackingNumber: string };
 const money = (value: number, currency: string) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: currency.toUpperCase() }).format(value / 100);
 const orderLabel = (value: number) => `LH-${String(value).padStart(6, "0")}`;
+function formatShippingAddress(value: unknown): string {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return "No shipping address was recorded.";
+  const address = value as Record<string, unknown>;
+  const text = (key: string) => typeof address[key] === "string" ? address[key] as string : "";
+  return [
+    text("line1"), text("line2"), [text("city"), text("state")].filter(Boolean).join(", "),
+    text("postal_code"), text("country"),
+  ].filter(Boolean).join(" · ") || "No shipping address was recorded.";
+}
+function orderItems(value: unknown): Array<{ name: string; quantity: number }> {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => {
+    if (!item || typeof item !== "object") return [];
+    const row = item as Record<string, unknown>;
+    return typeof row["name"] === "string" && typeof row["quantity"] === "number"
+      ? [{ name: row["name"], quantity: row["quantity"] }]
+      : [];
+  });
+}
 
 function OrderAdminPage() {
   const [email, setEmail] = useState("");
@@ -180,6 +199,18 @@ function OrderAdminPage() {
                       <div className="text-sm sm:text-right">
                         <p className="font-bold">{money(order.amount_total, order.currency)}</p>
                         <p className="mt-1">{order.payment_status} · {order.fulfillment_status}</p>
+                      </div>
+                    </div>
+                    <div className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
+                      <div className="min-w-0">
+                        <p className="memo mb-1">Ship to</p>
+                        <p className="break-words leading-6">{formatShippingAddress(order.shipping_details)}</p>
+                      </div>
+                      <div className="min-w-0">
+                        <p className="memo mb-1">Items</p>
+                        {orderItems(order.items).map((item, index) => (
+                          <p key={`${index}-${item.name}`} className="leading-6">{item.quantity} × {item.name}</p>
+                        ))}
                       </div>
                     </div>
                     {order.tracking_url ? (
