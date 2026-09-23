@@ -23,7 +23,9 @@ export function ga4Item(
   return {
     item_id: String(id),
     item_name: name,
-    // GA4 item price is the actual paid unit price, retaining sub-cent precision\n    // for 3/6-bar bundles (e.g. $89 / 3) so item totals match event value.\n    price: Number(Math.max(0, price).toFixed(4)),
+    // GA4 item price is the actual paid unit price, retaining sub-cent precision
+    // for 3/6-bar bundles (e.g. $89 / 3) so item totals match event value.
+    price: Number(Math.max(0, price).toFixed(4)),
     quantity: Math.max(1, Math.floor(quantity)),
   };
 }
