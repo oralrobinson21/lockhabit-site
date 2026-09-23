@@ -94,3 +94,32 @@ test("only paid live storefront sessions qualify as advertising conversions", ()
   assert.equal(isMarketingEligibleCheckout({ ...base, selectedProductIds: [] }), false);
   assert.equal(isMarketingEligibleCheckout({ ...base, amountTotalCents: 0 }), false);
 });
+
+test("GA4 purchase deduplicates when localStorage is blocked", () => {
+  const globalWithWindow = globalThis as unknown as { window?: unknown };
+  const previous = globalWithWindow.window;
+  const calls: unknown[][] = [];
+  globalWithWindow.window = {
+    localStorage: {
+      getItem: () => { throw new Error("storage blocked"); },
+      setItem: () => { throw new Error("storage blocked"); },
+    },
+    gtag: (...args: unknown[]) => calls.push(args),
+  };
+  try {
+    const payload = buildGa4PurchasePayload({
+      transactionId: "pi_private_123",
+      totalCents: 3500,
+      shippingCents: 0,
+      taxCents: 0,
+      currency: "usd",
+      items: [{ productId: 1, name: "Coconut Beach Soap", quantity: 1, amountTotal: 3500 }],
+    });
+    trackGa4PurchaseOnce("cs_private_123", payload);
+    trackGa4PurchaseOnce("cs_private_123", payload);
+    assert.equal(calls.length, 1);
+  } finally {
+    if (previous === undefined) delete globalWithWindow.window;
+    else globalWithWindow.window = previous;
+  }
+});
