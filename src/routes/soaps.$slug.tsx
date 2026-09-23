@@ -512,7 +512,7 @@ function ProductView({ slug }: { slug: string }) {
                   <div className="paper-card mt-5 p-5">
                     <p className="memo text-muted-foreground">Body-care check-in</p>
                     <p className="mt-2 font-display text-2xl font-semibold leading-tight">
-                      One 8 oz jar · {`$${product.price.toFixed(2)}`}
+                      One ${product.netWeight} · {`${product.price.toFixed(2)}`}
                     </p>
                     <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
                       Raw Shea Butter checks in solo. Soap bundles and monthly soap delivery are
