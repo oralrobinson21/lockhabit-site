@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
 import { products } from "@/lib/catalog";
 import { getCartPricing } from "@/lib/pricing";
@@ -11,9 +11,6 @@ type CartContextValue = {
   cartTotal: number;
   cartSavings: number;
   qualifiesForFreeShipping: boolean;
-  canSubscribe: boolean;
-  subscribe: boolean;
-  setSubscribe: (subscribe: boolean) => void;
   setCartOpen: (open: boolean) => void;
   addToCart: (id: number, quantity?: number) => void;
   addBundle: (ids: number[]) => void;
@@ -25,7 +22,6 @@ const CartContext = createContext<CartContextValue | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Record<number, number>>({});
   const [cartOpen, setCartOpen] = useState(false);
-  const [subscribe, setSubscribe] = useState(false);
 
   const currentPricing = useMemo(
     () =>
@@ -37,10 +33,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [cart],
   );
 
-  useEffect(() => {
-    if (subscribe && !currentPricing.canSubscribe) setSubscribe(false);
-  }, [currentPricing.canSubscribe, subscribe]);
-
   const value = useMemo<CartContextValue>(() => {
     const cartCount = Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
     const pricing = currentPricing;
@@ -49,14 +41,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       cart,
       cartOpen,
       cartCount,
-      cartTotal: subscribe && pricing.canSubscribe ? pricing.subtotal * 0.85 : pricing.subtotal,
-      cartSavings:
-        pricing.savings + (subscribe && pricing.canSubscribe ? pricing.subtotal * 0.15 : 0),
-      qualifiesForFreeShipping:
-        (subscribe && pricing.canSubscribe ? pricing.subtotal * 0.85 : pricing.subtotal) >= 75,
-      canSubscribe: pricing.canSubscribe,
-      subscribe,
-      setSubscribe,
+      cartTotal: pricing.subtotal,
+      cartSavings: pricing.savings,
+      qualifiesForFreeShipping: pricing.qualifiesForFreeShipping,
       setCartOpen,
       addToCart: (id: number, quantity = 1) => {
         const count = Math.max(1, Math.floor(quantity));
@@ -75,7 +62,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
       },
       addBundle: (ids: number[]) => {
-        setSubscribe(false);
         setCart((current) =>
           ids.reduce((next, id) => ({ ...next, [id]: (next[id] ?? 0) + 1 }), current),
         );
@@ -102,7 +88,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         });
       },
     };
-  }, [cart, cartOpen, subscribe, currentPricing]);
+  }, [cart, cartOpen, currentPricing]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
