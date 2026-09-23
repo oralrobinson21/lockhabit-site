@@ -6,6 +6,38 @@ import { SiteHeader } from "@/components/site-header";
 import { getCheckoutStatus } from "@/lib/payments.functions";
 import { trackMetaEventOnce } from "@/lib/meta-analytics";
 
+const googleAdsPurchaseSendTo = "AW-18469044137/OFR-CNHI8IEdEKn_30ZE";
+
+function trackGoogleAdsPurchaseOnce(
+  sessionId: string,
+  value: number,
+  currency: string,
+  transactionId: string,
+) {
+  const storageKey = `lockhabit:google-ads-purchase:${sessionId}`;
+  try {
+    if (window.localStorage.getItem(storageKey)) return;
+  } catch {
+    // Tracking must never interrupt order confirmation if storage is unavailable.
+  }
+
+  const gtag = (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
+  if (!gtag) return;
+
+  gtag("event", "conversion", {
+    send_to: googleAdsPurchaseSendTo,
+    value,
+    currency,
+    transaction_id: transactionId,
+  });
+
+  try {
+    window.localStorage.setItem(storageKey, "1");
+  } catch {
+    // The conversion has already been queued; storage failure is non-fatal.
+  }
+}
+
 export const Route = createFileRoute("/checkout/return")({
   validateSearch: (search: Record<string, unknown>): { session_id?: string } =>
     typeof search["session_id"] === "string" ? { session_id: search["session_id"] } : {},
@@ -57,6 +89,14 @@ function CheckoutReturn() {
               : [],
           content_type: "product",
         });
+        trackGoogleAdsPurchaseOnce(
+          sessionId,
+          "total" in result ? (result.total ?? 0) / 100 : 0,
+          ("currency" in result ? result.currency : "usd").toUpperCase(),
+          "paymentIntentId" in result && result.paymentIntentId
+            ? result.paymentIntentId
+            : sessionId,
+        );
       }
     });
   }, [sessionId]);
