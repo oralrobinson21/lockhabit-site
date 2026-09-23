@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import { createCartCheckout } from "@/lib/payments.functions";
 import { trackMetaEventOnce } from "@/lib/meta-analytics";
+import { trackBeginCheckout } from "@/lib/ga4-ecommerce";
+import { products } from "@/lib/catalog";
 
 export function StripeCartCheckout({
   items,
@@ -34,7 +36,14 @@ export function StripeCartCheckout({
 
         if ("error" in result) throw new Error(result.error);
         if (!result.url) throw new Error("Checkout could not be started.");
-        if (!cancelled) window.location.assign(result.url);
+        if (!cancelled) {
+          const checkoutLines = items.flatMap(({ productId, quantity }) => {
+            const product = products.find((candidate) => candidate.id === productId);
+            return product ? [{ ...product, quantity }] : [];
+          });
+          trackBeginCheckout(checkoutLines);
+          window.location.assign(result.url);
+        }
       } catch (checkoutError) {
         if (!cancelled) {
           setError(
