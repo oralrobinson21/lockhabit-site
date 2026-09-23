@@ -11,6 +11,7 @@ import {
 import {
   parseSelectedProductIds,
   summarizeSelectedProducts,
+  isMarketingEligibleCheckout,
   type SelectedOrderItem,
 } from "@/lib/product-selection";
 
@@ -252,8 +253,31 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
         }
       }
 
+      // Prefer the verified Stripe paid total over undiscounted historical order rows.
+      // Metadata identifies the actual products even when Stripe groups bars as one bundle.
+      const paidMerchandiseCents = Math.max(
+        0,
+        (session.amount_total ?? 0) -
+          (session.shipping_cost?.amount_total ?? 0) -
+          (session.total_details?.amount_tax ?? 0),
+      );
+      const analyticsItems = selectedIds.length
+        ? summarizeSelectedProducts(selectedIds, paidMerchandiseCents)
+        : items;
+
       return {
         paid,
+        marketingEligible: isMarketingEligibleCheckout({
+          paid,
+          livemode: session.livemode,
+          delivery: session.metadata?.["delivery"],
+          selectedProductIds: selectedIds,
+          amountTotalCents: session.amount_total,
+        }),
+        analyticsItems,
+        livemode: session.livemode,
+        shippingTotal: session.shipping_cost?.amount_total ?? 0,
+        taxTotal: session.total_details?.amount_tax ?? 0,
         email: session.customer_details?.email ?? null,
         orderNumber,
         paymentIntentId,

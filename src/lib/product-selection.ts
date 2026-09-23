@@ -1,4 +1,5 @@
 export type SelectedOrderItem = {
+  productId?: number;
   name: string;
   quantity: number;
   amountTotal: number;
@@ -54,9 +55,27 @@ export function summarizeSelectedProducts(
       : Math.round((totalAmount * entry.detail.unitPrice * entry.quantity) / weightedTotal);
     remaining -= amountTotal;
     return {
+      productId: entry.id,
       name: entry.detail.name,
       quantity: entry.quantity,
       amountTotal,
     };
   });
+}
+
+/** Prevent manually created Stripe test charges from training paid-ad bidding. */
+export function isMarketingEligibleCheckout(input: {
+  paid: boolean;
+  livemode: boolean;
+  delivery: string | null | undefined;
+  selectedProductIds: number[];
+  amountTotalCents: number | null | undefined;
+}): boolean {
+  return (
+    input.paid &&
+    input.livemode &&
+    input.delivery === "one_time" &&
+    input.selectedProductIds.length > 0 &&
+    (input.amountTotalCents ?? 0) > 0
+  );
 }

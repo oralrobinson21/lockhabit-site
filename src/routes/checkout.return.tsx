@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { getCheckoutStatus } from "@/lib/payments.functions";
 import { trackMetaEventOnce } from "@/lib/meta-analytics";
+import { buildGa4PurchasePayload, trackGa4PurchaseOnce } from "@/lib/ga4-purchase";
 import { useCart } from "@/lib/cart";
 
 const googleAdsPurchaseSendTo = "AW-18469044137/OFR-CNHI8IEdEKn_30ZE";
+const adsTrackedCheckoutSessions = new Set<string>();
 
 function trackGoogleAdsPurchaseOnce(
   sessionId: string,
@@ -15,22 +17,32 @@ function trackGoogleAdsPurchaseOnce(
   currency: string,
   transactionId: string,
 ) {
+  if (adsTrackedCheckoutSessions.has(sessionId)) return;
   const storageKey = `lockhabit:google-ads-purchase:${sessionId}`;
   try {
-    if (window.localStorage.getItem(storageKey)) return;
+    if (window.localStorage.getItem(storageKey)) {
+      adsTrackedCheckoutSessions.add(sessionId);
+      return;
+    }
   } catch {
-    // Tracking must never interrupt order confirmation if storage is unavailable.
+    // Storage may be unavailable; use in-memory deduplication.
   }
 
   const gtag = (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
   if (!gtag) return;
 
-  gtag("event", "conversion", {
-    send_to: googleAdsPurchaseSendTo,
-    value,
-    currency,
-    transaction_id: transactionId,
-  });
+  try {
+    gtag("event", "conversion", {
+      send_to: googleAdsPurchaseSendTo,
+      value,
+      currency,
+      transaction_id: transactionId,
+    });
+  } catch {
+    // Google Ads must never interrupt order confirmation.
+    return;
+  }
+  adsTrackedCheckoutSessions.add(sessionId);
 
   try {
     window.localStorage.setItem(storageKey, "1");
@@ -83,22 +95,31 @@ function CheckoutReturn() {
       if ("confirmationSent" in result) setConfirmationSent(Boolean(result.confirmationSent));
       if (result.paid) {
         clearCart();
+        // Only genuine paid storefront checkouts may train advertising conversions.
+        // Stripe test-mode and manual live-mode test charges are intentionally excluded.
+        if (!("marketingEligible" in result && result.marketingEligible)) return;
+        const purchasePayload = buildGa4PurchasePayload({
+          transactionId: result.paymentIntentId ?? sessionId,
+          totalCents: result.total ?? 0,
+          shippingCents: result.shippingTotal ?? 0,
+          taxCents: result.taxTotal ?? 0,
+          currency: result.currency ?? "usd",
+          items: result.analyticsItems,
+        });
+        trackGa4PurchaseOnce(sessionId, purchasePayload);
         trackMetaEventOnce(`purchase:${sessionId}`, "Purchase", {
-          value: "total" in result ? (result.total ?? 0) / 100 : 0,
-          currency: ("currency" in result ? result.currency : "usd").toUpperCase(),
-          content_ids:
-            "items" in result
-              ? (result.items ?? []).map((item) => item.name)
-              : [],
+          value: purchasePayload.value,
+          currency: purchasePayload.currency,
+          content_ids: result.analyticsItems.map((item) =>
+            item.productId !== undefined ? String(item.productId) : item.name,
+          ),
           content_type: "product",
         });
         trackGoogleAdsPurchaseOnce(
           sessionId,
-          "total" in result ? (result.total ?? 0) / 100 : 0,
-          ("currency" in result ? result.currency : "usd").toUpperCase(),
-          "paymentIntentId" in result && result.paymentIntentId
-            ? result.paymentIntentId
-            : sessionId,
+          purchasePayload.value,
+          purchasePayload.currency,
+          purchasePayload.transaction_id,
         );
       }
     });
