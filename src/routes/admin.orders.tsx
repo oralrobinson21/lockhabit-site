@@ -41,10 +41,9 @@ function OrderAdminPage() {
     let active = true;
     const initialize = async () => {
       const url = new URL(window.location.href);
-      const hash = url.searchParams.get("token_hash");
+      const hash = new URLSearchParams(url.hash.replace(/^#/, "")).get("token_hash");
       if (hash) {
-        url.searchParams.delete("token_hash");
-        window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+        window.history.replaceState(null, "", url.pathname + url.search);
         const { error } = await supabase.auth.verifyOtp({ token_hash: hash, type: "magiclink" });
         if (error && active) setAuthStatus("This sign-in link has expired or was already used. Request another below.");
       }
