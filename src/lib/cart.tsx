@@ -123,12 +123,28 @@ export function CartProvider({ children }: { children: ReactNode }) {
       },
       clearCart,
       changeQuantity: (id: number, amount: number) => {
+        const product = products.find((candidate) => candidate.id === id);
+        const previous = cart[id] ?? 0;
+        const next = Math.min(20, Math.max(0, previous + amount));
+        if (next === previous) return;
         setCart((current) => {
-          const next = Math.min(20, Math.max(0, (current[id] ?? 0) + amount));
           const updated = { ...current, [id]: next };
           if (next === 0) delete updated[id];
           return updated;
         });
+        // The drawer's + button is a real cart addition and belongs in the GA4 funnel.
+        if (product && next > previous) {
+          const accepted = next - previous;
+          trackMetaEvent("AddToCart", {
+            content_ids: [String(id)],
+            content_name: product.name,
+            content_type: "product",
+            value: product.price * accepted,
+            currency: "USD",
+            num_items: accepted,
+          });
+          trackAddToCart([ga4Item(id, product.name, product.price, accepted)]);
+        }
       },
     };
   }, [cart, cartOpen, currentPricing, clearCart]);
