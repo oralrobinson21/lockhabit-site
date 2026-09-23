@@ -11,7 +11,7 @@ test("GA4 purchase value excludes shipping and tax while retaining item data", (
       shippingCents: 795,
       taxCents: 270,
       currency: "usd",
-      items: [{ name: "Coconut Beach Soap", quantity: 1, amountTotal: 3500 }],
+      items: [{ productId: 1, name: "Coconut Beach Soap", quantity: 1, amountTotal: 3500 }],
     }),
     {
       transaction_id: "pi_paid_123",
@@ -19,7 +19,7 @@ test("GA4 purchase value excludes shipping and tax while retaining item data", (
       value: 35,
       shipping: 7.95,
       tax: 2.7,
-      items: [{ item_name: "Coconut Beach Soap", quantity: 1, price: 35 }],
+      items: [{ item_id: "1", item_name: "Coconut Beach Soap", quantity: 1, price: 35 }],
     },
   );
 });
@@ -32,13 +32,14 @@ test("GA4 purchase uses the discounted actual order value, not catalog list pric
     taxCents: 0,
     currency: "usd",
     items: [
-      { name: "Coconut Beach Soap", quantity: 1, amountTotal: 2967 },
-      { name: "Slumber Soap", quantity: 1, amountTotal: 2967 },
-      { name: "Charcoal Soap", quantity: 1, amountTotal: 2966 },
+      { productId: 1, name: "Coconut Beach Soap", quantity: 1, amountTotal: 2967 },
+      { productId: 4, name: "Slumber Soap", quantity: 1, amountTotal: 2967 },
+      { productId: 10, name: "Charcoal Soap", quantity: 1, amountTotal: 2966 },
     ],
   });
   assert.equal(purchase.value, 89);
   assert.equal(purchase.items.length, 3);
+  assert.deepEqual(purchase.items.map((item) => item.item_id), ["1", "4", "10"]);
 });
 
 test("GA4 purchase is queued once per session and absent without gtag", () => {
