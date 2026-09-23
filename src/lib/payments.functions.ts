@@ -254,6 +254,9 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
 
       return {
         paid,
+        livemode: session.livemode,
+        shippingTotal: session.shipping_cost?.amount_total ?? 0,
+        taxTotal: session.total_details?.amount_tax ?? 0,
         email: session.customer_details?.email ?? null,
         orderNumber,
         paymentIntentId,
