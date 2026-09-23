@@ -13,11 +13,9 @@ const tickerItems = [
 ];
 
 const menuLinks: Array<[string, string]> = [
-  ["Featured", "featured"],
-  ["Catalog", "shop"],
-  ["Front desk", "desk"],
-  ["Inside", "ingredients"],
-  ["Story", "story"],
+  ["Shop", "shop"],
+  ["Bundles", "bundles"],
+  ["Our story", "story"],
 ];
 
 function TickerGroup({ hidden = false }: { hidden?: boolean }) {
@@ -87,6 +85,7 @@ export function SiteHeader() {
             <Link className="nav-link" to="/about">
               About
             </Link>
+            <Link className="nav-link" to="/faq">FAQ</Link>
           </nav>
 
           <Link
@@ -130,6 +129,7 @@ export function SiteHeader() {
             >
               About
             </Link>
+            <Link to="/faq" className="memo block border-b border-foreground/20 py-3.5" onClick={() => setMenuOpen(false)}>FAQ</Link>
           </nav>
         )}
         </header>
