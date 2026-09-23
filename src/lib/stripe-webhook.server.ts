@@ -34,7 +34,6 @@ export type WebhookDependencies = {
   sendConfirmationIfPending: (
     order: Omit<OrderConfirmation, "orderNumber"> & PaidOrderRecord,
   ) => Promise<void>;
-  sendStripeReceipt: (session: Stripe.Checkout.Session, email: string) => Promise<void>;
 };
 
 const supportedEvents = new Set<SupportedEvent>([
@@ -125,11 +124,6 @@ export async function processCheckoutWebhook(
   const order = checkoutOrder(session, typeof event.created === "number" ? event.created : null);
   const record = await dependencies.recordPaidOrder(event, session, order);
   try {
-    await dependencies.sendStripeReceipt(session, order.customerEmail);
-  } catch {
-    // Stripe's receipt is a fallback; order persistence remains authoritative.
-  }
-  try {
     await dependencies.sendConfirmationIfPending({ ...order, ...record });
   } catch {
     // Payment persistence is authoritative. Email delivery is tracked separately and
@@ -177,14 +171,6 @@ export function createWebhookDependencies(stripe: Stripe): WebhookDependencies {
         p_outcome: outcome,
       });
       if (error) throw error;
-    },
-    sendStripeReceipt: async (session, email) => {
-      const paymentIntentId =
-        typeof session.payment_intent === "string"
-          ? session.payment_intent
-          : (session.payment_intent?.id ?? null);
-      if (!paymentIntentId) return;
-      await stripe.paymentIntents.update(paymentIntentId, { receipt_email: email });
     },
     sendConfirmationIfPending: async (order) => {
       const { data, error } = await supabaseAdmin.rpc("claim_order_confirmation", {
