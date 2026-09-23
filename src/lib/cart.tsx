@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 
 import { products } from "@/lib/catalog";
 import { getCartPricing } from "@/lib/pricing";
+import { trackMetaEvent } from "@/lib/meta-analytics";
 
 type CartContextValue = {
   cart: Record<number, number>;
@@ -59,8 +60,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setCartOpen,
       addToCart: (id: number, quantity = 1) => {
         const count = Math.max(1, Math.floor(quantity));
+        const product = products.find((candidate) => candidate.id === id);
         setCart((current) => ({ ...current, [id]: (current[id] ?? 0) + count }));
         setCartOpen(true);
+        if (product) {
+          trackMetaEvent("AddToCart", {
+            content_ids: [String(product.id)],
+            content_name: product.name,
+            content_type: "product",
+            value: product.price * count,
+            currency: "USD",
+            num_items: count,
+          });
+        }
       },
       addBundle: (ids: number[]) => {
         setSubscribe(false);
@@ -68,6 +80,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
           ids.reduce((next, id) => ({ ...next, [id]: (next[id] ?? 0) + 1 }), current),
         );
         setCartOpen(true);
+        const bundleProducts = ids
+          .map((id) => products.find((product) => product.id === id))
+          .filter((product): product is (typeof products)[number] => Boolean(product));
+        if (bundleProducts.length) {
+          trackMetaEvent("AddToCart", {
+            content_ids: bundleProducts.map((product) => String(product.id)),
+            content_type: "product",
+            value: bundleProducts.reduce((sum, product) => sum + product.price, 0),
+            currency: "USD",
+            num_items: bundleProducts.length,
+          });
+        }
       },
       changeQuantity: (id: number, amount: number) => {
         setCart((current) => {
