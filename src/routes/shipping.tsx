@@ -50,9 +50,9 @@ function Shipping() {
           title: "Address changes",
           body: (
             <p>
-              Please check your shipping address before paying. If something is wrong, email
-              the front desk through our Contact page immediately. Once an order is already processing or in carrier
-              hands, an address change may no longer be possible.
+              Please check your shipping address before paying. If something is wrong, contact the
+              front desk through our Contact page immediately. Once an order is already processing or
+              in carrier hands, an address change may no longer be possible.
             </p>
           ),
         },
@@ -70,8 +70,8 @@ function Shipping() {
           title: "Lost, damaged, or incorrect packages",
           body: (
             <p>
-              Email the front desk through our Contact page with your order number and, for damaged or incorrect
-              items, clear photos of the package and product. We’ll review the issue and work with
+              Contact the front desk through our Contact page with your order number and, for
+              damaged or incorrect items, clear photos of the package and product. We’ll review the issue and work with
               you on the appropriate replacement or refund.
             </p>
           ),
