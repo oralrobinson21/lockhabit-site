@@ -77,7 +77,7 @@ function Privacy() {
           body: (
             <p>
               You can ask a privacy question or request access, correction, or deletion where
-              applicable by emailing oralrobinson21@outlook.com. Some records may need to be retained
+              applicable by emailing the front desk through our Contact page. Some records may need to be retained
               for transactions, fraud prevention, taxes, or other legal obligations.
             </p>
           ),
