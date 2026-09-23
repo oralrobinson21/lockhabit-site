@@ -66,6 +66,8 @@ test("begin_checkout uses the real $89 three-bar price and distributes the disco
   assert.equal(payload.value, 89);
   assert.deepEqual(payload.items.map((item) => item.item_id), ["1", "4", "10"]);
   assert.deepEqual(payload.items.map((item) => item.discount), [5.3333, 5.3333, 5.3333]);
+  assert.deepEqual(payload.items.map((item) => item.price), [29.6667, 29.6667, 29.6667]);
+  assert.ok(Math.abs(payload.items.reduce((sum, item) => sum + item.price * item.quantity, 0) - 89) < 0.01);
   withGtag((calls) => {
     trackBeginCheckout([soap(1, "Coconut Beach Soap", 3)]);
     assert.equal(calls[0]?.[1], "begin_checkout");
@@ -83,6 +85,10 @@ test("six soap bars with shea report $211, not six list prices", () => {
   assert.equal(payload.items[0]?.discount, 6.8333);
   assert.equal(payload.items[1]?.discount, 6.8333);
   assert.equal(payload.items[2]?.discount, undefined);
+  assert.equal(payload.items[0]?.price, 28.1667);
+  assert.equal(payload.items[1]?.price, 28.1667);
+  assert.equal(payload.items[2]?.price, 42);
+  assert.ok(Math.abs(payload.items.reduce((sum, item) => sum + item.price * item.quantity, 0) - 211) < 0.01);
 });
 
 test("ecommerce tracking tolerates SSR and a missing Google tag", () => {
