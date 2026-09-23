@@ -14,27 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      highscores: {
-        Row: {
-          created_at: string
-          id: string
-          name: string
-          score: number
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          name: string
-          score: number
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          name?: string
-          score?: number
-        }
-        Relationships: []
-      }
       newsletter_subscribers: {
         Row: {
           created_at: string
@@ -203,43 +182,9 @@ export type Database = {
         }
         Relationships: []
       }
-      waitlist: {
-        Row: {
-          created_at: string | null
-          email: string
-          id: string
-          name: string | null
-          term: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          email: string
-          id?: string
-          name?: string | null
-          term?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          email?: string
-          id?: string
-          name?: string | null
-          term?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
     }
     Views: {
-      waitlist_stats: {
-        Row: {
-          first_signup: string | null
-          last_signup: string | null
-          total: number | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       claim_order_confirmation: {
