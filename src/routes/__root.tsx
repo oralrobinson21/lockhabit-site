@@ -123,7 +123,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-84PSP4TCE2" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-84PSP4TCE2', { send_page_view: false });`,
+            __html: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-84PSP4TCE2', { send_page_view: false });\ngtag('config', 'AW-18469044137');`,
           }}
         />
         {metaPixelId ? (
