@@ -114,8 +114,7 @@ function AttributeGlyph({ attribute, size }: { attribute: string; size: number }
       </BadgeDrawing>
     );
 
-  if (key === "non-gmo")
-    return <span className="text-[13px] font-black tracking-[-0.05em]">GMO</span>;
+  if (key === "non-gmo") return <DnaOff size={size} strokeWidth={1.8} />;
 
   if (key === "gluten free") return <WheatOff size={size} strokeWidth={1.8} />;
 
@@ -212,7 +211,7 @@ function AttributeGlyph({ attribute, size }: { attribute: string; size: number }
 }
 
 const crossedAttributePattern =
-  /^(non-gmo|gluten free|hormone free|alcohol free|no fillers|phthalate free|silicone free|mineral oil free|antibiotic free)$/i;
+  /^(gluten free|hormone free|alcohol free|no fillers|phthalate free|silicone free|mineral oil free|antibiotic free)$/i;
 
 function AttributeSeal({
   attribute,
