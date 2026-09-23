@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { products } from "@/lib/catalog";
 import { getCartPricing } from "@/lib/pricing";
@@ -37,6 +37,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     catch { /* storage unavailable; checkout still works */ }
   }, [cart, hydrated]);
   const [cartOpen, setCartOpen] = useState(false);
+
+  const clearCart = useCallback(() => setCart({}), []);
 
   const currentPricing = useMemo(
     () =>
@@ -95,7 +97,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           });
         }
       },
-      clearCart: () => setCart({}),
+      clearCart,
       changeQuantity: (id: number, amount: number) => {
         setCart((current) => {
           const next = Math.min(20, Math.max(0, (current[id] ?? 0) + amount));
@@ -105,7 +107,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         });
       },
     };
-  }, [cart, cartOpen, currentPricing]);
+  }, [cart, cartOpen, currentPricing, clearCart]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
