@@ -8,7 +8,7 @@ import { trackMetaEventOnce } from "@/lib/meta-analytics";
 import { buildGa4PurchasePayload, trackGa4PurchaseOnce } from "@/lib/ga4-purchase";
 import { useCart } from "@/lib/cart";
 
-const googleAdsPurchaseSendTo = "AW-18469044137/OFR-CNHI8IEdEKn_30ZE";
+const googleAdsPurchaseSendTo = "AW-18469044137/OFR-CNHI8IEdEKn_3OZE";
 const adsTrackedCheckoutSessions = new Set<string>();
 
 function trackGoogleAdsPurchaseOnce(
