@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   acceptedCartQuantity,
+  buildGa4AddedCartItems,
   buildGa4CheckoutPayload,
   ga4Item,
   trackAddToCart,
@@ -66,6 +67,8 @@ test("begin_checkout uses the real $89 three-bar price and distributes the disco
   assert.equal(payload.value, 89);
   assert.deepEqual(payload.items.map((item) => item.item_id), ["1", "4", "10"]);
   assert.deepEqual(payload.items.map((item) => item.discount), [5.3333, 5.3333, 5.3333]);
+  assert.deepEqual(payload.items.map((item) => item.price), [29.6667, 29.6667, 29.6667]);
+  assert.ok(Math.abs(payload.items.reduce((sum, item) => sum + item.price * item.quantity, 0) - 89) < 0.01);
   withGtag((calls) => {
     trackBeginCheckout([soap(1, "Coconut Beach Soap", 3)]);
     assert.equal(calls[0]?.[1], "begin_checkout");
@@ -83,6 +86,10 @@ test("six soap bars with shea report $211, not six list prices", () => {
   assert.equal(payload.items[0]?.discount, 6.8333);
   assert.equal(payload.items[1]?.discount, 6.8333);
   assert.equal(payload.items[2]?.discount, undefined);
+  assert.equal(payload.items[0]?.price, 28.1667);
+  assert.equal(payload.items[1]?.price, 28.1667);
+  assert.equal(payload.items[2]?.price, 42);
+  assert.ok(Math.abs(payload.items.reduce((sum, item) => sum + item.price * item.quantity, 0) - 211) < 0.01);
 });
 
 test("ecommerce tracking tolerates SSR and a missing Google tag", () => {
@@ -106,4 +113,32 @@ test("cart measurement ignores rejected units at cap", () => {
   assert.equal(acceptedCartQuantity(19, 3), 1);
   assert.equal(acceptedCartQuantity(2, 3), 3);
   assert.equal(acceptedCartQuantity(0, 0), 0);
+});
+
+test("GA4 add_to_cart uses discounted prices when adding the $89 three-bar bundle", () => {
+  const projected = [
+    soap(1, "Coconut Beach Soap"),
+    soap(4, "Slumber Soap"),
+    soap(10, "Charcoal Soap"),
+  ];
+  const additions = projected.map(({ id }) => ({ id, quantity: 1 }));
+  const items = buildGa4AddedCartItems(projected, additions);
+  assert.deepEqual(items.map((item) => item.price), [29.6667, 29.6667, 29.6667]);
+  withGtag((calls) => {
+    trackAddToCart(items);
+    assert.equal((calls[0]?.[2] as { value: number }).value, 89);
+  });
+});
+
+test("GA4 cart additions report only new units using the resulting bundle price", () => {
+  const projected = [
+    soap(1, "Coconut Beach Soap", 2),
+    soap(4, "Slumber Soap"),
+    { id: 11, name: "Raw Shea Butter", kind: "Body care" as const, price: 42, quantity: 1 },
+  ];
+  const items = buildGa4AddedCartItems(projected, [{ id: 4, quantity: 1 }, { id: 11, quantity: 1 }]);
+  assert.deepEqual(items.map((item) => item.item_id), ["4", "11"]);
+  assert.deepEqual(items.map((item) => item.quantity), [1, 1]);
+  assert.deepEqual(items.map((item) => item.price), [29.6667, 42]);
+  assert.deepEqual(buildGa4AddedCartItems(projected, [{ id: 10, quantity: 1 }]), []);
 });

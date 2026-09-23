@@ -4,7 +4,7 @@ import { products } from "@/lib/catalog";
 import { getCartPricing } from "@/lib/pricing";
 import { CART_STORAGE_KEY, parseStoredCart, serializeCart } from "@/lib/cart-storage";
 import { trackMetaEvent } from "@/lib/meta-analytics";
-import { acceptedCartQuantity, ga4Item, trackAddToCart } from "@/lib/ga4-ecommerce";
+import { acceptedCartQuantity, buildGa4AddedCartItems, trackAddToCart } from "@/lib/ga4-ecommerce";
 
 type CartContextValue = {
   cart: Record<number, number>;
@@ -21,6 +21,31 @@ type CartContextValue = {
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
+/** Use the actual discounted cart tier when reporting accepted additions. */
+function reportAcceptedCartAdditions(
+  previousCart: Record<number, number>,
+  additions: Array<{ id: number; quantity: number }>,
+  contentName?: string,
+) {
+  const addedById = new Map(additions.map(({ id, quantity }) => [id, quantity]));
+  const projectedCart = products.flatMap((product) => {
+    const quantity = (previousCart[product.id] ?? 0) + (addedById.get(product.id) ?? 0);
+    return quantity > 0 ? [{ ...product, quantity }] : [];
+  });
+  const items = buildGa4AddedCartItems(projectedCart, additions);
+  if (!items.length) return;
+  const value = Number(items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2));
+  trackMetaEvent("AddToCart", {
+    content_ids: items.map((item) => item.item_id),
+    content_name: contentName,
+    content_type: "product",
+    value,
+    currency: "USD",
+    num_items: items.reduce((sum, item) => sum + item.quantity, 0),
+  });
+  trackAddToCart(items);
+}
+
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Record<number, number>>({});
@@ -73,15 +98,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           [id]: Math.min(20, (current[id] ?? 0) + accepted),
         }));
         setCartOpen(true);
-        trackMetaEvent("AddToCart", {
-          content_ids: [String(product.id)],
-          content_name: product.name,
-          content_type: "product",
-          value: product.price * accepted,
-          currency: "USD",
-          num_items: accepted,
-        });
-        trackAddToCart([ga4Item(product.id, product.name, product.price, accepted)]);
+        reportAcceptedCartAdditions(cart, [{ id: product.id, quantity: accepted }], product.name);
       },
       addBundle: (ids: number[]) => {
         const acceptedByProduct = new Map<number, number>();
@@ -107,19 +124,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           return next;
         });
         setCartOpen(true);
-        trackMetaEvent("AddToCart", {
-          content_ids: acceptedProducts.map(({ product }) => String(product.id)),
-          content_type: "product",
-          value: acceptedProducts.reduce(
-            (sum, { product, quantity }) => sum + product.price * quantity,
-            0,
-          ),
-          currency: "USD",
-          num_items: acceptedProducts.reduce((sum, { quantity }) => sum + quantity, 0),
-        });
-        trackAddToCart(acceptedProducts.map(({ product, quantity }) =>
-          ga4Item(product.id, product.name, product.price, quantity),
-        ));
+        reportAcceptedCartAdditions(cart, acceptedProducts.map(({ product, quantity }) => ({ id: product.id, quantity })));
       },
       clearCart,
       changeQuantity: (id: number, amount: number) => {
@@ -135,15 +140,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         // The drawer's + button is a real cart addition and belongs in the GA4 funnel.
         if (product && next > previous) {
           const accepted = next - previous;
-          trackMetaEvent("AddToCart", {
-            content_ids: [String(id)],
-            content_name: product.name,
-            content_type: "product",
-            value: product.price * accepted,
-            currency: "USD",
-            num_items: accepted,
-          });
-          trackAddToCart([ga4Item(id, product.name, product.price, accepted)]);
+          reportAcceptedCartAdditions(cart, [{ id, quantity: accepted }], product.name);
         }
       },
     };

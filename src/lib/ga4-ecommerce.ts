@@ -23,7 +23,9 @@ export function ga4Item(
   return {
     item_id: String(id),
     item_name: name,
-    price: dollars(price),
+    // GA4 item price is the actual paid unit price, retaining sub-cent precision
+    // for 3/6-bar bundles (e.g. $89 / 3) so item totals match event value.
+    price: Number(Math.max(0, price).toFixed(4)),
     quantity: Math.max(1, Math.floor(quantity)),
   };
 }
@@ -77,13 +79,34 @@ export function buildGa4CheckoutPayload(lines: Ga4CheckoutLine[]) {
     value: dollars(subtotal),
     items: lines
       .filter((line) => line.quantity > 0)
-      .map((line) => ({
-        ...ga4Item(line.id, line.name, line.price, line.quantity),
-        ...(line.kind === "Soap bar" && discountPerSoap > 0
-          ? { discount: discountPerSoap }
-          : {}),
-      })),
+      .map((line) => {
+        const isDiscountedSoap = line.kind === "Soap bar" && discountPerSoap > 0;
+        // Google does NOT deduct item.discount from item.price; report the
+        // discounted price itself and the unit discount separately.
+        const unitPrice = isDiscountedSoap ? line.price - discountPerSoap : line.price;
+        return {
+          ...ga4Item(line.id, line.name, unitPrice, line.quantity),
+          ...(isDiscountedSoap ? { discount: discountPerSoap } : {}),
+        };
+      }),
   };
+}
+
+/**
+ * Price only the units actually added, using the cart's new bundle tier.
+ * GA4 item price is the discounted unit price; the event value is their sum.
+ */
+export function buildGa4AddedCartItems(
+  projectedCart: Ga4CheckoutLine[],
+  additions: Array<{ id: number; quantity: number }>,
+): Ga4EcommerceItem[] {
+  const itemPrices = new Map(
+    buildGa4CheckoutPayload(projectedCart).items.map((item) => [item.item_id, item]),
+  );
+  return additions.flatMap(({ id, quantity }) => {
+    const item = itemPrices.get(String(id));
+    return item && quantity > 0 ? [{ ...item, quantity: Math.floor(quantity) }] : [];
+  });
 }
 
 /** Call only after Stripe has created a real Checkout Session. */
