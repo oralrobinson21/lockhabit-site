@@ -38,7 +38,8 @@ const checkoutInput = z.object({
     )
     .min(1)
     .max(12),
-  subscribe: z.boolean().default(false),
+  // Accept legacy browser payloads, but never allow a recurring checkout.
+  subscribe: z.boolean().optional(),
   returnUrl: z.string().url(),
 });
 
@@ -48,6 +49,7 @@ export const createCartCheckout = createServerFn({ method: "POST" })
   .validator((data: z.infer<typeof checkoutInput>) => checkoutInput.parse(data))
   .handler(async ({ data }): Promise<CheckoutResult> => {
     try {
+      if (data.subscribe === true) throw new Error("Subscriptions are not available. Please place a one-time order.");
       const environment = getStripeEnvironment();
       const stripe = createStripeClient(environment);
       const expandedItems = data.items.flatMap((item) =>
@@ -55,26 +57,19 @@ export const createCartCheckout = createServerFn({ method: "POST" })
       );
       const soapIds = expandedItems.filter((productId) => productId !== 11);
       const hasBodyCare = expandedItems.includes(11);
-      if (data.subscribe && hasBodyCare)
-        throw new Error("Monthly delivery is available for soap-only orders.");
-      if (data.subscribe && (soapIds.length === 3 || soapIds.length === 6)) {
-        throw new Error("Subscribe & Save cannot be combined with bundle pricing.");
-      }
 
       const bundleLookupKey =
         soapIds.length === 3
-          ? `build_your_own_3_bar_bundle_${data.subscribe ? "monthly_" : ""}usd`
+          ? "build_your_own_3_bar_bundle_usd"
           : soapIds.length === 6
-            ? `build_your_own_6_bar_bundle_${data.subscribe ? "monthly_" : ""}usd`
+            ? "build_your_own_6_bar_bundle_usd"
             : null;
       const requestedPrices = bundleLookupKey
         ? [{ lookupKey: bundleLookupKey, quantity: 1 }]
         : data.items.map((item) => {
             const base = priceIds[item.productId];
             if (!base) throw new Error("A soap in your bag is unavailable.");
-            const lookupKey =
-              data.subscribe && item.productId !== 11 ? base.replace("_usd", "_monthly_usd") : base;
-            return { lookupKey, quantity: item.quantity };
+            return { lookupKey: base, quantity: item.quantity };
           });
 
       if (hasBodyCare && bundleLookupKey) {
@@ -105,13 +100,13 @@ export const createCartCheckout = createServerFn({ method: "POST" })
       const merchandiseTotal = resolvedItems.reduce((sum, item) => sum + item.amount, 0);
       const shippingAmount = merchandiseTotal >= 7500 ? 0 : 795;
 
-      const isSubscription = data.subscribe;
       const checkoutParams: Stripe.Checkout.SessionCreateParams = {
         line_items: lineItems,
-        mode: isSubscription ? "subscription" : "payment",
+        mode: "payment",
         success_url: data.returnUrl,
         cancel_url: data.returnUrl.replace("/checkout/return?session_id={CHECKOUT_SESSION_ID}", "/"),
-        ...(!isSubscription && { customer_creation: "always" as const, allow_promotion_codes: true }),
+        customer_creation: "always",
+        allow_promotion_codes: true,
         billing_address_collection: "required",
         shipping_address_collection: {
           allowed_countries: [
@@ -187,24 +182,14 @@ export const createCartCheckout = createServerFn({ method: "POST" })
         integration_identifier: "lockhabit_zqkmwpxa",
         metadata: {
           selected_product_ids: expandedItems.join(","),
-          delivery: isSubscription ? "monthly" : "one_time",
+          delivery: "one_time",
           shipping_rate: shippingAmount === 0 ? "free" : "795",
         },
-        ...(!isSubscription && {
-          payment_intent_data: {
-            description: bundleLookupKey
-              ? `LOCKHABIT ${soapIds.length}-bar bundle`
-              : "LOCKHABIT soap order",
-          },
-        }),
-        ...(isSubscription && {
-          subscription_data: {
-            metadata: {
-              selected_product_ids: expandedItems.join(","),
-              changes_apply: "next_shipment",
-            },
-          },
-        }),
+        payment_intent_data: {
+          description: bundleLookupKey
+            ? `LOCKHABIT ${soapIds.length}-bar bundle`
+            : "LOCKHABIT soap order",
+        },
       };
       const session = await stripe.checkout.sessions.create(checkoutParams);
 
