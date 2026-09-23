@@ -399,7 +399,7 @@ function ProductView({ slug }: { slug: string }) {
                 <div className="retro-frame aspect-square bg-muted">
                   <GalleryMedia
                     key={`${product.images[activeImage]?.src}-${product.images[activeImage]?.crop ?? "full"}`}
-                    image={product.images[activeImage]}
+                    image={product.images[activeImage] ?? product.images[0]!}
                     className={`h-full w-full animate-gallery-in ${activeImage === 0 ? "bg-paper object-contain p-3 sm:p-6" : "bg-center object-cover"}`}
                   />
                 </div>
