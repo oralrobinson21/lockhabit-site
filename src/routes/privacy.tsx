@@ -43,12 +43,14 @@ function Privacy() {
           ),
         },
         {
-          title: "Site analytics",
+          title: "Analytics & advertising measurement",
           body: (
             <p>
-              We use analytics and ordinary site technology to understand visits, pages viewed,
-              device/browser information, and how the storefront performs. This helps us figure out
-              what people actually use instead of consulting a coconut.
+              We may use analytics, cookies, pixels, and similar technologies to understand visits,
+              pages viewed, device/browser information, ad performance, and how the storefront is
+              used. When advertising tools such as Meta Pixel or Conversions API are enabled, those
+              providers may receive event data such as page views, product views, cart activity,
+              checkout activity, and purchases for measurement and campaign optimization.
             </p>
           ),
         },
@@ -67,8 +69,11 @@ function Privacy() {
           body: (
             <p>
               We may share only the information needed with providers that support payments,
-              hosting, order storage, fulfillment, shipping, analytics, email delivery, and other
-              shop operations. We do not sell personal information to advertisers.
+              hosting, order storage, fulfillment, shipping, analytics, advertising measurement,
+              email delivery, and other shop operations. LOCKHABIT does not sell personal
+              information for money. Some privacy laws may treat certain advertising-related
+              disclosures as a "sale" or "share" even when no money changes hands, so applicable
+              opt-out rights will be honored where required.
             </p>
           ),
         },
@@ -76,9 +81,10 @@ function Privacy() {
           title: "Your choices & contact",
           body: (
             <p>
-              You can ask a privacy question or request access, correction, or deletion where
-              applicable by emailing the front desk through our Contact page. Some records may need to be retained
-              for transactions, fraud prevention, taxes, or other legal obligations.
+              You can ask a privacy question or request access, correction, deletion, or an
+              applicable advertising-data opt-out through our Contact page. Marketing emails include
+              an unsubscribe option. Some records may need to be retained for transactions, fraud
+              prevention, taxes, or other legal obligations.
             </p>
           ),
         },
