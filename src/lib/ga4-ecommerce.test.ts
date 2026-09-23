@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   acceptedCartQuantity,
+  buildGa4AddedCartItems,
   buildGa4CheckoutPayload,
   ga4Item,
   trackAddToCart,
@@ -112,4 +113,32 @@ test("cart measurement ignores rejected units at cap", () => {
   assert.equal(acceptedCartQuantity(19, 3), 1);
   assert.equal(acceptedCartQuantity(2, 3), 3);
   assert.equal(acceptedCartQuantity(0, 0), 0);
+});
+
+test("GA4 add_to_cart uses discounted prices when adding the $89 three-bar bundle", () => {
+  const projected = [
+    soap(1, "Coconut Beach Soap"),
+    soap(4, "Slumber Soap"),
+    soap(10, "Charcoal Soap"),
+  ];
+  const additions = projected.map(({ id }) => ({ id, quantity: 1 }));
+  const items = buildGa4AddedCartItems(projected, additions);
+  assert.deepEqual(items.map((item) => item.price), [29.6667, 29.6667, 29.6667]);
+  withGtag((calls) => {
+    trackAddToCart(items);
+    assert.equal((calls[0]?.[2] as { value: number }).value, 89);
+  });
+});
+
+test("GA4 cart additions report only new units using the resulting bundle price", () => {
+  const projected = [
+    soap(1, "Coconut Beach Soap", 2),
+    soap(4, "Slumber Soap"),
+    { id: 11, name: "Raw Shea Butter", kind: "Body care" as const, price: 42, quantity: 1 },
+  ];
+  const items = buildGa4AddedCartItems(projected, [{ id: 4, quantity: 1 }, { id: 11, quantity: 1 }]);
+  assert.deepEqual(items.map((item) => item.item_id), ["4", "11"]);
+  assert.deepEqual(items.map((item) => item.quantity), [1, 1]);
+  assert.deepEqual(items.map((item) => item.price), [29.6667, 42]);
+  assert.deepEqual(buildGa4AddedCartItems(projected, [{ id: 10, quantity: 1 }]), []);
 });
