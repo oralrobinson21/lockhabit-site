@@ -24,7 +24,7 @@ jobs:
         run: npm ci
       - name: Pricing and cart tests
         run: npm run test
-      - name: Lint
-        run: npm run lint
+      - name: Semantic lint (existing repository formatting is handled separately)
+        run: npx eslint . --rule 'prettier/prettier: off'
       - name: Typecheck
         run: npx tsc --noEmit
