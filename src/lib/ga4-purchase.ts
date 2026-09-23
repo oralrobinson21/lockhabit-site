@@ -1,4 +1,5 @@
 type CheckoutItem = {
+  productId?: number;
   name: string;
   quantity: number;
   amountTotal: number;
@@ -30,6 +31,7 @@ export function buildGa4PurchasePayload({
     shipping: dollars(shippingCents),
     tax: dollars(taxCents),
     items: items.map((item) => ({
+      ...(item.productId !== undefined ? { item_id: String(item.productId) } : {}),
       item_name: item.name,
       quantity: item.quantity,
       price: dollars(item.amountTotal / Math.max(1, item.quantity)),
