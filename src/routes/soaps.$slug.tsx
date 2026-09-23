@@ -29,6 +29,7 @@ import { IslandFooter } from "@/components/island-footer";
 import { useCart } from "@/lib/cart";
 import { productBySlug, products, relatedProducts, type GalleryImage } from "@/lib/catalog";
 import { productMeta, productStructuredData, threeBarOffer } from "@/lib/product-seo";
+import { trackMetaEvent } from "@/lib/meta-analytics";
 
 type ProductRouteSearch = {
   slug: string;
@@ -334,6 +335,16 @@ function ProductView({ slug }: { slug: string }) {
     setActiveImage(0);
     window.scrollTo({ top: 0 });
   }, [slug]);
+
+  useEffect(() => {
+    trackMetaEvent("ViewContent", {
+      content_ids: [String(product.id)],
+      content_name: product.name,
+      content_type: "product",
+      value: product.price,
+      currency: "USD",
+    });
+  }, [product.id, product.name, product.price, slug]);
 
   return (
     <main className="overflow-x-hidden bg-background text-foreground">
