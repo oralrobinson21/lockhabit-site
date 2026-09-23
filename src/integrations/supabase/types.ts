@@ -202,6 +202,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_lockhabit_admin_login: {
+        Args: { p_email: string }
+        Returns: boolean
+      }
       claim_order_confirmation: {
         Args: { p_checkout_session_id: string }
         Returns: {
