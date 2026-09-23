@@ -15,7 +15,8 @@ export const Route = createFileRoute("/api/stripe/webhook")({
         if (!signature) return new Response("Missing Stripe signature", { status: 400 });
 
         const rawBody = await request.text();
-        const stripe = createStripeClient(getStripeEnvironment());
+        const environment = getStripeEnvironment();
+        const stripe = createStripeClient(environment);
         let event;
         try {
           event = stripe.webhooks.constructEvent(rawBody, signature, getStripeWebhookSecret());
@@ -24,7 +25,10 @@ export const Route = createFileRoute("/api/stripe/webhook")({
         }
 
         try {
-          const result = await processCheckoutWebhook(event, createWebhookDependencies(stripe));
+          const result = await processCheckoutWebhook(
+            event,
+            createWebhookDependencies(stripe, environment === "live"),
+          );
           return Response.json({ received: true, result });
         } catch (error) {
           console.error(

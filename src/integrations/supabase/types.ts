@@ -102,6 +102,11 @@ export type Database = {
           customer_email: string | null
           customer_name: string | null
           fulfillment_status: string
+          tracking_carrier: string | null
+          tracking_number: string | null
+          tracking_url: string | null
+          shipped_at: string | null
+          tracking_notified_at: string | null
           id: string
           items: Json
           order_number: number
@@ -109,6 +114,7 @@ export type Database = {
           payment_status: string
           shipping_details: Json | null
           stripe_event_id: string | null
+          stripe_livemode: boolean | null
           updated_at: string
         }
         Insert: {
@@ -123,6 +129,11 @@ export type Database = {
           customer_email?: string | null
           customer_name?: string | null
           fulfillment_status?: string
+          tracking_carrier?: string | null
+          tracking_number?: string | null
+          tracking_url?: string | null
+          shipped_at?: string | null
+          tracking_notified_at?: string | null
           id?: string
           items?: Json
           order_number?: number
@@ -130,6 +141,7 @@ export type Database = {
           payment_status: string
           shipping_details?: Json | null
           stripe_event_id?: string | null
+          stripe_livemode?: boolean | null
           updated_at?: string
         }
         Update: {
@@ -144,6 +156,11 @@ export type Database = {
           customer_email?: string | null
           customer_name?: string | null
           fulfillment_status?: string
+          tracking_carrier?: string | null
+          tracking_number?: string | null
+          tracking_url?: string | null
+          shipped_at?: string | null
+          tracking_notified_at?: string | null
           id?: string
           items?: Json
           order_number?: number
@@ -151,6 +168,7 @@ export type Database = {
           payment_status?: string
           shipping_details?: Json | null
           stripe_event_id?: string | null
+          stripe_livemode?: boolean | null
           updated_at?: string
         }
         Relationships: []
@@ -187,6 +205,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_lockhabit_admin_login: {
+        Args: { p_email: string }
+        Returns: boolean
+      }
       claim_order_confirmation: {
         Args: { p_checkout_session_id: string }
         Returns: {
