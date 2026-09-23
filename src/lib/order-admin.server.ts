@@ -20,16 +20,16 @@ const orderAdminService = createOrderAdminService({
     if (error) throw new Error("Sign-in is unavailable. Try again later.");
     return Boolean(data);
   },
-  createMagicLinkHash: async (email) => {
+  createEmailOtp: async (email) => {
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: "magiclink",
       email,
     });
-    const hash = data?.properties?.hashed_token;
-    if (error || !hash) throw new Error("Sign-in link could not be created.");
-    return hash;
+    const code = data?.properties?.email_otp;
+    if (error || !code) throw new Error("Sign-in code could not be created.");
+    return code;
   },
-  sendLoginEmail: async ({ to, link, idempotencyKey }) => {
+  sendLoginEmail: async ({ to, code, idempotencyKey }) => {
     const from = process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
     const apiKey = process.env["RESEND_API_KEY"];
     if (!from || !apiKey) throw new Error("Sign-in email is not configured.");
@@ -43,9 +43,9 @@ const orderAdminService = createOrderAdminService({
       body: JSON.stringify({
         from,
         to: [to],
-        subject: "Your LOCKHABIT orders sign-in link",
-        text: `This one-time sign-in link grants access to your LOCKHABIT order dashboard. If you did not request it, ignore this email.\n\n${link}`,
-        html: `<p>Sign in to your LOCKHABIT owner orders dashboard:</p><p><a href="${link}">Open my orders</a></p><p>This is a one-time sign-in link. Ignore this message if you did not request it.</p>`,
+        subject: "Your LOCKHABIT owner sign-in code",
+        text: `Your one-time LOCKHABIT owner sign-in code is: ${code}\n\nEnter this six-digit code on the Orders & Shipping page. If you did not request it, ignore this email.`,
+        html: `<p>Your one-time LOCKHABIT owner sign-in code is:</p><p style="font-size:32px;font-weight:700;letter-spacing:8px">${code}</p><p>Enter this six-digit code on the Orders &amp; Shipping page. If you did not request it, ignore this email.</p>`,
       }),
     });
     if (!response.ok) throw new Error("Sign-in email could not be delivered.");
@@ -173,7 +173,7 @@ const orderAdminService = createOrderAdminService({
 
 export const {
   requireOrderAdmin,
-  emailOrderAdminLink,
+  emailOrderAdminCode,
   readAdminOrders,
   saveAdminTracking,
   readAdminRefunds,
