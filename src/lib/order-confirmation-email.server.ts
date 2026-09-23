@@ -569,7 +569,10 @@ Questions about your order? Reply to this email or contact ${supportEmail}`;
   };
 }
 
-export async function sendOrderConfirmation(order: OrderConfirmation): Promise<string> {
+export async function sendOrderConfirmation(
+  order: OrderConfirmation,
+  options?: { idempotencyKey?: string },
+): Promise<string> {
   const apiKey = process.env["RESEND_API_KEY"];
   const from = process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
   if (!apiKey || !from) throw new Error("Order confirmation email is not configured");
@@ -581,7 +584,7 @@ export async function sendOrderConfirmation(order: OrderConfirmation): Promise<s
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "Idempotency-Key": `lockhabit-order-${order.checkoutSessionId}`,
+      "Idempotency-Key": options?.idempotencyKey ?? `lockhabit-order-${order.checkoutSessionId}`,
     },
     body: JSON.stringify({
       from,
