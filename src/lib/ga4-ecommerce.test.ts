@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  acceptedCartQuantity,
   buildGa4CheckoutPayload,
   ga4Item,
   trackAddToCart,
@@ -98,4 +99,11 @@ test("ecommerce tracking tolerates SSR and a missing Google tag", () => {
     if (previous === undefined) delete globalWithWindow.window;
     else globalWithWindow.window = previous;
   }
+});
+
+test("cart measurement ignores rejected units at cap", () => {
+  assert.equal(acceptedCartQuantity(20, 1), 0);
+  assert.equal(acceptedCartQuantity(19, 3), 1);
+  assert.equal(acceptedCartQuantity(2, 3), 3);
+  assert.equal(acceptedCartQuantity(0, 0), 0);
 });
