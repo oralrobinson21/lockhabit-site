@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { SiteHeader } from "@/components/site-header";
 import { useCart } from "@/lib/cart";
+import { subscribeNewsletter } from "@/lib/newsletter.functions";
 
 import heroImage from "@/assets/lockhabit-hero.jpg";
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
@@ -104,14 +105,79 @@ function Reveal({
 function Index() {
   const { addToCart, addBundle } = useCart();
   const [activeGalleryImage, setActiveGalleryImage] = useState(0);
+  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [newsletterMessage, setNewsletterMessage] = useState("");
   const featured = products[0]!;
   const featuredGallery = featured.images;
 
   const scrollToShop = () =>
     document.getElementById("shop")?.scrollIntoView({ behavior: "smooth" });
 
+  const homeStructuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://lockhabit.com/#organization",
+        name: "LOCKHABIT Soap Co.",
+        url: "https://lockhabit.com/",
+        logo: new URL(logoTransparent, "https://lockhabit.com/").href,
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://lockhabit.com/#website",
+        url: "https://lockhabit.com/",
+        name: "LOCKHABIT Soap Co.",
+        publisher: { "@id": "https://lockhabit.com/#organization" },
+      },
+      {
+        "@type": "Product",
+        "@id": `https://lockhabit.com/soaps/${featured.slug}#product`,
+        name: featured.name,
+        description: featured.description,
+        image: featured.images.map((image) => new URL(image.src, "https://lockhabit.com/").href),
+        brand: { "@type": "Brand", name: "LOCKHABIT" },
+        offers: {
+          "@type": "Offer",
+          url: `https://lockhabit.com/soaps/${featured.slug}`,
+          priceCurrency: "USD",
+          price: featured.price.toFixed(2),
+          availability: "https://schema.org/InStock",
+        },
+      },
+    ],
+  };
+
+  async function submitNewsletter(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    setNewsletterStatus("sending");
+    setNewsletterMessage("");
+
+    const result = await subscribeNewsletter({
+      data: {
+        email: String(form.get("email") ?? ""),
+        source: "homepage",
+        website: String(form.get("website") ?? ""),
+      },
+    });
+
+    if (result.ok) {
+      setNewsletterStatus("sent");
+      setNewsletterMessage("You’re checked in. We’ll only write when there’s something worth opening.");
+      event.currentTarget.reset();
+    } else {
+      setNewsletterStatus("error");
+      setNewsletterMessage(result.error);
+    }
+  }
+
   return (
     <main className="overflow-x-hidden bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData) }}
+      />
       <SiteHeader />
       <section
         id="top"
@@ -142,6 +208,9 @@ function Index() {
               VACATION
               <br />
               FOR YOUR SKIN.
+              <span className="mt-3 block font-sans text-base font-black tracking-[0.16em] sm:text-lg">
+                BAR SOAP &amp; BODY CARE
+              </span>
             </h1>
             <p className="mt-6 max-w-md text-base leading-7 text-hero-muted sm:text-lg">
               Twelve soap and body-care essentials made for slow mornings, warm tile, and the kind of
@@ -517,6 +586,51 @@ function Index() {
             </div>
           </Reveal>
         </div>
+      </section>
+
+      <section className="border-t-2 border-foreground bg-paper px-5 py-16 sm:py-20 lg:px-10">
+        <Reveal className="mx-auto max-w-4xl">
+          <div className="paper-card grid gap-7 bg-secondary p-6 sm:p-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div>
+              <p className="eyebrow">Postcards from the resort</p>
+              <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
+                Stay on the guest list.
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
+                New bars, restocks, bundle drops, and occasional offers. No daily inbox vacation
+                itinerary.
+              </p>
+            </div>
+            <form onSubmit={submitNewsletter} className="grid gap-3" aria-label="Join the LOCKHABIT email list">
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  autoComplete="email"
+                  maxLength={254}
+                  placeholder="you@example.com"
+                  className="min-h-12 flex-1 rounded-full border-2 border-foreground bg-background px-5 text-base outline-none focus:ring-2 focus:ring-primary"
+                />
+                <button className="primary-button justify-center" type="submit" disabled={newsletterStatus === "sending"}>
+                  {newsletterStatus === "sending" ? "Checking in…" : "Send me postcards"}
+                </button>
+              </div>
+              <label className="hidden" aria-hidden="true">
+                Website
+                <input name="website" tabIndex={-1} autoComplete="off" />
+              </label>
+              <p className="text-xs leading-5 text-muted-foreground">
+                By signing up, you agree to receive LOCKHABIT marketing emails. Unsubscribe anytime.
+              </p>
+              {newsletterMessage ? (
+                <p className={`text-sm font-bold ${newsletterStatus === "error" ? "text-destructive" : "text-primary"}`}>
+                  {newsletterMessage}
+                </p>
+              ) : null}
+            </form>
+          </div>
+        </Reveal>
       </section>
 
       <section className="grain relative overflow-hidden bg-sun px-5 py-20 text-center text-sun-foreground sm:py-28">
