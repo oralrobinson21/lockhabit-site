@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowDown, Leaf, Plus, Sparkles, Waves } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
 import { SiteHeader } from "@/components/site-header";
 import { useCart } from "@/lib/cart";
@@ -148,7 +148,7 @@ function Index() {
     ],
   };
 
-  async function submitNewsletter(event: React.FormEvent<HTMLFormElement>) {
+  async function submitNewsletter(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     setNewsletterStatus("sending");
