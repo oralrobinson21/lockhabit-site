@@ -114,6 +114,7 @@ export type Database = {
           payment_status: string
           shipping_details: Json | null
           stripe_event_id: string | null
+          stripe_livemode: boolean | null
           updated_at: string
         }
         Insert: {
@@ -140,6 +141,7 @@ export type Database = {
           payment_status: string
           shipping_details?: Json | null
           stripe_event_id?: string | null
+          stripe_livemode?: boolean | null
           updated_at?: string
         }
         Update: {
@@ -166,6 +168,7 @@ export type Database = {
           payment_status?: string
           shipping_details?: Json | null
           stripe_event_id?: string | null
+          stripe_livemode?: boolean | null
           updated_at?: string
         }
         Relationships: []

@@ -132,7 +132,10 @@ export async function processCheckoutWebhook(
   return "paid";
 }
 
-export function createWebhookDependencies(stripe: Stripe): WebhookDependencies {
+export function createWebhookDependencies(
+  stripe: Stripe,
+  stripeLivemode: boolean,
+): WebhookDependencies {
   return {
     retrieveSession: (id) =>
       stripe.checkout.sessions.retrieve(id, {
@@ -161,6 +164,11 @@ export function createWebhookDependencies(stripe: Stripe): WebhookDependencies {
       if (error) throw error;
       const row = data?.[0];
       if (!row) throw new Error("Order persistence returned no record");
+      const { error: modeError } = await supabaseAdmin
+        .from("orders")
+        .update({ stripe_livemode: stripeLivemode })
+        .eq("id", row.order_id);
+      if (modeError) throw modeError;
       return row;
     },
     recordNonPaidEvent: async (event, session, outcome) => {
