@@ -94,7 +94,7 @@ function CheckoutReturn() {
             shippingCents: result.shippingTotal ?? 0,
             taxCents: result.taxTotal ?? 0,
             currency: result.currency ?? "usd",
-            items: result.items ?? [],
+            items: result.analyticsItems ?? result.items ?? [],
           }),
         );
         trackMetaEventOnce(`purchase:${sessionId}`, "Purchase", {
