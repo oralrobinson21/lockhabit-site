@@ -1,7 +1,8 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { products } from "@/lib/catalog";
 import { getCartPricing } from "@/lib/pricing";
+import { CART_STORAGE_KEY, parseStoredCart, serializeCart } from "@/lib/cart-storage";
 import { trackMetaEvent } from "@/lib/meta-analytics";
 
 type CartContextValue = {
@@ -15,12 +16,26 @@ type CartContextValue = {
   addToCart: (id: number, quantity?: number) => void;
   addBundle: (ids: number[]) => void;
   changeQuantity: (id: number, amount: number) => void;
+  clearCart: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Record<number, number>>({});
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    try { setCart(parseStoredCart(localStorage.getItem(CART_STORAGE_KEY))); }
+    catch { /* private browsing: memory-only cart */ }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try { localStorage.setItem(CART_STORAGE_KEY, serializeCart(cart)); }
+    catch { /* storage unavailable; checkout still works */ }
+  }, [cart, hydrated]);
   const [cartOpen, setCartOpen] = useState(false);
 
   const currentPricing = useMemo(
@@ -46,9 +61,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       qualifiesForFreeShipping: pricing.qualifiesForFreeShipping,
       setCartOpen,
       addToCart: (id: number, quantity = 1) => {
-        const count = Math.max(1, Math.floor(quantity));
+        const count = Math.min(20, Math.max(1, Math.floor(quantity)));
         const product = products.find((candidate) => candidate.id === id);
-        setCart((current) => ({ ...current, [id]: (current[id] ?? 0) + count }));
+        if (!product) return;
+        setCart((current) => ({ ...current, [id]: Math.min(20, (current[id] ?? 0) + count) }));
         setCartOpen(true);
         if (product) {
           trackMetaEvent("AddToCart", {
@@ -63,7 +79,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       },
       addBundle: (ids: number[]) => {
         setCart((current) =>
-          ids.reduce((next, id) => ({ ...next, [id]: (next[id] ?? 0) + 1 }), current),
+          ids.reduce((next, id) => ({ ...next, [id]: Math.min(20, (next[id] ?? 0) + 1) }), current),
         );
         setCartOpen(true);
         const bundleProducts = ids
@@ -79,9 +95,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
           });
         }
       },
+      clearCart: () => setCart({}),
       changeQuantity: (id: number, amount: number) => {
         setCart((current) => {
-          const next = Math.max(0, (current[id] ?? 0) + amount);
+          const next = Math.min(20, Math.max(0, (current[id] ?? 0) + amount));
           const updated = { ...current, [id]: next };
           if (next === 0) delete updated[id];
           return updated;
