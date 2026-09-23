@@ -62,3 +62,20 @@ export function summarizeSelectedProducts(
     };
   });
 }
+
+/** Prevent manually created Stripe test charges from training paid-ad bidding. */
+export function isMarketingEligibleCheckout(input: {
+  paid: boolean;
+  livemode: boolean;
+  delivery: string | null | undefined;
+  selectedProductIds: number[];
+  amountTotalCents: number | null | undefined;
+}): boolean {
+  return (
+    input.paid &&
+    input.livemode &&
+    input.delivery === "one_time" &&
+    input.selectedProductIds.length > 0 &&
+    (input.amountTotalCents ?? 0) > 0
+  );
+}
