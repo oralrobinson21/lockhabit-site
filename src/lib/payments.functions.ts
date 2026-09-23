@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import type Stripe from "stripe";
+import { assertOneTimeCheckout } from "@/lib/pricing";
 import { z } from "zod";
 
 import {
@@ -49,7 +50,7 @@ export const createCartCheckout = createServerFn({ method: "POST" })
   .validator((data: z.infer<typeof checkoutInput>) => checkoutInput.parse(data))
   .handler(async ({ data }): Promise<CheckoutResult> => {
     try {
-      if (data.subscribe === true) throw new Error("Subscriptions are not available. Please place a one-time order.");
+      assertOneTimeCheckout(data.subscribe);
       const environment = getStripeEnvironment();
       const stripe = createStripeClient(environment);
       const expandedItems = data.items.flatMap((item) =>
