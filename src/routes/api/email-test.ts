@@ -155,11 +155,9 @@ export const Route = createFileRoute("/api/email-test")({
         }
         sendLog.push(now);
 
-        const id = await sendOrderConfirmation(order, {
-          idempotencyKey: storedOrder
-            ? `lockhabit-order-${order.checkoutSessionId}-manual-${run}`
-            : undefined,
-        });
+        const id = await sendOrderConfirmation(order, storedOrder
+          ? { idempotencyKey: `lockhabit-order-${order.checkoutSessionId}-manual-${run}` }
+          : {});
         return Response.json({
           sent: true,
           id,

@@ -97,7 +97,6 @@ const coconutFeaturedAttributes = ["Vegan", "Non-GMO", "Paraben free", "Sulfate 
 const coconutSupplierAttributes = [
   "Alcohol free",
   "Mineral oil free",
-  "Phthalate free",
   "Silicone free",
 ];
 
@@ -289,7 +288,7 @@ export const products: Product[] = [
     ],
     highlights: ["Fresh cucumber aroma", "Aloe vera", "Organic oils + shea"],
     attributes: ["Aloe vera", "Organic oil base", "Organic shea butter", "Made in USA"],
-    allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "Fair trade palm oil", "Fair trade coconut oil"],
+    allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "Fair trade coconut oil"],
     ingredients: [
       "Organic extra virgin olive oil",
       "Organic palm oil",
@@ -502,7 +501,7 @@ export const products: Product[] = [
     ],
     highlights: ["Lemongrass essential oil", "Sage essential oil", "No added fragrance listed"],
     attributes: ["Lemongrass essential oil", "Sage essential oil", "Organic oil base", "Made in USA"],
-    allAttributes: ["Fair trade palm oil", "Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
+    allAttributes: ["Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
     ingredients: [
       "Organic palm oil",
       "Organic coconut oil",
@@ -568,7 +567,7 @@ export const products: Product[] = [
     ],
     highlights: ["Warm sandalwood fragrance", "Charred oak + light spice", "Organic oils + shea"],
     attributes: ["Organic olive oil", "Organic coconut oil", "Organic shea butter", "Made in USA"],
-    allAttributes: ["Fair trade palm oil", "Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
+    allAttributes: ["Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
     ingredients: [
       "Organic extra virgin olive oil",
       "Organic palm oil",
@@ -703,7 +702,7 @@ export const products: Product[] = [
     ],
     highlights: ["Lavender essential oil", "Real lavender buds", "No added fragrance listed"],
     attributes: ["Gluten free", "Vegetarian", "No added fragrance", "Made in USA"],
-    allAttributes: ["Lactose free", "No fillers", "Lavender essential oil", "Lavender buds", "Fair trade palm oil", "Fair trade coconut oil"],
+    allAttributes: ["Lactose free", "No fillers", "Lavender essential oil", "Lavender buds", "Fair trade coconut oil"],
     ingredients: [
       "Organic extra virgin olive oil",
       "Organic palm oil",
@@ -770,7 +769,7 @@ export const products: Product[] = [
     ],
     highlights: ["Activated charcoal", "Peppermint + tea tree", "No added fragrance listed"],
     attributes: ["Gluten free", "Vegetarian", "No added fragrance", "Made in USA"],
-    allAttributes: ["Lactose free", "No fillers", "Activated charcoal", "Peppermint essential oil", "Tea tree essential oil", "Fair trade palm oil", "Fair trade coconut oil"],
+    allAttributes: ["Lactose free", "No fillers", "Activated charcoal", "Peppermint essential oil", "Tea tree essential oil", "Fair trade coconut oil"],
     ingredients: [
       "Organic palm oil",
       "Organic coconut oil",
@@ -861,12 +860,12 @@ export const products: Product[] = [
     kind: "Soap bar",
     tagline: "Golden hour, now available in the shower.",
     description:
-      "A 3.5 oz kojic-acid and turmeric bar with organic coconut, shea, sustainable palm, lemon and cocoa ingredients plus mango butter.",
+      "A 3.5 oz kojic-acid and turmeric bar with organic coconut, shea, palm, lemon and cocoa ingredients plus mango butter.",
     productStory:
-      "Kojic Acid & Turmeric is the golden-hour bar: turmeric powder and kojic acid headline the formula, with organic coconut oil, shea butter, sustainable palm oil, lemon oil and cocoa butter plus mango butter underneath. The supplier positions the combination as a radiance-focused cleanser for a more even-looking finish; we keep the promise cosmetic and simple — cleanse, rinse, moisturize, repeat as your skin tolerates it. Bright bar, no miracle language.",
+      "Kojic Acid & Turmeric is the golden-hour bar: turmeric powder and kojic acid headline the formula, with organic coconut oil, shea butter, palm oil, lemon oil and cocoa butter plus mango butter underneath. The supplier positions the combination as a radiance-focused cleanser for a more even-looking finish; we keep the promise cosmetic and simple — cleanse, rinse, moisturize, repeat as your skin tolerates it. Bright bar, no miracle language.",
     seoTitle: "Kojic Acid & Turmeric Soap – Radiance Bar | LOCKHABIT",
     seoDescription:
-      "A 3.5 oz kojic acid and turmeric soap with organic coconut oil, shea butter, sustainable palm oil, lemon oil, cocoa butter and mango butter. Made in the USA.",
+      "A 3.5 oz kojic acid and turmeric soap with organic coconut oil, shea butter, palm oil, lemon oil, cocoa butter and mango butter. Made in the USA.",
     ingredientStatement:
       "Sorbitol, Organic Coconut Oil, Propylene Glycol, Stearic Acid, Water, Sodium Hydroxide, Kosher Glycerin, Organic Shea Butter, Organic Sustainable Palm Oil, Organic Lemon Oil, Organic Cocoa Butter, Mango Butter, Organic Turmeric Powder, Kojic Acid.",
     madeIn: "USA",
@@ -874,7 +873,7 @@ export const products: Product[] = [
       {
         question: "What are the key ingredients in Kojic Acid & Turmeric Soap?",
         answer:
-          "The formula includes kojic acid and organic turmeric powder along with organic coconut oil, organic shea butter, organic sustainable palm oil, organic lemon oil, organic cocoa butter and mango butter.",
+          "The formula includes kojic acid and organic turmeric powder along with organic coconut oil, organic shea butter, organic palm oil, organic lemon oil, organic cocoa butter and mango butter.",
       },
       {
         question: "Does Kojic Acid & Turmeric Soap contain added fragrance?",
@@ -898,7 +897,7 @@ export const products: Product[] = [
     ],
     highlights: ["Kojic acid + turmeric", "Organic oils + rich butters", "Fragrance-free formula"],
     attributes: ["Non-GMO", "Cruelty free", "Fragrance free", "Paraben free"],
-    allAttributes: ["Vegetarian", "No fillers", "Phthalate free", "Sustainable palm oil", "Made in USA"],
+    allAttributes: ["Vegetarian", "No fillers", "Made in USA"],
     ingredients: [
       "Sorbitol",
       "Organic coconut oil",

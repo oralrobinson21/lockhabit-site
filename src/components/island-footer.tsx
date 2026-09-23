@@ -65,7 +65,7 @@ export function IslandFooter() {
             <a href="/#shop">Full catalog</a><a href="/#featured">Coconut Beach</a><a href="/#ingredients">Ingredients</a>
           </div></div>
           <div><p className="island-footer-heading">The company</p><div className="island-footer-list">
-            <Link to="/about">About us</Link><Link to="/contact">Contact the front desk</Link><Link to="/shipping">Shipping</Link><Link to="/returns">Returns & refunds</Link>
+            <Link to="/about">About us</Link><Link to="/contact">Contact the front desk</Link><Link to="/shipping">Shipping</Link><Link to="/returns">Returns & refunds</Link><Link to="/faq">FAQ</Link>
           </div></div>
           <div><p className="island-footer-heading">Hours</p><p className="island-footer-hours">Open always.<br />Closed never.<br />Air 84°F, water 79°F.</p>
             <div className="island-footer-list island-footer-legal"><Link to="/contact">Contact the front desk</Link><Link to="/privacy">Privacy policy</Link><Link to="/terms">Terms of service</Link></div>

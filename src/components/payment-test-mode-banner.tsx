@@ -4,8 +4,9 @@ export function PaymentTestModeBanner() {
   let mode: "test" | "live";
   try {
     mode = resolveClientStripeConfig({
-      ...import.meta.env,
-      VITE_STRIPE_MODE: import.meta.env.PROD ? "live" : import.meta.env.VITE_STRIPE_MODE,
+      VITE_STRIPE_MODE: import.meta.env.PROD ? "live" : import.meta.env["VITE_STRIPE_MODE"],
+      VITE_PAYMENTS_CLIENT_TOKEN: import.meta.env["VITE_PAYMENTS_CLIENT_TOKEN"],
+      VITE_PAYMENTS_CLIENT_TOKEN_LIVE: import.meta.env["VITE_PAYMENTS_CLIENT_TOKEN_LIVE"],
     }).mode;
   } catch {
     return (

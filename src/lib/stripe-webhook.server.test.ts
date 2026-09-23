@@ -169,7 +169,7 @@ test("confirmation includes the required order and payment details", async () =>
     "4:04:46 PM ET",
     "LOCKHABIT ORDER",
     'href="https://lockhabit.com/"',
-    "oralrobinson21@outlook.com",
+    "support@lockhabit.com",
     'name="color-scheme" content="light only"',
     "receipt-header.jpg",
     "ink-title.png",

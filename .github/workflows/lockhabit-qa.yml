@@ -1,0 +1,33 @@
+name: LockHabit QA
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Pricing and cart tests
+        run: npm run test
+      - name: Semantic lint (existing repository formatting is handled separately)
+        run: |
+          npx eslint . --rule "prettier/prettier: off"
+      - name: Build and regenerate typed product/FAQ routes
+        run: npm run build
+      - name: Typecheck
+        run: npx tsc --noEmit

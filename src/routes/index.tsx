@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
   head: () => {
     const title = "Bar Soap & Body Care | LOCKHABIT Soap Co.";
     const description =
-      "Shop LOCKHABIT bar soap and body care: tropical scents, botanical oils, shea butter, build-your-own soap bundles, and monthly delivery.";
+      "Shop LOCKHABIT bar soap and body care: tropical scents, botanical oils, shea butter, and build-your-own soap bundles.";
     const canonical = "https://lockhabit.com/";
     const image = new URL(heroImage, canonical).href;
 
@@ -194,9 +194,9 @@ function Index() {
           <span />
           <span />
         </div>
-        <button className="bundle-catch" onClick={() => scrollToShop()}>
+        <div className="bundle-catch" aria-label="Bundle prices: three bars for $89 or six bars for $169">
           <span>THE BUNDLE CATCH</span>3 CHOSEN $89 · 6 CHOSEN $169
-        </button>
+        </div>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-24 lg:px-10 lg:pb-20">
           <div className="max-w-2xl animate-rise">
             <p className="memo mb-5 flex items-center gap-3">
@@ -230,9 +230,9 @@ function Index() {
               the soul
             </div>
             <div className="sticker pointer-events-auto mt-12 h-24 w-24 rotate-[8deg] bg-secondary text-secondary-foreground">
-              Sun
+              Sunny
               <br />
-              tested
+              days
             </div>
           </div>
           <a
@@ -353,7 +353,8 @@ function Index() {
       </section>
 
       <section
-        className="border-y-2 border-foreground bg-sun px-5 py-16 text-sun-foreground lg:px-10"
+        id="bundles"
+        className="scroll-mt-24 border-y-2 border-foreground bg-sun px-5 py-16 text-sun-foreground lg:px-10"
         aria-labelledby="bundle-heading"
       >
         <div className="mx-auto max-w-7xl">
@@ -365,8 +366,7 @@ function Index() {
               <em>Save the haul.</em>
             </h2>
             <p className="max-w-md text-sm font-semibold leading-6">
-              Pick any 3 bars for $89 or any 6 for $169. Buying a single bar on repeat? Monthly
-              subscriptions save 15%.
+              Pick any 3 bars for $89 or any 6 for $169. Bundle savings update automatically in your bag.
             </p>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -409,6 +409,32 @@ function Index() {
             Build your own: add any 3 or 6 soap bars and the discount lands in your bag
             automatically · Free shipping $75+
           </p>
+        </div>
+      </section>
+
+      <section id="faq" className="scroll-mt-24 bg-paper px-5 py-16 sm:py-20 lg:px-10" aria-labelledby="home-faq-heading">
+        <div className="mx-auto max-w-5xl">
+          <p className="eyebrow">Good questions</p>
+          <h2 id="home-faq-heading" className="section-title">Before you<br/><em>check in.</em></h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <details className="paper-card p-5">
+              <summary className="cursor-pointer font-display text-xl font-semibold">Can I choose my own bundle?</summary>
+              <p className="mt-3 text-sm leading-7">Yes. Any three soap bars are $89, or any six are $169. Your bag recalculates when you change quantities.</p>
+            </details>
+            <details className="paper-card p-5">
+              <summary className="cursor-pointer font-display text-xl font-semibold">Is this a subscription?</summary>
+              <p className="mt-3 text-sm leading-7">No. All purchases are one-time orders with no recurring charges.</p>
+            </details>
+            <details className="paper-card p-5">
+              <summary className="cursor-pointer font-display text-xl font-semibold">What does shipping cost?</summary>
+              <p className="mt-3 text-sm leading-7">Orders under $75 ship for $7.95. Orders of $75 or more qualify for free shipping; eligible destinations are shown at checkout.</p>
+            </details>
+            <details className="paper-card p-5">
+              <summary className="cursor-pointer font-display text-xl font-semibold">What if I need to return an order?</summary>
+              <p className="mt-3 text-sm leading-7">Our <Link to="/returns" className="underline underline-offset-4">returns and refunds policy</Link> explains how to request help with unopened, damaged or incorrect items.</p>
+            </details>
+          </div>
+          <Link to="/faq" className="secondary-button mt-8">See all FAQs <ArrowRight size={16} /></Link>
         </div>
       </section>
 
@@ -752,6 +778,7 @@ function Index() {
                 <Link to="/contact">Contact the front desk</Link>
                 <Link to="/shipping">Shipping</Link>
                 <Link to="/returns">Returns & refunds</Link>
+                <Link to="/faq">FAQ</Link>
               </div>
             </div>
             <div>

@@ -308,8 +308,9 @@ function ProductPage() {
 function ProductView({ slug }: { slug: string }) {
   const product = productBySlug(slug);
   if (!product) throw notFound();
-  const { addToCart, setSubscribe } = useCart();
+  const { addToCart } = useCart();
   const [activeImage, setActiveImage] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const related = relatedProducts(product);
   const catalogIndex = products.findIndex((candidate) => candidate.id === product.id);
   const sceneRef = useRef<HTMLDivElement | null>(null);
@@ -333,6 +334,7 @@ function ProductView({ slug }: { slug: string }) {
 
   useEffect(() => {
     setActiveImage(0);
+    setQuantity(1);
     window.scrollTo({ top: 0 });
   }, [slug]);
 
@@ -387,6 +389,8 @@ function ProductView({ slug }: { slug: string }) {
                 <ArrowLeft size={14} /> Home
               </Link>
               <span aria-hidden="true">/</span>
+              <Link to="/" hash="shop" className="underline-offset-4 hover:underline">Catalog</Link>
+              <span aria-hidden="true">/</span>
               <span aria-current="page">{product.name}</span>
             </nav>
 
@@ -395,7 +399,7 @@ function ProductView({ slug }: { slug: string }) {
                 <div className="retro-frame aspect-square bg-muted">
                   <GalleryMedia
                     key={`${product.images[activeImage]?.src}-${product.images[activeImage]?.crop ?? "full"}`}
-                    image={product.images[activeImage]}
+                    image={product.images[activeImage] ?? product.images[0]!}
                     className={`h-full w-full animate-gallery-in ${activeImage === 0 ? "bg-paper object-contain p-3 sm:p-6" : "bg-center object-cover"}`}
                   />
                 </div>
@@ -409,7 +413,7 @@ function ProductView({ slug }: { slug: string }) {
                       type="button"
                       onClick={() => setActiveImage(index)}
                       className={`aspect-square overflow-hidden rounded-xl border-2 transition ${activeImage === index ? "border-foreground shadow-[3px_3px_0_var(--color-foreground)]" : "border-foreground/25 opacity-70 hover:opacity-100"}`}
-                      aria-label={`View ${product.name} image ${index + 1}`}
+                      aria-label={`View image ${index + 1}: ${image.alt}`}
                       aria-pressed={activeImage === index}
                     >
                       <GalleryMedia
@@ -434,6 +438,7 @@ function ProductView({ slug }: { slug: string }) {
                 </p>
                 <h1 className="section-title">{product.name}</h1>
                 <p className="memo mt-3 text-muted-foreground">{product.note}</p>
+                <p className="mt-3 text-xs text-muted-foreground">Customer reviews will be displayed once we have authentic reviews to share.</p>
                 <div className="mt-6 flex flex-wrap items-center gap-4">
                   <span className="price-tag">${product.price.toFixed(2)}</span>
                   <span className="memo text-muted-foreground">{product.netWeight}</span>
@@ -459,8 +464,13 @@ function ProductView({ slug }: { slug: string }) {
                 </ul>
 
                 <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <button className="primary-button" onClick={() => addToCart(product.id)}>
-                    Add to bag <Plus size={18} />
+                  <div className="flex h-[3.3rem] items-center rounded-full border-2 border-foreground bg-paper" role="group" aria-label={`${product.name} quantity`}>
+                    <button type="button" className="px-4 py-3 disabled:opacity-35" aria-label="Decrease quantity" disabled={quantity <= 1} onClick={() => setQuantity((current) => Math.max(1, current - 1))}><Minus size={17} /></button>
+                    <span className="w-7 text-center text-sm font-bold" aria-live="polite">{quantity}</span>
+                    <button type="button" className="px-4 py-3 disabled:opacity-35" aria-label="Increase quantity" disabled={quantity >= 20} onClick={() => setQuantity((current) => Math.min(20, current + 1))}><Plus size={17} /></button>
+                  </div>
+                  <button type="button" className="primary-button" onClick={() => addToCart(product.id, quantity)}>
+                    Add {quantity > 1 ? `${quantity} to` : "to"} bag <Plus size={18} />
                   </button>
                   <Link to="/" hash="shop" className="secondary-button">
                     See all twelve <ArrowRight size={16} />
@@ -477,18 +487,6 @@ function ProductView({ slug }: { slug: string }) {
                   </Link>
                 </p>
                 {product.kind === "Soap bar" ? (
-                  <button
-                    type="button"
-                    className="secondary-button mt-4"
-                    onClick={() => {
-                      setSubscribe(true);
-                      addToCart(product.id);
-                    }}
-                  >
-                    Subscribe & add to bag · save 15% <ArrowRight size={16} />
-                  </button>
-                ) : null}
-                {product.kind === "Soap bar" ? (
                   <div className="paper-card mt-5 p-5">
                     <p className="memo text-muted-foreground">The longer stay</p>
                     <p className="mt-2 font-display text-2xl font-semibold leading-tight">
@@ -501,7 +499,6 @@ function ProductView({ slug }: { slug: string }) {
                     <button
                       className="primary-button mt-4"
                       onClick={() => {
-                        setSubscribe(false);
                         addToCart(product.id, 3);
                       }}
                     >
@@ -515,8 +512,7 @@ function ProductView({ slug }: { slug: string }) {
                       One ${product.netWeight} · {`${product.price.toFixed(2)}`}
                     </p>
                     <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-                      Raw Shea Butter checks in solo. Soap bundles and monthly soap delivery are
-                      reserved for the bar-soap collection, so there is no hidden bundle math here.
+                      Raw Shea Butter is priced separately from our bar-soap bundles. There are no recurring charges.
                     </p>
                   </div>
                 )}

@@ -58,7 +58,6 @@ export function productStructuredData(product: Product) {
       description: product.productStory ?? product.description,
       image: product.images.map((image) => absoluteAssetUrl(image.src)),
       brand: { "@type": "Brand", name: "LOCKHABIT" },
-      sku: productSku(product),
       category: product.productType,
       ...(product.madeIn ? { countryOfOrigin: product.madeIn } : {}),
       additionalProperty: (product.attributes ?? []).map((name) => ({
@@ -88,7 +87,8 @@ export function productStructuredData(product: Product) {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
-        { "@type": "ListItem", position: 2, name: product.name, item: canonical },
+        { "@type": "ListItem", position: 2, name: "Catalog", item: `${SITE}/#shop` },
+        { "@type": "ListItem", position: 3, name: product.name, item: canonical },
       ],
     },
   ];

@@ -4,8 +4,14 @@ export const SINGLE_BAR_PRICE = 35;
 export const SHEA_BUTTER_PRICE = 42;
 export const THREE_BAR_BUNDLE_PRICE = 89;
 export const SIX_BAR_BUNDLE_PRICE = 169;
-export const SUBSCRIPTION_DISCOUNT = 0.15;
 export const FREE_SHIPPING_THRESHOLD = 75;
+
+/** Reject obsolete subscription checkouts before any payment provider call. */
+export function assertOneTimeCheckout(subscribe?: boolean) {
+  if (subscribe === true) {
+    throw new Error("Subscriptions are not available. Please place a one-time order.");
+  }
+}
 
 export type CartLine = Pick<Product, "id" | "kind" | "price"> & { quantity: number };
 
@@ -32,6 +38,5 @@ export function getCartPricing(lines: CartLine[]) {
     subtotal,
     savings: regularSoapTotal - soapTotal,
     qualifiesForFreeShipping: subtotal >= FREE_SHIPPING_THRESHOLD,
-    canSubscribe: soapCount > 0 && soapCount !== 3 && soapCount !== 6 && bodyCareTotal === 0,
   };
 }

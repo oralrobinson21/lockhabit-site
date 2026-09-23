@@ -8,17 +8,14 @@ import { useCart } from "@/lib/cart";
 const tickerItems = [
   "BUILD 3 FOR $89 · SAVE $16",
   "6 CHOSEN BARS $169 · SAVE $41",
-  "SUBSCRIBE MONTHLY · SAVE 15%",
   "FREE SHIPPING $75+",
   "TODAY'S FORECAST: LATHER",
 ];
 
 const menuLinks: Array<[string, string]> = [
-  ["Featured", "featured"],
-  ["Catalog", "shop"],
-  ["Front desk", "desk"],
-  ["Inside", "ingredients"],
-  ["Story", "story"],
+  ["Shop", "shop"],
+  ["Bundles", "bundles"],
+  ["Our story", "story"],
 ];
 
 function TickerGroup({ hidden = false }: { hidden?: boolean }) {
@@ -88,6 +85,7 @@ export function SiteHeader() {
             <Link className="nav-link" to="/about">
               About
             </Link>
+            <Link className="nav-link" to="/faq">FAQ</Link>
           </nav>
 
           <Link
@@ -131,6 +129,7 @@ export function SiteHeader() {
             >
               About
             </Link>
+            <Link to="/faq" className="memo block border-b border-foreground/20 py-3.5" onClick={() => setMenuOpen(false)}>FAQ</Link>
           </nav>
         )}
         </header>
