@@ -44,8 +44,8 @@ function Returns() {
           title: "Damaged, defective, or incorrect",
           body: (
             <p>
-              If we sent the wrong item or your order arrived damaged or defective, contact
-              the front desk through our Contact page within 7 days of delivery with your order number and photos.
+              If we sent the wrong item or your order arrived damaged or defective, contact the
+              front desk through our Contact page within 7 days of delivery with your order number and photos.
               We’ll review it and make the appropriate replacement or refund.
             </p>
           ),
