@@ -5,10 +5,8 @@ import { trackMetaEventOnce } from "@/lib/meta-analytics";
 
 export function StripeCartCheckout({
   items,
-  subscribe,
 }: {
   items: Array<{ productId: number; quantity: number }>;
-  subscribe: boolean;
 }) {
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +15,7 @@ export function StripeCartCheckout({
 
     void (async () => {
       try {
-        const checkoutKey = `${subscribe ? "sub" : "once"}:${items
+        const checkoutKey = `once:${items
           .map((item) => `${item.productId}x${item.quantity}`)
           .join(",")}`;
         trackMetaEventOnce(checkoutKey, "InitiateCheckout", {
@@ -30,7 +28,6 @@ export function StripeCartCheckout({
         const result = await createCartCheckout({
           data: {
             items,
-            subscribe,
             returnUrl: `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
           },
         });
@@ -50,7 +47,7 @@ export function StripeCartCheckout({
     return () => {
       cancelled = true;
     };
-  }, [items, subscribe]);
+  }, [items]);
 
   if (error) {
     return (
