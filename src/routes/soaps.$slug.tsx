@@ -475,17 +475,17 @@ function ProductView({ slug }: { slug: string }) {
                       addToCart(product.id);
                     }}
                   >
-                    Subscribe monthly · save 15% <ArrowRight size={16} />
+                    Subscribe & add to bag · save 15% <ArrowRight size={16} />
                   </button>
                 ) : null}
                 {product.kind === "Soap bar" ? (
                   <div className="paper-card mt-5 p-5">
                     <p className="memo text-muted-foreground">The longer stay</p>
                     <p className="mt-2 font-display text-2xl font-semibold leading-tight">
-                      3 bars for ${threeBarOffer.price}
+                      3 bars for {`$${threeBarOffer.price}`}
                     </p>
                     <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-                      ${threeBarOffer.savings} off three single bars, and the order ships free. Same
+                      {`$${threeBarOffer.savings}`} off three single bars, and the order ships free. Same
                       bar, stocked for the month.
                     </p>
                     <button
@@ -498,7 +498,18 @@ function ProductView({ slug }: { slug: string }) {
                       Add 3 bars <Plus size={18} />
                     </button>
                   </div>
-                ) : null}
+                ) : (
+                  <div className="paper-card mt-5 p-5">
+                    <p className="memo text-muted-foreground">Body-care check-in</p>
+                    <p className="mt-2 font-display text-2xl font-semibold leading-tight">
+                      One 8 oz jar · {`$${product.price.toFixed(2)}`}
+                    </p>
+                    <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+                      Raw Shea Butter checks in solo. Soap bundles and monthly soap delivery are
+                      reserved for the bar-soap collection, so there is no hidden bundle math here.
+                    </p>
+                  </div>
+                )}
 
                 {product.attributes?.length ? (
                   <section className="mt-10" aria-label={`${product.name} product attributes`}>
