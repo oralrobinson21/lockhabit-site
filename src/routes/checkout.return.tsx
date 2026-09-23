@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { SiteHeader } from "@/components/site-header";
 import { getCheckoutStatus } from "@/lib/payments.functions";
+import { trackMetaEventOnce } from "@/lib/meta-analytics";
 
 export const Route = createFileRoute("/checkout/return")({
   validateSearch: (search: Record<string, unknown>): { session_id?: string } =>
@@ -46,6 +47,17 @@ function CheckoutReturn() {
       if ("total" in result) setTotal(result.total ?? 0);
       if ("currency" in result) setCurrency(result.currency ?? "usd");
       if ("confirmationSent" in result) setConfirmationSent(Boolean(result.confirmationSent));
+      if (result.paid) {
+        trackMetaEventOnce(`purchase:${sessionId}`, "Purchase", {
+          value: "total" in result ? (result.total ?? 0) / 100 : 0,
+          currency: ("currency" in result ? result.currency : "usd").toUpperCase(),
+          content_ids:
+            "items" in result
+              ? (result.items ?? []).map((item) => item.name)
+              : [],
+          content_type: "product",
+        });
+      }
     });
   }, [sessionId]);
 
