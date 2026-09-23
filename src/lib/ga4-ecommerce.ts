@@ -32,7 +32,11 @@ function trackGa4Event(event: string, params: Ga4Params) {
   if (typeof window === "undefined") return;
   const gtag = (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
   if (!gtag) return;
-  gtag("event", event, params);
+  try {
+    gtag("event", event, params);
+  } catch {
+    // Analytics must never interrupt the customer's cart or payment journey.
+  }
 }
 
 export function trackViewItem(id: number | string, name: string, price: number) {
@@ -85,5 +89,8 @@ export function buildGa4CheckoutPayload(lines: Ga4CheckoutLine[]) {
 /** Call only after Stripe has created a real Checkout Session. */
 export function trackBeginCheckout(lines: Ga4CheckoutLine[]) {
   if (!lines.length) return;
-  trackGa4Event("begin_checkout", buildGa4CheckoutPayload(lines));
+  trackGa4Event("begin_checkout", {
+    ...buildGa4CheckoutPayload(lines),
+    transport_type: "beacon",
+  });
 }
