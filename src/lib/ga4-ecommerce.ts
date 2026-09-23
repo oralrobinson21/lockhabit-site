@@ -43,6 +43,12 @@ export function trackViewItem(id: number | string, name: string, price: number) 
   });
 }
 
+/** Shared guard: do not advertise cart units rejected by the 20-unit limit. */
+export function acceptedCartQuantity(existing: number, requested: number): number {
+  if (!Number.isFinite(requested) || requested <= 0) return 0;
+  return Math.min(Math.floor(requested), Math.max(0, 20 - existing));
+}
+
 /** Only call after the cart accepts the specified number of units. */
 export function trackAddToCart(items: Ga4EcommerceItem[]) {
   if (!items.length) return;
