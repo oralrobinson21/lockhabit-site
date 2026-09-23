@@ -57,7 +57,7 @@ test("Coconut Beach structured data stays inside claims the page actually makes"
   const faq = graph.find((node) => node["@type"] === "FAQPage");
   assert.ok(productNode?.offers);
   assert.equal(productNode.offers.price, "35.00");
-  assert.equal(productNode.sku, "LOCKHABIT-COCONUT-BEACH-SOAP");
+  assert.equal(productNode.sku, undefined, "Do not invent merchant SKUs");
   assert.equal(productNode.countryOfOrigin, "USA");
   assert.equal(productNode.offers.shippingDetails[1]?.shippingRate.value, "0");
   assert.ok(faq?.mainEntity);
