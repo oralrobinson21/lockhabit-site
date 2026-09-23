@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { buildGa4PurchasePayload, trackGa4PurchaseOnce } from "./ga4-purchase";
+import { isMarketingEligibleCheckout } from "./product-selection";
 
 test("GA4 purchase value excludes shipping and tax while retaining item data", () => {
   assert.deepEqual(
@@ -76,4 +77,20 @@ test("GA4 purchase is queued once per session and absent without gtag", () => {
     if (previous === undefined) delete globalWithWindow.window;
     else globalWithWindow.window = previous;
   }
+});
+
+test("only paid live storefront sessions qualify as advertising conversions", () => {
+  const base = {
+    paid: true,
+    livemode: true,
+    delivery: "one_time",
+    selectedProductIds: [1, 4, 10],
+    amountTotalCents: 8900,
+  };
+  assert.equal(isMarketingEligibleCheckout(base), true);
+  assert.equal(isMarketingEligibleCheckout({ ...base, paid: false }), false);
+  assert.equal(isMarketingEligibleCheckout({ ...base, livemode: false }), false);
+  assert.equal(isMarketingEligibleCheckout({ ...base, delivery: null }), false);
+  assert.equal(isMarketingEligibleCheckout({ ...base, selectedProductIds: [] }), false);
+  assert.equal(isMarketingEligibleCheckout({ ...base, amountTotalCents: 0 }), false);
 });
