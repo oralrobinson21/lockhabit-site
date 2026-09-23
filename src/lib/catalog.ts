@@ -388,7 +388,7 @@ export const products: Product[] = [
     kind: "Soap bar",
     tagline: "Scrub and soap in one piece.",
     description:
-      "A handmade exfoliating bar with natural luffa, tea tree and grapefruit essential oils, plus shea, cocoa and mango butters.",
+      "An exfoliating bar with natural luffa, tea tree and grapefruit essential oils, plus shea, cocoa and mango butters.",
     productStory:
       "The Exfoliating Luffa Bar is the one that earns its spot by doing two jobs at once. Natural luffa is built right into the bar for physical exfoliation, while tea tree and grapefruit essential oils keep the scent fresh and clean. Shea, cocoa and mango butters round out the formula. It is the bar for elbows, knees, feet, pre-tan prep, or any shower where a plain washcloth feels a little underqualified.",
     seoTitle: "Exfoliating Luffa Bar – Tea Tree & Grapefruit | LOCKHABIT",
