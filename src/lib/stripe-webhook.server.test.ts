@@ -57,7 +57,6 @@ function harness(currentSession: Stripe.Checkout.Session) {
       claimed.add(order.checkoutSessionId);
       emailCount += 1;
     },
-    sendStripeReceipt: async () => {},
   };
   return {
     dependencies,
