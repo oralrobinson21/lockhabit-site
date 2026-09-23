@@ -393,7 +393,7 @@ export const products: Product[] = [
       "The Exfoliating Luffa Bar is the one that earns its spot by doing two jobs at once. Natural luffa is built right into the bar for physical exfoliation, while tea tree and grapefruit essential oils keep the scent fresh and clean. Shea, cocoa and mango butters round out the formula. It is the bar for elbows, knees, feet, pre-tan prep, or any shower where a plain washcloth feels a little underqualified.",
     seoTitle: "Exfoliating Luffa Bar – Tea Tree & Grapefruit | LOCKHABIT",
     seoDescription:
-      "A handmade 4 oz exfoliating luffa bar with natural luffa, tea tree and grapefruit essential oils plus shea, cocoa and mango butters. Made in the USA.",
+      "A 4 oz exfoliating luffa bar with natural luffa, tea tree and grapefruit essential oils plus shea, cocoa and mango butters. Made in the USA.",
     ingredientStatement:
       "Sorbitol, Coconut Oil, Propylene Glycol, Natural Luffa, Stearic Acid, Water, Sodium Hydroxide, Glycerin, Tea Tree Essential Oil, Shea Butter, Grapefruit Essential Oil, Cocoa Butter, Mango Butter, Hemp Extract, Titanium Dioxide.",
     madeIn: "USA",
