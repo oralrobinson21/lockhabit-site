@@ -11,6 +11,7 @@ import {
 import {
   parseSelectedProductIds,
   summarizeSelectedProducts,
+  isMarketingEligibleCheckout,
   type SelectedOrderItem,
 } from "@/lib/product-selection";
 
@@ -266,6 +267,13 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
 
       return {
         paid,
+        marketingEligible: isMarketingEligibleCheckout({
+          paid,
+          livemode: session.livemode,
+          delivery: session.metadata?.["delivery"],
+          selectedProductIds: selectedIds,
+          amountTotalCents: session.amount_total,
+        }),
         analyticsItems,
         livemode: session.livemode,
         shippingTotal: session.shipping_cost?.amount_total ?? 0,
