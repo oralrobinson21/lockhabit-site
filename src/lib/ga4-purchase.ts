@@ -39,22 +39,35 @@ export function buildGa4PurchasePayload({
   };
 }
 
+// Covers browsers that block localStorage: one event per checkout in this page lifetime.
+const sentCheckoutSessions = new Set<string>();
+
 /** Record at most one browser purchase event per paid, live Stripe checkout session. */
 export function trackGa4PurchaseOnce(
   sessionId: string,
   payload: ReturnType<typeof buildGa4PurchasePayload>,
 ) {
   if (typeof window === "undefined") return;
+  if (sentCheckoutSessions.has(sessionId)) return;
   const storageKey = `lockhabit:ga4-live-purchase:${sessionId}`;
   try {
-    if (window.localStorage.getItem(storageKey)) return;
+    if (window.localStorage.getItem(storageKey)) {
+      sentCheckoutSessions.add(sessionId);
+      return;
+    }
   } catch {
-    // Private browsing must never block a successful order confirmation.
+    // Browsers blocking storage still get in-memory deduplication.
   }
 
   const gtag = (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
   if (!gtag) return;
-  gtag("event", "purchase", payload);
+  try {
+    gtag("event", "purchase", payload);
+  } catch {
+    // Analytics errors must never interrupt paid order confirmation.
+    return;
+  }
+  sentCheckoutSessions.add(sessionId);
 
   try {
     window.localStorage.setItem(storageKey, "1");
