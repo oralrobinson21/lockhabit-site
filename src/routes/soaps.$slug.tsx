@@ -30,6 +30,7 @@ import { useCart } from "@/lib/cart";
 import { productBySlug, products, relatedProducts, type GalleryImage } from "@/lib/catalog";
 import { productMeta, productStructuredData, threeBarOffer } from "@/lib/product-seo";
 import { trackMetaEvent } from "@/lib/meta-analytics";
+import { trackViewItem } from "@/lib/ga4-ecommerce";
 
 type ProductRouteSearch = {
   slug: string;
@@ -346,6 +347,7 @@ function ProductView({ slug }: { slug: string }) {
       value: product.price,
       currency: "USD",
     });
+    trackViewItem(product.id, product.name, product.price);
   }, [product.id, product.name, product.price, slug]);
 
   return (
