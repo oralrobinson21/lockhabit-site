@@ -16,6 +16,40 @@ export const requestOrderAdminLink = createServerFn({ method: "POST" })
     }
   });
 
+export const requestOrderAdminPasswordCode = createServerFn({ method: "POST" })
+  .validator((data: { email: string }) =>
+    z.object({ email: z.string().trim().email().max(254) }).parse(data),
+  )
+  .handler(async ({ data }) => {
+    try {
+      const { emailOrderAdminPasswordCode } = await import("@/lib/order-admin.server");
+      await emailOrderAdminPasswordCode(data.email);
+      // Do not reveal whether the supplied email is the configured owner address.
+      return { ok: true as const };
+    } catch {
+      return {
+        ok: false as const,
+        error: "Password setup email is unavailable. Please try again later.",
+      };
+    }
+  });
+
+export const completeOrderAdminPasswordSetup = createServerFn({ method: "POST" })
+  .validator((data: { email: string; code: string; password: string }) =>
+    z
+      .object({
+        email: z.string().trim().email().max(254),
+        code: z.string().trim().regex(/^\d{6}$/),
+        password: z.string().min(12).max(128),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data }) => {
+    const { setOrderAdminPassword } = await import("@/lib/order-admin.server");
+    await setOrderAdminPassword(data.email, data.code, data.password);
+    return { ok: true as const };
+  });
+
 export const listOwnerOrders = createServerFn({ method: "POST" })
   .validator((data: { accessToken: string }) => z.object({ accessToken }).parse(data))
   .handler(async ({ data }) => {
