@@ -263,11 +263,11 @@ export type Database = {
           p_checkout_session_id: string
           p_currency: string
           p_customer_email: string
-          p_customer_name: string
+          p_customer_name: string | null
           p_event_id: string
           p_event_type: string
           p_items: Json
-          p_payment_intent_id: string
+          p_payment_intent_id: string | null
           p_shipping_details: Json
         }
         Returns: {
