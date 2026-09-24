@@ -12,6 +12,7 @@ export type TrackingOrder = {
   paymentStatus: string;
   trackingCarrier: string | null;
   trackingNumber: string | null;
+  estimatedDeliveryDate: string | null;
   trackingNotifiedAt: string | null;
 };
 
@@ -41,6 +42,7 @@ type TrackingEmail = {
   carrier: Carrier;
   trackingNumber: string;
   trackingUrl: string;
+  estimatedDeliveryDate: string;
   idempotencyKey: string;
 };
 
@@ -58,6 +60,7 @@ export type OrderAdminDependencies<TOrder> = {
     carrier: Carrier;
     trackingNumber: string;
     trackingUrl: string;
+    estimatedDeliveryDate: string;
     shippedAt: string;
   }) => Promise<void>;
   sendTrackingEmail: (message: TrackingEmail) => Promise<boolean>;
@@ -125,17 +128,32 @@ export function createOrderAdminService<TOrder>(dependencies: OrderAdminDependen
     orderId: string,
     carrier: Carrier,
     trackingNumber: string,
+    estimatedDeliveryDate: string,
   ) {
     await requireOrderAdmin(accessToken);
     const number = trackingNumber.trim().replace(/\s+/g, "");
     const url = trackingLink(carrier, number);
+    const deliveryDate = estimatedDeliveryDate.trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(deliveryDate)) {
+      throw new Error("Enter a valid estimated delivery date.");
+    }
+    const parsedDelivery = new Date(`${deliveryDate}T12:00:00.000Z`);
+    if (Number.isNaN(parsedDelivery.getTime()) || parsedDelivery.toISOString().slice(0, 10) !== deliveryDate) {
+      throw new Error("Enter a valid estimated delivery date.");
+    }
+    const today = dependencies.now().toISOString().slice(0, 10);
+    if (deliveryDate < today) throw new Error("Estimated delivery cannot be in the past.");
+
     const oldOrder = await dependencies.findTrackingOrder(orderId);
     if (!oldOrder || oldOrder.paymentStatus !== "paid") {
       throw new Error("A paid order was not found.");
     }
 
-    const sameNumber = oldOrder.trackingCarrier === carrier && oldOrder.trackingNumber === number;
-    if (sameNumber && oldOrder.trackingNotifiedAt) {
+    const sameShipment =
+      oldOrder.trackingCarrier === carrier &&
+      oldOrder.trackingNumber === number &&
+      oldOrder.estimatedDeliveryDate === deliveryDate;
+    if (sameShipment && oldOrder.trackingNotifiedAt) {
       return { saved: true as const, notified: true as const, trackingUrl: url };
     }
 
@@ -145,6 +163,7 @@ export function createOrderAdminService<TOrder>(dependencies: OrderAdminDependen
       carrier,
       trackingNumber: number,
       trackingUrl: url,
+      estimatedDeliveryDate: deliveryDate,
       shippedAt,
     });
 
@@ -160,7 +179,8 @@ export function createOrderAdminService<TOrder>(dependencies: OrderAdminDependen
         carrier,
         trackingNumber: number,
         trackingUrl: url,
-        idempotencyKey: `lockhabit-shipping-${orderId}-${carrier}-${number}`,
+        estimatedDeliveryDate: deliveryDate,
+        idempotencyKey: `lockhabit-shipping-${orderId}-${carrier}-${number}-${deliveryDate}`,
       });
     } catch (error) {
       dependencies.onNonFatalError?.("tracking email delivery", error);
