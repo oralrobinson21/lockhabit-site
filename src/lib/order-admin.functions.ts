@@ -63,16 +63,24 @@ export const saveOwnerTracking = createServerFn({ method: "POST" })
     orderId: string;
     carrier: "USPS" | "UPS" | "FedEx" | "DHL";
     trackingNumber: string;
+    estimatedDeliveryDate: string;
   }) =>
     z.object({
       accessToken,
       orderId: z.string().uuid(),
       carrier: z.enum(["USPS", "UPS", "FedEx", "DHL"]),
       trackingNumber: z.string().trim().min(6).max(80),
+      estimatedDeliveryDate: z.string().trim().regex(/^\d{4}-\d{2}-\d{2}$/),
     }).parse(data))
   .handler(async ({ data }) => {
     const { saveAdminTracking } = await import("@/lib/order-admin.server");
-    return saveAdminTracking(data.accessToken, data.orderId, data.carrier, data.trackingNumber);
+    return saveAdminTracking(
+      data.accessToken,
+      data.orderId,
+      data.carrier,
+      data.trackingNumber,
+      data.estimatedDeliveryDate,
+    );
   });
 
 export const listOwnerRefunds = createServerFn({ method: "POST" })
