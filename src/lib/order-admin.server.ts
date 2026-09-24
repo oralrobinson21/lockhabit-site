@@ -1,3 +1,5 @@
+import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
+
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { createOrderAdminService, type RefundRecord } from "@/lib/order-admin-core";
 import { createStripeClient, getStripeEnvironment } from "@/lib/stripe.server";
@@ -170,6 +172,155 @@ const orderAdminService = createOrderAdminService({
     );
   },
 });
+
+
+function configuredOwnerEmail(): string {
+  const email = process.env["LOCKHABIT_ADMIN_EMAIL"]?.trim().toLowerCase();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error("Order management is not configured.");
+  }
+  return email;
+}
+
+function adminAuthSecret(): string {
+  const secret = process.env["LOCKHABIT_ADMIN_AUTH_SECRET"];
+  if (!secret || secret.length < 32) throw new Error("Owner password setup is not configured.");
+  return secret;
+}
+
+function passwordCodeDigest(email: string, code: string): string {
+  return createHmac("sha256", adminAuthSecret()).update(`${email}:${code}`).digest("hex");
+}
+
+function sameDigest(left: string, right: string): boolean {
+  if (!/^[a-f0-9]{64}$/i.test(left) || !/^[a-f0-9]{64}$/i.test(right)) return false;
+  return timingSafeEqual(Buffer.from(left, "hex"), Buffer.from(right, "hex"));
+}
+
+async function sendPasswordCodeEmail(to: string, code: string, idempotencyKey: string) {
+  const from = process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
+  const apiKey = process.env["RESEND_API_KEY"];
+  if (!from || !apiKey) throw new Error("Owner password email is not configured.");
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "Idempotency-Key": idempotencyKey,
+    },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      subject: "Your LOCKHABIT owner password code",
+      text: `Your LOCKHABIT owner verification code is ${code}. It expires in 10 minutes. If you did not request this, ignore this email.`,
+      html: `<p>Your LOCKHABIT owner verification code is:</p><p style="font-size:28px;font-weight:700;letter-spacing:6px">${code}</p><p>It expires in 10 minutes. If you did not request this, ignore this email.</p>`,
+    }),
+  });
+
+  if (!response.ok) throw new Error("Owner password email could not be delivered.");
+}
+
+export async function emailOrderAdminPasswordCode(email: string): Promise<void> {
+  const ownerEmail = configuredOwnerEmail();
+  if (email.trim().toLowerCase() !== ownerEmail) return;
+
+  const { data: claimed, error: claimError } = await supabaseAdmin.rpc(
+    "claim_lockhabit_admin_login",
+    { p_email: ownerEmail },
+  );
+  if (claimError) throw new Error("Password setup is unavailable. Try again later.");
+  if (!claimed) return;
+
+  const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + 10 * 60_000).toISOString();
+  const digest = passwordCodeDigest(ownerEmail, code);
+
+  const { error: challengeError } = await supabaseAdmin
+    .from("order_admin_password_challenges")
+    .upsert(
+      {
+        email: ownerEmail,
+        code_digest: digest,
+        expires_at: expiresAt,
+        attempts: 0,
+        created_at: now.toISOString(),
+      },
+      { onConflict: "email" },
+    );
+  if (challengeError) throw new Error("Password setup is unavailable. Try again later.");
+
+  try {
+    await sendPasswordCodeEmail(
+      ownerEmail,
+      code,
+      `lockhabit-admin-password-${Math.floor(now.getTime() / 90_000) * 90_000}`,
+    );
+  } catch (error) {
+    await supabaseAdmin.from("order_admin_password_challenges").delete().eq("email", ownerEmail);
+    throw error;
+  }
+}
+
+export async function setOrderAdminPassword(
+  email: string,
+  code: string,
+  password: string,
+): Promise<void> {
+  const ownerEmail = configuredOwnerEmail();
+  if (email.trim().toLowerCase() !== ownerEmail) {
+    throw new Error("The verification code is invalid or expired.");
+  }
+  if (!/^\d{6}$/.test(code)) throw new Error("The verification code is invalid or expired.");
+  if (password.length < 12 || password.length > 128) {
+    throw new Error("Use a password between 12 and 128 characters.");
+  }
+
+  const { data: challenge, error: challengeError } = await supabaseAdmin
+    .from("order_admin_password_challenges")
+    .select("email,code_digest,expires_at,attempts")
+    .eq("email", ownerEmail)
+    .maybeSingle();
+  if (challengeError || !challenge) throw new Error("The verification code is invalid or expired.");
+
+  const expired = new Date(challenge.expires_at).getTime() <= Date.now();
+  const locked = challenge.attempts >= 5;
+  const matches = sameDigest(challenge.code_digest, passwordCodeDigest(ownerEmail, code));
+  if (expired || locked || !matches) {
+    if (!expired && !locked) {
+      await supabaseAdmin
+        .from("order_admin_password_challenges")
+        .update({ attempts: Math.min(10, challenge.attempts + 1) })
+        .eq("email", ownerEmail);
+    }
+    throw new Error("The verification code is invalid or expired.");
+  }
+
+  const { data: users, error: listError } = await supabaseAdmin.auth.admin.listUsers({
+    page: 1,
+    perPage: 1000,
+  });
+  if (listError) throw new Error("Owner password could not be updated.");
+
+  const existing = users.users.find((user) => user.email?.trim().toLowerCase() === ownerEmail);
+  if (existing) {
+    const { error } = await supabaseAdmin.auth.admin.updateUserById(existing.id, {
+      password,
+      email_confirm: true,
+    });
+    if (error) throw new Error("Owner password could not be updated.");
+  } else {
+    const { error } = await supabaseAdmin.auth.admin.createUser({
+      email: ownerEmail,
+      password,
+      email_confirm: true,
+    });
+    if (error) throw new Error("Owner password could not be created.");
+  }
+
+  await supabaseAdmin.from("order_admin_password_challenges").delete().eq("email", ownerEmail);
+}
 
 export const {
   requireOrderAdmin,
