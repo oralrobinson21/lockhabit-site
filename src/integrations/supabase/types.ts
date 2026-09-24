@@ -35,6 +35,45 @@ export type Database = {
         }
         Relationships: []
       }
+      order_admin_login_requests: {
+        Row: {
+          email: string
+          last_sent_at: string
+        }
+        Insert: {
+          email: string
+          last_sent_at?: string
+        }
+        Update: {
+          email?: string
+          last_sent_at?: string
+        }
+        Relationships: []
+      }
+      order_admin_password_challenges: {
+        Row: {
+          attempts: number
+          code_digest: string
+          created_at: string
+          email: string
+          expires_at: string
+        }
+        Insert: {
+          attempts?: number
+          code_digest: string
+          created_at?: string
+          email: string
+          expires_at: string
+        }
+        Update: {
+          attempts?: number
+          code_digest?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+        }
+        Relationships: []
+      }
       order_confirmation_deliveries: {
         Row: {
           attempts: number
@@ -102,19 +141,19 @@ export type Database = {
           customer_email: string | null
           customer_name: string | null
           fulfillment_status: string
-          tracking_carrier: string | null
-          tracking_number: string | null
-          tracking_url: string | null
-          shipped_at: string | null
-          tracking_notified_at: string | null
           id: string
           items: Json
           order_number: number
           payment_intent_id: string | null
           payment_status: string
+          shipped_at: string | null
           shipping_details: Json | null
           stripe_event_id: string | null
           stripe_livemode: boolean | null
+          tracking_carrier: string | null
+          tracking_notified_at: string | null
+          tracking_number: string | null
+          tracking_url: string | null
           updated_at: string
         }
         Insert: {
@@ -129,19 +168,19 @@ export type Database = {
           customer_email?: string | null
           customer_name?: string | null
           fulfillment_status?: string
-          tracking_carrier?: string | null
-          tracking_number?: string | null
-          tracking_url?: string | null
-          shipped_at?: string | null
-          tracking_notified_at?: string | null
           id?: string
           items?: Json
           order_number?: number
           payment_intent_id?: string | null
           payment_status: string
+          shipped_at?: string | null
           shipping_details?: Json | null
           stripe_event_id?: string | null
           stripe_livemode?: boolean | null
+          tracking_carrier?: string | null
+          tracking_notified_at?: string | null
+          tracking_number?: string | null
+          tracking_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -156,19 +195,19 @@ export type Database = {
           customer_email?: string | null
           customer_name?: string | null
           fulfillment_status?: string
-          tracking_carrier?: string | null
-          tracking_number?: string | null
-          tracking_url?: string | null
-          shipped_at?: string | null
-          tracking_notified_at?: string | null
           id?: string
           items?: Json
           order_number?: number
           payment_intent_id?: string | null
           payment_status?: string
+          shipped_at?: string | null
           shipping_details?: Json | null
           stripe_event_id?: string | null
           stripe_livemode?: boolean | null
+          tracking_carrier?: string | null
+          tracking_notified_at?: string | null
+          tracking_number?: string | null
+          tracking_url?: string | null
           updated_at?: string
         }
         Relationships: []

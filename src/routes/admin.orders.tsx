@@ -2,9 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  completeOrderAdminPasswordSetup,
   listOwnerOrders,
   listOwnerRefunds,
-  requestOrderAdminLink,
+  requestOrderAdminPasswordCode,
   saveOwnerTracking,
 } from "@/lib/order-admin.functions";
 import { SiteHeader } from "@/components/site-header";
@@ -58,6 +59,11 @@ function orderItems(value: unknown): Array<{ name: string; quantity: number }> {
 
 function OrderAdminPage() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [setupMode, setSetupMode] = useState(false);
+  const [setupCode, setSetupCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [authStatus, setAuthStatus] = useState("Checking your sign-in…");
   const [orders, setOrders] = useState<OrderRow[]>([]);
@@ -126,14 +132,73 @@ function OrderAdminPage() {
     setBusy("login");
     setNotice("");
     try {
-      const response = await requestOrderAdminLink({ data: { email } });
-      setNotice(
-        response.ok
-          ? "If that address is the owner inbox, a one-time sign-in link is on its way."
-          : response.error,
-      );
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (error || !data.session?.access_token) throw error ?? new Error("No session");
+      setAccessToken(data.session.access_token);
+      setAuthStatus("");
     } catch {
-      setNotice("Sign-in email could not be requested.");
+      setNotice("Email or password is incorrect. Use “Set or reset password” if needed.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function requestPasswordCode() {
+    if (!email.trim()) {
+      setNotice("Enter your owner email first.");
+      return;
+    }
+    setBusy("password-code");
+    setNotice("");
+    try {
+      const response = await requestOrderAdminPasswordCode({ data: { email } });
+      if (!response.ok) {
+        setNotice(response.error);
+        return;
+      }
+      setSetupMode(true);
+      setNotice("If that address is the owner inbox, a 6-digit code is on its way. It expires in 10 minutes.");
+    } catch {
+      setNotice("Password setup email could not be requested.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function completePasswordSetup(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setBusy("password-setup");
+    setNotice("");
+    try {
+      if (newPassword !== confirmPassword) {
+        setNotice("The two passwords do not match.");
+        return;
+      }
+      await completeOrderAdminPasswordSetup({
+        data: {
+          email,
+          code: setupCode,
+          password: newPassword,
+        },
+      });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password: newPassword,
+      });
+      if (error || !data.session?.access_token) throw error ?? new Error("No session");
+      setPassword("");
+      setSetupCode("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setSetupMode(false);
+      setAccessToken(data.session.access_token);
+      setAuthStatus("");
+      setNotice("Password saved. You are signed in.");
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Password could not be updated.");
     } finally {
       setBusy(null);
     }
@@ -198,23 +263,115 @@ function OrderAdminPage() {
         </p>
 
         {!accessToken ? (
-          <form onSubmit={login} className="paper-card mt-10 grid max-w-xl gap-4 p-5 sm:p-8">
+          <div className="paper-card mt-10 grid max-w-xl gap-4 p-5 sm:p-8">
             <p className="text-sm text-muted-foreground">{authStatus}</p>
-            <label className="grid gap-2 text-sm font-semibold">
-              Owner email
-              <input
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your owner email"
-                className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3"
-              />
-            </label>
-            <button type="submit" disabled={busy === "login"} className="primary-button">
-              {busy === "login" ? "Sending sign-in link…" : "Email me a sign-in link"}
-            </button>
+            {!setupMode ? (
+              <form onSubmit={login} className="grid gap-4">
+                <label className="grid gap-2 text-sm font-semibold">
+                  Owner email
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Your owner email"
+                    className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3"
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-semibold">
+                  Password
+                  <input
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Your password"
+                    className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3"
+                  />
+                </label>
+                <button type="submit" disabled={busy === "login"} className="primary-button">
+                  {busy === "login" ? "Signing in…" : "Sign in"}
+                </button>
+                <button
+                  type="button"
+                  className="secondary-button"
+                  disabled={busy === "password-code"}
+                  onClick={() => void requestPasswordCode()}
+                >
+                  {busy === "password-code" ? "Sending code…" : "Set or reset password"}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={completePasswordSetup} className="grid gap-4">
+                <p className="text-sm font-semibold">Create your owner password</p>
+                <p className="text-xs leading-5 text-muted-foreground">
+                  Enter the 6-digit code from your email, then choose a password with at least 12
+                  characters. This replaces the unreliable email-link login.
+                </p>
+                <label className="grid gap-2 text-sm font-semibold">
+                  Verification code
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    pattern="[0-9]{6}"
+                    maxLength={6}
+                    required
+                    value={setupCode}
+                    onChange={(e) => setSetupCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                    placeholder="000000"
+                    className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3 tracking-[0.35em]"
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-semibold">
+                  New password
+                  <input
+                    type="password"
+                    autoComplete="new-password"
+                    minLength={12}
+                    maxLength={128}
+                    required
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3"
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-semibold">
+                  Confirm password
+                  <input
+                    type="password"
+                    autoComplete="new-password"
+                    minLength={12}
+                    maxLength={128}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full rounded-xl border-2 border-foreground/35 bg-background px-4 py-3"
+                  />
+                </label>
+                <button
+                  type="submit"
+                  disabled={busy === "password-setup"}
+                  className="primary-button"
+                >
+                  {busy === "password-setup" ? "Saving password…" : "Save password & sign in"}
+                </button>
+                <button
+                  type="button"
+                  className="secondary-button"
+                  onClick={() => {
+                    setSetupMode(false);
+                    setSetupCode("");
+                    setNewPassword("");
+                    setConfirmPassword("");
+                  }}
+                >
+                  Back to sign in
+                </button>
+              </form>
+            )}
             {notice ? (
               <p role="status" className="text-sm">
                 {notice}
@@ -224,7 +381,7 @@ function OrderAdminPage() {
               Access is restricted to the configured owner inbox. Order data is never publicly
               listed.
             </p>
-          </form>
+          </div>
         ) : (
           <div className="mt-8">
             <div className="flex flex-wrap items-center justify-between gap-4">
