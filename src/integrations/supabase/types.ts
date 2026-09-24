@@ -138,6 +138,7 @@ export type Database = {
           confirmation_sent_at: string | null
           created_at: string
           currency: string
+          estimated_delivery_date: string | null
           customer_email: string | null
           customer_name: string | null
           fulfillment_status: string
@@ -165,6 +166,7 @@ export type Database = {
           confirmation_sent_at?: string | null
           created_at?: string
           currency: string
+          estimated_delivery_date?: string | null
           customer_email?: string | null
           customer_name?: string | null
           fulfillment_status?: string
@@ -192,6 +194,7 @@ export type Database = {
           confirmation_sent_at?: string | null
           created_at?: string
           currency?: string
+          estimated_delivery_date?: string | null
           customer_email?: string | null
           customer_name?: string | null
           fulfillment_status?: string
