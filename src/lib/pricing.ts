@@ -15,6 +15,11 @@ export function assertOneTimeCheckout(subscribe?: boolean) {
 
 export type CartLine = Pick<Product, "id" | "kind" | "price"> & { quantity: number };
 
+export function amountUntilFreeShipping(subtotal: number) {
+  if (!Number.isFinite(subtotal)) return FREE_SHIPPING_THRESHOLD;
+  return Number(Math.max(0, FREE_SHIPPING_THRESHOLD - Math.max(0, subtotal)).toFixed(2));
+}
+
 export function getCartPricing(lines: CartLine[]) {
   const soapCount = lines.reduce(
     (sum, line) => sum + (line.kind === "Soap bar" ? line.quantity : 0),

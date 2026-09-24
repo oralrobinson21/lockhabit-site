@@ -353,7 +353,7 @@ export const products: Product[] = [
         answer: "Slumber Soap is made in the USA and has a net weight of 4 oz (113 g).",
       },
     ],
-    highlights: ["Fir needle + lavender", "No added fragrance listed", "Quiet evening ritual"],
+    highlights: ["Fir needle + lavender", "Scented with essential oils", "Quiet evening ritual"],
     attributes: ["Non-GMO", "No added fragrance", "Essential oils", "Made in USA"],
     allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "Organic coconut oil", "Organic shea butter"],
     ingredients: [
@@ -499,7 +499,7 @@ export const products: Product[] = [
         answer: "Lemongrass & Sage Soap is made in the USA and weighs 4 oz (113 g).",
       },
     ],
-    highlights: ["Lemongrass essential oil", "Sage essential oil", "No added fragrance listed"],
+    highlights: ["Lemongrass essential oil", "Sage essential oil", "Essential-oil scented"],
     attributes: ["Lemongrass essential oil", "Sage essential oil", "Organic oil base", "Made in USA"],
     allAttributes: ["Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
     ingredients: [
@@ -700,7 +700,7 @@ export const products: Product[] = [
         answer: "Calming Lavender Soap is made in the USA and weighs 4 oz (113 g).",
       },
     ],
-    highlights: ["Lavender essential oil", "Real lavender buds", "No added fragrance listed"],
+    highlights: ["Lavender essential oil", "Real lavender buds", "Essential-oil scented"],
     attributes: ["Gluten free", "Vegetarian", "No added fragrance", "Made in USA"],
     allAttributes: ["Lactose free", "No fillers", "Lavender essential oil", "Lavender buds", "Fair trade coconut oil"],
     ingredients: [
@@ -767,7 +767,7 @@ export const products: Product[] = [
         answer: "Charcoal Soap is made in the USA and weighs 4 oz (113 g).",
       },
     ],
-    highlights: ["Activated charcoal", "Peppermint + tea tree", "No added fragrance listed"],
+    highlights: ["Activated charcoal", "Peppermint + tea tree", "Essential-oil scented"],
     attributes: ["Gluten free", "Vegetarian", "No added fragrance", "Made in USA"],
     allAttributes: ["Lactose free", "No fillers", "Activated charcoal", "Peppermint essential oil", "Tea tree essential oil", "Fair trade coconut oil"],
     ingredients: [
@@ -805,7 +805,7 @@ export const products: Product[] = [
       "Raw Shea Butter is the quiet overachiever at the front desk: one ingredient, no perfume cloud, no whipped-lotion disguise. It is 100% raw and unrefined organic shea butter, responsibly sourced and naturally nutty in scent. Warm a little between your hands and use it on skin, dry areas or hair. A small amount goes a long way, which is exactly how a one-ingredient product should behave.",
     seoTitle: "Raw Shea Butter – Organic, Unrefined & Vegan | LOCKHABIT",
     seoDescription:
-      "Shop 4 oz raw unrefined organic shea butter. One ingredient, responsibly sourced, vegan, cruelty-free and free from added fragrance. Made in the USA.",
+      "Shop 8 oz raw unrefined organic shea butter. One ingredient, responsibly sourced, vegan, cruelty-free and free from added fragrance. Made in the USA.",
     ingredientStatement: "Butyrospermum Parkii (Shea) Butter (Organic).",
     madeIn: "USA",
     faqs: [
@@ -839,7 +839,7 @@ export const products: Product[] = [
     allAttributes: ["Responsibly sourced", "Non-GMO", "No fillers", "No added fragrance", "Made in USA"],
     ingredients: ["Organic Butyrospermum Parkii (Shea) Butter"],
     productType: "Raw Shea Butter",
-    netWeight: "4 oz (113 g)",
+    netWeight: "8 oz (226 g)",
     suggestedUse:
       "Apply a thin layer wherever skin or hair needs moisture. Store in a cool, dry place between 60–70°F (15–21°C), away from direct sunlight.",
     warning: externalWarning,

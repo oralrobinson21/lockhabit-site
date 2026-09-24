@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { assertOneTimeCheckout, getCartPricing } from "./pricing";
+import { amountUntilFreeShipping, assertOneTimeCheckout, getCartPricing } from "./pricing";
 
 const soap = (quantity: number, id = 1) => ({
   id,
@@ -59,4 +59,12 @@ test("legacy recurring checkout requests are rejected before Stripe is called", 
   assert.throws(() => assertOneTimeCheckout(true), /Subscriptions are not available/);
   assert.doesNotThrow(() => assertOneTimeCheckout(false));
   assert.doesNotThrow(() => assertOneTimeCheckout(undefined));
+});
+
+test("free-shipping gap reports the exact remaining amount and never goes negative", () => {
+  assert.equal(amountUntilFreeShipping(35), 40);
+  assert.equal(amountUntilFreeShipping(70), 5);
+  assert.equal(amountUntilFreeShipping(75), 0);
+  assert.equal(amountUntilFreeShipping(89), 0);
+  assert.equal(amountUntilFreeShipping(Number.NaN), 75);
 });
