@@ -5,6 +5,7 @@ import { useState } from "react";
 import { StripeCartCheckout } from "@/components/stripe-cart-checkout";
 import { useCart } from "@/lib/cart";
 import { products } from "@/lib/catalog";
+import { amountUntilFreeShipping, FREE_SHIPPING_THRESHOLD } from "@/lib/pricing";
 
 export function CartDrawer() {
   const {
@@ -22,6 +23,11 @@ export function CartDrawer() {
   const checkoutItems = products
     .filter((product) => (cart[product.id] ?? 0) > 0)
     .map((product) => ({ productId: product.id, quantity: cart[product.id] ?? 0 }));
+  const freeShippingGap = amountUntilFreeShipping(cartTotal);
+  const freeShippingProgress = Math.min(
+    100,
+    Math.max(0, (cartTotal / FREE_SHIPPING_THRESHOLD) * 100),
+  );
 
   const browse = () => {
     setCartOpen(false);
@@ -129,11 +135,29 @@ export function CartDrawer() {
             >
               Secure checkout <ArrowRight size={18} />
             </button>
-            <p className="memo mt-3 text-center text-muted-foreground">
-              {qualifiesForFreeShipping
-                ? "You caught free shipping · worldwide details collected at checkout"
-                : "Free shipping on orders $75+"}
-            </p>
+            <div className="mt-3">
+              <p className="memo text-center text-muted-foreground">
+                {qualifiesForFreeShipping
+                  ? "You caught free shipping · worldwide details collected at checkout"
+                  : `Add ${freeShippingGap.toFixed(2)} more for free shipping`}
+              </p>
+              {!qualifiesForFreeShipping ? (
+                <div
+                  className="mt-2 h-2 overflow-hidden rounded-full border border-foreground/20 bg-muted"
+                  role="progressbar"
+                  aria-label="Progress toward free shipping"
+                  aria-valuemin={0}
+                  aria-valuemax={FREE_SHIPPING_THRESHOLD}
+                  aria-valuenow={Math.min(cartTotal, FREE_SHIPPING_THRESHOLD)}
+                  aria-valuetext={`${freeShippingGap.toFixed(2)} more for free shipping`}
+                >
+                  <div
+                    className="h-full bg-primary transition-[width] duration-300"
+                    style={{ width: `${freeShippingProgress}%` }}
+                  />
+                </div>
+              ) : null}
+            </div>
           </div>
         )}
         {checkingOut && (
