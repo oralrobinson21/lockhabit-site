@@ -18,6 +18,7 @@ function testDependencies(overrides: Partial<OrderAdminDependencies<OrderView>> 
       carrier: "USPS" | "UPS" | "FedEx" | "DHL";
       trackingNumber: string;
       trackingUrl: string;
+      estimatedDeliveryDate: string;
       shippedAt: string;
     }>,
     trackingEmails: [] as Array<{
@@ -26,6 +27,7 @@ function testDependencies(overrides: Partial<OrderAdminDependencies<OrderView>> 
       carrier: "USPS" | "UPS" | "FedEx" | "DHL";
       trackingNumber: string;
       trackingUrl: string;
+      estimatedDeliveryDate: string;
       idempotencyKey: string;
     }>,
     notified: [] as Array<{
@@ -47,6 +49,7 @@ function testDependencies(overrides: Partial<OrderAdminDependencies<OrderView>> 
     paymentStatus: "paid",
     trackingCarrier: null,
     trackingNumber: null,
+    estimatedDeliveryDate: null,
     trackingNotifiedAt: null,
   };
   const dependencies: OrderAdminDependencies<OrderView> = {
@@ -156,14 +159,17 @@ test("tracking is persisted, sent once, and marked against the same carrier and 
     "order-1",
     "UPS",
     " 1Z999 AA10123456784 ",
+    "2026-09-27",
   );
   assert.equal(result.saved, true);
   assert.equal(result.notified, true);
   assert.equal(calls.persistedTracking[0]?.trackingNumber, "1Z999AA10123456784");
+  assert.equal(calls.persistedTracking[0]?.estimatedDeliveryDate, "2026-09-27");
   assert.match(calls.persistedTracking[0]?.trackingUrl ?? "", /^https:\/\/www\.ups\.com\/track\?/);
+  assert.equal(calls.trackingEmails[0]?.estimatedDeliveryDate, "2026-09-27");
   assert.equal(
     calls.trackingEmails[0]?.idempotencyKey,
-    "lockhabit-shipping-order-1-UPS-1Z999AA10123456784",
+    "lockhabit-shipping-order-1-UPS-1Z999AA10123456784-2026-09-27",
   );
   assert.deepEqual(calls.notified[0], {
     orderId: "order-1",
@@ -179,10 +185,17 @@ test("an already-notified tracking number is idempotent", async () => {
       ...paidOrder,
       trackingCarrier: "USPS",
       trackingNumber: "940010000000",
+      estimatedDeliveryDate: "2026-09-27",
       trackingNotifiedAt: "2026-09-23T16:00:00.000Z",
     }),
   });
-  const result = await service.saveAdminTracking("access-token", "order-1", "USPS", "940010000000");
+  const result = await service.saveAdminTracking(
+    "access-token",
+    "order-1",
+    "USPS",
+    "940010000000",
+    "2026-09-27",
+  );
   assert.equal(result.notified, true);
   assert.equal(calls.persistedTracking.length, 0);
   assert.equal(calls.trackingEmails.length, 0);
@@ -196,6 +209,7 @@ test("tracking rejects unpaid orders and injected tracking values before any wri
       "order-1",
       "UPS",
       "https://attacker.example/<script>",
+      "2026-09-27",
     ),
     /valid tracking number/,
   );
@@ -210,14 +224,37 @@ test("tracking rejects unpaid orders and injected tracking values before any wri
       paymentStatus: "unpaid",
       trackingCarrier: null,
       trackingNumber: null,
+      estimatedDeliveryDate: null,
       trackingNotifiedAt: null,
     }),
   });
   await assert.rejects(
-    unpaid.service.saveAdminTracking("access-token", "order-1", "USPS", "940010000000"),
+    unpaid.service.saveAdminTracking(
+      "access-token",
+      "order-1",
+      "USPS",
+      "940010000000",
+      "2026-09-27",
+    ),
     /paid order was not found/,
   );
   assert.equal(unpaid.calls.persistedTracking.length, 0);
+});
+
+test("tracking rejects an estimated delivery date in the past", async () => {
+  const { service, calls } = testDependencies();
+  await assert.rejects(
+    service.saveAdminTracking(
+      "access-token",
+      "order-1",
+      "USPS",
+      "940010000000",
+      "2026-09-22",
+    ),
+    /cannot be in the past/,
+  );
+  assert.equal(calls.trackingReads, 0);
+  assert.equal(calls.persistedTracking.length, 0);
 });
 
 test("tracking email failure does not roll back the saved shipment", async () => {
@@ -231,6 +268,7 @@ test("tracking email failure does not roll back the saved shipment", async () =>
     "order-1",
     "FedEx",
     "123456789012",
+    "2026-09-27",
   );
   assert.equal(result.saved, true);
   assert.equal(result.notified, false);
