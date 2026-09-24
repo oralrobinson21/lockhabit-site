@@ -56,7 +56,7 @@ const orderAdminService = createOrderAdminService({
     const { data, error } = await supabaseAdmin
       .from("orders")
       .select(
-        "id,order_number,created_at,customer_name,customer_email,amount_total,currency,payment_status,fulfillment_status,items,shipping_details,payment_intent_id,stripe_livemode,tracking_carrier,tracking_number,tracking_url,shipped_at,tracking_notified_at",
+        "id,order_number,created_at,customer_name,customer_email,amount_total,currency,payment_status,fulfillment_status,items,shipping_details,payment_intent_id,stripe_livemode,tracking_carrier,tracking_number,tracking_url,estimated_delivery_date,shipped_at,tracking_notified_at",
       )
       .order("created_at", { ascending: false })
       .limit(75);
@@ -67,7 +67,7 @@ const orderAdminService = createOrderAdminService({
     const { data, error } = await supabaseAdmin
       .from("orders")
       .select(
-        "id,order_number,customer_email,payment_status,tracking_carrier,tracking_number,tracking_notified_at",
+        "id,order_number,customer_email,payment_status,tracking_carrier,tracking_number,estimated_delivery_date,tracking_notified_at",
       )
       .eq("id", orderId)
       .maybeSingle();
@@ -80,10 +80,18 @@ const orderAdminService = createOrderAdminService({
       paymentStatus: data.payment_status,
       trackingCarrier: data.tracking_carrier,
       trackingNumber: data.tracking_number,
+      estimatedDeliveryDate: data.estimated_delivery_date,
       trackingNotifiedAt: data.tracking_notified_at,
     };
   },
-  persistTracking: async ({ orderId, carrier, trackingNumber, trackingUrl, shippedAt }) => {
+  persistTracking: async ({
+    orderId,
+    carrier,
+    trackingNumber,
+    trackingUrl,
+    estimatedDeliveryDate,
+    shippedAt,
+  }) => {
     const { data, error } = await supabaseAdmin
       .from("orders")
       .update({
@@ -91,6 +99,7 @@ const orderAdminService = createOrderAdminService({
         tracking_carrier: carrier,
         tracking_number: trackingNumber,
         tracking_url: trackingUrl,
+        estimated_delivery_date: estimatedDeliveryDate,
         shipped_at: shippedAt,
         tracking_notified_at: null,
       })
@@ -106,12 +115,20 @@ const orderAdminService = createOrderAdminService({
     carrier,
     trackingNumber,
     trackingUrl,
+    estimatedDeliveryDate,
     idempotencyKey,
   }) => {
     const apiKey = process.env["RESEND_API_KEY"];
     const from = process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
     if (!apiKey || !from) return false;
     const formatted = `LH-${String(orderNumber).padStart(6, "0")}`;
+    const deliveryLabel = new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    }).format(new Date(`${estimatedDeliveryDate}T12:00:00.000Z`));
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -124,8 +141,8 @@ const orderAdminService = createOrderAdminService({
         to: [to],
         reply_to: process.env["LOCKHABIT_SUPPORT_EMAIL"],
         subject: `Your LOCKHABIT order ${formatted} has shipped`,
-        text: `Good news: your LOCKHABIT order ${formatted} has shipped.\nCarrier: ${carrier}\nTracking number: ${trackingNumber}\nTrack your package: ${trackingUrl}\n\nTracking updates are provided by the carrier and may take time to appear. Questions? Reply to this email.`,
-        html: `<p>Good news: your LOCKHABIT order <strong>${formatted}</strong> has shipped.</p><p>Carrier: ${carrier}<br>Tracking number: ${trackingNumber}</p><p><a href="${trackingUrl}">Track your package</a></p><p>Carrier updates may take time to appear. Questions? Reply to this email.</p>`,
+        text: `Good news: your LOCKHABIT order ${formatted} has shipped.\nCarrier: ${carrier}\nTracking number: ${trackingNumber}\nEstimated delivery: ${deliveryLabel}\nTrack your package: ${trackingUrl}\n\nThe delivery date is an estimate and may change based on carrier updates. Questions? Reply to this email.`,
+        html: `<p>Good news: your LOCKHABIT order <strong>${formatted}</strong> has shipped.</p><p>Carrier: ${carrier}<br>Tracking number: ${trackingNumber}<br>Estimated delivery: <strong>${deliveryLabel}</strong></p><p><a href="${trackingUrl}">Track your package</a></p><p>The delivery date is an estimate and may change based on carrier updates. Questions? Reply to this email.</p>`,
       }),
     });
     return response.ok;

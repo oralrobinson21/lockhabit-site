@@ -23,7 +23,7 @@ export const Route = createFileRoute("/admin/orders")({
 
 type OrderRow = Awaited<ReturnType<typeof listOwnerOrders>>[number];
 type RefundView = Awaited<ReturnType<typeof listOwnerRefunds>>;
-type ShipInput = { carrier: Carrier; trackingNumber: string };
+type ShipInput = { carrier: Carrier; trackingNumber: string; estimatedDeliveryDate: string };
 const money = (value: number, currency: string) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: currency.toUpperCase() }).format(
     value / 100,
@@ -71,6 +71,7 @@ function OrderAdminPage() {
   const [notice, setNotice] = useState("");
   const [tracking, setTracking] = useState<Record<string, ShipInput>>({});
   const [refunds, setRefunds] = useState<Record<string, RefundView>>({});
+  const [orderView, setOrderView] = useState<"needs-shipping" | "shipped">("needs-shipping");
 
   useEffect(() => {
     let active = true;
@@ -208,6 +209,7 @@ function OrderAdminPage() {
     const input = tracking[order.id] ?? {
       carrier: (order.tracking_carrier as Carrier | null) ?? "USPS",
       trackingNumber: order.tracking_number ?? "",
+      estimatedDeliveryDate: order.estimated_delivery_date ?? "",
     };
     setBusy(order.id);
     setNotice("");
@@ -218,12 +220,13 @@ function OrderAdminPage() {
           orderId: order.id,
           carrier: input.carrier,
           trackingNumber: input.trackingNumber,
+          estimatedDeliveryDate: input.estimatedDeliveryDate,
         },
       });
       setNotice(
         result.notified
-          ? `Tracking saved and emailed for ${orderLabel(order.order_number)}.`
-          : `Tracking saved for ${orderLabel(order.order_number)}. Notification email was not sent; check email configuration and retry.`,
+          ? `${orderLabel(order.order_number)} marked shipped. Tracking and estimated delivery were emailed to the customer.`
+          : `${orderLabel(order.order_number)} marked shipped. Customer email was not sent; check email configuration and retry.`,
       );
       setOrders(await listOwnerOrders({ data: { accessToken } }));
     } catch (error) {
@@ -232,6 +235,10 @@ function OrderAdminPage() {
       setBusy(null);
     }
   }
+
+  const needsShippingOrders = orders.filter((order) => order.fulfillment_status !== "shipped");
+  const shippedOrders = orders.filter((order) => order.fulfillment_status === "shipped");
+  const visibleOrders = orderView === "shipped" ? shippedOrders : needsShippingOrders;
 
   async function inspectRefunds(order: OrderRow) {
     setBusy(order.id);
@@ -258,8 +265,9 @@ function OrderAdminPage() {
         <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
           Paid orders are recorded automatically from Stripe. LockHabit does not buy a shipping
           label or create a carrier tracking number yet. Enter the number from your carrier or
-          shipping-label service, then LockHabit saves it and emails the customer automatically.
-          Check or issue refunds in your existing Stripe Dashboard.
+          shipping-label service, add the estimated delivery date, then mark the order shipped.
+          LockHabit moves it into the Shipped section and emails the customer the tracking link and
+          estimated delivery date automatically. Check or issue refunds in your existing Stripe Dashboard.
         </p>
 
         {!accessToken ? (
@@ -385,7 +393,9 @@ function OrderAdminPage() {
         ) : (
           <div className="mt-8">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <p className="memo">{orders.length} recent orders · newest first</p>
+              <p className="memo">
+                {needsShippingOrders.length} need shipping · {shippedOrders.length} shipped
+              </p>
               <div className="flex gap-3">
                 <button
                   className="secondary-button"
@@ -409,19 +419,42 @@ function OrderAdminPage() {
                 </button>
               </div>
             </div>
+            <div className="mt-6 flex flex-wrap gap-3" role="tablist" aria-label="Order status">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={orderView === "needs-shipping"}
+                className={orderView === "needs-shipping" ? "primary-button" : "secondary-button"}
+                onClick={() => setOrderView("needs-shipping")}
+              >
+                Needs shipping ({needsShippingOrders.length})
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={orderView === "shipped"}
+                className={orderView === "shipped" ? "primary-button" : "secondary-button"}
+                onClick={() => setOrderView("shipped")}
+              >
+                Shipped ({shippedOrders.length})
+              </button>
+            </div>
             {notice ? (
               <p role="status" className="my-5 rounded-xl border border-foreground/20 p-4 text-sm">
                 {notice}
               </p>
             ) : null}
             <div className="mt-7 grid gap-5">
-              {orders.length === 0 ? (
-                <div className="paper-card p-8">No orders were found.</div>
+              {visibleOrders.length === 0 ? (
+                <div className="paper-card p-8">
+                  {orderView === "shipped" ? "No shipped orders yet." : "No orders are waiting to ship."}
+                </div>
               ) : null}
-              {orders.map((order) => {
+              {visibleOrders.map((order) => {
                 const input = tracking[order.id] ?? {
                   carrier: (order.tracking_carrier as Carrier | null) ?? "USPS",
                   trackingNumber: order.tracking_number ?? "",
+                  estimatedDeliveryDate: order.estimated_delivery_date ?? "",
                 };
                 const refund = refunds[order.id];
                 return (
@@ -471,10 +504,18 @@ function OrderAdminPage() {
                         >
                           {order.tracking_carrier} · {order.tracking_number}
                         </a>
+                        {order.estimated_delivery_date
+                          ? ` · ETA ${new Intl.DateTimeFormat("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                              timeZone: "UTC",
+                            }).format(new Date(`${order.estimated_delivery_date}T12:00:00.000Z`))}`
+                          : ""}
                         {order.tracking_notified_at ? " · customer notified" : " · email pending"}
                       </p>
                     ) : null}
-                    <div className="mt-5 grid gap-3 sm:grid-cols-[160px_minmax(0,1fr)_auto] sm:items-end">
+                    <div className="mt-5 grid gap-3 sm:grid-cols-[150px_minmax(0,1fr)_190px_auto] sm:items-end">
                       <label className="grid gap-2 text-sm font-semibold">
                         Carrier
                         <select
@@ -510,13 +551,37 @@ function OrderAdminPage() {
                           className="w-full min-w-0 rounded-xl border border-foreground/35 bg-background px-3 py-3"
                         />
                       </label>
+                      <label className="grid gap-2 text-sm font-semibold">
+                        Estimated delivery
+                        <input
+                          type="date"
+                          value={input.estimatedDeliveryDate}
+                          onChange={(e) =>
+                            setTracking((old) => ({
+                              ...old,
+                              [order.id]: { ...input, estimatedDeliveryDate: e.target.value },
+                            }))
+                          }
+                          required
+                          className="w-full rounded-xl border border-foreground/35 bg-background px-3 py-3"
+                        />
+                      </label>
                       <button
                         type="button"
                         className="primary-button"
-                        disabled={busy === order.id || order.payment_status !== "paid"}
+                        disabled={
+                          busy === order.id ||
+                          order.payment_status !== "paid" ||
+                          !input.trackingNumber.trim() ||
+                          !input.estimatedDeliveryDate
+                        }
                         onClick={() => void saveShipment(order)}
                       >
-                        {busy === order.id ? "Working…" : "Save & email tracking"}
+                        {busy === order.id
+                          ? "Working…"
+                          : order.fulfillment_status === "shipped"
+                            ? "Update & email"
+                            : "Mark shipped & email"}
                       </button>
                     </div>
                     <div className="mt-5 border-t border-foreground/15 pt-4">
