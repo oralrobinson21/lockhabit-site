@@ -134,7 +134,7 @@ function Handoff() {
         <div className="mx-auto max-w-6xl">
           <p className="memo">Continue the handoff</p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link className="secondary-button bg-background" to="/creator">A05 creator portal</Link>
+            <Link className="secondary-button bg-background" to="/creator/login">A05 creator sign-in</Link>\n            <Link className="secondary-button bg-background" to="/creator">A05 creator dashboard</Link>
             <Link className="secondary-button bg-background" to="/owner/creator-program">A06 owner tools</Link>
             <Link className="secondary-button bg-background" to="/journal">A07 journal</Link>
           </div>
