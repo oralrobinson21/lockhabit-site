@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BookOpen, CalendarClock, FilePlus2, Filter, Search, ShieldCheck } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 
@@ -126,7 +126,7 @@ function StatusPill({ status }: { status: Status }) {
   return <span className={`rounded-full px-3 py-1 text-xs font-black ${tone}`}>{status}</span>;
 }
 
-function Rule({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
+function Rule({ icon, title, text }: { icon: ReactNode; title: string; text: string }) {
   return <div className="rounded-2xl border-2 border-foreground bg-background p-5"><div className="text-primary">{icon}</div><p className="mt-3 font-bold">{title}</p><p className="mt-2 text-sm text-muted-foreground">{text}</p></div>;
 }
 
@@ -139,19 +139,19 @@ function EditorSheet({ onClose }: { onClose: () => void }) {
           <button className="secondary-button" onClick={onClose}>Close</button>
         </div>
         <form className="mt-7 space-y-5" onSubmit={(event) => event.preventDefault()}>
-          <Field label="Title"><input className="field" placeholder="Article title" /></Field>
-          <Field label="Slug"><input className="field" placeholder="article-slug" /></Field>
+          <Field label="Title"><input className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder="Article title" /></Field>
+          <Field label="Slug"><input className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder="article-slug" /></Field>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Category"><select className="field"><option>Ingredients</option><option>Rituals</option><option>Research Notes</option><option>Travel Brighter</option><option>FAQs</option></select></Field>
-            <Field label="Status"><select className="field"><option>Draft</option><option>In review</option><option>Scheduled</option></select></Field>
+            <Field label="Category"><select className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35"><option>Ingredients</option><option>Rituals</option><option>Research Notes</option><option>Travel Brighter</option><option>FAQs</option></select></Field>
+            <Field label="Status"><select className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35"><option>Draft</option><option>In review</option><option>Scheduled</option></select></Field>
           </div>
-          <Field label="Excerpt"><textarea className="field min-h-24" placeholder="Short summary for cards and search previews" /></Field>
-          <Field label="Hero image / alt text"><div className="grid gap-3 sm:grid-cols-2"><button className="secondary-button justify-center">Choose image</button><input className="field" placeholder="Image alt text" /></div></Field>
+          <Field label="Excerpt"><textarea className="min-h-24 w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder="Short summary for cards and search previews" /></Field>
+          <Field label="Hero image / alt text"><div className="grid gap-3 sm:grid-cols-2"><button className="secondary-button justify-center">Choose image</button><input className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder="Image alt text" /></div></Field>
           <div className="rounded-2xl border-2 border-foreground bg-sun/25 p-4">
             <p className="memo">Editorial sections</p>
             <p className="mt-2 text-sm text-muted-foreground">Short answer · what it is · traditional use · research studied · supportive evidence · mixed/negative evidence · limitations · rinse-off vs leave-on · safety · references.</p>
           </div>
-          <Field label="References checklist"><textarea className="field min-h-28" placeholder=".gov / .edu / PubMed / peer-reviewed sources and notes" /></Field>
+          <Field label="References checklist"><textarea className="min-h-28 w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder=".gov / .edu / PubMed / peer-reviewed sources and notes" /></Field>
           <div className="grid gap-3 sm:grid-cols-2">
             <button className="secondary-button justify-center">Save draft</button>
             <button className="dark-button justify-center">Send to review</button>
@@ -162,6 +162,6 @@ function EditorSheet({ onClose }: { onClose: () => void }) {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return <label className="block"><span className="memo">{label}</span><div className="mt-2">{children}</div></label>;
 }
