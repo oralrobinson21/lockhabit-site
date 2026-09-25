@@ -99,6 +99,7 @@ export function SiteHeader({ promoSlot }: { promoSlot?: ReactNode }) {
           </Link>
 
           <div className="z-10 flex flex-1 items-center justify-end gap-2">
+            {promoSlot}
             <button
               className="icon-button hover:bg-sun bg-background"
               onClick={() => setCartOpen(true)}
