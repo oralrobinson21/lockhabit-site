@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- temporary until generated Supabase types include PR #23 migrations */
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { LockKeyhole } from "lucide-react";
 import { useState, type FormEvent } from "react";
@@ -26,7 +25,7 @@ function CreatorLogin() {
       setNotice("Email or password is incorrect, or this creator account is not ready yet.");
       setBusy(false); return;
     }
-    const { data: profile } = await (supabase as any).from("creator_profiles").select("status").eq("auth_user_id", data.user.id).maybeSingle();
+    const { data: profile } = await supabase.from("creator_profiles").select("status").eq("auth_user_id", data.user.id).maybeSingle();
     if (!profile || !["approved", "active"].includes(profile.status)) {
       await supabase.auth.signOut();
       setNotice("This account does not have active creator access.");
