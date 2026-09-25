@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Check, Copy, DollarSign, KeyRound, Link2, LockKeyhole, MousePointerClick, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
+import { ArrowUpRight, Check, Copy, DollarSign, Link2, LockKeyhole, MousePointerClick, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
@@ -14,17 +14,7 @@ export const Route = createFileRoute("/creator/")({
   component: CreatorPortal,
 });
 
-type View = "login" | "password" | "forgot" | "dashboard" | "transactions" | "payouts" | "profile";
-
-const views: Array<[View, string]> = [
-  ["login", "Login"],
-  ["password", "First login"],
-  ["forgot", "Forgot"],
-  ["dashboard", "Dashboard"],
-  ["transactions", "Transactions"],
-  ["payouts", "Cash-out"],
-  ["profile", "Profile"],
-];
+type View = "dashboard" | "transactions" | "payouts" | "profile";
 
 function CreatorPortal() {
   const [view, setView] = useState<View>("dashboard");
@@ -44,83 +34,7 @@ function CreatorPortal() {
         </div>
       </header>
 
-      <div className="border-b-2 border-foreground bg-foreground p-2 text-background">
-        <div className="mx-auto flex max-w-7xl flex-wrap gap-1">
-          {views.map(([key, label]) => (
-            <button
-              key={key}
-              onClick={() => setView(key)}
-              className={`rounded-full px-3 py-2 text-[0.62rem] font-black uppercase tracking-[0.08em] ${view === key ? "bg-sun text-sun-foreground" : "border border-background/30"}`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {view === "login" || view === "password" || view === "forgot" ? (
-        <AuthPreview view={view} />
-      ) : (
-        <PortalShell view={view} setView={setView} copied={copied} setCopied={setCopied} />
-      )}
-    </main>
-  );
-}
-
-function AuthPreview({ view }: { view: Extract<View, "login" | "password" | "forgot"> }) {
-  const content = {
-    login: {
-      eyebrow: "Welcome back",
-      title: "Creator check-in.",
-      body: "Use the creator account LockHabit invited you to.",
-      button: "Sign in",
-    },
-    password: {
-      eyebrow: "First login",
-      title: "Make it yours.",
-      body: "Your one-time invite gets replaced with a password you choose.",
-      button: "Create password",
-    },
-    forgot: {
-      eyebrow: "Account recovery",
-      title: "Reset your key.",
-      body: "We’ll send a secure reset link to the creator email on file.",
-      button: "Send reset link",
-    },
-  }[view];
-
-  return (
-    <section className="mx-auto grid min-h-[calc(100vh-10rem)] max-w-6xl place-items-center px-5 py-10">
-      <div className="grid w-full max-w-4xl overflow-hidden rounded-[1.7rem] border-2 border-foreground bg-paper shadow-[8px_8px_0_var(--color-foreground)] md:grid-cols-[.9fr_1.1fr]">
-        <div className="relative overflow-hidden bg-coral p-8 text-coral-foreground">
-          <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-sun/70" />
-          <p className="memo relative">LOCKHABIT partner desk</p>
-          <h1 className="relative mt-5 font-slab text-5xl uppercase leading-none">Good links.<br />Brighter days.</h1>
-          <p className="relative mt-6 max-w-sm text-sm">Your referral link, attributed orders, commission ledger, and cash-out status — without customer private data.</p>
-        </div>
-        <form className="p-7 md:p-10" onSubmit={(event) => event.preventDefault()}>
-          <p className="eyebrow">{content.eyebrow}</p>
-          <h2 className="font-display text-4xl font-semibold">{content.title}</h2>
-          <p className="mt-3 text-muted-foreground">{content.body}</p>
-          <label className="memo mt-7 block">Email</label>
-          <input className="mt-2 w-full rounded-full border-2 border-foreground bg-background px-4 py-3" placeholder="creator@example.com" />
-          {view !== "forgot" ? (
-            <>
-              <label className="memo mt-5 block">{view === "password" ? "New password" : "Password"}</label>
-              <input type="password" className="mt-2 w-full rounded-full border-2 border-foreground bg-background px-4 py-3" placeholder="••••••••••••" />
-            </>
-          ) : null}
-          {view === "password" ? (
-            <>
-              <label className="memo mt-5 block">Confirm password</label>
-              <input type="password" className="mt-2 w-full rounded-full border-2 border-foreground bg-background px-4 py-3" placeholder="••••••••••••" />
-            </>
-          ) : null}
-          <button className="dark-button mt-7 w-full justify-center"><KeyRound size={17} /> {content.button}</button>
-          <p className="mt-4 text-center text-xs text-muted-foreground">Staging interaction only · Cursor wires authentication and RLS.</p>
-        </form>
-      </div>
-    </section>
+      <PortalShell view={view} setView={setView} copied={copied} setCopied={setCopied} />\n    </main>
   );
 }
 
