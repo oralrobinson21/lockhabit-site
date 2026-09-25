@@ -120,7 +120,7 @@ function CreatorDetail({ creator }: { creator: typeof creators[number] }) {
       <div className="mt-5 rounded-xl border-2 border-foreground bg-background p-4">
         <p className="memo">Compliance</p>
         <p className="mt-2 flex items-center gap-2 text-sm font-bold"><CheckCircle2 size={17} className="text-primary"/>{creator.compliance}</p>
-        <p className="mt-2 text-xs text-muted-foreground">Agreement, disclosure guidance, and tax-profile status gate payouts.</p>
+        <p className="mt-2 text-xs text-muted-foreground">Agreement, disclosure guidance, and tax-profile status gate payouts. Self-purchases are allowed by business rule; commission still follows the 14-day refund hold.</p>
       </div>
       <div className="mt-5 grid gap-2 sm:grid-cols-2">
         <button className="secondary-button justify-center"><UserCheck size={15}/> Approve / activate</button>
