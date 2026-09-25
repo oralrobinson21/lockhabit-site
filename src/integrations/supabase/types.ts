@@ -14,6 +14,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      front_desk_message_requests: {
+        Row: {
+          last_sent_at: string
+          sender_key: string
+        }
+        Insert: {
+          last_sent_at?: string
+          sender_key: string
+        }
+        Update: {
+          last_sent_at?: string
+          sender_key?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           created_at: string
@@ -247,6 +262,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_front_desk_message: {
+        Args: { p_sender_key: string }
+        Returns: boolean
+      }
       claim_lockhabit_admin_login: {
         Args: { p_email: string }
         Returns: boolean
