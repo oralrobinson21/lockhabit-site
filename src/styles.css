@@ -581,3 +581,141 @@
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } .reveal { opacity: 1 !important; transform: none !important; } .product-scene-motes::before, .product-scene-motes::after, .about-water, .about-foam, .hero-wave-surge, .hero-foam-crown, .hero-suds-fall { animation: none; } .product-mote { display: none; } .ticker-track, .marquee-track { transform: none !important; } .ticker-group[aria-hidden="true"], .marquee-group[aria-hidden="true"] { display: none; } }
+
+
+/* ==== Contact front desk: persistent service-bell confirmation ==== */
+.front-desk-confirmation {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  overflow: hidden;
+  border: 2px solid var(--color-foreground);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at 94% 12%, color-mix(in oklab, var(--color-sun) 48%, transparent) 0 10%, transparent 11%),
+    linear-gradient(135deg, color-mix(in oklab, var(--color-paper) 92%, var(--color-sun)) 0%, var(--color-paper) 72%);
+  padding: 1rem 1.1rem;
+  box-shadow: 4px 4px 0 var(--color-foreground);
+  animation: front-desk-card-arrive .52s cubic-bezier(.2,.84,.2,1) both;
+}
+
+.front-desk-confirmation::after {
+  content: "CHECKED IN";
+  position: absolute;
+  right: -1.2rem;
+  bottom: .85rem;
+  transform: rotate(-8deg);
+  border: 2px dashed color-mix(in oklab, var(--color-coral) 75%, transparent);
+  border-radius: .55rem;
+  padding: .35rem .7rem;
+  color: color-mix(in oklab, var(--color-coral) 80%, transparent);
+  font-size: .55rem;
+  font-weight: 900;
+  letter-spacing: .18em;
+  pointer-events: none;
+}
+
+.front-desk-bell {
+  position: relative;
+  display: grid;
+  width: 5.25rem;
+  height: 5.25rem;
+  place-items: center;
+  border: 2px solid var(--color-foreground);
+  border-radius: 999px;
+  background: var(--color-sun);
+  box-shadow: 3px 3px 0 var(--color-foreground);
+  animation: front-desk-bell-press .82s cubic-bezier(.2,.78,.2,1) .12s both;
+}
+
+.front-desk-bell svg {
+  width: 4.15rem;
+  height: 3rem;
+  overflow: visible;
+  fill: none;
+  stroke: var(--color-foreground);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.front-desk-bell-ring {
+  position: absolute;
+  top: .25rem;
+  width: .65rem;
+  height: .65rem;
+  border-top: 2px solid var(--color-coral);
+  opacity: 0;
+}
+
+.front-desk-bell-ring-one {
+  left: .55rem;
+  transform: rotate(-38deg);
+  animation: front-desk-ring-left 1.15s ease-out .45s both;
+}
+
+.front-desk-bell-ring-two {
+  right: .55rem;
+  transform: rotate(38deg);
+  animation: front-desk-ring-right 1.15s ease-out .45s both;
+}
+
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+  transform: none;
+  box-shadow: 3px 3px 0 var(--color-foreground);
+}
+
+@keyframes front-desk-card-arrive {
+  from { opacity: 0; transform: translateY(.8rem) rotate(-.4deg) scale(.985); }
+  to { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+}
+
+@keyframes front-desk-bell-press {
+  0% { transform: translateY(.2rem) scale(.95); }
+  38% { transform: translateY(.55rem) scale(.94, .88); }
+  62% { transform: translateY(-.12rem) scale(1.035); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes front-desk-ring-left {
+  0%, 20% { opacity: 0; transform: rotate(-38deg) translate(0,0); }
+  40% { opacity: 1; transform: rotate(-38deg) translate(-.3rem,-.2rem); }
+  100% { opacity: 0; transform: rotate(-38deg) translate(-1rem,-.7rem); }
+}
+
+@keyframes front-desk-ring-right {
+  0%, 20% { opacity: 0; transform: rotate(38deg) translate(0,0); }
+  40% { opacity: 1; transform: rotate(38deg) translate(.3rem,-.2rem); }
+  100% { opacity: 0; transform: rotate(38deg) translate(1rem,-.7rem); }
+}
+
+@media (max-width: 639px) {
+  .front-desk-confirmation {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 1.1rem;
+  }
+
+  .front-desk-bell {
+    width: 4.6rem;
+    height: 4.6rem;
+    margin-inline: auto;
+  }
+
+  .front-desk-confirmation::after {
+    right: -.7rem;
+    bottom: .55rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .front-desk-confirmation,
+  .front-desk-bell,
+  .front-desk-bell-ring {
+    animation: none !important;
+  }
+}
