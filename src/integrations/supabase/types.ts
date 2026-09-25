@@ -14,6 +14,324 @@ export type Database = {
   }
   public: {
     Tables: {
+      creator_attributions: {
+        Row: {
+          attribution_token: string | null
+          checkout_session_id: string | null
+          created_at: string
+          creator_id: string
+          currency: string
+          id: string
+          order_number: number | null
+          paid_at: string
+          paid_merchandise_cents: number
+          payment_intent_id: string | null
+        }
+        Insert: {
+          attribution_token?: string | null
+          checkout_session_id?: string | null
+          created_at?: string
+          creator_id: string
+          currency?: string
+          id?: string
+          order_number?: number | null
+          paid_at: string
+          paid_merchandise_cents: number
+          payment_intent_id?: string | null
+        }
+        Update: {
+          attribution_token?: string | null
+          checkout_session_id?: string | null
+          created_at?: string
+          creator_id?: string
+          currency?: string
+          id?: string
+          order_number?: number | null
+          paid_at?: string
+          paid_merchandise_cents?: number
+          payment_intent_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_attributions_attribution_token_fkey"
+            columns: ["attribution_token"]
+            isOneToOne: false
+            referencedRelation: "creator_referral_clicks"
+            referencedColumns: ["attribution_token"]
+          },
+          {
+            foreignKeyName: "creator_attributions_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_commission_ledger: {
+        Row: {
+          amount_cents: number
+          attribution_id: string | null
+          available_at: string | null
+          created_at: string
+          creator_id: string
+          currency: string
+          entry_type: string
+          id: string
+          idempotency_key: string
+          note: string | null
+          status: string
+          stripe_event_id: string | null
+        }
+        Insert: {
+          amount_cents: number
+          attribution_id?: string | null
+          available_at?: string | null
+          created_at?: string
+          creator_id: string
+          currency?: string
+          entry_type: string
+          id?: string
+          idempotency_key: string
+          note?: string | null
+          status: string
+          stripe_event_id?: string | null
+        }
+        Update: {
+          amount_cents?: number
+          attribution_id?: string | null
+          available_at?: string | null
+          created_at?: string
+          creator_id?: string
+          currency?: string
+          entry_type?: string
+          id?: string
+          idempotency_key?: string
+          note?: string | null
+          status?: string
+          stripe_event_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_commission_ledger_attribution_id_fkey"
+            columns: ["attribution_id"]
+            isOneToOne: false
+            referencedRelation: "creator_attributions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creator_commission_ledger_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_outreach: {
+        Row: {
+          contact: string | null
+          created_at: string
+          creator_id: string | null
+          follower_count: number | null
+          id: string
+          last_contacted_at: string | null
+          name_or_brand: string
+          niche: string | null
+          notes: string | null
+          platform: string | null
+          profile_url: string | null
+          stage: string
+          updated_at: string
+        }
+        Insert: {
+          contact?: string | null
+          created_at?: string
+          creator_id?: string | null
+          follower_count?: number | null
+          id?: string
+          last_contacted_at?: string | null
+          name_or_brand: string
+          niche?: string | null
+          notes?: string | null
+          platform?: string | null
+          profile_url?: string | null
+          stage?: string
+          updated_at?: string
+        }
+        Update: {
+          contact?: string | null
+          created_at?: string
+          creator_id?: string | null
+          follower_count?: number | null
+          id?: string
+          last_contacted_at?: string | null
+          name_or_brand?: string
+          niche?: string | null
+          notes?: string | null
+          platform?: string | null
+          profile_url?: string | null
+          stage?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_outreach_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_payout_requests: {
+        Row: {
+          amount_cents: number
+          creator_id: string
+          currency: string
+          id: string
+          owner_note: string | null
+          paid_at: string | null
+          requested_at: string
+          reviewed_at: string | null
+          status: string
+        }
+        Insert: {
+          amount_cents: number
+          creator_id: string
+          currency?: string
+          id?: string
+          owner_note?: string | null
+          paid_at?: string | null
+          requested_at?: string
+          reviewed_at?: string | null
+          status?: string
+        }
+        Update: {
+          amount_cents?: number
+          creator_id?: string
+          currency?: string
+          id?: string
+          owner_note?: string | null
+          paid_at?: string | null
+          requested_at?: string
+          reviewed_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_payout_requests_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_profiles: {
+        Row: {
+          activated_at: string | null
+          agreement_accepted_at: string | null
+          auth_user_id: string | null
+          commission_bps: number
+          created_at: string
+          disclosure_acknowledged_at: string | null
+          display_name: string
+          email: string
+          id: string
+          invited_at: string | null
+          payout_status: string
+          referral_code: string
+          referral_slug: string
+          reset_requested_at: string | null
+          status: string
+          tax_status: string
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          activated_at?: string | null
+          agreement_accepted_at?: string | null
+          auth_user_id?: string | null
+          commission_bps?: number
+          created_at?: string
+          disclosure_acknowledged_at?: string | null
+          display_name: string
+          email: string
+          id?: string
+          invited_at?: string | null
+          payout_status?: string
+          referral_code: string
+          referral_slug: string
+          reset_requested_at?: string | null
+          status?: string
+          tax_status?: string
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          activated_at?: string | null
+          agreement_accepted_at?: string | null
+          auth_user_id?: string | null
+          commission_bps?: number
+          created_at?: string
+          disclosure_acknowledged_at?: string | null
+          display_name?: string
+          email?: string
+          id?: string
+          invited_at?: string | null
+          payout_status?: string
+          referral_code?: string
+          referral_slug?: string
+          reset_requested_at?: string | null
+          status?: string
+          tax_status?: string
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      creator_referral_clicks: {
+        Row: {
+          attribution_token: string
+          created_at: string
+          creator_id: string
+          expires_at: string
+          id: string
+          landing_path: string | null
+          referrer_host: string | null
+          user_agent_hash: string | null
+        }
+        Insert: {
+          attribution_token?: string
+          created_at?: string
+          creator_id: string
+          expires_at?: string
+          id?: string
+          landing_path?: string | null
+          referrer_host?: string | null
+          user_agent_hash?: string | null
+        }
+        Update: {
+          attribution_token?: string
+          created_at?: string
+          creator_id?: string
+          expires_at?: string
+          id?: string
+          landing_path?: string | null
+          referrer_host?: string | null
+          user_agent_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_referral_clicks_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       front_desk_message_requests: {
         Row: {
           last_sent_at: string
@@ -153,9 +471,9 @@ export type Database = {
           confirmation_sent_at: string | null
           created_at: string
           currency: string
-          estimated_delivery_date: string | null
           customer_email: string | null
           customer_name: string | null
+          estimated_delivery_date: string | null
           fulfillment_status: string
           id: string
           items: Json
@@ -181,9 +499,9 @@ export type Database = {
           confirmation_sent_at?: string | null
           created_at?: string
           currency: string
-          estimated_delivery_date?: string | null
           customer_email?: string | null
           customer_name?: string | null
+          estimated_delivery_date?: string | null
           fulfillment_status?: string
           id?: string
           items?: Json
@@ -209,9 +527,9 @@ export type Database = {
           confirmation_sent_at?: string | null
           created_at?: string
           currency?: string
-          estimated_delivery_date?: string | null
           customer_email?: string | null
           customer_name?: string | null
+          estimated_delivery_date?: string | null
           fulfillment_status?: string
           id?: string
           items?: Json
@@ -262,6 +580,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      capture_creator_referral: {
+        Args: {
+          p_landing_path?: string
+          p_referrer_host?: string
+          p_slug: string
+          p_user_agent_hash?: string
+        }
+        Returns: {
+          attribution_token: string
+          expires_at: string
+        }[]
+      }
       claim_front_desk_message: {
         Args: { p_sender_key: string }
         Returns: boolean
@@ -276,6 +606,35 @@ export type Database = {
           order_id: string
         }[]
       }
+      creator_dashboard_summary: {
+        Args: never
+        Returns: {
+          available_cents: number
+          clicks: number
+          merchandise_cents: number
+          paid_cents: number
+          paid_orders: number
+          pending_cents: number
+        }[]
+      }
+      creator_profile_for_current_user: {
+        Args: never
+        Returns: {
+          agreement_accepted_at: string
+          commission_bps: number
+          disclosure_acknowledged_at: string
+          display_name: string
+          email: string
+          id: string
+          payout_status: string
+          referral_code: string
+          referral_slug: string
+          status: string
+          tax_status: string
+          username: string
+        }[]
+      }
+      promote_creator_commissions: { Args: never; Returns: number }
       record_paid_checkout: {
         Args: {
           p_amount_shipping: number
@@ -285,11 +644,11 @@ export type Database = {
           p_checkout_session_id: string
           p_currency: string
           p_customer_email: string
-          p_customer_name: string | null
+          p_customer_name: string
           p_event_id: string
           p_event_type: string
           p_items: Json
-          p_payment_intent_id: string | null
+          p_payment_intent_id: string
           p_shipping_details: Json
         }
         Returns: {
@@ -305,6 +664,10 @@ export type Database = {
           p_outcome: string
         }
         Returns: undefined
+      }
+      request_creator_payout: {
+        Args: { p_amount_cents: number }
+        Returns: string
       }
     }
     Enums: {
