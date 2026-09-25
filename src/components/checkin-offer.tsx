@@ -79,7 +79,21 @@ export function CheckInOffer({
           className="fixed left-1/2 top-1/2 z-[71] w-[calc(100%-1.5rem)] max-w-[720px] -translate-x-1/2 -translate-y-1/2 outline-none"
           onEscapeKeyDown={() => onStateChange("pending")}
         >
-          <div className="relative isolate overflow-hidden rounded-[1.65rem] border-[3px] border-foreground bg-[#f7e8c7] shadow-[10px_12px_0_rgba(62,45,33,.92)]">
+          <div className="checkin-drop-assembly">
+            <div className="checkin-chain-rig pointer-events-none" aria-hidden="true">
+              <div className="checkin-chain checkin-chain-left">
+                {Array.from({ length: 7 }, (_, index) => (
+                  <span key={"left-" + index} className="checkin-chain-link" />
+                ))}
+              </div>
+              <div className="checkin-chain checkin-chain-right">
+                {Array.from({ length: 7 }, (_, index) => (
+                  <span key={"right-" + index} className="checkin-chain-link" />
+                ))}
+              </div>
+            </div>
+
+            <div className="relative isolate overflow-hidden rounded-[1.65rem] border-[3px] border-foreground bg-[#f7e8c7] shadow-[10px_12px_0_rgba(62,45,33,.92)]">
             <div
               className="pointer-events-none absolute inset-0 opacity-35"
               aria-hidden="true"
@@ -190,6 +204,7 @@ export function CheckInOffer({
                 <span>14-day returns on unopened, unused items.</span>
               </div>
             </div>
+          </div>
           </div>
         </Dialog.Content>
       </Dialog.Portal>
