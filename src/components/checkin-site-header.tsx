@@ -30,7 +30,7 @@ function event(name: string) {
 
 export function CheckInSiteHeader() {
   const initial = useRef<Persisted | null>(null);
-  if (!initial.current) initial.current = readState();
+  if (initial.current === null) initial.current = readState();
   const [state, setState] = useState<CheckInOfferState>(initial.current.shown ? initial.current.state : "pending");
   const [visible, setVisible] = useState(initial.current.shown);
   const engaged = useRef(initial.current.engagedMs);
