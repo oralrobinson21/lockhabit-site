@@ -719,3 +719,145 @@
     animation: none !important;
   }
 }
+
+
+/* ==== Check-In offer: vintage chain drop + four settling bounces ==== */
+.checkin-drop-assembly {
+  position: relative;
+  transform-origin: 50% -5.5rem;
+  animation: checkin-chain-drop 2.15s cubic-bezier(.2,.78,.18,1) both;
+  will-change: transform, opacity;
+}
+
+.checkin-chain-rig {
+  position: absolute;
+  z-index: -1;
+  top: -6.15rem;
+  left: 0;
+  width: 100%;
+  height: 6.8rem;
+}
+
+.checkin-chain {
+  position: absolute;
+  top: 0;
+  display: flex;
+  height: 6.8rem;
+  width: 1.45rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  filter: drop-shadow(1px 2px 0 color-mix(in oklab, var(--color-paper) 70%, transparent));
+}
+
+.checkin-chain::before {
+  content: "";
+  position: absolute;
+  top: -.45rem;
+  width: 1.2rem;
+  height: .55rem;
+  border: 2px solid var(--color-foreground);
+  border-radius: 999px;
+  background: var(--color-sun);
+  box-shadow: 2px 2px 0 color-mix(in oklab, var(--color-foreground) 75%, transparent);
+}
+
+.checkin-chain-left { left: 18%; }
+.checkin-chain-right { right: 18%; }
+
+.checkin-chain-link {
+  display: block;
+  width: .82rem;
+  height: 1.08rem;
+  margin-top: -.18rem;
+  border: 2px solid var(--color-foreground);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-paper) 84%, var(--color-sun));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-coral) 25%, transparent);
+}
+
+.checkin-chain-link:nth-child(even) {
+  width: .68rem;
+  transform: rotate(90deg);
+}
+
+.checkin-chain-left .checkin-chain-link:nth-child(odd) { transform: rotate(-7deg); }
+.checkin-chain-right .checkin-chain-link:nth-child(odd) { transform: rotate(7deg); }
+
+@keyframes checkin-chain-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-62vh) rotate(-1.8deg);
+  }
+  39% {
+    opacity: 1;
+    transform: translateY(0) rotate(1.15deg);
+  }
+  52% {
+    transform: translateY(-3.1rem) rotate(-.8deg);
+  }
+  62% {
+    transform: translateY(0) rotate(.58deg);
+  }
+  71% {
+    transform: translateY(-1.65rem) rotate(-.4deg);
+  }
+  79% {
+    transform: translateY(0) rotate(.3deg);
+  }
+  86% {
+    transform: translateY(-.78rem) rotate(-.18deg);
+  }
+  92% {
+    transform: translateY(0) rotate(.12deg);
+  }
+  96% {
+    transform: translateY(-.28rem) rotate(-.06deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+@media (max-width: 639px) {
+  .checkin-chain-rig {
+    top: -4.65rem;
+    height: 5.2rem;
+  }
+
+  .checkin-chain {
+    height: 5.2rem;
+    transform: scale(.86);
+    transform-origin: bottom center;
+  }
+
+  .checkin-chain-left { left: 12%; }
+  .checkin-chain-right { right: 12%; }
+
+  @keyframes checkin-chain-drop {
+    0% {
+      opacity: 0;
+      transform: translateY(-48vh) rotate(-1.2deg) scale(.98);
+    }
+    40% {
+      opacity: 1;
+      transform: translateY(0) rotate(.8deg) scale(1);
+    }
+    53% { transform: translateY(-2rem) rotate(-.55deg); }
+    64% { transform: translateY(0) rotate(.4deg); }
+    73% { transform: translateY(-1.05rem) rotate(-.28deg); }
+    81% { transform: translateY(0) rotate(.2deg); }
+    88% { transform: translateY(-.5rem) rotate(-.12deg); }
+    94% { transform: translateY(0) rotate(.07deg); }
+    97% { transform: translateY(-.18rem) rotate(-.03deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(0); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkin-drop-assembly {
+    animation: none !important;
+    transform: none !important;
+  }
+}
