@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Mail } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { CreatorAuthShell } from "@/components/creator-auth-shell";
-import { supabase } from "@/integrations/supabase/client";
+import { requestCreatorPasswordReset } from "@/lib/creator.functions";
 
 export const Route = createFileRoute("/creator/forgot-password")({
   head: () => ({ meta: [{ title: "Reset Creator Password · LOCKHABIT" }, { name: "robots", content: "noindex,nofollow" }] }),
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/creator/forgot-password")({
 function ForgotCreatorPassword() {
  const [email,setEmail]=useState(""); const [busy,setBusy]=useState(false); const [sent,setSent]=useState(false);
  async function submit(e:FormEvent){e.preventDefault();setBusy(true);
-   await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/creator/set-password` });
+   await requestCreatorPasswordReset({ data: { email: email.trim(), origin: window.location.origin } });
    setSent(true);setBusy(false);
  }
  return <CreatorAuthShell eyebrow="Account recovery" title="Reset your key." description="Enter the creator email on file. If it belongs to an approved creator, use the secure email from LockHabit to choose a new password." footer={<p className="text-sm"><Link to="/creator/login" className="font-black underline underline-offset-4">← Back to sign in</Link></p>}>
