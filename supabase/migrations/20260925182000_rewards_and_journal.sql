@@ -38,7 +38,7 @@ create table if not exists public.journal_posts (
  body jsonb not null default '[]'::jsonb,
  hero_image_url text,
  hero_image_alt text,
- references jsonb not null default '[]'::jsonb,
+ reference_items jsonb not null default '[]'::jsonb,
  published_at timestamptz,
  created_at timestamptz not null default now(),
  updated_at timestamptz not null default now()
