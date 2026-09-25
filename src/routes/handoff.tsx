@@ -43,7 +43,7 @@ function Handoff() {
       />
     ) : undefined;
 
-  const demoItems = useMemo(() => [products[0], products[3], products[8]].filter(Boolean), []);
+  const demoItems = useMemo(() => products.filter((_, index) => [0, 3, 8].includes(index)), []);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
