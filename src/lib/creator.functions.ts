@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- temporary until generated Supabase types include PR #23 migrations */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
