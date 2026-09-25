@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Check, Package, Ticket, X } from "lucide-react";
+import { Check, Package, Plane, Sun, Ticket, X } from "lucide-react";
 import type { ReactNode } from "react";
 
 import heroImage from "@/assets/lockhabit-hero.jpg";
@@ -95,7 +95,7 @@ export function CheckInOffer({
               <ScenicPanel className="inset-0 rounded-sm" />
             </div>
 
-            <div className="pointer-events-none absolute left-4 top-24 hidden text-[3.5rem] leading-none text-[#214232] sm:block" aria-hidden="true">🌴</div>
+            
             <div className="pointer-events-none absolute left-[34%] top-[23%] hidden text-4xl text-sun sm:block" aria-hidden="true">✦</div>
             <div className="pointer-events-none absolute left-[37%] top-[38%] hidden text-3xl text-sun sm:block" aria-hidden="true">✦</div>
 
@@ -105,15 +105,26 @@ export function CheckInOffer({
                 brighter days
               </Stamp>
               <Stamp className="bg-[#f2e2b8] text-[0.48rem] leading-5">
-                luggage<br />good vibes<br />brighter days<br /><span className="text-xl">✈</span>
+                luggage<br />good vibes<br />brighter days<br /><Plane className="mx-auto mt-1" size={20} />
               </Stamp>
               <Stamp className="h-20 bg-pool/15">
                 travel<br />brighter
               </Stamp>
             </div>
 
+            <div className="pointer-events-none absolute bottom-[4.3rem] left-3 h-28 w-28 -rotate-3 overflow-hidden rounded-sm border-2 border-foreground shadow-[3px_3px_0_var(--color-foreground)] sm:hidden" aria-hidden="true">
+              <img src={heroImage} alt="" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-coral/10 mix-blend-multiply" />
+            </div>
+            <div className="pointer-events-none absolute bottom-[4.5rem] right-3 w-[4.8rem] rotate-3 border-2 border-dashed border-coral bg-paper/90 px-1.5 py-2 text-center text-[0.42rem] font-black uppercase tracking-[0.12em] text-foreground shadow-[2px_2px_0_var(--color-coral)] sm:hidden" aria-hidden="true">
+              travel<br />brighter<Plane className="mx-auto mt-1" size={16} />
+            </div>
+            <div className="pointer-events-none absolute left-[42%] top-5 grid h-14 w-14 place-items-center rounded-full border-2 border-coral text-center text-[0.42rem] font-black uppercase tracking-[0.08em] text-coral sm:hidden" aria-hidden="true">
+              <span>good bags<br />brighter days</span>
+            </div>
+
             <div className="pointer-events-none absolute right-[22%] top-4 hidden h-20 w-20 rounded-full border-2 border-coral text-center text-[0.52rem] font-black uppercase tracking-[0.12em] text-coral sm:grid sm:place-items-center" aria-hidden="true">
-              <span>good bags<br /><span className="text-xl">🌴</span><br />brighter days</span>
+              <span className="grid place-items-center gap-0.5">good bags<Sun size={18} />brighter days</span>
             </div>
 
             <Dialog.Close asChild>
@@ -174,7 +185,7 @@ export function CheckInOffer({
                 </div>
               </div>
 
-              <div className="mt-5 flex items-center justify-center gap-3 border-t border-foreground/30 pt-4 text-center text-[0.72rem] font-semibold sm:text-sm">
+              <div className="relative z-10 mt-5 flex items-center justify-center gap-3 border-t border-foreground/30 bg-[#f7e8c7]/85 pt-4 text-center text-[0.68rem] font-semibold sm:bg-transparent sm:text-sm">
                 <Package size={18} />
                 <span>14-day returns on unopened, unused items.</span>
               </div>
