@@ -33,6 +33,10 @@ export const sendContactMessage = createServerFn({ method: "POST" })
 
       if (claimError) {
         console.error("Front desk rate-limit claim failed", claimError.message);
+        return {
+          ok: false as const,
+          error: "The front desk is temporarily unavailable. Please try again in a moment.",
+        };
       } else if (!claimed) {
         return {
           ok: false as const,
@@ -42,8 +46,12 @@ export const sendContactMessage = createServerFn({ method: "POST" })
         };
       }
     } catch (error) {
-      // Support availability wins if the throttle store is temporarily unavailable.
+      // Fail closed: a throttle outage must never become an unlimited Resend relay.
       console.error("Front desk rate-limit unavailable", error);
+      return {
+        ok: false as const,
+        error: "The front desk is temporarily unavailable. Please try again in a moment.",
+      };
     }
 
     const apiKey = process.env["RESEND_API_KEY"];
