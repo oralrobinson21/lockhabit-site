@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowDown, Leaf, Plus, Sparkles, Waves } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
-import { SiteHeader } from "@/components/site-header";
+import { CheckInSiteHeader } from "@/components/checkin-site-header";
 import { useCart } from "@/lib/cart";
 import { subscribeNewsletter } from "@/lib/newsletter.functions";
 
@@ -178,7 +178,7 @@ function Index() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData) }}
       />
-      <SiteHeader />
+      <CheckInSiteHeader />
       <section
         id="top"
         className="grain relative flex min-h-[86vh] items-end overflow-hidden text-hero-foreground"
