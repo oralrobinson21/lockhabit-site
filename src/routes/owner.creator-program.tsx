@@ -137,7 +137,7 @@ function Mini({label,value}:{label:string;value:string}) {
 }
 
 function PayoutQueue() {
-  const rows=[["Jessica Rivers","$214.60","Requested","Sep 25"],["Maya Fields","$27.80","Approved","Sep 24"],["Sunny Rituals","$122.10","Paid","Sep 20"]];
+  const rows: Array<[string, string, string, string]> = [["Jessica Rivers","$214.60","Requested","Sep 25"],["Maya Fields","$27.80","Approved","Sep 24"],["Sunny Rituals","$122.10","Paid","Sep 20"]];
   return (
     <>
       <p className="eyebrow">Payout queue</p><h1 className="section-title">Requested → approved → paid.</h1><p className="mt-3 max-w-2xl text-muted-foreground">The ledger stays authoritative; this screen is the owner’s operational queue.</p>
