@@ -86,6 +86,17 @@ function FrontDeskForm() {
       formElement.reset();
       setStatus("sent");
       setMessage("Message checked in.");
+    } else if ("rateLimited" in result && result.rateLimited) {
+      const sentAt = Date.now();
+      setLastSentAt(sentAt);
+      setNow(sentAt);
+      try {
+        window.localStorage.setItem(FRONT_DESK_LAST_SENT_KEY, String(sentAt));
+      } catch {
+        // Non-fatal; this page still shows the cooldown.
+      }
+      setStatus("sent");
+      setMessage(result.error);
     } else {
       setStatus("error");
       setMessage(result.error);
@@ -137,7 +148,9 @@ function FrontDeskForm() {
             <p className="memo text-coral">Ding! The front desk has your note.</p>
             <h3 className="mt-2 font-display text-2xl font-semibold">Thanks for checking in.</h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              We received your message and will get back to you as soon as possible.
+              {message === "Message checked in."
+                ? "We received your message and will get back to you as soon as possible."
+                : message}
             </p>
 
             {coolingDown ? (
