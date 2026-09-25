@@ -14,6 +14,46 @@ export const sendContactMessage = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     if (data.website) return { ok: true as const };
 
+    // Persistent one-minute throttle by normalized sender email. We store only a
+    // one-way hash in Supabase, never the raw email address.
+    try {
+      const [{ createHash }, { supabaseAdmin }] = await Promise.all([
+        import("node:crypto"),
+        import("@/integrations/supabase/client.server"),
+      ]);
+
+      const senderKey = createHash("sha256")
+        .update(data.email.trim().toLowerCase())
+        .digest("hex");
+
+      const { data: claimed, error: claimError } = await supabaseAdmin.rpc(
+        "claim_front_desk_message",
+        { p_sender_key: senderKey },
+      );
+
+      if (claimError) {
+        console.error("Front desk rate-limit claim failed", claimError.message);
+        return {
+          ok: false as const,
+          error: "The front desk is temporarily unavailable. Please try again in a moment.",
+        };
+      } else if (!claimed) {
+        return {
+          ok: false as const,
+          rateLimited: true as const,
+          error:
+            "The front desk already has a fresh note from this email. Please wait one minute before ringing again.",
+        };
+      }
+    } catch (error) {
+      // Fail closed: a throttle outage must never become an unlimited Resend relay.
+      console.error("Front desk rate-limit unavailable", error);
+      return {
+        ok: false as const,
+        error: "The front desk is temporarily unavailable. Please try again in a moment.",
+      };
+    }
+
     const apiKey = process.env["RESEND_API_KEY"];
     const from = process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
     const support = process.env["LOCKHABIT_SUPPORT_EMAIL"];

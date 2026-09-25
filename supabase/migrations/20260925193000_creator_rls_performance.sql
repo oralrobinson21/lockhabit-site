@@ -1,0 +1,10 @@
+drop policy if exists creator_profiles_self_select on public.creator_profiles;
+create policy creator_profiles_self_select on public.creator_profiles for select to authenticated using ((select auth.uid())=auth_user_id);
+drop policy if exists creator_clicks_self_select on public.creator_referral_clicks;
+create policy creator_clicks_self_select on public.creator_referral_clicks for select to authenticated using (creator_id in (select id from public.creator_profiles where auth_user_id=(select auth.uid())));
+drop policy if exists creator_attributions_self_select on public.creator_attributions;
+create policy creator_attributions_self_select on public.creator_attributions for select to authenticated using (creator_id in (select id from public.creator_profiles where auth_user_id=(select auth.uid())));
+drop policy if exists creator_ledger_self_select on public.creator_commission_ledger;
+create policy creator_ledger_self_select on public.creator_commission_ledger for select to authenticated using (creator_id in (select id from public.creator_profiles where auth_user_id=(select auth.uid())));
+drop policy if exists creator_payouts_self_select on public.creator_payout_requests;
+create policy creator_payouts_self_select on public.creator_payout_requests for select to authenticated using (creator_id in (select id from public.creator_profiles where auth_user_id=(select auth.uid())));

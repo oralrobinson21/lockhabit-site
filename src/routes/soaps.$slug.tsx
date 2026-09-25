@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
-import { SiteHeader } from "@/components/site-header";
+import { CheckInSiteHeader } from "@/components/checkin-site-header";
 import { IslandFooter } from "@/components/island-footer";
 import { useCart } from "@/lib/cart";
 import { productBySlug, products, relatedProducts, type GalleryImage } from "@/lib/catalog";
@@ -380,7 +380,7 @@ function ProductView({ slug }: { slug: string }) {
         </div>
 
         <div className="relative">
-          <SiteHeader />
+          <CheckInSiteHeader />
 
           <section className="mx-auto max-w-7xl px-5 pt-10 pb-16 lg:px-10 lg:pt-14">
             <nav
