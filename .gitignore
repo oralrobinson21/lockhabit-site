@@ -23,6 +23,14 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Soft AWS Terraform (never commit state / local tfvars with secrets)
+infra/**/.terraform/
+infra/**/*.tfstate
+infra/**/*.tfstate.*
+infra/**/terraform.tfvars
+infra/**/crash.log
+# Keep lock files for reproducible Soft provider pins (commit *.lock.hcl)
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

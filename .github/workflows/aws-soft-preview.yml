@@ -1,0 +1,79 @@
+# Soft-safe AWS Soft preview deploy — manual only.
+# Soft HOLD: never touches DNS, MX, or Railway production.
+#
+# Requires Oral-configured repo secrets before first Soft push:
+#   AWS_ROLE_TO_ASSUME (preferred OIDC) OR AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY
+#   AWS_REGION (optional, default us-east-1)
+#   SOFT_ECR_REPOSITORY (optional, default lockhabit-preview-web)
+#   Soft TEST Vite build secrets as needed
+#
+# Does NOT auto-apply Terraform (Oral reviews Soft plan first).
+
+name: aws-soft-preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Soft ECR image tag
+        required: true
+        default: soft
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  soft-build-push:
+    name: Soft build + ECR push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Soft HOLD banner
+        run: |
+          echo "::notice::SOFT HOLD — DNS cutover blocked until Oral GO. Soft ECR push only; Railway production stays live."
+
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC role preferred)
+        if: ${{ secrets.AWS_ROLE_TO_ASSUME != '' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+
+      - name: Configure AWS credentials (access keys fallback)
+        if: ${{ secrets.AWS_ROLE_TO_ASSUME == '' && secrets.AWS_ACCESS_KEY_ID != '' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+
+      - name: Require AWS auth
+        run: |
+          if ! aws sts get-caller-identity >/dev/null 2>&1; then
+            echo "::error::No Soft AWS credentials configured. Add AWS_ROLE_TO_ASSUME (OIDC) or access keys. Soft HOLD still applies — do not change DNS."
+            exit 1
+          fi
+
+      - name: Login to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Soft Docker build + push
+        env:
+          ECR_REGISTRY: ${{ steps.ecr.outputs.registry }}
+          IMAGE_TAG: ${{ inputs.image_tag }}
+          REPO: ${{ secrets.SOFT_ECR_REPOSITORY || 'lockhabit-preview-web' }}
+        run: |
+          IMAGE="$ECR_REGISTRY/$REPO:$IMAGE_TAG"
+          docker build \
+            --build-arg VITE_SUPABASE_PROJECT_ID="${{ secrets.SOFT_VITE_SUPABASE_PROJECT_ID }}" \
+            --build-arg VITE_SUPABASE_URL="${{ secrets.SOFT_VITE_SUPABASE_URL }}" \
+            --build-arg VITE_SUPABASE_PUBLISHABLE_KEY="${{ secrets.SOFT_VITE_SUPABASE_PUBLISHABLE_KEY }}" \
+            --build-arg VITE_STRIPE_MODE=test \
+            --build-arg VITE_PAYMENTS_CLIENT_TOKEN="${{ secrets.SOFT_VITE_PAYMENTS_CLIENT_TOKEN }}" \
+            -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "Pushed Soft image $IMAGE"
+          echo "::notice::Soft image pushed. Apply/redeploy App Runner Soft separately after Oral review. Do not change lockhabit.com DNS or Railway."

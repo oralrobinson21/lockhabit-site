@@ -1,0 +1,14 @@
+.git
+.lovable
+node_modules
+.output
+dist
+.env
+.env.*
+!.env.example
+infra/aws-soft-preview/.terraform
+infra/aws-soft-preview/*.tfstate*
+infra/aws-soft-preview/terraform.tfvars
+docs
+*.md
+!package.json
