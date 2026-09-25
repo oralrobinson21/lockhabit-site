@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- temporary until generated Supabase types include PR #23 migrations */
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { LockKeyhole } from "lucide-react";
 import { useState, type FormEvent } from "react";
