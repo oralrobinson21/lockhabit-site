@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, KeyRound, Mail, ShieldCheck } from "lucide-react";
+import { ArrowRight, KeyRound, Mail, ShieldCheck } from "lucide-react";\nimport type { ReactNode } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 
@@ -73,7 +73,7 @@ function CreatorInvitePreview() {
   );
 }
 
-function Feature({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
+function Feature({ icon, title, text }: { icon: ReactNode; title: string; text: string }) {
   return (
     <div className="rounded-xl bg-muted p-4">
       <div className="text-primary">{icon}</div>
