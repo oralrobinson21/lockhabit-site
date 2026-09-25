@@ -109,7 +109,7 @@ function Dashboard({ copied, setCopied }: { copied: "link" | "code" | null; setC
         <div className="rounded-2xl border-2 border-foreground bg-coral p-5 text-coral-foreground">
           <p className="memo text-coral-foreground/80">Commission status</p>
           <div className="mt-5 space-y-4">
-            <Balance label="Pending" value="$118.40" note="Return-window hold" />
+            <Balance label="Pending" value="$118.40" note="14-day return-window hold" />
             <Balance label="Available" value="$214.60" note="Ready to request" />
             <Balance label="Paid" value="$1,084.25" note="Lifetime" />
           </div>
