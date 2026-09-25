@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, ShoppingBag, Sun, X } from "lucide-react";
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 import { useCart } from "@/lib/cart";
@@ -30,7 +30,7 @@ function TickerGroup({ hidden = false }: { hidden?: boolean }) {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ promoSlot }: { promoSlot?: ReactNode }) {
   const { cartCount, setCartOpen } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const [pinned, setPinned] = useState(false);
