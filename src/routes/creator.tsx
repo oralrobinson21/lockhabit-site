@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Check, Copy, DollarSign, KeyRound, Link2, LockKeyhole, MousePointerClick, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 
@@ -205,7 +205,7 @@ function Dashboard({ copied, setCopied }: { copied: "link" | "code" | null; setC
   );
 }
 
-function Metric({ icon, label, value, note }: { icon: React.ReactNode; label: string; value: string; note: string }) {
+function Metric({ icon, label, value, note }: { icon: ReactNode; label: string; value: string; note: string }) {
   return <div className="rounded-2xl border-2 border-foreground bg-background p-5 shadow-[3px_3px_0_var(--color-foreground)]"><div className="text-primary">{icon}</div><p className="memo mt-4">{label}</p><p className="mt-2 font-display text-3xl font-semibold">{value}</p><p className="mt-1 text-xs text-muted-foreground">{note}</p></div>;
 }
 
@@ -236,6 +236,6 @@ function Profile() {
   return <><p className="eyebrow">Profile + compliance</p><h1 className="section-title">Keep the account payout-ready.</h1><div className="mt-7 grid gap-5 md:grid-cols-2"><ProfileCard icon={<LockKeyhole/>} title="Security" rows={["Email: jessica@example.com","Password: ••••••••••••","Last sign-in: Sep 25"]}/><ProfileCard icon={<WalletCards/>} title="Payout preference" rows={["Method: Manual business payout","Minimum: $20","Status: Ready"]}/><ProfileCard icon={<ShieldCheck/>} title="Tax profile" rows={["Status: Complete (demo)","Payout gate: Clear","Sensitive tax values are never shown here"]}/><ProfileCard icon={<Link2/>} title="Partner agreement" rows={["Agreement: Accepted","Disclosure guidance: Viewed","Commission rate: 10%"]}/></div></>;
 }
 
-function ProfileCard({ icon, title, rows }: { icon: React.ReactNode; title: string; rows: string[] }) {
+function ProfileCard({ icon, title, rows }: { icon: ReactNode; title: string; rows: string[] }) {
   return <div className="rounded-2xl border-2 border-foreground bg-background p-5"><div className="text-primary">{icon}</div><h2 className="mt-3 font-display text-2xl font-semibold">{title}</h2><div className="mt-4 space-y-2 text-sm">{rows.map((row)=><p key={row} className="rounded-lg bg-muted px-3 py-2">{row}</p>)}</div><button className="secondary-button mt-5">Manage <ArrowUpRight size={15}/></button></div>;
 }
