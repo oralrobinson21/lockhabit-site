@@ -289,15 +289,10 @@ export const createCartCheckout = createServerFn({ method: "POST" })
         checkoutParams.discounts = [{ coupon: coupon.id }];
       }
 
-      const session = await stripe.checkout.sessions.create(checkoutParams, {
-        idempotencyKey: [
-          "lh_checkout",
-          expandedItems.join("x"),
-          applyCheckIn ? "ci1" : "ci0",
-          rewardRedemptionId ?? "rw0",
-          attribution?.creatorId ?? "af0",
-        ].join(":").slice(0, 255),
-      });
+      // No cart-derived idempotency key: identical carts from different shoppers must
+      // each get their own Checkout Session (a shared key returned one shopper's session
+      // to another, and failed outright once discount coupons differed).
+      const session = await stripe.checkout.sessions.create(checkoutParams);
 
       if (rewardRedemptionId) {
         const { data: bound, error: bindError } = await supabaseAdmin.rpc(
