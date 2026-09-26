@@ -46,7 +46,7 @@ export function CreatorAuthShell({
               <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                 <Perk icon={<Sparkles size={18} />} title="Your referral link" text="One unique link tied to your creator account." />
                 <Perk icon={<ShieldCheck size={18} />} title="Protected earnings view" text="No customer card data or unnecessary private details." />
-                <Perk icon={<KeyRound size={18} />} title="Normal password login" text="Invite once, change the temporary password, then sign in normally." />
+                <Perk icon={<KeyRound size={18} />} title="Normal password login" text="Use the one-time invite to choose a password, then sign in normally." />
               </div>
             </div>
           </aside>
@@ -57,9 +57,6 @@ export function CreatorAuthShell({
             <p className="mt-4 max-w-xl text-muted-foreground">{description}</p>
             <div className="mt-8">{children}</div>
             {footer ? <div className="mt-6 border-t border-border pt-5">{footer}</div> : null}
-            <p className="mt-6 text-xs text-muted-foreground">
-              Design handoff only. Cursor wires Supabase authentication, password reset, session security, RLS, and production email delivery.
-            </p>
           </div>
         </div>
       </section>
