@@ -260,6 +260,9 @@ function AttributeSeal({
 }
 
 export const Route = createFileRoute("/soaps/$slug")({
+  loader: ({ params }) => {
+    if (!productBySlug(params.slug)) throw notFound();
+  },
   head: ({ params }) => {
     const product = productBySlug(params.slug);
     const meta = product ? productMeta(product) : null;

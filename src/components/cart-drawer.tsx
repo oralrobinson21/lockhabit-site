@@ -255,7 +255,7 @@ export function CartDrawer() {
               <p className="memo text-center text-muted-foreground">
                 {previewQualifies
                   ? "You caught free shipping · worldwide details collected at checkout"
-                  : `Add ${freeShippingGap.toFixed(2)} more for free shipping`}
+                  : `Add $${freeShippingGap.toFixed(2)} more for free shipping`}
               </p>
               {!previewQualifies ? (
                 <div
@@ -265,7 +265,7 @@ export function CartDrawer() {
                   aria-valuemin={0}
                   aria-valuemax={FREE_SHIPPING_THRESHOLD}
                   aria-valuenow={Math.min(previewMerchandise, FREE_SHIPPING_THRESHOLD)}
-                  aria-valuetext={`${freeShippingGap.toFixed(2)} more for free shipping`}
+                  aria-valuetext={`$${freeShippingGap.toFixed(2)} more for free shipping`}
                 >
                   <div
                     className="h-full bg-primary transition-[width] duration-300"
