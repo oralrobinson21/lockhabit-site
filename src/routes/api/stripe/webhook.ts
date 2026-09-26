@@ -6,6 +6,7 @@ import {
   getStripeWebhookSecret,
 } from "@/lib/stripe.server";
 import { createWebhookDependencies, processCheckoutWebhook } from "@/lib/stripe-webhook.server";
+import { processJournalSupportWebhook } from "@/lib/journal-supporter.server";
 
 export const Route = createFileRoute("/api/stripe/webhook")({
   server: {
@@ -25,6 +26,10 @@ export const Route = createFileRoute("/api/stripe/webhook")({
         }
 
         try {
+          const journalSupportResult = await processJournalSupportWebhook(event, stripe);
+          if (journalSupportResult !== "ignored") {
+            return Response.json({ received: true, result: journalSupportResult });
+          }
           const result = await processCheckoutWebhook(
             event,
             createWebhookDependencies(stripe, environment === "live"),
