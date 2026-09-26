@@ -47,7 +47,11 @@ export async function applyNotFoundStatus(response: Response): Promise<Response>
   const headers = new Headers(response.headers);
   headers.delete("content-length");
   const status = body.includes(NOT_FOUND_MARKER) ? 404 : 200;
-  return new Response(body, { status, statusText: status === 404 ? "Not Found" : response.statusText, headers });
+  return new Response(body, {
+    status,
+    statusText: status === 404 ? "Not Found" : response.statusText,
+    headers,
+  });
 }
 
 function isH3SwallowedErrorBody(body: string): boolean {
