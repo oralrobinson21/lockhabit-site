@@ -467,7 +467,7 @@ export const createJournalSupportCheckout = createServerFn({ method: "POST" })
     let customerId = member?.stripe_customer_id ?? null;
     if (!customerId) {
       const customer = await stripe.customers.create({
-        email: user.email ?? undefined,
+        ...(user.email ? { email: user.email } : {}),
         metadata: { lockhabit_journal_user_id: user.id },
       });
       customerId = customer.id;
