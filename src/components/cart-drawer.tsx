@@ -75,11 +75,11 @@ export function CartDrawer() {
             <div className="flex min-h-[16rem] flex-col items-center justify-center text-center">
               <ShoppingBag size={34} className="text-primary" />
               <p className="mt-4 font-display text-2xl font-semibold">
-                {checkInOfferSaved ? "Your Check-In offer is saved." : "Your bag needs sunshine."}
+                {checkInOfferSaved ? "Pick your sunny essential." : "Your bag needs sunshine."}
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
                 {checkInOfferSaved
-                  ? "Add a botanical favorite to your bag. Checkout discount redemption is coming soon."
+                  ? "Add a botanical favorite to your bag."
                   : "Pick a botanical favorite to get started."}
               </p>
               <button className="secondary-button mt-6" onClick={browse}>
