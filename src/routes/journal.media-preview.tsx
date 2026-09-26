@@ -28,7 +28,7 @@ function MediaPreview() {
   const [newsletter, setNewsletter] = useState("");
   const [joined, setJoined] = useState(false);
 
-  const hero = prototypeStories[0];
+  const hero = prototypeStories[0]!;
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return prototypeStories;
