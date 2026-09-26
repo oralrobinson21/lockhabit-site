@@ -15,14 +15,20 @@ function ReferralLanding() {
       try {
         const result = await captureCreatorReferral({ data: { slug, landingPath: "/" } });
         if (result.ok && live) {
-          localStorage.setItem(
-            "lockhabit_creator_attribution",
-            JSON.stringify({ token: result.token, expiresAt: result.expiresAt }),
-          );
+          try {
+            localStorage.setItem(
+              "lockhabit_creator_attribution",
+              JSON.stringify({ token: result.token, expiresAt: result.expiresAt }),
+            );
+          } catch {
+            // Private browsing or blocked storage must not strand a visitor on the referral route.
+          }
           const w = window as Window & { dataLayer?: Array<Record<string, unknown>> };
           w.dataLayer = w.dataLayer || [];
           w.dataLayer.push({ event: "affiliate_visit" });
         }
+      } catch {
+        // A temporarily unavailable referral service must not block the storefront.
       } finally {
         if (live) void navigate({ to: "/", replace: true });
       }
