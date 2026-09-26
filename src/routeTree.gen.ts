@@ -34,6 +34,7 @@ import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as JournalArticleTemplateRouteImport } from './routes/journal.article-template'
 import { Route as JournalComingSoonRouteImport } from './routes/journal.coming-soon'
+import { Route as JournalSitemapDotxmlRouteImport } from './routes/journal.sitemap[.]xml'
 import { Route as OwnerCreatorProgramRouteImport } from './routes/owner.creator-program'
 import { Route as OwnerJournalRouteImport } from './routes/owner.journal'
 import { Route as RSlugRouteImport } from './routes/r.$slug'
@@ -165,6 +166,11 @@ const JournalComingSoonRoute = JournalComingSoonRouteImport.update({
   path: '/coming-soon',
   getParentRoute: () => JournalRoute,
 } as any)
+const JournalSitemapDotxmlRoute = JournalSitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => JournalRoute,
+} as any)
 const OwnerCreatorProgramRoute = OwnerCreatorProgramRouteImport.update({
   id: '/owner/creator-program',
   path: '/owner/creator-program',
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/journal/$slug': typeof JournalSlugRoute
   '/journal/article-template': typeof JournalArticleTemplateRoute
   '/journal/coming-soon': typeof JournalComingSoonRoute
+  '/journal/sitemap.xml': typeof JournalSitemapDotxmlRoute
   '/owner/creator-program': typeof OwnerCreatorProgramRoute
   '/owner/journal': typeof OwnerJournalRoute
   '/r/$slug': typeof RSlugRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByTo {
   '/journal/$slug': typeof JournalSlugRoute
   '/journal/article-template': typeof JournalArticleTemplateRoute
   '/journal/coming-soon': typeof JournalComingSoonRoute
+  '/journal/sitemap.xml': typeof JournalSitemapDotxmlRoute
   '/owner/creator-program': typeof OwnerCreatorProgramRoute
   '/owner/journal': typeof OwnerJournalRoute
   '/r/$slug': typeof RSlugRoute
@@ -278,6 +286,7 @@ export interface FileRoutesById {
   '/journal/$slug': typeof JournalSlugRoute
   '/journal/article-template': typeof JournalArticleTemplateRoute
   '/journal/coming-soon': typeof JournalComingSoonRoute
+  '/journal/sitemap.xml': typeof JournalSitemapDotxmlRoute
   '/owner/creator-program': typeof OwnerCreatorProgramRoute
   '/owner/journal': typeof OwnerJournalRoute
   '/r/$slug': typeof RSlugRoute
@@ -312,6 +321,7 @@ export interface FileRouteTypes {
     | '/journal/$slug'
     | '/journal/article-template'
     | '/journal/coming-soon'
+    | '/journal/sitemap.xml'
     | '/owner/creator-program'
     | '/owner/journal'
     | '/r/$slug'
@@ -342,6 +352,7 @@ export interface FileRouteTypes {
     | '/journal/$slug'
     | '/journal/article-template'
     | '/journal/coming-soon'
+    | '/journal/sitemap.xml'
     | '/owner/creator-program'
     | '/owner/journal'
     | '/r/$slug'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/journal/$slug'
     | '/journal/article-template'
     | '/journal/coming-soon'
+    | '/journal/sitemap.xml'
     | '/owner/creator-program'
     | '/owner/journal'
     | '/r/$slug'
@@ -583,6 +595,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JournalComingSoonRouteImport
       parentRoute: typeof JournalRoute
     }
+    '/journal/sitemap.xml': {
+      id: '/journal/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/journal/sitemap.xml'
+      preLoaderRoute: typeof JournalSitemapDotxmlRouteImport
+      parentRoute: typeof JournalRoute
+    }
     '/owner/creator-program': {
       id: '/owner/creator-program'
       path: '/owner/creator-program'
@@ -655,6 +674,7 @@ interface JournalRouteChildren {
   JournalSlugRoute: typeof JournalSlugRoute
   JournalArticleTemplateRoute: typeof JournalArticleTemplateRoute
   JournalComingSoonRoute: typeof JournalComingSoonRoute
+  JournalSitemapDotxmlRoute: typeof JournalSitemapDotxmlRoute
   JournalIndexRoute: typeof JournalIndexRoute
 }
 
@@ -662,6 +682,7 @@ const JournalRouteChildren: JournalRouteChildren = {
   JournalSlugRoute: JournalSlugRoute,
   JournalArticleTemplateRoute: JournalArticleTemplateRoute,
   JournalComingSoonRoute: JournalComingSoonRoute,
+  JournalSitemapDotxmlRoute: JournalSitemapDotxmlRoute,
   JournalIndexRoute: JournalIndexRoute,
 }
 

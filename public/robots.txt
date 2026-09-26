@@ -14,3 +14,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://lockhabit.com/sitemap.xml
+Sitemap: https://lockhabit.com/journal/sitemap.xml
