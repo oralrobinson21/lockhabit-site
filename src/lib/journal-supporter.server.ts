@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type Stripe from "stripe";
 
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
