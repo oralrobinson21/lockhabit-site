@@ -30,6 +30,7 @@ export function JournalComingSoon() {
         <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_.8fr] lg:items-center">
           <div>
             <p className="memo text-coral">Keep the Vibes Going · Journal foundation</p>
+            <p className="memo mt-4 inline-block rounded-full border-2 border-foreground bg-sun px-4 py-2">Coming soon</p>
             <h1 className="mt-4 font-slab text-[clamp(3.4rem,9vw,7.4rem)] uppercase leading-[.86]">
               <span className="text-coral">Stories are</span>
               <br />

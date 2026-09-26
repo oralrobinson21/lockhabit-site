@@ -407,8 +407,9 @@
   color: oklch(0.35 0.105 153);
   filter: drop-shadow(0 5px 0 color-mix(in oklab, var(--color-foreground) 10%, transparent));
 }
-.island-palm-left { top: -2rem; left: -2rem; width: clamp(12rem, 28vw, 24rem); transform-origin: 26% 100%; animation: island-palm-left-sway 8s ease-in-out infinite; }
+.island-palm-left { top: -2rem; left: -2rem; width: clamp(12rem, 28vw, 24rem); transform-origin: 26% 100%; animation: island-palm-left-sway 9s ease-in-out infinite; }
 .island-palm-right { right: -3rem; bottom: 7.5rem; width: clamp(11rem, 23vw, 21rem); transform-origin: 92% 94%; animation: island-palm-right-sway 9s ease-in-out infinite; }
+.island-palm path:nth-child(4) { transform-box: fill-box; transform-origin: 50% 85%; animation: island-frond-breathe 9s ease-in-out infinite; }
 .island-mountains {
   position: absolute;
   z-index: 2;
@@ -426,7 +427,7 @@
   bottom: 22%;
   width: clamp(5.6rem, 11vw, 9rem);
   transform-origin: 50% 88%;
-  animation: island-boat-bob 5.5s ease-in-out infinite;
+  animation: island-boat-bob 9s ease-in-out infinite;
   filter: drop-shadow(0 6px 0 color-mix(in oklab, var(--color-foreground) 12%, transparent));
 }
 .island-waves {
@@ -446,14 +447,34 @@
 }
 .island-wave svg { display: block; width: 100%; height: 100%; }
 .island-wave path { stroke: var(--color-paper); stroke-width: 8; vector-effect: non-scaling-stroke; }
-.island-wave-one { bottom: 42%; color: var(--island-sea); animation: island-wave-left 8s ease-in-out infinite; }
+.island-wave-one { bottom: 42%; color: var(--island-sea); animation: island-wave-left 9s ease-in-out infinite; }
 .island-wave-one path { fill: var(--island-sea); }
-.island-wave-two { bottom: 27%; animation: island-wave-right 9.5s ease-in-out infinite; }
+.island-wave-two { bottom: 27%; animation: island-wave-right 9s ease-in-out infinite -1.5s; }
 .island-wave-two path { fill: oklch(0.59 0.14 213); }
-.island-wave-three { bottom: 12%; animation: island-wave-left 11s ease-in-out infinite reverse; }
+.island-wave-three { bottom: 12%; animation: island-wave-left 9s ease-in-out infinite -3s reverse; }
 .island-wave-three path { fill: var(--island-deep); }
-.island-wave-four { bottom: -4%; animation: island-wave-right 12.5s ease-in-out infinite reverse; }
+.island-wave-four { bottom: -4%; animation: island-wave-right 9s ease-in-out infinite -4.5s reverse; }
 .island-wave-four path { fill: var(--island-dark); }
+.island-shore-foam {
+  position: absolute;
+  z-index: 11;
+  left: 9%;
+  bottom: 22%;
+  width: 62%;
+  height: 10%;
+  pointer-events: none;
+  transform-origin: 48% 100%;
+  animation: island-foam-wash 9s ease-in-out infinite;
+}
+.island-shore-foam svg { width: 100%; height: 100%; overflow: visible; }
+.island-shore-foam path { fill: none; stroke: var(--color-paper); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 3px 1px color-mix(in oklab, var(--island-sea) 60%, transparent)); }
+.island-shore-foam::after {
+  content: "";
+  position: absolute;
+  inset: 28% 8% 0;
+  background: radial-gradient(ellipse at 20% 72%, var(--color-paper) 0 3%, transparent 9%), radial-gradient(ellipse at 53% 54%, var(--color-paper) 0 2%, transparent 8%), radial-gradient(ellipse at 80% 68%, var(--color-paper) 0 3%, transparent 9%);
+  opacity: .55;
+}
 
 .island-footer-links {
   position: relative;
@@ -530,20 +551,26 @@
 }
 
 @keyframes island-wave-left {
-  0%, 100% { transform: translate3d(-1.5%, 0, 0); }
-  50% { transform: translate3d(1.5%, 5px, 0); }
+  0%, 100% { transform: translate3d(-1.5%, 7px, 0); }
+  43% { transform: translate3d(1.5%, -7px, 0); }
 }
 @keyframes island-palm-left-sway {
   0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(-2.5deg); }
+  45% { transform: rotate(-2deg); }
 }
 @keyframes island-palm-right-sway {
   0%, 100% { transform: rotate(9deg); }
-  50% { transform: rotate(7.5deg); }
+  45% { transform: rotate(7deg); }
 }
+@keyframes island-frond-breathe { 0%, 100% { transform: rotate(0); } 45% { transform: rotate(2deg); } }
 @keyframes island-wave-right {
-  0%, 100% { transform: translate3d(1.3%, 2px, 0); }
-  50% { transform: translate3d(-1.3%, -3px, 0); }
+  0%, 100% { transform: translate3d(1.3%, 6px, 0); }
+  43% { transform: translate3d(-1.3%, -6px, 0); }
+}
+@keyframes island-foam-wash {
+  0%, 100% { opacity: .18; transform: translate3d(-1%, 11px, 0) scale(.97, .84); }
+  43% { opacity: .82; transform: translate3d(1%, -10px, 0) scale(1.03, 1.08); }
+  77% { opacity: .3; transform: translate3d(-.4%, 5px, 0) scale(.99, .92); }
 }
 @keyframes island-boat-bob {
   0%, 100% { transform: translateY(0) rotate(-1.5deg); }
@@ -588,7 +615,7 @@
   .island-footer-rule { flex-direction: column; }
 }
 
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } .reveal { opacity: 1 !important; transform: none !important; } .product-scene-motes::before, .product-scene-motes::after, .about-water, .about-foam, .hero-wave-surge, .hero-foam-crown, .hero-suds-fall, .island-palm, .island-wave { animation: none; } .island-palm-left { transform: rotate(-4deg); } .island-palm-right { transform: rotate(9deg); } .product-mote { display: none; } .ticker-track, .marquee-track { transform: none !important; } .ticker-group[aria-hidden="true"], .marquee-group[aria-hidden="true"] { display: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } .reveal { opacity: 1 !important; transform: none !important; } .product-scene-motes::before, .product-scene-motes::after, .about-water, .about-foam, .hero-wave-surge, .hero-foam-crown, .hero-suds-fall, .island-palm, .island-palm path, .island-wave, .island-shore-foam { animation: none; } .island-palm-left { transform: rotate(-4deg); } .island-palm-right { transform: rotate(9deg); } .product-mote { display: none; } .ticker-track, .marquee-track { transform: none !important; } .ticker-group[aria-hidden="true"], .marquee-group[aria-hidden="true"] { display: none; } }
 
 
 /* ==== Contact front desk: persistent service-bell confirmation ==== */
