@@ -55,6 +55,18 @@ function Privacy() {
           ),
         },
         {
+          title: "Creator referral links",
+          body: (
+            <p>
+              If you visit through a LockHabit creator link, we save a first-party referral token
+              and record the visit so we can recognize the creator who referred you. The token may
+              remain for up to 30 days. Creators see their own visit and earnings totals, without
+              customer card information or unnecessary customer details. Approved creators use
+              account information to manage referral links and payout records.
+            </p>
+          ),
+        },
+        {
           title: "How we use information",
           body: (
             <p>
