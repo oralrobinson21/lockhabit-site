@@ -32,7 +32,10 @@ function FrontDeskForm() {
   useEffect(() => {
     try {
       const saved = Number(window.localStorage.getItem(FRONT_DESK_LAST_SENT_KEY) ?? 0);
-      if (Number.isFinite(saved) && saved > 0) setLastSentAt(saved);
+      if (Number.isFinite(saved) && saved > 0) {
+        setLastSentAt(saved);
+        if (Date.now() - saved < FRONT_DESK_COOLDOWN_MS) setStatus("sent");
+      }
     } catch {
       // Storage can be unavailable in private/restricted browsers.
     }
@@ -49,6 +52,7 @@ function FrontDeskForm() {
     Math.ceil((FRONT_DESK_COOLDOWN_MS - (now - lastSentAt)) / 1000),
   );
   const coolingDown = cooldownRemaining > 0;
+  const showingConfirmation = status === "sent" && coolingDown;
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -112,6 +116,7 @@ function FrontDeskForm() {
 
   return (
     <form onSubmit={submit} className="mt-5 grid gap-4" aria-label="Contact LOCKHABIT support">
+      {!showingConfirmation && <>
       <div className="flex items-center gap-3" aria-label="Front desk bell">
         <div className="front-desk-bell" style={{ animation: "none" }} aria-hidden="true">
           <svg viewBox="0 0 120 86" role="presentation">
@@ -148,8 +153,9 @@ function FrontDeskForm() {
         Website
         <Input name="website" tabIndex={-1} autoComplete="off" />
       </label>
+      </>}
 
-      {status === "sent" ? (
+      {showingConfirmation ? (
         <div className="front-desk-confirmation" role="status" aria-live="polite">
           <div className="front-desk-bell" aria-hidden="true">
             <svg viewBox="0 0 120 86" role="presentation">
@@ -166,7 +172,7 @@ function FrontDeskForm() {
             <p className="memo text-coral">Ding! The front desk has your note.</p>
             <h3 className="mt-2 font-display text-2xl font-semibold">Thanks for checking in.</h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {message === "Message checked in."
+              {message === "Message checked in." || !message
                 ? "We received your message and will get back to you as soon as possible."
                 : message}
             </p>
@@ -184,7 +190,7 @@ function FrontDeskForm() {
         </div>
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-4">
+      {!showingConfirmation && <div className="flex flex-wrap items-center gap-4">
         <button
           type="submit"
           className="primary-button"
@@ -203,7 +209,7 @@ function FrontDeskForm() {
             {message}
           </p>
         ) : null}
-      </div>
+      </div>}
     </form>
   );
 }

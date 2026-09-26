@@ -407,8 +407,8 @@
   color: oklch(0.35 0.105 153);
   filter: drop-shadow(0 5px 0 color-mix(in oklab, var(--color-foreground) 10%, transparent));
 }
-.island-palm-left { top: -2rem; left: -2rem; width: clamp(12rem, 28vw, 24rem); transform: rotate(-4deg); }
-.island-palm-right { right: -3rem; bottom: 7.5rem; width: clamp(11rem, 23vw, 21rem); transform: rotate(9deg); }
+.island-palm-left { top: -2rem; left: -2rem; width: clamp(12rem, 28vw, 24rem); transform-origin: 26% 100%; animation: island-palm-left-sway 8s ease-in-out infinite; }
+.island-palm-right { right: -3rem; bottom: 7.5rem; width: clamp(11rem, 23vw, 21rem); transform-origin: 92% 94%; animation: island-palm-right-sway 9s ease-in-out infinite; }
 .island-mountains {
   position: absolute;
   z-index: 2;
@@ -533,6 +533,14 @@
   0%, 100% { transform: translate3d(-1.5%, 0, 0); }
   50% { transform: translate3d(1.5%, 5px, 0); }
 }
+@keyframes island-palm-left-sway {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(-2.5deg); }
+}
+@keyframes island-palm-right-sway {
+  0%, 100% { transform: rotate(9deg); }
+  50% { transform: rotate(7.5deg); }
+}
 @keyframes island-wave-right {
   0%, 100% { transform: translate3d(1.3%, 2px, 0); }
   50% { transform: translate3d(-1.3%, -3px, 0); }
@@ -580,7 +588,7 @@
   .island-footer-rule { flex-direction: column; }
 }
 
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } .reveal { opacity: 1 !important; transform: none !important; } .product-scene-motes::before, .product-scene-motes::after, .about-water, .about-foam, .hero-wave-surge, .hero-foam-crown, .hero-suds-fall { animation: none; } .product-mote { display: none; } .ticker-track, .marquee-track { transform: none !important; } .ticker-group[aria-hidden="true"], .marquee-group[aria-hidden="true"] { display: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } .reveal { opacity: 1 !important; transform: none !important; } .product-scene-motes::before, .product-scene-motes::after, .about-water, .about-foam, .hero-wave-surge, .hero-foam-crown, .hero-suds-fall, .island-palm, .island-wave { animation: none; } .island-palm-left { transform: rotate(-4deg); } .island-palm-right { transform: rotate(9deg); } .product-mote { display: none; } .ticker-track, .marquee-track { transform: none !important; } .ticker-group[aria-hidden="true"], .marquee-group[aria-hidden="true"] { display: none; } }
 
 
 /* ==== Contact front desk: persistent service-bell confirmation ==== */
