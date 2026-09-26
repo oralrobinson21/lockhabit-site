@@ -14,6 +14,7 @@ export const Route = createFileRoute("/owner/journal")({
   component: OwnerJournal,
 });
 type Post = Awaited<ReturnType<typeof getOwnerGrowth>>["posts"][number];
+const journalCategories = ["Ingredients", "Rituals", "Research Notes", "Travel Brighter", "FAQs", "Brighter Travels", "Everyday Rituals", "Ingredient Notes"];
 type RecommendationRow = { kind: "own" | "affiliate"; label: string; destination: string; note: string };
 function rowsForPost(post: Post | null): RecommendationRow[] {
   return publishedJournalBlocks(post?.body).flatMap((block): RecommendationRow[] => {
@@ -201,7 +202,7 @@ function OwnerJournal() {
                   defaultValue={editing?.category ?? "Ingredients"}
                   className="mt-1 w-full rounded border p-3"
                 >
-                  {["Ingredients", "Rituals", "Research Notes", "Travel Brighter", "FAQs"].map(
+                  {[...new Set([...journalCategories, ...(editing?.category ? [editing.category] : [])])].map(
                     (s) => (
                       <option key={s}>{s}</option>
                     ),
