@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as HandoffRouteImport } from './routes/handoff'
+import { Route as JournalRouteImport } from './routes/journal'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReturnsRouteImport } from './routes/returns'
 import { Route as ShippingRouteImport } from './routes/shipping'
@@ -21,6 +24,19 @@ import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as ApiEmailInkRouteImport } from './routes/api/email-ink'
 import { Route as ApiEmailTestRouteImport } from './routes/api/email-test'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
+import { Route as CreatorIndexRouteImport } from './routes/creator.index'
+import { Route as CreatorForgotPasswordRouteImport } from './routes/creator.forgot-password'
+import { Route as CreatorInvitePreviewRouteImport } from './routes/creator.invite-preview'
+import { Route as CreatorLoginRouteImport } from './routes/creator.login'
+import { Route as CreatorSetPasswordRouteImport } from './routes/creator.set-password'
+import { Route as HandoffFrontDeskRouteImport } from './routes/handoff.front-desk'
+import { Route as JournalIndexRouteImport } from './routes/journal.index'
+import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
+import { Route as JournalArticleTemplateRouteImport } from './routes/journal.article-template'
+import { Route as JournalComingSoonRouteImport } from './routes/journal.coming-soon'
+import { Route as OwnerCreatorProgramRouteImport } from './routes/owner.creator-program'
+import { Route as OwnerJournalRouteImport } from './routes/owner.journal'
+import { Route as RSlugRouteImport } from './routes/r.$slug'
 import { Route as SoapsSlugRouteImport } from './routes/soaps.$slug'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api/stripe/webhook'
 
@@ -39,9 +55,24 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreatorRoute = CreatorRouteImport.update({
+  id: '/creator',
+  path: '/creator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HandoffRoute = HandoffRouteImport.update({
+  id: '/handoff',
+  path: '/handoff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -84,6 +115,71 @@ const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
   path: '/checkout/return',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreatorIndexRoute = CreatorIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CreatorRoute,
+} as any)
+const CreatorForgotPasswordRoute = CreatorForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => CreatorRoute,
+} as any)
+const CreatorInvitePreviewRoute = CreatorInvitePreviewRouteImport.update({
+  id: '/invite-preview',
+  path: '/invite-preview',
+  getParentRoute: () => CreatorRoute,
+} as any)
+const CreatorLoginRoute = CreatorLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => CreatorRoute,
+} as any)
+const CreatorSetPasswordRoute = CreatorSetPasswordRouteImport.update({
+  id: '/set-password',
+  path: '/set-password',
+  getParentRoute: () => CreatorRoute,
+} as any)
+const HandoffFrontDeskRoute = HandoffFrontDeskRouteImport.update({
+  id: '/front-desk',
+  path: '/front-desk',
+  getParentRoute: () => HandoffRoute,
+} as any)
+const JournalIndexRoute = JournalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => JournalRoute,
+} as any)
+const JournalSlugRoute = JournalSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => JournalRoute,
+} as any)
+const JournalArticleTemplateRoute = JournalArticleTemplateRouteImport.update({
+  id: '/article-template',
+  path: '/article-template',
+  getParentRoute: () => JournalRoute,
+} as any)
+const JournalComingSoonRoute = JournalComingSoonRouteImport.update({
+  id: '/coming-soon',
+  path: '/coming-soon',
+  getParentRoute: () => JournalRoute,
+} as any)
+const OwnerCreatorProgramRoute = OwnerCreatorProgramRouteImport.update({
+  id: '/owner/creator-program',
+  path: '/owner/creator-program',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OwnerJournalRoute = OwnerJournalRouteImport.update({
+  id: '/owner/journal',
+  path: '/owner/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RSlugRoute = RSlugRouteImport.update({
+  id: '/r/$slug',
+  path: '/r/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SoapsSlugRoute = SoapsSlugRouteImport.update({
   id: '/soaps/$slug',
   path: '/soaps/$slug',
@@ -99,7 +195,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/creator': typeof CreatorRouteWithChildren
   '/faq': typeof FaqRoute
+  '/handoff': typeof HandoffRouteWithChildren
+  '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
@@ -108,7 +207,20 @@ export interface FileRoutesByFullPath {
   '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
+  '/creator/forgot-password': typeof CreatorForgotPasswordRoute
+  '/creator/invite-preview': typeof CreatorInvitePreviewRoute
+  '/creator/login': typeof CreatorLoginRoute
+  '/creator/set-password': typeof CreatorSetPasswordRoute
+  '/handoff/front-desk': typeof HandoffFrontDeskRoute
+  '/journal/$slug': typeof JournalSlugRoute
+  '/journal/article-template': typeof JournalArticleTemplateRoute
+  '/journal/coming-soon': typeof JournalComingSoonRoute
+  '/owner/creator-program': typeof OwnerCreatorProgramRoute
+  '/owner/journal': typeof OwnerJournalRoute
+  '/r/$slug': typeof RSlugRoute
   '/soaps/$slug': typeof SoapsSlugRoute
+  '/creator/': typeof CreatorIndexRoute
+  '/journal/': typeof JournalIndexRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -116,6 +228,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/handoff': typeof HandoffRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
@@ -124,7 +237,20 @@ export interface FileRoutesByTo {
   '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
+  '/creator/forgot-password': typeof CreatorForgotPasswordRoute
+  '/creator/invite-preview': typeof CreatorInvitePreviewRoute
+  '/creator/login': typeof CreatorLoginRoute
+  '/creator/set-password': typeof CreatorSetPasswordRoute
+  '/handoff/front-desk': typeof HandoffFrontDeskRoute
+  '/journal/$slug': typeof JournalSlugRoute
+  '/journal/article-template': typeof JournalArticleTemplateRoute
+  '/journal/coming-soon': typeof JournalComingSoonRoute
+  '/owner/creator-program': typeof OwnerCreatorProgramRoute
+  '/owner/journal': typeof OwnerJournalRoute
+  '/r/$slug': typeof RSlugRoute
   '/soaps/$slug': typeof SoapsSlugRoute
+  '/creator': typeof CreatorIndexRoute
+  '/journal': typeof JournalIndexRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
 }
 export interface FileRoutesById {
@@ -132,7 +258,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/creator': typeof CreatorRouteWithChildren
   '/faq': typeof FaqRoute
+  '/handoff': typeof HandoffRouteWithChildren
+  '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
@@ -141,7 +270,20 @@ export interface FileRoutesById {
   '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
   '/checkout/return': typeof CheckoutReturnRoute
+  '/creator/forgot-password': typeof CreatorForgotPasswordRoute
+  '/creator/invite-preview': typeof CreatorInvitePreviewRoute
+  '/creator/login': typeof CreatorLoginRoute
+  '/creator/set-password': typeof CreatorSetPasswordRoute
+  '/handoff/front-desk': typeof HandoffFrontDeskRoute
+  '/journal/$slug': typeof JournalSlugRoute
+  '/journal/article-template': typeof JournalArticleTemplateRoute
+  '/journal/coming-soon': typeof JournalComingSoonRoute
+  '/owner/creator-program': typeof OwnerCreatorProgramRoute
+  '/owner/journal': typeof OwnerJournalRoute
+  '/r/$slug': typeof RSlugRoute
   '/soaps/$slug': typeof SoapsSlugRoute
+  '/creator/': typeof CreatorIndexRoute
+  '/journal/': typeof JournalIndexRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
 }
 export interface FileRouteTypes {
@@ -150,7 +292,10 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/creator'
     | '/faq'
+    | '/handoff'
+    | '/journal'
     | '/privacy'
     | '/returns'
     | '/shipping'
@@ -159,7 +304,20 @@ export interface FileRouteTypes {
     | '/api/email-ink'
     | '/api/email-test'
     | '/checkout/return'
+    | '/creator/forgot-password'
+    | '/creator/invite-preview'
+    | '/creator/login'
+    | '/creator/set-password'
+    | '/handoff/front-desk'
+    | '/journal/$slug'
+    | '/journal/article-template'
+    | '/journal/coming-soon'
+    | '/owner/creator-program'
+    | '/owner/journal'
+    | '/r/$slug'
     | '/soaps/$slug'
+    | '/creator/'
+    | '/journal/'
     | '/api/stripe/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -167,6 +325,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/faq'
+    | '/handoff'
     | '/privacy'
     | '/returns'
     | '/shipping'
@@ -175,14 +334,30 @@ export interface FileRouteTypes {
     | '/api/email-ink'
     | '/api/email-test'
     | '/checkout/return'
+    | '/creator/forgot-password'
+    | '/creator/invite-preview'
+    | '/creator/login'
+    | '/creator/set-password'
+    | '/handoff/front-desk'
+    | '/journal/$slug'
+    | '/journal/article-template'
+    | '/journal/coming-soon'
+    | '/owner/creator-program'
+    | '/owner/journal'
+    | '/r/$slug'
     | '/soaps/$slug'
+    | '/creator'
+    | '/journal'
     | '/api/stripe/webhook'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
+    | '/creator'
     | '/faq'
+    | '/handoff'
+    | '/journal'
     | '/privacy'
     | '/returns'
     | '/shipping'
@@ -191,7 +366,20 @@ export interface FileRouteTypes {
     | '/api/email-ink'
     | '/api/email-test'
     | '/checkout/return'
+    | '/creator/forgot-password'
+    | '/creator/invite-preview'
+    | '/creator/login'
+    | '/creator/set-password'
+    | '/handoff/front-desk'
+    | '/journal/$slug'
+    | '/journal/article-template'
+    | '/journal/coming-soon'
+    | '/owner/creator-program'
+    | '/owner/journal'
+    | '/r/$slug'
     | '/soaps/$slug'
+    | '/creator/'
+    | '/journal/'
     | '/api/stripe/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -199,7 +387,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  CreatorRoute: typeof CreatorRouteWithChildren
   FaqRoute: typeof FaqRoute
+  HandoffRoute: typeof HandoffRouteWithChildren
+  JournalRoute: typeof JournalRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   ReturnsRoute: typeof ReturnsRoute
   ShippingRoute: typeof ShippingRoute
@@ -208,6 +399,9 @@ export interface RootRouteChildren {
   ApiEmailInkRoute: typeof ApiEmailInkRoute
   ApiEmailTestRoute: typeof ApiEmailTestRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
+  OwnerCreatorProgramRoute: typeof OwnerCreatorProgramRoute
+  OwnerJournalRoute: typeof OwnerJournalRoute
+  RSlugRoute: typeof RSlugRoute
   SoapsSlugRoute: typeof SoapsSlugRoute
   ApiStripeWebhookRoute: typeof ApiStripeWebhookRoute
 }
@@ -235,11 +429,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/creator': {
+      id: '/creator'
+      path: '/creator'
+      fullPath: '/creator'
+      preLoaderRoute: typeof CreatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faq': {
       id: '/faq'
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/handoff': {
+      id: '/handoff'
+      path: '/handoff'
+      fullPath: '/handoff'
+      preLoaderRoute: typeof HandoffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -298,6 +513,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutReturnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/creator/': {
+      id: '/creator/'
+      path: '/'
+      fullPath: '/creator/'
+      preLoaderRoute: typeof CreatorIndexRouteImport
+      parentRoute: typeof CreatorRoute
+    }
+    '/creator/forgot-password': {
+      id: '/creator/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/creator/forgot-password'
+      preLoaderRoute: typeof CreatorForgotPasswordRouteImport
+      parentRoute: typeof CreatorRoute
+    }
+    '/creator/invite-preview': {
+      id: '/creator/invite-preview'
+      path: '/invite-preview'
+      fullPath: '/creator/invite-preview'
+      preLoaderRoute: typeof CreatorInvitePreviewRouteImport
+      parentRoute: typeof CreatorRoute
+    }
+    '/creator/login': {
+      id: '/creator/login'
+      path: '/login'
+      fullPath: '/creator/login'
+      preLoaderRoute: typeof CreatorLoginRouteImport
+      parentRoute: typeof CreatorRoute
+    }
+    '/creator/set-password': {
+      id: '/creator/set-password'
+      path: '/set-password'
+      fullPath: '/creator/set-password'
+      preLoaderRoute: typeof CreatorSetPasswordRouteImport
+      parentRoute: typeof CreatorRoute
+    }
+    '/handoff/front-desk': {
+      id: '/handoff/front-desk'
+      path: '/front-desk'
+      fullPath: '/handoff/front-desk'
+      preLoaderRoute: typeof HandoffFrontDeskRouteImport
+      parentRoute: typeof HandoffRoute
+    }
+    '/journal/': {
+      id: '/journal/'
+      path: '/'
+      fullPath: '/journal/'
+      preLoaderRoute: typeof JournalIndexRouteImport
+      parentRoute: typeof JournalRoute
+    }
+    '/journal/$slug': {
+      id: '/journal/$slug'
+      path: '/$slug'
+      fullPath: '/journal/$slug'
+      preLoaderRoute: typeof JournalSlugRouteImport
+      parentRoute: typeof JournalRoute
+    }
+    '/journal/article-template': {
+      id: '/journal/article-template'
+      path: '/article-template'
+      fullPath: '/journal/article-template'
+      preLoaderRoute: typeof JournalArticleTemplateRouteImport
+      parentRoute: typeof JournalRoute
+    }
+    '/journal/coming-soon': {
+      id: '/journal/coming-soon'
+      path: '/coming-soon'
+      fullPath: '/journal/coming-soon'
+      preLoaderRoute: typeof JournalComingSoonRouteImport
+      parentRoute: typeof JournalRoute
+    }
+    '/owner/creator-program': {
+      id: '/owner/creator-program'
+      path: '/owner/creator-program'
+      fullPath: '/owner/creator-program'
+      preLoaderRoute: typeof OwnerCreatorProgramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/owner/journal': {
+      id: '/owner/journal'
+      path: '/owner/journal'
+      fullPath: '/owner/journal'
+      preLoaderRoute: typeof OwnerJournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/r/$slug': {
+      id: '/r/$slug'
+      path: '/r/$slug'
+      fullPath: '/r/$slug'
+      preLoaderRoute: typeof RSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/soaps/$slug': {
       id: '/soaps/$slug'
       path: '/soaps/$slug'
@@ -315,11 +621,61 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface CreatorRouteChildren {
+  CreatorForgotPasswordRoute: typeof CreatorForgotPasswordRoute
+  CreatorInvitePreviewRoute: typeof CreatorInvitePreviewRoute
+  CreatorLoginRoute: typeof CreatorLoginRoute
+  CreatorSetPasswordRoute: typeof CreatorSetPasswordRoute
+  CreatorIndexRoute: typeof CreatorIndexRoute
+}
+
+const CreatorRouteChildren: CreatorRouteChildren = {
+  CreatorForgotPasswordRoute: CreatorForgotPasswordRoute,
+  CreatorInvitePreviewRoute: CreatorInvitePreviewRoute,
+  CreatorLoginRoute: CreatorLoginRoute,
+  CreatorSetPasswordRoute: CreatorSetPasswordRoute,
+  CreatorIndexRoute: CreatorIndexRoute,
+}
+
+const CreatorRouteWithChildren =
+  CreatorRoute._addFileChildren(CreatorRouteChildren)
+
+interface HandoffRouteChildren {
+  HandoffFrontDeskRoute: typeof HandoffFrontDeskRoute
+}
+
+const HandoffRouteChildren: HandoffRouteChildren = {
+  HandoffFrontDeskRoute: HandoffFrontDeskRoute,
+}
+
+const HandoffRouteWithChildren =
+  HandoffRoute._addFileChildren(HandoffRouteChildren)
+
+interface JournalRouteChildren {
+  JournalSlugRoute: typeof JournalSlugRoute
+  JournalArticleTemplateRoute: typeof JournalArticleTemplateRoute
+  JournalComingSoonRoute: typeof JournalComingSoonRoute
+  JournalIndexRoute: typeof JournalIndexRoute
+}
+
+const JournalRouteChildren: JournalRouteChildren = {
+  JournalSlugRoute: JournalSlugRoute,
+  JournalArticleTemplateRoute: JournalArticleTemplateRoute,
+  JournalComingSoonRoute: JournalComingSoonRoute,
+  JournalIndexRoute: JournalIndexRoute,
+}
+
+const JournalRouteWithChildren =
+  JournalRoute._addFileChildren(JournalRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  CreatorRoute: CreatorRouteWithChildren,
   FaqRoute: FaqRoute,
+  HandoffRoute: HandoffRouteWithChildren,
+  JournalRoute: JournalRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   ReturnsRoute: ReturnsRoute,
   ShippingRoute: ShippingRoute,
@@ -328,6 +684,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiEmailInkRoute: ApiEmailInkRoute,
   ApiEmailTestRoute: ApiEmailTestRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
+  OwnerCreatorProgramRoute: OwnerCreatorProgramRoute,
+  OwnerJournalRoute: OwnerJournalRoute,
+  RSlugRoute: RSlugRoute,
   SoapsSlugRoute: SoapsSlugRoute,
   ApiStripeWebhookRoute: ApiStripeWebhookRoute,
 }

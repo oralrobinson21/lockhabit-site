@@ -63,15 +63,22 @@ function FrontDeskForm() {
     setStatus("sending");
     setMessage("");
 
-    const result = await sendContactMessage({
-      data: {
-        name: String(form.get("name") ?? ""),
-        email: String(form.get("email") ?? ""),
-        orderNumber: String(form.get("orderNumber") ?? ""),
-        message: String(form.get("message") ?? ""),
-        website: String(form.get("website") ?? ""),
-      },
-    });
+    let result: Awaited<ReturnType<typeof sendContactMessage>>;
+    try {
+      result = await sendContactMessage({
+        data: {
+          name: String(form.get("name") ?? ""),
+          email: String(form.get("email") ?? ""),
+          orderNumber: String(form.get("orderNumber") ?? ""),
+          message: String(form.get("message") ?? ""),
+          website: String(form.get("website") ?? ""),
+        },
+      });
+    } catch {
+      setStatus("error");
+      setMessage("We couldn't send that note. Please try again.");
+      return;
+    }
 
     if (result.ok) {
       const sentAt = Date.now();
@@ -105,6 +112,17 @@ function FrontDeskForm() {
 
   return (
     <form onSubmit={submit} className="mt-5 grid gap-4" aria-label="Contact LOCKHABIT support">
+      <div className="flex items-center gap-3" aria-label="Front desk bell">
+        <div className="front-desk-bell" style={{ animation: "none" }} aria-hidden="true">
+          <svg viewBox="0 0 120 86" role="presentation">
+            <path d="M20 62h80" />
+            <path d="M30 58c2-25 15-38 30-38s28 13 30 38" />
+            <path d="M54 18c0-5 2-8 6-8s6 3 6 8" />
+            <path d="M14 68h92c4 0 7 3 7 7v2H7v-2c0-4 3-7 7-7Z" />
+          </svg>
+        </div>
+        <p className="memo text-primary">Ring the front desk with a note below.</p>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="grid gap-2 text-sm font-bold">
           Name
