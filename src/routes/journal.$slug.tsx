@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, ExternalLink, Leaf } from "lucide-react";
 
 import { SiteHeader } from "@/components/site-header";
+import { JournalReaderTools } from "@/components/journal-reader-tools";
 import { IslandFooter } from "@/components/island-footer";
 import { products } from "@/lib/catalog";
 import { publishedJournalBlocks } from "@/lib/journal-content";
@@ -44,6 +45,7 @@ function JournalArticle() {
   const references = Array.isArray(post.reference_items) ? post.reference_items.filter((item): item is string => typeof item === "string" && item.startsWith("https://")) : [];
   const recommendations = blocks.filter((block) => block.type === "own_product" || block.type === "affiliate");
   const prose = blocks.filter((block) => block.type === "heading" || block.type === "paragraph");
+  const readerText = [post.title, post.excerpt, ...prose.map((block) => block.text)].filter(Boolean).join(". ");
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -74,6 +76,7 @@ function JournalArticle() {
 
         <div className="mx-auto max-w-5xl px-5 py-10 lg:px-10">
           {post.hero_image_url && post.hero_image_alt ? <img className="mb-10 aspect-[16/9] w-full rounded-2xl border-2 border-foreground object-cover" src={post.hero_image_url} alt={post.hero_image_alt} /> : null}
+          <JournalReaderTools slug={post.slug} title={post.title} text={readerText} />
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_210px]">
             <div className="min-w-0">
               <div className="space-y-6 text-lg leading-8">
