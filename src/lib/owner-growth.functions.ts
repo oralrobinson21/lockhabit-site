@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { isSafeExternalUrl, parseJournalBlocks, validatedJournalReferences, validateJournalForPublication } from "@/lib/journal-content";
+import { products } from "@/lib/catalog";
 
 const token = z.string().min(20).max(5000);
 const uuid = z.string().uuid();
@@ -173,6 +175,7 @@ export const saveOwnerJournal = createServerFn({ method: "POST" })
       excerpt: string;
       category: string;
       body: string;
+      recommendations: string;
       references: string;
       author: string;
       heroImageUrl: string;
@@ -193,6 +196,7 @@ export const saveOwnerJournal = createServerFn({ method: "POST" })
           excerpt: z.string().max(500),
           category: z.string().min(1).max(80),
           body: z.string().max(50000),
+          recommendations: z.string().max(12000).default(""),
           references: z.string().max(12000),
           author: z.string().trim().min(1).max(120),
           heroImageUrl: z.union([z.literal(""), z.string().url().max(1000)]),
@@ -205,8 +209,20 @@ export const saveOwnerJournal = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const db = await owner(data.accessToken);
-    if (data.status === "published" && (!data.body.trim() || !data.references.trim()))
-      throw new Error("A published article requires a body and references.");
+    const blocks = parseJournalBlocks(data.body, data.recommendations);
+    if (data.heroImageUrl && !isSafeExternalUrl(data.heroImageUrl))
+      throw new Error("Journal hero images require a secure https:// URL.");
+    if (blocks.some((block) => block.type === "own_product" && !products.some((product) => product.slug === block.slug)))
+      throw new Error("Choose a current LockHabit product before recommending it.");
+    const references = validatedJournalReferences(data.references);
+    if (data.status === "published")
+      validateJournalForPublication(data.body, references, data.heroImageUrl, data.heroImageAlt);
+    let firstPublishedAt: string | null = null;
+    if (data.id && data.status === "published") {
+      const existing = await db.from("journal_posts").select("published_at").eq("id", data.id).maybeSingle();
+      if (existing.error) throw new Error("Could not check the article's original publication date.");
+      firstPublishedAt = existing.data?.published_at ?? null;
+    }
     const values = {
       slug: data.slug,
       title: data.title,
@@ -218,13 +234,10 @@ export const saveOwnerJournal = createServerFn({ method: "POST" })
       seo_title: data.seoTitle || null,
       seo_description: data.seoDescription || null,
       reading_time_minutes: Math.max(1, Math.ceil(data.body.trim().split(/\s+/).length / 220)),
-      body: [{ type: "paragraph", text: data.body }],
-      reference_items: data.references
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
+      body: blocks,
+      reference_items: references,
       status: data.status,
-      published_at: data.status === "published" ? new Date().toISOString() : null,
+      published_at: data.status === "published" ? firstPublishedAt ?? new Date().toISOString() : null,
       updated_at: new Date().toISOString(),
     };
     const result = data.id
