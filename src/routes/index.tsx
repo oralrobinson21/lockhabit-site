@@ -755,6 +755,9 @@ function Index() {
               <svg viewBox="0 0 1500 180" preserveAspectRatio="none"><path d="M0 76C125 132 225 132 340 76S560 20 680 76S900 132 1020 76S1240 20 1500 76V180H0Z" /></svg>
             </div>
           </div>
+          <div className="island-shore-foam" aria-hidden="true">
+            <svg viewBox="0 0 1000 110" preserveAspectRatio="none"><path d="M0 85C76 63 131 73 193 53C266 31 317 63 386 45C454 26 507 58 568 41C656 15 713 57 790 35C867 13 929 43 1000 26" /></svg>
+          </div>
         </section>
 
         <section className="island-footer-links">
@@ -777,6 +780,7 @@ function Index() {
                 <Link to="/about">About us</Link>
                 <Link to="/contact">Contact the front desk</Link>
                 <Link to="/journal">Keep the Vibes Going · Journal</Link>
+                <Link to="/sign-in">Sign in</Link>
                 <Link to="/shipping">Shipping</Link>
                 <Link to="/returns">Returns & refunds</Link>
                 <Link to="/faq">FAQ</Link>

@@ -10,12 +10,14 @@ export function CreatorAuthShell({
   description,
   children,
   footer,
+  audience = "creator",
 }: {
   eyebrow: string;
   title: string;
   description: string;
   children: ReactNode;
   footer?: ReactNode;
+  audience?: "creator" | "team";
 }) {
   return (
     <main className="min-h-screen bg-[#f7edd5] text-foreground">
@@ -36,17 +38,23 @@ export function CreatorAuthShell({
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-sun/65" aria-hidden="true" />
             <div className="absolute -bottom-24 -left-12 h-72 w-72 rounded-full bg-pool/25" aria-hidden="true" />
             <div className="relative">
-              <p className="memo text-coral-foreground/80">LOCKHABIT creator desk</p>
+              <p className="memo text-coral-foreground/80">{audience === "team" ? "LOCKHABIT · behind the front desk" : "LOCKHABIT creator desk"}</p>
               <h1 className="mt-5 font-slab text-[clamp(3rem,7vw,5.3rem)] uppercase leading-[.88]">
-                Good links.<br />Brighter days.
+                {audience === "team" ? <>Good people.<br />Brighter days.</> : <>Good links.<br />Brighter days.</>}
               </h1>
               <p className="mt-6 max-w-md text-sm leading-6">
-                Track visits, attributed sales, pending commission, available commission, payouts, and the exact referral tools assigned to you.
+                {audience === "team" ? "One place to check in. Your account opens the right desk after you sign in." : "Track visits, attributed sales, pending commission, available commission, payouts, and the exact referral tools assigned to you."}
               </p>
               <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                <Perk icon={<Sparkles size={18} />} title="Your referral link" text="One unique link tied to your creator account." />
-                <Perk icon={<ShieldCheck size={18} />} title="Protected earnings view" text="No customer card data or unnecessary private details." />
-                <Perk icon={<KeyRound size={18} />} title="Normal password login" text="Use the one-time invite to choose a password, then sign in normally." />
+                {audience === "team" ? <>
+                  <Perk icon={<Sparkles size={18} />} title="Your own desk" text="See the tools assigned to your account." />
+                  <Perk icon={<ShieldCheck size={18} />} title="Private by design" text="Your sign-in determines what you can access." />
+                  <Perk icon={<KeyRound size={18} />} title="Welcome back" text="Use the email and password you set up for LockHabit." />
+                </> : <>
+                  <Perk icon={<Sparkles size={18} />} title="Your referral link" text="One unique link tied to your creator account." />
+                  <Perk icon={<ShieldCheck size={18} />} title="Protected earnings view" text="No customer card data or unnecessary private details." />
+                  <Perk icon={<KeyRound size={18} />} title="Normal password login" text="Use the one-time invite to choose a password, then sign in normally." />
+                </>}
               </div>
             </div>
           </aside>

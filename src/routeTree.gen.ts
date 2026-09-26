@@ -19,6 +19,7 @@ import { Route as JournalRouteImport } from './routes/journal'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReturnsRouteImport } from './routes/returns'
 import { Route as ShippingRouteImport } from './routes/shipping'
+import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as ApiEmailInkRouteImport } from './routes/api/email-ink'
@@ -89,6 +90,11 @@ const ReturnsRoute = ReturnsRouteImport.update({
 const ShippingRoute = ShippingRouteImport.update({
   id: '/shipping',
   path: '/shipping',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
+  '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/api/email-ink': typeof ApiEmailInkRoute
@@ -239,6 +246,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
+  '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/api/email-ink': typeof ApiEmailInkRoute
@@ -273,6 +281,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
+  '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/api/email-ink': typeof ApiEmailInkRoute
@@ -308,6 +317,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/returns'
     | '/shipping'
+    | '/sign-in'
     | '/terms'
     | '/admin/orders'
     | '/api/email-ink'
@@ -339,6 +349,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/returns'
     | '/shipping'
+    | '/sign-in'
     | '/terms'
     | '/admin/orders'
     | '/api/email-ink'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/returns'
     | '/shipping'
+    | '/sign-in'
     | '/terms'
     | '/admin/orders'
     | '/api/email-ink'
@@ -406,6 +418,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ReturnsRoute: typeof ReturnsRoute
   ShippingRoute: typeof ShippingRoute
+  SignInRoute: typeof SignInRoute
   TermsRoute: typeof TermsRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   ApiEmailInkRoute: typeof ApiEmailInkRoute
@@ -488,6 +501,13 @@ declare module '@tanstack/react-router' {
       path: '/shipping'
       fullPath: '/shipping'
       preLoaderRoute: typeof ShippingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -700,6 +720,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ReturnsRoute: ReturnsRoute,
   ShippingRoute: ShippingRoute,
+  SignInRoute: SignInRoute,
   TermsRoute: TermsRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   ApiEmailInkRoute: ApiEmailInkRoute,
