@@ -1,167 +1,305 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, CalendarClock, FilePlus2, Filter, Search, ShieldCheck } from "lucide-react";
-import { useMemo, useState, type ReactNode } from "react";
-
-import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { getOwnerGrowth, saveOwnerJournal } from "@/lib/owner-growth.functions";
 
 export const Route = createFileRoute("/owner/journal")({
   head: () => ({
     meta: [
-      { title: "LOCKHABIT Journal Admin · Design Handoff" },
-      { name: "robots", content: "noindex,nofollow" },
+      { title: "Journal administration · LOCKHABIT" },
+      { name: "robots", content: "noindex,nofollow,noarchive" },
     ],
   }),
   component: OwnerJournal,
 });
-
-type Status = "Draft" | "In review" | "Scheduled" | "Published";
-
-const posts = [
-  { title: "Turmeric & Skin Care: What Research Can and Can’t Tell Us", category: "Research Notes", status: "In review" as Status, updated: "Sep 25", author: "LOCKHABIT Editorial" },
-  { title: "Activated Charcoal in Soap: Questions Worth Asking", category: "Ingredients", status: "Draft" as Status, updated: "Sep 24", author: "LOCKHABIT Editorial" },
-  { title: "Five Ways to Make a Shower Feel Less Rushed", category: "Rituals", status: "Scheduled" as Status, updated: "Sep 23", author: "LOCKHABIT Editorial" },
-  { title: "How to Build a Travel-Friendly Body Care Routine", category: "Travel Brighter", status: "Published" as Status, updated: "Sep 20", author: "LOCKHABIT Editorial" },
-  { title: "What Does Fragrance-Free Mean on a Formula?", category: "FAQs", status: "Draft" as Status, updated: "Sep 18", author: "LOCKHABIT Editorial" },
-];
-
-const statusOptions: Array<"All" | Status> = ["All", "Draft", "In review", "Scheduled", "Published"];
-
+type Post = Awaited<ReturnType<typeof getOwnerGrowth>>["posts"][number];
 function OwnerJournal() {
-  const [query, setQuery] = useState("");
-  const [status, setStatus] = useState<"All" | Status>("All");
-  const [editorOpen, setEditorOpen] = useState(false);
-
-  const filtered = useMemo(() => {
-    const q = query.toLowerCase();
-    return posts.filter((post) => {
-      const searchMatch = !q || (post.title + " " + post.category + " " + post.author).toLowerCase().includes(q);
-      const statusMatch = status === "All" || post.status === status;
-      return searchMatch && statusMatch;
+  const [token, setToken] = useState("");
+  const [posts, setPosts] = useState<Post[] | null>(null);
+  const [editing, setEditing] = useState<Post | null>(null);
+  const [open, setOpen] = useState(false);
+  const [notice, setNotice] = useState("Checking owner access…");
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void supabase.auth.getSession().then(({ data }) => {
+      if (active) setToken(data.session?.access_token ?? "");
+      if (active && !data.session) setNotice("Sign in to the owner orders dashboard first.");
     });
-  }, [query, status]);
-
+    return () => {
+      active = false;
+    };
+  }, []);
+  async function refresh(accessToken = token) {
+    try {
+      const result = await getOwnerGrowth({ data: { accessToken } });
+      setPosts(result.posts);
+      setNotice("");
+    } catch {
+      setPosts(null);
+      setNotice("Owner access is required. Sign in through the orders dashboard.");
+    }
+  }
+  useEffect(() => {
+    if (token) void refresh(token);
+  }, [token]);
+  async function save(element: HTMLFormElement, status: "draft" | "in_review" | "published") {
+    setBusy(true);
+    setNotice("");
+    const form = new FormData(element);
+    try {
+      await saveOwnerJournal({
+        data: {
+          accessToken: token,
+          ...(editing ? { id: editing.id } : {}),
+          title: String(form.get("title") ?? ""),
+          slug: String(form.get("slug") ?? ""),
+          category: String(form.get("category") ?? ""),
+          excerpt: String(form.get("excerpt") ?? ""),
+          body: String(form.get("body") ?? ""),
+          references: String(form.get("references") ?? ""),
+          author: String(form.get("author") ?? ""),
+          heroImageUrl: String(form.get("heroImageUrl") ?? ""),
+          heroImageAlt: String(form.get("heroImageAlt") ?? ""),
+          seoTitle: String(form.get("seoTitle") ?? ""),
+          seoDescription: String(form.get("seoDescription") ?? ""),
+          status,
+        },
+      });
+      setOpen(false);
+      setEditing(null);
+      await refresh();
+      setNotice("Article saved.");
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Could not save article.");
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
-    <main className="min-h-screen bg-[#f5efe2] text-foreground">
-      <header className="border-b-2 border-foreground bg-background">
-        <div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-5 px-5 lg:px-10">
-          <Link to="/" className="brand-logo"><img src={logoTransparent} alt="LOCKHABIT Soap and Body Care" /></Link>
-          <div className="text-right"><p className="memo text-primary">Owner tools</p><p className="text-xs font-bold">Journal publishing · design handoff</p></div>
+    <main className="min-h-screen bg-[#f5efe2] px-5 py-8 text-foreground lg:px-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <Link to="/" className="font-display text-2xl font-bold">
+            LOCKHABIT
+          </Link>
+          <Link to="/admin/orders" className="secondary-button">
+            Owner orders & sign in
+          </Link>
         </div>
-      </header>
-
-      <section className="mx-auto max-w-7xl px-5 py-8 lg:px-10">
-        <div className="flex flex-wrap items-end justify-between gap-5">
-          <div>
-            <p className="eyebrow">Journal operations</p>
-            <h1 className="section-title">One article or three hundred.</h1>
-            <p className="mt-3 max-w-2xl text-muted-foreground">Search, filter, review, schedule, and publish without turning the business side into a bloated CMS.</p>
-          </div>
-          <button className="primary-button" onClick={() => setEditorOpen(true)}><FilePlus2 size={17} /> New article</button>
-        </div>
-
-        <div className="mt-7 grid gap-4 sm:grid-cols-4">
-          <Metric label="Drafts" value="2" />
-          <Metric label="In review" value="1" />
-          <Metric label="Scheduled" value="1" />
-          <Metric label="Published" value="1" />
-        </div>
-
-        <div className="mt-6 overflow-hidden rounded-2xl border-2 border-foreground bg-background">
-          <div className="flex flex-col gap-3 border-b-2 border-foreground p-4 md:flex-row md:items-center">
-            <div className="flex flex-1 items-center gap-2 rounded-full border-2 border-foreground bg-paper px-4 py-2">
-              <Search size={17} />
-              <input value={query} onChange={(event) => setQuery(event.target.value)} className="min-w-0 flex-1 bg-transparent outline-none" placeholder="Search title, category, or author" />
+        <p className="eyebrow mt-9">Owner tools</p>
+        <h1 className="section-title">Journal publishing.</h1>
+        {notice ? (
+          <p role="status" className="mt-4 rounded-xl bg-paper p-4">
+            {notice}
+          </p>
+        ) : null}
+        {posts ? (
+          <>
+            <button
+              className="primary-button mt-6"
+              onClick={() => {
+                setEditing(null);
+                setOpen(true);
+              }}
+            >
+              New article
+            </button>
+            <div className="mt-5 grid gap-4">
+              {posts.length === 0 ? (
+                <p>No articles have been written. The public Journal remains hidden.</p>
+              ) : (
+                posts.map((post) => (
+                  <article
+                    key={post.id}
+                    className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border-2 border-foreground bg-paper p-5"
+                  >
+                    <div>
+                      <h2 className="font-display text-xl">{post.title}</h2>
+                      <p className="text-sm">
+                        /{post.slug} · {post.category} · {post.status} · Updated{" "}
+                        {new Date(post.updated_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <button
+                      className="secondary-button"
+                      onClick={() => {
+                        setEditing(post);
+                        setOpen(true);
+                      }}
+                    >
+                      Open editor
+                    </button>
+                  </article>
+                ))
+              )}
             </div>
-            <div className="flex items-center gap-2 overflow-x-auto">
-              <Filter size={16} className="shrink-0" />
-              {statusOptions.map((option) => (
-                <button key={option} onClick={() => setStatus(option)} className={`shrink-0 rounded-full border-2 border-foreground px-3 py-2 text-[0.62rem] font-black uppercase ${status === option ? "bg-sun" : "bg-paper"}`}>
-                  {option}
+          </>
+        ) : (
+          <p className="mt-4">Journal data is available after owner sign in.</p>
+        )}
+        {open && posts ? (
+          <div
+            className="fixed inset-0 z-[90] overflow-y-auto bg-foreground/60 p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Article editor"
+          >
+            <form
+              key={editing?.id ?? "new"}
+              onSubmit={(event) => {
+                event.preventDefault();
+                void save(event.currentTarget, "draft");
+              }}
+              className="mx-auto max-w-2xl space-y-4 rounded-2xl bg-paper p-6 shadow-xl"
+            >
+              <div className="flex items-center justify-between">
+                <h2 className="font-display text-3xl">
+                  {editing ? "Edit article" : "New article"}
+                </h2>
+                <button type="button" className="secondary-button" onClick={() => setOpen(false)}>
+                  Close
                 </button>
-              ))}
-            </div>
+              </div>
+              <label className="block">
+                Title
+                <input
+                  name="title"
+                  required
+                  defaultValue={editing?.title}
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                Slug
+                <input
+                  name="slug"
+                  required
+                  pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                  defaultValue={editing?.slug}
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                Category
+                <select
+                  name="category"
+                  defaultValue={editing?.category ?? "Ingredients"}
+                  className="mt-1 w-full rounded border p-3"
+                >
+                  {["Ingredients", "Rituals", "Research Notes", "Travel Brighter", "FAQs"].map(
+                    (s) => (
+                      <option key={s}>{s}</option>
+                    ),
+                  )}
+                </select>
+              </label>
+              <label className="block">
+                Excerpt
+                <textarea
+                  name="excerpt"
+                  maxLength={500}
+                  defaultValue={editing?.excerpt}
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                Author
+                <input
+                  name="author"
+                  required
+                  defaultValue={editing?.author ?? "LOCKHABIT Editorial"}
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                Hero image URL
+                <input
+                  name="heroImageUrl"
+                  type="url"
+                  defaultValue={editing?.hero_image_url ?? ""}
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                Hero image alt text
+                <input
+                  name="heroImageAlt"
+                  defaultValue={editing?.hero_image_alt ?? ""}
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                Search title
+                <input
+                  name="seoTitle"
+                  defaultValue={editing?.seo_title ?? ""}
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                Search description
+                <textarea
+                  name="seoDescription"
+                  defaultValue={editing?.seo_description ?? ""}
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                Article body
+                <textarea
+                  name="body"
+                  rows={12}
+                  defaultValue={
+                    Array.isArray(editing?.body)
+                      ? ((editing.body[0] as { text?: string } | undefined)?.text ?? "")
+                      : ""
+                  }
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <label className="block">
+                References, one per line
+                <textarea
+                  name="references"
+                  rows={5}
+                  defaultValue={
+                    Array.isArray(editing?.reference_items)
+                      ? editing.reference_items.join("\n")
+                      : ""
+                  }
+                  className="mt-1 w-full rounded border p-3"
+                />
+              </label>
+              <p className="text-sm">
+                Published articles require a body and references. Review evidence, safety, and
+                claims before publishing.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button disabled={busy} type="submit" className="secondary-button">
+                  Save draft
+                </button>
+                <button
+                  disabled={busy}
+                  type="button"
+                  onClick={(event) => void save(event.currentTarget.form!, "in_review")}
+                  className="secondary-button"
+                >
+                  Send to review
+                </button>
+                <button
+                  disabled={busy}
+                  type="button"
+                  onClick={(event) => void save(event.currentTarget.form!, "published")}
+                  className="dark-button"
+                >
+                  Publish
+                </button>
+              </div>
+            </form>
           </div>
-
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-sm">
-              <thead className="bg-muted">
-                <tr>{["Article", "Category", "Status", "Updated", "Author", ""].map((heading) => <th key={heading} className="px-4 py-3 text-left text-xs uppercase">{heading}</th>)}</tr>
-              </thead>
-              <tbody>
-                {filtered.map((post) => (
-                  <tr key={post.title} className="border-t border-border">
-                    <td className="min-w-[300px] px-4 py-4"><p className="font-display text-lg font-semibold leading-tight">{post.title}</p></td>
-                    <td className="px-4 py-4">{post.category}</td>
-                    <td className="px-4 py-4"><StatusPill status={post.status} /></td>
-                    <td className="px-4 py-4">{post.updated}</td>
-                    <td className="px-4 py-4">{post.author}</td>
-                    <td className="px-4 py-4"><button className="secondary-button whitespace-nowrap">Open editor</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {!filtered.length ? <div className="p-10 text-center"><BookOpen className="mx-auto text-coral" /><p className="mt-4 font-display text-2xl font-semibold">No articles match that filter.</p></div> : null}
-        </div>
-
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          <Rule icon={<ShieldCheck />} title="Research gate" text="Article cannot publish until references, evidence limits, and review date are complete." />
-          <Rule icon={<CalendarClock />} title="Schedule cleanly" text="Draft, review, schedule, and publish states stay obvious at a glance." />
-          <Rule icon={<BookOpen />} title="Scale without clutter" text="Server-side pagination/search can replace this demo list without changing the owner UX." />
-        </div>
-      </section>
-
-      {editorOpen ? <EditorSheet onClose={() => setEditorOpen(false)} /> : null}
+        ) : null}
+      </div>
     </main>
   );
-}
-
-function Metric({ label, value }: { label: string; value: string }) {
-  return <div className="rounded-2xl border-2 border-foreground bg-paper p-4 shadow-[3px_3px_0_var(--color-foreground)]"><p className="memo text-muted-foreground">{label}</p><p className="mt-2 font-display text-3xl font-semibold">{value}</p></div>;
-}
-
-function StatusPill({ status }: { status: Status }) {
-  const tone = status === "Published" ? "bg-secondary" : status === "Scheduled" ? "bg-sun" : status === "In review" ? "bg-coral/20" : "bg-muted";
-  return <span className={`rounded-full px-3 py-1 text-xs font-black ${tone}`}>{status}</span>;
-}
-
-function Rule({ icon, title, text }: { icon: ReactNode; title: string; text: string }) {
-  return <div className="rounded-2xl border-2 border-foreground bg-background p-5"><div className="text-primary">{icon}</div><p className="mt-3 font-bold">{title}</p><p className="mt-2 text-sm text-muted-foreground">{text}</p></div>;
-}
-
-function EditorSheet({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-[90] bg-foreground/45 backdrop-blur-sm" onMouseDown={onClose}>
-      <aside className="ml-auto h-full w-full max-w-2xl overflow-y-auto border-l-2 border-foreground bg-paper p-6 shadow-[-8px_0_0_var(--color-foreground)]" onMouseDown={(event) => event.stopPropagation()}>
-        <div className="flex items-start justify-between gap-4">
-          <div><p className="eyebrow">Article editor UX</p><h2 className="font-display text-4xl font-semibold">New Journal entry</h2></div>
-          <button className="secondary-button" onClick={onClose}>Close</button>
-        </div>
-        <form className="mt-7 space-y-5" onSubmit={(event) => event.preventDefault()}>
-          <Field label="Title"><input className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder="Article title" /></Field>
-          <Field label="Slug"><input className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder="article-slug" /></Field>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Category"><select className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35"><option>Ingredients</option><option>Rituals</option><option>Research Notes</option><option>Travel Brighter</option><option>FAQs</option></select></Field>
-            <Field label="Status"><select className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35"><option>Draft</option><option>In review</option><option>Scheduled</option></select></Field>
-          </div>
-          <Field label="Excerpt"><textarea className="min-h-24 w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder="Short summary for cards and search previews" /></Field>
-          <Field label="Hero image / alt text"><div className="grid gap-3 sm:grid-cols-2"><button className="secondary-button justify-center">Choose image</button><input className="w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder="Image alt text" /></div></Field>
-          <div className="rounded-2xl border-2 border-foreground bg-sun/25 p-4">
-            <p className="memo">Editorial sections</p>
-            <p className="mt-2 text-sm text-muted-foreground">Short answer · what it is · traditional use · research studied · supportive evidence · mixed/negative evidence · limitations · rinse-off vs leave-on · safety · references.</p>
-          </div>
-          <Field label="References checklist"><textarea className="min-h-28 w-full rounded-2xl border-2 border-foreground bg-background px-4 py-3 outline-none focus:ring-4 focus:ring-sun/35" placeholder=".gov / .edu / PubMed / peer-reviewed sources and notes" /></Field>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <button className="secondary-button justify-center">Save draft</button>
-            <button className="dark-button justify-center">Send to review</button>
-          </div>
-        </form>
-      </aside>
-    </div>
-  );
-}
-
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  return <label className="block"><span className="memo">{label}</span><div className="mt-2">{children}</div></label>;
 }

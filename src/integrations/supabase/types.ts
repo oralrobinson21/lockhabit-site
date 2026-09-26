@@ -14,6 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
+      checkin_offer_claims: {
+        Row: { session_token: string; claimed_at: string; last_seen_at: string };
+        Insert: { session_token: string; claimed_at?: string; last_seen_at?: string };
+        Update: { session_token?: string; claimed_at?: string; last_seen_at?: string };
+        Relationships: [];
+      };
+      journal_posts: {
+        Row: {
+          id: string;
+          slug: string;
+          title: string;
+          excerpt: string;
+          category: string;
+          status: string;
+          body: Json;
+          author: string;
+          reviewed_at: string | null;
+          reading_time_minutes: number | null;
+          related_product_slugs: string[];
+          seo_title: string | null;
+          seo_description: string | null;
+          hero_image_url: string | null;
+          hero_image_alt: string | null;
+          reference_items: Json;
+          published_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          title: string;
+          excerpt?: string;
+          category: string;
+          status?: string;
+          body?: Json;
+          author?: string;
+          reviewed_at?: string | null;
+          reading_time_minutes?: number | null;
+          related_product_slugs?: string[];
+          seo_title?: string | null;
+          seo_description?: string | null;
+          hero_image_url?: string | null;
+          hero_image_alt?: string | null;
+          reference_items?: Json;
+          published_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          slug?: string;
+          title?: string;
+          excerpt?: string;
+          category?: string;
+          status?: string;
+          body?: Json;
+          author?: string;
+          reviewed_at?: string | null;
+          reading_time_minutes?: number | null;
+          related_product_slugs?: string[];
+          seo_title?: string | null;
+          seo_description?: string | null;
+          hero_image_url?: string | null;
+          hero_image_alt?: string | null;
+          reference_items?: Json;
+          published_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       creator_attributions: {
         Row: {
           attribution_token: string | null
@@ -230,6 +302,7 @@ export type Database = {
       }
       creator_profiles: {
         Row: {
+          agreement_version: string | null
           activated_at: string | null
           agreement_accepted_at: string | null
           auth_user_id: string | null
@@ -250,6 +323,7 @@ export type Database = {
           username: string | null
         }
         Insert: {
+          agreement_version?: string | null
           activated_at?: string | null
           agreement_accepted_at?: string | null
           auth_user_id?: string | null
@@ -270,6 +344,7 @@ export type Database = {
           username?: string | null
         }
         Update: {
+          agreement_version?: string | null
           activated_at?: string | null
           agreement_accepted_at?: string | null
           auth_user_id?: string | null
@@ -580,6 +655,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      owner_transition_creator_payout: {
+        Args: { p_request_id: string; p_action: string; p_note?: string | null };
+        Returns: string;
+      }
       capture_creator_referral: {
         Args: {
           p_landing_path?: string

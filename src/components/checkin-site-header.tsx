@@ -1,9 +1,24 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckInOffer, CheckInTicketButton, type CheckInOfferState } from "@/components/checkin-offer";
+import {
+  CheckInOffer,
+  CheckInTicketButton,
+  type CheckInOfferState,
+} from "@/components/checkin-offer";
 import { SiteHeader } from "@/components/site-header";
+import { checkCheckInClaim, claimCheckInOffer } from "@/lib/checkin.functions";
 
 const STORAGE_KEY = "lockhabit_checkin_offer_v1";
 const REQUIRED_MS = 25_000;
+const SESSION_KEY = "lockhabit_checkin_session_v1";
+
+function sessionToken() {
+  let value = localStorage.getItem(SESSION_KEY);
+  if (!value || !/^[a-f0-9-]{36}$/i.test(value)) {
+    value = crypto.randomUUID();
+    localStorage.setItem(SESSION_KEY, value);
+  }
+  return value;
+}
 
 type Persisted = { state: "pending" | "applied"; engagedMs: number; shown: boolean };
 
@@ -31,10 +46,32 @@ function event(name: string) {
 export function CheckInSiteHeader() {
   const initial = useRef<Persisted | null>(null);
   if (!initial.current) initial.current = readState();
-  const [state, setState] = useState<CheckInOfferState>(initial.current.shown ? initial.current.state : "pending");
+  const [state, setState] = useState<CheckInOfferState>(
+    initial.current.shown ? initial.current.state : "pending",
+  );
   const [visible, setVisible] = useState(initial.current.shown);
   const engaged = useRef(initial.current.engagedMs);
   const lastTick = useRef<number | null>(null);
+  const [claimError, setClaimError] = useState("");
+
+  useEffect(() => {
+    if (initial.current?.state !== "applied") return;
+    let active = true;
+    try {
+      void checkCheckInClaim({ data: { sessionToken: sessionToken() } })
+        .then((result) => {
+          if (active && !result.claimed) setState("pending");
+        })
+        .catch(() => {
+          if (active) setState("pending");
+        });
+    } catch {
+      setState("pending");
+    }
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (initial.current?.shown || initial.current?.state === "applied") return;
@@ -45,37 +82,71 @@ export function CheckInSiteHeader() {
         if (engaged.current >= REQUIRED_MS) {
           setState("open");
           setVisible(true);
-          event("checkin_offer_shown");
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({ state: "pending", engagedMs: REQUIRED_MS, shown: true }));
+          event("welcome_offer_shown");
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({ state: "pending", engagedMs: REQUIRED_MS, shown: true }),
+          );
           return;
         }
       }
       lastTick.current = now;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ state: "pending", engagedMs: engaged.current, shown: false }));
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ state: "pending", engagedMs: engaged.current, shown: false }),
+      );
       timer = window.setTimeout(tick, 500);
     };
     let timer = window.setTimeout(tick, 500);
     return () => window.clearTimeout(timer);
   }, []);
 
-  const change = (next: CheckInOfferState) => {
+  const change = async (next: CheckInOfferState) => {
+    if (next === "applied") {
+      try {
+        await claimCheckInOffer({ data: { sessionToken: sessionToken() } });
+        setClaimError("");
+      } catch {
+        setClaimError("The offer could not be saved. Please try again.");
+        return;
+      }
+    }
     const previous = state;
     setState(next);
     setVisible(true);
-    if (next === "pending" && previous === "open") event("checkin_offer_dismissed");
-    if (next === "applied") event("checkin_offer_applied");
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state: next === "open" ? "pending" : next, engagedMs: REQUIRED_MS, shown: true }));
+    if (next === "pending" && previous === "open") event("welcome_offer_dismissed");
+    if (next === "applied") event("welcome_offer_applied");
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        state: next === "open" ? "pending" : next,
+        engagedMs: REQUIRED_MS,
+        shown: true,
+      }),
+    );
   };
 
   const reopen = () => {
     setState("open");
-    event("checkin_offer_reopened");
+    event("welcome_offer_reopened");
   };
 
   return (
     <>
-      <SiteHeader promoSlot={visible && state !== "open" ? <CheckInTicketButton state={state} onOpen={reopen} /> : undefined} />
-      {visible ? <CheckInOffer state={state} onStateChange={change} /> : null}
+      <SiteHeader
+        promoSlot={
+          visible && state !== "open" ? (
+            <CheckInTicketButton state={state} onOpen={reopen} />
+          ) : undefined
+        }
+      />
+      {visible ? (
+        <CheckInOffer
+          state={state}
+          onStateChange={(next) => void change(next)}
+          error={claimError}
+        />
+      ) : null}
     </>
   );
 }
