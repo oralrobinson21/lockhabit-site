@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
@@ -220,7 +221,7 @@ export const getJournalEngagement = createServerFn({ method: "POST" })
     }
 
     const counts = { like: 0, helpful: 0, made_me_laugh: 0 };
-    let userReactions: string[] = [];
+    const userReactions: string[] = [];
     let bookmarked = false;
     let comments: Array<{ id: string; body: string; displayName: string; createdAt: string; parentCommentId: string | null }> = [];
 
