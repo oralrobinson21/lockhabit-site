@@ -344,6 +344,9 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
         expand: ["line_items.data.price.product", "discounts.promotion_code"],
       });
       const paid = session.payment_status === "paid";
+      // Async methods (bank debit, some wallets) complete the session before the money settles.
+      const processing =
+        !paid && session.status === "complete" && session.payment_status === "unpaid";
       const selectedIds = parseSelectedProductIds(session.metadata?.["selected_product_ids"]);
       const lineItems = session.line_items?.data ?? [];
       const lineItemsTotal = lineItems.reduce((sum, item) => sum + (item.amount_total ?? 0), 0);
@@ -393,6 +396,7 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
 
       return {
         paid,
+        processing,
         marketingEligible: isMarketingEligibleCheckout({
           paid,
           livemode: session.livemode,
