@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, LoaderCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SiteHeader } from "@/components/site-header";
 import { getCheckoutStatus } from "@/lib/payments.functions";
@@ -8,6 +8,18 @@ import { trackMetaEventOnce } from "@/lib/meta-analytics";
 import { buildGa4PurchasePayload, trackGa4PurchaseOnce } from "@/lib/ga4-purchase";
 import { trackAffiliatePurchase } from "@/lib/ga4-growth";
 import { useCart } from "@/lib/cart";
+import {
+  formatReturnMoney,
+  mergePhase,
+  normalizeReturnItems,
+  phaseForResult,
+  RETURN_POLL_DELAYS_MS,
+  shouldPollAgain,
+  type ReturnItem,
+  type ReturnPhase,
+} from "@/lib/checkout-return";
+
+type CheckoutStatus = Awaited<ReturnType<typeof getCheckoutStatus>>;
 
 const googleAdsPurchaseSendTo = "AW-18469044137/OFR-CNHI8IEdEKn_3OZE";
 const adsTrackedCheckoutSessions = new Set<string>();
@@ -71,76 +83,128 @@ export const Route = createFileRoute("/checkout/return")({
 function CheckoutReturn() {
   const { session_id: sessionId } = Route.useSearch();
   const { clearCart } = useCart();
-  const [status, setStatus] = useState<"checking" | "paid" | "unpaid">("checking");
+  const [status, setStatus] = useState<ReturnPhase>("checking");
   const [email, setEmail] = useState<string | null>(null);
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
-  const [items, setItems] = useState<Array<{ name: string; quantity: number; amountTotal: number }>>([]);
+  const [items, setItems] = useState<ReturnItem[]>([]);
   const [total, setTotal] = useState(0);
   const [currency, setCurrency] = useState("usd");
   const [confirmationSent, setConfirmationSent] = useState(false);
   const [creatorAttributed, setCreatorAttributed] = useState(false);
+  const clearCartRef = useRef(clearCart);
+  clearCartRef.current = clearCart;
 
   useEffect(() => {
     if (!sessionId) {
       setStatus("unpaid");
       return;
     }
-    void getCheckoutStatus({ data: { sessionId } }).then((result) => {
-      setStatus(result.paid ? "paid" : "unpaid");
-      if ("email" in result) setEmail(result.email ?? null);
-      if ("orderNumber" in result) setOrderNumber(result.orderNumber ?? null);
-      if ("paymentIntentId" in result) setPaymentIntentId(result.paymentIntentId ?? null);
-      if ("items" in result) setItems(result.items ?? []);
-      if ("total" in result) setTotal(result.total ?? 0);
-      if ("currency" in result) setCurrency(result.currency ?? "usd");
-      if ("confirmationSent" in result) setConfirmationSent(Boolean(result.confirmationSent));
-      if ("creatorAttributed" in result) setCreatorAttributed(Boolean(result.creatorAttributed));
-      if (result.paid) {
-        clearCart();
-        if ("creatorAttributed" in result && result.creatorAttributed) {
-          trackAffiliatePurchase({
-            livemode: Boolean("livemode" in result && result.livemode),
-            valueCents: result.total ?? 0,
-            currency: result.currency ?? "usd",
-          });
-        }
-        // Only genuine paid storefront checkouts may train advertising conversions.
-        // Stripe test-mode and manual live-mode test charges are intentionally excluded.
-        if (!("marketingEligible" in result && result.marketingEligible)) return;
-        const purchasePayload = buildGa4PurchasePayload({
-          transactionId: result.paymentIntentId ?? sessionId,
-          totalCents: result.total ?? 0,
-          shippingCents: result.shippingTotal ?? 0,
-          taxCents: result.taxTotal ?? 0,
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let requestSeq = 0;
+    let appliedSeq = 0;
+    let paidHandled = false;
+    let attempt = 0;
+
+    const handlePaidOnce = (result: CheckoutStatus) => {
+      if (paidHandled || !result.paid) return;
+      paidHandled = true;
+      clearCartRef.current();
+      if ("creatorAttributed" in result && result.creatorAttributed) {
+        trackAffiliatePurchase({
+          livemode: Boolean("livemode" in result && result.livemode),
+          valueCents: result.total ?? 0,
           currency: result.currency ?? "usd",
-          items: result.analyticsItems,
         });
-        trackGa4PurchaseOnce(sessionId, purchasePayload);
-        trackMetaEventOnce(`purchase:${sessionId}`, "Purchase", {
-          value: purchasePayload.value,
-          currency: purchasePayload.currency,
-          content_ids: result.analyticsItems.map((item) =>
-            item.productId !== undefined ? String(item.productId) : item.name,
-          ),
-          content_type: "product",
-        });
-        trackGoogleAdsPurchaseOnce(
-          sessionId,
-          purchasePayload.value,
-          purchasePayload.currency,
-          purchasePayload.transaction_id,
-        );
       }
-    });
-  }, [sessionId, clearCart]);
+      // Only genuine paid storefront checkouts may train advertising conversions.
+      // Stripe test-mode and manual live-mode test charges are intentionally excluded.
+      if (!("marketingEligible" in result && result.marketingEligible)) return;
+      const purchasePayload = buildGa4PurchasePayload({
+        transactionId: result.paymentIntentId ?? sessionId,
+        totalCents: result.total ?? 0,
+        shippingCents: result.shippingTotal ?? 0,
+        taxCents: result.taxTotal ?? 0,
+        currency: result.currency ?? "usd",
+        items: result.analyticsItems,
+      });
+      trackGa4PurchaseOnce(sessionId, purchasePayload);
+      trackMetaEventOnce(`purchase:${sessionId}`, "Purchase", {
+        value: purchasePayload.value,
+        currency: purchasePayload.currency,
+        content_ids: result.analyticsItems.map((item) =>
+          item.productId !== undefined ? String(item.productId) : item.name,
+        ),
+        content_type: "product",
+      });
+      trackGoogleAdsPurchaseOnce(
+        sessionId,
+        purchasePayload.value,
+        purchasePayload.currency,
+        purchasePayload.transaction_id,
+      );
+    };
+
+    const apply = (result: CheckoutStatus) => {
+      const incoming = phaseForResult(result);
+      setStatus((current) => mergePhase(current, incoming));
+      if (!result.paid) return;
+      // Paid details only ever fill in or improve; a partial answer never erases a fuller one.
+      if ("email" in result && result.email) setEmail(result.email);
+      if ("orderNumber" in result && result.orderNumber) setOrderNumber(result.orderNumber);
+      if ("paymentIntentId" in result && result.paymentIntentId) setPaymentIntentId(result.paymentIntentId);
+      if ("items" in result) {
+        const next = normalizeReturnItems(result.items);
+        if (next.length) setItems(next);
+      }
+      if ("total" in result && typeof result.total === "number") setTotal(result.total);
+      if ("currency" in result && result.currency) setCurrency(result.currency);
+      if ("confirmationSent" in result && result.confirmationSent) setConfirmationSent(true);
+      if ("creatorAttributed" in result && result.creatorAttributed) setCreatorAttributed(true);
+      handlePaidOnce(result);
+    };
+
+    const schedule = () => {
+      if (cancelled) return;
+      const delay = RETURN_POLL_DELAYS_MS[attempt];
+      if (delay === undefined) {
+        // Out of retries: say so plainly instead of leaving a spinner or a blank card.
+        setStatus((current) => (current === "checking" ? "delayed" : current));
+        return;
+      }
+      attempt += 1;
+      timer = setTimeout(check, delay);
+    };
+
+    const check = () => {
+      const seq = ++requestSeq;
+      getCheckoutStatus({ data: { sessionId } })
+        .then((result) => {
+          if (cancelled || seq < appliedSeq) return;
+          appliedSeq = seq;
+          apply(result as CheckoutStatus);
+          if (shouldPollAgain(result as CheckoutStatus)) schedule();
+        })
+        .catch(() => {
+          if (cancelled) return;
+          schedule();
+        });
+    };
+
+    check();
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+    };
+  }, [sessionId]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
       <SiteHeader />
       <section className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-5 py-16">
         <div className="w-full max-w-xl border-2 border-foreground bg-card p-8 text-center shadow-xl sm:p-12">
-        {status === "checking" ? (
+        {status === "checking" || status === "processing" ? (
           <LoaderCircle className="mx-auto animate-spin text-primary" size={42} />
         ) : (
           <CheckCircle2 className="mx-auto text-primary" size={48} />
@@ -150,16 +214,26 @@ function CheckoutReturn() {
             ? "You’re checked in."
             : status === "checking"
               ? "Confirming your order…"
-              : "Payment not completed."}
+              : status === "processing"
+                ? "Payment processing."
+                : status === "delayed"
+                  ? "Still confirming your order."
+                  : "Payment not completed."}
         </h1>
         <p className="mt-4 text-muted-foreground">
           {status === "paid"
             ? confirmationSent
               ? `Payment confirmed. We sent your order confirmation${email ? ` to ${email}` : ""}.`
-              : "Payment confirmed and your order is recorded. Save the order details below."
+              : orderNumber
+                ? "Payment confirmed and your order is recorded. Save the order details below."
+                : "Payment confirmed. Your order number will show here in a moment and in your confirmation email."
             : status === "unpaid"
               ? "Your bag has not been charged. You can return to the shop and try again."
-              : "Please keep this page open for a moment."}
+              : status === "processing"
+                ? "Your bank is still confirming the payment. We’ll email you as soon as it clears."
+                : status === "delayed"
+                  ? "This is taking longer than usual. If you finished paying, your order is safe and a confirmation email is on the way. Refresh this page in a minute to see the details."
+                  : "Please keep this page open for a moment."}
         </p>
 
         {status === "paid" && (
@@ -174,10 +248,7 @@ function CheckoutReturn() {
               <div className="text-right">
                 <p className="memo">TOTAL PAID</p>
                 <p className="mt-1 text-lg font-bold">
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: currency.toUpperCase(),
-                  }).format(total / 100)}
+                  {formatReturnMoney(total, currency)}
                 </p>
               </div>
             </div>
@@ -185,16 +256,13 @@ function CheckoutReturn() {
             <div className="py-4">
               <p className="memo mb-3">YOUR ITEMS</p>
               <div className="space-y-3">
-                {items.map((item) => (
-                  <div key={item.name} className="flex items-start justify-between gap-4">
+                {items.map((item, index) => (
+                  <div key={`${item.name}-${index}`} className="flex items-start justify-between gap-4">
                     <span className="font-semibold">
                       {item.name} × {item.quantity}
                     </span>
                     <span>
-                      {new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: currency.toUpperCase(),
-                      }).format(item.amountTotal / 100)}
+                      {formatReturnMoney(item.amountTotal, currency)}
                     </span>
                   </div>
                 ))}
