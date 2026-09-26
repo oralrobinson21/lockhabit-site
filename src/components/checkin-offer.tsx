@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Check, Package, Plane, Sun, Ticket, X } from "lucide-react";
+import { Check, Package, Plane, Ticket, X } from "lucide-react";
 import type { ReactNode } from "react";
 
 import heroImage from "@/assets/lockhabit-hero.jpg";
@@ -133,17 +133,6 @@ export function CheckInOffer({
                   <br />
                   brighter
                 </Stamp>
-              </div>
-
-              <div
-                className="pointer-events-none absolute right-[4%] top-4 hidden h-20 w-20 rounded-full border-2 border-coral text-center text-[0.52rem] font-black uppercase tracking-[0.12em] text-coral sm:grid sm:place-items-center"
-                aria-hidden="true"
-              >
-                <span className="grid place-items-center gap-0.5">
-                  good bags
-                  <Sun size={18} />
-                  brighter days
-                </span>
               </div>
 
               <Dialog.Close asChild>
