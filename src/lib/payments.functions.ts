@@ -284,6 +284,8 @@ export const createCartCheckout = createServerFn({ method: "POST" })
             reward: applyReward ? "1" : "0",
           },
         });
+        // Stripe rejects `allow_promotion_codes` (even false) alongside `discounts`.
+        delete checkoutParams.allow_promotion_codes;
         checkoutParams.discounts = [{ coupon: coupon.id }];
       }
 
