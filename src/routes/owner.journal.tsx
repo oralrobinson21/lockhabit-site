@@ -99,6 +99,7 @@ function OwnerJournal() {
   }
   return (
     <main className="min-h-screen bg-[#f5efe2] px-5 py-8 text-foreground lg:px-10">
+      <div className="mx-auto max-w-6xl px-5 pt-6"><Link to="/owner/journal-community" className="font-bold text-primary underline underline-offset-4">Community controls →</Link></div>
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link to="/" className="font-display text-2xl font-bold">
