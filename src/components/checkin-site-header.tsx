@@ -6,8 +6,9 @@ import {
 } from "@/components/checkin-offer";
 import { SiteHeader } from "@/components/site-header";
 import { checkCheckInClaim, claimCheckInOffer } from "@/lib/checkin.functions";
+import { useCart } from "@/lib/cart";
+import { CHECKIN_STORAGE_KEY } from "@/lib/checkin-storage";
 
-const STORAGE_KEY = "lockhabit_checkin_offer_v1";
 const REQUIRED_MS = 25_000;
 const SESSION_KEY = "lockhabit_checkin_session_v1";
 
@@ -25,7 +26,7 @@ type Persisted = { state: "pending" | "applied"; engagedMs: number; shown: boole
 function readState(): Persisted {
   if (typeof window === "undefined") return { state: "pending", engagedMs: 0, shown: false };
   try {
-    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") as Partial<Persisted>;
+    const parsed = JSON.parse(localStorage.getItem(CHECKIN_STORAGE_KEY) || "{}") as Partial<Persisted>;
     return {
       state: parsed.state === "applied" ? "applied" : "pending",
       engagedMs: Math.max(0, Number(parsed.engagedMs) || 0),
@@ -44,6 +45,7 @@ function event(name: string) {
 }
 
 export function CheckInSiteHeader() {
+  const { setCartOpen, setCheckInOfferSaved } = useCart();
   const initial = useRef<Persisted | null>(null);
   if (!initial.current) initial.current = readState();
   const [state, setState] = useState<CheckInOfferState>(
@@ -52,6 +54,7 @@ export function CheckInSiteHeader() {
   const [visible, setVisible] = useState(initial.current.shown);
   const engaged = useRef(initial.current.engagedMs);
   const lastTick = useRef<number | null>(null);
+  const openedFromSavedOffer = useRef(false);
   const [claimError, setClaimError] = useState("");
 
   useEffect(() => {
@@ -60,18 +63,29 @@ export function CheckInSiteHeader() {
     try {
       void checkCheckInClaim({ data: { sessionToken: sessionToken() } })
         .then((result) => {
-          if (active && !result.claimed) setState("pending");
+          if (active && !result.claimed) {
+            setState("pending");
+            setCheckInOfferSaved(false);
+            localStorage.setItem(
+              CHECKIN_STORAGE_KEY,
+              JSON.stringify({ state: "pending", engagedMs: REQUIRED_MS, shown: true }),
+            );
+          }
         })
         .catch(() => {
-          if (active) setState("pending");
+          if (active) {
+            setState("pending");
+            setCheckInOfferSaved(false);
+          }
         });
     } catch {
       setState("pending");
+      setCheckInOfferSaved(false);
     }
     return () => {
       active = false;
     };
-  }, []);
+  }, [setCheckInOfferSaved]);
 
   useEffect(() => {
     if (initial.current?.shown || initial.current?.state === "applied") return;
@@ -84,7 +98,7 @@ export function CheckInSiteHeader() {
           setVisible(true);
           event("welcome_offer_shown");
           localStorage.setItem(
-            STORAGE_KEY,
+            CHECKIN_STORAGE_KEY,
             JSON.stringify({ state: "pending", engagedMs: REQUIRED_MS, shown: true }),
           );
           return;
@@ -92,7 +106,7 @@ export function CheckInSiteHeader() {
       }
       lastTick.current = now;
       localStorage.setItem(
-        STORAGE_KEY,
+        CHECKIN_STORAGE_KEY,
         JSON.stringify({ state: "pending", engagedMs: engaged.current, shown: false }),
       );
       timer = window.setTimeout(tick, 500);
@@ -102,6 +116,7 @@ export function CheckInSiteHeader() {
   }, []);
 
   const change = async (next: CheckInOfferState) => {
+    const resolved = next === "pending" && openedFromSavedOffer.current ? "applied" : next;
     if (next === "applied") {
       try {
         await claimCheckInOffer({ data: { sessionToken: sessionToken() } });
@@ -112,14 +127,19 @@ export function CheckInSiteHeader() {
       }
     }
     const previous = state;
-    setState(next);
+    setState(resolved);
     setVisible(true);
-    if (next === "pending" && previous === "open") event("welcome_offer_dismissed");
+    if (next === "applied") {
+      setCheckInOfferSaved(true);
+      setCartOpen(true);
+    }
+    if (resolved === "pending" && previous === "open") event("welcome_offer_dismissed");
     if (next === "applied") event("welcome_offer_applied");
+    openedFromSavedOffer.current = false;
     localStorage.setItem(
-      STORAGE_KEY,
+      CHECKIN_STORAGE_KEY,
       JSON.stringify({
-        state: next === "open" ? "pending" : next,
+        state: resolved === "open" ? "pending" : resolved,
         engagedMs: REQUIRED_MS,
         shown: true,
       }),
@@ -127,6 +147,7 @@ export function CheckInSiteHeader() {
   };
 
   const reopen = () => {
+    openedFromSavedOffer.current = state === "applied";
     setState("open");
     event("welcome_offer_reopened");
   };

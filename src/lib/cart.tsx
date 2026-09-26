@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { products } from "@/lib/catalog";
 import { getCartPricing } from "@/lib/pricing";
 import { CART_STORAGE_KEY, parseStoredCart, serializeCart } from "@/lib/cart-storage";
+import { CHECKIN_STORAGE_KEY, isCheckInOfferSaved } from "@/lib/checkin-storage";
 import { trackMetaEvent } from "@/lib/meta-analytics";
 import { acceptedCartQuantity, buildGa4AddedCartItems, trackAddToCart } from "@/lib/ga4-ecommerce";
 
@@ -12,8 +13,10 @@ type CartContextValue = {
   cartCount: number;
   cartTotal: number;
   cartSavings: number;
+  checkInOfferSaved: boolean;
   qualifiesForFreeShipping: boolean;
   setCartOpen: (open: boolean) => void;
+  setCheckInOfferSaved: (saved: boolean) => void;
   addToCart: (id: number, quantity?: number) => void;
   addBundle: (ids: number[]) => void;
   changeQuantity: (id: number, amount: number) => void;
@@ -50,10 +53,13 @@ function reportAcceptedCartAdditions(
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Record<number, number>>({});
   const [hydrated, setHydrated] = useState(false);
+  const [checkInOfferSaved, setCheckInOfferSaved] = useState(false);
 
   useEffect(() => {
     try { setCart(parseStoredCart(localStorage.getItem(CART_STORAGE_KEY))); }
     catch { /* private browsing: memory-only cart */ }
+    try { setCheckInOfferSaved(isCheckInOfferSaved(localStorage.getItem(CHECKIN_STORAGE_KEY))); }
+    catch { /* private browsing: memory-only offer */ }
     setHydrated(true);
   }, []);
 
@@ -86,8 +92,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       cartCount,
       cartTotal: pricing.subtotal,
       cartSavings: pricing.savings,
+      checkInOfferSaved,
       qualifiesForFreeShipping: pricing.qualifiesForFreeShipping,
       setCartOpen,
+      setCheckInOfferSaved,
       addToCart: (id: number, quantity = 1) => {
         const product = products.find((candidate) => candidate.id === id);
         if (!product) return;
@@ -144,7 +152,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
       },
     };
-  }, [cart, cartOpen, currentPricing, clearCart]);
+  }, [cart, cartOpen, checkInOfferSaved, currentPricing, clearCart]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
