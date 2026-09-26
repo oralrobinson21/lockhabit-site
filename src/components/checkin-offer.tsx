@@ -112,19 +112,6 @@ export function CheckInOffer({
               </div>
 
               <div
-                className="pointer-events-none absolute left-[25%] top-[23%] hidden text-4xl text-sun sm:block"
-                aria-hidden="true"
-              >
-                ✦
-              </div>
-              <div
-                className="pointer-events-none absolute left-[25%] top-[38%] hidden text-3xl text-sun sm:block"
-                aria-hidden="true"
-              >
-                ✦
-              </div>
-
-              <div
                 className="pointer-events-none absolute right-3 top-20 hidden w-[17%] rotate-[2deg] space-y-3 sm:block"
                 aria-hidden="true"
               >
@@ -178,7 +165,7 @@ export function CheckInOffer({
                   />
                 </div>
 
-                <div className="mx-auto mt-4 max-w-[470px] text-center sm:ml-[27%] sm:mr-[18%] sm:mt-0">
+                <div className="mx-auto mt-4 max-w-[470px] text-center sm:ml-[27%] sm:mr-[21%] sm:mt-0">
                   <Dialog.Title className="font-slab text-[clamp(2rem,10vw,2.6rem)] uppercase leading-[.95] text-coral sm:text-[2.65rem]">
                     Check in for
                     <span className="block text-[clamp(3.1rem,16vw,3.55rem)] text-[#173c2d] sm:text-[3.85rem]">
