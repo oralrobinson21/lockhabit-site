@@ -45,7 +45,7 @@ function JournalArticle() {
   const references = Array.isArray(post.reference_items) ? post.reference_items.filter((item): item is string => typeof item === "string" && item.startsWith("https://")) : [];
   const recommendations = blocks.filter((block) => block.type === "own_product" || block.type === "affiliate");
   const prose = blocks.filter((block) => block.type === "heading" || block.type === "paragraph");
-  const readerText = [post.title, post.excerpt, ...prose.map((block) => block.text)].filter(Boolean).join(". ");
+  const readerText = [post.title, post.excerpt, ...prose.map((block) => (block.type === "heading" || block.type === "paragraph" ? block.text : ""))].filter(Boolean).join(". ");
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
