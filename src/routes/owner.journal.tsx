@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { getOwnerGrowth, saveOwnerJournal } from "@/lib/owner-growth.functions";
+import { getOwnerJournalComments, moderateOwnerJournalComment } from "@/lib/journal-comments.functions";
 import { editableJournalBody, publishedJournalBlocks } from "@/lib/journal-content";
 
 export const Route = createFileRoute("/owner/journal")({
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/owner/journal")({
   component: OwnerJournal,
 });
 type Post = Awaited<ReturnType<typeof getOwnerGrowth>>["posts"][number];
+type Comment = Awaited<ReturnType<typeof getOwnerJournalComments>>[number];
 const journalCategories = ["Ingredients", "Rituals", "Research Notes", "Travel Brighter", "FAQs", "Brighter Travels", "Everyday Rituals", "Ingredient Notes"];
 type RecommendationRow = { kind: "own" | "affiliate"; label: string; destination: string; note: string };
 function rowsForPost(post: Post | null): RecommendationRow[] {
@@ -26,6 +28,7 @@ function rowsForPost(post: Post | null): RecommendationRow[] {
 function OwnerJournal() {
   const [token, setToken] = useState("");
   const [posts, setPosts] = useState<Post[] | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [editing, setEditing] = useState<Post | null>(null);
   const [open, setOpen] = useState(false);
   const [notice, setNotice] = useState("Checking owner access…");
@@ -49,19 +52,36 @@ function OwnerJournal() {
       active = false;
     };
   }, []);
-  async function refresh(accessToken = token) {
+  const refresh = useCallback(async (accessToken = token) => {
     try {
-      const result = await getOwnerGrowth({ data: { accessToken } });
+      const [result, queue] = await Promise.all([
+        getOwnerGrowth({ data: { accessToken } }),
+        getOwnerJournalComments({ data: { accessToken } }),
+      ]);
       setPosts(result.posts);
+      setComments(queue);
       setNotice("");
     } catch {
       setPosts(null);
+      setComments([]);
       setNotice("Owner access is required. Sign in through the orders dashboard.");
+    }
+  }, [token]);
+  async function moderate(commentId: string, status: "approved" | "rejected") {
+    setBusy(true);
+    try {
+      await moderateOwnerJournalComment({ data: { accessToken: token, commentId, status } });
+      await refresh();
+      setNotice(`Comment ${status}.`);
+    } catch {
+      setNotice("Comment could not be moderated. Please try again.");
+    } finally {
+      setBusy(false);
     }
   }
   useEffect(() => {
     if (token) void refresh(token);
-  }, [token]);
+  }, [token, refresh]);
   async function save(element: HTMLFormElement, status: "draft" | "in_review" | "published") {
     setBusy(true);
     setNotice("");
@@ -149,6 +169,20 @@ function OwnerJournal() {
                 ))
               )}
             </div>
+            <section className="mt-8 rounded-2xl border-2 border-foreground bg-paper p-5">
+              <h2 className="font-display text-2xl">Comment review</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Public comments are off until the Journal and moderation switch are separately launched. Only approved comments can be displayed later.</p>
+              {comments.filter((comment) => comment.status === "pending").length ? comments.filter((comment) => comment.status === "pending").map((comment) => (
+                <article key={comment.id} className="mt-4 rounded-xl border border-foreground/20 p-4">
+                  <p className="font-bold">{comment.author_name} · {new Date(comment.created_at).toLocaleDateString()}</p>
+                  <p className="mt-2 whitespace-pre-wrap break-words text-sm">{comment.body}</p>
+                  <div className="mt-3 flex gap-2">
+                    <button type="button" disabled={busy} className="secondary-button" onClick={() => void moderate(comment.id, "approved")}>Approve</button>
+                    <button type="button" disabled={busy} className="secondary-button" onClick={() => void moderate(comment.id, "rejected")}>Reject</button>
+                  </div>
+                </article>
+              )) : <p className="mt-3 text-sm">No comments awaiting review.</p>}
+            </section>
           </>
         ) : (
           <p className="mt-4">Journal data is available after owner sign in.</p>

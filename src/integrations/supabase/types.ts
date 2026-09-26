@@ -20,6 +20,47 @@ export type Database = {
         Update: { session_token?: string; claimed_at?: string; last_seen_at?: string };
         Relationships: [];
       };
+      journal_comments: {
+        Row: {
+          id: string;
+          post_id: string;
+          author_user_id: string | null;
+          author_name: string;
+          body: string;
+          status: string;
+          created_at: string;
+          moderated_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          post_id: string;
+          author_user_id?: string | null;
+          author_name: string;
+          body: string;
+          status?: string;
+          created_at?: string;
+          moderated_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          post_id?: string;
+          author_user_id?: string | null;
+          author_name?: string;
+          body?: string;
+          status?: string;
+          created_at?: string;
+          moderated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "journal_comments_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "journal_posts";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       journal_posts: {
         Row: {
           id: string;

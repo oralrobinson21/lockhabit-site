@@ -208,6 +208,26 @@ function CreatorPortal() {
         </div>
         {notice ? <p className="mt-4 font-bold">{notice}</p> : null}
         <div className="mt-7 rounded-2xl border-2 border-foreground bg-background p-5">
+          <h2 className="font-display text-2xl font-semibold">Attributed paid orders</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Merchandise actually paid, excluding shipping and tax. Commission and refund changes appear below.
+          </p>
+          {data.sales.length ? (
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead><tr><th className="py-2">Paid</th><th>Order</th><th className="text-right">Merchandise</th></tr></thead>
+                <tbody>{data.sales.map((sale) => (
+                  <tr key={sale.id} className="border-t">
+                    <td className="py-3">{new Date(sale.paid_at).toLocaleDateString()}</td>
+                    <td>{sale.order_number ? `LH-${String(sale.order_number).padStart(6, "0")}` : "Order pending reference"}</td>
+                    <td className="text-right">{money(sale.paid_merchandise_cents)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+          ) : <p className="mt-3 text-sm">No attributed paid orders yet. Visits alone do not count as sales.</p>}
+        </div>
+        <div className="mt-7 rounded-2xl border-2 border-foreground bg-background p-5">
           <h2 className="font-display text-2xl font-semibold">Commission activity</h2>
           <div className="mt-4 overflow-x-auto">
             <table className="w-full text-left text-sm">
