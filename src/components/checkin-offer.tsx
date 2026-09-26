@@ -18,8 +18,8 @@ export function CheckInTicketButton({
     <button
       type="button"
       className="icon-button bg-background hover:bg-sun"
-      aria-label={state === "applied" ? "10% Check-In offer applied" : "One Check-In offer waiting"}
-      title={state === "applied" ? "10% Check-In applied" : "10% Check-In offer waiting"}
+      aria-label={state === "applied" ? "10% Check-In offer saved in bag" : "One Check-In offer waiting"}
+      title={state === "applied" ? "10% Check-In offer saved" : "10% Check-In offer waiting"}
       onClick={onOpen}
     >
       {state === "applied" ? <Check size={19} /> : <Ticket size={19} />}
@@ -72,7 +72,7 @@ export function CheckInOffer({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[70] bg-foreground/45 backdrop-blur-[5px]" />
         <Dialog.Content
-          className="fixed left-1/2 top-1/2 z-[71] w-[calc(100%-1.5rem)] max-w-[720px] -translate-x-1/2 -translate-y-1/2 outline-none"
+          className="fixed left-1/2 top-[clamp(5rem,15dvh,8rem)] z-[71] w-[calc(100%-1.5rem)] max-w-[720px] -translate-x-1/2 outline-none"
           onEscapeKeyDown={() => onStateChange("pending")}
         >
           <div className="checkin-drop-assembly">
@@ -89,7 +89,7 @@ export function CheckInOffer({
               </div>
             </div>
 
-            <div className="relative isolate overflow-hidden rounded-[1.65rem] border-[3px] border-foreground bg-[#f7e8c7] shadow-[10px_12px_0_rgba(62,45,33,.92)]">
+            <div className="relative isolate max-h-[calc(100dvh-clamp(5rem,15dvh,8rem)-1rem)] overflow-x-hidden overflow-y-auto rounded-[1.65rem] border-[3px] border-foreground bg-[#f7e8c7] shadow-[10px_12px_0_rgba(62,45,33,.92)]">
               <div
                 className="pointer-events-none absolute inset-0 opacity-35"
                 aria-hidden="true"
@@ -105,27 +105,14 @@ export function CheckInOffer({
                 aria-hidden="true"
               />
               <div
-                className="pointer-events-none absolute left-[4%] top-[22%] hidden h-52 w-[35%] rotate-[-1deg] sm:block"
+                className="pointer-events-none absolute left-[3%] top-[25%] hidden h-44 w-[23%] rotate-[-1deg] sm:block"
                 aria-hidden="true"
               >
                 <ScenicPanel className="inset-0 rounded-sm" />
               </div>
 
               <div
-                className="pointer-events-none absolute left-[34%] top-[23%] hidden text-4xl text-sun sm:block"
-                aria-hidden="true"
-              >
-                ✦
-              </div>
-              <div
-                className="pointer-events-none absolute left-[37%] top-[38%] hidden text-3xl text-sun sm:block"
-                aria-hidden="true"
-              >
-                ✦
-              </div>
-
-              <div
-                className="pointer-events-none absolute right-4 top-20 hidden w-24 rotate-[2deg] space-y-3 sm:block"
+                className="pointer-events-none absolute right-3 top-20 hidden w-[17%] rotate-[2deg] space-y-3 sm:block"
                 aria-hidden="true"
               >
                 <Stamp className="h-24 bg-coral/10">
@@ -149,34 +136,7 @@ export function CheckInOffer({
               </div>
 
               <div
-                className="pointer-events-none absolute bottom-[4.3rem] left-3 h-28 w-28 -rotate-3 overflow-hidden rounded-sm border-2 border-foreground shadow-[3px_3px_0_var(--color-foreground)] sm:hidden"
-                aria-hidden="true"
-              >
-                <img src={heroImage} alt="" className="h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-coral/10 mix-blend-multiply" />
-              </div>
-              <div
-                className="pointer-events-none absolute bottom-[4.5rem] right-3 w-[4.8rem] rotate-3 border-2 border-dashed border-coral bg-paper/90 px-1.5 py-2 text-center text-[0.42rem] font-black uppercase tracking-[0.12em] text-foreground shadow-[2px_2px_0_var(--color-coral)] sm:hidden"
-                aria-hidden="true"
-              >
-                travel
-                <br />
-                brighter
-                <Plane className="mx-auto mt-1" size={16} />
-              </div>
-              <div
-                className="pointer-events-none absolute left-[42%] top-5 grid h-14 w-14 place-items-center rounded-full border-2 border-coral text-center text-[0.42rem] font-black uppercase tracking-[0.08em] text-coral sm:hidden"
-                aria-hidden="true"
-              >
-                <span>
-                  good bags
-                  <br />
-                  brighter days
-                </span>
-              </div>
-
-              <div
-                className="pointer-events-none absolute right-[22%] top-4 hidden h-20 w-20 rounded-full border-2 border-coral text-center text-[0.52rem] font-black uppercase tracking-[0.12em] text-coral sm:grid sm:place-items-center"
+                className="pointer-events-none absolute right-[4%] top-4 hidden h-20 w-20 rounded-full border-2 border-coral text-center text-[0.52rem] font-black uppercase tracking-[0.12em] text-coral sm:grid sm:place-items-center"
                 aria-hidden="true"
               >
                 <span className="grid place-items-center gap-0.5">
@@ -205,10 +165,10 @@ export function CheckInOffer({
                   />
                 </div>
 
-                <div className="mx-auto mt-4 max-w-[470px] text-center sm:ml-[34%] sm:mr-[13%] sm:mt-0">
-                  <Dialog.Title className="font-slab text-[2.6rem] uppercase leading-[.9] text-coral sm:text-[3.75rem]">
+                <div className="mx-auto mt-4 max-w-[470px] text-center sm:ml-[27%] sm:mr-[21%] sm:mt-0">
+                  <Dialog.Title className="font-slab text-[clamp(2rem,10vw,2.6rem)] uppercase leading-[.95] text-coral sm:text-[2.65rem]">
                     Check in for
-                    <span className="block text-[3.55rem] text-[#173c2d] sm:text-[5.2rem]">
+                    <span className="block text-[clamp(3.1rem,16vw,3.55rem)] text-[#173c2d] sm:text-[3.85rem]">
                       10% off
                     </span>
                   </Dialog.Title>
@@ -222,7 +182,7 @@ export function CheckInOffer({
                     <span className="block">Add your welcome offer instantly.</span>
                   </Dialog.Description>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    Applied automatically at checkout.
+                    Save the offer to your bag. Checkout redemption is coming soon.
                   </p>
 
                   <button
@@ -245,6 +205,15 @@ export function CheckInOffer({
                   >
                     Maybe later
                   </button>
+                </div>
+
+                <div className="mx-auto mt-5 flex w-full items-center justify-between gap-4 sm:hidden" aria-hidden="true">
+                  <div className="h-16 w-24 shrink-0 -rotate-2 overflow-hidden rounded-sm border-2 border-foreground shadow-[3px_3px_0_var(--color-foreground)]">
+                    <img src={heroImage} alt="" className="h-full w-full object-cover" />
+                  </div>
+                  <div className="rotate-2 border-2 border-dashed border-coral bg-paper/90 px-3 py-2 text-center text-[0.55rem] font-black uppercase tracking-[0.12em] text-foreground">
+                    travel brighter <Plane className="mx-auto mt-1" size={16} />
+                  </div>
                 </div>
 
                 <div className="mt-5 hidden items-end justify-between sm:flex">

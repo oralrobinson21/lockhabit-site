@@ -14,6 +14,7 @@ export function CartDrawer() {
     cartCount,
     cartTotal,
     cartSavings,
+    checkInOfferSaved,
     qualifiesForFreeShipping,
     setCartOpen,
     changeQuantity,
@@ -60,24 +61,37 @@ export function CartDrawer() {
           </button>
         </div>
         <div className={`flex-1 overflow-y-auto ${checkingOut ? "p-2" : "p-5"}`}>
+          {!checkingOut && checkInOfferSaved && (
+            <div className="rounded-xl border-2 border-foreground bg-paper p-4">
+              <p className="font-display text-lg font-semibold">Check-In · 10% offer saved</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Checkout discount redemption is coming soon. The bag subtotal does not include this offer.
+              </p>
+            </div>
+          )}
           {checkingOut ? (
             <StripeCartCheckout items={checkoutItems} />
           ) : cartCount === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center text-center">
+            <div className="flex min-h-[16rem] flex-col items-center justify-center text-center">
               <ShoppingBag size={34} className="text-primary" />
-              <p className="mt-4 font-display text-2xl font-semibold">Your bag needs sunshine.</p>
+              <p className="mt-4 font-display text-2xl font-semibold">
+                {checkInOfferSaved ? "Your Check-In offer is saved." : "Your bag needs sunshine."}
+              </p>
               <p className="mt-2 text-sm text-muted-foreground">
-                Pick a botanical favorite to get started.
+                {checkInOfferSaved
+                  ? "Add a botanical favorite to your bag. Checkout discount redemption is coming soon."
+                  : "Pick a botanical favorite to get started."}
               </p>
               <button className="secondary-button mt-6" onClick={browse}>
                 Browse the catalog
               </button>
             </div>
           ) : (
-            products
-              .filter((product) => cart[product.id])
-              .map((product) => (
-                <div key={product.id} className="flex gap-4 border-b border-border py-5">
+            <>
+              {products
+                .filter((product) => cart[product.id])
+                .map((product) => (
+                  <div key={product.id} className="flex gap-4 border-b border-border py-5">
                   <img
                     src={product.images[0]?.src}
                     alt=""
@@ -113,8 +127,9 @@ export function CartDrawer() {
                       </button>
                     </div>
                   </div>
-                </div>
-              ))
+                  </div>
+                ))}
+            </>
           )}
         </div>
         {cartCount > 0 && !checkingOut && (
