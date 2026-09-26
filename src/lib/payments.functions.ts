@@ -4,6 +4,12 @@ import { assertOneTimeCheckout } from "@/lib/pricing";
 import { z } from "zod";
 
 import {
+  applyStackedDiscounts,
+  parseOrderNumberCredential,
+  shippingCentsForMerchandise,
+} from "@/lib/checkout-discounts";
+import { resolveCreatorAttribution } from "@/lib/creator-attribution.server";
+import {
   createStripeClient,
   getStripeEnvironment,
   getStripeErrorMessage,
@@ -43,6 +49,14 @@ const checkoutInput = z.object({
   // Accept legacy browser payloads, but never allow a recurring checkout.
   subscribe: z.boolean().optional(),
   returnUrl: z.string().url(),
+  /** Server-validated Check-In session UUID; browser storage is never authority. */
+  checkInSessionToken: z.string().uuid().optional(),
+  /** Prior paid order credential for the single-use 5% reward. */
+  priorOrderNumber: z.string().trim().min(1).max(32).optional(),
+  /** First-party referral click token from /r/$slug. */
+  attributionToken: z.string().uuid().optional(),
+  /** Typed creator code overrides link attribution when valid. */
+  creatorCode: z.string().trim().min(2).max(40).optional(),
 });
 
 type CheckoutResult = { url: string } | { error: string };
@@ -50,10 +64,13 @@ type CheckoutResult = { url: string } | { error: string };
 export const createCartCheckout = createServerFn({ method: "POST" })
   .validator((data: z.infer<typeof checkoutInput>) => checkoutInput.parse(data))
   .handler(async ({ data }): Promise<CheckoutResult> => {
+    let rewardRedemptionId: string | null = null;
     try {
       assertOneTimeCheckout(data.subscribe);
       const environment = getStripeEnvironment();
       const stripe = createStripeClient(environment);
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
       const expandedItems = data.items.flatMap((item) =>
         Array.from({ length: item.quantity }, () => item.productId),
       );
@@ -100,7 +117,54 @@ export const createCartCheckout = createServerFn({ method: "POST" })
         quantity: item.quantity,
       }));
       const merchandiseTotal = resolvedItems.reduce((sum, item) => sum + item.amount, 0);
-      const shippingAmount = merchandiseTotal >= 7500 ? 0 : 795;
+
+      let applyCheckIn = false;
+      if (data.checkInSessionToken) {
+        const { data: claim, error: claimError } = await supabaseAdmin
+          .from("checkin_offer_claims")
+          .select("session_token")
+          .eq("session_token", data.checkInSessionToken)
+          .maybeSingle();
+        if (claimError) throw new Error("Check-In offer could not be verified.");
+        applyCheckIn = Boolean(claim);
+      }
+
+      let applyReward = false;
+      let rewardOrderNumber: number | null = null;
+      if (data.priorOrderNumber) {
+        rewardOrderNumber = parseOrderNumberCredential(data.priorOrderNumber);
+        if (!rewardOrderNumber) {
+          return { error: "That previous order number does not look valid." };
+        }
+        const { data: reserved, error: reserveError } = await supabaseAdmin.rpc(
+          "reserve_returning_customer_reward",
+          { p_order_number: rewardOrderNumber },
+        );
+        if (reserveError) throw new Error("The returning-customer reward could not be reserved.");
+        const row = reserved?.[0];
+        if (!row?.ok || !row.redemption_id) {
+          return {
+            error:
+              row?.reason === "already_used"
+                ? "That previous-order reward has already been used."
+                : "That previous order is not eligible for the 5% reward.",
+          };
+        }
+        rewardRedemptionId = String(row.redemption_id);
+        applyReward = true;
+      }
+
+      const stacked = applyStackedDiscounts({
+        merchandiseCents: merchandiseTotal,
+        applyCheckIn,
+        applyReward,
+      });
+      const shippingAmount = shippingCentsForMerchandise(stacked.afterRewardCents);
+
+      const attribution = await resolveCreatorAttribution(supabaseAdmin, {
+        ...(data.creatorCode ? { creatorCode: data.creatorCode } : {}),
+        ...(data.attributionToken ? { attributionToken: data.attributionToken } : {}),
+      });
 
       const checkoutParams: Stripe.Checkout.SessionCreateParams = {
         line_items: lineItems,
@@ -108,7 +172,8 @@ export const createCartCheckout = createServerFn({ method: "POST" })
         success_url: data.returnUrl,
         cancel_url: data.returnUrl.replace("/checkout/return?session_id={CHECKOUT_SESSION_ID}", "/"),
         customer_creation: "always",
-        allow_promotion_codes: true,
+        // LockHabit discounts own stacking when present; otherwise keep Stripe promos.
+        allow_promotion_codes: stacked.totalDiscountCents === 0,
         billing_address_collection: "required",
         shipping_address_collection: {
           allowed_countries: [
@@ -178,14 +243,26 @@ export const createCartCheckout = createServerFn({ method: "POST" })
             },
           },
         ],
-        // Stripe test mode requires a head office address for automatic tax;
-        // enable it only for live payments.
         ...(environment === "live" && { automatic_tax: { enabled: true } as const }),
         integration_identifier: "lockhabit_zqkmwpxa",
         metadata: {
           selected_product_ids: expandedItems.join(","),
           delivery: "one_time",
           shipping_rate: shippingAmount === 0 ? "free" : "795",
+          checkin_applied: applyCheckIn ? "1" : "0",
+          reward_applied: applyReward ? "1" : "0",
+          reward_order_number: rewardOrderNumber ? String(rewardOrderNumber) : "",
+          reward_redemption_id: rewardRedemptionId ?? "",
+          checkin_session_token: data.checkInSessionToken ?? "",
+          discount_labels: stacked.labels.join(" + "),
+          discount_cents: String(stacked.totalDiscountCents),
+          merchandise_before_discount_cents: String(merchandiseTotal),
+          merchandise_after_discount_cents: String(stacked.afterRewardCents),
+          creator_id: attribution?.creatorId ?? "",
+          creator_code: attribution?.referralCode ?? "",
+          attribution_token: attribution?.attributionToken ?? "",
+          attribution_source: attribution?.source ?? "",
+          commission_bps: attribution ? String(attribution.commissionBps) : "",
         },
         payment_intent_data: {
           description: bundleLookupKey
@@ -193,10 +270,66 @@ export const createCartCheckout = createServerFn({ method: "POST" })
             : "LOCKHABIT soap order",
         },
       };
-      const session = await stripe.checkout.sessions.create(checkoutParams);
+
+      if (stacked.totalDiscountCents > 0) {
+        const coupon = await stripe.coupons.create({
+          amount_off: stacked.totalDiscountCents,
+          currency: "usd",
+          duration: "once",
+          name: stacked.labels.join(" + ").slice(0, 40) || "LockHabit discount",
+          max_redemptions: 1,
+          metadata: {
+            lockhabit: "1",
+            checkin: applyCheckIn ? "1" : "0",
+            reward: applyReward ? "1" : "0",
+          },
+        });
+        checkoutParams.discounts = [{ coupon: coupon.id }];
+      }
+
+      const session = await stripe.checkout.sessions.create(checkoutParams, {
+        idempotencyKey: [
+          "lh_checkout",
+          expandedItems.join("x"),
+          applyCheckIn ? "ci1" : "ci0",
+          rewardRedemptionId ?? "rw0",
+          attribution?.creatorId ?? "af0",
+        ].join(":").slice(0, 255),
+      });
+
+      if (rewardRedemptionId) {
+        const { data: bound, error: bindError } = await supabaseAdmin.rpc(
+          "bind_returning_customer_reward",
+          {
+            p_redemption_id: rewardRedemptionId,
+            p_checkout_session_id: session.id,
+          },
+        );
+        if (bindError || !bound) {
+          await supabaseAdmin.rpc("release_returning_customer_reward_by_id", {
+            p_redemption_id: rewardRedemptionId,
+          });
+          try {
+            await stripe.checkout.sessions.expire(session.id);
+          } catch {
+            // Session may already be unusable; reward release is the critical recovery.
+          }
+          throw new Error("The returning-customer reward could not be attached to checkout.");
+        }
+      }
 
       return { url: session.url ?? "" };
     } catch (error) {
+      if (rewardRedemptionId) {
+        try {
+          const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+          await supabaseAdmin.rpc("release_returning_customer_reward_by_id", {
+            p_redemption_id: rewardRedemptionId,
+          });
+        } catch {
+          // Best-effort release so a failed checkout cannot permanently consume the reward.
+        }
+      }
       return { error: getStripeErrorMessage(error) };
     }
   });
@@ -211,7 +344,7 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
     try {
       const stripe = createStripeClient(getStripeEnvironment());
       const session = await stripe.checkout.sessions.retrieve(data.sessionId, {
-        expand: ["line_items.data.price.product"],
+        expand: ["line_items.data.price.product", "discounts.promotion_code"],
       });
       const paid = session.payment_status === "paid";
       const selectedIds = parseSelectedProductIds(session.metadata?.["selected_product_ids"]);
@@ -234,9 +367,7 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
           const { data: order } = await supabaseAdmin
             .from("orders")
-            .select(
-              "order_number,payment_intent_id,items,confirmation_sent_at",
-            )
+            .select("order_number,payment_intent_id,items,confirmation_sent_at")
             .eq("checkout_session_id", session.id)
             .maybeSingle();
 
@@ -253,8 +384,6 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
         }
       }
 
-      // Prefer the verified Stripe paid total over undiscounted historical order rows.
-      // Metadata identifies the actual products even when Stripe groups bars as one bundle.
       const paidMerchandiseCents = Math.max(
         0,
         (session.amount_total ?? 0) -
@@ -278,6 +407,11 @@ export const getCheckoutStatus = createServerFn({ method: "POST" })
         livemode: session.livemode,
         shippingTotal: session.shipping_cost?.amount_total ?? 0,
         taxTotal: session.total_details?.amount_tax ?? 0,
+        discountAmount: session.total_details?.amount_discount ?? 0,
+        discountLabels: session.metadata?.["discount_labels"] ?? "",
+        checkInApplied: session.metadata?.["checkin_applied"] === "1",
+        rewardApplied: session.metadata?.["reward_applied"] === "1",
+        creatorAttributed: Boolean(session.metadata?.["creator_id"]),
         email: session.customer_details?.email ?? null,
         orderNumber,
         paymentIntentId,

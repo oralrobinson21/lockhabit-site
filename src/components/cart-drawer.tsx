@@ -1,11 +1,13 @@
-import { ArrowLeft, ArrowRight, Minus, Plus, ShoppingBag, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Minus, PackageCheck, Plus, RotateCcw, ShieldCheck, ShoppingBag, Truck, X } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { StripeCartCheckout } from "@/components/stripe-cart-checkout";
 import { useCart } from "@/lib/cart";
 import { products } from "@/lib/catalog";
+import { applyStackedDiscounts } from "@/lib/checkout-discounts";
 import { amountUntilFreeShipping, FREE_SHIPPING_THRESHOLD } from "@/lib/pricing";
+import { validatePriorOrderReward } from "@/lib/reward.functions";
 
 export function CartDrawer() {
   const {
@@ -15,25 +17,60 @@ export function CartDrawer() {
     cartTotal,
     cartSavings,
     checkInOfferSaved,
-    qualifiesForFreeShipping,
     setCartOpen,
     changeQuantity,
   } = useCart();
   const navigate = useNavigate();
   const [checkingOut, setCheckingOut] = useState(false);
+  const [rewardInput, setRewardInput] = useState("");
+  const [rewardApplied, setRewardApplied] = useState<{ orderNumber: number } | null>(null);
+  const [rewardNotice, setRewardNotice] = useState("");
+  const [rewardBusy, setRewardBusy] = useState(false);
+  const [creatorCode, setCreatorCode] = useState("");
   const checkoutItems = products
     .filter((product) => (cart[product.id] ?? 0) > 0)
     .map((product) => ({ productId: product.id, quantity: cart[product.id] ?? 0 }));
-  const freeShippingGap = amountUntilFreeShipping(cartTotal);
+
+  const stackedPreview = useMemo(() => {
+    const merchandiseCents = Math.round(cartTotal * 100);
+    return applyStackedDiscounts({
+      merchandiseCents,
+      applyCheckIn: checkInOfferSaved,
+      applyReward: Boolean(rewardApplied),
+    });
+  }, [cartTotal, checkInOfferSaved, rewardApplied]);
+
+  const previewMerchandise = stackedPreview.afterRewardCents / 100;
+  const freeShippingGap = amountUntilFreeShipping(previewMerchandise);
   const freeShippingProgress = Math.min(
     100,
-    Math.max(0, (cartTotal / FREE_SHIPPING_THRESHOLD) * 100),
+    Math.max(0, (previewMerchandise / FREE_SHIPPING_THRESHOLD) * 100),
   );
+  const previewQualifies = previewMerchandise >= FREE_SHIPPING_THRESHOLD;
 
   const browse = () => {
     setCartOpen(false);
     void navigate({ to: "/", hash: "shop" });
   };
+
+  async function applyReward() {
+    setRewardBusy(true);
+    setRewardNotice("");
+    try {
+      const result = await validatePriorOrderReward({ data: { orderNumber: rewardInput } });
+      if (!result.eligible || !("orderNumber" in result) || !result.orderNumber) {
+        setRewardApplied(null);
+        setRewardNotice("That previous order isn’t eligible for the 5% reward.");
+        return;
+      }
+      setRewardApplied({ orderNumber: result.orderNumber });
+      setRewardNotice(`5% reward ready for LH-${String(result.orderNumber).padStart(6, "0")}.`);
+    } catch {
+      setRewardNotice("Reward check is temporarily unavailable. Try again in a moment.");
+    } finally {
+      setRewardBusy(false);
+    }
+  }
 
   return (
     <>
@@ -63,14 +100,22 @@ export function CartDrawer() {
         <div className={`flex-1 overflow-y-auto ${checkingOut ? "p-2" : "p-5"}`}>
           {!checkingOut && checkInOfferSaved && (
             <div className="rounded-xl border-2 border-foreground bg-paper p-4">
-              <p className="font-display text-lg font-semibold">Check-In · 10% offer saved</p>
+              <p className="font-display text-lg font-semibold">Check-In · 10% ready</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Checkout discount redemption is coming soon. The bag subtotal does not include this offer.
+                Applied automatically at secure checkout after bundle pricing.
               </p>
             </div>
           )}
           {checkingOut ? (
-            <StripeCartCheckout items={checkoutItems} />
+            <StripeCartCheckout
+              items={checkoutItems}
+              {...(rewardApplied
+                ? {
+                    priorOrderNumber: `LH-${String(rewardApplied.orderNumber).padStart(6, "0")}`,
+                  }
+                : {})}
+              {...(creatorCode.trim() ? { creatorCode: creatorCode.trim() } : {})}
+            />
           ) : cartCount === 0 ? (
             <div className="flex min-h-[16rem] flex-col items-center justify-center text-center">
               <ShoppingBag size={34} className="text-primary" />
@@ -129,6 +174,46 @@ export function CartDrawer() {
                   </div>
                   </div>
                 ))}
+              <div className="mt-5 rounded-xl border border-foreground/30 p-3">
+                <label htmlFor="reward-order" className="memo">
+                  Have a previous order number?
+                </label>
+                <div className="mt-2 flex gap-2">
+                  <input
+                    id="reward-order"
+                    value={rewardInput}
+                    onChange={(event) => setRewardInput(event.target.value)}
+                    className="min-w-0 flex-1 rounded-full border-2 border-foreground bg-paper px-4 py-2 text-sm"
+                    placeholder="LH-000214"
+                    autoComplete="off"
+                  />
+                  <button
+                    type="button"
+                    disabled={rewardBusy || !rewardInput.trim()}
+                    onClick={() => void applyReward()}
+                    className="rounded-full border-2 border-foreground bg-sun px-4 text-xs font-black uppercase disabled:opacity-60"
+                  >
+                    Apply 5%
+                  </button>
+                </div>
+                {rewardNotice ? <p className="mt-2 text-xs">{rewardNotice}</p> : null}
+              </div>
+              <div className="mt-3 rounded-xl border border-foreground/30 p-3">
+                <label htmlFor="creator-code" className="memo">
+                  Creator code (optional)
+                </label>
+                <input
+                  id="creator-code"
+                  value={creatorCode}
+                  onChange={(event) => setCreatorCode(event.target.value.toUpperCase())}
+                  className="mt-2 w-full rounded-full border-2 border-foreground bg-paper px-4 py-2 text-sm"
+                  placeholder="Overrides referral link if valid"
+                  autoComplete="off"
+                />
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Codes attribute the sale only — they do not change the price.
+                </p>
+              </div>
             </>
           )}
         </div>
@@ -140,9 +225,25 @@ export function CartDrawer() {
                 <span>−${cartSavings.toFixed(2)}</span>
               </div>
             )}
-            <div className="mb-4 flex justify-between font-bold">
-              <span>Subtotal</span>
+            {stackedPreview.checkInDiscountCents > 0 && (
+              <div className="mb-2 flex justify-between text-sm font-bold text-primary">
+                <span>Check-In 10%</span>
+                <span>−${(stackedPreview.checkInDiscountCents / 100).toFixed(2)}</span>
+              </div>
+            )}
+            {stackedPreview.rewardDiscountCents > 0 && rewardApplied && (
+              <div className="mb-2 flex justify-between text-sm font-bold text-coral">
+                <span>Next-order 5% · LH-{String(rewardApplied.orderNumber).padStart(6, "0")}</span>
+                <span>−${(stackedPreview.rewardDiscountCents / 100).toFixed(2)}</span>
+              </div>
+            )}
+            <div className="mb-1 flex justify-between text-sm">
+              <span>Merchandise</span>
               <span>${cartTotal.toFixed(2)}</span>
+            </div>
+            <div className="mb-4 flex justify-between font-bold">
+              <span>Total before shipping/tax</span>
+              <span>${previewMerchandise.toFixed(2)}</span>
             </div>
             <button
               className="primary-button w-full justify-center"
@@ -152,18 +253,18 @@ export function CartDrawer() {
             </button>
             <div className="mt-3">
               <p className="memo text-center text-muted-foreground">
-                {qualifiesForFreeShipping
+                {previewQualifies
                   ? "You caught free shipping · worldwide details collected at checkout"
                   : `Add ${freeShippingGap.toFixed(2)} more for free shipping`}
               </p>
-              {!qualifiesForFreeShipping ? (
+              {!previewQualifies ? (
                 <div
                   className="mt-2 h-2 overflow-hidden rounded-full border border-foreground/20 bg-muted"
                   role="progressbar"
                   aria-label="Progress toward free shipping"
                   aria-valuemin={0}
                   aria-valuemax={FREE_SHIPPING_THRESHOLD}
-                  aria-valuenow={Math.min(cartTotal, FREE_SHIPPING_THRESHOLD)}
+                  aria-valuenow={Math.min(previewMerchandise, FREE_SHIPPING_THRESHOLD)}
                   aria-valuetext={`${freeShippingGap.toFixed(2)} more for free shipping`}
                 >
                   <div
@@ -172,6 +273,15 @@ export function CartDrawer() {
                   />
                 </div>
               ) : null}
+            </div>
+            <div className="mt-4 space-y-2 text-xs">
+              <p className="flex items-center gap-2"><ShieldCheck size={14} /> Secure checkout powered by Stripe</p>
+              <p className="flex items-center gap-2"><RotateCcw size={14} /> 14-day returns on unopened, unused items</p>
+              <p className="flex items-center gap-2"><Truck size={14} /> Tracking emailed when your order ships</p>
+              <p className="flex items-center gap-2"><PackageCheck size={14} /> Free shipping on $75+</p>
+              <a href="/returns" className="font-bold underline underline-offset-4">
+                Returns Policy → return details & shipping costs
+              </a>
             </div>
           </div>
         )}

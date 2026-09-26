@@ -171,7 +171,7 @@ export function CheckInOffer({
                     <span className="block">Add your welcome offer instantly.</span>
                   </Dialog.Description>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    Save the offer to your bag. Checkout redemption is coming soon.
+                    Save the offer to your bag. It’s applied automatically at secure checkout.
                   </p>
 
                   <button

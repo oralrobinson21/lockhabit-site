@@ -7,16 +7,15 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { checkCheckInClaim, claimCheckInOffer } from "@/lib/checkin.functions";
 import { useCart } from "@/lib/cart";
-import { CHECKIN_STORAGE_KEY } from "@/lib/checkin-storage";
+import { CHECKIN_SESSION_KEY, CHECKIN_STORAGE_KEY } from "@/lib/checkin-storage";
 
 const REQUIRED_MS = 25_000;
-const SESSION_KEY = "lockhabit_checkin_session_v1";
 
 function sessionToken() {
-  let value = localStorage.getItem(SESSION_KEY);
+  let value = localStorage.getItem(CHECKIN_SESSION_KEY);
   if (!value || !/^[a-f0-9-]{36}$/i.test(value)) {
     value = crypto.randomUUID();
-    localStorage.setItem(SESSION_KEY, value);
+    localStorage.setItem(CHECKIN_SESSION_KEY, value);
   }
   return value;
 }

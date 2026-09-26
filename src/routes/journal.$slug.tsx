@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, ExternalLink, Leaf } from "lucide-react";
 
 import { SiteHeader } from "@/components/site-header";
 import { IslandFooter } from "@/components/island-footer";
+import { JournalComments } from "@/components/journal-comments";
 import { products } from "@/lib/catalog";
 import { publishedJournalBlocks } from "@/lib/journal-content";
 import { getPublishedJournalPost, getPublishedJournalPosts } from "@/lib/journal.functions";
@@ -101,6 +102,8 @@ function JournalArticle() {
               </section> : null}
 
               {references.length ? <section className="mt-14 border-t-2 border-foreground pt-9" aria-label="Article sources"><p className="memo text-primary">The receipts</p><h2 className="mt-2 font-display text-3xl font-semibold">Sources and further reading.</h2><ol className="mt-5 list-decimal space-y-3 pl-6 text-sm leading-6">{references.map((url, i) => <li key={i}><a href={url} target="_blank" rel="noopener noreferrer" className="break-all text-primary underline underline-offset-4">{url}</a></li>)}</ol></section> : null}
+
+              <JournalComments slug={post.slug} />
             </div>
             <aside className="lg:sticky lg:top-28 lg:self-start"><div className="rounded-2xl border-2 border-foreground bg-paper p-5"><Leaf className="text-primary" /><p className="memo mt-3 text-coral">Front desk note</p><p className="mt-2 font-display text-xl">Curiosity looks good on you.</p><p className="mt-3 text-sm text-muted-foreground">Read the sources. Check the details. Keep what works for your routine.</p></div></aside>
           </div>
