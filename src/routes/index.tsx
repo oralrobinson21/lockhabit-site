@@ -154,11 +154,19 @@ function Index() {
     setNewsletterStatus("sending");
     setNewsletterMessage("");
 
+    const consent = form.get("consent") === "on";
+    if (!consent) {
+      setNewsletterStatus("error");
+      setNewsletterMessage("Please check the box to opt in to marketing emails.");
+      return;
+    }
+
     const result = await subscribeNewsletter({
       data: {
         email: String(form.get("email") ?? ""),
         source: "homepage",
         website: String(form.get("website") ?? ""),
+        consent: true,
       },
     });
 
@@ -646,8 +654,23 @@ function Index() {
                 Website
                 <input name="website" tabIndex={-1} autoComplete="off" />
               </label>
+              <label className="flex items-start gap-3 text-left text-xs leading-5 text-muted-foreground">
+                <input type="checkbox" name="consent" className="mt-0.5" />
+                <span>
+                  I want LOCKHABIT marketing emails (new bars, restocks, occasional offers). Explicit
+                  opt-in required.{" "}
+                  <a href="/unsubscribe" className="underline underline-offset-2">
+                    Unsubscribe
+                  </a>{" "}
+                  anytime.
+                </span>
+              </label>
               <p className="text-xs leading-5 text-muted-foreground">
-                By signing up, you agree to receive LOCKHABIT marketing emails. Unsubscribe anytime.
+                We never share your email. See our{" "}
+                <a href="/privacy" className="underline underline-offset-2">
+                  privacy policy
+                </a>
+                .
               </p>
               {newsletterMessage ? (
                 <p className={`text-sm font-bold ${newsletterStatus === "error" ? "text-destructive" : "text-primary"}`}>

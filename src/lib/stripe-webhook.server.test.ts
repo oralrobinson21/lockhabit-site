@@ -108,6 +108,22 @@ test("failed asynchronous payment never creates an order or sends confirmation",
   assert.equal(state.nonPaidCount, 1);
 });
 
+test("expired checkout releases reserved reward path and never creates an order", async () => {
+  let released = 0;
+  const state = harness(session("unpaid"));
+  state.dependencies.releaseReservedReward = async () => {
+    released += 1;
+  };
+  assert.equal(
+    await processCheckoutWebhook(event("checkout.session.expired", "evt_expired"), state.dependencies),
+    "expired",
+  );
+  assert.equal(state.orders.size, 0);
+  assert.equal(state.emailCount, 0);
+  assert.equal(released, 1);
+  assert.equal(state.nonPaidCount, 1);
+});
+
 test("delayed payment confirms only after async success", async () => {
   const pending = session("unpaid");
   const state = harness(pending);

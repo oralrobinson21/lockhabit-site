@@ -11,19 +11,23 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as HandoffRouteImport } from './routes/handoff'
+import { Route as JoinRouteImport } from './routes/join'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReturnsRouteImport } from './routes/returns'
 import { Route as ShippingRouteImport } from './routes/shipping'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as ApiEmailInkRouteImport } from './routes/api/email-ink'
 import { Route as ApiEmailTestRouteImport } from './routes/api/email-test'
+import { Route as ApiVersionRouteImport } from './routes/api/version'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as CreatorIndexRouteImport } from './routes/creator.index'
 import { Route as CreatorForgotPasswordRouteImport } from './routes/creator.forgot-password'
@@ -52,6 +56,11 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -70,6 +79,11 @@ const FaqRoute = FaqRouteImport.update({
 const HandoffRoute = HandoffRouteImport.update({
   id: '/handoff',
   path: '/handoff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinRoute = JoinRouteImport.update({
+  id: '/join',
+  path: '/join',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalRoute = JournalRouteImport.update({
@@ -102,6 +116,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnsubscribeRoute = UnsubscribeRouteImport.update({
+  id: '/unsubscribe',
+  path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminOrdersRoute = AdminOrdersRouteImport.update({
   id: '/admin/orders',
   path: '/admin/orders',
@@ -115,6 +134,11 @@ const ApiEmailInkRoute = ApiEmailInkRouteImport.update({
 const ApiEmailTestRoute = ApiEmailTestRouteImport.update({
   id: '/api/email-test',
   path: '/api/email-test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiVersionRoute = ApiVersionRouteImport.update({
+  id: '/api/version',
+  path: '/api/version',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
@@ -206,19 +230,23 @@ const ApiStripeWebhookRoute = ApiStripeWebhookRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/contact': typeof ContactRoute
   '/creator': typeof CreatorRouteWithChildren
   '/faq': typeof FaqRoute
   '/handoff': typeof HandoffRouteWithChildren
+  '/join': typeof JoinRoute
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
+  '/api/version': typeof ApiVersionRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/creator/forgot-password': typeof CreatorForgotPasswordRoute
   '/creator/invite-preview': typeof CreatorInvitePreviewRoute
@@ -240,17 +268,21 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/handoff': typeof HandoffRouteWithChildren
+  '/join': typeof JoinRoute
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
+  '/api/version': typeof ApiVersionRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/creator/forgot-password': typeof CreatorForgotPasswordRoute
   '/creator/invite-preview': typeof CreatorInvitePreviewRoute
@@ -273,19 +305,23 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/contact': typeof ContactRoute
   '/creator': typeof CreatorRouteWithChildren
   '/faq': typeof FaqRoute
   '/handoff': typeof HandoffRouteWithChildren
+  '/join': typeof JoinRoute
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/returns': typeof ReturnsRoute
   '/shipping': typeof ShippingRoute
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/api/email-ink': typeof ApiEmailInkRoute
   '/api/email-test': typeof ApiEmailTestRoute
+  '/api/version': typeof ApiVersionRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/creator/forgot-password': typeof CreatorForgotPasswordRoute
   '/creator/invite-preview': typeof CreatorInvitePreviewRoute
@@ -309,19 +345,23 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/account'
     | '/contact'
     | '/creator'
     | '/faq'
     | '/handoff'
+    | '/join'
     | '/journal'
     | '/privacy'
     | '/returns'
     | '/shipping'
     | '/sign-in'
     | '/terms'
+    | '/unsubscribe'
     | '/admin/orders'
     | '/api/email-ink'
     | '/api/email-test'
+    | '/api/version'
     | '/checkout/return'
     | '/creator/forgot-password'
     | '/creator/invite-preview'
@@ -343,17 +383,21 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/account'
     | '/contact'
     | '/faq'
     | '/handoff'
+    | '/join'
     | '/privacy'
     | '/returns'
     | '/shipping'
     | '/sign-in'
     | '/terms'
+    | '/unsubscribe'
     | '/admin/orders'
     | '/api/email-ink'
     | '/api/email-test'
+    | '/api/version'
     | '/checkout/return'
     | '/creator/forgot-password'
     | '/creator/invite-preview'
@@ -375,19 +419,23 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/account'
     | '/contact'
     | '/creator'
     | '/faq'
     | '/handoff'
+    | '/join'
     | '/journal'
     | '/privacy'
     | '/returns'
     | '/shipping'
     | '/sign-in'
     | '/terms'
+    | '/unsubscribe'
     | '/admin/orders'
     | '/api/email-ink'
     | '/api/email-test'
+    | '/api/version'
     | '/checkout/return'
     | '/creator/forgot-password'
     | '/creator/invite-preview'
@@ -410,19 +458,23 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AccountRoute: typeof AccountRoute
   ContactRoute: typeof ContactRoute
   CreatorRoute: typeof CreatorRouteWithChildren
   FaqRoute: typeof FaqRoute
   HandoffRoute: typeof HandoffRouteWithChildren
+  JoinRoute: typeof JoinRoute
   JournalRoute: typeof JournalRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   ReturnsRoute: typeof ReturnsRoute
   ShippingRoute: typeof ShippingRoute
   SignInRoute: typeof SignInRoute
   TermsRoute: typeof TermsRoute
+  UnsubscribeRoute: typeof UnsubscribeRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   ApiEmailInkRoute: typeof ApiEmailInkRoute
   ApiEmailTestRoute: typeof ApiEmailTestRoute
+  ApiVersionRoute: typeof ApiVersionRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   OwnerCreatorProgramRoute: typeof OwnerCreatorProgramRoute
   OwnerJournalRoute: typeof OwnerJournalRoute
@@ -445,6 +497,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -473,6 +532,13 @@ declare module '@tanstack/react-router' {
       path: '/handoff'
       fullPath: '/handoff'
       preLoaderRoute: typeof HandoffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join': {
+      id: '/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof JoinRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journal': {
@@ -517,6 +583,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/unsubscribe': {
+      id: '/unsubscribe'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe'
+      preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/orders': {
       id: '/admin/orders'
       path: '/admin/orders'
@@ -536,6 +609,13 @@ declare module '@tanstack/react-router' {
       path: '/api/email-test'
       fullPath: '/api/email-test'
       preLoaderRoute: typeof ApiEmailTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/version': {
+      id: '/api/version'
+      path: '/api/version'
+      fullPath: '/api/version'
+      preLoaderRoute: typeof ApiVersionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout/return': {
@@ -712,19 +792,23 @@ const JournalRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AccountRoute: AccountRoute,
   ContactRoute: ContactRoute,
   CreatorRoute: CreatorRouteWithChildren,
   FaqRoute: FaqRoute,
   HandoffRoute: HandoffRouteWithChildren,
+  JoinRoute: JoinRoute,
   JournalRoute: JournalRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   ReturnsRoute: ReturnsRoute,
   ShippingRoute: ShippingRoute,
   SignInRoute: SignInRoute,
   TermsRoute: TermsRoute,
+  UnsubscribeRoute: UnsubscribeRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   ApiEmailInkRoute: ApiEmailInkRoute,
   ApiEmailTestRoute: ApiEmailTestRoute,
+  ApiVersionRoute: ApiVersionRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   OwnerCreatorProgramRoute: OwnerCreatorProgramRoute,
   OwnerJournalRoute: OwnerJournalRoute,

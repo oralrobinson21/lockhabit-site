@@ -3,12 +3,21 @@ import { useEffect, useState } from "react";
 import { createCartCheckout } from "@/lib/payments.functions";
 import { trackMetaEventOnce } from "@/lib/meta-analytics";
 import { trackBeginCheckout } from "@/lib/ga4-ecommerce";
+import { trackAffiliateCheckout, trackReturnRewardApplied } from "@/lib/ga4-growth";
 import { products } from "@/lib/catalog";
+import {
+  readCheckInSessionToken,
+  readCreatorAttributionToken,
+} from "@/lib/checkin-storage";
 
 export function StripeCartCheckout({
   items,
+  priorOrderNumber,
+  creatorCode,
 }: {
   items: Array<{ productId: number; quantity: number }>;
+  priorOrderNumber?: string;
+  creatorCode?: string;
 }) {
   const [error, setError] = useState<string | null>(null);
 
@@ -20,11 +29,17 @@ export function StripeCartCheckout({
         const checkoutKey = `once:${items
           .map((item) => `${item.productId}x${item.quantity}`)
           .join(",")}`;
+        const checkInSessionToken = readCheckInSessionToken() ?? undefined;
+        const attributionToken = readCreatorAttributionToken() ?? undefined;
 
         const result = await createCartCheckout({
           data: {
             items,
             returnUrl: `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
+            checkInSessionToken,
+            priorOrderNumber: priorOrderNumber?.trim() || undefined,
+            attributionToken,
+            creatorCode: creatorCode?.trim() || undefined,
           },
         });
 
@@ -36,6 +51,13 @@ export function StripeCartCheckout({
             return product ? [{ ...product, quantity }] : [];
           });
           trackBeginCheckout(checkoutLines);
+          if (priorOrderNumber?.trim()) trackReturnRewardApplied();
+          if (attributionToken || creatorCode?.trim()) {
+            trackAffiliateCheckout({
+              source: creatorCode?.trim() ? "code" : "token",
+              livemode: false,
+            });
+          }
           trackMetaEventOnce(checkoutKey, "InitiateCheckout", {
             content_ids: items.map((item) => String(item.productId)),
             content_type: "product",
@@ -56,7 +78,7 @@ export function StripeCartCheckout({
     return () => {
       cancelled = true;
     };
-  }, [items]);
+  }, [items, priorOrderNumber, creatorCode]);
 
   if (error) {
     return (

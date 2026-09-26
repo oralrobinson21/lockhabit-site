@@ -552,6 +552,8 @@ ${textItems}
 Subtotal: ${money(order.subtotal, order.currency)}
 Shipping: ${order.shipping === 0 ? "Free shipping" : money(order.shipping, order.currency)}
 ${discount > 0 ? `${order.discountCode ? "Discount code" : "Discount"}: ${order.discountCode ? `${order.discountCode} ` : ""}(${money(discount, order.currency)} off)\n` : ""}${order.tax > 0 ? `Tax: ${money(order.tax, order.currency)}\n` : ""}Amount paid: ${money(order.total, order.currency)}
+
+Take 5% off your next order with order number ${orderLabel} at checkout (single-use returning-guest reward).
 ${shipToText ? `\nShipping to: ${shipToText}\n` : ""}
 Thanks for being here. You’re not just buying products — you’re investing in a brighter you. Here’s to better habits and brighter days.
 

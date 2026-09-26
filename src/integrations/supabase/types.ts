@@ -465,22 +465,31 @@ export type Database = {
       }
       newsletter_subscribers: {
         Row: {
+          consent_at: string | null
           created_at: string
           email: string
           id: string
           source: string
+          unsubscribe_token: string | null
+          unsubscribed_at: string | null
         }
         Insert: {
+          consent_at?: string | null
           created_at?: string
           email: string
           id?: string
           source?: string
+          unsubscribe_token?: string | null
+          unsubscribed_at?: string | null
         }
         Update: {
+          consent_at?: string | null
           created_at?: string
           email?: string
           id?: string
           source?: string
+          unsubscribe_token?: string | null
+          unsubscribed_at?: string | null
         }
         Relationships: []
       }
@@ -691,11 +700,83 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_reward_redemptions: {
+        Row: {
+          created_at: string
+          id: string
+          redeemed_at: string | null
+          redeemed_checkout_session_id: string | null
+          source_order_id: string
+          source_order_number: number
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          redeemed_at?: string | null
+          redeemed_checkout_session_id?: string | null
+          source_order_id: string
+          source_order_number: number
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          redeemed_at?: string | null
+          redeemed_checkout_session_id?: string | null
+          source_order_id?: string
+          source_order_number?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_reward_redemptions_source_order_id_fkey"
+            columns: ["source_order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reader_profiles: {
+        Row: {
+          auth_user_id: string
+          created_at: string
+          display_name: string | null
+          email: string
+          id: string
+          newsletter_opt_in: boolean
+          updated_at: string
+        }
+        Insert: {
+          auth_user_id: string
+          created_at?: string
+          display_name?: string | null
+          email: string
+          id?: string
+          newsletter_opt_in?: boolean
+          updated_at?: string
+        }
+        Update: {
+          auth_user_id?: string
+          created_at?: string
+          display_name?: string | null
+          email?: string
+          id?: string
+          newsletter_opt_in?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      bind_returning_customer_reward: {
+        Args: { p_checkout_session_id: string; p_redemption_id: string }
+        Returns: boolean
+      }
       owner_transition_creator_payout: {
         Args: { p_request_id: string; p_action: string; p_note?: string | null };
         Returns: string;
@@ -785,9 +866,37 @@ export type Database = {
         }
         Returns: undefined
       }
+      redeem_returning_customer_reward: {
+        Args: { p_checkout_session_id: string }
+        Returns: boolean
+      }
+      release_returning_customer_reward: {
+        Args: { p_checkout_session_id: string }
+        Returns: boolean
+      }
+      release_returning_customer_reward_by_id: {
+        Args: { p_redemption_id: string }
+        Returns: boolean
+      }
       request_creator_payout: {
         Args: { p_amount_cents: number }
         Returns: string
+      }
+      reserve_returning_customer_reward: {
+        Args: { p_order_number: number }
+        Returns: {
+          ok: boolean
+          reason: string
+          redemption_id: string
+          source_order_id: string
+        }[]
+      }
+      validate_returning_customer_reward: {
+        Args: { p_order_number: number }
+        Returns: {
+          eligible: boolean
+          source_order_id: string
+        }[]
       }
     }
     Enums: {

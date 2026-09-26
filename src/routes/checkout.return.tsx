@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { getCheckoutStatus } from "@/lib/payments.functions";
 import { trackMetaEventOnce } from "@/lib/meta-analytics";
 import { buildGa4PurchasePayload, trackGa4PurchaseOnce } from "@/lib/ga4-purchase";
+import { trackAffiliatePurchase } from "@/lib/ga4-growth";
 import { useCart } from "@/lib/cart";
 
 const googleAdsPurchaseSendTo = "AW-18469044137/OFR-CNHI8IEdEKn_3OZE";
@@ -78,6 +79,7 @@ function CheckoutReturn() {
   const [total, setTotal] = useState(0);
   const [currency, setCurrency] = useState("usd");
   const [confirmationSent, setConfirmationSent] = useState(false);
+  const [creatorAttributed, setCreatorAttributed] = useState(false);
 
   useEffect(() => {
     if (!sessionId) {
@@ -93,8 +95,16 @@ function CheckoutReturn() {
       if ("total" in result) setTotal(result.total ?? 0);
       if ("currency" in result) setCurrency(result.currency ?? "usd");
       if ("confirmationSent" in result) setConfirmationSent(Boolean(result.confirmationSent));
+      if ("creatorAttributed" in result) setCreatorAttributed(Boolean(result.creatorAttributed));
       if (result.paid) {
         clearCart();
+        if ("creatorAttributed" in result && result.creatorAttributed) {
+          trackAffiliatePurchase({
+            livemode: Boolean("livemode" in result && result.livemode),
+            valueCents: result.total ?? 0,
+            currency: result.currency ?? "usd",
+          });
+        }
         // Only genuine paid storefront checkouts may train advertising conversions.
         // Stripe test-mode and manual live-mode test charges are intentionally excluded.
         if (!("marketingEligible" in result && result.marketingEligible)) return;
@@ -137,7 +147,7 @@ function CheckoutReturn() {
         )}
         <h1 className="mt-6 font-display text-4xl font-semibold">
           {status === "paid"
-            ? "Your soap is on the way."
+            ? "You’re checked in."
             : status === "checking"
               ? "Confirming your order…"
               : "Payment not completed."}
@@ -197,6 +207,34 @@ function CheckoutReturn() {
                 <p className="mt-1 break-all text-xs">{paymentIntentId}</p>
               </div>
             )}
+
+            {orderNumber ? (
+              <div className="mt-5 rounded-xl border-2 border-foreground bg-sun/30 p-4">
+                <p className="font-display text-xl font-semibold">Take 5% off your next order</p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Use order number{" "}
+                  <span className="font-bold text-foreground">
+                    LH-{String(orderNumber).padStart(6, "0")}
+                  </span>{" "}
+                  as your single-use returning-guest reward at checkout.
+                </p>
+                <button
+                  type="button"
+                  className="secondary-button mt-3"
+                  onClick={() => {
+                    const value = `LH-${String(orderNumber).padStart(6, "0")}`;
+                    void navigator.clipboard?.writeText(value);
+                  }}
+                >
+                  Copy order number
+                </button>
+              </div>
+            ) : null}
+            {creatorAttributed ? (
+              <p className="mt-3 text-xs text-muted-foreground">
+                A creator referral was attributed on this paid order.
+              </p>
+            ) : null}
           </div>
         )}
 
