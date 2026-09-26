@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   Bath,
-  FlaskConical,
   Mail,
   Menu,
   Plane,
@@ -12,7 +11,7 @@ import {
   Waves,
   X,
 } from "lucide-react";
-import { type FormEvent, useMemo, useState } from "react";
+import { type FormEvent, type ReactNode, useMemo, useState } from "react";
 
 import logoTransparent from "@/assets/lockhabit-logo-transparent.png";
 
@@ -412,7 +411,7 @@ function MediaPrototype() {
         </div>
       </section>
 
-      <section className="lhm-lanes">
+      <section id="sleep" className="lhm-lanes">
         <Lane
           title="RIGHT NOW"
           subtitle="Trends, quick takes, things everyone suddenly has an opinion about."
@@ -488,6 +487,7 @@ function MediaPrototype() {
       </section>
 
       <section id="bathhouse" className="lhm-bathhouse">
+        <span id="ingredients" className="lhm-anchor-alias" aria-hidden="true" />
         <div className="lhm-section-title">
           <div>
             <span className="lhm-kicker">THE STANDING DESK OF THE RESORT</span>
@@ -813,7 +813,7 @@ function Lane({
 }: {
   title: string;
   subtitle: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   stories: Story[];
   tone: "coral" | "aqua" | "sun";
   openStory: (story: Story) => void;
@@ -863,6 +863,7 @@ const mediaStyles = `
   font-family:"DM Sans",system-ui,sans-serif;
 }
 .lhm *{box-sizing:border-box}
+.lhm-anchor-alias{display:block;position:relative;top:-110px;visibility:hidden}
 .lhm button,.lhm input,.lhm textarea{font:inherit}
 .lhm button{color:inherit}
 .lhm a{color:inherit}
