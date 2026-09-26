@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   getOwnerGrowth,
+  getOwnerCreatorActivity,
   inviteOwnerCreator,
   saveOwnerCreator,
   saveOwnerProspect,
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/owner/creator-program")({
 });
 
 type Data = Awaited<ReturnType<typeof getOwnerGrowth>>;
+type Activity = Awaited<ReturnType<typeof getOwnerCreatorActivity>>;
 const money = (c: number) => `$${(c / 100).toFixed(2)}`;
 
 function OwnerCreators() {
@@ -28,6 +30,8 @@ function OwnerCreators() {
   const [notice, setNotice] = useState("Checking owner access…");
   const [tab, setTab] = useState<"creators" | "payouts" | "outreach">("creators");
   const [busy, setBusy] = useState(false);
+  const [activity, setActivity] = useState<{ id: string; data: Activity } | null>(null);
+  const [activityLoading, setActivityLoading] = useState<string | null>(null);
   useEffect(() => {
     let active = true;
     void supabase.auth.getSession().then(({ data: session }) => {
@@ -38,7 +42,7 @@ function OwnerCreators() {
       active = false;
     };
   }, []);
-  async function refresh(accessToken = token) {
+  const refresh = useCallback(async (accessToken = token) => {
     try {
       setData(await getOwnerGrowth({ data: { accessToken } }));
       setNotice("");
@@ -46,10 +50,10 @@ function OwnerCreators() {
       setData(null);
       setNotice("Owner access is required. Sign in through the orders dashboard.");
     }
-  }
+  }, [token]);
   useEffect(() => {
     if (token) void refresh(token);
-  }, [token]);
+  }, [token, refresh]);
   async function createCreator(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
@@ -97,6 +101,19 @@ function OwnerCreators() {
       setNotice(error instanceof Error ? error.message : "Could not save creator.");
     } finally {
       setBusy(false);
+    }
+  }
+  async function toggleActivity(id: string) {
+    if (activity?.id === id) { setActivity(null); return; }
+    setActivity(null);
+    setActivityLoading(id);
+    try {
+      const result = await getOwnerCreatorActivity({ data: { accessToken: token, creatorId: id } });
+      setActivity({ id, data: result });
+    } catch {
+      setNotice("Creator activity could not be loaded.");
+    } finally {
+      setActivityLoading(null);
     }
   }
   async function updateCompliance(
@@ -305,6 +322,14 @@ function OwnerCreators() {
                         </div>
                         <div className="mt-4 flex flex-wrap gap-2">
                           <button
+                            type="button"
+                            className="secondary-button"
+                            aria-expanded={activity?.id === c.id}
+                            onClick={() => void toggleActivity(c.id)}
+                          >
+                            {activityLoading === c.id ? "Loading…" : activity?.id === c.id ? "Hide activity" : "View sales & activity"}
+                          </button>
+                          <button
                             disabled={busy}
                             className="secondary-button"
                             onClick={() => void updateCreator(c, "approved")}
@@ -366,6 +391,34 @@ function OwnerCreators() {
                             Edit rate
                           </button>
                         </div>
+                        {activity?.id === c.id ? (
+                          <div className="mt-5 space-y-4 border-t border-foreground/20 pt-4 text-sm">
+                            <p><b>{activity.data.clicks}</b> referral clicks · <b>{activity.data.sales.length}</b> recent paid orders</p>
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left">
+                                <caption className="mb-2 text-left font-bold">Paid orders (latest 100)</caption>
+                                <thead><tr><th>Order</th><th>Paid</th><th className="text-right">Merchandise</th></tr></thead>
+                                <tbody>{activity.data.sales.map((sale) => <tr key={sale.id} className="border-t">
+                                  <td>{sale.order_number ? `LH-${String(sale.order_number).padStart(6, "0")}` : "Pending reference"}</td>
+                                  <td>{new Date(sale.paid_at).toLocaleDateString()}</td>
+                                  <td className="text-right">{money(sale.paid_merchandise_cents)}</td>
+                                </tr>)}</tbody>
+                              </table>
+                              {!activity.data.sales.length ? <p className="mt-2">No paid orders yet.</p> : null}
+                            </div>
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left">
+                                <caption className="mb-2 text-left font-bold">Commission ledger (latest 100)</caption>
+                                <thead><tr><th>Date</th><th>Entry</th><th>Status</th><th className="text-right">Amount</th></tr></thead>
+                                <tbody>{activity.data.ledger.map((item) => <tr key={item.id} className="border-t">
+                                  <td>{new Date(item.created_at).toLocaleDateString()}</td><td>{item.entry_type}</td><td>{item.status}</td>
+                                  <td className="text-right">{money(item.amount_cents)}</td>
+                                </tr>)}</tbody>
+                              </table>
+                              {!activity.data.ledger.length ? <p className="mt-2">No commission entries yet.</p> : null}
+                            </div>
+                          </div>
+                        ) : null}
                       </article>
                     ))}
                   </div>

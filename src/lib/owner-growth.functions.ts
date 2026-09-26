@@ -53,6 +53,31 @@ export const getOwnerGrowth = createServerFn({ method: "POST" })
     };
   });
 
+/** Owner-only drill-down; paid sales and ledger are read from their source records. */
+export const getOwnerCreatorActivity = createServerFn({ method: "POST" })
+  .validator((data: { accessToken: string; creatorId: string }) =>
+    z.object({ accessToken: token, creatorId: uuid }).parse(data),
+  )
+  .handler(async ({ data }) => {
+    const db = await owner(data.accessToken);
+    const [clicks, sales, ledger] = await Promise.all([
+      db.from("creator_referral_clicks")
+        .select("id", { count: "exact", head: true })
+        .eq("creator_id", data.creatorId),
+      db.from("creator_attributions")
+        .select("id,order_number,paid_merchandise_cents,currency,paid_at")
+        .eq("creator_id", data.creatorId)
+        .order("paid_at", { ascending: false }).limit(100),
+      db.from("creator_commission_ledger")
+        .select("id,attribution_id,entry_type,amount_cents,currency,status,available_at,created_at")
+        .eq("creator_id", data.creatorId)
+        .order("created_at", { ascending: false }).limit(100),
+    ]);
+    if (clicks.error || sales.error || ledger.error)
+      throw new Error("Creator activity could not be loaded.");
+    return { clicks: clicks.count ?? 0, sales: sales.data ?? [], ledger: ledger.data ?? [] };
+  });
+
 export const saveOwnerCreator = createServerFn({ method: "POST" })
   .validator(
     (data: {
@@ -109,6 +134,7 @@ export const saveOwnerCreator = createServerFn({ method: "POST" })
             display_name: data.displayName!,
             referral_slug: data.slug!,
             referral_code: data.code!,
+            username: data.slug!,
           })
           .select("id")
           .single();

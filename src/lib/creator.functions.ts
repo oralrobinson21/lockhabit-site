@@ -18,26 +18,36 @@ export const getCreatorDashboard = createServerFn({ method: "GET" })
     }
     const [
       { data: summary, error: summaryError },
+      { data: sales, error: salesError },
       { data: transactions, error: txError },
       { data: payouts, error: payoutError },
     ] = await Promise.all([
       context.supabase.rpc("creator_dashboard_summary"),
       context.supabase
+        .from("creator_attributions")
+        .select("id,order_number,paid_merchandise_cents,currency,paid_at")
+        .eq("creator_id", creator.id)
+        .order("paid_at", { ascending: false })
+        .limit(100),
+      context.supabase
         .from("creator_commission_ledger")
         .select("id,entry_type,amount_cents,currency,status,available_at,created_at,attribution_id")
+        .eq("creator_id", creator.id)
         .order("created_at", { ascending: false })
         .limit(100),
       context.supabase
         .from("creator_payout_requests")
         .select("id,amount_cents,currency,status,requested_at,reviewed_at,paid_at")
+        .eq("creator_id", creator.id)
         .order("requested_at", { ascending: false })
         .limit(50),
     ]);
-    if (summaryError || txError || payoutError)
+    if (summaryError || salesError || txError || payoutError)
       throw new Error("Creator dashboard could not be loaded.");
     return {
       profile: creator,
       summary: summary?.[0] ?? null,
+      sales: sales ?? [],
       transactions: transactions ?? [],
       payouts: payouts ?? [],
     };
