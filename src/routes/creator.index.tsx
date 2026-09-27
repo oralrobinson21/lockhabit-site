@@ -8,6 +8,11 @@ import {
   requestCreatorPayout,
 } from "@/lib/creator.functions";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  creatorDisplayBalances,
+  creatorEntryLabel,
+  creatorStatusLabel,
+} from "@/lib/creator-balance";
 import { trackCreatorPayoutRequested } from "@/lib/ga4-growth";
 
 export const Route = createFileRoute("/creator/")({
@@ -55,6 +60,10 @@ function CreatorPortal() {
     );
   const p = data.profile,
     s = data.summary;
+  const balances = creatorDisplayBalances(
+    Number(s?.pending_cents ?? 0),
+    Number(s?.available_cents ?? 0),
+  );
   const link = `https://lockhabit.com/r/${p.referral_slug}`;
   const copy = async (v: string) => {
     await navigator.clipboard.writeText(v);
@@ -156,8 +165,8 @@ function CreatorPortal() {
           <Metric label="Clicks" value={String(s?.clicks || 0)} />
           <Metric label="Paid orders" value={String(s?.paid_orders || 0)} />
           <Metric label="Merchandise revenue" value={money(s?.merchandise_cents)} />
-          <Metric label="Pending" value={money(s?.pending_cents)} />
-          <Metric label="Available" value={money(s?.available_cents)} />
+          <Metric label="Pending" value={money(balances.pendingCents)} />
+          <Metric label="Available" value={money(balances.availableCents)} />
           <Metric label="Paid" value={money(s?.paid_cents)} />
         </div>
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
@@ -191,7 +200,7 @@ function CreatorPortal() {
           <div className="rounded-2xl border-2 border-foreground bg-background p-5">
             <p className="memo text-primary">Cash-out</p>
             <h2 className="mt-2 font-display text-2xl font-semibold">
-              {money(s?.available_cents)} available
+              {money(balances.availableCents)} available
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">$20 minimum.</p>
             <div className="mt-4 flex gap-2">
@@ -262,8 +271,8 @@ function CreatorPortal() {
                 {data.transactions.map((t) => (
                   <tr key={t.id} className="border-t">
                     <td className="py-3">{new Date(t.created_at).toLocaleDateString()}</td>
-                    <td>{t.entry_type}</td>
-                    <td>{t.status}</td>
+                    <td>{creatorEntryLabel(t.entry_type)}</td>
+                    <td>{creatorStatusLabel(t.status)}</td>
                     <td className="text-right">{money(t.amount_cents)}</td>
                   </tr>
                 ))}
@@ -287,7 +296,7 @@ function CreatorPortal() {
                   {data.payouts.map((item) => (
                     <tr key={item.id} className="border-t">
                       <td className="py-3">{new Date(item.requested_at).toLocaleDateString()}</td>
-                      <td>{item.status}</td>
+                      <td>{creatorStatusLabel(item.status)}</td>
                       <td className="text-right">{money(item.amount_cents)}</td>
                     </tr>
                   ))}
