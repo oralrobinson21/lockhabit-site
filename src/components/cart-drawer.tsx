@@ -112,7 +112,7 @@ export function CartDrawer() {
         className={`fixed top-0 right-0 z-50 flex outline-none h-dvh w-full max-w-md flex-col border-l-2 border-foreground bg-background shadow-2xl transition-transform duration-300 ${cartOpen ? "translate-x-0" : "translate-x-full"}`}
         aria-hidden={!cartOpen}
         inert={!cartOpen}
-        role="dialog"
+        role={cartOpen ? "dialog" : undefined}
         aria-modal={cartOpen}
         aria-label="Your bag"
       >
