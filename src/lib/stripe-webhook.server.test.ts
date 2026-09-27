@@ -3,7 +3,11 @@ import { test } from "node:test";
 import type Stripe from "stripe";
 
 import { renderOrderConfirmation, sendOrderConfirmation } from "./order-confirmation-email.server";
-import { processCheckoutWebhook, type WebhookDependencies } from "./stripe-webhook.server";
+import {
+  processCheckoutWebhook,
+  refundAdjustmentSource,
+  type WebhookDependencies,
+} from "./stripe-webhook.server";
 
 const session = (paymentStatus: Stripe.Checkout.Session["payment_status"]) =>
   ({
@@ -431,4 +435,46 @@ test("confirmation transport preserves a safe Resend rejection message", async (
     if (originalFrom === undefined) delete process.env["LOCKHABIT_ORDER_FROM_EMAIL"];
     else process.env["LOCKHABIT_ORDER_FROM_EMAIL"] = originalFrom;
   }
+});
+
+test("creator refund clawback counts each Stripe refund once", () => {
+  const refund = {
+    id: "re_1",
+    object: "refund",
+    amount: 1000,
+    currency: "usd",
+    status: "succeeded",
+    payment_intent: "pi_1",
+  };
+  const ev = (type: string, object: unknown) =>
+    ({
+      id: `evt_${type}`,
+      type,
+      created: 1,
+      data: { object },
+    }) as unknown as Stripe.Event;
+  const created = refundAdjustmentSource(ev("refund.created", refund));
+  const updated = refundAdjustmentSource(ev("refund.updated", refund));
+  assert.deepEqual(created, {
+    paymentIntentId: "pi_1",
+    refundId: "re_1",
+    refundedAmount: 1000,
+    currency: "usd",
+  });
+  assert.deepEqual(updated, created);
+  assert.equal(
+    refundAdjustmentSource(
+      ev("charge.refunded", {
+        id: "ch_1",
+        object: "charge",
+        amount_refunded: 1000,
+        payment_intent: "pi_1",
+      }),
+    ),
+    null,
+  );
+  assert.equal(
+    refundAdjustmentSource(ev("refund.created", { ...refund, status: "pending" })),
+    null,
+  );
 });
