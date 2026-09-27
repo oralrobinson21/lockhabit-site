@@ -100,7 +100,7 @@ export function IslandFooter() {
             opacity=".78"
           />
         </svg>
-        <div className="island-boat" aria-label="A small LockHabit sailboat">
+        <div className="island-boat" aria-hidden="true">
           <svg viewBox="0 0 180 190">
             <path d="M90 18V143" stroke="var(--foreground)" strokeWidth="5" />
             <path

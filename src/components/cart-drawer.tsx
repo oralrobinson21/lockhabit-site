@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { StripeCartCheckout } from "@/components/stripe-cart-checkout";
 import { useCart } from "@/lib/cart";
@@ -83,6 +83,21 @@ export function CartDrawer() {
     }
   }
 
+  const drawerRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!cartOpen) return;
+    const previous = document.activeElement as HTMLElement | null;
+    drawerRef.current?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setCartOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      previous?.focus?.();
+    };
+  }, [cartOpen, setCartOpen]);
+
   return (
     <>
       {cartOpen && (
@@ -92,8 +107,14 @@ export function CartDrawer() {
         />
       )}
       <aside
-        className={`fixed top-0 right-0 z-50 flex h-dvh w-full max-w-md flex-col border-l-2 border-foreground bg-background shadow-2xl transition-transform duration-300 ${cartOpen ? "translate-x-0" : "translate-x-full"}`}
+        ref={drawerRef}
+        tabIndex={-1}
+        className={`fixed top-0 right-0 z-50 flex outline-none h-dvh w-full max-w-md flex-col border-l-2 border-foreground bg-background shadow-2xl transition-transform duration-300 ${cartOpen ? "translate-x-0" : "translate-x-full"}`}
         aria-hidden={!cartOpen}
+        inert={!cartOpen}
+        role="dialog"
+        aria-modal={cartOpen}
+        aria-label="Your bag"
       >
         <div className="flex items-center justify-between border-b-2 border-foreground p-5">
           <div>
