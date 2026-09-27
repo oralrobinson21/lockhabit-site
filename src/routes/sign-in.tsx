@@ -53,6 +53,10 @@ function SharedSignIn() {
         email: email.trim(),
         password,
       });
+      if (error && (error.code === "email_not_confirmed" || /not confirmed/i.test(error.message))) {
+        setNotice("Please verify your email before signing in. Check your inbox for the link.");
+        return;
+      }
       if (error || !data.session?.access_token) throw new Error("Invalid sign-in");
       if (!data.user.email_confirmed_at) {
         await supabase.auth.signOut();
