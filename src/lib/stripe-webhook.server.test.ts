@@ -115,7 +115,10 @@ test("expired checkout releases reserved reward path and never creates an order"
     released += 1;
   };
   assert.equal(
-    await processCheckoutWebhook(event("checkout.session.expired", "evt_expired"), state.dependencies),
+    await processCheckoutWebhook(
+      event("checkout.session.expired", "evt_expired"),
+      state.dependencies,
+    ),
     "expired",
   );
   assert.equal(state.orders.size, 0);

@@ -201,13 +201,13 @@ const createInkBag = (mode: DynamicInkMode, siteUrl: string) => {
       out = out
         .split(`%%LH_INK:${item.contentId}%%`)
         .join(
-        inkImgTag(
-          src,
-          item.text,
-          Math.min(item.width, pngIntrinsicWidth(png) || item.width),
-          item.extraStyle,
-        ),
-      );
+          inkImgTag(
+            src,
+            item.text,
+            Math.min(item.width, pngIntrinsicWidth(png) || item.width),
+            item.extraStyle,
+          ),
+        );
     }
 
     return { html: out, attachments };

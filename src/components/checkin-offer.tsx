@@ -18,7 +18,9 @@ export function CheckInTicketButton({
     <button
       type="button"
       className="icon-button bg-background hover:bg-sun"
-      aria-label={state === "applied" ? "10% Check-In offer saved in bag" : "One Check-In offer waiting"}
+      aria-label={
+        state === "applied" ? "10% Check-In offer saved in bag" : "One Check-In offer waiting"
+      }
       title={state === "applied" ? "10% Check-In offer saved" : "10% Check-In offer waiting"}
       onClick={onOpen}
     >
@@ -196,7 +198,10 @@ export function CheckInOffer({
                   </button>
                 </div>
 
-                <div className="mx-auto mt-5 flex w-full items-center justify-between gap-4 sm:hidden" aria-hidden="true">
+                <div
+                  className="mx-auto mt-5 flex w-full items-center justify-between gap-4 sm:hidden"
+                  aria-hidden="true"
+                >
                   <div className="h-16 w-24 shrink-0 -rotate-2 overflow-hidden rounded-sm border-2 border-foreground shadow-[3px_3px_0_var(--color-foreground)]">
                     <img src={heroImage} alt="" className="h-full w-full object-cover" />
                   </div>

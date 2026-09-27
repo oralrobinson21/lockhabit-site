@@ -7,10 +7,7 @@ import { resolvePortalAccess } from "@/lib/portal-access.functions";
 
 export const Route = createFileRoute("/account")({
   head: () => ({
-    meta: [
-      { title: "Your account · LOCKHABIT" },
-      { name: "robots", content: "noindex,nofollow" },
-    ],
+    meta: [{ title: "Your account · LOCKHABIT" }, { name: "robots", content: "noindex,nofollow" }],
   }),
   component: ReaderAccount,
 });

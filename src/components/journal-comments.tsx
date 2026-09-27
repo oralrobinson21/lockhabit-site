@@ -2,10 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
-import {
-  getApprovedJournalComments,
-  submitJournalComment,
-} from "@/lib/journal-comments.functions";
+import { getApprovedJournalComments, submitJournalComment } from "@/lib/journal-comments.functions";
 
 export function JournalComments({ slug }: { slug: string }) {
   const [comments, setComments] = useState<
@@ -24,7 +21,8 @@ export function JournalComments({ slug }: { slug: string }) {
       if (live) setComments(rows);
     });
     void supabase.auth.getSession().then(({ data }) => {
-      if (live) setSignedIn(Boolean(data.session?.access_token && data.session.user.email_confirmed_at));
+      if (live)
+        setSignedIn(Boolean(data.session?.access_token && data.session.user.email_confirmed_at));
     });
     return () => {
       live = false;
@@ -60,18 +58,27 @@ export function JournalComments({ slug }: { slug: string }) {
           <p className="eyebrow">Quiet conversation</p>
           <h2 className="font-display text-3xl font-semibold">Comments</h2>
         </div>
-        <button type="button" className="text-sm font-bold underline underline-offset-4" onClick={() => setOpen((value) => !value)}>
+        <button
+          type="button"
+          className="text-sm font-bold underline underline-offset-4"
+          onClick={() => setOpen((value) => !value)}
+        >
           {open ? "Hide" : "Show"}
         </button>
       </div>
       {open ? (
         <div className="mt-6 space-y-6">
           {comments.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No approved comments yet. Be thoughtful — new notes stay private until reviewed.</p>
+            <p className="text-sm text-muted-foreground">
+              No approved comments yet. Be thoughtful — new notes stay private until reviewed.
+            </p>
           ) : (
             <ul className="space-y-4">
               {comments.map((comment) => (
-                <li key={comment.id} className="rounded-2xl border-2 border-foreground/20 bg-paper p-4">
+                <li
+                  key={comment.id}
+                  className="rounded-2xl border-2 border-foreground/20 bg-paper p-4"
+                >
                   <p className="font-bold">{comment.author_name}</p>
                   <p className="mt-2 whitespace-pre-wrap text-sm leading-6">{comment.body}</p>
                 </li>
@@ -79,7 +86,10 @@ export function JournalComments({ slug }: { slug: string }) {
             </ul>
           )}
           {signedIn ? (
-            <form className="rounded-2xl border-2 border-foreground bg-background p-5" onSubmit={onSubmit}>
+            <form
+              className="rounded-2xl border-2 border-foreground bg-background p-5"
+              onSubmit={onSubmit}
+            >
               <label className="block">
                 <span className="memo">Name</span>
                 <input

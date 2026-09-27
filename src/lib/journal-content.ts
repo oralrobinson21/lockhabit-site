@@ -23,9 +23,13 @@ export function parseJournalBlocks(body: string, recommendations: string): Journ
         : { type: "paragraph", text: part },
     );
 
-  for (const line of recommendations.split("\n").map((part) => part.trim()).filter(Boolean)) {
+  for (const line of recommendations
+    .split("\n")
+    .map((part) => part.trim())
+    .filter(Boolean)) {
     const pieces = line.split("|").map((part) => part.trim());
-    if (pieces.length !== 4) throw new Error("Each recommendation needs type | label | link or slug | note.");
+    if (pieces.length !== 4)
+      throw new Error("Each recommendation needs type | label | link or slug | note.");
     const [kind, label, destination, note] = pieces as [string, string, string, string];
     if (!label || !note || label.length > 120 || note.length > 500)
       throw new Error("Every recommendation needs a short label and honest note.");
@@ -34,7 +38,10 @@ export function parseJournalBlocks(body: string, recommendations: string): Journ
         throw new Error("Choose a valid LockHabit product slug.");
       blocks.push({ type: "own_product", slug: destination, note });
     } else if (kind === "affiliate") {
-      if (!isSafeExternalUrl(destination) || /(^|\.)lockhabit\.com$/.test(new URL(destination).hostname))
+      if (
+        !isSafeExternalUrl(destination) ||
+        /(^|\.)lockhabit\.com$/.test(new URL(destination).hostname)
+      )
         throw new Error("Outside recommendations require a secure external URL.");
       blocks.push({ type: "affiliate", label, url: destination, note });
     } else {
@@ -50,12 +57,29 @@ export function publishedJournalBlocks(value: unknown): JournalBlock[] {
     if (!block || typeof block !== "object") return [];
     if ((block.type === "heading" || block.type === "paragraph") && typeof block.text === "string")
       return [{ type: block.type, text: block.text.slice(0, 50000) }];
-    if (block.type === "own_product" && typeof block.slug === "string" && typeof block.note === "string")
+    if (
+      block.type === "own_product" &&
+      typeof block.slug === "string" &&
+      typeof block.note === "string"
+    )
       return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(block.slug)
         ? [{ type: "own_product", slug: block.slug, note: block.note.slice(0, 500) }]
         : [];
-    if (block.type === "affiliate" && typeof block.label === "string" && typeof block.note === "string" && typeof block.url === "string" && isSafeExternalUrl(block.url))
-      return [{ type: "affiliate", label: block.label.slice(0, 120), url: block.url, note: block.note.slice(0, 500) }];
+    if (
+      block.type === "affiliate" &&
+      typeof block.label === "string" &&
+      typeof block.note === "string" &&
+      typeof block.url === "string" &&
+      isSafeExternalUrl(block.url)
+    )
+      return [
+        {
+          type: "affiliate",
+          label: block.label.slice(0, 120),
+          url: block.url,
+          note: block.note.slice(0, 500),
+        },
+      ];
     return [];
   });
 }
@@ -63,30 +87,46 @@ export function publishedJournalBlocks(value: unknown): JournalBlock[] {
 export function editableJournalBody(value: unknown): string {
   return publishedJournalBlocks(value)
     .filter((block) => block.type === "heading" || block.type === "paragraph")
-    .map((block) => block.type === "heading" ? `## ${block.text}` : block.type === "paragraph" ? block.text : "")
+    .map((block) =>
+      block.type === "heading" ? `## ${block.text}` : block.type === "paragraph" ? block.text : "",
+    )
     .join("\n\n");
 }
 
 export function editableJournalRecommendations(value: unknown): string {
   return publishedJournalBlocks(value)
     .filter((block) => block.type === "own_product" || block.type === "affiliate")
-    .map((block) => block.type === "own_product"
-      ? `own | LockHabit product | ${block.slug} | ${block.note}`
-      : `affiliate | ${block.label} | ${block.url} | ${block.note}`)
+    .map((block) =>
+      block.type === "own_product"
+        ? `own | LockHabit product | ${block.slug} | ${block.note}`
+        : `affiliate | ${block.label} | ${block.url} | ${block.note}`,
+    )
     .join("\n");
 }
 
 export function validatedJournalReferences(value: string): string[] {
-  const references = value.split("\n").map((item) => item.trim()).filter(Boolean);
+  const references = value
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
   if (references.length > 30 || references.some((reference) => !isSafeExternalUrl(reference)))
-    throw new Error("References must be secure, direct https:// source URLs (one per line, max 30).");
+    throw new Error(
+      "References must be secure, direct https:// source URLs (one per line, max 30).",
+    );
   return references;
 }
 
-export function validateJournalForPublication(body: string, references: string[], heroUrl: string, heroAlt: string): void {
+export function validateJournalForPublication(
+  body: string,
+  references: string[],
+  heroUrl: string,
+  heroAlt: string,
+): void {
   const wordCount = body.trim().split(/\s+/).filter(Boolean).length;
   if (wordCount < 250 || references.length < 2)
-    throw new Error("Publication needs at least 250 words and two direct source URLs. Save a draft while researching.");
+    throw new Error(
+      "Publication needs at least 250 words and two direct source URLs. Save a draft while researching.",
+    );
   if (heroUrl && !heroAlt.trim())
     throw new Error("Add descriptive alt text for the article image before publishing.");
 }

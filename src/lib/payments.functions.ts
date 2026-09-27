@@ -170,7 +170,10 @@ export const createCartCheckout = createServerFn({ method: "POST" })
         line_items: lineItems,
         mode: "payment",
         success_url: data.returnUrl,
-        cancel_url: data.returnUrl.replace("/checkout/return?session_id={CHECKOUT_SESSION_ID}", "/"),
+        cancel_url: data.returnUrl.replace(
+          "/checkout/return?session_id={CHECKOUT_SESSION_ID}",
+          "/",
+        ),
         customer_creation: "always",
         // LockHabit discounts own stacking when present; otherwise keep Stripe promos.
         allow_promotion_codes: stacked.totalDiscountCents === 0,

@@ -3,11 +3,15 @@ import { z } from "zod";
 
 export const getPublishedJournalPosts = createServerFn({ method: "GET" }).handler(async () => {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data, error } = await supabaseAdmin.from("journal_posts")
-    .select("slug,title,excerpt,category,author,published_at,hero_image_url,hero_image_alt,reading_time_minutes")
+  const { data, error } = await supabaseAdmin
+    .from("journal_posts")
+    .select(
+      "slug,title,excerpt,category,author,published_at,hero_image_url,hero_image_alt,reading_time_minutes",
+    )
     .eq("status", "published")
     .lte("published_at", new Date().toISOString())
-    .order("published_at", { ascending: false }).limit(100);
+    .order("published_at", { ascending: false })
+    .limit(100);
   if (error) throw new Error("The Journal is temporarily unavailable.");
   const posts = data ?? [];
   return {

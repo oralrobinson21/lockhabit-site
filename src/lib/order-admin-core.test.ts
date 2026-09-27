@@ -244,13 +244,7 @@ test("tracking rejects unpaid orders and injected tracking values before any wri
 test("tracking rejects an estimated delivery date in the past", async () => {
   const { service, calls } = testDependencies();
   await assert.rejects(
-    service.saveAdminTracking(
-      "access-token",
-      "order-1",
-      "USPS",
-      "940010000000",
-      "2026-09-22",
-    ),
+    service.saveAdminTracking("access-token", "order-1", "USPS", "940010000000", "2026-09-22"),
     /cannot be in the past/,
   );
   assert.equal(calls.trackingReads, 0);

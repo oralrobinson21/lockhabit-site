@@ -58,7 +58,10 @@ test("ink smoke: LH-999999 is readable glyphs, not tofu boxes", async () => {
   const png = await renderInkPng("stat-num", "LH-999999");
   assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
   // Empty-fontconfig tofu for this string was ~185B / ~324 ink px; real glyphs are ~1.5KB+ / ~650+.
-  assert.ok(png.length > 800, `PNG suspiciously small (${png.length}B) — fonts likely not registered`);
+  assert.ok(
+    png.length > 800,
+    `PNG suspiciously small (${png.length}B) — fonts likely not registered`,
+  );
   const { ink, width, height } = await countInkPixels(png, "#fff3db");
   assert.ok(
     ink >= 500,

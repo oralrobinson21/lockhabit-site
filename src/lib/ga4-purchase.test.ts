@@ -40,7 +40,10 @@ test("GA4 purchase uses the discounted actual order value, not catalog list pric
   });
   assert.equal(purchase.value, 89);
   assert.equal(purchase.items.length, 3);
-  assert.deepEqual(purchase.items.map((item) => item.item_id), ["1", "4", "10"]);
+  assert.deepEqual(
+    purchase.items.map((item) => item.item_id),
+    ["1", "4", "10"],
+  );
 });
 
 test("GA4 purchase is queued once per session and absent without gtag", () => {
@@ -101,8 +104,12 @@ test("GA4 purchase deduplicates when localStorage is blocked", () => {
   const calls: unknown[][] = [];
   globalWithWindow.window = {
     localStorage: {
-      getItem: () => { throw new Error("storage blocked"); },
-      setItem: () => { throw new Error("storage blocked"); },
+      getItem: () => {
+        throw new Error("storage blocked");
+      },
+      setItem: () => {
+        throw new Error("storage blocked");
+      },
     },
     gtag: (...args: unknown[]) => calls.push(args),
   };

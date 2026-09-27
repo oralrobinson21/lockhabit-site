@@ -7,10 +7,7 @@ import { ensureReaderProfile } from "@/lib/reader-account.functions";
 
 export const Route = createFileRoute("/join")({
   head: () => ({
-    meta: [
-      { title: "Join · LOCKHABIT" },
-      { name: "robots", content: "noindex,nofollow" },
-    ],
+    meta: [{ title: "Join · LOCKHABIT" }, { name: "robots", content: "noindex,nofollow" }],
   }),
   component: JoinReader,
 });

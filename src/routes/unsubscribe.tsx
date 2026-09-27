@@ -11,10 +11,7 @@ export const Route = createFileRoute("/unsubscribe")({
       token: typeof search["token"] === "string" ? search["token"] : undefined,
     }),
   head: () => ({
-    meta: [
-      { title: "Unsubscribe · LOCKHABIT" },
-      { name: "robots", content: "noindex,nofollow" },
-    ],
+    meta: [{ title: "Unsubscribe · LOCKHABIT" }, { name: "robots", content: "noindex,nofollow" }],
   }),
   component: UnsubscribePage,
 });

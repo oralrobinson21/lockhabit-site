@@ -46,7 +46,10 @@ export function applyStackedDiscounts(input: StackedDiscountInput): StackedDisco
   };
 }
 
-export function commissionCents(paidMerchandiseCents: number, bps = DEFAULT_COMMISSION_BPS): number {
+export function commissionCents(
+  paidMerchandiseCents: number,
+  bps = DEFAULT_COMMISSION_BPS,
+): number {
   const base = Math.max(0, Math.trunc(paidMerchandiseCents));
   const rate = Math.max(0, Math.trunc(bps));
   return Math.floor((base * rate) / 10000);
@@ -60,7 +63,11 @@ export function commissionAvailableAt(paidAt: Date, holdDays = COMMISSION_HOLD_D
 
 /** Accept LH-000214, #214, or bare digits. */
 export function parseOrderNumberCredential(raw: string): number | null {
-  const digits = raw.trim().toUpperCase().replace(/^LH-?/, "").replace(/[^0-9]/g, "");
+  const digits = raw
+    .trim()
+    .toUpperCase()
+    .replace(/^LH-?/, "")
+    .replace(/[^0-9]/g, "");
   if (!digits) return null;
   const value = Number(digits);
   if (!Number.isSafeInteger(value) || value < 1) return null;

@@ -1,10 +1,7 @@
 import type Stripe from "stripe";
 
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import {
-  commissionAvailableAt,
-  commissionCents,
-} from "@/lib/checkout-discounts";
+import { commissionAvailableAt, commissionCents } from "@/lib/checkout-discounts";
 import {
   sendOrderConfirmation,
   type OrderConfirmation,
@@ -20,12 +17,7 @@ type CheckoutSupportedEvent =
 type RefundSupportedEvent = "charge.refunded" | "refund.created" | "refund.updated";
 
 export type WebhookResult =
-  | "ignored"
-  | "payment_pending"
-  | "payment_failed"
-  | "paid"
-  | "expired"
-  | "refund_adjusted";
+  "ignored" | "payment_pending" | "payment_failed" | "paid" | "expired" | "refund_adjusted";
 
 type PaidOrderRecord = {
   order_id: string;

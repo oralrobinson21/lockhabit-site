@@ -161,7 +161,9 @@ function OrderAdminPage() {
         return;
       }
       setSetupMode(true);
-      setNotice("If that address is the owner inbox, a 6-digit code is on its way. It expires in 10 minutes.");
+      setNotice(
+        "If that address is the owner inbox, a 6-digit code is on its way. It expires in 10 minutes.",
+      );
     } catch {
       setNotice("Password setup email could not be requested.");
     } finally {
@@ -267,7 +269,8 @@ function OrderAdminPage() {
           label or create a carrier tracking number yet. Enter the number from your carrier or
           shipping-label service, add the estimated delivery date, then mark the order shipped.
           LockHabit moves it into the Shipped section and emails the customer the tracking link and
-          estimated delivery date automatically. Check or issue refunds in your existing Stripe Dashboard.
+          estimated delivery date automatically. Check or issue refunds in your existing Stripe
+          Dashboard.
         </p>
 
         {!accessToken ? (
@@ -447,7 +450,9 @@ function OrderAdminPage() {
             <div className="mt-7 grid gap-5">
               {visibleOrders.length === 0 ? (
                 <div className="paper-card p-8">
-                  {orderView === "shipped" ? "No shipped orders yet." : "No orders are waiting to ship."}
+                  {orderView === "shipped"
+                    ? "No shipped orders yet."
+                    : "No orders are waiting to ship."}
                 </div>
               ) : null}
               {visibleOrders.map((order) => {

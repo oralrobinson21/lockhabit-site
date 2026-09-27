@@ -8,10 +8,16 @@ test("Meta pixel failure never prevents checkout", () => {
   const previous = globalWithWindow.window;
   globalWithWindow.window = {
     sessionStorage: {
-      getItem: () => { throw new Error("storage access denied"); },
-      setItem: () => { throw new Error("storage access denied"); },
+      getItem: () => {
+        throw new Error("storage access denied");
+      },
+      setItem: () => {
+        throw new Error("storage access denied");
+      },
     },
-    fbq: () => { throw new Error("pixel blocked"); },
+    fbq: () => {
+      throw new Error("pixel blocked");
+    },
   };
   try {
     assert.doesNotThrow(() => trackMetaEvent("AddToCart", { value: 35 }));
@@ -28,8 +34,12 @@ test("Meta pixel events deduplicate even if storage is disabled", () => {
   const calls: unknown[][] = [];
   globalWithWindow.window = {
     sessionStorage: {
-      getItem: () => { throw new Error("storage access denied"); },
-      setItem: () => { throw new Error("storage access denied"); },
+      getItem: () => {
+        throw new Error("storage access denied");
+      },
+      setItem: () => {
+        throw new Error("storage access denied");
+      },
     },
     fbq: (...args: unknown[]) => calls.push(args),
   };

@@ -105,7 +105,9 @@ function Reveal({
 function Index() {
   const { addToCart, addBundle } = useCart();
   const [activeGalleryImage, setActiveGalleryImage] = useState(0);
-  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle",
+  );
   const [newsletterMessage, setNewsletterMessage] = useState("");
   const featured = products[0]!;
   const featuredGallery = featured.images;
@@ -172,7 +174,9 @@ function Index() {
 
     if (result.ok) {
       setNewsletterStatus("sent");
-      setNewsletterMessage("You’re checked in. We’ll only write when there’s something worth opening.");
+      setNewsletterMessage(
+        "You’re checked in. We’ll only write when there’s something worth opening.",
+      );
       event.currentTarget.reset();
     } else {
       setNewsletterStatus("error");
@@ -202,7 +206,10 @@ function Index() {
           <span />
           <span />
         </div>
-        <div className="bundle-catch" aria-label="Bundle prices: three bars for $89 or six bars for $169">
+        <div
+          className="bundle-catch"
+          aria-label="Bundle prices: three bars for $89 or six bars for $169"
+        >
           <span>THE BUNDLE CATCH</span>3 CHOSEN $89 · 6 CHOSEN $169
         </div>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-24 lg:px-10 lg:pb-20">
@@ -221,8 +228,8 @@ function Index() {
               </span>
             </h1>
             <p className="mt-6 max-w-md text-base leading-7 text-hero-muted sm:text-lg">
-              Twelve soap and body-care essentials made for slow mornings, warm tile, and the kind of
-              day where nothing is urgent. Check in whenever.
+              Twelve soap and body-care essentials made for slow mornings, warm tile, and the kind
+              of day where nothing is urgent. Check in whenever.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
               <button onClick={scrollToShop} className="primary-button">
@@ -374,7 +381,8 @@ function Index() {
               <em>Save the haul.</em>
             </h2>
             <p className="max-w-md text-sm font-semibold leading-6">
-              Pick any 3 bars for $89 or any 6 for $169. Bundle savings update automatically in your bag.
+              Pick any 3 bars for $89 or any 6 for $169. Bundle savings update automatically in your
+              bag.
             </p>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -420,29 +428,61 @@ function Index() {
         </div>
       </section>
 
-      <section id="faq" className="scroll-mt-24 bg-paper px-5 py-16 sm:py-20 lg:px-10" aria-labelledby="home-faq-heading">
+      <section
+        id="faq"
+        className="scroll-mt-24 bg-paper px-5 py-16 sm:py-20 lg:px-10"
+        aria-labelledby="home-faq-heading"
+      >
         <div className="mx-auto max-w-5xl">
           <p className="eyebrow">Good questions</p>
-          <h2 id="home-faq-heading" className="section-title">Before you<br/><em>check in.</em></h2>
+          <h2 id="home-faq-heading" className="section-title">
+            Before you
+            <br />
+            <em>check in.</em>
+          </h2>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <details className="paper-card p-5">
-              <summary className="cursor-pointer font-display text-xl font-semibold">Can I choose my own bundle?</summary>
-              <p className="mt-3 text-sm leading-7">Yes. Any three soap bars are $89, or any six are $169. Your bag recalculates when you change quantities.</p>
+              <summary className="cursor-pointer font-display text-xl font-semibold">
+                Can I choose my own bundle?
+              </summary>
+              <p className="mt-3 text-sm leading-7">
+                Yes. Any three soap bars are $89, or any six are $169. Your bag recalculates when
+                you change quantities.
+              </p>
             </details>
             <details className="paper-card p-5">
-              <summary className="cursor-pointer font-display text-xl font-semibold">Is this a subscription?</summary>
-              <p className="mt-3 text-sm leading-7">No. All purchases are one-time orders with no recurring charges.</p>
+              <summary className="cursor-pointer font-display text-xl font-semibold">
+                Is this a subscription?
+              </summary>
+              <p className="mt-3 text-sm leading-7">
+                No. All purchases are one-time orders with no recurring charges.
+              </p>
             </details>
             <details className="paper-card p-5">
-              <summary className="cursor-pointer font-display text-xl font-semibold">What does shipping cost?</summary>
-              <p className="mt-3 text-sm leading-7">Orders under $75 ship for $7.95. Orders of $75 or more qualify for free shipping; eligible destinations are shown at checkout.</p>
+              <summary className="cursor-pointer font-display text-xl font-semibold">
+                What does shipping cost?
+              </summary>
+              <p className="mt-3 text-sm leading-7">
+                Orders under $75 ship for $7.95. Orders of $75 or more qualify for free shipping;
+                eligible destinations are shown at checkout.
+              </p>
             </details>
             <details className="paper-card p-5">
-              <summary className="cursor-pointer font-display text-xl font-semibold">What if I need to return an order?</summary>
-              <p className="mt-3 text-sm leading-7">Our <Link to="/returns" className="underline underline-offset-4">returns and refunds policy</Link> explains how to request help with unopened, damaged or incorrect items.</p>
+              <summary className="cursor-pointer font-display text-xl font-semibold">
+                What if I need to return an order?
+              </summary>
+              <p className="mt-3 text-sm leading-7">
+                Our{" "}
+                <Link to="/returns" className="underline underline-offset-4">
+                  returns and refunds policy
+                </Link>{" "}
+                explains how to request help with unopened, damaged or incorrect items.
+              </p>
             </details>
           </div>
-          <Link to="/faq" className="secondary-button mt-8">See all FAQs <ArrowRight size={16} /></Link>
+          <Link to="/faq" className="secondary-button mt-8">
+            See all FAQs <ArrowRight size={16} />
+          </Link>
         </div>
       </section>
 
@@ -578,9 +618,17 @@ function Index() {
             </p>
             <div className="mt-10 grid gap-5 sm:grid-cols-3">
               {[
-                { icon: Sparkles, title: "Soap-making oils", text: "The exact blend varies by bar" },
+                {
+                  icon: Sparkles,
+                  title: "Soap-making oils",
+                  text: "The exact blend varies by bar",
+                },
                 { icon: Leaf, title: "Botanicals", text: "Selected for each formula" },
-                { icon: Waves, title: "Read the label", text: "Every product page lists what’s inside" },
+                {
+                  icon: Waves,
+                  title: "Read the label",
+                  text: "Every product page lists what’s inside",
+                },
               ].map(({ icon: Icon, title, text }, index) => (
                 <div key={title} className={`paper-card p-5 ${index === 1 ? "bg-sun" : ""}`}>
                   <Icon size={22} className="mb-4" />
@@ -635,7 +683,11 @@ function Index() {
                 itinerary.
               </p>
             </div>
-            <form onSubmit={submitNewsletter} className="grid gap-3" aria-label="Join the LOCKHABIT email list">
+            <form
+              onSubmit={submitNewsletter}
+              className="grid gap-3"
+              aria-label="Join the LOCKHABIT email list"
+            >
               <div className="flex flex-col gap-3 sm:flex-row">
                 <input
                   type="email"
@@ -646,7 +698,11 @@ function Index() {
                   placeholder="you@example.com"
                   className="min-h-12 flex-1 rounded-full border-2 border-foreground bg-background px-5 text-base outline-none focus:ring-2 focus:ring-primary"
                 />
-                <button className="primary-button justify-center" type="submit" disabled={newsletterStatus === "sending"}>
+                <button
+                  className="primary-button justify-center"
+                  type="submit"
+                  disabled={newsletterStatus === "sending"}
+                >
                   {newsletterStatus === "sending" ? "Checking in…" : "Send me postcards"}
                 </button>
               </div>
@@ -657,8 +713,8 @@ function Index() {
               <label className="flex items-start gap-3 text-left text-xs leading-5 text-muted-foreground">
                 <input type="checkbox" name="consent" className="mt-0.5" />
                 <span>
-                  I want LOCKHABIT marketing emails (new bars, restocks, occasional offers). Explicit
-                  opt-in required.{" "}
+                  I want LOCKHABIT marketing emails (new bars, restocks, occasional offers).
+                  Explicit opt-in required.{" "}
                   <a href="/unsubscribe" className="underline underline-offset-2">
                     Unsubscribe
                   </a>{" "}
@@ -673,7 +729,9 @@ function Index() {
                 .
               </p>
               {newsletterMessage ? (
-                <p className={`text-sm font-bold ${newsletterStatus === "error" ? "text-destructive" : "text-primary"}`}>
+                <p
+                  className={`text-sm font-bold ${newsletterStatus === "error" ? "text-destructive" : "text-primary"}`}
+                >
                   {newsletterMessage}
                 </p>
               ) : null}
@@ -688,7 +746,8 @@ function Index() {
           <p className="eyebrow text-sun-foreground">The front desk is still open</p>
           <h2 className="slab-title">
             Need a
-            <br />second opinion?
+            <br />
+            second opinion?
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-base leading-7">
             Choosing between three bars is a perfectly respectable use of your evening. Ask the
@@ -711,75 +770,160 @@ function Index() {
           <div className="island-footer-paper-noise" aria-hidden="true" />
 
           <svg className="island-palm island-palm-left" viewBox="0 0 280 360" aria-hidden="true">
-            <path d="M74 360C91 276 102 196 118 102" fill="none" stroke="currentColor" strokeWidth="18" strokeLinecap="round" />
+            <path
+              d="M74 360C91 276 102 196 118 102"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="18"
+              strokeLinecap="round"
+            />
             <path d="M116 111C74 91 36 90 4 107C38 119 72 128 113 127Z" fill="currentColor" />
             <path d="M120 104C82 61 46 39 8 35C35 65 65 91 111 119Z" fill="currentColor" />
             <path d="M124 104C123 54 141 20 173 0C168 37 154 76 128 116Z" fill="currentColor" />
             <path d="M126 109C166 64 206 48 252 55C214 76 178 98 132 123Z" fill="currentColor" />
-            <path d="M125 116C174 104 221 112 270 143C221 143 179 137 126 129Z" fill="currentColor" />
+            <path
+              d="M125 116C174 104 221 112 270 143C221 143 179 137 126 129Z"
+              fill="currentColor"
+            />
           </svg>
 
           <svg className="island-palm island-palm-right" viewBox="0 0 260 250" aria-hidden="true">
-            <path d="M260 239C196 195 158 151 127 98" fill="none" stroke="currentColor" strokeWidth="15" strokeLinecap="round" />
+            <path
+              d="M260 239C196 195 158 151 127 98"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="15"
+              strokeLinecap="round"
+            />
             <path d="M127 101C94 77 60 67 19 72C51 91 83 104 124 114Z" fill="currentColor" />
             <path d="M128 96C102 60 78 35 42 17C61 50 83 76 122 108Z" fill="currentColor" />
             <path d="M132 94C137 52 155 22 185 3C180 38 164 68 137 105Z" fill="currentColor" />
             <path d="M136 100C174 72 209 64 248 72C214 88 181 101 139 113Z" fill="currentColor" />
           </svg>
 
-          <div className="island-cloud island-cloud-one" aria-hidden="true"><i /><i /><i /></div>
-          <div className="island-cloud island-cloud-two" aria-hidden="true"><i /><i /><i /></div>
+          <div className="island-cloud island-cloud-one" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
+          <div className="island-cloud island-cloud-two" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
 
           <div className="island-footer-copy">
-            <p className="island-footer-script">Thanks for<br />being here <span>♡</span></p>
-            <p className="island-footer-memo">SLOWER DAYS<br />BRIGHTER SKIN<br />A KINDER WORLD.</p>
+            <p className="island-footer-script">
+              Thanks for
+              <br />
+              being here <span>♡</span>
+            </p>
+            <p className="island-footer-memo">
+              SLOWER DAYS
+              <br />
+              BRIGHTER SKIN
+              <br />A KINDER WORLD.
+            </p>
           </div>
 
           <svg className="island-sun" viewBox="0 0 220 220" aria-label="Smiling sun">
-            <g className="island-sun-rays" stroke="currentColor" strokeWidth="15" strokeLinecap="round">
-              <path d="M110 8V34" /><path d="M110 186V212" /><path d="M8 110H34" /><path d="M186 110H212" />
-              <path d="M38 38L57 57" /><path d="M163 163L182 182" /><path d="M182 38L163 57" /><path d="M57 163L38 182" />
+            <g
+              className="island-sun-rays"
+              stroke="currentColor"
+              strokeWidth="15"
+              strokeLinecap="round"
+            >
+              <path d="M110 8V34" />
+              <path d="M110 186V212" />
+              <path d="M8 110H34" />
+              <path d="M186 110H212" />
+              <path d="M38 38L57 57" />
+              <path d="M163 163L182 182" />
+              <path d="M182 38L163 57" />
+              <path d="M57 163L38 182" />
             </g>
             <circle cx="110" cy="110" r="70" fill="currentColor" />
             <g fill="none" stroke="var(--foreground)" strokeWidth="7" strokeLinecap="round">
-              <path d="M76 102c6 9 15 9 21 0" /><path d="M123 102c6 9 15 9 21 0" />
+              <path d="M76 102c6 9 15 9 21 0" />
+              <path d="M123 102c6 9 15 9 21 0" />
               <path d="M82 127c16 24 41 24 57 0" />
             </g>
           </svg>
 
-          <p className="island-footer-sun-note">See you<br />in the sunshine ♡</p>
+          <p className="island-footer-sun-note">
+            See you
+            <br />
+            in the sunshine ♡
+          </p>
 
-          <svg className="island-mountains" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M0 245L0 211L92 180L168 192L258 137L323 167L418 81L485 148L555 111L644 189L729 164L802 205L900 176L1000 203L1102 174L1200 209L1200 260Z" fill="currentColor" />
-            <path d="M237 167L418 81L485 148L555 111L644 189L572 170L528 147L487 173L442 126L390 167L327 184Z" fill="var(--island-mountain-light)" opacity=".78" />
+          <svg
+            className="island-mountains"
+            viewBox="0 0 1200 260"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M0 245L0 211L92 180L168 192L258 137L323 167L418 81L485 148L555 111L644 189L729 164L802 205L900 176L1000 203L1102 174L1200 209L1200 260Z"
+              fill="currentColor"
+            />
+            <path
+              d="M237 167L418 81L485 148L555 111L644 189L572 170L528 147L487 173L442 126L390 167L327 184Z"
+              fill="var(--island-mountain-light)"
+              opacity=".78"
+            />
           </svg>
 
           <div className="island-boat" aria-label="A small LockHabit sailboat">
             <svg viewBox="0 0 180 190">
               <path d="M90 18V143" stroke="var(--foreground)" strokeWidth="5" />
-              <path d="M86 30L86 137L24 137Z" fill="var(--paper)" stroke="var(--foreground)" strokeWidth="3" />
-              <path d="M95 52L95 137L145 137Z" fill="var(--paper)" stroke="var(--foreground)" strokeWidth="3" />
-              <path d="M25 142H154L135 170H47Z" fill="var(--sun)" stroke="var(--foreground)" strokeWidth="4" />
+              <path
+                d="M86 30L86 137L24 137Z"
+                fill="var(--paper)"
+                stroke="var(--foreground)"
+                strokeWidth="3"
+              />
+              <path
+                d="M95 52L95 137L145 137Z"
+                fill="var(--paper)"
+                stroke="var(--foreground)"
+                strokeWidth="3"
+              />
+              <path
+                d="M25 142H154L135 170H47Z"
+                fill="var(--sun)"
+                stroke="var(--foreground)"
+                strokeWidth="4"
+              />
               <path d="M47 155H136" stroke="var(--foreground)" strokeWidth="3" />
             </svg>
           </div>
 
           <div className="island-waves" aria-hidden="true">
             <div className="island-wave island-wave-one">
-              <svg viewBox="0 0 1500 180" preserveAspectRatio="none"><path d="M0 78C100 20 196 20 300 78S500 136 600 78S800 20 900 78S1100 136 1200 78S1400 20 1500 78V180H0Z" /></svg>
+              <svg viewBox="0 0 1500 180" preserveAspectRatio="none">
+                <path d="M0 78C100 20 196 20 300 78S500 136 600 78S800 20 900 78S1100 136 1200 78S1400 20 1500 78V180H0Z" />
+              </svg>
             </div>
             <div className="island-wave island-wave-two">
-              <svg viewBox="0 0 1500 180" preserveAspectRatio="none"><path d="M0 76C125 132 225 132 340 76S560 20 680 76S900 132 1020 76S1240 20 1500 76V180H0Z" /></svg>
+              <svg viewBox="0 0 1500 180" preserveAspectRatio="none">
+                <path d="M0 76C125 132 225 132 340 76S560 20 680 76S900 132 1020 76S1240 20 1500 76V180H0Z" />
+              </svg>
             </div>
             <div className="island-wave island-wave-three">
-              <svg viewBox="0 0 1500 180" preserveAspectRatio="none"><path d="M0 78C100 20 196 20 300 78S500 136 600 78S800 20 900 78S1100 136 1200 78S1400 20 1500 78V180H0Z" /></svg>
+              <svg viewBox="0 0 1500 180" preserveAspectRatio="none">
+                <path d="M0 78C100 20 196 20 300 78S500 136 600 78S800 20 900 78S1100 136 1200 78S1400 20 1500 78V180H0Z" />
+              </svg>
             </div>
             <div className="island-wave island-wave-four">
-              <svg viewBox="0 0 1500 180" preserveAspectRatio="none"><path d="M0 76C125 132 225 132 340 76S560 20 680 76S900 132 1020 76S1240 20 1500 76V180H0Z" /></svg>
+              <svg viewBox="0 0 1500 180" preserveAspectRatio="none">
+                <path d="M0 76C125 132 225 132 340 76S560 20 680 76S900 132 1020 76S1240 20 1500 76V180H0Z" />
+              </svg>
             </div>
           </div>
           <div className="island-shore-foam" aria-hidden="true">
-            <svg viewBox="0 0 1000 110" preserveAspectRatio="none"><path d="M0 85C76 63 131 73 193 53C266 31 317 63 386 45C454 26 507 58 568 41C656 15 713 57 790 35C867 13 929 43 1000 26" /></svg>
+            <svg viewBox="0 0 1000 110" preserveAspectRatio="none">
+              <path d="M0 85C76 63 131 73 193 53C266 31 317 63 386 45C454 26 507 58 568 41C656 15 713 57 790 35C867 13 929 43 1000 26" />
+            </svg>
           </div>
         </section>
 
@@ -811,8 +955,10 @@ function Index() {
             <div>
               <p className="island-footer-heading">Hours</p>
               <p className="island-footer-hours">
-                Open always.<br />
-                Closed never.<br />
+                Open always.
+                <br />
+                Closed never.
+                <br />
                 Air 84°F, water 79°F.
               </p>
               <div className="island-footer-list island-footer-legal">

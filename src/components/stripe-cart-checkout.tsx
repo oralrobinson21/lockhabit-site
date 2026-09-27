@@ -5,10 +5,7 @@ import { trackMetaEventOnce } from "@/lib/meta-analytics";
 import { trackBeginCheckout } from "@/lib/ga4-ecommerce";
 import { trackAffiliateCheckout, trackReturnRewardApplied } from "@/lib/ga4-growth";
 import { products } from "@/lib/catalog";
-import {
-  readCheckInSessionToken,
-  readCreatorAttributionToken,
-} from "@/lib/checkin-storage";
+import { readCheckInSessionToken, readCreatorAttributionToken } from "@/lib/checkin-storage";
 
 export function StripeCartCheckout({
   items,
@@ -69,7 +66,9 @@ export function StripeCartCheckout({
       } catch (checkoutError) {
         if (!cancelled) {
           setError(
-            checkoutError instanceof Error ? checkoutError.message : "Checkout could not be started.",
+            checkoutError instanceof Error
+              ? checkoutError.message
+              : "Checkout could not be started.",
           );
         }
       }

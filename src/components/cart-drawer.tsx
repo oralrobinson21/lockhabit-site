@@ -1,4 +1,15 @@
-import { ArrowLeft, ArrowRight, Minus, PackageCheck, Plus, RotateCcw, ShieldCheck, ShoppingBag, Truck, X } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Minus,
+  PackageCheck,
+  Plus,
+  RotateCcw,
+  ShieldCheck,
+  ShoppingBag,
+  Truck,
+  X,
+} from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
@@ -137,41 +148,43 @@ export function CartDrawer() {
                 .filter((product) => cart[product.id])
                 .map((product) => (
                   <div key={product.id} className="flex gap-4 border-b border-border py-5">
-                  <img
-                    src={product.images[0]?.src}
-                    alt=""
-                    className="h-20 w-20 rounded-lg border-2 border-foreground object-cover"
-                  />
-                  <div className="flex flex-1 flex-col justify-between">
-                    <div className="flex justify-between gap-3">
-                      <div>
-                        <p className="font-display text-lg leading-tight font-semibold">
-                          {product.name}
+                    <img
+                      src={product.images[0]?.src}
+                      alt=""
+                      className="h-20 w-20 rounded-lg border-2 border-foreground object-cover"
+                    />
+                    <div className="flex flex-1 flex-col justify-between">
+                      <div className="flex justify-between gap-3">
+                        <div>
+                          <p className="font-display text-lg leading-tight font-semibold">
+                            {product.name}
+                          </p>
+                          <p className="memo mt-1 text-muted-foreground">{product.kind}</p>
+                        </div>
+                        <p className="shrink-0 text-sm font-bold">
+                          ${(product.price * (cart[product.id] ?? 0)).toFixed(2)}
                         </p>
-                        <p className="memo mt-1 text-muted-foreground">{product.kind}</p>
                       </div>
-                      <p className="shrink-0 text-sm font-bold">
-                        ${(product.price * (cart[product.id] ?? 0)).toFixed(2)}
-                      </p>
+                      <div className="flex w-fit items-center rounded-full border-2 border-foreground">
+                        <button
+                          className="p-2 pl-3"
+                          onClick={() => changeQuantity(product.id, -1)}
+                          aria-label={`Remove one ${product.name}`}
+                        >
+                          <Minus size={13} />
+                        </button>
+                        <span className="w-7 text-center text-xs font-bold">
+                          {cart[product.id]}
+                        </span>
+                        <button
+                          className="p-2 pr-3"
+                          onClick={() => changeQuantity(product.id, 1)}
+                          aria-label={`Add one ${product.name}`}
+                        >
+                          <Plus size={13} />
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex w-fit items-center rounded-full border-2 border-foreground">
-                      <button
-                        className="p-2 pl-3"
-                        onClick={() => changeQuantity(product.id, -1)}
-                        aria-label={`Remove one ${product.name}`}
-                      >
-                        <Minus size={13} />
-                      </button>
-                      <span className="w-7 text-center text-xs font-bold">{cart[product.id]}</span>
-                      <button
-                        className="p-2 pr-3"
-                        onClick={() => changeQuantity(product.id, 1)}
-                        aria-label={`Add one ${product.name}`}
-                      >
-                        <Plus size={13} />
-                      </button>
-                    </div>
-                  </div>
                   </div>
                 ))}
               <div className="mt-5 rounded-xl border border-foreground/30 p-3">
@@ -275,10 +288,18 @@ export function CartDrawer() {
               ) : null}
             </div>
             <div className="mt-4 space-y-2 text-xs">
-              <p className="flex items-center gap-2"><ShieldCheck size={14} /> Secure checkout powered by Stripe</p>
-              <p className="flex items-center gap-2"><RotateCcw size={14} /> 14-day returns on unopened, unused items</p>
-              <p className="flex items-center gap-2"><Truck size={14} /> Tracking emailed when your order ships</p>
-              <p className="flex items-center gap-2"><PackageCheck size={14} /> Free shipping on $75+</p>
+              <p className="flex items-center gap-2">
+                <ShieldCheck size={14} /> Secure checkout powered by Stripe
+              </p>
+              <p className="flex items-center gap-2">
+                <RotateCcw size={14} /> 14-day returns on unopened, unused items
+              </p>
+              <p className="flex items-center gap-2">
+                <Truck size={14} /> Tracking emailed when your order ships
+              </p>
+              <p className="flex items-center gap-2">
+                <PackageCheck size={14} /> Free shipping on $75+
+              </p>
               <a href="/returns" className="font-bold underline underline-offset-4">
                 Returns Policy → return details & shipping costs
               </a>

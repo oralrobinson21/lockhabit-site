@@ -94,11 +94,7 @@ const externalWarning =
 
 const coconutFeaturedAttributes = ["Vegan", "Non-GMO", "Paraben free", "Sulfate free"];
 
-const coconutSupplierAttributes = [
-  "Alcohol free",
-  "Mineral oil free",
-  "Silicone free",
-];
+const coconutSupplierAttributes = ["Alcohol free", "Mineral oil free", "Silicone free"];
 
 export const products: Product[] = [
   {
@@ -216,7 +212,12 @@ export const products: Product[] = [
       },
     ],
     highlights: ["Eucalyptus + peppermint", "Organic coconut + shea", "Crisp herbal aroma"],
-    attributes: ["Essential oil blend", "Organic coconut oil", "Organic shea butter", "Made in USA"],
+    attributes: [
+      "Essential oil blend",
+      "Organic coconut oil",
+      "Organic shea butter",
+      "Made in USA",
+    ],
     allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "No fillers"],
     ingredients: [
       "Olive oil",
@@ -355,7 +356,13 @@ export const products: Product[] = [
     ],
     highlights: ["Fir needle + lavender", "Scented with essential oils", "Quiet evening ritual"],
     attributes: ["Non-GMO", "No added fragrance", "Essential oils", "Made in USA"],
-    allAttributes: ["Gluten free", "Vegetarian", "Lactose free", "Organic coconut oil", "Organic shea butter"],
+    allAttributes: [
+      "Gluten free",
+      "Vegetarian",
+      "Lactose free",
+      "Organic coconut oil",
+      "Organic shea butter",
+    ],
     ingredients: [
       "Olive oil",
       "Organic palm oil",
@@ -500,7 +507,12 @@ export const products: Product[] = [
       },
     ],
     highlights: ["Lemongrass essential oil", "Sage essential oil", "Essential-oil scented"],
-    attributes: ["Lemongrass essential oil", "Sage essential oil", "Organic oil base", "Made in USA"],
+    attributes: [
+      "Lemongrass essential oil",
+      "Sage essential oil",
+      "Organic oil base",
+      "Made in USA",
+    ],
     allAttributes: ["Fair trade coconut oil", "Gluten free", "Vegetarian", "Lactose free"],
     ingredients: [
       "Organic palm oil",
@@ -677,8 +689,7 @@ export const products: Product[] = [
     faqs: [
       {
         question: "What gives Calming Lavender Soap its scent?",
-        answer:
-          "Lavender essential oil is listed in the formula, along with real lavender buds.",
+        answer: "Lavender essential oil is listed in the formula, along with real lavender buds.",
       },
       {
         question: "Does Calming Lavender Soap contain added fragrance?",
@@ -702,7 +713,13 @@ export const products: Product[] = [
     ],
     highlights: ["Lavender essential oil", "Real lavender buds", "Essential-oil scented"],
     attributes: ["Gluten free", "Vegetarian", "No added fragrance", "Made in USA"],
-    allAttributes: ["Lactose free", "No fillers", "Lavender essential oil", "Lavender buds", "Fair trade coconut oil"],
+    allAttributes: [
+      "Lactose free",
+      "No fillers",
+      "Lavender essential oil",
+      "Lavender buds",
+      "Fair trade coconut oil",
+    ],
     ingredients: [
       "Organic extra virgin olive oil",
       "Organic palm oil",
@@ -769,7 +786,14 @@ export const products: Product[] = [
     ],
     highlights: ["Activated charcoal", "Peppermint + tea tree", "Essential-oil scented"],
     attributes: ["Gluten free", "Vegetarian", "No added fragrance", "Made in USA"],
-    allAttributes: ["Lactose free", "No fillers", "Activated charcoal", "Peppermint essential oil", "Tea tree essential oil", "Fair trade coconut oil"],
+    allAttributes: [
+      "Lactose free",
+      "No fillers",
+      "Activated charcoal",
+      "Peppermint essential oil",
+      "Tea tree essential oil",
+      "Fair trade coconut oil",
+    ],
     ingredients: [
       "Organic palm oil",
       "Organic coconut oil",
@@ -836,7 +860,13 @@ export const products: Product[] = [
     ],
     highlights: ["100% raw + unrefined", "Organic shea butter", "Vegan + cruelty-free"],
     attributes: ["100% raw shea", "Organic", "Vegan", "Cruelty free"],
-    allAttributes: ["Responsibly sourced", "Non-GMO", "No fillers", "No added fragrance", "Made in USA"],
+    allAttributes: [
+      "Responsibly sourced",
+      "Non-GMO",
+      "No fillers",
+      "No added fragrance",
+      "Made in USA",
+    ],
     ingredients: ["Organic Butyrospermum Parkii (Shea) Butter"],
     productType: "Raw Shea Butter",
     netWeight: "8 oz (226 g)",
@@ -923,12 +953,14 @@ export const products: Product[] = [
     scene: { from: "#f8df9b", to: "#fff4d2", motes: "#fff8df" },
     images: [
       { src: turmericReal1, alt: "LOCKHABIT Kojic Acid & Turmeric Soap front view" },
-      { src: turmericReal2, alt: "LOCKHABIT Kojic Acid & Turmeric Soap packaged and unwrapped view" },
+      {
+        src: turmericReal2,
+        alt: "LOCKHABIT Kojic Acid & Turmeric Soap packaged and unwrapped view",
+      },
       { src: turmericReal3, alt: "LOCKHABIT Kojic Acid & Turmeric Soap three-bar view" },
       { src: turmericReal4, alt: "LOCKHABIT Kojic Acid & Turmeric Soap stacked bar view" },
     ],
   },
-
 ];
 
 export const productBySlug = (slug: string) => products.find((product) => product.slug === slug);

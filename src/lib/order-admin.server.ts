@@ -190,7 +190,6 @@ const orderAdminService = createOrderAdminService({
   },
 });
 
-
 function configuredOwnerEmail(): string {
   const email = process.env["LOCKHABIT_ADMIN_EMAIL"]?.trim().toLowerCase();
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

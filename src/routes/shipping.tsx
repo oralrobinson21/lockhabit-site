@@ -26,7 +26,10 @@ function Shipping() {
           title: "Rates",
           body: (
             <>
-              <p>Orders under $75 ship for a flat $7.95. Orders of $75 or more qualify for free shipping.</p>
+              <p>
+                Orders under $75 ship for a flat $7.95. Orders of $75 or more qualify for free
+                shipping.
+              </p>
               <p>
                 Shipping destinations and any destination-specific availability shown at checkout
                 are the source of truth.
@@ -51,8 +54,8 @@ function Shipping() {
           body: (
             <p>
               Please check your shipping address before paying. If something is wrong, contact the
-              front desk through our Contact page immediately. Once an order is already processing or
-              in carrier hands, an address change may no longer be possible.
+              front desk through our Contact page immediately. Once an order is already processing
+              or in carrier hands, an address change may no longer be possible.
             </p>
           ),
         },
@@ -61,8 +64,8 @@ function Shipping() {
           body: (
             <p>
               If checkout offers delivery to your destination, local customs, duties, taxes, or
-              carrier fees may still apply unless they were collected at checkout. Those charges
-              are determined by local authorities or carriers.
+              carrier fees may still apply unless they were collected at checkout. Those charges are
+              determined by local authorities or carriers.
             </p>
           ),
         },
@@ -71,8 +74,8 @@ function Shipping() {
           body: (
             <p>
               Contact the front desk through our Contact page with your order number and, for
-              damaged or incorrect items, clear photos of the package and product. We’ll review the issue and work with
-              you on the appropriate replacement or refund.
+              damaged or incorrect items, clear photos of the package and product. We’ll review the
+              issue and work with you on the appropriate replacement or refund.
             </p>
           ),
         },

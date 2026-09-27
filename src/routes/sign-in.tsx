@@ -59,7 +59,9 @@ function SharedSignIn() {
         setNotice("Please verify your email before signing in. Check your inbox for the link.");
         return;
       }
-      const access = await resolvePortalAccess({ data: { accessToken: data.session.access_token } });
+      const access = await resolvePortalAccess({
+        data: { accessToken: data.session.access_token },
+      });
       if (access.destination === "owner") {
         void navigate({ to: "/admin/orders", replace: true });
       } else if (access.destination === "creator") {
@@ -68,7 +70,9 @@ function SharedSignIn() {
         void navigate({ to: "/account", replace: true });
       } else {
         await supabase.auth.signOut();
-        setNotice("This account does not have access yet. Check your details or contact the front desk.");
+        setNotice(
+          "This account does not have access yet. Check your details or contact the front desk.",
+        );
       }
     } catch {
       setNotice("We couldn't sign you in. Check your email and password, then try again.");

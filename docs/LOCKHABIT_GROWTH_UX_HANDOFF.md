@@ -25,6 +25,7 @@ This branch is the coded UX handoff for the growth/conversion/creator/Journal wo
 Component: `src/components/checkin-offer.tsx`
 
 Approved composition:
+
 - warm aged postcard/paper
 - actual LockHabit logo
 - coral `CHECK IN FOR`
@@ -39,6 +40,7 @@ Approved composition:
 - bottom line: `14-day returns on unopened, unused items.`
 
 Production behavior for Cursor:
+
 1. Trigger after ~25 seconds of engaged browsing.
 2. Blur/dim page behind the postcard.
 3. Close via X, backdrop, or Escape.
@@ -54,11 +56,13 @@ Production behavior for Cursor:
 `SiteHeader` now accepts an optional `promoSlot` so Cursor can wire the actual ticket beside the bag without redesigning the header.
 
 Pending:
+
 - ticket/coupon icon
 - badge `1`
 - opens A01
 
 Applied:
+
 - calm check/applied state
 - no urgent badge
 
@@ -67,6 +71,7 @@ Applied:
 Design reference: `/handoff` → A03.
 
 Required live behavior:
+
 - bundle pricing first
 - reusable Check-In 10% next
 - validated 5% previous-order reward next when present
@@ -76,6 +81,7 @@ Required live behavior:
 - secure checkout CTA
 
 Trust copy:
+
 - Secure checkout powered by Stripe
 - 14-day returns on unopened, unused items
 - Tracking emailed when your order ships
@@ -87,6 +93,7 @@ Trust copy:
 Design reference: `/handoff` → A04.
 
 Required behavior:
+
 - order success: `You’re checked in.`
 - show real order number
 - `Take 5% off your next order`
@@ -99,6 +106,7 @@ Required behavior:
 ## A05 — Creator / affiliate experience
 
 Routes:
+
 - `/creator/login`
 - `/creator/set-password`
 - `/creator/forgot-password`
@@ -106,6 +114,7 @@ Routes:
 - `/creator/invite-preview` (handoff-only email preview)
 
 Dashboard includes:
+
 - clicks
 - attributed paid orders
 - merchandise revenue
@@ -120,6 +129,7 @@ Dashboard includes:
 - profile/security/payout/tax status
 
 Production wiring:
+
 - owner sends one onboarding invitation
 - temporary credential is first-login only
 - creator sets own password
@@ -137,12 +147,14 @@ Production wiring:
 Route: `/owner/creator-program`
 
 Creator states:
+
 - Applicant
 - Approved
 - Active
 - Paused
 
 Owner sees:
+
 - link/code/rate
 - clicks/orders/revenue
 - pending/available/paid
@@ -151,6 +163,7 @@ Owner sees:
 - outreach pipeline
 
 Outreach:
+
 - Prospect → Contacted → Responded → Interested → Approved → Active
 - name/brand/platform/profile/contact/niche/follower count/notes/last contacted
 - deliberate outreach only; do not build uncontrolled spam sending
@@ -158,14 +171,17 @@ Outreach:
 ## A07 — Journal
 
 Customer routes:
+
 - `/journal`
 - `/journal/coming-soon`
 - `/journal/article-template`
 
 Owner route:
+
 - `/owner/journal`
 
 Journal design requirements:
+
 - `KEEP THE VIBES GOING — The LockHabit Journal`
 - current LockHabit header/footer and visual language
 - search
@@ -178,6 +194,7 @@ Journal design requirements:
 - noindex until public launch
 
 Categories in the handoff:
+
 - Ingredients
 - Rituals
 - Research Notes
@@ -185,6 +202,7 @@ Categories in the handoff:
 - FAQs
 
 Article structure:
+
 - title/excerpt/author/published/reviewed/category/read time
 - Short answer
 - What the ingredient is
@@ -200,12 +218,14 @@ Article structure:
 - Related articles
 
 Research rule:
+
 - prefer authoritative primary/secondary sources such as government resources, PubMed/NLM-discovered literature, universities, and peer-reviewed work
 - source type is not endorsement
 - include mixed/negative findings where relevant
 - never publish sample/design-preview factual claims without article-specific sourcing
 
 Owner Journal admin:
+
 - Draft / In review / Scheduled / Published
 - title/category/status/search
 - simple editor handoff

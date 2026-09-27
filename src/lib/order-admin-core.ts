@@ -138,7 +138,10 @@ export function createOrderAdminService<TOrder>(dependencies: OrderAdminDependen
       throw new Error("Enter a valid estimated delivery date.");
     }
     const parsedDelivery = new Date(`${deliveryDate}T12:00:00.000Z`);
-    if (Number.isNaN(parsedDelivery.getTime()) || parsedDelivery.toISOString().slice(0, 10) !== deliveryDate) {
+    if (
+      Number.isNaN(parsedDelivery.getTime()) ||
+      parsedDelivery.toISOString().slice(0, 10) !== deliveryDate
+    ) {
       throw new Error("Enter a valid estimated delivery date.");
     }
     const today = dependencies.now().toISOString().slice(0, 10);
