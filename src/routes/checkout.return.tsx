@@ -87,6 +87,7 @@ function CheckoutReturn() {
   const [email, setEmail] = useState<string | null>(null);
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const [items, setItems] = useState<ReturnItem[]>([]);
   const [total, setTotal] = useState(0);
   const [currency, setCurrency] = useState("usd");
@@ -291,10 +292,17 @@ function CheckoutReturn() {
                     className="secondary-button mt-3"
                     onClick={() => {
                       const value = `LH-${String(orderNumber).padStart(6, "0")}`;
-                      void navigator.clipboard?.writeText(value);
+                      void navigator.clipboard
+                        ?.writeText(value)
+                        .then(() => {
+                          setCopied(true);
+                          window.setTimeout(() => setCopied(false), 2000);
+                        })
+                        .catch(() => setCopied(false));
                     }}
+                    aria-live="polite"
                   >
-                    Copy order number
+                    {copied ? "Copied" : "Copy order number"}
                   </button>
                 </div>
               ) : null}
