@@ -198,8 +198,9 @@ async function finalizePaidGrowth(
       ? session.payment_intent
       : (session.payment_intent?.id ?? null);
   const merchandise = paidMerchandiseCents(session);
-  const bps = Number(session.metadata?.["commission_bps"] ?? "1000");
-  const amount = commissionCents(merchandise, Number.isFinite(bps) ? bps : 1000);
+  const rawBps = Number(session.metadata?.["commission_bps"] ?? "1000");
+  const bps = Number.isFinite(rawBps) ? rawBps : 1000;
+  const amount = commissionCents(merchandise, bps);
   const paidAt = new Date((event.created || Math.floor(Date.now() / 1000)) * 1000);
   const availableAt = commissionAvailableAt(paidAt).toISOString();
   const attributionToken = session.metadata?.["attribution_token"]?.trim() || null;
@@ -236,7 +237,7 @@ async function finalizePaidGrowth(
       available_at: availableAt,
       stripe_event_id: event.id,
       idempotency_key: idempotencyKey,
-      note: "10% merchandise commission after discounts; shipping/tax excluded",
+      note: `${bps / 100}% merchandise commission after discounts; shipping/tax excluded`,
     },
     { onConflict: "idempotency_key", ignoreDuplicates: true },
   );
