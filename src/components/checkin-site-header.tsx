@@ -25,7 +25,9 @@ type Persisted = { state: "pending" | "applied"; engagedMs: number; shown: boole
 function readState(): Persisted {
   if (typeof window === "undefined") return { state: "pending", engagedMs: 0, shown: false };
   try {
-    const parsed = JSON.parse(localStorage.getItem(CHECKIN_STORAGE_KEY) || "{}") as Partial<Persisted>;
+    const parsed = JSON.parse(
+      localStorage.getItem(CHECKIN_STORAGE_KEY) || "{}",
+    ) as Partial<Persisted>;
     return {
       state: parsed.state === "applied" ? "applied" : "pending",
       engagedMs: Math.max(0, Number(parsed.engagedMs) || 0),

@@ -28,10 +28,7 @@ export function parseSelectedProductIds(value: string | null | undefined): numbe
     .filter((id) => Number.isInteger(id) && PRODUCT_DETAILS[id]);
 }
 
-export function summarizeSelectedProducts(
-  ids: number[],
-  totalAmount: number,
-): SelectedOrderItem[] {
+export function summarizeSelectedProducts(ids: number[], totalAmount: number): SelectedOrderItem[] {
   if (!ids.length) return [];
 
   const grouped = new Map<number, number>();

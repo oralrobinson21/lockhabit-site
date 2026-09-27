@@ -42,15 +42,18 @@ function OwnerCreators() {
       active = false;
     };
   }, []);
-  const refresh = useCallback(async (accessToken = token) => {
-    try {
-      setData(await getOwnerGrowth({ data: { accessToken } }));
-      setNotice("");
-    } catch {
-      setData(null);
-      setNotice("Owner access is required. Sign in through the orders dashboard.");
-    }
-  }, [token]);
+  const refresh = useCallback(
+    async (accessToken = token) => {
+      try {
+        setData(await getOwnerGrowth({ data: { accessToken } }));
+        setNotice("");
+      } catch {
+        setData(null);
+        setNotice("Owner access is required. Sign in through the orders dashboard.");
+      }
+    },
+    [token],
+  );
   useEffect(() => {
     if (token) void refresh(token);
   }, [token, refresh]);
@@ -104,7 +107,10 @@ function OwnerCreators() {
     }
   }
   async function toggleActivity(id: string) {
-    if (activity?.id === id) { setActivity(null); return; }
+    if (activity?.id === id) {
+      setActivity(null);
+      return;
+    }
     setActivity(null);
     setActivityLoading(id);
     try {
@@ -327,7 +333,11 @@ function OwnerCreators() {
                             aria-expanded={activity?.id === c.id}
                             onClick={() => void toggleActivity(c.id)}
                           >
-                            {activityLoading === c.id ? "Loading…" : activity?.id === c.id ? "Hide activity" : "View sales & activity"}
+                            {activityLoading === c.id
+                              ? "Loading…"
+                              : activity?.id === c.id
+                                ? "Hide activity"
+                                : "View sales & activity"}
                           </button>
                           <button
                             disabled={busy}
@@ -393,29 +403,69 @@ function OwnerCreators() {
                         </div>
                         {activity?.id === c.id ? (
                           <div className="mt-5 space-y-4 border-t border-foreground/20 pt-4 text-sm">
-                            <p><b>{activity.data.clicks}</b> referral clicks · <b>{activity.data.sales.length}</b> recent paid orders</p>
+                            <p>
+                              <b>{activity.data.clicks}</b> referral clicks ·{" "}
+                              <b>{activity.data.sales.length}</b> recent paid orders
+                            </p>
                             <div className="overflow-x-auto">
                               <table className="w-full text-left">
-                                <caption className="mb-2 text-left font-bold">Paid orders (latest 100)</caption>
-                                <thead><tr><th>Order</th><th>Paid</th><th className="text-right">Merchandise</th></tr></thead>
-                                <tbody>{activity.data.sales.map((sale) => <tr key={sale.id} className="border-t">
-                                  <td>{sale.order_number ? `LH-${String(sale.order_number).padStart(6, "0")}` : "Pending reference"}</td>
-                                  <td>{new Date(sale.paid_at).toLocaleDateString()}</td>
-                                  <td className="text-right">{money(sale.paid_merchandise_cents)}</td>
-                                </tr>)}</tbody>
+                                <caption className="mb-2 text-left font-bold">
+                                  Paid orders (latest 100)
+                                </caption>
+                                <thead>
+                                  <tr>
+                                    <th>Order</th>
+                                    <th>Paid</th>
+                                    <th className="text-right">Merchandise</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {activity.data.sales.map((sale) => (
+                                    <tr key={sale.id} className="border-t">
+                                      <td>
+                                        {sale.order_number
+                                          ? `LH-${String(sale.order_number).padStart(6, "0")}`
+                                          : "Pending reference"}
+                                      </td>
+                                      <td>{new Date(sale.paid_at).toLocaleDateString()}</td>
+                                      <td className="text-right">
+                                        {money(sale.paid_merchandise_cents)}
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
                               </table>
-                              {!activity.data.sales.length ? <p className="mt-2">No paid orders yet.</p> : null}
+                              {!activity.data.sales.length ? (
+                                <p className="mt-2">No paid orders yet.</p>
+                              ) : null}
                             </div>
                             <div className="overflow-x-auto">
                               <table className="w-full text-left">
-                                <caption className="mb-2 text-left font-bold">Commission ledger (latest 100)</caption>
-                                <thead><tr><th>Date</th><th>Entry</th><th>Status</th><th className="text-right">Amount</th></tr></thead>
-                                <tbody>{activity.data.ledger.map((item) => <tr key={item.id} className="border-t">
-                                  <td>{new Date(item.created_at).toLocaleDateString()}</td><td>{item.entry_type}</td><td>{item.status}</td>
-                                  <td className="text-right">{money(item.amount_cents)}</td>
-                                </tr>)}</tbody>
+                                <caption className="mb-2 text-left font-bold">
+                                  Commission ledger (latest 100)
+                                </caption>
+                                <thead>
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Entry</th>
+                                    <th>Status</th>
+                                    <th className="text-right">Amount</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {activity.data.ledger.map((item) => (
+                                    <tr key={item.id} className="border-t">
+                                      <td>{new Date(item.created_at).toLocaleDateString()}</td>
+                                      <td>{item.entry_type}</td>
+                                      <td>{item.status}</td>
+                                      <td className="text-right">{money(item.amount_cents)}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
                               </table>
-                              {!activity.data.ledger.length ? <p className="mt-2">No commission entries yet.</p> : null}
+                              {!activity.data.ledger.length ? (
+                                <p className="mt-2">No commission entries yet.</p>
+                              ) : null}
                             </div>
                           </div>
                         ) : null}

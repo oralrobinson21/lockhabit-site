@@ -22,9 +22,7 @@ export const sendContactMessage = createServerFn({ method: "POST" })
         import("@/integrations/supabase/client.server"),
       ]);
 
-      const senderKey = createHash("sha256")
-        .update(data.email.trim().toLowerCase())
-        .digest("hex");
+      const senderKey = createHash("sha256").update(data.email.trim().toLowerCase()).digest("hex");
 
       const { data: claimed, error: claimError } = await supabaseAdmin.rpc(
         "claim_front_desk_message",

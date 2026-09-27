@@ -116,44 +116,47 @@ function FrontDeskForm() {
 
   return (
     <form onSubmit={submit} className="mt-5 grid gap-4" aria-label="Contact LOCKHABIT support">
-      {!showingConfirmation && <>
-      <div className="flex items-center gap-3" aria-label="Front desk bell">
-        <div className="front-desk-bell" style={{ animation: "none" }} aria-hidden="true">
-          <svg viewBox="0 0 120 86" role="presentation">
-            <path d="M20 62h80" />
-            <path d="M30 58c2-25 15-38 30-38s28 13 30 38" />
-            <path d="M54 18c0-5 2-8 6-8s6 3 6 8" />
-            <path d="M14 68h92c4 0 7 3 7 7v2H7v-2c0-4 3-7 7-7Z" />
-          </svg>
-        </div>
-        <p className="memo text-primary">Ring the front desk with a note below.</p>
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm font-bold">
-          Name
-          <Input name="name" autoComplete="name" required maxLength={100} />
-        </label>
-        <label className="grid gap-2 text-sm font-bold">
-          Email
-          <Input name="email" type="email" autoComplete="email" required maxLength={254} />
-        </label>
-      </div>
+      {!showingConfirmation && (
+        <>
+          <div className="flex items-center gap-3" aria-label="Front desk bell">
+            <div className="front-desk-bell" style={{ animation: "none" }} aria-hidden="true">
+              <svg viewBox="0 0 120 86" role="presentation">
+                <path d="M20 62h80" />
+                <path d="M30 58c2-25 15-38 30-38s28 13 30 38" />
+                <path d="M54 18c0-5 2-8 6-8s6 3 6 8" />
+                <path d="M14 68h92c4 0 7 3 7 7v2H7v-2c0-4 3-7 7-7Z" />
+              </svg>
+            </div>
+            <p className="memo text-primary">Ring the front desk with a note below.</p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-sm font-bold">
+              Name
+              <Input name="name" autoComplete="name" required maxLength={100} />
+            </label>
+            <label className="grid gap-2 text-sm font-bold">
+              Email
+              <Input name="email" type="email" autoComplete="email" required maxLength={254} />
+            </label>
+          </div>
 
-      <label className="grid gap-2 text-sm font-bold">
-        Order number <span className="font-normal text-muted-foreground">(if you have one)</span>
-        <Input name="orderNumber" maxLength={80} placeholder="LH-000123" />
-      </label>
+          <label className="grid gap-2 text-sm font-bold">
+            Order number{" "}
+            <span className="font-normal text-muted-foreground">(if you have one)</span>
+            <Input name="orderNumber" maxLength={80} placeholder="LH-000123" />
+          </label>
 
-      <label className="grid gap-2 text-sm font-bold">
-        What can we help with?
-        <Textarea name="message" required minLength={10} maxLength={3000} rows={7} />
-      </label>
+          <label className="grid gap-2 text-sm font-bold">
+            What can we help with?
+            <Textarea name="message" required minLength={10} maxLength={3000} rows={7} />
+          </label>
 
-      <label className="hidden" aria-hidden="true">
-        Website
-        <Input name="website" tabIndex={-1} autoComplete="off" />
-      </label>
-      </>}
+          <label className="hidden" aria-hidden="true">
+            Website
+            <Input name="website" tabIndex={-1} autoComplete="off" />
+          </label>
+        </>
+      )}
 
       {showingConfirmation ? (
         <div className="front-desk-confirmation" role="status" aria-live="polite">
@@ -190,26 +193,28 @@ function FrontDeskForm() {
         </div>
       ) : null}
 
-      {!showingConfirmation && <div className="flex flex-wrap items-center gap-4">
-        <button
-          type="submit"
-          className="primary-button"
-          disabled={status === "sending" || coolingDown}
-          aria-disabled={status === "sending" || coolingDown}
-        >
-          {status === "sending"
-            ? "Sending…"
-            : coolingDown
-              ? `Front desk resting · ${cooldownRemaining}s`
-              : "Send to the front desk"}
-        </button>
+      {!showingConfirmation && (
+        <div className="flex flex-wrap items-center gap-4">
+          <button
+            type="submit"
+            className="primary-button"
+            disabled={status === "sending" || coolingDown}
+            aria-disabled={status === "sending" || coolingDown}
+          >
+            {status === "sending"
+              ? "Sending…"
+              : coolingDown
+                ? `Front desk resting · ${cooldownRemaining}s`
+                : "Send to the front desk"}
+          </button>
 
-        {status === "error" && message ? (
-          <p className="text-sm text-destructive" role="alert">
-            {message}
-          </p>
-        ) : null}
-      </div>}
+          {status === "error" && message ? (
+            <p className="text-sm text-destructive" role="alert">
+              {message}
+            </p>
+          ) : null}
+        </div>
+      )}
     </form>
   );
 }

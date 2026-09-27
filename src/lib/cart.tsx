@@ -1,5 +1,13 @@
 import { applyQuantityChange } from "@/lib/cart-quantity";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
 import { products } from "@/lib/catalog";
 import { getCartPricing } from "@/lib/pricing";
@@ -50,24 +58,32 @@ function reportAcceptedCartAdditions(
   trackAddToCart(items);
 }
 
-
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Record<number, number>>({});
   const [hydrated, setHydrated] = useState(false);
   const [checkInOfferSaved, setCheckInOfferSaved] = useState(false);
 
   useEffect(() => {
-    try { setCart(parseStoredCart(localStorage.getItem(CART_STORAGE_KEY))); }
-    catch { /* private browsing: memory-only cart */ }
-    try { setCheckInOfferSaved(isCheckInOfferSaved(localStorage.getItem(CHECKIN_STORAGE_KEY))); }
-    catch { /* private browsing: memory-only offer */ }
+    try {
+      setCart(parseStoredCart(localStorage.getItem(CART_STORAGE_KEY)));
+    } catch {
+      /* private browsing: memory-only cart */
+    }
+    try {
+      setCheckInOfferSaved(isCheckInOfferSaved(localStorage.getItem(CHECKIN_STORAGE_KEY)));
+    } catch {
+      /* private browsing: memory-only offer */
+    }
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    try { localStorage.setItem(CART_STORAGE_KEY, serializeCart(cart)); }
-    catch { /* storage unavailable; checkout still works */ }
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, serializeCart(cart));
+    } catch {
+      /* storage unavailable; checkout still works */
+    }
   }, [cart, hydrated]);
   const [cartOpen, setCartOpen] = useState(false);
 
@@ -120,11 +136,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
           if (accepted) acceptedByProduct.set(id, (acceptedByProduct.get(id) ?? 0) + accepted);
         }
         if (!acceptedByProduct.size) return;
-        const acceptedProducts = [...acceptedByProduct.entries()]
-          .map(([id, quantity]) => ({
-            product: products.find((product) => product.id === id)!,
-            quantity,
-          }));
+        const acceptedProducts = [...acceptedByProduct.entries()].map(([id, quantity]) => ({
+          product: products.find((product) => product.id === id)!,
+          quantity,
+        }));
         setCart((current) => {
           const next = { ...current };
           for (const { product, quantity } of acceptedProducts) {
@@ -133,7 +148,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
           return next;
         });
         setCartOpen(true);
-        reportAcceptedCartAdditions(cart, acceptedProducts.map(({ product, quantity }) => ({ id: product.id, quantity })));
+        reportAcceptedCartAdditions(
+          cart,
+          acceptedProducts.map(({ product, quantity }) => ({ id: product.id, quantity })),
+        );
       },
       clearCart,
       changeQuantity: (id: number, amount: number) => {

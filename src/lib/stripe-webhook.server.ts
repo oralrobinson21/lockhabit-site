@@ -1,10 +1,7 @@
 import type Stripe from "stripe";
 
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import {
-  commissionAvailableAt,
-  commissionCents,
-} from "@/lib/checkout-discounts";
+import { commissionAvailableAt, commissionCents } from "@/lib/checkout-discounts";
 import {
   sendOrderConfirmation,
   type OrderConfirmation,
@@ -20,12 +17,7 @@ type CheckoutSupportedEvent =
 type RefundSupportedEvent = "charge.refunded" | "refund.created" | "refund.updated";
 
 export type WebhookResult =
-  | "ignored"
-  | "payment_pending"
-  | "payment_failed"
-  | "paid"
-  | "expired"
-  | "refund_adjusted";
+  "ignored" | "payment_pending" | "payment_failed" | "paid" | "expired" | "refund_adjusted";
 
 type PaidOrderRecord = {
   order_id: string;
@@ -206,8 +198,9 @@ async function finalizePaidGrowth(
       ? session.payment_intent
       : (session.payment_intent?.id ?? null);
   const merchandise = paidMerchandiseCents(session);
-  const bps = Number(session.metadata?.["commission_bps"] ?? "1000");
-  const amount = commissionCents(merchandise, Number.isFinite(bps) ? bps : 1000);
+  const rawBps = Number(session.metadata?.["commission_bps"] ?? "1000");
+  const bps = Number.isFinite(rawBps) ? rawBps : 1000;
+  const amount = commissionCents(merchandise, bps);
   const paidAt = new Date((event.created || Math.floor(Date.now() / 1000)) * 1000);
   const availableAt = commissionAvailableAt(paidAt).toISOString();
   const attributionToken = session.metadata?.["attribution_token"]?.trim() || null;
@@ -244,42 +237,45 @@ async function finalizePaidGrowth(
       available_at: availableAt,
       stripe_event_id: event.id,
       idempotency_key: idempotencyKey,
-      note: "10% merchandise commission after discounts; shipping/tax excluded",
+      note: `${bps / 100}% merchandise commission after discounts; shipping/tax excluded`,
     },
     { onConflict: "idempotency_key", ignoreDuplicates: true },
   );
   if (ledgerError) throw ledgerError;
 }
 
+/**
+ * Stripe sends refund.created, refund.updated and charge.refunded for the same refund.
+ * Only Refund objects carry a stable per-refund id, so creator clawbacks are keyed on
+ * those; charge.refunded is ignored here to avoid counting one refund twice.
+ */
+export function refundAdjustmentSource(event: Stripe.Event): {
+  paymentIntentId: string;
+  refundId: string;
+  refundedAmount: number;
+  currency: string;
+} | null {
+  if (event.type !== "refund.created" && event.type !== "refund.updated") return null;
+  const refund = event.data.object as Stripe.Refund;
+  if (refund.status && refund.status !== "succeeded") return null;
+  const paymentIntentId =
+    typeof refund.payment_intent === "string"
+      ? refund.payment_intent
+      : (refund.payment_intent?.id ?? null);
+  const refundedAmount = refund.amount ?? 0;
+  if (!paymentIntentId || !refund.id || refundedAmount <= 0) return null;
+  return {
+    paymentIntentId,
+    refundId: refund.id,
+    refundedAmount,
+    currency: refund.currency ?? "usd",
+  };
+}
+
 async function applyRefundAdjustment(event: Stripe.Event): Promise<"ignored" | "refund_adjusted"> {
-  const object = event.data.object as Stripe.Refund | Stripe.Charge;
-  let paymentIntentId: string | null = null;
-  let refundId: string | null = null;
-  let refundedAmount = 0;
-  let currency = "usd";
-
-  if (event.type === "charge.refunded") {
-    const charge = object as Stripe.Charge;
-    paymentIntentId =
-      typeof charge.payment_intent === "string"
-        ? charge.payment_intent
-        : (charge.payment_intent?.id ?? null);
-    refundedAmount = charge.amount_refunded ?? 0;
-    currency = charge.currency ?? "usd";
-    refundId = `charge:${charge.id}:refunded:${refundedAmount}`;
-  } else {
-    const refund = object as Stripe.Refund;
-    if (refund.status && refund.status !== "succeeded") return "ignored";
-    paymentIntentId =
-      typeof refund.payment_intent === "string"
-        ? refund.payment_intent
-        : (refund.payment_intent?.id ?? null);
-    refundedAmount = refund.amount ?? 0;
-    currency = refund.currency ?? "usd";
-    refundId = refund.id;
-  }
-
-  if (!paymentIntentId || !refundId || refundedAmount <= 0) return "ignored";
+  const source = refundAdjustmentSource(event);
+  if (!source) return "ignored";
+  const { paymentIntentId, refundId, refundedAmount, currency } = source;
 
   const { data: attribution, error } = await supabaseAdmin
     .from("creator_attributions")

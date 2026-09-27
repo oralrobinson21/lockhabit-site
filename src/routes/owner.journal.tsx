@@ -2,7 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { getOwnerGrowth, saveOwnerJournal } from "@/lib/owner-growth.functions";
-import { getOwnerJournalComments, moderateOwnerJournalComment } from "@/lib/journal-comments.functions";
+import {
+  getOwnerJournalComments,
+  moderateOwnerJournalComment,
+} from "@/lib/journal-comments.functions";
 import { editableJournalBody, publishedJournalBlocks } from "@/lib/journal-content";
 
 export const Route = createFileRoute("/owner/journal")({
@@ -16,12 +19,30 @@ export const Route = createFileRoute("/owner/journal")({
 });
 type Post = Awaited<ReturnType<typeof getOwnerGrowth>>["posts"][number];
 type Comment = Awaited<ReturnType<typeof getOwnerJournalComments>>[number];
-const journalCategories = ["Ingredients", "Rituals", "Research Notes", "Travel Brighter", "FAQs", "Brighter Travels", "Everyday Rituals", "Ingredient Notes"];
-type RecommendationRow = { kind: "own" | "affiliate"; label: string; destination: string; note: string };
+const journalCategories = [
+  "Ingredients",
+  "Rituals",
+  "Research Notes",
+  "Travel Brighter",
+  "FAQs",
+  "Brighter Travels",
+  "Everyday Rituals",
+  "Ingredient Notes",
+];
+type RecommendationRow = {
+  kind: "own" | "affiliate";
+  label: string;
+  destination: string;
+  note: string;
+};
 function rowsForPost(post: Post | null): RecommendationRow[] {
   return publishedJournalBlocks(post?.body).flatMap((block): RecommendationRow[] => {
-    if (block.type === "own_product") return [{ kind: "own", label: "LockHabit product", destination: block.slug, note: block.note }];
-    if (block.type === "affiliate") return [{ kind: "affiliate", label: block.label, destination: block.url, note: block.note }];
+    if (block.type === "own_product")
+      return [
+        { kind: "own", label: "LockHabit product", destination: block.slug, note: block.note },
+      ];
+    if (block.type === "affiliate")
+      return [{ kind: "affiliate", label: block.label, destination: block.url, note: block.note }];
     return [];
   });
 }
@@ -40,7 +61,9 @@ function OwnerJournal() {
     setOpen(true);
   }
   function editRecommendation(index: number, patch: Partial<RecommendationRow>) {
-    setRecommendations((current) => current.map((row, i) => i === index ? { ...row, ...patch } : row));
+    setRecommendations((current) =>
+      current.map((row, i) => (i === index ? { ...row, ...patch } : row)),
+    );
   }
   useEffect(() => {
     let active = true;
@@ -52,21 +75,24 @@ function OwnerJournal() {
       active = false;
     };
   }, []);
-  const refresh = useCallback(async (accessToken = token) => {
-    try {
-      const [result, queue] = await Promise.all([
-        getOwnerGrowth({ data: { accessToken } }),
-        getOwnerJournalComments({ data: { accessToken } }),
-      ]);
-      setPosts(result.posts);
-      setComments(queue);
-      setNotice("");
-    } catch {
-      setPosts(null);
-      setComments([]);
-      setNotice("Owner access is required. Sign in through the orders dashboard.");
-    }
-  }, [token]);
+  const refresh = useCallback(
+    async (accessToken = token) => {
+      try {
+        const [result, queue] = await Promise.all([
+          getOwnerGrowth({ data: { accessToken } }),
+          getOwnerJournalComments({ data: { accessToken } }),
+        ]);
+        setPosts(result.posts);
+        setComments(queue);
+        setNotice("");
+      } catch {
+        setPosts(null);
+        setComments([]);
+        setNotice("Owner access is required. Sign in through the orders dashboard.");
+      }
+    },
+    [token],
+  );
   async function moderate(commentId: string, status: "approved" | "rejected") {
     setBusy(true);
     try {
@@ -96,8 +122,14 @@ function OwnerJournal() {
           category: String(form.get("category") ?? ""),
           excerpt: String(form.get("excerpt") ?? ""),
           body: String(form.get("body") ?? ""),
-          recommendations: recommendations.filter((row) => row.label || row.destination || row.note)
-            .map((row) => [row.kind, row.label, row.destination, row.note].map((value) => value.replaceAll("|", " ")).join(" | ")).join("\n"),
+          recommendations: recommendations
+            .filter((row) => row.label || row.destination || row.note)
+            .map((row) =>
+              [row.kind, row.label, row.destination, row.note]
+                .map((value) => value.replaceAll("|", " "))
+                .join(" | "),
+            )
+            .join("\n"),
           references: String(form.get("references") ?? ""),
           author: String(form.get("author") ?? ""),
           heroImageUrl: String(form.get("heroImageUrl") ?? ""),
@@ -137,10 +169,7 @@ function OwnerJournal() {
         ) : null}
         {posts ? (
           <>
-            <button
-              className="primary-button mt-6"
-              onClick={() => openEditor(null)}
-            >
+            <button className="primary-button mt-6" onClick={() => openEditor(null)}>
               New article
             </button>
             <div className="mt-5 grid gap-4">
@@ -159,10 +188,7 @@ function OwnerJournal() {
                         {new Date(post.updated_at).toLocaleDateString()}
                       </p>
                     </div>
-                    <button
-                      className="secondary-button"
-                      onClick={() => openEditor(post)}
-                    >
+                    <button className="secondary-button" onClick={() => openEditor(post)}>
                       Open editor
                     </button>
                   </article>
@@ -171,17 +197,45 @@ function OwnerJournal() {
             </div>
             <section className="mt-8 rounded-2xl border-2 border-foreground bg-paper p-5">
               <h2 className="font-display text-2xl">Comment review</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Public comments are off until the Journal and moderation switch are separately launched. Only approved comments can be displayed later.</p>
-              {comments.filter((comment) => comment.status === "pending").length ? comments.filter((comment) => comment.status === "pending").map((comment) => (
-                <article key={comment.id} className="mt-4 rounded-xl border border-foreground/20 p-4">
-                  <p className="font-bold">{comment.author_name} · {new Date(comment.created_at).toLocaleDateString()}</p>
-                  <p className="mt-2 whitespace-pre-wrap break-words text-sm">{comment.body}</p>
-                  <div className="mt-3 flex gap-2">
-                    <button type="button" disabled={busy} className="secondary-button" onClick={() => void moderate(comment.id, "approved")}>Approve</button>
-                    <button type="button" disabled={busy} className="secondary-button" onClick={() => void moderate(comment.id, "rejected")}>Reject</button>
-                  </div>
-                </article>
-              )) : <p className="mt-3 text-sm">No comments awaiting review.</p>}
+              <p className="mt-1 text-sm text-muted-foreground">
+                Public comments are off until the Journal and moderation switch are separately
+                launched. Only approved comments can be displayed later.
+              </p>
+              {comments.filter((comment) => comment.status === "pending").length ? (
+                comments
+                  .filter((comment) => comment.status === "pending")
+                  .map((comment) => (
+                    <article
+                      key={comment.id}
+                      className="mt-4 rounded-xl border border-foreground/20 p-4"
+                    >
+                      <p className="font-bold">
+                        {comment.author_name} · {new Date(comment.created_at).toLocaleDateString()}
+                      </p>
+                      <p className="mt-2 whitespace-pre-wrap break-words text-sm">{comment.body}</p>
+                      <div className="mt-3 flex gap-2">
+                        <button
+                          type="button"
+                          disabled={busy}
+                          className="secondary-button"
+                          onClick={() => void moderate(comment.id, "approved")}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          type="button"
+                          disabled={busy}
+                          className="secondary-button"
+                          onClick={() => void moderate(comment.id, "rejected")}
+                        >
+                          Reject
+                        </button>
+                      </div>
+                    </article>
+                  ))
+              ) : (
+                <p className="mt-3 text-sm">No comments awaiting review.</p>
+              )}
             </section>
           </>
         ) : (
@@ -236,11 +290,14 @@ function OwnerJournal() {
                   defaultValue={editing?.category ?? "Ingredients"}
                   className="mt-1 w-full rounded border p-3"
                 >
-                  {[...new Set([...journalCategories, ...(editing?.category ? [editing.category] : [])])].map(
-                    (s) => (
-                      <option key={s}>{s}</option>
-                    ),
-                  )}
+                  {[
+                    ...new Set([
+                      ...journalCategories,
+                      ...(editing?.category ? [editing.category] : []),
+                    ]),
+                  ].map((s) => (
+                    <option key={s}>{s}</option>
+                  ))}
                 </select>
               </label>
               <label className="block">
@@ -303,18 +360,104 @@ function OwnerJournal() {
                   className="mt-1 w-full rounded border p-3"
                 />
               </label>
-              <p className="text-sm text-muted-foreground">Separate paragraphs with a blank line; start a section title with ##. Keep evidence and limitations near the claims they support.</p>
+              <p className="text-sm text-muted-foreground">
+                Separate paragraphs with a blank line; start a section title with ##. Keep evidence
+                and limitations near the claims they support.
+              </p>
               <fieldset className="space-y-3 rounded-xl border-2 border-foreground p-4">
-                <legend className="px-2 font-display text-xl font-semibold">Helpful recommendations</legend>
-                <p className="text-sm text-muted-foreground">Add a LockHabit bar or an outside product only when it genuinely helps. Paid outside links are visibly disclosed beside the recommendation.</p>
-                {recommendations.map((row, index) => <div key={index} className="grid gap-2 rounded-xl bg-background p-3">
-                  <p className="memo text-coral">{row.kind === "own" ? "Your own LockHabit product" : "Outside paid recommendation"}</p>
-                  {row.kind === "affiliate" ? <label className="grid gap-1 text-sm">Product name<input value={row.label} maxLength={120} onChange={(event) => editRecommendation(index, { label: event.target.value })} className="rounded border p-2" /></label> : null}
-                  <label className="grid gap-1 text-sm">{row.kind === "affiliate" ? "Your secure partner link (https://)" : "Existing LockHabit product slug"}<input value={row.destination} onChange={(event) => editRecommendation(index, { destination: event.target.value })} className="rounded border p-2" placeholder={row.kind === "affiliate" ? "https://partner.example/item" : "coconut-beach-soap"} /></label>
-                  <label className="grid gap-1 text-sm">Why it fits this article<textarea value={row.note} maxLength={500} onChange={(event) => editRecommendation(index, { note: event.target.value })} rows={2} className="rounded border p-2" /></label>
-                  <button type="button" className="justify-self-start text-sm font-bold underline" onClick={() => setRecommendations((current) => current.filter((_, i) => i !== index))}>Remove recommendation</button>
-                </div>)}
-                <div className="flex flex-wrap gap-2"><button type="button" className="secondary-button" onClick={() => setRecommendations((current) => [...current, { kind: "own", label: "LockHabit product", destination: "", note: "" }])}>Add LockHabit product</button><button type="button" className="secondary-button" onClick={() => setRecommendations((current) => [...current, { kind: "affiliate", label: "", destination: "", note: "" }])}>Add paid outside link</button></div>
+                <legend className="px-2 font-display text-xl font-semibold">
+                  Helpful recommendations
+                </legend>
+                <p className="text-sm text-muted-foreground">
+                  Add a LockHabit bar or an outside product only when it genuinely helps. Paid
+                  outside links are visibly disclosed beside the recommendation.
+                </p>
+                {recommendations.map((row, index) => (
+                  <div key={index} className="grid gap-2 rounded-xl bg-background p-3">
+                    <p className="memo text-coral">
+                      {row.kind === "own"
+                        ? "Your own LockHabit product"
+                        : "Outside paid recommendation"}
+                    </p>
+                    {row.kind === "affiliate" ? (
+                      <label className="grid gap-1 text-sm">
+                        Product name
+                        <input
+                          value={row.label}
+                          maxLength={120}
+                          onChange={(event) =>
+                            editRecommendation(index, { label: event.target.value })
+                          }
+                          className="rounded border p-2"
+                        />
+                      </label>
+                    ) : null}
+                    <label className="grid gap-1 text-sm">
+                      {row.kind === "affiliate"
+                        ? "Your secure partner link (https://)"
+                        : "Existing LockHabit product slug"}
+                      <input
+                        value={row.destination}
+                        onChange={(event) =>
+                          editRecommendation(index, { destination: event.target.value })
+                        }
+                        className="rounded border p-2"
+                        placeholder={
+                          row.kind === "affiliate"
+                            ? "https://partner.example/item"
+                            : "coconut-beach-soap"
+                        }
+                      />
+                    </label>
+                    <label className="grid gap-1 text-sm">
+                      Why it fits this article
+                      <textarea
+                        value={row.note}
+                        maxLength={500}
+                        onChange={(event) =>
+                          editRecommendation(index, { note: event.target.value })
+                        }
+                        rows={2}
+                        className="rounded border p-2"
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      className="justify-self-start text-sm font-bold underline"
+                      onClick={() =>
+                        setRecommendations((current) => current.filter((_, i) => i !== index))
+                      }
+                    >
+                      Remove recommendation
+                    </button>
+                  </div>
+                ))}
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() =>
+                      setRecommendations((current) => [
+                        ...current,
+                        { kind: "own", label: "LockHabit product", destination: "", note: "" },
+                      ])
+                    }
+                  >
+                    Add LockHabit product
+                  </button>
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() =>
+                      setRecommendations((current) => [
+                        ...current,
+                        { kind: "affiliate", label: "", destination: "", note: "" },
+                      ])
+                    }
+                  >
+                    Add paid outside link
+                  </button>
+                </div>
               </fieldset>
               <label className="block">
                 References, one per line
@@ -330,7 +473,9 @@ function OwnerJournal() {
                 />
               </label>
               <p className="text-sm">
-                Published articles need 250+ words and two direct source URLs. Review evidence, safety, claims and every outside recommendation before publishing. The Journal remains unindexed until editorial launch.
+                Published articles need 250+ words and two direct source URLs. Review evidence,
+                safety, claims and every outside recommendation before publishing. The Journal
+                remains unindexed until editorial launch.
               </p>
               <div className="flex flex-wrap gap-2">
                 <button disabled={busy} type="submit" className="secondary-button">

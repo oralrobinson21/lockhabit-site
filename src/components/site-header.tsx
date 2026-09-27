@@ -67,72 +67,80 @@ export function SiteHeader({ promoSlot }: { promoSlot?: ReactNode }) {
         <header
           className={`${pinned ? "fixed inset-x-0 top-0 shadow-lg" : "relative"} z-30 border-b-2 border-foreground bg-background/95 backdrop-blur transition-shadow`}
         >
-        <div className="relative mx-auto flex h-24 max-w-7xl items-center justify-between px-5 lg:px-10">
-          <button
-            className="icon-button z-10 bg-background hover:bg-sun md:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle navigation"
-          >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-
-          <nav className="hidden flex-1 items-center gap-7 md:flex" aria-label="Main navigation">
-            {menuLinks.map(([label, hash]) => (
-              <Link key={hash} className="nav-link" to="/" hash={hash}>
-                {label}
-              </Link>
-            ))}
-            <Link className="nav-link" to="/about">
-              About
-            </Link>
-            <Link className="nav-link" to="/faq">FAQ</Link>
-          </nav>
-
-          <Link
-            to="/"
-            onClick={handleLogoClick}
-            className="brand-logo pointer-events-auto absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-            aria-label="Return to LOCKHABIT home"
-            title="Return to LOCKHABIT home"
-          >
-            <img src={logoTransparent} alt="LOCKHABIT Soap and Body Care" />
-          </Link>
-
-          <div className="z-10 flex flex-1 items-center justify-end gap-2">
-            {promoSlot}
+          <div className="relative mx-auto flex h-24 max-w-7xl items-center justify-between px-5 lg:px-10">
             <button
-              className="icon-button hover:bg-sun bg-background"
-              onClick={() => setCartOpen(true)}
-              aria-label={`Open bag with ${cartCount} items`}
+              className="icon-button z-10 bg-background hover:bg-sun md:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle navigation"
             >
-              <ShoppingBag size={20} />
-              {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
+
+            <nav className="hidden flex-1 items-center gap-7 md:flex" aria-label="Main navigation">
+              {menuLinks.map(([label, hash]) => (
+                <Link key={hash} className="nav-link" to="/" hash={hash}>
+                  {label}
+                </Link>
+              ))}
+              <Link className="nav-link" to="/about">
+                About
+              </Link>
+              <Link className="nav-link" to="/faq">
+                FAQ
+              </Link>
+            </nav>
+
+            <Link
+              to="/"
+              onClick={handleLogoClick}
+              className="brand-logo pointer-events-auto absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+              aria-label="Return to LOCKHABIT home"
+              title="Return to LOCKHABIT home"
+            >
+              <img src={logoTransparent} alt="LOCKHABIT Soap and Body Care" />
+            </Link>
+
+            <div className="z-10 flex flex-1 items-center justify-end gap-2">
+              {promoSlot}
+              <button
+                className="icon-button hover:bg-sun bg-background"
+                onClick={() => setCartOpen(true)}
+                aria-label={`Open bag with ${cartCount} items`}
+              >
+                <ShoppingBag size={20} />
+                {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+              </button>
+            </div>
           </div>
-        </div>
-        {menuOpen && (
-          <nav className="border-t-2 border-foreground bg-secondary px-5 py-3 md:hidden">
-            {menuLinks.map(([label, hash]) => (
+          {menuOpen && (
+            <nav className="border-t-2 border-foreground bg-secondary px-5 py-3 md:hidden">
+              {menuLinks.map(([label, hash]) => (
+                <Link
+                  key={hash}
+                  to="/"
+                  hash={hash}
+                  className="memo block border-b border-foreground/20 py-3.5 last:border-0"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {label}
+                </Link>
+              ))}
               <Link
-                key={hash}
-                to="/"
-                hash={hash}
+                to="/about"
                 className="memo block border-b border-foreground/20 py-3.5 last:border-0"
                 onClick={() => setMenuOpen(false)}
               >
-                {label}
+                About
               </Link>
-            ))}
-            <Link
-              to="/about"
-              className="memo block border-b border-foreground/20 py-3.5 last:border-0"
-              onClick={() => setMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link to="/faq" className="memo block border-b border-foreground/20 py-3.5" onClick={() => setMenuOpen(false)}>FAQ</Link>
-          </nav>
-        )}
+              <Link
+                to="/faq"
+                className="memo block border-b border-foreground/20 py-3.5"
+                onClick={() => setMenuOpen(false)}
+              >
+                FAQ
+              </Link>
+            </nav>
+          )}
         </header>
       </div>
     </>

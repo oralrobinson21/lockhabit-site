@@ -53,13 +53,19 @@ function SharedSignIn() {
         email: email.trim(),
         password,
       });
+      if (error && (error.code === "email_not_confirmed" || /not confirmed/i.test(error.message))) {
+        setNotice("Please verify your email before signing in. Check your inbox for the link.");
+        return;
+      }
       if (error || !data.session?.access_token) throw new Error("Invalid sign-in");
       if (!data.user.email_confirmed_at) {
         await supabase.auth.signOut();
         setNotice("Please verify your email before signing in. Check your inbox for the link.");
         return;
       }
-      const access = await resolvePortalAccess({ data: { accessToken: data.session.access_token } });
+      const access = await resolvePortalAccess({
+        data: { accessToken: data.session.access_token },
+      });
       if (access.destination === "owner") {
         void navigate({ to: "/admin/orders", replace: true });
       } else if (access.destination === "creator") {
@@ -68,7 +74,9 @@ function SharedSignIn() {
         void navigate({ to: "/account", replace: true });
       } else {
         await supabase.auth.signOut();
-        setNotice("This account does not have access yet. Check your details or contact the front desk.");
+        setNotice(
+          "This account does not have access yet. Check your details or contact the front desk.",
+        );
       }
     } catch {
       setNotice("We couldn't sign you in. Check your email and password, then try again.");

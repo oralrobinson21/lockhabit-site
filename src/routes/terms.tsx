@@ -8,7 +8,8 @@ export const Route = createFileRoute("/terms")({
       { title: "Terms of Service | LOCKHABIT SOAP CO." },
       {
         name: "description",
-        content: "Terms for shopping, promotions, products, payments, and use of the LOCKHABIT website.",
+        content:
+          "Terms for shopping, promotions, products, payments, and use of the LOCKHABIT website.",
       },
     ],
   }),
@@ -37,9 +38,9 @@ function Terms() {
           title: "Promotions",
           body: (
             <p>
-              Discounts and promotional gifts are subject to their displayed terms, eligibility,
-              and availability. Promotions may not combine unless the storefront specifically says
-              they do. We may correct an obvious promotion or pricing error before fulfillment.
+              Discounts and promotional gifts are subject to their displayed terms, eligibility, and
+              availability. Promotions may not combine unless the storefront specifically says they
+              do. We may correct an obvious promotion or pricing error before fulfillment.
             </p>
           ),
         },
@@ -77,9 +78,9 @@ function Terms() {
           body: (
             <p>
               We may update or temporarily interrupt the site. To the extent permitted by law,
-              LOCKHABIT is not responsible for indirect losses or events outside reasonable
-              control, including carrier delays or third-party service outages. Rights that cannot
-              legally be limited remain unaffected.
+              LOCKHABIT is not responsible for indirect losses or events outside reasonable control,
+              including carrier delays or third-party service outages. Rights that cannot legally be
+              limited remain unaffected.
             </p>
           ),
         },

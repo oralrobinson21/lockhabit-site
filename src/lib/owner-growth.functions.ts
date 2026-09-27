@@ -1,6 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { isSafeExternalUrl, parseJournalBlocks, validatedJournalReferences, validateJournalForPublication } from "@/lib/journal-content";
+import {
+  isSafeExternalUrl,
+  parseJournalBlocks,
+  validatedJournalReferences,
+  validateJournalForPublication,
+} from "@/lib/journal-content";
 import { products } from "@/lib/catalog";
 
 const token = z.string().min(20).max(5000);
@@ -61,17 +66,22 @@ export const getOwnerCreatorActivity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const db = await owner(data.accessToken);
     const [clicks, sales, ledger] = await Promise.all([
-      db.from("creator_referral_clicks")
+      db
+        .from("creator_referral_clicks")
         .select("id", { count: "exact", head: true })
         .eq("creator_id", data.creatorId),
-      db.from("creator_attributions")
+      db
+        .from("creator_attributions")
         .select("id,order_number,paid_merchandise_cents,currency,paid_at")
         .eq("creator_id", data.creatorId)
-        .order("paid_at", { ascending: false }).limit(100),
-      db.from("creator_commission_ledger")
+        .order("paid_at", { ascending: false })
+        .limit(100),
+      db
+        .from("creator_commission_ledger")
         .select("id,attribution_id,entry_type,amount_cents,currency,status,available_at,created_at")
         .eq("creator_id", data.creatorId)
-        .order("created_at", { ascending: false }).limit(100),
+        .order("created_at", { ascending: false })
+        .limit(100),
     ]);
     if (clicks.error || sales.error || ledger.error)
       throw new Error("Creator activity could not be loaded.");
@@ -238,15 +248,25 @@ export const saveOwnerJournal = createServerFn({ method: "POST" })
     const blocks = parseJournalBlocks(data.body, data.recommendations);
     if (data.heroImageUrl && !isSafeExternalUrl(data.heroImageUrl))
       throw new Error("Journal hero images require a secure https:// URL.");
-    if (blocks.some((block) => block.type === "own_product" && !products.some((product) => product.slug === block.slug)))
+    if (
+      blocks.some(
+        (block) =>
+          block.type === "own_product" && !products.some((product) => product.slug === block.slug),
+      )
+    )
       throw new Error("Choose a current LockHabit product before recommending it.");
     const references = validatedJournalReferences(data.references);
     if (data.status === "published")
       validateJournalForPublication(data.body, references, data.heroImageUrl, data.heroImageAlt);
     let firstPublishedAt: string | null = null;
     if (data.id && data.status === "published") {
-      const existing = await db.from("journal_posts").select("published_at").eq("id", data.id).maybeSingle();
-      if (existing.error) throw new Error("Could not check the article's original publication date.");
+      const existing = await db
+        .from("journal_posts")
+        .select("published_at")
+        .eq("id", data.id)
+        .maybeSingle();
+      if (existing.error)
+        throw new Error("Could not check the article's original publication date.");
       firstPublishedAt = existing.data?.published_at ?? null;
     }
     const values = {
@@ -263,7 +283,8 @@ export const saveOwnerJournal = createServerFn({ method: "POST" })
       body: blocks,
       reference_items: references,
       status: data.status,
-      published_at: data.status === "published" ? firstPublishedAt ?? new Date().toISOString() : null,
+      published_at:
+        data.status === "published" ? (firstPublishedAt ?? new Date().toISOString()) : null,
       updated_at: new Date().toISOString(),
     };
     const result = data.id

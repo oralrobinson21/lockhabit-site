@@ -4,7 +4,9 @@ import { z } from "zod";
 const accessToken = z.string().min(20).max(5000);
 
 export const requestOrderAdminLink = createServerFn({ method: "POST" })
-  .validator((data: { email: string }) => z.object({ email: z.string().trim().email().max(254) }).parse(data))
+  .validator((data: { email: string }) =>
+    z.object({ email: z.string().trim().email().max(254) }).parse(data),
+  )
   .handler(async ({ data }) => {
     try {
       const { emailOrderAdminLink } = await import("@/lib/order-admin.server");
@@ -39,7 +41,10 @@ export const completeOrderAdminPasswordSetup = createServerFn({ method: "POST" }
     z
       .object({
         email: z.string().trim().email().max(254),
-        code: z.string().trim().regex(/^\d{6}$/),
+        code: z
+          .string()
+          .trim()
+          .regex(/^\d{6}$/),
         password: z.string().min(12).max(128),
       })
       .parse(data),
@@ -58,20 +63,27 @@ export const listOwnerOrders = createServerFn({ method: "POST" })
   });
 
 export const saveOwnerTracking = createServerFn({ method: "POST" })
-  .validator((data: {
-    accessToken: string;
-    orderId: string;
-    carrier: "USPS" | "UPS" | "FedEx" | "DHL";
-    trackingNumber: string;
-    estimatedDeliveryDate: string;
-  }) =>
-    z.object({
-      accessToken,
-      orderId: z.string().uuid(),
-      carrier: z.enum(["USPS", "UPS", "FedEx", "DHL"]),
-      trackingNumber: z.string().trim().min(6).max(80),
-      estimatedDeliveryDate: z.string().trim().regex(/^\d{4}-\d{2}-\d{2}$/),
-    }).parse(data))
+  .validator(
+    (data: {
+      accessToken: string;
+      orderId: string;
+      carrier: "USPS" | "UPS" | "FedEx" | "DHL";
+      trackingNumber: string;
+      estimatedDeliveryDate: string;
+    }) =>
+      z
+        .object({
+          accessToken,
+          orderId: z.string().uuid(),
+          carrier: z.enum(["USPS", "UPS", "FedEx", "DHL"]),
+          trackingNumber: z.string().trim().min(6).max(80),
+          estimatedDeliveryDate: z
+            .string()
+            .trim()
+            .regex(/^\d{4}-\d{2}-\d{2}$/),
+        })
+        .parse(data),
+  )
   .handler(async ({ data }) => {
     const { saveAdminTracking } = await import("@/lib/order-admin.server");
     return saveAdminTracking(
@@ -85,7 +97,8 @@ export const saveOwnerTracking = createServerFn({ method: "POST" })
 
 export const listOwnerRefunds = createServerFn({ method: "POST" })
   .validator((data: { accessToken: string; orderId: string }) =>
-    z.object({ accessToken, orderId: z.string().uuid() }).parse(data))
+    z.object({ accessToken, orderId: z.string().uuid() }).parse(data),
+  )
   .handler(async ({ data }) => {
     const { readAdminRefunds } = await import("@/lib/order-admin.server");
     return readAdminRefunds(data.accessToken, data.orderId);

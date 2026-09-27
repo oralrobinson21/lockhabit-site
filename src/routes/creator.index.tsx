@@ -8,6 +8,12 @@ import {
   requestCreatorPayout,
 } from "@/lib/creator.functions";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  creatorDisplayBalances,
+  creatorEntryLabel,
+  creatorStatusLabel,
+} from "@/lib/creator-balance";
+import { trackCreatorPayoutRequested } from "@/lib/ga4-growth";
 
 export const Route = createFileRoute("/creator/")({
   head: () => ({
@@ -54,6 +60,10 @@ function CreatorPortal() {
     );
   const p = data.profile,
     s = data.summary;
+  const balances = creatorDisplayBalances(
+    Number(s?.pending_cents ?? 0),
+    Number(s?.available_cents ?? 0),
+  );
   const link = `https://lockhabit.com/r/${p.referral_slug}`;
   const copy = async (v: string) => {
     await navigator.clipboard.writeText(v);
@@ -63,12 +73,26 @@ function CreatorPortal() {
     setNotice("");
     try {
       const cents = Math.round(Number(amount) * 100);
+      if (!Number.isFinite(cents) || cents <= 0) {
+        setNotice("Enter a cash-out amount in dollars, for example 20.");
+        return;
+      }
+      if (cents < 2000) {
+        setNotice("The minimum cash-out is $20.");
+        return;
+      }
       await requestCreatorPayout({ data: { amountCents: cents } });
+      trackCreatorPayoutRequested({ amountCents: cents });
       setData(await getCreatorDashboard());
       setNotice("Cash-out request submitted.");
       setAmount("");
     } catch (e) {
-      setNotice(e instanceof Error ? e.message : "Request failed.");
+      const message = e instanceof Error ? e.message : "";
+      setNotice(
+        message && !message.trim().startsWith("[")
+          ? message
+          : "Cash-out request could not be submitted. Check the amount and try again.",
+      );
     }
   };
   const signout = async () => {
@@ -154,8 +178,8 @@ function CreatorPortal() {
           <Metric label="Clicks" value={String(s?.clicks || 0)} />
           <Metric label="Paid orders" value={String(s?.paid_orders || 0)} />
           <Metric label="Merchandise revenue" value={money(s?.merchandise_cents)} />
-          <Metric label="Pending" value={money(s?.pending_cents)} />
-          <Metric label="Available" value={money(s?.available_cents)} />
+          <Metric label="Pending" value={money(balances.pendingCents)} />
+          <Metric label="Available" value={money(balances.availableCents)} />
           <Metric label="Paid" value={money(s?.paid_cents)} />
         </div>
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
@@ -165,20 +189,30 @@ function CreatorPortal() {
             <div className="mt-4 flex gap-2">
               <input
                 readOnly
+                aria-label="Your referral link"
                 value={link}
                 className="min-w-0 flex-1 rounded-xl border-2 border-foreground px-3 py-2"
               />
-              <button className="secondary-button" onClick={() => copy(link)}>
+              <button
+                className="secondary-button"
+                onClick={() => copy(link)}
+                aria-label="Copy referral link"
+              >
                 <Copy size={16} />
               </button>
             </div>
             <div className="mt-3 flex gap-2">
               <input
                 readOnly
+                aria-label="Your creator code"
                 value={p.referral_code}
                 className="min-w-0 flex-1 rounded-xl border-2 border-foreground px-3 py-2"
               />
-              <button className="secondary-button" onClick={() => copy(p.referral_code)}>
+              <button
+                className="secondary-button"
+                onClick={() => copy(p.referral_code)}
+                aria-label="Copy creator code"
+              >
                 <Copy size={16} />
               </button>
             </div>
@@ -189,7 +223,7 @@ function CreatorPortal() {
           <div className="rounded-2xl border-2 border-foreground bg-background p-5">
             <p className="memo text-primary">Cash-out</p>
             <h2 className="mt-2 font-display text-2xl font-semibold">
-              {money(s?.available_cents)} available
+              {money(balances.availableCents)} available
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">$20 minimum.</p>
             <div className="mt-4 flex gap-2">
@@ -198,6 +232,7 @@ function CreatorPortal() {
                 onChange={(e) => setAmount(e.target.value)}
                 inputMode="decimal"
                 placeholder="Amount"
+                aria-label="Cash-out amount in dollars"
                 className="min-w-0 flex-1 rounded-xl border-2 border-foreground px-3 py-2"
               />
               <button className="dark-button" onClick={payout}>
@@ -206,26 +241,47 @@ function CreatorPortal() {
             </div>
           </div>
         </div>
-        {notice ? <p className="mt-4 font-bold">{notice}</p> : null}
+        {notice ? (
+          <p role="status" className="mt-4 font-bold">
+            {notice}
+          </p>
+        ) : null}
         <div className="mt-7 rounded-2xl border-2 border-foreground bg-background p-5">
           <h2 className="font-display text-2xl font-semibold">Attributed paid orders</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Merchandise actually paid, excluding shipping and tax. Commission and refund changes appear below.
+            Merchandise actually paid, excluding shipping and tax. Commission and refund changes
+            appear below.
           </p>
           {data.sales.length ? (
             <div className="mt-4 overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead><tr><th className="py-2">Paid</th><th>Order</th><th className="text-right">Merchandise</th></tr></thead>
-                <tbody>{data.sales.map((sale) => (
-                  <tr key={sale.id} className="border-t">
-                    <td className="py-3">{new Date(sale.paid_at).toLocaleDateString()}</td>
-                    <td>{sale.order_number ? `LH-${String(sale.order_number).padStart(6, "0")}` : "Order pending reference"}</td>
-                    <td className="text-right">{money(sale.paid_merchandise_cents)}</td>
+                <thead>
+                  <tr>
+                    <th className="py-2">Paid</th>
+                    <th>Order</th>
+                    <th className="text-right">Merchandise</th>
                   </tr>
-                ))}</tbody>
+                </thead>
+                <tbody>
+                  {data.sales.map((sale) => (
+                    <tr key={sale.id} className="border-t">
+                      <td className="py-3">{new Date(sale.paid_at).toLocaleDateString()}</td>
+                      <td>
+                        {sale.order_number
+                          ? `LH-${String(sale.order_number).padStart(6, "0")}`
+                          : "Order pending reference"}
+                      </td>
+                      <td className="text-right">{money(sale.paid_merchandise_cents)}</td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </div>
-          ) : <p className="mt-3 text-sm">No attributed paid orders yet. Visits alone do not count as sales.</p>}
+          ) : (
+            <p className="mt-3 text-sm">
+              No attributed paid orders yet. Visits alone do not count as sales.
+            </p>
+          )}
         </div>
         <div className="mt-7 rounded-2xl border-2 border-foreground bg-background p-5">
           <h2 className="font-display text-2xl font-semibold">Commission activity</h2>
@@ -243,8 +299,8 @@ function CreatorPortal() {
                 {data.transactions.map((t) => (
                   <tr key={t.id} className="border-t">
                     <td className="py-3">{new Date(t.created_at).toLocaleDateString()}</td>
-                    <td>{t.entry_type}</td>
-                    <td>{t.status}</td>
+                    <td>{creatorEntryLabel(t.entry_type)}</td>
+                    <td>{creatorStatusLabel(t.status)}</td>
                     <td className="text-right">{money(t.amount_cents)}</td>
                   </tr>
                 ))}
@@ -268,7 +324,7 @@ function CreatorPortal() {
                   {data.payouts.map((item) => (
                     <tr key={item.id} className="border-t">
                       <td className="py-3">{new Date(item.requested_at).toLocaleDateString()}</td>
-                      <td>{item.status}</td>
+                      <td>{creatorStatusLabel(item.status)}</td>
                       <td className="text-right">{money(item.amount_cents)}</td>
                     </tr>
                   ))}

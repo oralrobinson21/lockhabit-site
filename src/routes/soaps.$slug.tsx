@@ -326,7 +326,8 @@ function ProductView({ slug }: { slug: string }) {
       .join(", ") + ".";
   const ounceMatch = product.netWeight.match(/^([\d.]+)\s*oz/i);
   const ounceCount = ounceMatch ? Number(ounceMatch[1]) : null;
-  const pricePerOunce = ounceCount && Number.isFinite(ounceCount) ? product.price / ounceCount : null;
+  const pricePerOunce =
+    ounceCount && Number.isFinite(ounceCount) ? product.price / ounceCount : null;
 
   useEffect(() => {
     const node = sceneRef.current;
@@ -394,7 +395,9 @@ function ProductView({ slug }: { slug: string }) {
                 <ArrowLeft size={14} /> Home
               </Link>
               <span aria-hidden="true">/</span>
-              <Link to="/" hash="shop" className="underline-offset-4 hover:underline">Catalog</Link>
+              <Link to="/" hash="shop" className="underline-offset-4 hover:underline">
+                Catalog
+              </Link>
               <span aria-hidden="true">/</span>
               <span aria-current="page">{product.name}</span>
             </nav>
@@ -443,7 +446,9 @@ function ProductView({ slug }: { slug: string }) {
                 </p>
                 <h1 className="section-title">{product.name}</h1>
                 <p className="memo mt-3 text-muted-foreground">{product.note}</p>
-                <p className="mt-3 text-xs text-muted-foreground">Customer reviews will be displayed once we have authentic reviews to share.</p>
+                <p className="mt-3 text-xs text-muted-foreground">
+                  Customer reviews will be displayed once we have authentic reviews to share.
+                </p>
                 <div className="mt-6 flex flex-wrap items-center gap-4">
                   <span className="price-tag">${product.price.toFixed(2)}</span>
                   <span className="memo text-muted-foreground">{product.netWeight}</span>
@@ -469,12 +474,38 @@ function ProductView({ slug }: { slug: string }) {
                 </ul>
 
                 <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <div className="flex h-[3.3rem] items-center rounded-full border-2 border-foreground bg-paper" role="group" aria-label={`${product.name} quantity`}>
-                    <button type="button" className="px-4 py-3 disabled:opacity-35" aria-label="Decrease quantity" disabled={quantity <= 1} onClick={() => setQuantity((current) => Math.max(1, current - 1))}><Minus size={17} /></button>
-                    <span className="w-7 text-center text-sm font-bold" aria-live="polite">{quantity}</span>
-                    <button type="button" className="px-4 py-3 disabled:opacity-35" aria-label="Increase quantity" disabled={quantity >= 20} onClick={() => setQuantity((current) => Math.min(20, current + 1))}><Plus size={17} /></button>
+                  <div
+                    className="flex h-[3.3rem] items-center rounded-full border-2 border-foreground bg-paper"
+                    role="group"
+                    aria-label={`${product.name} quantity`}
+                  >
+                    <button
+                      type="button"
+                      className="px-4 py-3 disabled:opacity-35"
+                      aria-label="Decrease quantity"
+                      disabled={quantity <= 1}
+                      onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                    >
+                      <Minus size={17} />
+                    </button>
+                    <span className="w-7 text-center text-sm font-bold" aria-live="polite">
+                      {quantity}
+                    </span>
+                    <button
+                      type="button"
+                      className="px-4 py-3 disabled:opacity-35"
+                      aria-label="Increase quantity"
+                      disabled={quantity >= 20}
+                      onClick={() => setQuantity((current) => Math.min(20, current + 1))}
+                    >
+                      <Plus size={17} />
+                    </button>
                   </div>
-                  <button type="button" className="primary-button" onClick={() => addToCart(product.id, quantity)}>
+                  <button
+                    type="button"
+                    className="primary-button"
+                    onClick={() => addToCart(product.id, quantity)}
+                  >
                     Add {quantity > 1 ? `${quantity} to` : "to"} bag <Plus size={18} />
                   </button>
                   <Link to="/" hash="shop" className="secondary-button">
@@ -498,8 +529,8 @@ function ProductView({ slug }: { slug: string }) {
                       3 bars for {`$${threeBarOffer.price}`}
                     </p>
                     <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-                      {`$${threeBarOffer.savings}`} off three single bars, and the order ships free. Same
-                      bar, stocked for the month.
+                      {`$${threeBarOffer.savings}`} off three single bars, and the order ships free.
+                      Same bar, stocked for the month.
                     </p>
                     <button
                       className="primary-button mt-4"
@@ -517,7 +548,8 @@ function ProductView({ slug }: { slug: string }) {
                       One ${product.netWeight} · {`${product.price.toFixed(2)}`}
                     </p>
                     <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-                      Raw Shea Butter is priced separately from our bar-soap bundles. There are no recurring charges.
+                      Raw Shea Butter is priced separately from our bar-soap bundles. There are no
+                      recurring charges.
                     </p>
                   </div>
                 )}
@@ -690,7 +722,8 @@ function ProductView({ slug }: { slug: string }) {
               <div className="flex items-center gap-3">
                 <Waves size={20} className="text-primary" />
                 <p className="memo">
-                  {product.netWeight} · {product.kind === "Soap bar" ? "easy everyday ritual" : "pure body care ritual"}
+                  {product.netWeight} ·{" "}
+                  {product.kind === "Soap bar" ? "easy everyday ritual" : "pure body care ritual"}
                 </p>
               </div>
               <div className="flex items-center gap-3">

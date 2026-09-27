@@ -42,3 +42,11 @@ export function trackAffiliatePurchase(input: {
     currency: input.currency.toUpperCase(),
   });
 }
+
+/** Operational event: creator requested a cash-out from their Available balance. No PII. */
+export function trackCreatorPayoutRequested(input: { amountCents: number }) {
+  trackGa4Event("creator_payout_requested", {
+    value: Number((Math.max(0, input.amountCents) / 100).toFixed(2)),
+    currency: "USD",
+  });
+}

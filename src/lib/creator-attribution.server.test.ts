@@ -6,7 +6,12 @@ import { resolveCreatorAttribution } from "./creator-attribution.server";
 function fakeSupabase(handlers: {
   code?: { id: string; referral_code: string; commission_bps: number; status: string } | null;
   click?: { attribution_token: string; creator_id: string; expires_at: string } | null;
-  tokenProfile?: { id: string; referral_code: string; commission_bps: number; status: string } | null;
+  tokenProfile?: {
+    id: string;
+    referral_code: string;
+    commission_bps: number;
+    status: string;
+  } | null;
 }) {
   return {
     from(table: string) {

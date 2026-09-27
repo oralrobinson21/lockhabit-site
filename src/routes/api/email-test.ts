@@ -59,7 +59,6 @@ const syntheticOrder = (run: string, itemCount: number): OrderConfirmation => {
   };
 };
 
-
 async function storedPaidOrder(orderNumber: number): Promise<OrderConfirmation | null> {
   const { data, error } = await supabaseAdmin
     .from("orders")
@@ -155,9 +154,12 @@ export const Route = createFileRoute("/api/email-test")({
         }
         sendLog.push(now);
 
-        const id = await sendOrderConfirmation(order, storedOrder
-          ? { idempotencyKey: `lockhabit-order-${order.checkoutSessionId}-manual-${run}` }
-          : {});
+        const id = await sendOrderConfirmation(
+          order,
+          storedOrder
+            ? { idempotencyKey: `lockhabit-order-${order.checkoutSessionId}-manual-${run}` }
+            : {},
+        );
         return Response.json({
           sent: true,
           id,

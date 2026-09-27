@@ -20,7 +20,7 @@ import { trackMetaEvent } from "@/lib/meta-analytics";
 
 function NotFoundComponent() {
   return (
-    <div
+    <main
       className="flex min-h-screen items-center justify-center bg-background px-4"
       data-lh-not-found="true"
     >
@@ -39,7 +39,7 @@ function NotFoundComponent() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
