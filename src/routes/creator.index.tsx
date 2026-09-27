@@ -73,13 +73,26 @@ function CreatorPortal() {
     setNotice("");
     try {
       const cents = Math.round(Number(amount) * 100);
+      if (!Number.isFinite(cents) || cents <= 0) {
+        setNotice("Enter a cash-out amount in dollars, for example 20.");
+        return;
+      }
+      if (cents < 2000) {
+        setNotice("The minimum cash-out is $20.");
+        return;
+      }
       await requestCreatorPayout({ data: { amountCents: cents } });
       trackCreatorPayoutRequested({ amountCents: cents });
       setData(await getCreatorDashboard());
       setNotice("Cash-out request submitted.");
       setAmount("");
     } catch (e) {
-      setNotice(e instanceof Error ? e.message : "Request failed.");
+      const message = e instanceof Error ? e.message : "";
+      setNotice(
+        message && !message.trim().startsWith("[")
+          ? message
+          : "Cash-out request could not be submitted. Check the amount and try again.",
+      );
     }
   };
   const signout = async () => {
@@ -176,20 +189,30 @@ function CreatorPortal() {
             <div className="mt-4 flex gap-2">
               <input
                 readOnly
+                aria-label="Your referral link"
                 value={link}
                 className="min-w-0 flex-1 rounded-xl border-2 border-foreground px-3 py-2"
               />
-              <button className="secondary-button" onClick={() => copy(link)}>
+              <button
+                className="secondary-button"
+                onClick={() => copy(link)}
+                aria-label="Copy referral link"
+              >
                 <Copy size={16} />
               </button>
             </div>
             <div className="mt-3 flex gap-2">
               <input
                 readOnly
+                aria-label="Your creator code"
                 value={p.referral_code}
                 className="min-w-0 flex-1 rounded-xl border-2 border-foreground px-3 py-2"
               />
-              <button className="secondary-button" onClick={() => copy(p.referral_code)}>
+              <button
+                className="secondary-button"
+                onClick={() => copy(p.referral_code)}
+                aria-label="Copy creator code"
+              >
                 <Copy size={16} />
               </button>
             </div>
@@ -209,6 +232,7 @@ function CreatorPortal() {
                 onChange={(e) => setAmount(e.target.value)}
                 inputMode="decimal"
                 placeholder="Amount"
+                aria-label="Cash-out amount in dollars"
                 className="min-w-0 flex-1 rounded-xl border-2 border-foreground px-3 py-2"
               />
               <button className="dark-button" onClick={payout}>
@@ -217,7 +241,11 @@ function CreatorPortal() {
             </div>
           </div>
         </div>
-        {notice ? <p className="mt-4 font-bold">{notice}</p> : null}
+        {notice ? (
+          <p role="status" className="mt-4 font-bold">
+            {notice}
+          </p>
+        ) : null}
         <div className="mt-7 rounded-2xl border-2 border-foreground bg-background p-5">
           <h2 className="font-display text-2xl font-semibold">Attributed paid orders</h2>
           <p className="mt-1 text-sm text-muted-foreground">
