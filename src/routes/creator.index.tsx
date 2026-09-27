@@ -8,6 +8,7 @@ import {
   requestCreatorPayout,
 } from "@/lib/creator.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { trackCreatorPayoutRequested } from "@/lib/ga4-growth";
 
 export const Route = createFileRoute("/creator/")({
   head: () => ({
@@ -64,6 +65,7 @@ function CreatorPortal() {
     try {
       const cents = Math.round(Number(amount) * 100);
       await requestCreatorPayout({ data: { amountCents: cents } });
+      trackCreatorPayoutRequested({ amountCents: cents });
       setData(await getCreatorDashboard());
       setNotice("Cash-out request submitted.");
       setAmount("");
