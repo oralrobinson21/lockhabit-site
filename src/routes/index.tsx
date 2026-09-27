@@ -802,7 +802,6 @@ function Index() {
               <div className="island-footer-list">
                 <Link to="/about">About us</Link>
                 <Link to="/contact">Contact the front desk</Link>
-                <Link to="/journal">Keep the Vibes Going · Journal</Link>
                 <Link to="/sign-in">Sign in</Link>
                 <Link to="/shipping">Shipping</Link>
                 <Link to="/returns">Returns & refunds</Link>
