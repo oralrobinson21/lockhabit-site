@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccountRouteImport } from './routes/account'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -59,6 +60,11 @@ const AboutRoute = AboutRouteImport.update({
 const AccountRoute = AccountRouteImport.update({
   id: '/account',
   path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -231,6 +237,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
+  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
   '/creator': typeof CreatorRouteWithChildren
   '/faq': typeof FaqRoute
@@ -269,6 +276,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
+  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/handoff': typeof HandoffRouteWithChildren
@@ -306,6 +314,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/account': typeof AccountRoute
+  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
   '/creator': typeof CreatorRouteWithChildren
   '/faq': typeof FaqRoute
@@ -346,6 +355,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/account'
+    | '/blog'
     | '/contact'
     | '/creator'
     | '/faq'
@@ -384,6 +394,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/account'
+    | '/blog'
     | '/contact'
     | '/faq'
     | '/handoff'
@@ -420,6 +431,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/account'
+    | '/blog'
     | '/contact'
     | '/creator'
     | '/faq'
@@ -459,6 +471,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AccountRoute: typeof AccountRoute
+  BlogRoute: typeof BlogRoute
   ContactRoute: typeof ContactRoute
   CreatorRoute: typeof CreatorRouteWithChildren
   FaqRoute: typeof FaqRoute
@@ -504,6 +517,13 @@ declare module '@tanstack/react-router' {
       path: '/account'
       fullPath: '/account'
       preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -793,6 +813,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AccountRoute: AccountRoute,
+  BlogRoute: BlogRoute,
   ContactRoute: ContactRoute,
   CreatorRoute: CreatorRouteWithChildren,
   FaqRoute: FaqRoute,
