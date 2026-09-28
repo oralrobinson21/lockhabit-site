@@ -85,7 +85,7 @@ function JournalArticle() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen journal-paper text-foreground">
       <SiteHeader />
       {launched ? (
         <script
@@ -96,7 +96,7 @@ function JournalArticle() {
         />
       ) : null}
       <article>
-        <header className="border-b-2 border-foreground bg-[#f5e5bd] px-5 py-12 lg:px-10 lg:py-20">
+        <header className="border-b-2 border-foreground journal-paper-band px-5 py-12 lg:px-10 lg:py-20">
           <div className="mx-auto max-w-5xl">
             <Link
               to="/journal"

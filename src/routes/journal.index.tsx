@@ -41,9 +41,9 @@ function JournalIndex() {
   if (!launched) return <JournalComingSoon />;
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen journal-paper text-foreground">
       <SiteHeader />
-      <header className="relative overflow-hidden border-b-2 border-foreground bg-[#f5e5bd] px-5 py-16 lg:px-10 lg:py-24">
+      <header className="relative overflow-hidden border-b-2 border-foreground journal-paper-band px-5 py-16 lg:px-10 lg:py-24">
         <div className="relative mx-auto max-w-7xl">
           <p className="memo text-coral">The LOCKHABIT Journal · Keep the Vibes Going</p>
           <h1 className="mt-5 max-w-5xl font-slab text-[clamp(3.7rem,10vw,8.5rem)] uppercase leading-[.85]">
