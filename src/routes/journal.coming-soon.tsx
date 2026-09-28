@@ -18,9 +18,9 @@ export const Route = createFileRoute("/journal/coming-soon")({
 
 export function JournalComingSoon() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen journal-paper text-foreground">
       <SiteHeader />
-      <section className="relative overflow-hidden border-b-2 border-foreground bg-[#f5e5bd] px-5 py-16 lg:px-10 lg:py-24">
+      <section className="relative overflow-hidden border-b-2 border-foreground journal-paper-band px-5 py-16 lg:px-10 lg:py-24">
         <img
           src={heroImage}
           alt=""
