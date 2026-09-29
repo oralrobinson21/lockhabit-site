@@ -69,14 +69,17 @@ export function SiteHeader({ promoSlot }: { promoSlot?: ReactNode }) {
         >
           <div className="relative mx-auto flex h-24 max-w-7xl items-center justify-between px-5 lg:px-10">
             <button
-              className="icon-button z-10 bg-background hover:bg-sun md:hidden"
+              className="icon-button z-10 bg-background hover:bg-sun lg:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle navigation"
             >
               {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
-            <nav className="hidden flex-1 items-center gap-7 md:flex" aria-label="Main navigation">
+            <nav
+              className="hidden flex-1 items-center gap-4 lg:flex xl:gap-7"
+              aria-label="Main navigation"
+            >
               {menuLinks.map(([label, hash]) => (
                 <Link key={hash} className="nav-link" to="/" hash={hash}>
                   {label}
@@ -87,6 +90,9 @@ export function SiteHeader({ promoSlot }: { promoSlot?: ReactNode }) {
               </Link>
               <Link className="nav-link" to="/faq">
                 FAQ
+              </Link>
+              <Link className="nav-link" to="/journal">
+                Journal
               </Link>
             </nav>
 
@@ -113,7 +119,7 @@ export function SiteHeader({ promoSlot }: { promoSlot?: ReactNode }) {
             </div>
           </div>
           {menuOpen && (
-            <nav className="border-t-2 border-foreground bg-secondary px-5 py-3 md:hidden">
+            <nav className="border-t-2 border-foreground bg-secondary px-5 py-3 lg:hidden">
               {menuLinks.map(([label, hash]) => (
                 <Link
                   key={hash}
@@ -138,6 +144,9 @@ export function SiteHeader({ promoSlot }: { promoSlot?: ReactNode }) {
                 onClick={() => setMenuOpen(false)}
               >
                 FAQ
+              </Link>
+              <Link to="/journal" className="memo block py-3.5" onClick={() => setMenuOpen(false)}>
+                Journal
               </Link>
             </nav>
           )}
