@@ -109,7 +109,7 @@ export function CartDrawer() {
       <aside
         ref={drawerRef}
         tabIndex={-1}
-        className={`fixed top-0 right-0 z-50 flex outline-none h-dvh w-full max-w-md flex-col border-l-2 border-foreground bg-background shadow-2xl transition-transform duration-300 ${cartOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-0 right-0 z-50 flex outline-none h-[100svh] max-h-[100svh] w-full max-w-md flex-col border-l-2 border-foreground bg-background shadow-2xl transition-transform duration-300 ${cartOpen ? "translate-x-0" : "translate-x-full"}`}
         aria-hidden={!cartOpen}
         inert={!cartOpen}
         role={cartOpen ? "dialog" : undefined}
@@ -252,7 +252,7 @@ export function CartDrawer() {
           )}
         </div>
         {cartCount > 0 && !checkingOut && (
-          <div className="border-t-2 border-foreground p-5">
+          <div className="border-t-2 border-foreground p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
             {cartSavings > 0 && (
               <div className="mb-2 flex justify-between text-sm font-bold text-primary">
                 <span>Bundle savings</span>
@@ -285,7 +285,7 @@ export function CartDrawer() {
             >
               Secure checkout <ArrowRight size={18} />
             </button>
-            <div className="mt-3">
+            <div className="mt-3 max-h-28 overflow-y-auto overscroll-contain">
               <p className="memo text-center text-muted-foreground">
                 {previewQualifies
                   ? "You caught free shipping · worldwide details collected at checkout"
