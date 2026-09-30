@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 
 import { StripeCartCheckout } from "@/components/stripe-cart-checkout";
 import { useCart } from "@/lib/cart";
@@ -84,6 +84,51 @@ export function CartDrawer() {
   }
 
   const drawerRef = useRef<HTMLElement>(null);
+  const [sheetUp, setSheetUp] = useState(false);
+  const [bottomInset, setBottomInset] = useState(0);
+  const [narrow, setNarrow] = useState(false);
+  const dragY = useRef<number | null>(null);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 1023px)");
+    const apply = () => setNarrow(query.matches);
+    apply();
+    query.addEventListener("change", apply);
+    return () => query.removeEventListener("change", apply);
+  }, []);
+
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    const apply = () => {
+      setBottomInset(
+        Math.max(0, Math.round(window.innerHeight - viewport.height - viewport.offsetTop)),
+      );
+    };
+    apply();
+    viewport.addEventListener("resize", apply);
+    viewport.addEventListener("scroll", apply);
+    return () => {
+      viewport.removeEventListener("resize", apply);
+      viewport.removeEventListener("scroll", apply);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!cartOpen) setSheetUp(false);
+  }, [cartOpen]);
+
+  function onSheetPointerDown(event: ReactPointerEvent<HTMLElement>) {
+    dragY.current = event.clientY;
+  }
+  function onSheetPointerUp(event: ReactPointerEvent<HTMLElement>) {
+    if (dragY.current == null) return;
+    const delta = event.clientY - dragY.current;
+    dragY.current = null;
+    if (delta > 28) setSheetUp(false);
+    else if (delta < -28) setSheetUp(true);
+  }
+
   useEffect(() => {
     if (!cartOpen) return;
     const previous = document.activeElement as HTMLElement | null;
@@ -109,14 +154,28 @@ export function CartDrawer() {
       <aside
         ref={drawerRef}
         tabIndex={-1}
-        className={`fixed top-0 right-0 z-50 flex outline-none h-[100svh] max-h-[100svh] w-full max-w-md flex-col border-l-2 border-foreground bg-background shadow-2xl transition-transform duration-300 ${cartOpen ? "translate-x-0" : "translate-x-full"}`}
+        style={narrow ? { bottom: bottomInset } : undefined}
+        className={`fixed z-50 flex outline-none w-full flex-col border-foreground bg-background shadow-2xl transition-transform duration-300 lg:top-0 lg:right-0 lg:h-[100svh] lg:max-h-[100svh] lg:max-w-md lg:border-l-2 max-lg:inset-x-0 max-lg:max-h-[78svh] max-lg:rounded-t-3xl max-lg:border-2 ${cartOpen ? "translate-x-0 max-lg:translate-y-0" : "translate-x-full max-lg:translate-x-0 max-lg:translate-y-[120%]"}`}
         aria-hidden={!cartOpen}
         inert={!cartOpen}
         role={cartOpen ? "dialog" : undefined}
         aria-modal={cartOpen}
         aria-label="Your bag"
       >
-        <div className="flex items-center justify-between border-b-2 border-foreground p-5">
+        <button
+          type="button"
+          className="flex w-full justify-center py-2 lg:hidden"
+          aria-expanded={sheetUp}
+          aria-label={sheetUp ? "Show less of the bag" : "Show the bag"}
+          onClick={() => setSheetUp((open) => !open)}
+          onPointerDown={onSheetPointerDown}
+          onPointerUp={onSheetPointerUp}
+        >
+          <span className="h-1.5 w-14 rounded-full bg-foreground/35" />
+        </button>
+        <div
+          className={`flex items-center justify-between border-b-2 border-foreground p-5 ${sheetUp ? "" : "max-lg:hidden"}`}
+        >
           <div>
             <p className="font-display text-2xl font-semibold">
               {checkingOut ? "Secure checkout" : "Your bag"}
@@ -129,7 +188,9 @@ export function CartDrawer() {
             <X size={20} />
           </button>
         </div>
-        <div className={`flex-1 overflow-y-auto ${checkingOut ? "p-2" : "p-5"}`}>
+        <div
+          className={`min-h-0 flex-1 overflow-y-auto ${checkingOut ? "p-2" : "p-5"} ${sheetUp || checkingOut ? "" : "max-lg:hidden"}`}
+        >
           {!checkingOut && checkInOfferSaved && (
             <div className="rounded-xl border-2 border-foreground bg-paper p-4">
               <p className="font-display text-lg font-semibold">Check-In · 10% ready</p>
@@ -252,36 +313,47 @@ export function CartDrawer() {
           )}
         </div>
         {cartCount > 0 && !checkingOut && (
-          <div className="border-t-2 border-foreground p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-            {cartSavings > 0 && (
-              <div className="mb-2 flex justify-between text-sm font-bold text-primary">
-                <span>Bundle savings</span>
-                <span>−${cartSavings.toFixed(2)}</span>
+          <div
+            className="border-t-2 border-foreground p-4 pb-[max(1rem,env(safe-area-inset-bottom))] max-lg:border-t-0"
+            onPointerDown={onSheetPointerDown}
+            onPointerUp={onSheetPointerUp}
+          >
+            <div className={sheetUp ? "" : "max-lg:hidden"}>
+              {cartSavings > 0 && (
+                <div className="mb-2 flex justify-between text-sm font-bold text-primary">
+                  <span>Bundle savings</span>
+                  <span>−${cartSavings.toFixed(2)}</span>
+                </div>
+              )}
+              {stackedPreview.checkInDiscountCents > 0 && (
+                <div className="mb-2 flex justify-between text-sm font-bold text-primary">
+                  <span>Check-In 10%</span>
+                  <span>−${(stackedPreview.checkInDiscountCents / 100).toFixed(2)}</span>
+                </div>
+              )}
+              {stackedPreview.rewardDiscountCents > 0 && rewardApplied && (
+                <div className="mb-2 flex justify-between text-sm font-bold text-coral">
+                  <span>
+                    Next-order 5% · LH-{String(rewardApplied.orderNumber).padStart(6, "0")}
+                  </span>
+                  <span>−${(stackedPreview.rewardDiscountCents / 100).toFixed(2)}</span>
+                </div>
+              )}
+              <div className="mb-1 flex justify-between text-sm">
+                <span>Merchandise</span>
+                <span>${cartTotal.toFixed(2)}</span>
               </div>
-            )}
-            {stackedPreview.checkInDiscountCents > 0 && (
-              <div className="mb-2 flex justify-between text-sm font-bold text-primary">
-                <span>Check-In 10%</span>
-                <span>−${(stackedPreview.checkInDiscountCents / 100).toFixed(2)}</span>
+              <div className="mb-4 flex justify-between font-bold">
+                <span>Total before shipping/tax</span>
+                <span>${previewMerchandise.toFixed(2)}</span>
               </div>
-            )}
-            {stackedPreview.rewardDiscountCents > 0 && rewardApplied && (
-              <div className="mb-2 flex justify-between text-sm font-bold text-coral">
-                <span>Next-order 5% · LH-{String(rewardApplied.orderNumber).padStart(6, "0")}</span>
-                <span>−${(stackedPreview.rewardDiscountCents / 100).toFixed(2)}</span>
-              </div>
-            )}
-            <div className="mb-1 flex justify-between text-sm">
-              <span>Merchandise</span>
-              <span>${cartTotal.toFixed(2)}</span>
-            </div>
-            <div className="mb-4 flex justify-between font-bold">
-              <span>Total before shipping/tax</span>
-              <span>${previewMerchandise.toFixed(2)}</span>
             </div>
             <button
               className="primary-button w-full justify-center"
-              onClick={() => setCheckingOut(true)}
+              onClick={() => {
+                setSheetUp(true);
+                setCheckingOut(true);
+              }}
             >
               Secure checkout <ArrowRight size={18} />
             </button>
@@ -308,7 +380,7 @@ export function CartDrawer() {
                 </div>
               ) : null}
             </div>
-            <div className="mt-4 space-y-2 text-xs">
+            <div className={`mt-4 space-y-2 text-xs ${sheetUp ? "" : "max-lg:hidden"}`}>
               <p className="flex items-center gap-2">
                 <ShieldCheck size={14} /> Secure checkout powered by Stripe
               </p>
