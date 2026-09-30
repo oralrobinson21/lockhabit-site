@@ -1,0 +1,13 @@
+# Soft preview only — no secrets, no custom domains.
+aws_region             = "us-east-1"
+project_name           = "lockhabit-soft"
+image_tag              = "soft"
+enable_cloudfront_soft = true
+
+# Non-secret Soft runtime defaults. Put Stripe/Supabase/Resend secrets in
+# App Runner console or CI — never commit them here.
+soft_runtime_env = {
+  NODE_ENV    = "production"
+  PORT        = "3000"
+  STRIPE_MODE = "test"
+}
