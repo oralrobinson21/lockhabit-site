@@ -189,7 +189,7 @@ export function CartDrawer() {
           </button>
         </div>
         <div
-          className={`min-h-0 flex-1 overflow-y-auto ${checkingOut ? "p-2" : "p-5"} ${sheetUp || checkingOut ? "" : "max-lg:hidden"}`}
+          className={`min-h-0 flex-1 overflow-y-auto max-lg:min-h-40 ${checkingOut ? "p-2" : "p-5"} ${sheetUp || checkingOut ? "" : "max-lg:hidden"}`}
         >
           {!checkingOut && checkInOfferSaved && (
             <div className="rounded-xl border-2 border-foreground bg-paper p-4">
@@ -314,11 +314,11 @@ export function CartDrawer() {
         </div>
         {cartCount > 0 && !checkingOut && (
           <div
-            className="border-t-2 border-foreground p-4 pb-[max(1rem,env(safe-area-inset-bottom))] max-lg:border-t-0"
+            className="border-t-2 border-foreground px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] max-lg:border-t-0"
             onPointerDown={onSheetPointerDown}
             onPointerUp={onSheetPointerUp}
           >
-            <div className={sheetUp ? "" : "max-lg:hidden"}>
+            <div>
               {cartSavings > 0 && (
                 <div className="mb-2 flex justify-between text-sm font-bold text-primary">
                   <span>Bundle savings</span>
@@ -343,7 +343,7 @@ export function CartDrawer() {
                 <span>Merchandise</span>
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
-              <div className="mb-4 flex justify-between font-bold">
+              <div className="mb-3 flex justify-between font-bold">
                 <span>Total before shipping/tax</span>
                 <span>${previewMerchandise.toFixed(2)}</span>
               </div>
@@ -380,23 +380,25 @@ export function CartDrawer() {
                 </div>
               ) : null}
             </div>
-            <div className={`mt-4 space-y-2 text-xs ${sheetUp ? "" : "max-lg:hidden"}`}>
-              <p className="flex items-center gap-2">
-                <ShieldCheck size={14} /> Secure checkout powered by Stripe
-              </p>
-              <p className="flex items-center gap-2">
-                <RotateCcw size={14} /> 14-day returns on unopened, unused items
-              </p>
-              <p className="flex items-center gap-2">
-                <Truck size={14} /> Tracking emailed when your order ships
-              </p>
-              <p className="flex items-center gap-2">
-                <PackageCheck size={14} /> Free shipping on $75+
-              </p>
-              <a href="/returns" className="font-bold underline underline-offset-4">
-                Returns Policy → return details & shipping costs
-              </a>
-            </div>
+            <ul className="mt-2 space-y-0.5 text-[11px] leading-tight text-foreground/80">
+              <li className="flex items-center gap-1.5">
+                <ShieldCheck size={12} className="shrink-0" /> Secure checkout powered by Stripe
+              </li>
+              <li className="flex items-center gap-1.5">
+                <RotateCcw size={12} className="shrink-0" /> 14-day returns on unopened, unused items
+              </li>
+              <li className="flex items-center gap-1.5">
+                <Truck size={12} className="shrink-0" /> Tracking emailed when your order ships
+              </li>
+              <li className="flex items-center gap-1.5">
+                <PackageCheck size={12} className="shrink-0" /> Free shipping on $75+
+              </li>
+              <li>
+                <a href="/returns" className="font-bold text-foreground underline underline-offset-2">
+                  Returns Policy → return details & shipping costs
+                </a>
+              </li>
+            </ul>
           </div>
         )}
         {checkingOut && (
